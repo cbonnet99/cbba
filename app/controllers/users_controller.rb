@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def new
     @user = User.new
+    @regions = Region.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
   end
  
   def create
@@ -12,7 +13,8 @@ class UsersController < ApplicationController
       redirect_back_or_default root_url
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
-      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+      @regions = Region.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
+      flash[:error]  = "There were some errors in your signup information."
       render :action => 'new'
     end
   end

@@ -1,8 +1,12 @@
-admin:
-  id: 1
-  login: admin
-  email: admin@example.com
-  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
-  # activation_code: adminscode # only if you're activating new signups
-  created_at: <%= 1.days.ago.to_s :db %>
+cyrille:
+  first_name:                Cyrille
+  last_name:                 Bonnet
+  email:                     cbonnet99@gmail.com
+  salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
+  crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
+  created_at:                <%= 5.days.ago.to_s :db  %>
+  remember_token_expires_at: <%= 1.days.from_now.to_s %>
+  remember_token:            77de68daecd823babbb58edb1c8e14d7106e83bb
+  activation_code:           
+  activated_at:              <%= 5.days.ago.to_s :db %>
+  state:                     active

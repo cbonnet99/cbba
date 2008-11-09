@@ -2,7 +2,7 @@
 #	Application
 #############################################################
 
-set :application, "bort"
+set :application, "be_amazing"
 set :deploy_to, "/path/to/deploy"
 
 #############################################################

@@ -9,12 +9,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080912160936) do
+ActiveRecord::Schema.define(:version => 20081103185932) do
+
+  create_table "articles", :force => true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.string   "slug"
+    t.integer  "author_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "passwords", :force => true do |t|
     t.integer  "user_id"
     t.string   "reset_code"
     t.datetime "expiration_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "regions", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -35,11 +50,22 @@ ActiveRecord::Schema.define(:version => 20080912160936) do
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "taggings", :force => true do |t|
+    t.integer "taggable_id"
+    t.integer "tag_id"
+    t.string  "taggable_type"
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
 
   create_table "users", :force => true do |t|
-    t.string   "name",                      :limit => 100, :default => ""
+    t.string   "first_name",                :limit => 100, :default => ""
+    t.string   "last_name",                 :limit => 100, :default => ""
     t.string   "email",                     :limit => 100
     t.string   "crypted_password",          :limit => 40
     t.string   "salt",                      :limit => 40
@@ -51,6 +77,9 @@ ActiveRecord::Schema.define(:version => 20080912160936) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "region_id"
+    t.boolean  "receive_newsletter",                       :default => true
+    t.boolean  "professional",                             :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

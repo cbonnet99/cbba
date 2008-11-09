@@ -1,16 +1,12 @@
 <% @user.password = @user.password_confirmation = nil %>
-<%= title "Signup", :h2 %>
+<%= title "Signup", :h1  %>
 <% form_for @user do |f| %>
 	<%= f.error_messages %>
 	<fieldset>
 		<legend>Your Details</legend>
 		<ol>
 			<li>
-				<%= f.label :name, 'Name' %>
-				<%= f.text_field :name %>
-			</li>
-			<li>
-				<%= f.label :email %>
+				<%= f.label :email, 'Your email address:' %>
 				<%= f.text_field :email %>
 			</li>
 			<li>
@@ -18,12 +14,34 @@
 				<%= f.password_field :password %>
 			</li>
 			<li>
-				<%= f.label :password_confirmation, 'Confirm Password' %>
+				<%= f.label :password_confirmation, 'Confirm Password:' %>
 				<%= f.password_field :password_confirmation %>
+			</li>
+			<li>
+				<%= f.label :region, 'Your region:' %>
+                                <%= f.select :region, @regions, {:prompt => "- Please select -"} %>
+			</li>
+			<li>
+				<%= f.label :first_name, 'Your first name:' %>
+				<%= f.text_field :first_name %>
+			</li>
+			<li>
+				<%= f.label :last_name, 'Your last name:' %>
+				<%= f.text_field :last_name %>
+			</li>
+			<li>
+                            <%= f.label :receive_newsletter, 'Would you like to subscribe to our newsletter?' %>
+                                <%= f.check_box :receive_newsletter %>
+			</li>
+			<li>
+                            <%= f.label :professional, 'Are you a professional?' %>
+                                <%= f.check_box :professional %>
 			</li>
 		</ol>
 	</fieldset>
 	<div class="buttons">
+          <label for=""></label>
 		<%= submit_tag 'Sign up' %>
 	</div>
 <% end %>
+<br/>
