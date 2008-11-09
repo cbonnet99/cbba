@@ -1,0 +1,8 @@
+yoga:
+  tag: yoga
+  taggable: yoga
+  taggable_type: Article
+acupuncture:
+  tag: acupuncture
+  taggable: long
+  taggable_type: Article

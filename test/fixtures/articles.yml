@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+yoga:
+  title: Yoga is good for you
+  body: This is a test
+  slug: yoga-is-good-for-you
+  author: cyrille
+
+long:
+  title: Article with a very long title, how far can we go
+  body: This is a test
+  slug: 
+  author: cyrille

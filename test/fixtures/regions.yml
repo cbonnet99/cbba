@@ -1,0 +1,36 @@
+auckland:
+    name: Auckland Region
+plenty:
+    name: Bay Of Plenty
+canterbury:
+    name: Canterbury/Christchurch
+gisborne:
+    name: Gisborne
+hawkes_bay:
+    name: Hawkes Bay
+marlborough:
+    name: Marlborough
+manawatu:
+    name: Manawatu
+nelson:
+    name: Nelson Bays
+northland:
+    name: Northland
+otago:
+    name: Otago
+southland:
+    name: Southland
+taranaki:
+    name: Taranaki
+timaru_oamaru:
+    name: Timaru - Oamaru
+waikato:
+    name: Waikato
+wairarapa:
+    name: Wairarapa
+wanganui:
+    name: Wanganui
+wellington:
+    name: Wellington Region
+west_coast:
+    name: West Coast

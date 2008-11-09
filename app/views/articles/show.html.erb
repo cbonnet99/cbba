@@ -1,0 +1,9 @@
+<h1><%=h @article.title %></h1>
+by <%=h @article.author.name %>
+<p>
+  <%=h @article.body %>
+</p>
+
+<% if logged_in? && current_user == @article.author -%>
+<%= link_to 'Edit', edit_article_path(@article) %>
+<% end -%>

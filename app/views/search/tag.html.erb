@@ -1,0 +1,7 @@
+<h1>Results for tag &quot;<%=params[:id]%>&quot;</h1>
+<%unless @articles.empty? -%>
+  <h1>Articles</h1>
+  <% @articles.each do |article| -%>
+          <%= render :partial => "articles/article",  :locals => {:article => article }   %>
+  <% end -%>
+<% end -%>
