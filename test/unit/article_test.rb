@@ -10,7 +10,13 @@ class ArticleTest < ActiveSupport::TestCase
     assert_equal yoga.title, my_articles.first.title
   end
 	def test_slug_length
+		cyrille = users(:cyrille)
+		new_article = Article.create(:title => "This is a long title that should be shorter",
+			:body => "This is a test", :author => cyrille  )
+		assert new_article.slug.size <= Article::MAX_LENGTH_SLUG
+	end
+	def test_slug_length
 		long = articles(:long)
-		assert long.slug <= Article::MAX_LENGTH_SLUG
+		assert long.slug.size <= Article::MAX_LENGTH_SLUG
 	end
 end

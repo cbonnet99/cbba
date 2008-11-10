@@ -16,12 +16,13 @@ class User < ActiveRecord::Base
   # Relationships
   has_and_belongs_to_many :roles
   belongs_to :region
+  belongs_to :district
   has_many :articles
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district, :region, :phone, :mobile
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #

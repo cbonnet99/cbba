@@ -1,4 +1,18 @@
 module ApplicationHelper
+
+	def shorten_string(str, max_size, extension="...")
+    if str.size <= max_size
+      return str
+    else
+      words = str.split(" ")
+      words.pop
+      while words.join(" ").size > max_size do
+         words.pop
+      end
+
+      return words.join(" ") + extension
+		end
+	end
   
   def tag_cloud(tags, classes)
     max, min = 0, 0

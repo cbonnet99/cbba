@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     @regions = Region.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
+    @districts = District.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
   end
  
   def create

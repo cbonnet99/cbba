@@ -1,47 +1,65 @@
 <% @user.password = @user.password_confirmation = nil %>
 <%= title "Signup", :h1  %>
 <% form_for @user do |f| %>
-	<%= f.error_messages %>
-	<fieldset>
-		<legend>Your Details</legend>
-		<ol>
-			<li>
-				<%= f.label :email, 'Your email address:' %>
-				<%= f.text_field :email %>
-			</li>
-			<li>
-				<%= f.label :password %>
-				<%= f.password_field :password %>
-			</li>
-			<li>
-				<%= f.label :password_confirmation, 'Confirm Password:' %>
-				<%= f.password_field :password_confirmation %>
-			</li>
-			<li>
-				<%= f.label :region, 'Your region:' %>
-                                <%= f.select :region, @regions, {:prompt => "- Please select -"} %>
-			</li>
-			<li>
-				<%= f.label :first_name, 'Your first name:' %>
-				<%= f.text_field :first_name %>
-			</li>
-			<li>
-				<%= f.label :last_name, 'Your last name:' %>
-				<%= f.text_field :last_name %>
-			</li>
-			<li>
-                            <%= f.label :receive_newsletter, 'Would you like to subscribe to our newsletter?' %>
-                                <%= f.check_box :receive_newsletter %>
-			</li>
-			<li>
-                            <%= f.label :professional, 'Are you a professional?' %>
-                                <%= f.check_box :professional %>
-			</li>
-		</ol>
-	</fieldset>
-	<div class="buttons">
-          <label for=""></label>
-		<%= submit_tag 'Sign up' %>
-	</div>
+  <%= f.error_messages %>
+  <fieldset>
+    <legend>Your Details</legend>
+    <ol>
+      <li>
+        <%= f.label :email, 'Your email address:' %>
+        <%= f.text_field :email %>
+      </li>
+      <li>
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </li>
+      <li>
+        <%= f.label :password_confirmation, 'Confirm Password:' %>
+        <%= f.password_field :password_confirmation %>
+      </li>
+      <li>
+        <%= f.label :region, 'Your region:' %>
+        <%= f.select :region, @regions, {:prompt => "- Please select -"} %>
+      </li>
+      <li>
+        <%= f.label :first_name, 'Your first name:' %>
+        <%= f.text_field :first_name %>
+      </li>
+      <li>
+        <%= f.label :last_name, 'Your surname:' %>
+        <%= f.text_field :last_name %>
+      </li>
+      <li>
+        <%= f.label :receive_newsletter, 'Would you like to subscribe to our newsletter?' %>
+        <%= f.check_box :receive_newsletter %>
+      </li>
+      <li>
+        <%= f.label :professional, 'Are you a professional?' %>
+        <%= f.check_box :professional %>
+      </li>
+      <li>Would you like to be <a id="free-listing-link">listed for free</a> on beamazing.co.nz?</li>
+    </ol>
+  </fieldset>
+  <fieldset id="fieldset-professional-details">
+    <legend>Professional Details</legend>
+    <ol>
+      <li>
+        <%= f.label :address1, 'Address' %>
+        <%= f.text_area :address1, :rows => "2"  %>
+      </li>
+      <li>
+        <%= f.label :city, 'City' %>
+        <%= f.text_field :city %>
+      </li>
+      <li>
+        <%= f.label :district, 'Closest city' %>
+        <%= f.select :district, @districts, {:prompt => "- Please select -"} %>
+      </li>
+    </ol>
+  </fieldset>
+  <div class="buttons">
+    <label for=""></label>
+    <%= submit_tag 'Sign up' %>
+  </div>
 <% end %>
 <br/>
