@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
-  validates_presence_of :email
+  validates_presence_of :email, :region
   validates_length_of :email, :within => 6..100 #r@a.wk
   validates_uniqueness_of :email, :case_sensitive => false
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
@@ -19,10 +19,34 @@ class User < ActiveRecord::Base
   belongs_to :district
   has_many :articles
 
+	#around filters
+	before_create :assemble_phone_numbers
+
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district, :region, :phone, :mobile
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix, :category1, :category2, :category3, :free_listing, :business_name
+	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
+
+	def assemble_phone_numbers
+		if self.class.method_defined?(:mobile=)
+			self.mobile = "#{mobile_prefix}-#{mobile_suffix}"
+		end
+		if self.class.method_defined?(:phone=)
+			self.phone = "#{phone_prefix}-#{phone_suffix}"
+		end
+	end
+
+	def validate
+		if self.class.method_defined?(:professional?) && self.class.method_defined?(:free_listing?) && professional? && free_listing?
+			if district_id.blank?
+				errors.add(:district_id, "can't be blank")
+			end
+			if business_name.blank?
+				errors.add(:business_name, "can't be blank")
+			end
+		end
+	end
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #

@@ -1,5 +1,5 @@
-#fieldset-professional-details {
-    display: none;
+.mandatoryStar {
+   color: red;
 }
 
 .nube1 {font-size: 1.0em;}

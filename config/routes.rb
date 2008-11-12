@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :categories
+
   map.resources :articles
 
   map.resources :regions
@@ -17,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resources :passwords
   map.resource :session
-  
+	map.default ':controller/:id.:format/:action'
   # Home Page
   map.root :controller => 'articles', :action => 'index'
 end

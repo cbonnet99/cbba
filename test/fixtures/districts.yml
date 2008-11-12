@@ -1,6 +1,9 @@
+auckland_auckland_city:
+    region: auckland
+    name: Auckland City
 wellington_wellington_city:
-    region: Wellington
-    district: Wellington City
+    region: wellington
+    name: Wellington City
 wairarapa_featherston:
-    region: Wairarapa
-    district: Featherston
+    region: wairarapa
+    name: Featherston

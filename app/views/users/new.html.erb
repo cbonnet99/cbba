@@ -1,3 +1,5 @@
+<% javascript 'new-user' %>
+
 <% @user.password = @user.password_confirmation = nil %>
 <%= title "Signup", :h1  %>
 <% form_for @user do |f| %>
@@ -6,20 +8,20 @@
     <legend>Your Details</legend>
     <ol>
       <li>
-        <%= f.label :email, 'Your email address:' %>
+        <%= f.label :email, 'Your email address:' %><span class="mandatoryStar">*</span>
         <%= f.text_field :email %>
       </li>
       <li>
-        <%= f.label :password %>
+        <%= f.label :password %><span class="mandatoryStar">*</span>
         <%= f.password_field :password %>
       </li>
       <li>
-        <%= f.label :password_confirmation, 'Confirm Password:' %>
+        <%= f.label :password_confirmation, 'Confirm Password:' %><span class="mandatoryStar">*</span>
         <%= f.password_field :password_confirmation %>
       </li>
       <li>
-        <%= f.label :region, 'Your region:' %>
-        <%= f.select :region, @regions, {:prompt => "- Please select -"} %>
+        <%= f.label :region_id, 'Your region:' %><span class="mandatoryStar">*</span>
+        <%= f.select :region_id, @regions, {:prompt => "- Please select -"} %>
       </li>
       <li>
         <%= f.label :first_name, 'Your first name:' %>
@@ -35,25 +37,41 @@
       </li>
       <li>
         <%= f.label :professional, 'Are you a professional?' %>
-        <%= f.check_box :professional %>
+        <%= f.check_box :professional   %>
       </li>
-      <li>Would you like to be <a id="free-listing-link">listed for free</a> on beamazing.co.nz?</li>
+      <li id="link-user-professional"<%unless @user.professional?%>style="display: none;"<%end%>>Did you know you can be listed for free on beamazing.co.nz? <label for="user_free_listing">Yes, I want to be listed for free</label><%= f.check_box :free_listing%></li>
     </ol>
   </fieldset>
-  <fieldset id="fieldset-professional-details">
+  <fieldset id="fieldset-professional-details"<%unless @user.professional?&&@user.free_listing?%>style="display: none;"<%end%>>
     <legend>Professional Details</legend>
     <ol>
+      <li>
+        <%= f.label :district_id, 'Closest city' %><span class="mandatoryStar">*</span>
+        <%= f.select :district_id, [], {:prompt => "- Please select a region first-"} %>
+      </li>
+      <li>
+        <%= f.label :business_name, 'Business name' %><span class="mandatoryStar">*</span>
+        <%= f.text_field :business_name  %>
+      </li>
       <li>
         <%= f.label :address1, 'Address' %>
         <%= f.text_area :address1, :rows => "2"  %>
       </li>
       <li>
-        <%= f.label :city, 'City' %>
-        <%= f.text_field :city %>
+        <%= f.label :suburb, 'Suburb' %>
+        <%= f.text_field :suburb  %>
       </li>
       <li>
-        <%= f.label :district, 'Closest city' %>
-        <%= f.select :district, @districts, {:prompt => "- Please select -"} %>
+        <%= f.label :phone_prefix, 'Phone' %>
+        <%= f.select :phone_prefix, ["", "03", "04", "06", "07", "09"] %><%= f.text_field :phone_suffix  %>
+      </li>
+      <li>
+        <%= f.label :mobile_prefix, 'Mobile' %>
+        <%= f.select :mobile_prefix, ["", "021", "027", "29"] %><%= f.text_field :mobile_suffix, :size => 9 %>
+      </li>
+      <li>
+        <%= f.label :city, 'City' %>
+        <%= f.text_field :city %>
       </li>
     </ol>
   </fieldset>

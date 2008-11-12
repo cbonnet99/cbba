@@ -1,8 +1,13 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class RegionsControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_districts
+		wellington = regions(:wellington)
+    get :districts, :id => wellington.id, :format => "js"
+#		puts @response.body
+		assert_match /\{optionValue:(\d)+, optionDisplay: \"Wellington City\"\}/, @response.body
+		assert_nothing_raised do
+			ActiveSupport::JSON.decode(@response.body)
+		end
   end
 end

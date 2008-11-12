@@ -1,8 +1,15 @@
 class UsersController < ApplicationController
+
+	def search
+		@region = Region.find(params[:region_id])
+		@district = District.find(params[:district_id])
+		@category = Category.find(params[:category_id])
+		@professionals = User.find_all_by_category_id_and_district_id_and_free_listing_and_professional_and_region_id(@category.id, @district.id, true, true, @region.id)
+	end
+
   def new
     @user = User.new
     @regions = Region.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
-    @districts = District.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
   end
  
   def create
@@ -15,7 +22,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
       @regions = Region.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
-      flash[:error]  = "There were some errors in your signup information."
+      flash.now[:error]  = "There were some errors in your signup information."
       render :action => 'new'
     end
   end
