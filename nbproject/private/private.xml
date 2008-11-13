@@ -2,98 +2,34 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/application.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/articles_controller.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/regions_controller.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/search_controller.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/secure_application_controller.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/sessions_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/users_controller.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/helpers/application_helper.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/article.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/models/district.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/models/region.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/models/role.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/roles_user.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/_article.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/edit.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/index.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/new.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/show.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/layouts/application.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/layouts/main.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/password_mailer/forgot_password.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/password_mailer/reset_password.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/passwords/new.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/passwords/reset.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/regions/districts.js.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/tag.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/sessions/_new.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/sessions/new.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/tags/_tag_cloud.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/user_mailer/signup_notification.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/new.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/database.yml</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/deploy.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/environment.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/environments/development.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/environments/production.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/environments/test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/initializers/exception_notifier.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/initializers/inflections.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/initializers/load_config.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/initializers/mime_types.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/initializers/new_rails_defaults.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/initializers/site_keys.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/routes.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/settings.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/csv/districts.csv</file>
         <file>file:/Users/cyrille/Sites/be_amazing/csv/users.csv</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20080811094730_create_users.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20080912160936_add_default_admin_user.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081102092502_create_regions.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081103083643_add_region_to_user.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081103102010_add_booleans_to_user.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081103184102_add_tags.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20080912160708_create_roles.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081109191611_add_free_member_attributes.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/lib/authenticated_system.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/lib/helpers.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081112041348_create_categories.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/import_utils.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/lib/tasks/bort.rake</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/lib/tasks/csv.rake</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/lib/tasks/fixtures.rake</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/public/javascripts/application.js</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/public/javascripts/new-user.js</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/public/stylesheets/base.css</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/public/stylesheets/common.css</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/public/stylesheets/default.css</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/public/stylesheets/scaffold.css</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/spec/controllers/users_controller_spec.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/spec/fixtures/users.yml</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/spec/models/user_spec.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/articles.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/categories.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/districts.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/regions.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/roles.yml</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/taggings.yml</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/tags.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/roles_users.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/users.yml</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/functional/articles_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/regions_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/search_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/users_controller_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/test_helper.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/article_test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/route_test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/acts_as_taggable/lib/tag.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/jrails/README</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/CHANGELOG</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/README</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/generators/authenticated/templates/model.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/generators/authenticated/templates/signup.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/lib/authentication.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/notes/Authentication.txt</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/notes/Authorization.txt</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/notes/RailsPlugins.txt</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/role_requirement/README.textile</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/import_utils_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/user_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/generators/authenticated/authenticated_generator.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/activerecord/lib/active_record/base.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/activerecord/lib/active_record/fixtures.rb</file>
     </open-files>
 </project-private>
