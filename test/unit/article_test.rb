@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
-  fixtures :all
 
   def test_for_tag
     yoga = articles(:yoga)

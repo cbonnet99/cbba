@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix, :category1, :category2, :category3, :free_listing, :business_name
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :category1_id, :category2_id, :category3_id, :free_listing, :business_name, :suburb
 	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
 	def assemble_phone_numbers
@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
   end
 
   def name
-    "#{first_name.capitalize} #{last_name.capitalize}"
+    "#{first_name.nil? ? "" : first_name.capitalize} #{last_name.nil? ? "" : last_name.capitalize}"
   end
   
   protected

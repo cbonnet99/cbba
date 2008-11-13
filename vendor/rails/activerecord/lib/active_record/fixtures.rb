@@ -503,7 +503,6 @@ class Fixtures < (RUBY_VERSION < '1.9' ? YAML::Omap : Hash)
     connection  = block_given? ? yield : ActiveRecord::Base.connection
 
     table_names_to_fetch = table_names.reject { |table_name| fixture_is_cached?(connection, table_name) }
-
     unless table_names_to_fetch.empty?
       ActiveRecord::Base.silence do
         connection.disable_referential_integrity do
