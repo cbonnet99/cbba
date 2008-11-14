@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     @districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
+		@categories = Category.find(:all, :order => "name").collect {|d| [ d.name, d.id ]}
   end
  
   def create

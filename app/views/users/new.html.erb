@@ -69,6 +69,12 @@
         <%= f.label :city, 'City' %>
         <%= f.text_field :city %>
       </li>
+      <li>
+        <%= f.label :category1, 'Please enter up to 3 categories you would like to be listed in' %>
+        Category1: <%= f.select :category1_id, @categories, {:include_blank => true } %><br/>
+        Category2: <%= f.select :category2_id, @categories, {:include_blank => true } %><br/>
+        Category3: <%= f.select :category3_id, @categories, {:include_blank => true } %><br/>
+      </li>
     </ol>
   </fieldset>
   <div class="buttons">
