@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @regions = Region.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
+    @districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
   end
  
   def create
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       redirect_back_or_default root_url
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
-      @regions = Region.find(:all, :order => "name").collect {|r| [ r.name, r.id ]}
+			@districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
       flash.now[:error]  = "There were some errors in your signup information."
       render :action => 'new'
     end
