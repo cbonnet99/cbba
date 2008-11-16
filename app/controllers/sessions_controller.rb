@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
   protected
 
   def note_failed_signin
-    flash[:warning] = "Couldn't log you in as '#{params[:email]}'"
+    flash.now[:warning] = "Couldn't log you in as '#{params[:email]}'"
     logger.warn "Failed login for '#{params[:email]}' from #{request.remote_ip} at #{Time.now.utc}"
   end
 end

@@ -64,14 +64,12 @@ module AuthenticatedSystem
     def access_denied
       respond_to do |format|
         format.html do
-					puts "========== STEP1: #{format.to_s}"
           store_location
           redirect_to new_session_path
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
         # you may want to change format.any to e.g. format.any(:js, :xml)
         format.any(:js, :xml) do
-					puts "========== STEP2 #{format.to_s}"
           request_http_basic_authentication 'Web Password'
         end
       end

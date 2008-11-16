@@ -1,4 +1,6 @@
 class PasswordsController < ApplicationController
+	before_filter :login_required, :only => [:edit]
+
   def new
     @password = Password.new
   end

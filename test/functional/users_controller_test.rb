@@ -2,6 +2,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
+
+	def test_update_password
+		cyrille = users(:cyrille)
+		post :update_password, {:user => {:password => "bleblete", :password_confirmation => "bleblete"  }}, {:user_id => cyrille.id }
+		assert_equal "Your password has been updated", flash[:notice]
+		assert_not_nil User.authenticate(cyrille.email, "bleblete")
+	end
 	
   def test_create
 		old_size = User.all.size

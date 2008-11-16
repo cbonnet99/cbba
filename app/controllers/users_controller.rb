@@ -1,4 +1,33 @@
 class UsersController < ApplicationController
+  before_filter :login_required, :only => [:edit, :update]
+
+	def edit
+		get_regions_and_districts
+	end
+
+	def update_password
+		if current_user.update_attributes(params[:user])
+      redirect_back_or_default root_url
+      flash[:notice] = "Your password has been updated"
+    else
+      flash.now[:error]  = "There were some errors in your password details."
+      render :action => 'edit_password'
+    end
+		
+	end
+
+	def update
+			params[:user].delete("password")
+			params[:user].delete("password_confirmation")
+		if current_user.update_attributes(params[:user])
+      redirect_back_or_default root_url
+      flash[:notice] = "Your details have been updated"
+    else
+			get_regions_and_districts
+      flash.now[:error]  = "There were some errors in your details."
+      render :action => 'edit'
+    end
+	end
 
 	def search
 		@region = Region.find(params[:region_id])
@@ -9,8 +38,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
-		@categories = Category.find(:all, :order => "name").collect {|d| [ d.name, d.id ]}
+		get_regions_and_districts
   end
  
   def create
@@ -22,7 +50,7 @@ class UsersController < ApplicationController
       redirect_back_or_default root_url
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
-			@districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
+			get_regions_and_districts
       flash.now[:error]  = "There were some errors in your signup information."
       render :action => 'new'
     end
@@ -44,4 +72,9 @@ class UsersController < ApplicationController
       redirect_back_or_default root_url
     end
   end
+
+	def get_regions_and_districts
+    @districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
+		@categories = Category.find(:all, :order => "name").collect {|d| [ d.name, d.id ]}
+	end
 end

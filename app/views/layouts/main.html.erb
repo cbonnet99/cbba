@@ -15,7 +15,11 @@
 <div id="header">
 	<div id="logo">
           <h1><a href="/">be amazing.co.nz</a></h1>
-	  <h2>be bold. be well. be you.</h2><br/>
+    <% if logged_in? -%>
+    <div id="login_info">Welcome, <%=current_user.name%> | <%= link_to "Edit your details", :controller => "users", :action => "edit"%> | <%= link_to "Change password", :controller => "users", :action => "edit_password"%> | <%= link_to 'Logout', logout_path %>
+    </div>
+    <% end -%><br/>
+
 	</div>
 	<div id="menu">
 		<ul>
@@ -51,9 +55,7 @@
 					</fieldset>
 				</form>
 			</li>
-                        <% if logged_in? %>
-                        <li>Logged as: <%= link_to current_user.name, edit_user_path(current_user)%><br/><%= link_to 'logout', logout_path %></li>
-                        <% else %>
+                        <% unless logged_in? %>
                         <li id="sidebar-login"><h2>login</h2><%= render :partial => "sessions/new" %></li>
                         <li>Not a member yet? <%= link_to 'Signup', signup_path %>, it's free!</li>
                         <% end %>

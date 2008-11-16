@@ -30,7 +30,9 @@ class User < ActiveRecord::Base
 	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
 	def set_region_from_district
-		self.region = self.district.region
+		unless self.district.nil?
+			self.region = self.district.region
+		end
 	end
 
 	def assemble_phone_numbers

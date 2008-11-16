@@ -1,0 +1,10 @@
+<% javascript 'new-user' %>
+
+<%= title "Edit your details", :h1  %>
+<% form_for @current_user do |f| %>
+  <%= render :partial => "form", :locals => {:f => f, :with_password => false }   %>
+  <div class="buttons">
+    <label for=""></label>
+    <%= submit_tag 'Update' %>
+  </div>
+<% end %>
