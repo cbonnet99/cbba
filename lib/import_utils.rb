@@ -28,8 +28,8 @@ class ImportUtils
 					phone = row[9]
 					mobile = row[10]
 					email = row[11]
-					category1_str = row[12]
-					category2_str = row[13]
+					category_str = row[12]
+					subcategory_str = row[13]
 					role_str = row[15]
 					if role_str == "2"
 						role = full_member
@@ -48,12 +48,12 @@ class ImportUtils
 						raise "Error: district #{district_str} could not be found"
 						puts "No user was added"
 					end
-					category1 = Category.find_or_create_by_name(category1_str.capitalize)
-					category2 = Category.find_or_create_by_name(category2_str.capitalize)
+					category = Category.find_or_create_by_name(category_str.strip.capitalize)
+					subcategory = Subcategory.find_or_create_by_name_and_category_id(subcategory_str.strip.capitalize, category.id)
 					user = User.create(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
 						:region_id => region.id, :phone => phone, :mobile => mobile, :email => email,
-						:category1_id => category1.id, :category2_id => category2.id,
+						:subcategory1_id => subcategory.id,
 						:password => "blablabla", :password_confirmation => "blablabla",
 						:receive_newsletter => receive_newsletter )
 					user.roles << role

@@ -5,12 +5,16 @@ class Article < ActiveRecord::Base
   
   acts_as_taggable
   
-  belongs_to :author, :class_name => "User" 
+  belongs_to :author, :class_name => "User"
+  belongs_to :subcategory1, :class_name => "Subcategory"
+  belongs_to :subcategory2, :class_name => "Subcategory"
+  belongs_to :subcategory3, :class_name => "Subcategory"
   
   validates_presence_of :title
   validates_length_of :title, :maximum => 80
 
-	after_create :create_slug
+	after_create :create_slug, :create_intro
+#	after_update :create_slug, :create_intro
 
   MAX_LENGTH_INTRODUCTION = 100
 	MAX_LENGTH_SLUG = 20
@@ -40,8 +44,16 @@ class Article < ActiveRecord::Base
   def to_param  
      "#{id}-#{slug}"
   end  
-  
+
+	def create_intro
+		self.update_attribute(:introduction, computed_intro)
+	end
+
+	def computed_intro
+		help.shorten_string(body, MAX_LENGTH_INTRODUCTION)
+	end
+
   def introduction
-		introduction ||= help.shorten_string(body, MAX_LENGTH_INTRODUCTION)
+		introduction ||= computed_intro
   end
 end

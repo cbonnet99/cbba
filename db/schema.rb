@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081112041348) do
+ActiveRecord::Schema.define(:version => 20081116090946) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -18,6 +18,10 @@ ActiveRecord::Schema.define(:version => 20081112041348) do
     t.integer  "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "introduction"
+    t.integer  "subcategory1_id"
+    t.integer  "subcategory2_id"
+    t.integer  "subcategory3_id"
   end
 
   create_table "categories", :force => true do |t|
@@ -66,6 +70,13 @@ ActiveRecord::Schema.define(:version => 20081112041348) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "subcategories", :force => true do |t|
+    t.integer  "category_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "taggings", :force => true do |t|
     t.integer "taggable_id"
     t.integer "tag_id"
@@ -101,9 +112,9 @@ ActiveRecord::Schema.define(:version => 20081112041348) do
     t.integer  "district_id"
     t.string   "phone"
     t.string   "mobile"
-    t.integer  "category1_id"
-    t.integer  "category2_id"
-    t.integer  "category3_id"
+    t.integer  "subcategory1_id"
+    t.integer  "subcategory2_id"
+    t.integer  "subcategory3_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

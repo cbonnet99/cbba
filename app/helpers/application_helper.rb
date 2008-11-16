@@ -5,7 +5,10 @@ module ApplicationHelper
 	end
 
 	def shorten_string(str, max_size, extension="...")
-    if str.size <= max_size
+    if str.nil?
+			return nil
+		else
+		if str.size <= max_size
       return str
     else
       words = str.split(" ")
@@ -17,7 +20,8 @@ module ApplicationHelper
       return words.join(" ") + extension
 		end
 	end
-  
+  		end
+
   def tag_cloud(tags, classes)
     max, min = 0, 0
     tags.each { |t|

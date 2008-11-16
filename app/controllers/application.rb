@@ -14,5 +14,13 @@ class ApplicationController < ActionController::Base
   def tags
     @tags = Tag.tags(:limit => 20)  
   end
+
+	def get_subcategories
+		@subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.id ]}
+	end
+
+	def get_districts
+		@districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
+	end
 end
 

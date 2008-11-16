@@ -14,7 +14,7 @@
           <h1><a href="/">be amazing.co.nz</a></h1>
     <div id="login-info">
     <% if logged_in? -%>
-    Welcome, <%= link_to current_user.name, :controller => "users", :action => "edit"%> | <%= link_to 'Logout', logout_path %>
+    Welcome, <%= link_to current_user.name, :controller => "users", :action => "profile"%> | <%= link_to 'Logout', logout_path %>
     <%else -%>
         <% unless logged_in? %>
         <%= render :partial => "sessions/small_new" %>

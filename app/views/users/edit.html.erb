@@ -1,7 +1,6 @@
 <% javascript 'new-user' %>
 
 <%= title "Your details", :h1  %>
-<%= link_to "Change password", :controller => "users", :action => "edit_password"%>
 <% form_for @current_user do |f| %>
   <%= render :partial => "form", :locals => {:f => f, :with_password => false }   %>
   <div class="buttons">

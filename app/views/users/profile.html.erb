@@ -1,0 +1,12 @@
+<%= link_to "Change password", :controller => "users", :action => "edit_password"%>
+<%= link_to "Edit your details", :controller => "users", :action => "edit"%>
+<%= link_to "Add new article", new_article_path %>
+<h2>Articles you have authored</h2>
+<% if @articles.empty? -%>
+  No articles
+<% else -%>
+  <% @articles.each do |a| -%>
+    <h3><%= link_to a.title, edit_article_path(a) %><h3>
+      <p><%= a.introduction%></p>
+  <% end -%>
+<%end -%>

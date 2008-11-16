@@ -14,6 +14,18 @@
     <%= f.label :body %>
     <%= f.text_area :body %>
   </li>
+      <li>
+        <label>Please enter up to 3 categories you would like this article to be listed in:</label>
+      </li>
+      <li>
+        <%= f.label :subcategory1, 'Category1:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -"} %><br/>
+      </li>
+      <li>
+        <%= f.label :subcategory2, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -"} %><br/>
+      </li>
+      <li>
+        <%= f.label :subcategory3, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -"} %><br/>
+      </li>
     </ol>
   </fieldset>
 	<div class="buttons">

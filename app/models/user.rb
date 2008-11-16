@@ -18,6 +18,9 @@ class User < ActiveRecord::Base
   belongs_to :region
   belongs_to :district
   has_many :articles
+	belongs_to :subcategory1, :class_name => "Subcategory"
+	belongs_to :subcategory2, :class_name => "Subcategory"
+	belongs_to :subcategory3, :class_name => "Subcategory"
 
 	# #around filters
 	before_create :assemble_phone_numbers, :set_region_from_district
@@ -26,7 +29,7 @@ class User < ActiveRecord::Base
 	# HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
 	# submitting a crafted form that bypasses activation anything else you want
 	# your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :category1_id, :category2_id, :category3_id, :free_listing, :business_name, :suburb
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb
 	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
 	def set_region_from_district

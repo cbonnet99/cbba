@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update]
 
+	def profile
+		get_regions_and_districts
+		@articles = Article.find_all_by_author_id(current_user.id, :order => "updated_at desc")
+	end
+
 	def edit
 		get_regions_and_districts
 	end
@@ -74,7 +79,7 @@ class UsersController < ApplicationController
   end
 
 	def get_regions_and_districts
-    @districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
-		@categories = Category.find(:all, :order => "name").collect {|d| [ d.name, d.id ]}
+    get_districts
+		get_subcategories
 	end
 end

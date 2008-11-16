@@ -1,6 +1,4 @@
-test:
-  name: Test
-yoga:
-  name: Yoga
-naturopath:
-  name: Naturopathy
+courses:
+  name: Courses
+practicioners:
+  name: Practicioners
