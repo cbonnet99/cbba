@@ -1,5 +1,28 @@
+form li {
+    list-style: none;
+    clear: both;
+}
+
+form label {
+    display: block;
+    float: left;
+    margin-bottom: 5px;
+}
+
+form input, form select, form textarea {
+    display: block;
+    float: right;
+    margin-bottom: 5px;
+}
+
+div#login-info {
+    font-size: small;
+    text-align: right;
+}
+
 .mandatoryStar {
-   color: red;
+    color: red;
+    float: left;
 }
 
 .nube1 {font-size: 1.0em;}
@@ -9,402 +32,54 @@
 .nube5 {font-size: 1.8em;}
 .nube6 {font-size: 2.0em;}
 
-#sidebar li#sidebar-login li {
-	border-bottom: 0px;
-}
-
-#sidebar fieldset {
-    border: 0;
-}
-
-#sidebar legend {
-    display: none;
-}
-
-#sidebar form label,input {
-    display: inline;
-    float: none;
-}
-
-div.buttons input {
-    color: #fff;
-    background: #6ab000;
-    border: 2px outset #d7b9c9;
-} 
-
-form label,input {
-	display: block;
-	float: left;
-	margin-bottom: 10px;
-}
-
-label {
-	width: 200px;
-	text-align: right;
-	padding-right: 20px;
-}
-
-form li {
-    list-style: none;
-    clear: left;
-}
-br {
-    clear: left;
-}
-
-legend {
-    color: #fff;
-    background: #6ab000;
-    border: 1px solid #781351;
-    padding: 2px 6px
-}
-
 body {
-	margin: 0;
-	padding: 0;
-	background: #FFFFFF;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 13px;
-	color: #6D6D6D;
+    margin:0; padding:0;
 }
-
-h1, h2, h3 {
-	margin: 0;
-	text-transform: lowercase;
-	font-weight: normal;
-	color: #78CC00;
-}
-
-h1 {
-	letter-spacing: -1px;
-	font-size: 32px;
-}
-
-h2 {
-	font-size: 23px;
-}
-
-p, ul, ol {
-	margin: 0 0 2em 0;
-	text-align: justify;
-	line-height: 26px;
-}
-
-a:link {
-	color: #7AD000;
-}
-
-a:hover, a:active {
-	text-decoration: none;
-	color: #7AD000;
-}
-
-a:visited {
-	color: #7AD000;
-}
-
-img {
-	border: none;
-}
-
-img.left {
-	float: left;
-	margin: 7px 15px 0 0;
-}
-
-img.right {
-	float: right;
-	margin: 7px 0 0 15px;
-}
-
-/* Form */
-
-form {
-	margin: 0;
-	padding: 0;
-}
-
-#search fieldset {
-	margin: 0;
-	padding: 0;
-	border: none;
-}
-
-input, textarea, select {
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	font-size: 13px;
-	color: #333333;
-}
-
-#wrapper {
-	background: #7ACF00 url(/images/img03.jpg);
-}
-
-/* Header */
 
 #header {
-	width: 900px;
-	height: 80px;
-	margin: 0 auto 20px auto;
-	padding-top: 10px;
+    margin:0; padding:0;
+    background:red;
 }
 
-#logo {
-	float: left;
-	height: 120px;
-	margin-left: 30px;
+#main1 {
+    margin:0; padding:0;
+    background:blue top left repeat-y;
+}
+#main2 {
+    margin:0; padding:0;
+    background:blue top right repeat-y;
+}
+#left {
+    float:left;
+    width:150px;
+    margin:0; padding:0;
+    background:green top right no-repeat;
+}
+#right {
+    float:right;
+    width:150px;
+    margin:0; padding:0;
+    background:yellow top right no-repeat;
+}
+#middle {
+    margin:0 150px;
+    background:white;
+}
+.column-in {
+    margin:0; padding:0.5em 1em;
+}
+.cleaner {
+    clear:both;
+    height:1px;
+    font-size:1px;
+    border:none;
+    margin:0; padding:0;
+    background:transparent;
 }
 
-#logo h1 {
-	font-size: 38px;
-	color: #3399CC;
-}
+h1,h2,h3,h4 { margin: 0.2em 0 }
+p { margin: 0.5em 0 }
+a { color:black }
 
-#logo h1 sup {
-	vertical-align: text-top;
-	font-size: 24px;
-}
+.copy { text-align:center; font-size:80% }
 
-#logo h1 a {
-	color: #FFFFFF;
-}
-
-#logo h2 {
-	text-transform: uppercase;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-}
-
-#logo a {
-	text-decoration: none;
-	color: #FFFFFF;
-}
-
-/* Menu */
-
-#menu {
-	float: right;
-}
-
-#menu ul {
-	margin: 0;
-	padding: 28px 0 0 0;
-	list-style: none;
-}
-
-#menu li {
-	display: inline;
-}
-
-#menu a {
-	display: block;
-	float: left;
-	margin-left: 5px;
-	background: #6AB000;
-	padding: 7px 10px;
-	text-decoration: none;
-	font-size: 15px;
-	color: #FFFFFF;
-}
-
-#menu a:hover {
-	text-decoration: underline;
-}
-
-#menu .active a {
-}
-
-/* Page */
-
-#page {
-	width: 900px;
-	margin: 0 auto;
-	padding: 20px 20px;
-}
-
-/* Content */
-
-#content {
-	float: left;
-	width: 590px;
-	padding: 0px 30px 0px 30px;
-}
-
-/* Post */
-
-.post {
-}
-
-.post .title {
-	margin-bottom: 20px;
-	padding-bottom: 5px;
-	border-bottom: 10px solid #EDEDED;
-}
-
-.post .entry {
-}
-
-.post .meta {
-	margin: 0;
-	padding: 15px 0 60px 0;
-	background: url(/images/img04.jpg) repeat-x left 30%;
-}
-
-.post .meta p {
-	margin: 0;
-	line-height: normal;
-}
-
-.post .meta .byline {
-	float: left;
-	color: #0000FF;
-}
-
-.post .meta .links {
-	float: left;
-}
-
-.post .meta .more {
-	width: 185px;
-	height: 35px;
-	padding: 5px 0px 5px 0px;
-	text-transform: uppercase;
-	text-decoration: none;
-	font-size: 11px;
-}
-
-.post .meta .comments {
-	padding: 5px 0px 5px 0px;
-	text-transform: uppercase;
-	text-decoration: none;
-	font-size: 11px;
-}
-
-.post .meta b {
-	display: none;
-}
-
-/* Sidebar */
-
-#sidebar {
-	float: right;
-	width: 230px;
-}
-
-#sidebar ul {
-	margin: 0;
-	padding: 5px 0 0 0;
-	list-style: none;
-}
-
-#sidebar li {
-	margin-bottom: 10px;
-}
-
-#sidebar li ul {
-}
-
-#sidebar li li {
-	margin: 0;
-	padding: 3px 0;
-	border-bottom: 1px dashed #D1D1D1;
-}
-
-#sidebar li li a {
-	margin: 0;
-	padding-left: 25px;
-	background: url(/images/img01.png) no-repeat left 50%;
-}
-
-#sidebar h2 {
-	margin-bottom: 5px;
-	border-bottom: 10px solid #EDEDED;
-	font-size: 18px;
-	font-weight: bold;
-}
-
-#sidebar ul.sections a {
-	text-decoration: none;
-	color: #6D6D6D;
-}
-
-/* Search */
-
-#search {
-}
-
-#search h2 {
-	margin-bottom: 20px;
-}
-
-#s {
-	width: 150px;
-	margin-right: 5px;
-	padding: 3px;
-	border: 1px solid #F0F0F0;
-}
-
-#x {
-	padding: 3px;
-	border: none;
-	text-transform: lowercase;
-	font-size: 11px;
-	color: #4F4F4F;
-}
-
-/* Boxes */
-
-.box1 {
-	padding: 20px;
-	background: url(/images/img05.gif) no-repeat;
-}
-
-.box2 {
-	color: #BABABA;
-}
-
-.box2 h2 {
-	margin-bottom: 15px;
-	background: url(/images/img10.gif) repeat-x left bottom;
-	font-size: 16px;
-	color: #FFFFFF;
-}
-
-.box2 ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.box2 a:link, .box2 a:hover, .box2 a:active, .box2 a:visited  {
-	color: #EDEDED;
-}
-
-/* Footer */
-
-#footer {
-	height: 400px;
-	min-height: 74px;
-	padding: 10px 0 0 0;
-	background: #979797 url(/images/img02.jpg) repeat-x left top;
-	font-family: Tahoma, Arial, Helvetica, sans-serif;
-}
-
-html>body #footer {
-	height: auto;
-}
-
-#legal {
-	clear: both;
-	padding-top: 20px;
-	text-align: center;
-	text-transform: uppercase;
-	font-size: 10px;
-	color: #353535;
-}
-
-#legal a {
-	font-weight: bold;
-	color: #FFFFFF;
-}

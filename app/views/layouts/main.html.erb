@@ -10,101 +10,54 @@
         <%= yield :head %>
     </head>
     <body>
-<div id="wrapper">
-<!-- start header -->
-<div id="header">
-	<div id="logo">
+<div id="header"><div class="column-in">
           <h1><a href="/">be amazing.co.nz</a></h1>
+    <div id="login-info">
     <% if logged_in? -%>
-    <div id="login_info">Welcome, <%=current_user.name%> | <%= link_to "Edit your details", :controller => "users", :action => "edit"%> | <%= link_to "Change password", :controller => "users", :action => "edit_password"%> | <%= link_to 'Logout', logout_path %>
-    </div>
-    <% end -%><br/>
+    Welcome, <%= link_to current_user.name, :controller => "users", :action => "edit"%> | <%= link_to 'Logout', logout_path %>
+    <%else -%>
+        <% unless logged_in? %>
+        <%= render :partial => "sessions/small_new" %>
+        <%= link_to 'Join us', signup_path %>, it's free!
+        <% end %>
+    <% end -%></div></div></div>
 
-	</div>
-	<div id="menu">
-		<ul>
-			<li class="active"><a href="/">homepage</a></li>
-			<li><a href="#">speakers</a></li>
-			<li><a href="/articles">articles</a></li>
-			<li><a href="#">events</a></li>
-			<li><a href="#">contact us</a></li>
-		</ul>
-	</div>
-</div>
-<!-- end header -->
-</div>
+<div id="main1"><div id="main2">
 
-<!-- start page -->
-<div id="page">
-	<!-- start content -->
-	<div id="content">
+	<div id="left"><div class="column-in">
+
+		<h4>Left Col</h4>
+		<p id="lccont">
+			This is content of the LEFT column. It can be <a href="javascript:toggleContent('lccont',1)">short</a>, <a href="javascript:toggleContent('lccont',3)">longer</a> or <a href="javascript:toggleContent('lccont',10)">very long</a>.
+		</p>
+	</div></div>
+
+	<div id="right"><div class="column-in">
+		<h4>Right Col</h4>
+        <% unless logged_in? %>
+        <p id="rccont"></p>
+        <% end %>
+
+	</div></div>
+
+	<div id="middle"><div class="column-in">
+		<p id="mccont">
                 <%= flash_messages %>
                 <%= yield :layout %>
-	</div>
-	<!-- end content -->
-	<!-- start sidebar -->
-	<div id="sidebar">
-		<ul>
-                  <li id="tags"><h2>Tags</h2><%= render :partial => "tags/tag_cloud"%></li>
-			<li id="search">
-				<h2>Search</h2>
-				<form method="get" action="">
-					<fieldset>
-					<input type="text" id="s" name="s" value="" />
-					<input type="submit" id="x" value="Search" />
-					</fieldset>
-				</form>
-			</li>
-                        <% unless logged_in? %>
-                        <li id="sidebar-login"><h2>login</h2><%= render :partial => "sessions/new" %></li>
-                        <li>Not a member yet? <%= link_to 'Signup', signup_path %>, it's free!</li>
-                        <% end %>
-                  
-			<li>
-				<h2>Sections</h2>
-				<ul class="sections">
-					<li><a href="#">Practitioners</a></li>
-					<li><a href="#">Courses</a></li>
-					<li><a href="#">Massage</a></li>
-					<li><a href="#">Coaching</a></li>
-					<li><a href="#">Weddings</a></li>
-					<li><a href="#">Products</a></li>
-					<li><a href="#">Associations</a></li>
-					<li><a href="#">Mother &amp; Child</a></li>
-					<li><a href="#">Find a Speaker</a></li>
-				</ul>
-			</li>
-			<li>
-				<h2><b>Volutpat</b> Dolore</h2>
-				<ul>
-					<li><a href="#">Nec metus sed donec</a></li>
-					<li><a href="#">Magna lacus bibendum mauris</a></li>
-					<li><a href="#">Velit semper nisi molestie</a></li>
-					<li><a href="#">Eget tempor eget nonummy</a></li>
-					<li><a href="#">Nec metus sed donec</a></li>
-					<li><a href="#">Magna lacus bibendum mauris</a></li>
-					<li><a href="#">Velit semper nisi molestie</a></li>
-				</ul>
-			</li>
-			<li>
-				<h2><b>Volutpat</b> Dolore</h2>
-				<ul>
-					<li><a href="#">Nec metus sed donec</a></li>
-					<li><a href="#">Magna lacus bibendum mauris</a></li>
-					<li><a href="#">Velit semper nisi molestie</a></li>
-					<li><a href="#">Eget tempor eget nonummy</a></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-	<!-- end sidebar -->
-	<div style="clear: both;">&nbsp;</div>
-</div>
-<!-- end page -->
-<!-- start footer -->
-<div id="footer">
-	<p id="legal">(c) 2008 YourSite. Design by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>.</p>
-</div>
-<!-- end footer -->
+		</p>
+
+	</div></div>
+
+	<div class="cleaner">&nbsp;</div>
+
+</div></div>
+
+<div id="footer"><div class="column-in">
+		<h4>The footer</h4>
+		<p>
+			Anything follows here...
+		</p>
+
+</div></div>
 </body>
 </html>

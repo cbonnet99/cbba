@@ -55,22 +55,28 @@
         <%= f.text_field :suburb  %>
       </li>
       <li>
-        <%= f.label :phone_prefix, 'Phone' %>
-        <%= f.select :phone_prefix, ["", "03", "04", "06", "07", "09"] %><%= f.text_field :phone_suffix  %>
-      </li>
-      <li>
-        <%= f.label :mobile_prefix, 'Mobile' %>
-        <%= f.select :mobile_prefix, ["", "021", "027", "29"] %><%= f.text_field :mobile_suffix, :size => 9 %>
-      </li>
-      <li>
         <%= f.label :city, 'City' %>
         <%= f.text_field :city %>
       </li>
       <li>
-        <%= f.label :category1, 'Please enter up to 3 categories you would like to be listed in' %>
-        Category1: <%= f.select :category1_id, @categories, {:include_blank => true } %><br/>
-        Category2: <%= f.select :category2_id, @categories, {:include_blank => true } %><br/>
-        Category3: <%= f.select :category3_id, @categories, {:include_blank => true } %><br/>
+        <%= f.label :phone_prefix, 'Phone' %>
+        <%= f.text_field :phone_suffix, :size => 10 %><%= f.select :phone_prefix, ["", "03", "04", "06", "07", "09"] %>
+      </li>
+      <li>
+        <%= f.label :mobile_prefix, 'Mobile' %>
+        <%= f.text_field :mobile_suffix, :size => 10 %><%= f.select :mobile_prefix, ["", "021", "027", "029"] %>
+      </li>
+      <li>
+        <label>Please enter up to 3 categories you would like to be listed in:</label>
+      </li>
+      <li>
+        <%= f.label :category1, 'Category1:' %><%= f.select :category1_id, @categories, {:prompt => "- Please select -"} %><br/>
+      </li>
+      <li>
+        <%= f.label :category2, 'Category2:' %><%= f.select :category2_id, @categories, {:prompt => "- Please select -"} %><br/>
+      </li>
+      <li>
+        <%= f.label :category3, 'Category3:' %><%= f.select :category3_id, @categories, {:prompt => "- Please select -"} %><br/>
       </li>
     </ol>
   </fieldset>
