@@ -24,8 +24,8 @@ class SearchControllerTest < ActionController::TestCase
 
 	def test_search_no_subcategory
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		practicioners = categories(:practicioners)
-		get :search, :where => canterbury_christchurch_city.id, :what => nil, :category_id => practicioners.id
+		practitioners = categories(:practitioners)
+		get :search, :where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id
 		assert_response :success
 		assert_equal 2, assigns(:results).size
 	end
@@ -33,8 +33,8 @@ class SearchControllerTest < ActionController::TestCase
 	def test_search_while_logged_in
 		cyrille = users(:cyrille)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		practicioners = categories(:practicioners)
-		get :search, {:where => canterbury_christchurch_city.id, :what => nil, :category_id => practicioners.id}, {:user_id => cyrille.id }
+		practitioners = categories(:practitioners)
+		get :search, {:where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id}, {:user_id => cyrille.id }
 		assert_response :success
 		#User cyrille is logged but has selected a different district than his default
 		assert_select "select#where > option[value=#{canterbury_christchurch_city.id}][selected=selected]"

@@ -10,16 +10,16 @@ class UserTest < ActiveSupport::TestCase
 	end
 
 	def test_search_results
-		practicioners = categories(:practicioners)
+		practitioners = categories(:practitioners)
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		assert_equal 2, User.search_results(practicioners.id, hypnotherapy.id, canterbury_christchurch_city.id).size
+		assert_equal 2, User.search_results(practitioners.id, hypnotherapy.id, canterbury_christchurch_city.id).size
 	end
 
 	def test_search_results_category
-		practicioners = categories(:practicioners)
+		practitioners = categories(:practitioners)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		assert_equal 2, User.search_results(practicioners.id, nil, canterbury_christchurch_city.id).size
+		assert_equal 2, User.search_results(practitioners.id, nil, canterbury_christchurch_city.id).size
 	end
 
 	def test_create
