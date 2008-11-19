@@ -1,2 +1,10 @@
-<h1>Search#search</h1>
-<p>Find me in app/views/search/search.html.erb</p>
+<h1>Search results for <%=  describe_search(@district, @category, @subcategory) %></h1>
+<% if @results.empty? -%>
+  No results found for <%=  describe_search(@district, @category, @subcategory) %>.
+<% else -%>
+<ul id="search-results">
+  <% @results.each do |r| %>
+    <li><%= link_to r.business_name, user_path(r) %></li>
+  <% end -%>
+</ul>
+<% end -%>

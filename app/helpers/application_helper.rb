@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+	def describe_search(district, category, subcategory)
+		"#{subcategory.nil? ? category.name : subcategory.full_name} in #{district.full_name}"
+	end
+
 	def javascript(*files)
 		content_for(:head) { javascript_include_tag(*files) }
 	end
@@ -8,19 +12,19 @@ module ApplicationHelper
     if str.nil?
 			return nil
 		else
-		if str.size <= max_size
-      return str
-    else
-      words = str.split(" ")
-      words.pop
-      while words.join(" ").size > max_size do
+			if str.size <= max_size
+				return str
+			else
+				words = str.split(" ")
 				words.pop
-      end
+				while words.join(" ").size > max_size do
+					words.pop
+				end
 
-      return words.join(" ") + extension
+				return words.join(" ") + extension
+			end
 		end
 	end
-  		end
 
   def tag_cloud(tags, classes)
     max, min = 0, 0

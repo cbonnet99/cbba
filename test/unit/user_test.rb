@@ -1,7 +1,27 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < ActiveSupport::TestCase
-	
+
+	fixtures :all
+
+	def test_has_role
+		sgardiner = users(:sgardiner)
+		assert sgardiner.has_role?('full_member')
+	end
+
+	def test_search_results
+		practicioners = categories(:practicioners)
+		hypnotherapy = subcategories(:hypnotherapy)
+		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+		assert_equal 2, User.search_results(practicioners.id, hypnotherapy.id, canterbury_christchurch_city.id).size
+	end
+
+	def test_search_results_category
+		practicioners = categories(:practicioners)
+		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+		assert_equal 2, User.search_results(practicioners.id, nil, canterbury_christchurch_city.id).size
+	end
+
 	def test_create
 		wellington = regions(:wellington)
 		wellington_wellington_city = districts(:wellington_wellington_city)

@@ -7,3 +7,6 @@ wellington_wellington_city:
 wairarapa_featherston:
     region: wairarapa
     name: Featherston
+canterbury_christchurch_city:
+    region: canterbury
+    name: Christchurch City

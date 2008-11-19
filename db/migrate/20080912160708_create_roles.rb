@@ -4,7 +4,7 @@ class CreateRoles < ActiveRecord::Migration
       t.string :name
     end
     
-    create_table :roles_users, :id => false do |t|
+    create_table :roles_users do |t|
       t.belongs_to :role
       t.belongs_to :user
     end

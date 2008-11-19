@@ -34,13 +34,6 @@ class UsersController < ApplicationController
     end
 	end
 
-	def search
-		@region = Region.find(params[:region_id])
-		@district = District.find(params[:district_id])
-		@category = Category.find(params[:category_id])
-		@professionals = User.find_all_by_category_id_and_district_id_and_free_listing_and_professional_and_region_id(@category.id, @district.id, true, true, @region.id)
-	end
-
   def new
     @user = User.new
 		get_regions_and_districts

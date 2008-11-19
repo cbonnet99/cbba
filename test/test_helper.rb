@@ -35,4 +35,12 @@ class Test::Unit::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+	def assert_valid_json(json)
+		begin
+			ActiveSupport::JSON.decode(json)
+		rescue ActiveSupport::JSON::ParseError
+			raise "Invalid JSON: #{json}"
+		end
+	end
+
 end

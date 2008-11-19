@@ -53,6 +53,7 @@ class ImportUtils
 					user = User.create(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
 						:region_id => region.id, :phone => phone, :mobile => mobile, :email => email,
+						:free_listing => (role == free_listing),
 						:subcategory1_id => subcategory.id,
 						:password => "blablabla", :password_confirmation => "blablabla",
 						:receive_newsletter => receive_newsletter )

@@ -6,8 +6,6 @@ class RegionsControllerTest < ActionController::TestCase
     get :districts, :id => wellington.id, :format => "js"
 #		puts @response.body
 		assert_match /\{optionValue:(\d)+, optionDisplay: \"Wellington City\"\}/, @response.body
-		assert_nothing_raised do
-			ActiveSupport::JSON.decode(@response.body)
-		end
+		assert_valid_json(@response.body)
   end
 end

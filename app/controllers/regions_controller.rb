@@ -1,5 +1,4 @@
 class RegionsController < ApplicationController
-	layout false
 	
 	def districts
 		region = Region.find(params[:id])

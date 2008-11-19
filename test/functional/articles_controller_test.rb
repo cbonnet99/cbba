@@ -9,6 +9,14 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:articles)
   end
 
+  def test_should_get_index_while_logged_in
+		cyrille = users(:cyrille)
+    get :index, {}, {:user_id => cyrille.id }
+    assert_response :success
+    assert_not_nil assigns(:articles)
+		assert_select "select#where > option[value=#{cyrille.district_id}][selected=selected]", "User cyrille is logged and his default location should be selected"
+  end
+
   def test_should_get_new
 		cyrille = users(:cyrille)
     get :new, {}, {:user_id => cyrille.id }

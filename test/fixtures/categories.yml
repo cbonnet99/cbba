@@ -1,4 +1,6 @@
 courses:
+  position: 2
   name: Courses
 practicioners:
   name: Practicioners
+  position: 1

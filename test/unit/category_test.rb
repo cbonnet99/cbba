@@ -1,8 +1,13 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class CategoryTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+
+	fixtures :all
+
+  def test_list_categories
+    practicioners = categories(:practicioners)
+		courses = categories(:courses)
+		assert_equal practicioners, Category.list_categories.first
+		assert_equal courses, Category.list_categories.last
   end
 end

@@ -8,7 +8,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :regions
  
   # Restful Authentication Rewrites
-  map.search '/search/:id/:action', :controller => 'search'
+  map.search_action '/search', :controller => 'search', :action => "search"
+  map.search_action '/search/:id/:action', :controller => 'search'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'

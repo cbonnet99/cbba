@@ -25,11 +25,11 @@
 <div id="main1"><div id="main2">
 
 	<div id="left"><div class="column-in">
-
-		<h4>Left Col</h4>
-		<p id="lccont">
-			This is content of the LEFT column. It can be <a href="javascript:toggleContent('lccont',1)">short</a>, <a href="javascript:toggleContent('lccont',3)">longer</a> or <a href="javascript:toggleContent('lccont',10)">very long</a>.
-		</p>
+          <ul id="categories">
+			<% @categories.each do |c| -%>
+              <li><a href="#" onClick="U_Core.F_SelectCategory(<%=c.id%>);return false;"><%=c.name%></a></li>
+            <%end -%>
+          </ul>
 	</div></div>
 
 	<div id="right"><div class="column-in">
@@ -41,10 +41,18 @@
 	</div></div>
 
 	<div id="middle"><div class="column-in">
-		<p id="mccont">
+      <p>
+          <% form_tag :controller => "search", :action => "search" do  -%>
+                    <%= text_field_tag :category_id, @category_id, {:type => "hidden"}  %>
+                  <div>What: <%= select_tag :what, @what_subcategories  %></div>
+                  <div>Where: <%= select_tag :where, @where_districts  %></div>
+                  <%= submit_tag "Search" %>
+            <% end -%>
+      </p>
+		<div id="mccont">
                 <%= flash_messages %>
                 <%= yield :layout %>
-		</p>
+		</div>
 
 	</div></div>
 

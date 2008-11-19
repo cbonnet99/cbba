@@ -1,15 +1,29 @@
-form li {
+ul#categories {
+    margin-left: 0;
+    padding-left: 0;
+}
+ul#categories li {
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+    text-indent: 0;
+    background: yellow;
+    list-style-position: inside;
+}
+
+#mccont form li {
     list-style: none;
     clear: both;
 }
 
-form label {
+#mccont form label {
     display: block;
     float: left;
     margin-bottom: 5px;
 }
 
-form input, form select, form textarea {
+#mccont form input, #mccont form select, #mccont form textarea {
     display: block;
     float: right;
     margin-bottom: 5px;
