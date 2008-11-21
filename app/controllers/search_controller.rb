@@ -8,14 +8,22 @@ class SearchController < ApplicationController
 	
 	def search
 		begin
-		@district = District.find(params[:where])
-		if params[:what].blank?
-			@category = Category.find(params[:category_id])
-			@results = User.search_results(@category.id, nil, @district.id)
-		else
-			@subcategory = Subcategory.find(params[:what])
-			@results = User.search_results(nil, @subcategory.id, @district.id)
-		end
+			# when user selects a whole region params[:where] is of form: r-342342
+			if params[:where].starts_with?("r-")
+				#it is a region
+				@region = Region.find(params[:where].split("-")[1])
+				@region_id = @region.id
+			else
+				@district = District.find(params[:where])
+				@district_id = @district.id
+			end
+			if params[:what].blank?
+				@category = Category.find(params[:category_id])
+				@results = User.search_results(@category.id, nil, @region_id, @district_id)
+			else
+				@subcategory = Subcategory.find(params[:what])
+				@results = User.search_results(nil, @subcategory.id, @region_id, @district_id)
+			end
 		rescue ActiveRecord::RecordNotFound
 			@results = []
 			logger.error("ActiveRecord::RecordNotFound in search, parameters: #{params.inspect}")

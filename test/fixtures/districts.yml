@@ -10,3 +10,6 @@ wairarapa_featherston:
 canterbury_christchurch_city:
     region: canterbury
     name: Christchurch City
+canterbury_akaroa:
+    region: canterbury
+    name: Akaroa

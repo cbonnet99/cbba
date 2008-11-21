@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   layout :find_layout
 
 	#  before_filter :tags
-  before_filter :current_category, :categories, :search_init
+  before_filter :current_category, :categories, :search_init, :except => :change_category
 
 	def find_layout
 		if params[:format] == "js"
@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
 
 	def current_category
 		@category_id = session[:category_id] || (Category.find_by_position(1).nil? ? nil : Category.find_by_position(1).id)
+		@category = Category.find(@category_id)
 	end
 
 	def search_init
@@ -29,22 +30,15 @@ class ApplicationController < ActionController::Base
 		if params[:where].blank?
 			selected_district_id = current_user.district_id unless current_user.nil?
 		else
-			selected_district_id = params[:where].to_i
+			if params[:where].starts_with?("r-")
+				selected_district_id = nil
+				region_id = params[:where].split("-")[1].to_i
+			else
+				selected_district_id = params[:where].to_i
+			end
 		end
-		@what_subcategories = Subcategory.find_all_by_category_id(@category_id,  :order => "name").inject("<option value=''>All</option>"){|memo, subcat|
-			if !selected_subcategory_id.nil? && selected_subcategory_id == subcat.id
-				memo << "<option value='#{subcat.id}' selected='selected'>#{subcat.name}</option>"
-			else
-				memo << "<option value='#{subcat.id}'>#{subcat.name}</option>"
-			end
-		}
-		@where_districts = District.find(:all, :include => "region",  :order => "regions.name, districts.name").inject(""){|memo, d|
-			if !selected_district_id.nil? && selected_district_id == d.id
-				memo << "<option value='#{d.id}' selected='selected'>#{d.name}</option>"
-			else
-				memo << "<option value='#{d.id}'>#{d.full_name}</option>"
-			end
-		}
+		@what_subcategories = Subcategory.options(@category, selected_subcategory_id)
+		@where_districts = District.options(region_id, selected_district_id)
 	end
 
 	def categories

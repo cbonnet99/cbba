@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/Users/cyrille/Sites/be_amazing/.gitignore</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/application.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/articles_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/categories_controller.rb</file>
@@ -18,6 +19,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/roles_user.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/subcategory.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/categories/subcategories.js.erb</file>
@@ -25,6 +27,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/layouts/main.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/passwords/reset.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/regions/districts.js.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/change_category.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/search.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/tag.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/sessions/_new.html.erb</file>

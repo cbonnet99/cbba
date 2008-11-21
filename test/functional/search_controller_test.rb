@@ -30,6 +30,17 @@ class SearchControllerTest < ActionController::TestCase
 		assert_equal 2, assigns(:results).size
 	end
 
+	def test_search_no_subcategory_all_area
+		canterbury = regions(:canterbury)
+		practitioners = categories(:practitioners)
+		get :search, :where => "r-#{canterbury.id}", :what => nil, :category_id => practitioners.id
+		assert_response :success
+		assert_equal 3, assigns(:results).size
+		assert_select "select[name=where]" do
+			assert_select "option[value=r-#{canterbury.id}][selected=selected]"
+		end
+	end
+
 	def test_search_while_logged_in
 		cyrille = users(:cyrille)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)

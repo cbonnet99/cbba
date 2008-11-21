@@ -24,6 +24,7 @@ amcloughlin:
   activation_code:
   activated_at:              <%= 5.days.ago.to_s :db %>
   state:                     active
+  region:                    canterbury
   district:                  canterbury_christchurch_city
   address1:                  23 Queen St
   suburb:                    One tree Hill
@@ -45,6 +46,7 @@ sgardiner:
   activation_code:
   activated_at:              <%= 5.days.ago.to_s :db %>
   state:                     active
+  region:                    canterbury
   district:                  canterbury_christchurch_city
   address1:                  5/21 Humphreys Drive
   suburb:                    Heathcote
@@ -53,4 +55,27 @@ sgardiner:
   mobile:                    021 313 161
   subcategory1:              hypnotherapy
   free_listing:              false
+  professional:              true
+rmoore:
+  first_name:                Roger
+  last_name:                 Moore
+  email:                     moore@jolly.co.nz
+  salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
+  crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
+  created_at:                <%= 5.days.ago.to_s :db  %>
+  remember_token_expires_at: <%= 1.days.from_now.to_s %>
+  remember_token:            77de68daecd823babbb58edb1c8e14d7106e83bb
+  activation_code:
+  activated_at:              <%= 5.days.ago.to_s :db %>
+  state:                     active
+  region:                    canterbury
+  district:                  canterbury_akaroa
+  region:                    canterbury
+  address1:                  23 Queen St
+  suburb:                    One tree Hill
+  business_name:             
+  phone:                     03 333 44444
+  mobile:                    021 567 234
+  subcategory1:              hypnotherapy
+  free_listing:              true
   professional:              true

@@ -1,7 +1,7 @@
 module ApplicationHelper
 
-	def describe_search(district, category, subcategory)
-		"#{subcategory.nil? ? category.name : subcategory.full_name} in #{district.full_name}"
+	def describe_search(region, district, category, subcategory)
+		"#{subcategory.nil? ? category.name : subcategory.full_name} in #{district.nil? ? region.name : district.full_name}"
 	end
 
 	def javascript(*files)

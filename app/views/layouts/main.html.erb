@@ -27,7 +27,7 @@
 	<div id="left"><div class="column-in">
           <ul id="categories">
 			<% @categories.each do |c| -%>
-              <li><a href="#" onClick="U_Core.F_SelectCategory(<%=c.id%>);return false;"><%=c.name%></a></li>
+              <li><a href="#" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');return false;"><%=c.name%></a></li>
             <%end -%>
           </ul>
 	</div></div>
@@ -41,14 +41,14 @@
 	</div></div>
 
 	<div id="middle"><div class="column-in">
-      <p>
+      <div id="search">
           <% form_tag :controller => "search", :action => "search" do  -%>
-                    <%= text_field_tag :category_id, @category_id, {:type => "hidden"}  %>
-                  <div>What: <%= select_tag :what, @what_subcategories  %></div>
-                  <div>Where: <%= select_tag :where, @where_districts  %></div>
+                      <%= text_field_tag :category_id, @category_id, {:id => "search_category_id", :type => "hidden"}  %>
+                  <span><label for="what">What:</label><%= select_tag :what, @what_subcategories  %></span>
+                  <span><label for="where">Where:</label><%= select_tag :where, @where_districts  %></span>
                   <%= submit_tag "Search" %>
             <% end -%>
-      </p>
+      </div>
 		<div id="mccont">
                 <%= flash_messages %>
                 <%= yield :layout %>

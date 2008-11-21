@@ -13,13 +13,19 @@ class UserTest < ActiveSupport::TestCase
 		practitioners = categories(:practitioners)
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		assert_equal 2, User.search_results(practitioners.id, hypnotherapy.id, canterbury_christchurch_city.id).size
+		assert_equal 2, User.search_results(practitioners.id, hypnotherapy.id, nil, canterbury_christchurch_city.id).size
 	end
 
 	def test_search_results_category
 		practitioners = categories(:practitioners)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		assert_equal 2, User.search_results(practitioners.id, nil, canterbury_christchurch_city.id).size
+		assert_equal 2, User.search_results(practitioners.id, nil, nil, canterbury_christchurch_city.id).size
+	end
+
+	def test_search_results_category_region
+		practitioners = categories(:practitioners)
+		canterbury = regions(:canterbury)
+		assert_equal 3, User.search_results(practitioners.id, nil, canterbury.id, nil).size
 	end
 
 	def test_create

@@ -1,9 +1,9 @@
 auckland:
-    name: Auckland Region
+    name: Auckland
 plenty:
     name: Bay Of Plenty
 canterbury:
-    name: Canterbury/Christchurch
+    name: Canterbury
 gisborne:
     name: Gisborne
 hawkes_bay:
@@ -23,7 +23,7 @@ southland:
 taranaki:
     name: Taranaki
 timaru_oamaru:
-    name: Timaru - Oamaru
+    name: Timaru-Oamaru
 waikato:
     name: Waikato
 wairarapa:
@@ -31,6 +31,6 @@ wairarapa:
 wanganui:
     name: Wanganui
 wellington:
-    name: Wellington Region
+    name: Wellington
 west_coast:
     name: West Coast

@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+	class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update]
 
 	def profile

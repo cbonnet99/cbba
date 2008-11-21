@@ -1,6 +1,6 @@
-<h1>Search results for <%=  describe_search(@district, @category, @subcategory) %></h1>
+<h1>Search results for <%=  describe_search(@region, @district, @category, @subcategory) %></h1>
 <% if @results.empty? -%>
-  No results found for <%=  describe_search(@district, @category, @subcategory) %>.
+  No results found for <%=  describe_search(@region, @district, @category, @subcategory) %>.
 <% else -%>
 <ul id="search-results">
   <% @results.each do |r| %>
