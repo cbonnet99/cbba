@@ -33,18 +33,18 @@ class User < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb
 	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
-	def self.search_results(category_id, subcategory_id, region_id, district_id)
+	def self.search_results(category_id, subcategory_id, region_id, district_id, page)
 		if subcategory_id.nil?
 			if district_id.nil?
-				User.find_by_sql(["select distinct u.* from users u, roles_users ru, subcategories s, roles r where s.category_id = ? and (u.subcategory1_id = s.id or u.subcategory2_id = s.id or u.subcategory3_id = s.id) and u.region_id = ? and (u.free_listing is true or (r.name='full_member' and r.id = ru.role_id and ru.user_id=u.id)) order by free_listing", category_id, region_id])
+				User.paginate_by_sql(["select distinct u.* from users u, roles_users ru, subcategories s, roles r where s.category_id = ? and (u.subcategory1_id = s.id or u.subcategory2_id = s.id or u.subcategory3_id = s.id) and u.region_id = ? and (u.free_listing is true or (r.name='full_member' and r.id = ru.role_id and ru.user_id=u.id)) order by free_listing", category_id, region_id], :page => page, :per_page => $search_results_per_page )
 			else
-				User.find_by_sql(["select distinct u.* from users u, roles_users ru, subcategories s, roles r where s.category_id = ? and (u.subcategory1_id = s.id or u.subcategory2_id = s.id or u.subcategory3_id = s.id) and u.district_id = ? and (u.free_listing is true or (r.name='full_member' and r.id = ru.role_id and ru.user_id=u.id)) order by free_listing", category_id, district_id])
+				User.paginate_by_sql(["select distinct u.* from users u, roles_users ru, subcategories s, roles r where s.category_id = ? and (u.subcategory1_id = s.id or u.subcategory2_id = s.id or u.subcategory3_id = s.id) and u.district_id = ? and (u.free_listing is true or (r.name='full_member' and r.id = ru.role_id and ru.user_id=u.id)) order by free_listing", category_id, district_id], :page => page, :per_page => $search_results_per_page )
 			end
 		else
 			if district_id.nil?
-				User.find_by_sql(["select distinct u.* from users u, roles_users ru, subcategories s, roles r where (u.subcategory1_id = s.id or u.subcategory2_id = s.id or u.subcategory3_id = s.id) and s.id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member' and r.id = ru.role_id and ru.user_id=u.id)) order by free_listing", subcategory_id, region_id])
+				User.paginate_by_sql(["select distinct u.* from users u, roles_users ru, subcategories s, roles r where (u.subcategory1_id = s.id or u.subcategory2_id = s.id or u.subcategory3_id = s.id) and s.id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member' and r.id = ru.role_id and ru.user_id=u.id)) order by free_listing", subcategory_id, region_id], :page => page, :per_page => $search_results_per_page )
 			else
-				User.find_by_sql(["select distinct u.* from users u, roles_users ru, subcategories s, roles r where (u.subcategory1_id = s.id or u.subcategory2_id = s.id or u.subcategory3_id = s.id) and s.id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member' and r.id = ru.role_id and ru.user_id=u.id)) order by free_listing", subcategory_id, district_id])
+				User.paginate_by_sql(["select distinct u.* from users u, roles_users ru, subcategories s, roles r where (u.subcategory1_id = s.id or u.subcategory2_id = s.id or u.subcategory3_id = s.id) and s.id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member' and r.id = ru.role_id and ru.user_id=u.id)) order by free_listing", subcategory_id, district_id], :page => page, :per_page => $search_results_per_page )
 			end
 		end
 	end
@@ -56,8 +56,12 @@ class User < ActiveRecord::Base
 	end
 
 	def assemble_phone_numbers
-		self.mobile = "#{mobile_prefix}-#{mobile_suffix}"
-		self.phone = "#{phone_prefix}-#{phone_suffix}"
+		if mobile.blank?
+			self.mobile = "#{mobile_prefix}-#{mobile_suffix}"
+		end
+		if phone.blank?
+			self.phone = "#{phone_prefix}-#{phone_suffix}"
+		end
 	end
 
 	def validate

@@ -7,6 +7,8 @@ class SearchController < ApplicationController
 	end
 	
 	def search
+		@what = params[:what]
+		@where = params[:where]
 		begin
 			# when user selects a whole region params[:where] is of form: r-342342
 			if params[:where].starts_with?("r-")
@@ -19,10 +21,10 @@ class SearchController < ApplicationController
 			end
 			if params[:what].blank?
 				@category = Category.find(params[:category_id])
-				@results = User.search_results(@category.id, nil, @region_id, @district_id)
+				@results = User.search_results(@category.id, nil, @region_id, @district_id, params[:page])
 			else
 				@subcategory = Subcategory.find(params[:what])
-				@results = User.search_results(nil, @subcategory.id, @region_id, @district_id)
+				@results = User.search_results(nil, @subcategory.id, @region_id, @district_id, params[:page])
 			end
 		rescue ActiveRecord::RecordNotFound
 			@results = []

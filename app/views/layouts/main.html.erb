@@ -27,7 +27,7 @@
 	<div id="left"><div class="column-in">
           <ul id="categories">
 			<% @categories.each do |c| -%>
-              <li><a href="#" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');return false;"><%=c.name%></a></li>
+              <li><a href="<%= category_path(c)%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%></a></li>
             <%end -%>
           </ul>
 	</div></div>
@@ -42,7 +42,7 @@
 
 	<div id="middle"><div class="column-in">
       <div id="search">
-          <% form_tag :controller => "search", :action => "search" do  -%>
+        <% form_tag :controller => "search", :action => "search" do  -%>
                       <%= text_field_tag :category_id, @category_id, {:id => "search_category_id", :type => "hidden"}  %>
                   <span><label for="what">What:</label><%= select_tag :what, @what_subcategories  %></span>
                   <span><label for="where">Where:</label><%= select_tag :where, @where_districts  %></span>
@@ -61,11 +61,7 @@
 </div></div>
 
 <div id="footer"><div class="column-in">
-		<h4>The footer</h4>
-		<p>
-			Anything follows here...
-		</p>
-
+		<p>&copy;Wellbeing Directory, part of the Elevate Group Ltd</p>
 </div></div>
 </body>
 </html>

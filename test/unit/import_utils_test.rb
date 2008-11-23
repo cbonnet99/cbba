@@ -21,5 +21,7 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		user2 = User.find_by_email("annette@bodysystems.co.nz")
 		assert user2.receive_newsletter?
 		assert user2.has_role?('full_member')
+		assert !user2.phone.blank?
+		assert_not_equal "-", user2.phone
 	end
 end

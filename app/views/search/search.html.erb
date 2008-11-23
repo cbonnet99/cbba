@@ -2,9 +2,11 @@
 <% if @results.empty? -%>
   No results found for <%=  describe_search(@region, @district, @category, @subcategory) %>.
 <% else -%>
+    <%= will_paginate @results, :params => {:where => params[:where], :what => params[:what] , :category_id => params[:category_id] }  %>
 <ul id="search-results">
   <% @results.each do |r| %>
-    <li><%= link_to r.business_name, user_path(r) %></li>
+    <li class="<%= cycle('even', 'odd') %>"><%=render :partial => "users/user", :locals => {:user => r }  %></li>
   <% end -%>
 </ul>
+<%= will_paginate @results, :params => {:where => params[:where], :what => params[:what] , :category_id => params[:category_id]}  %>
 <% end -%>

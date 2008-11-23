@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081117043904) do
+ActiveRecord::Schema.define(:version => 20081123015806) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -60,6 +60,9 @@ ActiveRecord::Schema.define(:version => 20081117043904) do
     t.integer "role_id"
     t.integer "user_id"
   end
+
+  add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
+  add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
@@ -119,5 +122,8 @@ ActiveRecord::Schema.define(:version => 20081117043904) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["subcategory1_id"], :name => "index_users_on_subcategory1_id"
+  add_index "users", ["subcategory2_id"], :name => "index_users_on_subcategory2_id"
+  add_index "users", ["subcategory3_id"], :name => "index_users_on_subcategory3_id"
 
 end

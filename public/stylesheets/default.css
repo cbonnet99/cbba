@@ -1,4 +1,6 @@
-
+#footer {
+    text-align: center;
+}
 #middle .column-in {
     padding-top: 0;
     margin-top: 0;
@@ -33,9 +35,19 @@ div#left div.column-in {
 #search select, #search label {
     margin: 10px;
 }
-ul#categories {
+ul#categories, ul#search-results {
     margin: 0;
     padding-left: 0;
+}
+ul#search-results li.odd {
+    background: #b3c4d4;
+}
+ul#search-results li {
+    list-style: none;
+    padding: 3px;
+}
+ul.category li {
+    list-style: none;
 }
 ul#categories li {
     list-style: none;
@@ -87,7 +99,7 @@ body {
 
 #header {
     margin:0; padding:0;
-    background:red;
+    background: #c00;
 }
 
 #main1 {
