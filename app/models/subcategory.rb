@@ -1,6 +1,7 @@
 class Subcategory < ActiveRecord::Base
 	belongs_to :category
-	has_many :users
+	has_many :subcategories_user
+	has_many :users, :through => :subcategories_user
 	has_many :articles
 
 	def self.options(category, selected_subcategory_id=nil)

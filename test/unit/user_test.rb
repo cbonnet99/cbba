@@ -4,6 +4,16 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+	def test_all_find_by_region_and_subcategories
+		canterbury = regions(:canterbury)
+		yoga = subcategories(:yoga)
+		hypnotherapy = subcategories(:hypnotherapy)
+		res = User.find_all_by_region_and_subcategories(canterbury, hypnotherapy)
+		assert_equal 3, res.size
+		res = User.find_all_by_region_and_subcategories(canterbury, hypnotherapy, yoga)
+		assert_equal 3, res.size
+	end
+
 	def test_has_role
 		sgardiner = users(:sgardiner)
 		assert sgardiner.has_role?('full_member')
@@ -42,6 +52,6 @@ class UserTest < ActiveSupport::TestCase
 			:password => "blablabla", :password_confirmation => "blablabla"  )
 		assert_equal old_count+1, User.count
 		new_user = User.find_by_email("joe@test.com")
-		assert_equal yoga.name, new_user.subcategory2.name
+		assert_equal [hypnotherapy, yoga], new_user.subcategories
 	end
 end

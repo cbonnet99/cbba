@@ -2,7 +2,7 @@
 
 <%= title "Signup", :h1  %>
 <% form_for @user do |f| %>
-    <%= render :partial => "form", :locals => {:f => f, :with_password => true  }   %>
+    <%= render :partial => "form", :locals => {:f => f, :with_password => true }   %>
   <div class="buttons">
     <label for=""></label>
     <%= submit_tag 'Sign up' %>

@@ -56,5 +56,9 @@ class ApplicationController < ActionController::Base
 	def get_districts
 		@districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
 	end
+
+	def get_regions
+		@regions = Region.find(:all, :order => "name" )
+	end
 end
 

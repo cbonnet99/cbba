@@ -16,8 +16,8 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		user1 = User.find_by_email("info@yogaindailylife.org.nz")
 		assert !user1.receive_newsletter?
 		assert user1.has_role?('free_listing')
-		assert_not_nil user1.subcategory1_id
-		assert_not_nil user1.subcategory1.category
+		assert !user1.subcategories.empty?
+		assert_not_nil user1.subcategories.first.category
 		user2 = User.find_by_email("annette@bodysystems.co.nz")
 		assert user2.receive_newsletter?
 		assert user2.has_role?('full_member')

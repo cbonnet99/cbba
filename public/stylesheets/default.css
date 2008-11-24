@@ -35,14 +35,14 @@ div#left div.column-in {
 #search select, #search label {
     margin: 10px;
 }
-ul#categories, ul#search-results {
+ul.subcategories, ul#categories, ul#search-results {
     margin: 0;
     padding-left: 0;
 }
-ul#search-results li.odd {
+ul#search-results li.odd, ul.subcategories li.odd  {
     background: #b3c4d4;
 }
-ul#search-results li {
+ul.subcategories li, ul#search-results li {
     list-style: none;
     padding: 3px;
 }

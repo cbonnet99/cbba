@@ -2,12 +2,12 @@
   before_filter :login_required, :only => [:edit, :update]
 
 	def profile
-		get_regions_and_districts
+		get_districts_and_subcategories
 		@articles = Article.find_all_by_author_id(current_user.id, :order => "updated_at desc")
 	end
 
 	def edit
-		get_regions_and_districts
+		get_districts_and_subcategories
 	end
 
 	def update_password
@@ -28,7 +28,7 @@
       redirect_back_or_default root_url
       flash[:notice] = "Your details have been updated"
     else
-			get_regions_and_districts
+			get_districts_and_subcategories
       flash.now[:error]  = "There were some errors in your details."
       render :action => 'edit'
     end
@@ -36,7 +36,7 @@
 
   def new
     @user = User.new
-		get_regions_and_districts
+		get_districts_and_subcategories
   end
  
   def create
@@ -48,7 +48,7 @@
       redirect_back_or_default root_url
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
     else
-			get_regions_and_districts
+			get_districts_and_subcategories
       flash.now[:error]  = "There were some errors in your signup information."
       render :action => 'new'
     end
@@ -71,7 +71,7 @@
     end
   end
 
-	def get_regions_and_districts
+	def get_districts_and_subcategories
     get_districts
 		get_subcategories
 	end

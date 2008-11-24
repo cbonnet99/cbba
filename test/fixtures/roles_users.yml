@@ -4,3 +4,9 @@ cyrille_is_admin:
 sgardiner_full_member:
   user: sgardiner
   role: full_member_role
+amcloughlin_free_listing:
+  user: amcloughlin
+  role: free_listing_role
+rmoore_free_listing:
+  user: rmoore
+  role: free_listing_role

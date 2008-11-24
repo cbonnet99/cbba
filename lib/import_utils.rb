@@ -54,10 +54,10 @@ class ImportUtils
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
 						:region_id => region.id, :phone => phone, :mobile => mobile, :email => email,
 						:free_listing => (role == free_listing),
-						:subcategory1_id => subcategory.id,
 						:password => "blablabla", :password_confirmation => "blablabla",
 						:receive_newsletter => receive_newsletter )
 					user.roles << role
+					user.subcategories << subcategory
 					puts "Added user #{user.name}"
 					user_count += 1
 				end

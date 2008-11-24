@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081123015806) do
+ActiveRecord::Schema.define(:version => 20081123191124) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -81,6 +81,16 @@ ActiveRecord::Schema.define(:version => 20081123015806) do
     t.datetime "updated_at"
   end
 
+  create_table "subcategories_users", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "subcategory_id"
+    t.integer  "user_id"
+  end
+
+  add_index "subcategories_users", ["subcategory_id"], :name => "index_subcategories_users_on_subcategory_id"
+  add_index "subcategories_users", ["user_id"], :name => "index_subcategories_users_on_user_id"
+
   create_table "taggings", :force => true do |t|
     t.integer "taggable_id"
     t.integer "tag_id"
@@ -116,14 +126,8 @@ ActiveRecord::Schema.define(:version => 20081123015806) do
     t.integer  "district_id"
     t.string   "phone"
     t.string   "mobile"
-    t.integer  "subcategory1_id"
-    t.integer  "subcategory2_id"
-    t.integer  "subcategory3_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["subcategory1_id"], :name => "index_users_on_subcategory1_id"
-  add_index "users", ["subcategory2_id"], :name => "index_users_on_subcategory2_id"
-  add_index "users", ["subcategory3_id"], :name => "index_users_on_subcategory3_id"
 
 end

@@ -1,9 +1,12 @@
 <h2><%= @subcategory.name %></h2>
   <% @regions.each do |r| -%>
+    <% users = User.find_all_by_region_and_subcategories(r, @subcategory) -%>
+    <% unless users.empty? -%>
     <h3><%=r.name%></h3>
-    <ul>
-      <li></li>
+    <ul class="subcategories">
+      <% users.each do |u| -%>
+        <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => u} %> </li>
+      <% end -%>
     </ul>
+    <%end -%>
   <% end -%>
-
-</ul>

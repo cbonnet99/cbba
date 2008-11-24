@@ -1,4 +1,4 @@
-  <%= f.error_messages %>
+<%= f.error_messages %>
   <fieldset>
     <legend>Your Details</legend>
     <ol>
@@ -73,10 +73,10 @@
         <%= f.label :subcategory1, 'Category1:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -"} %><br/>
       </li>
       <li>
-        <%= f.label :subcategory2, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -"} %><br/>
+        <%= f.label :subcategory1, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -"} %><br/>
       </li>
       <li>
-        <%= f.label :subcategory3, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -"} %><br/>
+        <%= f.label :subcategory1, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -"} %><br/>
       </li>
     </ol>
   </fieldset>
