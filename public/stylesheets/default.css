@@ -1,3 +1,13 @@
+
+ul#categories li.selected {
+    background-color: #b3c4d4;
+}
+.users-counter {
+    font-style: italic;
+    color: gray;
+    font-weight: normal;
+}
+
 #footer {
     text-align: center;
 }
@@ -30,7 +40,7 @@ div#left div.column-in {
     padding: 0;
 }
 #search {
-    background-color: #999;
+    background-color: #b3c4d4;
 }
 #search select, #search label {
     margin: 10px;

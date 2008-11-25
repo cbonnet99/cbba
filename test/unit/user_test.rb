@@ -14,6 +14,24 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal 3, res.size
 	end
 
+	def test_all_find_by_subcategories
+		yoga = subcategories(:yoga)
+		hypnotherapy = subcategories(:hypnotherapy)
+		res = User.find_all_by_subcategories(hypnotherapy)
+		assert_equal 3, res.size
+		res = User.find_all_by_subcategories(hypnotherapy, yoga)
+		assert_equal 3, res.size
+	end
+
+	def test_count_all_by_subcategories
+		yoga = subcategories(:yoga)
+		hypnotherapy = subcategories(:hypnotherapy)
+		res = User.count_all_by_subcategories(hypnotherapy)
+		assert_equal 3, res
+		res = User.count_all_by_subcategories(hypnotherapy, yoga)
+		assert_equal 3, res
+	end
+
 	def test_has_role
 		sgardiner = users(:sgardiner)
 		assert sgardiner.has_role?('full_member')

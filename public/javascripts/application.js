@@ -4,6 +4,16 @@ U_Core.F_SelectCategory = function(id, category_name) {
         //save the selection to the server
         $.get("/search/"+id+"/change_category");
 
+        //unselect all categories
+        $.("ul#categories li").each(
+            function(intIndex){
+                $.(this).removeClass("selected");
+            }
+        );
+
+        //select new current category
+        $.(this).addClass("selected");
+
         //Change the value of the search hidden field
         $("#search_category_id").get(0).value = ""+id;
 

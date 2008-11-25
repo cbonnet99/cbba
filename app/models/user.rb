@@ -38,6 +38,14 @@ class User < ActiveRecord::Base
 		User.find_by_sql(["select u.* from users u, subcategories_users su where u.id = su.user_id and u.region_id = ? and su.subcategory_id in (?)", region.id, subcategories])
 	end
 
+	def self.find_all_by_subcategories(*subcategories)
+		User.find_by_sql(["select u.* from users u, subcategories_users su where u.id = su.user_id and su.subcategory_id in (?)", subcategories])
+	end
+
+	def self.count_all_by_subcategories(*subcategories)
+		User.count_by_sql(["select count(u.*) as count from users u, subcategories_users su where u.id = su.user_id and su.subcategory_id in (?)", subcategories])
+	end
+
 	def save_subcategories
 		self.subcategories.destroy_all
 		unless subcategory1_id.nil?

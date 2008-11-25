@@ -27,7 +27,7 @@
 	<div id="left"><div class="column-in">
           <ul id="categories">
 			<% @categories.each do |c| -%>
-              <li><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%></a></li>
+              <li<%if c.id == session[:category_id]%> class="selected"<%end%><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
             <%end -%>
           </ul>
 	</div></div>
