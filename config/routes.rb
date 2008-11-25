@@ -8,6 +8,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :regions
  
   # Restful Authentication Rewrites
+	map.category '/category/:category_name', :controller => "categories", :action => "show"
+	map.subcategory '/category/:category_name/subcategory/:subcategory_name', :controller => "subcategories", :action => "show"
   map.search_action '/search', :controller => 'search', :action => "search"
   map.search_action '/search/:id/:action', :controller => 'search'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'

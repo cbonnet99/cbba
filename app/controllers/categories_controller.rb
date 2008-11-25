@@ -5,6 +5,10 @@ class CategoriesController < ApplicationController
 		@subcategories = @category.subcategories
 	end
 	def show
-		@category = Category.find(params[:id])
+		if params[:category_name].nil?
+			@category = Category.find(params[:id])
+		else
+			@category = Category.find_by_name(undasherize(params[:category_name]))
+		end
 	end
 end

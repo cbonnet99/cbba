@@ -60,5 +60,9 @@ class ApplicationController < ActionController::Base
 	def get_regions
 		@regions = Region.find(:all, :order => "name" )
 	end
+protected
+	def undasherize(s)
+		s.gsub(/-/, ' ').capitalize
+	end
 end
 
