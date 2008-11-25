@@ -50,12 +50,14 @@ class ImportUtils
 					end
 					category = Category.find_or_create_by_name(category_str.strip.capitalize)
 					subcategory = Subcategory.find_or_create_by_name_and_category_id(subcategory_str.strip.capitalize, category.id)
-					user = User.create(:first_name => first_name, :last_name => last_name, :business_name => business_name,
+					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
 						:region_id => region.id, :phone => phone, :mobile => mobile, :email => email,
 						:free_listing => (role == free_listing),
 						:password => "blablabla", :password_confirmation => "blablabla",
 						:receive_newsletter => receive_newsletter )
+					user.register!
+					user.activate!
 					user.roles << role
 					user.subcategories << subcategory
 					puts "Added user #{user.name}"

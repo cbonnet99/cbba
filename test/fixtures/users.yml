@@ -16,7 +16,7 @@ cyrille:
 amcloughlin:
   first_name:                Aaron
   last_name:                 McLoughlin
-  email:                     office@vervecreative.co.nz
+  email:                     office2@vervecreative.co.nz
   salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
   crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
   created_at:                <%= 5.days.ago.to_s :db  %>
@@ -37,7 +37,7 @@ amcloughlin:
 sgardiner:
   first_name:                Stephanie
   last_name:                 Gardiner
-  email:                     peaceofmind@xtra.co.nz
+  email:                     peaceofmind2@xtra.co.nz
   salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
   crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
   created_at:                <%= 5.days.ago.to_s :db  %>

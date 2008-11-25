@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ImporUtilsTest < ActiveSupport::TestCase
+
 	def test_import_districts
 		old_count = District.count
 		ImportUtils.import_districts
@@ -23,5 +24,6 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		assert user2.has_role?('full_member')
 		assert !user2.phone.blank?
 		assert_not_equal "-", user2.phone
+		assert_equal 'active', user2.state
 	end
 end

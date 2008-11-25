@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates_length_of :name, :maximum => 100
   validates_presence_of :email, :district
   validates_length_of :email, :within => 6..100 #r@a.wk
-  validates_uniqueness_of :email, :case_sensitive => false
+#  validates_uniqueness_of :email, :case_sensitive => false
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
   
 	# Relationships
@@ -35,28 +35,28 @@ class User < ActiveRecord::Base
 	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id
 
 	def self.find_all_by_region_and_subcategories(region, *subcategories)
-		User.find_by_sql(["select u.* from users u, subcategories_users su where u.id = su.user_id and u.region_id = ? and su.subcategory_id in (?)", region.id, subcategories])
+		User.find_by_sql(["select u.* from users u, subcategories_users su where u.state='active' and u.id = su.user_id and u.region_id = ? and su.subcategory_id in (?)", region.id, subcategories])
 	end
 
 	def self.find_all_by_subcategories(*subcategories)
-		User.find_by_sql(["select u.* from users u, subcategories_users su where u.id = su.user_id and su.subcategory_id in (?)", subcategories])
+		User.find_by_sql(["select u.* from users u, subcategories_users su where u.state='active' and u.id = su.user_id and su.subcategory_id in (?)", subcategories])
 	end
 
 	def self.count_all_by_subcategories(*subcategories)
-		User.count_by_sql(["select count(u.*) as count from users u, subcategories_users su where u.id = su.user_id and su.subcategory_id in (?)", subcategories])
+		User.count_by_sql(["select count(u.*) as count from users u, subcategories_users su where u.state='active' and u.id = su.user_id and su.subcategory_id in (?)", subcategories])
 	end
 
 	def save_subcategories
 		self.subcategories.destroy_all
-		unless subcategory1_id.nil?
+		unless subcategory1_id.blank?
 			sub1 = Subcategory.find(subcategory1_id)
 			self.subcategories << sub1
 		end
-		unless subcategory2_id.nil?
+		unless subcategory2_id.blank?
 			sub2 = Subcategory.find(subcategory2_id)
 			self.subcategories << sub2
 		end
-		unless subcategory3_id.nil?
+		unless subcategory3_id.blank?
 			sub3 = Subcategory.find(subcategory3_id)
 			self.subcategories << sub3
 		end
@@ -65,15 +65,15 @@ class User < ActiveRecord::Base
 	def self.search_results(category_id, subcategory_id, region_id, district_id, page)
 		if subcategory_id.nil?
 			if district_id.nil?
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", category_id, region_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", category_id, region_id], :page => page, :per_page => $search_results_per_page )
 			else
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", category_id, district_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", category_id, district_id], :page => page, :per_page => $search_results_per_page )
 			end
 		else
 			if district_id.nil?
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", subcategory_id, region_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", subcategory_id, region_id], :page => page, :per_page => $search_results_per_page )
 			else
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", subcategory_id, district_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", subcategory_id, district_id], :page => page, :per_page => $search_results_per_page )
 			end
 		end
 	end
@@ -123,8 +123,8 @@ class User < ActiveRecord::Base
     "#{first_name.nil? ? "" : first_name.capitalize} #{last_name.nil? ? "" : last_name.capitalize}"
   end
   
-  protected
-    
+protected
+
   def make_activation_code
     self.deleted_at = nil
     self.activation_code = self.class.make_token

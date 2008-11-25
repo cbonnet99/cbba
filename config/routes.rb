@@ -20,7 +20,10 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
   map.update_after_forgetting '/update_after_forgetting', :controller => 'passwords', :action => 'update_after_forgetting'
-  map.users '/users/:action', :controller => 'users'
+  map.user_profile '/users/profile', :controller => 'users', :action => "profile"
+  map.user_edit_pwd '/users/edit_password', :controller => 'users', :action => "edit_password"
+  map.user_edit_pwd '/users/update_password', :controller => 'users', :action => "update_password"
+  map.user_edit '/users/edit', :controller => 'users', :action => "edit"
   
   # Restful Authentication Resources
   map.resources :users

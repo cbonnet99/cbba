@@ -1,6 +1,7 @@
 	class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update]
-
+	after_filter :store_location, :only => [:profile]
+	
 	def profile
 		get_districts_and_subcategories
 		@articles = Article.find_all_by_author_id(current_user.id, :order => "updated_at desc")
