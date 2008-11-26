@@ -36,10 +36,12 @@
         <%= f.label :professional, 'Are you a professional?' %>
         <%= f.check_box :professional   %>
       </li>
-      <li id="link-user-professional"<%unless f.object.professional?%>style="display: none;"<%end%>>Did you know you can be listed for free on beamazing.co.nz? <label for="user_free_listing">Yes, I want to be listed for free</label><%= f.check_box :free_listing%></li>
+      <li id="link-user-professional"<%unless f.object.professional?%>style="display: none;"<%end%>>Did you know you can be listed for free on beamazing.co.nz?
+      </li>
+      <li id="link-user-free-listing"<%if f.object.has_role?('full_member')%>style="display: none;"<%end%>><label for="user_free_listing">Yes, I want to be listed for free</label><%= f.check_box :free_listing%></li>
     </ol>
   </fieldset>
-  <fieldset id="fieldset-professional-details"<%unless f.object.professional?&&f.object.free_listing?%>style="display: none;"<%end%>>
+  <fieldset id="fieldset-professional-details"<%unless f.object.free_listing? || f.object.has_role?('full_member')%>style="display: none;"<%end%>>
     <legend>Professional Details</legend>
     <ol>
       <li>
@@ -60,23 +62,23 @@
       </li>
       <li>
         <%= f.label :phone_prefix, 'Phone' %>
-        <%= f.text_field :phone_suffix, :size => 10 %><%= f.select :phone_prefix, ["", "03", "04", "06", "07", "09"] %>
+        <%= f.select :phone_prefix, ["", "03", "04", "06", "07", "09"] %><%= f.text_field :phone_suffix, :size => 10 %>
       </li>
       <li>
         <%= f.label :mobile_prefix, 'Mobile' %>
-        <%= f.text_field :mobile_suffix, :size => 10 %><%= f.select :mobile_prefix, ["", "021", "027", "029"] %>
+        <%= f.select :mobile_prefix, ["", "021", "027", "029"] %><%= f.text_field :mobile_suffix, :size => 10 %>
       </li>
       <li>
         <label>Please enter up to 3 categories you would like to be listed in:</label>
       </li>
       <li>
-        <%= f.label :subcategory1, 'Category1:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -"} %><br/>
+        <%= f.label :subcategory1, 'Category1:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
       </li>
       <li>
-        <%= f.label :subcategory1, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -"} %><br/>
+        <%= f.label :subcategory1, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
       </li>
       <li>
-        <%= f.label :subcategory1, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -"} %><br/>
+        <%= f.label :subcategory1, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
       </li>
     </ol>
   </fieldset>

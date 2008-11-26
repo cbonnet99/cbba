@@ -3,17 +3,66 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/application.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/articles_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/categories_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/subcategories_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/users_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/helpers/application_helper.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/article.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/articles_subcategory.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/category.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/subcategory.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/user_mailer.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/user_observer.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/edit.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/new.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/categories/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/layouts/main.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/subcategories/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_form.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/new.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/profile.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/config/environment.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/config/routes.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/csv/users.csv</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20080811094730_create_users.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081116085310_replace_categories_with_subcategories_in_user.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081123015806_add_indexes.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081123191124_change_subcategories.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081125044029_add_counters.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081125181814_change_subcategories_for_articles.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/authenticated_system.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/import_utils.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/role_requirement_system.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/subcategories_system.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/task_utils.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/tasks/bort.rake</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/public/javascripts/application.js</file>
         <file>file:/Users/cyrille/Sites/be_amazing/public/stylesheets/default.css</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/stories/steps/user_steps.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/articles.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/regions.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/subcategories.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/subcategories_users.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/users.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/article_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/import_utils_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/route_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/subcategory_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/task_utils_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/user_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/aasm/lib/aasm.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/README</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/generators/authenticated/templates/model.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/generators/authenticated/templates/observer.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/install.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/lib/authentication.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/lib/authentication/by_password.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/lib/authorization/aasm_roles.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/notes/Authentication.txt</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/test/controller/controller_fixtures/app/controllers/admin/user_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/activesupport/lib/active_support/core_ext/string/inflections.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/activesupport/lib/active_support/inflector.rb</file>
     </open-files>
 </project-private>

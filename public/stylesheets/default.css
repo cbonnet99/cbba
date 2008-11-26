@@ -1,4 +1,10 @@
 
+div#header .column-in {
+    padding-bottom: 0;
+}
+.cleaner {
+    clear: both;
+}
 ul#categories li.selected {
     background-color: #b3c4d4;
 }
@@ -77,20 +83,29 @@ ul#categories li {
 #mccont form label {
     display: block;
     float: left;
+    text-align: right;
+    padding-right: 10px;
     margin-bottom: 5px;
+    width: 200px;
 }
 
 #mccont form input, #mccont form select, #mccont form textarea {
     display: block;
-    float: right;
+    float: left;
     margin-bottom: 5px;
 }
 
 div#login-info {
     font-size: small;
-    text-align: right;
+    color: white;
+    text-align: left;
+    background-color: #06F;
+    padding: 3px;
 }
 
+div#login-info a {
+    color: white;
+}
 .mandatoryStar {
     color: red;
     float: left;
@@ -109,7 +124,6 @@ body {
 
 #header {
     margin:0; padding:0;
-    background: #c00;
 }
 
 #main1 {

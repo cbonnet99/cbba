@@ -2,13 +2,13 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class Article < ActiveRecord::Base
   include Slugalizer
+	include SubcategoriesSystem
   
   acts_as_taggable
-  
+	
   belongs_to :author, :class_name => "User"
-  belongs_to :subcategory1, :class_name => "Subcategory"
-  belongs_to :subcategory2, :class_name => "Subcategory"
-  belongs_to :subcategory3, :class_name => "Subcategory"
+	has_many :articles_subcategories
+	has_many :subcategories, :through => :articles_subcategories
   
   validates_presence_of :title
   validates_length_of :title, :maximum => 80
@@ -18,6 +18,14 @@ class Article < ActiveRecord::Base
 
   MAX_LENGTH_INTRODUCTION = 100
 	MAX_LENGTH_SLUG = 20
+
+	def self.find_all_by_subcategories(*subcategories)
+		Article.find_by_sql(["select a.* from articles a, articles_subcategories asub where a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
+	end
+
+	def self.count_all_by_subcategories(*subcategories)
+		User.count_by_sql(["select count(a.*) as count from articles a, articles_subcategories asub where a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
+	end
 
   def self.for_tag(name)
     query = "select a.* from articles a, taggings, tags"
@@ -56,4 +64,18 @@ class Article < ActiveRecord::Base
   def introduction
 		introduction ||= computed_intro
   end
+	def self.id_from_url(url)
+		unless url.nil?
+			url.split("-").first.to_i
+		end
+	end
+
+	def self.slug_from_url(url)
+		unless url.nil?
+			a = url.split("-")
+			a.shift
+			a.join("-")
+		end
+	end
+
 end

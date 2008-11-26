@@ -11,15 +11,13 @@
     </head>
     <body>
 <div id="header"><div class="column-in">
-          <h1><a href="/">be amazing.co.nz</a></h1>
+          <%= image_tag 'Header-Shoes.jpg' %>
     <div id="login-info">
+      <a href="/">Home</a> | 
     <% if logged_in? -%>
     Welcome, <%= link_to current_user.name, :controller => "users", :action => "profile"%> | <%= link_to 'Logout', logout_path %>
     <%else -%>
-        <% unless logged_in? %>
-        <%= render :partial => "sessions/small_new" %>
-        <%= link_to 'Join us', signup_path %>, it's free!
-        <% end %>
+        <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', signup_path %> | FREE Subscribe
     <% end -%></div></div></div>
 
 <div id="main1"><div id="main2">
@@ -27,17 +25,18 @@
 	<div id="left"><div class="column-in">
           <ul id="categories">
 			<% @categories.each do |c| -%>
-              <li<%if c.id == session[:category_id]%> class="selected"<%end%><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
+              <li<%if c.id == @category_id%> class="selected"<%end%><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
             <%end -%>
           </ul>
 	</div></div>
 
 	<div id="right"><div class="column-in">
-		<h4>Right Col</h4>
-        <% unless logged_in? %>
-        <p id="rccont"></p>
-        <% end %>
-
+        <%unless @articles.blank? -%>
+          <h4>Related articles</h4>
+          <% @articles.each do |a| -%>
+            <%= link_to a.title, article_path(a) %>
+          <%end -%>
+        <% end -%>
 	</div></div>
 
 	<div id="middle"><div class="column-in">

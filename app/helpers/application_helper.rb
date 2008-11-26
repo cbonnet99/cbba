@@ -1,5 +1,5 @@
 module ApplicationHelper
-
+	
 	def dasherize(s)
 		s.downcase.gsub(/ /, '-')
 	end
@@ -48,7 +48,7 @@ module ApplicationHelper
 	# title('Hello World', :h2) %> will return the following: <h2>Hello World</h2>
 	# as well as setting the page title.
   def title(str, container = nil)
-    @page_title = str
+    @page_title = "#{APP_CONFIG[:site_name]} - #{str}"
     content_tag(container, str ) if container
   end
   

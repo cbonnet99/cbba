@@ -10,13 +10,21 @@ class ApplicationController < ActionController::Base
   layout :find_layout
 
 	#  before_filter :tags
-  before_filter :current_category, :categories, :search_init, :except => :change_category
+  before_filter :current_category, :categories, :search_init, :get_related_articles, :except => :change_category
 
 	def find_layout
 		if params[:format] == "js"
 			return false
 		else
 			return "main"
+		end
+	end
+
+	def get_related_articles
+		if params[:subcategory_id].nil?
+			@articles = Article.find_all_by_subcategories(*@category.subcategories)
+		else
+			@articles = Article.find_all_by_subcategories(Subcategory.find(params[:subcategory_id]))
 		end
 	end
 

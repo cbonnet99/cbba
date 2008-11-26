@@ -3,6 +3,15 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ArticlesControllerTest < ActionController::TestCase
 	fixtures :all
 	
+	def test_edit
+		yoga = articles(:yoga)
+		yoga_sub = subcategories(:yoga)
+		cyrille = users(:cyrille)
+		get :edit, {:id => "#{yoga.id}-blabla" }, {:user_id => cyrille.id}
+		assert_response :success
+		assert_select "select#article_subcategory1_id > option[value=#{yoga_sub.id}][selected=selected]"
+	end
+
   def test_should_get_index
     get :index
     assert_response :success
@@ -26,11 +35,13 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_create_article
 		cyrille = users(:cyrille)
+		yoga = subcategories(:yoga)
     assert_difference('Article.count') do
-      post :create, {:article => { :title => "Test" }}, {:user_id => cyrille }
+      post :create, {:article => { :title => "Test9992323", :subcategory1_id => yoga.id  }}, {:user_id => cyrille.id }
     end
 
     assert_redirected_to article_path(assigns(:article))
+		assert_equal yoga.id, assigns(:article).subcategory1_id
   end
 
   def test_should_show_article
@@ -39,7 +50,8 @@ class ArticlesControllerTest < ActionController::TestCase
   end
 
   def test_should_get_edit
-    get :edit, :id => articles(:yoga).id
+		cyrille = users(:cyrille)
+    get :edit, {:id => "#{articles(:yoga).id}-blabla"}, {:user_id => cyrille.id }
     assert_response :success
   end
 

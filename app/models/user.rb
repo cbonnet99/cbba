@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   include Authentication::ByPassword
   include Authentication::ByCookieToken
   include Authorization::AasmRoles
-
+	include SubcategoriesSystem
+	
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
   validates_presence_of :email, :district
@@ -19,20 +20,18 @@ class User < ActiveRecord::Base
   belongs_to :region
   belongs_to :district
   has_many :articles
-	has_many :subcategories_user
-	has_many :subcategories, :through => :subcategories_user
+	has_many :subcategories_users
+	has_many :subcategories, :through => :subcategories_users
 
 	# #around filters
 	before_create :assemble_phone_numbers, :set_region_from_district
 	before_update :assemble_phone_numbers, :set_region_from_district
-	after_create :save_subcategories
-	after_update :save_subcategories
 
 	# HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
 	# submitting a crafted form that bypasses activation anything else you want
 	# your user to change should be added here.
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb
-	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id
+	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
 	def self.find_all_by_region_and_subcategories(region, *subcategories)
 		User.find_by_sql(["select u.* from users u, subcategories_users su where u.state='active' and u.id = su.user_id and u.region_id = ? and su.subcategory_id in (?)", region.id, subcategories])
@@ -46,34 +45,18 @@ class User < ActiveRecord::Base
 		User.count_by_sql(["select count(u.*) as count from users u, subcategories_users su where u.state='active' and u.id = su.user_id and su.subcategory_id in (?)", subcategories])
 	end
 
-	def save_subcategories
-		self.subcategories.destroy_all
-		unless subcategory1_id.blank?
-			sub1 = Subcategory.find(subcategory1_id)
-			self.subcategories << sub1
-		end
-		unless subcategory2_id.blank?
-			sub2 = Subcategory.find(subcategory2_id)
-			self.subcategories << sub2
-		end
-		unless subcategory3_id.blank?
-			sub3 = Subcategory.find(subcategory3_id)
-			self.subcategories << sub3
-		end
-	end
-
 	def self.search_results(category_id, subcategory_id, region_id, district_id, page)
 		if subcategory_id.nil?
 			if district_id.nil?
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", category_id, region_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by r.name desc", category_id, region_id], :page => page, :per_page => $search_results_per_page )
 			else
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", category_id, district_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by r.name desc", category_id, district_id], :page => page, :per_page => $search_results_per_page )
 			end
 		else
 			if district_id.nil?
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", subcategory_id, region_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by r.name desc", subcategory_id, region_id],  :page => page, :per_page => $search_results_per_page )
 			else
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing", subcategory_id, district_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by r.name desc", subcategory_id, district_id], :page => page, :per_page => $search_results_per_page )
 			end
 		end
 	end

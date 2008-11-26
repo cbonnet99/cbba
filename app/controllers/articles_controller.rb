@@ -36,7 +36,10 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
-    @article = Article.find(params[:id])
+		id = Article.id_from_url(params[:id])
+    @article = Article.find_by_author_id_and_id(current_user.id, id)
+#		@article.load_subcategories
+		get_subcategories
   end
 
   # POST /articles

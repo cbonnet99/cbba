@@ -1,37 +1,16 @@
-<h1>New article</h1>
-
+<%= render :partial => "users/full_member_nav"  %>
+<%= title "Create a new article", :h2  %>
 <% form_for(@article) do |f| %>
   <%= f.error_messages %>
 
   <fieldset>
     <legend>Article details</legend>
-    <ol>
-  <li>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </li>
-  <li>
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-  </li>
-      <li>
-        <label>Please enter up to 3 categories you would like this article to be listed in:</label>
-      </li>
-      <li>
-        <%= f.label :subcategory1, 'Category1:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -"} %><br/>
-      </li>
-      <li>
-        <%= f.label :subcategory2, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -"} %><br/>
-      </li>
-      <li>
-        <%= f.label :subcategory3, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -"} %><br/>
-      </li>
-    </ol>
+      <%= render :partial => "form", :locals => {:f => f, :subcategories_label => "Please enter up to 3 categories you would like this article to be listed in:"  }   %>
   </fieldset>
-	<div class="buttons">
-          <label for=""></label>
-		<%= submit_tag 'Create' %>
-	</div>
+  <div class="buttons">
+    <label for=""></label>
+    <%= submit_tag 'Create' %>
+  </div>
 <% end %>
 
 <%= link_to 'Back', articles_path %>

@@ -1,5 +1,5 @@
 <% unless @category.nil? -%>
-<h2><%= @category.name %></h2>
+<%= title @category.name, :h2 %>
   <ul class="category">
     <% @category.subcategories.each do |s| -%>
       <li><%=link_to s.name, subcategory_url(dasherize(@category.name), dasherize(s.name))%><span class="users-counter"> <%=s.users_counter%></span></li>

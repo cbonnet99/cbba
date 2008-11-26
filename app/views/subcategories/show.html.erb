@@ -1,4 +1,4 @@
-<h2><%= @subcategory.full_name %></h2>
+<%= title @subcategory.full_name, :h2 %>
   <% @regions.each do |r| -%>
     <% users = User.find_all_by_region_and_subcategories(r, @subcategory) -%>
     <% unless users.empty? -%>

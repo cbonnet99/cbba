@@ -5,19 +5,10 @@
 
   <fieldset>
     <legend>Article details</legend>
-    <ol>
-  <li>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </li>
-  <li>
-    <%= f.label :body %>
-    <%= f.text_area :body %>
-  </li>
-      </ol>
+      <%= render :partial => "form", :locals => {:f => f, :subcategories_label => "3 categories this article is listed in:"  }   %>
   </fieldset>
-	<div class="buttons">
-          <label for=""></label>
-		<%= submit_tag 'Update' %>
-	</div>
+  <div class="buttons">
+    <label for=""></label>
+    <%= submit_tag 'Update' %>
+  </div>
 <% end %>

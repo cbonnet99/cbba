@@ -1,0 +1,22 @@
+  <ol>
+      <li>
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+      </li>
+      <li>
+        <%= f.label :body %>
+        <%= f.text_area :body %>
+      </li>
+      <li>
+        <label><%=subcategories_label%></label>
+      </li>
+      <li>
+        <%= f.label :subcategory1, 'Category1:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true } %><br/>
+      </li>
+      <li>
+        <%= f.label :subcategory2, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
+      <li>
+        <%= f.label :subcategory3, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
+</ol>
