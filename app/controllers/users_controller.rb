@@ -4,7 +4,7 @@
 	
 	def profile
 		get_districts_and_subcategories
-		@articles = Article.find_all_by_author_id(current_user.id, :order => "updated_at desc")
+		@articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
 	end
 
 	def edit

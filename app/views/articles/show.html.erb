@@ -1,9 +1,30 @@
 <h1><%=h @article.title %></h1>
 by <%=h @article.author.name %>
+<%unless @article.published_at.nil?-%>
+<br/><span class="publication-date">Published: <%= @article.published_at %></span>
+<%end-%>
+<%if @article.draft? && is_author?(@article) -%>
+  <div id="author-actions"><% form_tag "/articles/#{@article.id}/publish" do -%>
+        <%= submit_tag "Publish" %><%= cancel_tag "Cancel" %>
+  <%end -%>
+  </div><div class="cleaner"></div>
+<%end-%>
 <p>
   <%=h @article.body %>
 </p>
 
-<% if logged_in? && current_user == @article.author -%>
+<% if is_author?(@article) -%>
 <%= link_to 'Edit', edit_article_path(@article) %>
+<% end -%>
+<% if is_reviewer? -%>
+  <div id="reviewer-actions">
+  <% form_tag '/reviewer/approve' do -%>
+        <%= hidden_field_tag "article_id", @article.id %>
+        <%= submit_tag "Approve" %>
+  <%end -%>
+  <% form_tag '/reviewer/reject' do -%>
+        <%= hidden_field_tag "article_id", @article.id %>
+        <%= submit_tag "Reject" %>
+  <%end -%>
+  </div>
 <% end -%>

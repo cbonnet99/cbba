@@ -8,10 +8,10 @@ module SubcategoriesSystem
 
 
 	module SubcategoriesSystemClassMethods
-			def after_find
-			self.subcategory1_id = self.subcategories[0].nil? ? nil : self.subcategories[0].id
-			self.subcategory2_id = self.subcategories[1].nil? ? nil : self.subcategories[1].id
-			self.subcategory3_id = self.subcategories[2].nil? ? nil : self.subcategories[2].id
+		def after_find
+				self.subcategory1_id = self.subcategories[0].nil? ? nil : self.subcategories[0].id
+				self.subcategory2_id = self.subcategories[1].nil? ? nil : self.subcategories[1].id
+				self.subcategory3_id = self.subcategories[2].nil? ? nil : self.subcategories[2].id
 		end
 
 		def save_subcategories

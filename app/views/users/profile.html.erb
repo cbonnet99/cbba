@@ -1,10 +1,12 @@
 <%= render :partial => "users/full_member_nav"  %>
 <%= title "Your articles", :h2  %>
+<p><%= link_to "Create new article", new_article_path %></p>
 <% if @articles.empty? -%>
   No articles
 <% else -%>
+  <ul id="your-articles">
   <% @articles.each do |a| -%>
-    <h3><%= link_to a.title, edit_article_path(a) %><h3>
-      <p><%= a.introduction%></p>
+    <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "articles/article", :locals => {:article => a } %></li>
   <% end -%>
+  </ul>
 <%end -%>

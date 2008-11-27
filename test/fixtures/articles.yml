@@ -3,9 +3,12 @@ yoga:
   body: This is a test
   slug: yoga-is-good-for-you
   author: cyrille
-
+  state: draft
 long:
   title: Article with a very long title, how far can we go
   body: This is a test
   slug: 
   author: cyrille
+  state: published
+  approved_by: norma
+  approved_at: <%= 2.days.ago.to_s :db %>

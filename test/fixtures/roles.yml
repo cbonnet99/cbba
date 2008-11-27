@@ -6,3 +6,5 @@ full_member_role:
   name: full_member
 free_listing_role:
   name: free_listing
+reviewer_role:
+  name: reviewer

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081125181814) do
+ActiveRecord::Schema.define(:version => 20081126232724) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -19,6 +19,14 @@ ActiveRecord::Schema.define(:version => 20081125181814) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "introduction"
+    t.string   "state",           :default => "draft"
+    t.datetime "published_at"
+    t.text     "reason_reject"
+    t.datetime "rejected_at"
+    t.integer  "rejected_by_id"
+    t.text     "comment_approve"
+    t.datetime "approved_at"
+    t.integer  "approved_by_id"
   end
 
   create_table "articles_subcategories", :force => true do |t|

@@ -1,4 +1,12 @@
 module ApplicationHelper
+
+	def is_author?(article)
+		logged_in? && current_user == article.author		
+	end
+
+	def is_reviewer?
+		logged_in? && current_user.has_role?('reviewer')
+	end
 	
 	def dasherize(s)
 		s.downcase.gsub(/ /, '-')

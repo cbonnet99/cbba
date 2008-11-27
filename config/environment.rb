@@ -13,7 +13,7 @@ $search_results_per_page = 10
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-Rails::Initializer.run do |config|
+	Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
@@ -68,3 +68,5 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   config.active_record.observers = :user_observer
 end
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+  :default => '%d %B %Y %H:%M')

@@ -4,6 +4,10 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+	def test_reviewers
+		assert_equal 1, User.reviewers.size
+	end
+
 	def test_all_find_by_region_and_subcategories
 		canterbury = regions(:canterbury)
 		yoga = subcategories(:yoga)
@@ -56,6 +60,15 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal 3, User.search_results(practitioners.id, nil, canterbury.id, nil, 1).size
 	end
 
+	def test_subs
+		rmoore = users(:rmoore)
+		hypnotherapy = subcategories(:hypnotherapy)
+		assert_equal [hypnotherapy], rmoore.subcategories
+		test_user = User.find_by_email(rmoore.email)
+		assert_equal [hypnotherapy], test_user.subcategories
+
+	end
+
 	def test_create
 		wellington = regions(:wellington)
 		wellington_wellington_city = districts(:wellington_wellington_city)
@@ -63,13 +76,16 @@ class UserTest < ActiveSupport::TestCase
 		yoga = subcategories(:yoga)
 
 		old_count = User.count
-		User.create(:first_name => "Joe", :last_name => "Test", :business_name => "Test",
+		new_user = User.new(:first_name => "Joe", :last_name => "Test", :business_name => "Test",
 			:address1 => "1, Main St", :suburb => "Newtown", :district_id => wellington_wellington_city.id,
 			:region_id => wellington.id, :phone => "04-28392173", :mobile => "", :email => "joe@test.com",
 			:subcategory1_id => hypnotherapy.id, :subcategory2_id => yoga.id, :subcategory3_id => nil,
 			:password => "blablabla", :password_confirmation => "blablabla"  )
+		new_user.register!
+		new_user.activate!
 		assert_equal old_count+1, User.count
-		new_user = User.find_by_email("joe@test.com")
 		assert_equal [hypnotherapy, yoga], new_user.subcategories
+		new_user2 = User.find_by_email("joe@test.com")
+		assert_equal [hypnotherapy, yoga], new_user2.subcategories
 	end
 end

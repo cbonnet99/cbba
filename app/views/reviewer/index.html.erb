@@ -1,0 +1,10 @@
+<%= title 'Articles to review', :h2 %>
+<% if @articles.blank? -%>
+  No articles for the moment
+<% else -%>
+  <ul id="reviewable-articles">
+  <% @articles.each do |a| -%>
+    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "articles/article", :locals => {:article => a } %></li>
+  <% end -%>
+  </ul>
+<% end -%>

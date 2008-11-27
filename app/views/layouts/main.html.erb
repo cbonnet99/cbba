@@ -1,66 +1,80 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title><%= @page_title || APP_CONFIG[:site_name] %></title>
-        <meta name="keywords" content="" />
-        <meta name="description" content="" />
-		<%= stylesheet_link_tag 'default' %>
-		<%= stylesheet_link_tag 'base' %>
-		<%= javascript_include_tag :defaults %>
-        <%= yield :head %>
-    </head>
-    <body>
-<div id="header"><div class="column-in">
-          <%= image_tag 'Header-Shoes.jpg' %>
-    <div id="login-info">
-      <a href="/">Home</a> | 
-    <% if logged_in? -%>
-    Welcome, <%= link_to current_user.name, :controller => "users", :action => "profile"%> | <%= link_to 'Logout', logout_path %>
-    <%else -%>
-        <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', signup_path %> | FREE Subscribe
-    <% end -%></div></div></div>
-
-<div id="main1"><div id="main2">
-
-	<div id="left"><div class="column-in">
-          <ul id="categories">
-			<% @categories.each do |c| -%>
-              <li<%if c.id == @category_id%> class="selected"<%end%><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
-            <%end -%>
-          </ul>
-	</div></div>
-
-	<div id="right"><div class="column-in">
-        <%unless @articles.blank? -%>
-          <h4>Related articles</h4>
-          <% @articles.each do |a| -%>
-            <%= link_to a.title, article_path(a) %>
-          <%end -%>
-        <% end -%>
-	</div></div>
-
-	<div id="middle"><div class="column-in">
-      <div id="search">
-        <% form_tag :controller => "search", :action => "search" do  -%>
-                      <%= text_field_tag :category_id, @category_id, {:id => "search_category_id", :type => "hidden"}  %>
-                  <span><label for="what">What:</label><%= select_tag :what, @what_subcategories  %></span>
-                  <span><label for="where">Where:</label><%= select_tag :where, @where_districts  %></span>
-                  <%= submit_tag "Search" %>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title><%= @page_title || APP_CONFIG[:site_name] %></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <%= stylesheet_link_tag 'default' %>
+    <%= stylesheet_link_tag 'base' %>
+    <%= javascript_include_tag :defaults %>
+    <%= yield :head %>
+  </head>
+  <body>
+    <div id="header">
+      <div class="column-in">
+        <%= image_tag 'Header-Shoes.jpg' %>
+        <div id="login-info">
+          <div id="login-left">
+            <a href="/">Home</a> |
+            <% if logged_in? -%>
+              Welcome, <%= link_to current_user.name, :controller => "users", :action => "profile"%> | <%= link_to 'Logout', logout_path %>
+            <%else -%>
+              <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', signup_path %> | FREE Subscribe
             <% end -%>
+          </div>
+          <div id="login-right">
+            <% if logged_in? -%>
+              <%= link_to 'Your profile', :controller => "users", :action => "profile"%>
+            <% end -%>
+            <% if is_reviewer? -%>
+              | <%= link_to "#{pluralize(Article.count_reviewable, 'article')} to review", :controller => "reviewer", :action => "index"    %>
+            <% end -%>
+          </div>
+        </div>
       </div>
-		<div id="mccont">
-                <%= flash_messages %>
-                <%= yield :layout %>
-		</div>
+    </div>
 
-	</div></div>
+    <div id="main1"><div id="main2">
 
-	<div class="cleaner">&nbsp;</div>
+        <div id="left"><div class="column-in">
+            <ul id="categories">
+              <% @categories.each do |c| -%>
+                <li<%if c.id == @category_id%> class="selected"<%end%><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
+              <%end -%>
+            </ul>
+        </div></div>
 
-</div></div>
+        <div id="right"><div class="column-in">
+            <%unless @articles.blank? -%>
+              <h4>Related articles</h4>
+              <% @articles.each do |a| -%>
+                <%= link_to a.title, article_path(a) %>
+              <%end -%>
+            <% end -%>
+        </div></div>
 
-<div id="footer"><div class="column-in">
-		<p>&copy;Wellbeing Directory, part of the Elevate Group Ltd</p>
-</div></div>
-</body>
+        <div id="middle"><div class="column-in">
+            <div id="search">
+              <% form_tag :controller => "search", :action => "search" do  -%>
+                <%= text_field_tag :category_id, @category_id, {:id => "search_category_id", :type => "hidden"}  %>
+                <span><label for="what">What:</label><%= select_tag :what, @what_subcategories  %></span>
+                <span><label for="where">Where:</label><%= select_tag :where, @where_districts  %></span>
+                <%= submit_tag "Search" %>
+              <% end -%>
+            </div>
+            <div id="mccont">
+              <%= flash_messages %>
+              <%= yield :layout %>
+            </div>
+
+        </div></div>
+
+        <div class="cleaner">&nbsp;</div>
+
+    </div></div>
+
+    <div id="footer"><div class="column-in">
+        <p>&copy;Wellbeing Directory, part of the Elevate Group Ltd</p>
+    </div></div>
+  </body>
 </html>

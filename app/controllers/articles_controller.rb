@@ -1,7 +1,20 @@
 class ArticlesController < ApplicationController
   
-  before_filter :login_required, :only => [:new, :create, :destroy]
-  
+  before_filter :login_required, :only => [:new, :create, :destroy, :publish]
+
+	def publish
+    @article = Article.find(params[:id])
+		if current_user.id == @article.author_id
+			@article.published_at = Time.now.utc
+			@article.save!
+			@article.publish!
+			flash[:notice] = "Article successfully published"
+		else
+			flash[:error] = "You can not publish this article"
+		end
+		redirect_back_or_default root_url
+	end
+
   def index
     @articles = Article.find(:all)
 

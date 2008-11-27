@@ -2,6 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
 
+	def test_count_reviewable
+		assert_equal 1, Article.count_reviewable
+	end
+
 	def test_find_all_by_subcategories
 		courses = categories(:courses)
 		articles = Article.find_all_by_subcategories(*courses.subcategories)

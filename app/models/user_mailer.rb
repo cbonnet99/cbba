@@ -1,4 +1,9 @@
 class UserMailer < ActionMailer::Base
+	def article_to_review(article, reviewer)
+    setup_email(reviewer)
+		@subject << "Article to review"
+		@body[:article] = article
+	end
   def signup_notification(user)
     setup_email(user)
     @subject << 'Please activate your new account with BeAmazing.com'

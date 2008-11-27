@@ -20,6 +20,8 @@ class User < ActiveRecord::Base
   belongs_to :region
   belongs_to :district
   has_many :articles
+  has_many :approved_articles, :class_name => "articles"
+  has_many :rejected_articles, :class_name => "articles"
 	has_many :subcategories_users
 	has_many :subcategories, :through => :subcategories_users
 
@@ -32,6 +34,11 @@ class User < ActiveRecord::Base
 	# your user to change should be added here.
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb
 	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
+
+
+	def self.reviewers
+		User.find_by_sql("select u.* from users u, roles r, roles_users ru where u.id = ru.user_id and ru.role_id = r.id and r.name='reviewer'")
+	end
 
 	def self.find_all_by_region_and_subcategories(region, *subcategories)
 		User.find_by_sql(["select u.* from users u, subcategories_users su where u.state='active' and u.id = su.user_id and u.region_id = ? and su.subcategory_id in (?)", region.id, subcategories])

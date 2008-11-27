@@ -3,12 +3,32 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 class Article < ActiveRecord::Base
   include Slugalizer
 	include SubcategoriesSystem
-  
+	include Authorization::AasmRoles::StatefulRolesInstanceMethods
+	include AASM
+	aasm_column :state
+	aasm_initial_state :initial => :draft
+	aasm_state :draft
+	aasm_state :published, :enter => :email_reviewers
+
+	aasm_event :publish do
+		transitions :from => :draft, :to => :published
+	end
+
+	aasm_event :remove do
+		transitions :from => :published, :to => :draft
+	end
+
+	aasm_event :reject do
+		transitions :from => :published, :to => :draft
+	end
+
   acts_as_taggable
 	
   belongs_to :author, :class_name => "User"
 	has_many :articles_subcategories
 	has_many :subcategories, :through => :articles_subcategories
+	belongs_to :approved_by, :class_name => "User"
+	belongs_to :rejected_by, :class_name => "User"
   
   validates_presence_of :title
   validates_length_of :title, :maximum => 80
@@ -18,6 +38,20 @@ class Article < ActiveRecord::Base
 
   MAX_LENGTH_INTRODUCTION = 100
 	MAX_LENGTH_SLUG = 20
+
+	def email_reviewers
+		User.reviewers.each do |r|
+			UserMailer.deliver_article_to_review(self, r)
+		end
+	end
+
+	def self.count_reviewable
+		Article.count_by_sql("select count(*) from articles where approved_by_id is null and state='published'")
+	end
+
+	def self.reviewable
+		Article.find_by_sql("select a.* from articles a where approved_by_id is null and state='published'")
+	end
 
 	def self.find_all_by_subcategories(*subcategories)
 		Article.find_by_sql(["select a.* from articles a, articles_subcategories asub where a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])

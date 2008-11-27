@@ -10,3 +10,6 @@ amcloughlin_free_listing:
 rmoore_free_listing:
   user: rmoore
   role: free_listing_role
+norma_reviewer:
+  user: norma
+  role: reviewer_role
