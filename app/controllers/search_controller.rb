@@ -1,5 +1,9 @@
 class SearchController < ApplicationController
 
+	def index
+		
+	end
+
 	def change_category
 		@category = Category.find(params[:id])
 		session[:category_id] = @category.id unless @category.nil?

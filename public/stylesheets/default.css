@@ -1,5 +1,7 @@
-
-.publication-date {
+h1, h2, h3 {
+    color: #06F;
+}
+.publication-date, .approval-date, .rejection-date {
     font-size: small;
     font-style: italic;
 }

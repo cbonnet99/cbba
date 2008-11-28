@@ -19,7 +19,7 @@
             <% if logged_in? -%>
               Welcome, <%= link_to current_user.name, :controller => "users", :action => "profile"%> | <%= link_to 'Logout', logout_path %>
             <%else -%>
-              <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', signup_path %> | FREE Subscribe
+              <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', signup_path %> | <%= link_to 'FREE Newsletter', signup_path %>
             <% end -%>
           </div>
           <div id="login-right">
@@ -45,12 +45,6 @@
         </div></div>
 
         <div id="right"><div class="column-in">
-            <%unless @articles.blank? -%>
-              <h4>Related articles</h4>
-              <% @articles.each do |a| -%>
-                <%= link_to a.title, article_path(a) %>
-              <%end -%>
-            <% end -%>
         </div></div>
 
         <div id="middle"><div class="column-in">

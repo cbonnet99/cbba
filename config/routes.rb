@@ -33,5 +33,5 @@ ActionController::Routing::Routes.draw do |map|
 	map.default_no_format ':controller/:id/:action'
 	map.default ':controller/:id.:format/:action'
   # Home Page
-  map.root :controller => 'articles', :action => 'index'
+  map.root :controller => 'search', :action => 'index'
 end

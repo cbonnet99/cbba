@@ -39,6 +39,10 @@ class Article < ActiveRecord::Base
   MAX_LENGTH_INTRODUCTION = 100
 	MAX_LENGTH_SLUG = 20
 
+	def reviewable?
+		approved_at.nil?
+	end
+
 	def email_reviewers
 		User.reviewers.each do |r|
 			UserMailer.deliver_article_to_review(self, r)

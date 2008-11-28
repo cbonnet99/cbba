@@ -12,3 +12,9 @@ long:
   state: published
   approved_by: norma
   approved_at: <%= 2.days.ago.to_s :db %>
+jogging:
+  title: Jogging is good for you
+  body: This is a test
+  slug: jogging-is-good-for-you
+  author: rmoore
+  state: published

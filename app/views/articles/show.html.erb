@@ -1,11 +1,17 @@
 <h1><%=h @article.title %></h1>
-by <%=h @article.author.name %>
+by <%= link_to @article.author.name, user_path(@article.author_id) %>
 <%unless @article.published_at.nil?-%>
-<br/><span class="publication-date">Published: <%= @article.published_at %></span>
+<br/><span class="publication-date"><%= @article.published_at %></span>
+<%end-%>
+<% if !@article.approved_at.nil? && (is_reviewer? || is_author?(@article)) -%>
+<br/><span class="approval-date">Approved: <%= @article.approved_at %> by <%=link_to @article.approved_by.name, user_path(@article.approved_by_id)%></span>
+<%  end -%>
+<% if !@article.rejected_at.nil? && (is_reviewer? || is_author?(@article)) -%>
+<br/><span class="rejection-date">Rejected: <%= @article.rejected_at %> by <%=link_to @article.rejected_by.name, user_path(@article.rejected_by_id)%></span>
 <%end-%>
 <%if @article.draft? && is_author?(@article) -%>
   <div id="author-actions"><% form_tag "/articles/#{@article.id}/publish" do -%>
-        <%= submit_tag "Publish" %><%= cancel_tag "Cancel" %>
+        <%= submit_tag "Publish" %>
   <%end -%>
   </div><div class="cleaner"></div>
 <%end-%>
@@ -16,7 +22,7 @@ by <%=h @article.author.name %>
 <% if is_author?(@article) -%>
 <%= link_to 'Edit', edit_article_path(@article) %>
 <% end -%>
-<% if is_reviewer? -%>
+<% if @article.reviewable? && is_reviewer? -%>
   <div id="reviewer-actions">
   <% form_tag '/reviewer/approve' do -%>
         <%= hidden_field_tag "article_id", @article.id %>

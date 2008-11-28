@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   layout :find_layout
 
 	#  before_filter :tags
-  before_filter :current_category, :categories, :search_init, :get_related_articles, :except => :change_category
+  before_filter :current_category, :categories, :search_init, :except => :change_category
 
 	def find_layout
 		if params[:format] == "js"

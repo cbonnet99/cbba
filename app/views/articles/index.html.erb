@@ -1,13 +1,4 @@
-<div class="post">
-      <h1 class="title">Welcome to beamazing.co.nz</h1>
-      <div class="entry">
-        <p>We're an online community of health, wellbeing & development professionals passionate about helping people live AMAZING lives!</p>
-        <p>Find the right providers and services for you on this site.</p>
-        <p>Not a member yet? <%= link_to 'Signup', signup_path %>, it's free!</p>
-      </div>
-</div>
-<h1>articles</h1>
+<%= title 'Articles', :h2 %>
 <% for article in @articles %>
         <%= render :partial => "articles/article",  :locals => {:article => article }   %>
 <% end %>
-<br />

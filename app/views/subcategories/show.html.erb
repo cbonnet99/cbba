@@ -1,6 +1,7 @@
 <%= title @subcategory.full_name, :h2 %>
+  <%= link_to "Back to #{@category.name}", category_path(dasherize(@category.name)) %>
   <% @regions.each do |r| -%>
-    <% users = User.find_all_by_region_and_subcategories(r, @subcategory) -%>
+      <% users = User.find_all_by_region_and_subcategories(r, @subcategory) -%>
     <% unless users.empty? -%>
     <h3><%=r.name%></h3>
     <ul class="subcategories">

@@ -13,10 +13,11 @@ cyrille:
   district:                  wellington_wellington_city
   region:                    wellington
   professional:              true
+  free_listing:              false
 norma:
   first_name:                Norma
   last_name:                 Stein
-  email:                     norma@eurekacoaching.co.nz
+  email:                     norma2@eurekacoaching.co.nz
   salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
   crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
   created_at:                <%= 5.days.ago.to_s :db  %>
@@ -28,6 +29,7 @@ norma:
   district:                  wellington_wellington_city
   region:                    wellington
   professional:              true
+  free_listing:              false
 amcloughlin:
   first_name:                Aaron
   last_name:                 McLoughlin
