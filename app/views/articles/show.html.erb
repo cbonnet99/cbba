@@ -28,7 +28,7 @@ by <%= link_to @article.author.name, user_path(@article.author_id) %>
         <%= hidden_field_tag "article_id", @article.id %>
         <%= submit_tag "Approve" %>
   <%end -%>
-  <% form_tag '/reviewer/reject' do -%>
+  <% form_tag '/reviewer/edit_reject_reason' do -%>
         <%= hidden_field_tag "article_id", @article.id %>
         <%= submit_tag "Reject" %>
   <%end -%>

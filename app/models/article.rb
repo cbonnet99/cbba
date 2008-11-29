@@ -40,7 +40,7 @@ class Article < ActiveRecord::Base
 	MAX_LENGTH_SLUG = 20
 
 	def reviewable?
-		approved_at.nil?
+		state == "published" && approved_at.nil?
 	end
 
 	def email_reviewers

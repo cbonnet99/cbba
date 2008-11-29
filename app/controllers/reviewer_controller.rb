@@ -1,4 +1,5 @@
 class ReviewerController < ApplicationController
+
 	def authorized?
 		is_reviewer?
 	end
