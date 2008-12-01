@@ -1,54 +1,97 @@
-#############################################################
-#	Application
-#############################################################
+# Elastic Server Deployment Script
+# Author: Yan Pritzker, CohesiveFT <yan.pritzker@cohesiveft.com>
+# Revision: 1.1
+# Requires: Capistrano 2.3
+#
+# CHANGELOG
+#
+# Version 1.1:
+#	Working with cap 2.3, default deploy from local copy
+#
+# Version 1.0:
+#	Initial revision, for cap 2.0
+#
 
-set :application, "be_amazing"
-set :deploy_to, "/path/to/deploy"
+# If you wish to deploy with something other than the current
+# directory please modify the settings below
+#
 
-#############################################################
-#	Settings
-#############################################################
+#  set :repository,    "[repository goes here]"
+#  set :scm_username,  "[username goes here]"
+#  set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
+#  set :scm, :subversion
+#  set :deploy_via,  :copy
+#  set :copy_strategy, :export
 
-default_run_options[:pty] = true
-ssh_options[:forward_agent] = true
-set :use_sudo, true
-set :scm_verbose, true 
+set :repository, "."
+set :scm, :none
+set :deploy_via, :copy
 
-#############################################################
-#	Servers
-#############################################################
+# This script is designed to prompt you for the ip of your Elastic Server.
+# You can hardcode it by changing the :deploy_to_ip variable.
 
-set :user, "bort"
-set :domain, "www.example.com"
-server domain, :app, :web
-role :db, domain, :primary => true
+set :deploy_to_ip,  lambda { HighLine.new.ask "Elastic Server IP: "}
+set :user,          "cftuser"
+set :runner,        "cftuser" # required for cap 2.3
+#set :password,      "cftuser"  #
+set :password,  lambda { CLI.password_prompt "Target Password (user: #{user}): "}
 
-#############################################################
-#	Git
-#############################################################
+# DO NOT MODIFY BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING
 
-set :scm, :git
-set :branch, "master"
-set :scm_user, 'bort'
-set :scm_passphrase, "PASSWORD"
-set :repository, "git@github.com:FudgeStudios/bort.git"
-set :deploy_via, :remote_cache
+set :deploy_to, "/usr/local/cft/deploy/capistrano"
+set :elastic_server_deploy_target, "/usr/local/cft/deploy/rails"
 
-#############################################################
-#	Passenger
-#############################################################
+role :app, deploy_to_ip
+role :web, deploy_to_ip
+role :db, deploy_to_ip, :primary => true
 
-namespace :deploy do
-  
-  # Restart passenger on deploy
-  desc "Restarting mod_rails with restart.txt"
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{current_path}/tmp/restart.txt"
+before "deploy", "deploy:setup"
+after "deploy:symlink", "deploy:elastic_server_symlink"
+
+# NOTE: This deployment script relies on calling Elastic Server rubberbands
+# which control the server (mongrel, etc) that lives in /etc/cft.d/mods-enabled
+#
+# In a future version, the commands will be performed via webservice.
+#
+namespace(:rails_server) do
+  desc "start the app server"
+  task :start, :roles => :app do
+    sudo "touch #{current_path}/tmp/restart.txt"    
   end
-  
-  [:start, :stop].each do |t|
-    desc "#{t} task is a no-op with mod_rails"
-    task t, :roles => :app do ; end
+
+  desc "stop the app server"
+  task :stop, :roles => :app do
   end
-  
+
+
+  desc "restart the app server"
+  task :restart, :roles => :app do
+    sudo "touch #{current_path}/tmp/restart.txt"    
+  end
+end
+
+namespace(:deploy) do
+  desc "Restart the Rails server."
+  task :restart, :roles => :app do
+    rails_server.restart
+  end
+
+  desc "Long deploy will throw up the maintenance.html page and run migrations then it restarts and enables the site again."
+  task :long do
+    transaction do
+      update_code
+      web.disable
+      symlink
+      migrate
+    end
+
+    restart
+    web.enable
+  end
+
+  desc "Creates a symlink in order for proper deployment on Elastic Server"
+  task :elastic_server_symlink do
+    run "rm -rf #{elastic_server_deploy_target}"
+    run "ln -nfs #{current_path} #{elastic_server_deploy_target}"
+  end
 end

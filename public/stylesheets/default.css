@@ -74,6 +74,15 @@ div#left div.column-in {
 #search select, #search label {
     margin: 10px;
 }
+
+span.why-join-title {
+    font-size: large;
+    color: #06F;
+}
+ol {
+    list-style-position: inside;
+}
+
 ul {
     margin: 0;
     padding-left: 0;
@@ -154,16 +163,23 @@ body {
     margin:0; padding:0;
     background:white top right repeat-y;
 }
+.column {
+    padding-bottom: 30000px; /*This extends the height of the column so the main content does not wrap around it*/
+    margin-bottom: -30000px; /*This 'reclaims' the extra height created by the padding*/    margin:0;
+}
 #left {
     float:left;
-    width:150px;
-    margin:0; padding:0;
+    width:170px;
+    margin:0;
+    padding:15px;
+    height: 1500px;
     background:green top right no-repeat;
 }
 #right {
     float:right;
-    width:150px;
-    margin:0; padding:0;
+    width:170px;
+    margin:0;
+    padding:15px;
     background:yellow top right no-repeat;
 }
 #middle {

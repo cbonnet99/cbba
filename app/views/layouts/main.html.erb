@@ -19,7 +19,7 @@
             <% if logged_in? -%>
               Welcome, <%= link_to current_user.name, :controller => "users", :action => "profile"%> | <%= link_to 'Logout', logout_path %>
             <%else -%>
-              <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', signup_path %> | <%= link_to 'FREE Newsletter', signup_path %>
+              <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', whyjoin_path %> | <%= link_to 'FREE Newsletter', signup_path %>
             <% end -%>
           </div>
           <div id="login-right">
@@ -36,7 +36,7 @@
 
     <div id="main1"><div id="main2">
 
-        <div id="left"><div class="column-in">
+        <div class="column" id="left"><div class="column-in">
             <ul id="categories">
               <% @categories.each do |c| -%>
                 <li<%if c.id == @category_id%> class="selected"<%end%><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
@@ -44,10 +44,10 @@
             </ul>
         </div></div>
 
-        <div id="right"><div class="column-in">
+        <div class="column" id="right"><div class="column-in">
         </div></div>
 
-        <div id="middle"><div class="column-in">
+        <div class="column" id="middle"><div class="column-in">
             <div id="search">
               <% form_tag :controller => "search", :action => "search" do  -%>
                 <%= text_field_tag :category_id, @category_id, {:id => "search_category_id", :type => "hidden"}  %>

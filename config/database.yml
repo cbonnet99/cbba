@@ -11,14 +11,7 @@ test:
   password: test0user
 
 production:
-  # Sqlite3 Settings
-  adapter: sqlite3
-  database: db/production.sqlite3
-  timeout: 5000
-  
-  # Mysql Settings
-  # adapter: mysql
-  # encoding: utf8
-  # database: test_development
-  # username: root
-  # password:
+    adapter: postgresql
+    database: be_amazing_test
+    username: postgres
+    password: test0user
