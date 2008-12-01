@@ -34,18 +34,7 @@
       </div>
     </div>
 
-    <div id="main1"><div id="main2">
-
-        <div class="column" id="left"><div class="column-in">
-            <ul id="categories">
-              <% @categories.each do |c| -%>
-                <li<%if c.id == @category_id%> class="selected"<%end%><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
-              <%end -%>
-            </ul>
-        </div></div>
-
-        <div class="column" id="right"><div class="column-in">
-        </div></div>
+    <div id="container">
 
         <div class="column" id="middle"><div class="column-in">
             <div id="search">
@@ -62,10 +51,20 @@
             </div>
 
         </div></div>
+        
+        <div class="column" id="left"><div class="column-in">
+            <ul id="categories">
+              <% @categories.each do |c| -%>
+                <li<%if c.id == @category_id%> class="selected"<%end%><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
+              <%end -%>
+            </ul>
+        </div></div>
 
-        <div class="cleaner">&nbsp;</div>
+        <div class="column" id="right"><div class="column-in">
+        </div></div>
 
-    </div></div>
+
+    </div>
 
     <div id="footer"><div class="column-in">
         <p>&copy;Wellbeing Directory, part of the Elevate Group Ltd</p>

@@ -1,3 +1,11 @@
+
+#lead-whyjoin {
+    text-align: right;
+    background-color: #C00;
+    color: white;
+    font-size: x-large;
+}
+
 h1, h2, h3 {
     color: #06F;
 }
@@ -39,6 +47,7 @@ ul#categories li.selected {
 
 #footer {
     text-align: center;
+    clear: both;
 }
 #middle .column-in {
     padding-top: 0;
@@ -159,33 +168,37 @@ body {
     margin:0; padding:0;
     background:white top left repeat-y;
 }
-#main2 {
-    margin:0; padding:0;
+#container {
+    padding-left: 170px;   /* LC width */
+    padding-right: 170px;  /* RC width */
+
     background:white top right repeat-y;
 }
-.column {
-    padding-bottom: 30000px; /*This extends the height of the column so the main content does not wrap around it*/
-    margin-bottom: -30000px; /*This 'reclaims' the extra height created by the padding*/    margin:0;
+#container .column {
+  position: relative;
+  float: left;
 }
 #left {
-    float:left;
-    width:170px;
-    margin:0;
-    padding:15px;
-    height: 1500px;
+    width:170px;  /* LC width */
+    right: 170px;  /* LC width */
+    margin-left:-100%;
     background:green top right no-repeat;
 }
 #right {
-    float:right;
-    width:170px;
-    margin:0;
-    padding:15px;
+    width:170px;  /* RC width */
+    margin-right: -170px;  /* RC width */
     background:yellow top right no-repeat;
 }
 #middle {
-    margin:0 150px;
+    width: 100%;
     background:white;
 }
+/*** IE6 Fix ***/
+* html #left {
+  left: 170px;           /* RC width */
+}
+/*** End IE6 Fix ***/
+
 .column-in {
     margin:0;
     padding:0.5em 1em;
@@ -208,5 +221,6 @@ a { color:black }
 body {
     font-family: Verdana, Helvetica, sans-serif;
     font-size:80%;
+    min-width: 510px;      /* 2x LC width + RC width */
 
 }
