@@ -10,6 +10,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/helpers/application_helper.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/helpers/users_helper.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/article.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/news.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user_mailer.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/_article.html.erb</file>
@@ -28,7 +29,10 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_form.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_full_member_nav.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_user.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/profile.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/why_join.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/config/database.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/deploy.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/environment.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/routes.rb</file>

@@ -12,6 +12,6 @@ test:
 
 production:
     adapter: postgresql
-    database: be_amazing_test
+    database: be_amazing_production
     username: postgres
     password: test0user

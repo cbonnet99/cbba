@@ -68,5 +68,6 @@ require File.join(File.dirname(__FILE__), 'boot')
   # Activate observers that should always be running
   config.active_record.observers = :user_observer
 end
+
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
   :default => '%d %B %Y %H:%M')

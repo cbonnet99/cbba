@@ -36,7 +36,7 @@
         <%= f.label :professional, 'Are you a professional?' %>
         <%= f.check_box :professional   %>
       </li>
-      <li id="link-user-professional"<%unless f.object.professional?%>style="display: none;"<%end%>>Did you know you can be listed for free on beamazing.co.nz?
+      <li id="link-user-professional">Did you know you can be listed for free on beamazing.co.nz?
       </li>
       <li id="link-user-free-listing"<%if f.object.has_role?('full_member')%>style="display: none;"<%end%>><label for="user_free_listing">Yes, I want to be listed for free</label><%= f.check_box :free_listing%></li>
     </ol>
