@@ -5,9 +5,23 @@ class SearchControllerTest < ActionController::TestCase
 
 	def test_change_category
 		courses = categories(:courses)
+    old_size = UserEvent.all.size
 		post :change_category, :id => courses.id
 		assert_response :success
 		assert_equal courses.id, session[:category_id]
+    assert_equal old_size+1, UserEvent.all.size
+	end
+
+	def test_change_category_with_user
+		courses = categories(:courses)
+    cyrille = users(:cyrille)
+    old_size = UserEvent.all.size
+		post :change_category, {:id => courses.id}, {:user_id => cyrille.id }
+		assert_response :success
+		assert_equal courses.id, session[:category_id]
+    assert_equal old_size+1, UserEvent.all.size
+    assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.user_id
+    assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.category_id
 	end
 
 	def test_search

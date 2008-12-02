@@ -3,6 +3,17 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
+  def test_show
+    old_size = UserEvent.all.size
+    rmoore = users(:rmoore)
+    yoga = articles(:yoga)
+    
+    get :show, :id => rmoore.id, :article_id => yoga.id
+    assert_equal old_size+1, UserEvent.all.size
+    assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.article_id
+    
+  end
+
 	def test_update_password
 		cyrille = users(:cyrille)
 		post :update_password, {:user => {:password => "bleblete", :password_confirmation => "bleblete"  }}, {:user_id => cyrille.id }

@@ -1,5 +1,17 @@
 module ApplicationHelper
-
+  def user_path_with_context(id)
+    options = {}
+    unless @article.nil?
+      options[:article_id] = @article.id
+    end
+    unless @category.nil?
+      options[:category_id] = @category.id
+    end
+    unless @subcategory.nil?
+      options[:subcategory_id] = @subcategory.id
+    end
+    user_path(id, options)
+  end
   def convert_amount(amount_integer)
     return amount_integer/100.0
   end

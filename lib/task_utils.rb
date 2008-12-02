@@ -7,4 +7,29 @@ class TaskUtils
 			s.update_attribute(:users_counter, User.count_all_by_subcategories(s))
 		end
 	end
+
+#  def self.create_default_roles
+#    YAML::load(ERB.new(IO.read(File.dirname(__FILE__) +"/../test/fixtures/roles.yml")).result)
+#  end
+
+  #better to call after the exisitg users have been imported (because Norma, Julie, etc. will
+  #be listed there as practicioners)
+  def self.create_default_admins
+    admin_role = Role.find_or_create_by_name("admin")
+    $admins.each do |admin|
+      user = User.find_by_email(admin[:email])
+      if user.nil?
+        user = User.new(:first_name => admin[:first_name], :last_name => admin[:last_name],
+          :email => admin[:email],
+          :professional => true,
+          :password => "monkey", :password_confirmation => "monkey",
+          :receive_newsletter => false )
+				user.register!
+				user.activate!
+        user.roles << admin_role
+      else
+        user.roles << admin_role
+      end
+    end
+  end
 end

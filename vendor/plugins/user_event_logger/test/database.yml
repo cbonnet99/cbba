@@ -1,0 +1,18 @@
+sqlite:
+  :adapter: sqlite
+  :dbfile: user_event_logger_plugin.sqlite.db
+sqlite3:
+  :adapter: sqlite3
+  :dbfile: user_event_logger_plugin.sqlite3.db
+postgresql:
+  :adapter: postgresql
+  :username: postgres
+  :password: postgres
+  :database: user_event_logger_plugin_test
+  :min_messages: ERROR
+mysql:
+  :adapter: mysql
+  :host: localhost
+  :username: rails
+  :password:
+  :database: user_event_logger_plugin_test

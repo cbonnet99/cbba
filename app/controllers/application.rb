@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include RoleRequirementSystem
 
   helper :all # include all helpers, all the time
-  protect_from_forgery :secret => 'b0a876313f3f9195e9bd01473bc5cd06', :except => [:ipn, :done, :new_full_membership]
+  protect_from_forgery :secret => 'b0a876313f3f9195e9bd01473bc5cd06'
   filter_parameter_logging :password, :password_confirmation
   
   layout :find_layout
@@ -29,8 +29,14 @@ class ApplicationController < ActionController::Base
 	end
 
 	def current_category
-		@category_id = session[:category_id] || (Category.find_by_position(1).nil? ? nil : Category.find_by_position(1).id)
-		@category = Category.find(@category_id)
+    if !params[:category_name].nil?
+			@category = Category.find_by_name(undasherize(params[:category_name]))
+      @category_id = @category.id
+      session[:category_id] = @category_id
+    else
+      @category_id = session[:category_id] || (Category.find_by_position(1).nil? ? nil : Category.find_by_position(1).id)
+      @category = Category.find(@category_id)
+		end
 	end
 
 	def search_init

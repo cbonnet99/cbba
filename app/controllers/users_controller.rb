@@ -1,7 +1,15 @@
 	class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update]
 	after_filter :store_location, :only => [:profile]
-	
+
+  def show
+    @user = User.find(params[:id])
+    unless @user.nil?
+      log_user_event "Visit full member profile", "", "", {:category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
+      @articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "updated_at desc")
+    end
+  end
+
 	def profile
 		get_districts_and_subcategories
 		@articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")

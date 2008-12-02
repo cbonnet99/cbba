@@ -1,0 +1,29 @@
+8
+
+dir
+1986
+svn://10.37.42.49/rails-cdp/strategy-blocks/trunk/StrategyBlocks/vendor/plugins/user_event_logger/generators/user_event_logger/templates
+svn://10.37.42.49/rails-cdp
+
+
+
+2008-11-10T19:44:09.776849Z
+1933
+cyrille
+
+
+svn:special svn:externals svn:needs-lock
+
+migration.rb
+file
+
+
+
+
+2008-09-11T17:23:24.000000Z
+01ea4348bc73998cf456c0cabcd0f492
+2008-11-10T19:44:09.776849Z
+1933
+cyrille
+has-props
+

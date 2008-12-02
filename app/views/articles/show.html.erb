@@ -1,5 +1,5 @@
 <h1><%=h @article.title %></h1>
-by <%= link_to @article.author.name, user_path(@article.author_id) %>
+by <%= link_to @article.author.name, user_path_with_context(@article.author_id) %>
 <%unless @article.published_at.nil?-%>
 <br/><span class="publication-date"><%= @article.published_at %></span>
 <%end-%>

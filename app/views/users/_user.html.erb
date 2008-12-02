@@ -1,1 +1,1 @@
-<h4><%=  user.full_name %></h4><p>T: <%= user.phone %> </p><% unless user.free_listing? %><%= link_to "More details for #{user.business_name}", user_path(user) %><% end %>
+<h4><%=  user.full_name %></h4><p>T: <%= user.phone %> </p><% unless user.free_listing? %><%= link_to "More details for #{user.business_name}", user_path_with_context(user) %><% end %>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081202191136) do
+ActiveRecord::Schema.define(:version => 20081202213611) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -126,6 +126,21 @@ ActiveRecord::Schema.define(:version => 20081202191136) do
 
   create_table "tags", :force => true do |t|
     t.string "name"
+  end
+
+  create_table "user_events", :force => true do |t|
+    t.string   "source_url"
+    t.string   "destination_url"
+    t.string   "remote_ip"
+    t.datetime "logged_at"
+    t.text     "extra_data"
+    t.string   "event_type"
+    t.integer  "user_id"
+    t.integer  "article_id"
+    t.integer  "category_id"
+    t.integer  "subcategory_id"
+    t.integer  "region_id"
+    t.integer  "district_id"
   end
 
   create_table "users", :force => true do |t|

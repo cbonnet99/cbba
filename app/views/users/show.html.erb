@@ -1,0 +1,22 @@
+<%= title @user.full_name, :h2  %>
+<% unless @user.phone.nil? -%>
+<p>T: <%=@user.phone%></p>
+<% end -%>
+<% unless @user.mobile.nil? -%>
+<p>M: <%=@user.mobile%></p>
+<% end -%>
+<p><%= @user.address1 %></p>
+<% unless @user.suburb.nil? -%>
+<p><%= @user.suburb %></p>
+<% end -%>
+<p><%= @user.city %></p>
+<p></p>
+<p></p>
+<% unless @articles.empty? -%>
+  <h3>Articles</h3>
+  <ul id="user-articles">
+  <% @articles.each do |a| -%>
+    <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "articles/article", :locals => {:article => a } %></li>
+  <% end -%>
+  </ul>
+<%end -%>

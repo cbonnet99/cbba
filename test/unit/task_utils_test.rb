@@ -12,4 +12,11 @@ class TaskUtilsTest < ActiveSupport::TestCase
 		hypnotherapy.reload
 		assert_equal 3, hypnotherapy.users_counter
 	end
+
+  def test_create_default_admins
+    old_size = User.all.size
+    TaskUtils.create_default_admins
+    #user cbonnet99@gmail.com already exists in the test data (and so won't be created) hence the -1
+    assert_equal old_size+$admins.size-1, User.all.size
+  end
 end

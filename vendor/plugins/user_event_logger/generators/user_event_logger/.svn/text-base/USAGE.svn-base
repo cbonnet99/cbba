@@ -1,0 +1,10 @@
+Description:
+    Create a migration that adds the user event logging table to the project
+
+Example:
+    ./script/generate user_event_logger add_event_table
+
+This will create:
+    db/migrate/TIMESTAMP_add_event_table
+
+You will then need to run rake db:migrate to add the table to the database

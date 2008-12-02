@@ -1,0 +1,7 @@
+class Event < ActiveRecord::Base
+	belongs_to :user
+	belongs_to :company
+
+	named_scope :login, :conditions => ["event_type='Login'"]
+	named_scope :for_session, lambda { |session| {:conditions => ["session = ?", session] }}
+end

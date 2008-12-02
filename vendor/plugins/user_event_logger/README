@@ -1,0 +1,70 @@
+UserEventLogger
+===============
+
+This plugin is extracted from several applications where I had similar problems:
+tracking various things that users did within the application. For example, I've
+used this to be able to log outgoing clicks without hooking up an analytics package,
+to count the number of times an ad was displayed, or to keep track of how often
+a particular page was visited.
+
+To use the plugin, you must first create the table that it uses:
+
+./script/generate user_event_logger add_event_table
+rake db:migrate
+
+After that, you can add information to the table from either your controllers or
+your views:
+
+log_user_event "In controller", "http://example.com", "27"
+<%= log_user_event "In view", "http://example.com", "27" %>
+
+The first argument is the event name, which is required. The second is the
+destination URL, which is optional. The third is arbitrary extra data, which is
+optional. The extra data is stored in a text column, so you can add as much
+as you want here.
+
+Reporting is left as an exercise for the user. The events table has these columns:
+
+create_table :events do |t|
+  t.column  :source_url, :string
+  t.column  :destination_url, :string
+  t.column  :remote_ip, :string
+  t.column  :logged_at, :datetime
+  t.column  :extra_data, :text
+  t.column  :event_type, :string
+end
+
+Example
+=======
+
+To do outgoing link tracking, you can set up a controller method similar to this one:
+
+def send_to 
+    @advertiser = Advertiser.find(params[:id])
+    destination_url = @advertiser.website.sub(/^www/, "http://www")
+    log_user_event "Clicked through", destination_url, params[:id]
+    redirect_to destination_url
+end 
+
+Extra columns
+=============
+You can add extra application-specific columns to the events table if you like. To do so, modify
+the migration to include the columns after you run the add_event_table rake task and before you
+run the migration. Then you can pass a hash of extra options as part of the call to log_user_event:
+
+log_user_event "In controller", "http://example.com", "27", {:user_id => 13, :product_id => 7}
+<%= log_user_event "In view", "http://example.com", "27", {:user_id => 13, :product_id => 7} %>
+
+Gem installation
+================
+If you are running rails 2.1 or above you can choose between a standard plugin install and a gem install. To
+install as a gem, add this to your environment.rb file:
+    
+    config.gem 'ffmike-user_event_logger', :source => 'http://gems.github.com'
+    
+and then run:
+
+    rake gems:install
+
+
+Copyright (c) 2008 Michael A. Gunderloy, released under the MIT license

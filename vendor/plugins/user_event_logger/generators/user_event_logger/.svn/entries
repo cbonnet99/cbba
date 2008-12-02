@@ -1,0 +1,45 @@
+8
+
+dir
+1986
+svn://10.37.42.49/rails-cdp/strategy-blocks/trunk/StrategyBlocks/vendor/plugins/user_event_logger/generators/user_event_logger
+svn://10.37.42.49/rails-cdp
+
+
+
+2008-11-10T19:44:09.776849Z
+1933
+cyrille
+
+
+svn:special svn:externals svn:needs-lock
+
+USAGE
+file
+
+
+
+
+2008-09-11T17:23:24.000000Z
+7e32e2c1939891c6a4ce088014b17c52
+2008-11-10T19:44:09.776849Z
+1933
+cyrille
+has-props
+
+user_event_logger_generator.rb
+file
+
+
+
+
+2008-09-11T17:23:24.000000Z
+f34d605fa26ebedd23d4292e2dda4d31
+2008-11-10T19:44:09.776849Z
+1933
+cyrille
+has-props
+
+templates
+dir
+
