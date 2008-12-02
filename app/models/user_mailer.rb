@@ -1,4 +1,9 @@
 class UserMailer < ActionMailer::Base
+	def article_rejected(article, author)
+    setup_email(author)
+		@subject << "Your article must be revised for publication"
+		@body[:article] = article
+	end
 	def article_to_review(article, reviewer)
     setup_email(reviewer)
 		@subject << "Article to review"

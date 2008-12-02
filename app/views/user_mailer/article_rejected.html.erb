@@ -1,0 +1,13 @@
+Dear <%= @user.first_name %>,
+
+Your article must be revised for publication, please review:
+
+<%=link_to @article.title, article_path(@article) %>
+
+Our reviewer commented:
+
+<%= @article.reason_reject %>
+
+Thanks,
+
+BeAmazing.com

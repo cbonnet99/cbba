@@ -15,6 +15,7 @@ class ReviewerController < ApplicationController
 			@article.reason_reject = params[:reason_reject]
 		end
 		@article.reject!
+    UserMailer.deliver_article_rejected(@article, @article.author)
 		redirect_back_or_default root_url
   end
 

@@ -7,7 +7,7 @@ by <%= link_to @article.author.name, user_path(@article.author_id) %>
 <br/><span class="approval-date">Approved: <%= @article.approved_at %> by <%=link_to @article.approved_by.name, user_path(@article.approved_by_id)%></span>
 <%  end -%>
 <% if !@article.rejected_at.nil? && (is_reviewer? || is_author?(@article)) -%>
-<br/><span class="rejection-date">Rejected: <%= @article.rejected_at %> by <%=link_to @article.rejected_by.name, user_path(@article.rejected_by_id)%></span>
+<br/><span class="rejection-date">Rejected: <%= @article.rejected_at %> by <%=link_to @article.rejected_by.name, user_path(@article.rejected_by_id)%>(Reason: <%=@article.reason_reject%>)</span>
 <%end-%>
 <%if @article.draft? && is_author?(@article) -%>
   <div id="author-actions"><% form_tag "/articles/#{@article.id}/publish" do -%>

@@ -4,6 +4,10 @@ class ReviewerControllerTest < ActionController::TestCase
   def test_reject
 		norma = users(:norma)
 		long = articles(:long)
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
 		old_size = Article.draft.size
 		post :reject, {:article_id => long.id, :reason_reject => "Don't like it"   }, {:user_id => norma.id }
 		assert_redirected_to root_url
@@ -12,6 +16,7 @@ class ReviewerControllerTest < ActionController::TestCase
 		assert_not_nil long.rejected_by_id
 		assert_equal "Don't like it", long.reason_reject
 		assert_equal old_size+1, Article.draft.size
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
   def test_approve
 		norma = users(:norma)
