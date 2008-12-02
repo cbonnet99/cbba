@@ -21,3 +21,5 @@ config.action_view.cache_template_loading            = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
+$hostname = "75.101.132.186:9000"
+$paypal_server = "https://www.paypal.com/nz/cgi-bin/webscr"

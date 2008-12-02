@@ -1,5 +1,45 @@
 module ApplicationHelper
 
+  def convert_amount(amount_integer)
+    return amount_integer/100.0
+  end
+
+  def amount_view(amount_integer)
+    s = amount_integer.to_s
+
+    "NZD #{s.pop.pop}.#{s.slice(-2, 2)}"
+  end
+
+  def paypal_encrypted(payment, return_address="http://#{$hostname}/payments/thank_you?type=full_membership")
+
+    # cert_id is the certificate if we see in paypal when we upload our own
+    # certificates cmd _xclick need for buttons item name is what the user will
+    # see at the paypal page custom and invoice are passthrough vars which we
+    # will get back with the asunchronous notification no_note and no_shipping
+    # means the client won't see these extra fields on the paypal payment page
+    # return is the url the user will be redirected to by paypal when the
+    # transaction is completed.
+    decrypted = {
+      "cert_id" => "4YTMA47WBP66S",
+      "cmd" => "_xclick",
+      "business" => "cbonnet99@gmail.com",
+      "item_name" => payment.title,
+      "item_number" => "1",
+      "custom" => payment.comment,
+      "amount" => convert_amount(payment.amount),
+      "currency_code" => "NZD",
+      "country" => "NZ",
+      "no_note" => "1",
+      "no_shipping" => "1",
+      "invoice" => payment.invoice_number,
+      "return" => return_address
+    }
+
+    return CryptoPaypal::Button.from_hash(decrypted).get_encrypted_text
+
+  end
+
+
 	def is_author?(article)
 		logged_in? && current_user == article.author		
 	end
@@ -52,15 +92,15 @@ module ApplicationHelper
     }
   end
 
-	# Sets the page title and outputs title if container is passed in. eg. <%=
-	# title('Hello World', :h2) %> will return the following: <h2>Hello World</h2>
-	# as well as setting the page title.
-  def title(str, container = nil)
+  # Sets the page title and outputs title if container is passed in. eg. <%=
+  # title('Hello World', :h2) %> will return the following: <h2>Hello World</h2>
+  # as well as setting the page title.
+  def title(str, container = :h2)
     @page_title = "#{APP_CONFIG[:site_name]} - #{str}"
     content_tag(container, str ) if container
   end
   
-	# Outputs the corresponding flash message if any are set
+  # Outputs the corresponding flash message if any are set
   def flash_messages
     messages = []
     %w(notice warning error).each do |msg|

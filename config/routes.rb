@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
+  map.resources :payments
+
   map.resources :subcategories
 
   map.resources :categories
