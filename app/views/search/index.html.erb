@@ -2,4 +2,14 @@
 <p>We're an online community of health, wellbeing & development professionals passionate about helping people live AMAZING lives!</p>
 <p>Find the right providers and services for you on this site.</p>
 <p>Not a member yet? <%= link_to 'Signup', signup_path %>, it's free!</p>
+<% unless @newest_articles.empty? -%>
 <h3>Articles</h3>
+  <ul id="homepage-articles">
+  <% @newest_articles.each do |a| -%>
+          <li class="<%= cycle('odd', 'even')%> "><%= render :partial => "articles/article", :locals => {:article => a }  %></li>
+  <% end -%>
+  </ul>
+  <% if @total_articles > $number_articles_on_homepage -%>
+  <%= link_to "View more articles...", articles_path %>
+  <% end -%>
+<% end -%>

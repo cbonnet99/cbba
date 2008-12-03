@@ -1,9 +1,12 @@
 amcloughlin_hypnotherapy:
     subcategory: hypnotherapy
     user: amcloughlin
+    position: 1
 sgardiner_hypnotherapy:
     user: sgardiner
     subcategory: hypnotherapy
+    position: 2
 rmoore_hypnotherapy:
     user: rmoore
     subcategory: hypnotherapy
+    position: 3

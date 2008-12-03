@@ -10,7 +10,13 @@ namespace :bam do
       TaskUtils.create_default_admins
 			TaskUtils.count_users
 		else
-			puts "Sorry, you can not use this in #{ENV["RAILS_ENV"]}, only in development"
+      if ENV["RAILS_ENV"] == "test"
+        Rake::Task["db:drop"].invoke
+        Rake::Task["db:create"].invoke
+        Rake::Task["db:migrate"].invoke
+      else
+        puts "Sorry, you can not use this in #{ENV["RAILS_ENV"]}, only in development"
+      end
 		end
 	end
 end

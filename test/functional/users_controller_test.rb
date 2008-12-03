@@ -20,7 +20,15 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal "Your password has been updated", flash[:notice]
 		assert_not_nil User.authenticate(cyrille.email, "bleblete")
 	end
-	
+
+	def test_update_phone
+		cyrille = users(:cyrille)
+		post :update, {:id => "123", :user => {:phone_prefix => "06", :phone_suffix => "3086130" }}, {:user_id => cyrille.id }
+		assert_equal "Your details have been updated", flash[:notice]
+    cyrille.reload
+		assert_equal "06-3086130", cyrille.phone
+	end
+
   def test_create
 		old_size = User.all.size
 		district = District.first

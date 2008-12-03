@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081202213611) do
+ActiveRecord::Schema.define(:version => 20081203031848) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20081202213611) do
     t.string   "invoice_number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "payment_type"
   end
 
   create_table "regions", :force => true do |t|
@@ -113,6 +114,7 @@ ActiveRecord::Schema.define(:version => 20081202213611) do
     t.datetime "updated_at"
     t.integer  "subcategory_id"
     t.integer  "user_id"
+    t.integer  "position"
   end
 
   add_index "subcategories_users", ["subcategory_id"], :name => "index_subcategories_users_on_subcategory_id"
@@ -141,6 +143,7 @@ ActiveRecord::Schema.define(:version => 20081202213611) do
     t.integer  "subcategory_id"
     t.integer  "region_id"
     t.integer  "district_id"
+    t.integer  "visited_user_id"
   end
 
   create_table "users", :force => true do |t|

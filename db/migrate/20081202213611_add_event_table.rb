@@ -13,6 +13,8 @@ class AddEventTable < ActiveRecord::Migration
       t.column :subcategory_id, :integer
       t.column :region_id, :integer
       t.column :district_id, :integer
+      t.column :visited_user_id, :integer
+      t.column :results_found, :integer
     end
   end
 

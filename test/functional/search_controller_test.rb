@@ -3,6 +3,19 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SearchControllerTest < ActionController::TestCase
   fixtures :all
 
+  def test_index
+    get :index
+    assert_response :success
+    assert_select "ul#homepage-articles > li", 2
+    #Create 2 more published articles
+    Article.create(:title => "Test1", :state => "published"  )
+    Article.create(:title => "Test2", :state => "published"  )
+    get :index
+    assert_response :success
+    assert_select "ul#homepage-articles > li", $number_articles_on_homepage
+    assert_select "a", :text => "View more articles..."
+  end
+
 	def test_change_category
 		courses = categories(:courses)
     old_size = UserEvent.all.size

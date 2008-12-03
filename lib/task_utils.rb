@@ -1,4 +1,14 @@
 class TaskUtils
+
+  def self.rotate_user_positions_in_subcategories
+    Subcategory.all.each do |sub|
+      first = sub.subcategories_users.first
+      unless first.nil?
+        first.move_to_bottom
+      end
+    end    
+  end
+
 	def self.count_users
 		Category.all.each do |c|
 			c.update_attribute(:users_counter, User.count_all_by_subcategories(*c.subcategories))

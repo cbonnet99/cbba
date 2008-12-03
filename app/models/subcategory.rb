@@ -1,6 +1,6 @@
 class Subcategory < ActiveRecord::Base
 	belongs_to :category
-	has_many :subcategories_user
+	has_many :subcategories_users, :order => "position"
 	has_many :users, :through => :subcategories_user
 	has_many :articles
 

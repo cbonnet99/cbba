@@ -82,3 +82,5 @@ $admins = [{:email => "sav@elevatecoaching.co.nz"},
   {:email => "megan@beamazing.co.nz"},
   {:email => "julie@thatblindwoman.co.nz"},
   {:email => "norma@eurekacoaching.co.nz"}]
+
+$number_articles_on_homepage = 3

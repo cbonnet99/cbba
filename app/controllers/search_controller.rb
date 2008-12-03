@@ -1,7 +1,8 @@
 class SearchController < ApplicationController
 
 	def index
-		
+    @newest_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
+    @total_articles = Article.count(:all, :conditions => "state='published'")
 	end
 
 	def change_category
@@ -28,11 +29,11 @@ class SearchController < ApplicationController
 			if params[:what].blank?
 				@category = Category.find(params[:category_id])
 				@results = User.search_results(@category.id, nil, @region_id, @district_id, params[:page])
-        log_user_event "Search with no subcategory", "category: #{@category.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:category_id => @category.id, :region_id => @region_id, :district_id => @district_id}
+        log_user_event "Search with no subcategory", "category: #{@category.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:category_id => @category.id, :region_id => @region_id, :district_id => @district_id, :results_found => @results.size }
 			else
 				@subcategory = Subcategory.find(params[:what])
 				@results = User.search_results(nil, @subcategory.id, @region_id, @district_id, params[:page])
-        log_user_event "Search with subcategory", "subcategory: #{@subcategory.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :region_id => @region_id, :district_id => @district_id}
+        log_user_event "Search with subcategory", "subcategory: #{@subcategory.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :region_id => @region_id, :district_id => @district_id, :results_found => @results.size}
 			end
 		rescue ActiveRecord::RecordNotFound
 			@results = []

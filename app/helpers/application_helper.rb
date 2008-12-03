@@ -1,4 +1,9 @@
 module ApplicationHelper
+
+  def blank_phone_number?(number_as_string)
+    number_as_string.blank? || number_as_string == "-"
+  end
+
   def user_path_with_context(id)
     options = {}
     unless @article.nil?
@@ -22,7 +27,7 @@ module ApplicationHelper
     "NZD #{s.pop.pop}.#{s.slice(-2, 2)}"
   end
 
-  def paypal_encrypted(payment, return_address="http://#{$hostname}/payments/thank_you?type=full_membership")
+  def paypal_encrypted(payment, payment_type="full_membership", return_address="http://#{$hostname}/payments/thank_you?type=full_membership")
 
     # cert_id is the certificate if we see in paypal when we upload our own
     # certificates cmd _xclick need for buttons item name is what the user will
@@ -43,9 +48,16 @@ module ApplicationHelper
       "country" => "NZ",
       "no_note" => "1",
       "no_shipping" => "1",
+      "custom" => payment_type,
       "invoice" => payment.invoice_number,
-      "return" => return_address
-    }
+      "return" => return_address,
+      "rm" => "2",
+      "address1" => current_user.address1,
+      "first_name" => current_user.first_name,
+      "last_name" => current_user.last_name,
+      "city" => current_user.city,
+      "phone" => blank_phone_number?(current_user.phone) ? current_user.mobile : current_user.phone
+      }
 
     return CryptoPaypal::Button.from_hash(decrypted).get_encrypted_text
 

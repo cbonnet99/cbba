@@ -1,11 +1,11 @@
-	class UsersController < ApplicationController
+class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update]
 	after_filter :store_location, :only => [:profile]
 
   def show
     @user = User.find(params[:id])
     unless @user.nil?
-      log_user_event "Visit full member profile", "", "", {:category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
+      log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
       @articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "updated_at desc")
     end
   end
@@ -16,6 +16,7 @@
 	end
 
 	def edit
+    current_user.disassemble_phone_numbers
 		get_districts_and_subcategories
 	end
 
@@ -31,8 +32,8 @@
 	end
 
 	def update
-			params[:user].delete("password")
-			params[:user].delete("password_confirmation")
+    params[:user].delete("password")
+    params[:user].delete("password_confirmation")
 		if current_user.update_attributes(params[:user])
       redirect_back_or_default root_url
       flash[:notice] = "Your details have been updated"
@@ -84,4 +85,5 @@
     get_districts
 		get_subcategories
 	end
+
 end
