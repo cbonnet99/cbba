@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class PaymentsControllerTest < ActionController::TestCase
   def test_should_get_index
@@ -8,7 +8,8 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_new
-    get :new
+    cyrille = users(:cyrille)
+    get :new, {}, {:user_id => cyrille.id }
     assert_response :success
   end
 

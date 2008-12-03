@@ -71,12 +71,6 @@ end
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
   :default => '%d %B %Y %H:%M')
 
-# Ensure the gateway is in test mode
-ActiveMerchant::Billing::Base.gateway_mode = :test
-ActiveMerchant::Billing::Base.integration_mode = :test
-ActiveMerchant::Billing::PaypalGateway.pem_file =
- File.read(File.dirname(__FILE__) + '/../paypal/paypal_cert.pem')
-
 $admins = [{:email => "sav@elevatecoaching.co.nz"},
   {:email => "cbonnet99@gmail.com", :first_name => "Cyrille", :last_name => "Bonnet" },
   {:email => "megan@beamazing.co.nz"},
@@ -84,3 +78,11 @@ $admins = [{:email => "sav@elevatecoaching.co.nz"},
   {:email => "norma@eurekacoaching.co.nz"}]
 
 $number_articles_on_homepage = 3
+$public_certificate="my-pubcert.pem"
+$private_key="my-prvkey.pem"
+$paypal_certificate="paypal_cert.pem"
+# Ensure the gateway is in test mode
+ActiveMerchant::Billing::Base.gateway_mode = :test
+ActiveMerchant::Billing::Base.integration_mode = :test
+ActiveMerchant::Billing::PaypalGateway.pem_file =
+ File.read(File.dirname(__FILE__) + "/../paypal/#{$paypal_certificate}")

@@ -23,3 +23,7 @@ config.action_view.cache_template_loading            = true
 
 $hostname = "75.101.132.186:9000"
 $paypal_server = "https://www.paypal.com/nz/cgi-bin/webscr"
+$public_certificate="production-pubcert.pem"
+$private_key="production-prvkey.pem"
+$paypal_certificate="paypal_production_cert.pem"
+
