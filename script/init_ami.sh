@@ -9,6 +9,6 @@ sudo su - postgres
 logout
 createdb -U postgres be_amazing_production
 
-psql -U postgres be_amazing_production < /usr/local/cft/deploy/rails/db/2008-11-31-be-amazing.sql
+psql -U postgres be_amazing_production < /usr/local/cft/deploy/rails/db/be-amazing.sql
 sudo /etc/init.d/cft-rails-apache-modrails stop
 sudo /etc/init.d/cft-rails-apache-modrails start
