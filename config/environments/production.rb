@@ -27,3 +27,7 @@ $public_certificate="production-pubcert.pem"
 $private_key="production-prvkey.pem"
 $paypal_certificate="paypal_production_cert.pem"
 
+ActiveMerchant::Billing::Base.gateway_mode = :production
+ActiveMerchant::Billing::Base.integration_mode = :production
+ActiveMerchant::Billing::PaypalGateway.pem_file =
+ File.read(File.dirname(__FILE__) + "/../paypal/#{$paypal_certificate}")
