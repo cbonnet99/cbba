@@ -1,21 +1,6 @@
 $(document).ready(function(){
-    $("#user_free_listing").click(function() {
-        $("#fieldset-professional-details").toggle();
-    });
-
     $("#user_professional").click(function() {
-        switch (this.checked) {
-            case true:
-                $("#link-user-professional").show();
-                break;
-            default:
-                $("#link-user-professional").hide();
-                if (($("#fieldset-professional-details").css('display')) == 'block') {
-                    $("#fieldset-professional-details").hide();
-                }
-
-        }
-
+        $("#fieldset-professional-details").toggle();
     });
 
     $("select#user_region_id").change(function(){

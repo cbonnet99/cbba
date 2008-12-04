@@ -44,7 +44,7 @@ class SearchControllerTest < ActionController::TestCase
 		get :search, :where => canterbury_christchurch_city.id, :what => hypnotherapy.id
 		assert_response :success
 #		puts "========== #{assigns(:results).inspect}"
-		assert_equal 2, assigns(:results).size
+		assert_equal 3, assigns(:results).size
 		#full members should be listed first
 		assert_equal sgardiner, assigns(:results).first, "full members should be listed first"
 	end
@@ -54,7 +54,7 @@ class SearchControllerTest < ActionController::TestCase
 		practitioners = categories(:practitioners)
 		get :search, :where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id
 		assert_response :success
-		assert_equal 2, assigns(:results).size
+		assert_equal 3, assigns(:results).size
 	end
 
 	def test_search_no_subcategory_all_area
@@ -62,7 +62,7 @@ class SearchControllerTest < ActionController::TestCase
 		practitioners = categories(:practitioners)
 		get :search, :where => "r-#{canterbury.id}", :what => nil, :category_id => practitioners.id
 		assert_response :success
-		assert_equal 3, assigns(:results).size
+		assert_equal 4, assigns(:results).size
 		assert_select "select[name=where]" do
 			assert_select "option[value=r-#{canterbury.id}][selected=selected]"
 		end

@@ -4,3 +4,6 @@ yoga:
 hypnotherapy:
     name: Hypnotherapy
     category: practitioners
+aromatherapy:
+    name: Aromatherapy
+    category: practitioners

@@ -33,9 +33,9 @@ class UsersControllerTest < ActionController::TestCase
 		old_size = User.all.size
 		district = District.first
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
-		 :password_confirmation => "testtest23", :district_id => district.id}
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing"}
 		assert_not_nil assigns(:user)
-#		puts assigns(:user).errors.inspect
+    # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
 		assert_equal old_size+1, User.all.size
 	end
@@ -44,9 +44,25 @@ class UsersControllerTest < ActionController::TestCase
 		district = districts(:wellington_wellington_city)
 		wellington = regions(:wellington)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
-		 :password_confirmation => "testtest23", :professional => true,
-		 :free_listing => true, :district_id => district.id, :mobile_prefix => "027",
-		 :mobile_suffix => "8987987", :business_name => "My biz"  }
+      :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
+      :mobile_suffix => "8987987", :business_name => "My biz", :membership_type => "free_listing"  }
+		assert_not_nil assigns(:user)
+    # # 	puts assigns(:user).errors.inspect
+		assert_equal 0, assigns(:user).errors.size
+		assert_equal old_size+1, User.all.size
+		new_user = User.find_by_email("cyrille@stuff.com")
+		assert_not_nil(new_user)
+		assert_equal "027-8987987", new_user.mobile
+		assert_equal wellington, new_user.region
+	end
+  def test_create_full_membership
+		old_size = User.all.size
+		district = districts(:wellington_wellington_city)
+		wellington = regions(:wellington)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
+      :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
+      :mobile_suffix => "8987987", :business_name => "My biz", :membership_type => "full_membership"  }
+    assert_redirected_to "payments/new?payment_type=full_membership"
 		assert_not_nil assigns(:user)
 #		puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size

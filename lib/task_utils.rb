@@ -2,10 +2,25 @@ class TaskUtils
 
   def self.rotate_user_positions_in_subcategories
     Subcategory.all.each do |sub|
-      first = sub.subcategories_users.first
-      unless first.nil?
-        first.move_to_bottom
+      s_users = sub.subcategories_users.find(:all, :include => "user", :conditions => "users.free_listing is false")
+#      s_users = SubcategoriesUser.find_by_sql("select su.* from subcategories_users su, users u where su.subactegsu.user_id = u.id and u.free_listing is false order by su.position")
+      #if there is only 1, no rotation is needed
+#      puts "========= s_users before: #{s_users.inspect}"
+      unless s_users.empty? || s_users.size <= 1
+        first = s_users.first
+        pos = 1
+        s_users.each do |su|
+#          puts "====== su: #{su.inspect}"
+          if su != first
+#            puts "====== setting to: #{pos}"
+            su.update_attribute(:position, pos)
+            pos += 1
+          end
+        end
+        #put first at the end
+        first.update_attribute(:position, pos)
       end
+#      puts "========= s_users after: #{s_users.inspect}"
     end    
   end
 

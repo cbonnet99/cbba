@@ -18,6 +18,7 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		assert !user1.receive_newsletter?
 		assert user1.has_role?('free_listing')
 		assert !user1.subcategories.empty?
+		assert !user1.categories.empty?
 		assert_not_nil user1.subcategories.first.category
 		user2 = User.find_by_email("annette@bodysystems.co.nz")
 		assert user2.receive_newsletter?

@@ -117,7 +117,7 @@ ul#categories li {
     clear: both;
 }
 
-#mccont form label {
+#mccont form label, #mccont form div.left-input {
     display: block;
     float: left;
     text-align: right;
@@ -125,13 +125,18 @@ ul#categories li {
     margin-bottom: 5px;
     width: 200px;
 }
-
-#mccont form input, #mccont form select, #mccont form textarea {
+#mccont form div.left-input input {
+    text-align: right;
+}
+#mccont form input, #mccont form select, #mccont form textarea, #mccont form div.right-label {
     display: block;
     float: left;
     margin-bottom: 5px;
+    text-align: left;
 }
-
+#mccont form div.right-label label {
+    text-align: left;
+}
 div#login-info {
     font-size: small;
     color: white;

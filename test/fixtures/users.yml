@@ -26,8 +26,8 @@ norma:
   activation_code:
   activated_at:              <%= 5.days.ago.to_s :db %>
   state:                     active
-  district:                  wellington_wellington_city
-  region:                    wellington
+  district:                  canterbury_christchurch_city
+  region:                    canterbury
   professional:              true
   free_listing:              false
 amcloughlin:

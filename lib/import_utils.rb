@@ -60,6 +60,7 @@ class ImportUtils
 					user.activate!
 					user.roles << role
 					user.subcategories << subcategory
+					user.categories << category
 					puts "Added user #{user.name}"
 					user_count += 1
 				end

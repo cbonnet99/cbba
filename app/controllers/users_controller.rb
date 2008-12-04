@@ -45,7 +45,11 @@ class UsersController < ApplicationController
 	end
 
   def new
-    @user = User.new
+    mt = params[:mt]
+    if mt.nil?
+      mt = "free_listing"
+    end
+    @user = User.new(:membership_type => mt)
 		get_districts_and_subcategories
   end
  
@@ -55,8 +59,14 @@ class UsersController < ApplicationController
     @user.register! if @user && @user.valid?
     success = @user && @user.valid?
     if success && @user.errors.empty?
-      redirect_back_or_default root_url
-      flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+      if @user.membership_type == "full_membership"
+        flash[:notice] = "You can now complete your payment"
+        session[:user_id] = @user.id
+        redirect_to new_payment_path(:payment_type => "full_membership" )
+      else
+        flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+        redirect_back_or_default root_url
+      end
     else
 			get_districts_and_subcategories
       flash.now[:error]  = "There were some errors in your signup information."

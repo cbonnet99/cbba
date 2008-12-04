@@ -1,12 +1,22 @@
 amcloughlin_hypnotherapy:
     subcategory: hypnotherapy
     user: amcloughlin
-    position: 1
 sgardiner_hypnotherapy:
     user: sgardiner
     subcategory: hypnotherapy
-    position: 2
+    position: 1
 rmoore_hypnotherapy:
     user: rmoore
     subcategory: hypnotherapy
-    position: 3
+norma_hypnotherapy:
+    user: norma
+    subcategory: hypnotherapy
+    position: 2
+norma_aromatherapy:
+    user: norma
+    subcategory: aromatherapy
+    position: 1
+sgardiner_aromatherapy:
+    user: sgardiner
+    subcategory: aromatherapy
+    position: 2

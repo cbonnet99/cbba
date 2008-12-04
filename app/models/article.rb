@@ -27,6 +27,8 @@ class Article < ActiveRecord::Base
   belongs_to :author, :class_name => "User"
 	has_many :articles_subcategories
 	has_many :subcategories, :through => :articles_subcategories
+	has_many :articles_categories
+	has_many :categories, :through => :articles_categories
 	belongs_to :approved_by, :class_name => "User"
 	belongs_to :rejected_by, :class_name => "User"
   

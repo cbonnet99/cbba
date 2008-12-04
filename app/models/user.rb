@@ -25,17 +25,30 @@ class User < ActiveRecord::Base
   has_many :rejected_articles, :class_name => "articles"
 	has_many :subcategories_users
 	has_many :subcategories, :through => :subcategories_users
+	has_many :categories_users
+	has_many :categories, :through => :categories_users
 
 	# #around filters
-	before_create :assemble_phone_numbers, :set_region_from_district
-	before_update :assemble_phone_numbers, :set_region_from_district
+	before_create :assemble_phone_numbers, :set_region_from_district, :set_membership_type
+	before_update :assemble_phone_numbers, :set_region_from_district, :set_membership_type
 
 	# HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
 	# submitting a crafted form that bypasses activation anything else you want
 	# your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city
-	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type
+	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix, :membership_type
 
+
+  def set_membership_type
+    case membership_type
+    when "full_membership"
+      self.free_listing=false
+    else
+      self.free_listing=true
+    end
+    #!IMPORTANT: always return true in an around filter: see http://www.dansketcher.com/2006/12/30/activerecordrecordnotsaved-before_save-problem/
+    return true
+  end
 
 	def full_name
 		res = name
@@ -64,9 +77,9 @@ class User < ActiveRecord::Base
 	def self.search_results(category_id, subcategory_id, region_id, district_id, page)
 		if subcategory_id.nil?
 			if district_id.nil?
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing, su.position", category_id, region_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r, categories_users cu where u.state='active' and cu.user_id = u.id and cu.category_id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing, cu.position", category_id, region_id], :page => page, :per_page => $search_results_per_page )
 			else
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and s.category_id = ? and su.subcategory_id = s.id and su.user_id = u.id and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing, su.position", category_id, district_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r, categories_users cu where u.state='active' and cu.user_id = u.id and cu.category_id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by free_listing, cu.position", category_id, district_id], :page => page, :per_page => $search_results_per_page )
 			end
 		else
 			if district_id.nil?

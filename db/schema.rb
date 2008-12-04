@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081203031848) do
+ActiveRecord::Schema.define(:version => 20081203224749) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(:version => 20081203031848) do
     t.integer  "approved_by_id"
   end
 
+  create_table "articles_categories", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "category_id"
+    t.integer  "article_id"
+    t.integer  "position"
+  end
+
+  add_index "articles_categories", ["article_id"], :name => "index_articles_categories_on_article_id"
+  add_index "articles_categories", ["category_id"], :name => "index_articles_categories_on_category_id"
+
   create_table "articles_subcategories", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -46,6 +57,17 @@ ActiveRecord::Schema.define(:version => 20081203031848) do
     t.integer  "position"
     t.integer  "users_counter", :default => 0
   end
+
+  create_table "categories_users", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "category_id"
+    t.integer  "user_id"
+    t.integer  "position"
+  end
+
+  add_index "categories_users", ["category_id"], :name => "index_categories_users_on_category_id"
+  add_index "categories_users", ["user_id"], :name => "index_categories_users_on_user_id"
 
   create_table "districts", :force => true do |t|
     t.string   "name"
@@ -144,6 +166,7 @@ ActiveRecord::Schema.define(:version => 20081203031848) do
     t.integer  "region_id"
     t.integer  "district_id"
     t.integer  "visited_user_id"
+    t.integer  "results_found"
   end
 
   create_table "users", :force => true do |t|

@@ -13,3 +13,6 @@ rmoore_free_listing:
 norma_reviewer:
   user: norma
   role: reviewer_role
+norma_full_member:
+  user: norma
+  role: full_member_role
