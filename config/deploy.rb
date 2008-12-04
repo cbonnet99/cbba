@@ -23,6 +23,13 @@
 #  set :deploy_via,  :copy
 #  set :copy_strategy, :export
 
+#set :scm_username,  "cbonnet99"
+#set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
+#set :repository, "https://github.com/cbonnet99/cbba/tree"
+#set :branch, "master"
+#set :scm, :git
+#set :deploy_via, :remote_cache
+
 set :repository, "."
 set :scm, :none
 set :deploy_via, :copy
@@ -30,11 +37,13 @@ set :deploy_via, :copy
 # This script is designed to prompt you for the ip of your Elastic Server.
 # You can hardcode it by changing the :deploy_to_ip variable.
 
-set :deploy_to_ip,  lambda { HighLine.new.ask "Elastic Server IP: "}
+set :deploy_to_ip,  "75.101.132.186"
+#set :deploy_to_ip,  lambda { HighLine.new.ask "Elastic Server IP: "}
 set :user,          "cftuser"
 set :runner,        "cftuser" # required for cap 2.3
 #set :password,      "cftuser"  #
-set :password,  lambda { CLI.password_prompt "Target Password (user: #{user}): "}
+set :password,  "wwu5Airemo"
+#set :password,  lambda { CLI.password_prompt "Target Password (user: #{user}): "}
 
 # DO NOT MODIFY BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING
 
