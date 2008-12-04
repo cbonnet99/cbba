@@ -37,7 +37,7 @@ module ApplicationHelper
     # return is the url the user will be redirected to by paypal when the
     # transaction is completed.
     decrypted = {
-      "cert_id" => "4YTMA47WBP66S",
+      "cert_id" => "#{$paypal_cert_id}",
       "cmd" => "_xclick",
       "business" => "cbonnet99@gmail.com",
       "item_name" => payment.title,
@@ -63,6 +63,9 @@ module ApplicationHelper
 
   end
 
+  def own_profile?(user)
+    logged_in? && current_user == user
+  end
 
 	def is_author?(article)
 		logged_in? && current_user == article.author		
@@ -120,10 +123,14 @@ module ApplicationHelper
   # title('Hello World', :h2) %> will return the following: <h2>Hello World</h2>
   # as well as setting the page title.
   def title(str, container = :h2)
-    @page_title = "#{APP_CONFIG[:site_name]} - #{str}"
+    page_title(str)
     content_tag(container, str ) if container
   end
-  
+
+  def page_title(str)
+    @page_title = "#{APP_CONFIG[:site_name]} - #{str}"
+  end
+
   # Outputs the corresponding flash message if any are set
   def flash_messages
     messages = []

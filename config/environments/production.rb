@@ -25,9 +25,10 @@ $hostname = "75.101.132.186:9000"
 $paypal_server = "https://www.paypal.com/nz/cgi-bin/webscr"
 $public_certificate="production-pubcert.pem"
 $private_key="production-prvkey.pem"
-$paypal_certificate="paypal_production_cert.pem"
+$paypal_certificate="paypal_cert_production.pem"
+$paypal_cert_id = "P66P32N232MHL"
 
 ActiveMerchant::Billing::Base.gateway_mode = :production
 ActiveMerchant::Billing::Base.integration_mode = :production
 ActiveMerchant::Billing::PaypalGateway.pem_file =
- File.read(File.dirname(__FILE__) + "/../paypal/#{$paypal_certificate}")
+ File.read(File.dirname(__FILE__) + "/../../paypal/#{$paypal_certificate}")
