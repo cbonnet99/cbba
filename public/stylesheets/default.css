@@ -127,6 +127,8 @@ ul#categories li {
 }
 #mccont form div.left-input input {
     text-align: right;
+    display: inline;
+    float: none;
 }
 #mccont form input, #mccont form select, #mccont form textarea, #mccont form div.right-label {
     display: block;
