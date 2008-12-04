@@ -44,6 +44,13 @@ class PaymentsController < ApplicationController
       payment_type = Payment::DEFAULT_TYPE
     end
     Payment.create(Payment::TYPES[payment_type.to_sym])
+    #and add the role
+    role = Role.find_by_name(payment_type)
+    if role.nil?
+      logger.error("In thank you page, role #{payment_type} could not be found")
+    else
+      current_user.roles << role
+    end
   end
 
   # GET /payments/1/edit
