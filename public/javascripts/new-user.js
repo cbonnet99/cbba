@@ -1,4 +1,10 @@
 $(document).ready(function(){
+    if ($("#user_professional").is(":checked")) {
+        $("#fieldset-professional-details").show();
+    }
+    else {
+        $("#fieldset-professional-details").hide();
+    };
     $("#user_professional").click(function() {
         $("#fieldset-professional-details").toggle();
     });
