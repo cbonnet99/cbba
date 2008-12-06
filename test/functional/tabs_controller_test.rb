@@ -2,7 +2,18 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TabsControllerTest < ActionController::TestCase
   fixtures :all
-  
+
+  def test_move
+    cyrille = users(:cyrille)
+    cyrille_test = tabs(:cyrille_test)
+    post :move_right, {:id => cyrille_test.slug }, {:user_id => cyrille.id }
+    cyrille_test.reload
+    assert_equal 2, cyrille_test.position
+    post :move_left, {:id => cyrille_test.slug }, {:user_id => cyrille.id }
+    cyrille_test.reload
+    assert_equal 1, cyrille_test.position
+  end
+
   def test_tabs
     cyrille = users(:cyrille)
     old_size = Tab.all.size

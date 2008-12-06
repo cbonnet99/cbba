@@ -6,3 +6,9 @@ cyrille_test:
   position: 1
   slug: my-test
   user: cyrille
+cyrille_test2:
+  title: My test2
+  content: My content is here
+  position: 2
+  slug: my-test2
+  user: cyrille

@@ -1,7 +1,25 @@
 class TabsController < ApplicationController
   include Slugalizer
   
-  before_filter :login_required, :only => [:create, :destroy, :edit, :update]
+  before_filter :login_required, :except => [:select, :index]
+
+  def move_right
+    @selected_tab = current_user.tabs.find_by_slug(params[:id])
+    @user = current_user
+    unless @selected_tab.nil?
+      @selected_tab.move_lower
+    end
+    render :template => "users/show"
+  end
+
+  def move_left
+    @selected_tab = current_user.tabs.find_by_slug(params[:id])
+    @user = current_user
+    unless @selected_tab.nil?
+      @selected_tab.move_higher
+    end
+    render :template => "users/show"
+  end
 
   def select
     @user = User.find_by_slug(params[:id])
