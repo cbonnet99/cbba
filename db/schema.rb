@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081203224749) do
+ActiveRecord::Schema.define(:version => 20081205081055) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -142,6 +142,18 @@ ActiveRecord::Schema.define(:version => 20081203224749) do
   add_index "subcategories_users", ["subcategory_id"], :name => "index_subcategories_users_on_subcategory_id"
   add_index "subcategories_users", ["user_id"], :name => "index_subcategories_users_on_user_id"
 
+  create_table "tabs", :force => true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "slug"
+  end
+
+  add_index "tabs", ["user_id"], :name => "index_tabs_on_user_id"
+
   create_table "taggings", :force => true do |t|
     t.integer "taggable_id"
     t.integer "tag_id"
@@ -194,6 +206,7 @@ ActiveRecord::Schema.define(:version => 20081203224749) do
     t.integer  "district_id"
     t.string   "phone"
     t.string   "mobile"
+    t.string   "slug"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

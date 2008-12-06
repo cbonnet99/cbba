@@ -51,9 +51,9 @@ class TaskUtils
           :receive_newsletter => false )
 				user.register!
 				user.activate!
-        user.roles << admin_role
+        user.add_role(admin_role)
       else
-        user.roles << admin_role
+        user.add_role(admin_role)
       end
     end
   end

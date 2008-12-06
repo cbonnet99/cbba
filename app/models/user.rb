@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
+  include Slugalizer
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
@@ -12,7 +13,7 @@ class User < ActiveRecord::Base
   validates_length_of :name, :maximum => 100
   validates_presence_of :email, :district
   validates_length_of :email, :within => 6..100 #r@a.wk
-#  validates_uniqueness_of :email, :case_sensitive => false
+  validates_uniqueness_of :email, :case_sensitive => false
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
   
 	# Relationships
@@ -27,24 +28,117 @@ class User < ActiveRecord::Base
 	has_many :subcategories, :through => :subcategories_users
 	has_many :categories_users
 	has_many :categories, :through => :categories_users
-
+  has_many :tabs, :order => "position"
+  
 	# #around filters
 	before_create :assemble_phone_numbers, :set_region_from_district, :set_membership_type
 	before_update :assemble_phone_numbers, :set_region_from_district, :set_membership_type
+
+  after_create :create_slug
 
 	# HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
 	# submitting a crafted form that bypasses activation anything else you want
 	# your user to change should be added here.
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type
-	attr_accessor :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix, :membership_type
+	attr_accessor :membership_type
+  attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def add_role(role_string)
+    role = Role.find_by_name(role_string)
+    unless role.nil?
+      self.roles << role
+    end
+  end
+
+  def add_tabs
+    unless free_listing?
+      subcategories.each do |s|
+        puts "========== for #{self.name}, adding tab #{s.name}"
+        self.add_tab(s.name, s.name)
+      end
+      puts "========== for #{self.name}, adding tab About#{first_name}"
+       self.add_tab("About #{first_name}", "About #{first_name}")
+    end
+  end
+
+  def to_param
+     slug
+  end
+
+	def create_slug
+		self.update_attribute(:slug, computed_slug)
+	end
+
+	def computed_slug
+		Slugalizer.slugalize(full_name)
+
+	end
+
+  def phone_prefix
+    @phone_prefix ||
+    (unless phone.blank?
+      phone_bits = phone.split("-")
+      phone_bits.first
+    end)
+  end
+
+  def phone_suffix
+    @phone_suffix ||
+    (unless phone.blank?
+      phone_bits = phone.split("-")
+      if phone_bits.size > 1
+        phone_bits.last
+      else
+        ""
+      end
+    end)
+  end
+
+  def mobile_prefix
+    @mobile_prefix ||
+    (unless mobile.blank?
+      mobile_bits = mobile.split("-")
+      mobile_bits.first
+    end)
+  end
+
+  def mobile_suffix
+    @mobile_suffix ||
+    (unless mobile.blank?
+      mobile_bits = mobile.split("-")
+      if mobile_bits.size > 1
+        mobile_bits.last
+      else
+        ""
+      end
+    end)
+  end
+
+  #describes subcategories in a sentence
+  def expertise
+    subcategories.map(&:name).to_sentence
+  end
+
+  def add_tab(title, content)
+    Tab.create(:user_id => id, :title => title, :content => content )
+  end
+
+  def remove_tab(tab_slug)
+    tab = self.tabs.find_by_slug(tab_slug)
+    unless tab.nil?
+      tab.destroy
+    end
+  end
 
   def set_membership_type
     case membership_type
-    when "full_membership"
+    when "full_member"
       self.free_listing=false
+      self.add_role("full_member")
+      add_tabs
     else
       self.free_listing=true
+      self.add_role("free_listing")
     end
     #!IMPORTANT: always return true in an around filter: see http://www.dansketcher.com/2006/12/30/activerecordrecordnotsaved-before_save-problem/
     return true
@@ -97,12 +191,8 @@ class User < ActiveRecord::Base
 	end
 
 	def assemble_phone_numbers
-		if help.blank_phone_number?(mobile)
 			self.mobile = "#{mobile_prefix}-#{mobile_suffix}"
-		end
-		if help.blank_phone_number?(phone)
-			self.phone = "#{phone_prefix}-#{phone_suffix}"
-		end
+			self.phone = "#{self.phone_prefix}-#{self.phone_suffix}"
 	end
 
   def disassemble_phone_numbers
@@ -119,9 +209,16 @@ class User < ActiveRecord::Base
   end
 
 	def validate
-		if professional? && free_listing?
+		if professional?
 			if business_name.blank?
 				errors.add(:business_name, "can't be blank")
+      else
+        #combining name and business name must produce a unique string
+        # so that we can slug it
+        duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where business_name = ? and first_name = ? and last_name = ?", business_name, first_name, last_name])
+        if duplicate_users_count > 1
+          errors.add(:business_name, "There is already a user with the same name and business name")
+        end
 			end
 		end
 	end

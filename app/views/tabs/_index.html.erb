@@ -1,0 +1,18 @@
+<div>
+  <ul id="profile-tabs">
+    <% @user.tabs.each do |t| -%>
+      <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= user_tabs_path(@user.slug, t.slug) %>"><%=t.title%></a></li>
+    <% end -%>
+    <% if own_profile?(@user) -%>
+      <li id="add-tab" class="tab"><a alt="Add a new tab to your profile" href="<%= action_tab_path(:action => "create")%>">Add a new tab...</a></li>
+    <% end -%>
+  </ul>
+</div>
+<div class="cleaner"></div>
+<div id="profile-tab-content">
+  <% if own_profile?(@user) -%>
+     <div id="profile-tabs-nav"><%= render :partial => "tabs/tab_nav" %></div>
+  <% end -%>
+  <div><%= @selected_tab.nil? ? "" : params[:action]=="edit" ? render(:partial => "tabs/form") : @selected_tab.content %></div>
+</div>
+

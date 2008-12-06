@@ -3,10 +3,11 @@ class UsersController < ApplicationController
 	after_filter :store_location, :only => [:profile]
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by_slug(params[:id])
     unless @user.nil?
       log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
-      @articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "updated_at desc")
+#      @articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "updated_at desc")
+      @selected_tab = params[:selected_tab_id].nil? ? @user.tabs.first : @user.tabs.find_by_slug(params[:selected_tab_id]) || @user.tabs.first
     end
   end
 
@@ -16,7 +17,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-    current_user.disassemble_phone_numbers
+#    current_user.disassemble_phone_numbers
 		get_districts_and_subcategories
 	end
 
@@ -32,9 +33,10 @@ class UsersController < ApplicationController
 	end
 
 	def update
+    @user = current_user
     params[:user].delete("password")
     params[:user].delete("password_confirmation")
-		if current_user.update_attributes(params[:user])
+		if @user.update_attributes(params[:user])
       redirect_back_or_default root_url
       flash[:notice] = "Your details have been updated"
     else
@@ -59,10 +61,10 @@ class UsersController < ApplicationController
     @user.register! if @user && @user.valid?
     success = @user && @user.valid?
     if success && @user.errors.empty?
-      if @user.membership_type == "full_membership"
+      if @user.membership_type == "full_member"
         flash[:notice] = "You can now complete your payment"
         session[:user_id] = @user.id
-        redirect_to new_payment_path(:payment_type => "full_membership" )
+        redirect_to new_payment_path(:payment_type => "full_member" )
       else
         flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
         redirect_back_or_default root_url

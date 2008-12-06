@@ -1,0 +1,8 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+cyrille_test:
+  title: My test
+  content: My content is here
+  position: 1
+  slug: my-test
+  user: cyrille

@@ -27,7 +27,7 @@ module ApplicationHelper
     "NZD #{s.pop.pop}.#{s.slice(-2, 2)}"
   end
 
-  def paypal_encrypted(payment, payment_type="full_membership", return_address="http://#{$hostname}/payments/thank_you?type=full_membership")
+  def paypal_encrypted(payment, payment_type="full_member", return_address="http://#{$hostname}/payments/thank_you?type=full_member")
 
     # cert_id is the certificate if we see in paypal when we upload our own
     # certificates cmd _xclick need for buttons item name is what the user will

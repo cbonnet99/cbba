@@ -17,6 +17,7 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		user1 = User.find_by_email("info@yogaindailylife.org.nz")
 		assert !user1.receive_newsletter?
 		assert user1.has_role?('free_listing')
+		assert user1.free_listing?
 		assert !user1.subcategories.empty?
 		assert !user1.categories.empty?
 		assert_not_nil user1.subcategories.first.category
@@ -24,6 +25,9 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		assert user2.receive_newsletter?
 		assert user2.has_role?('full_member')
 		assert !user2.phone.blank?
+    assert_equal 2, user2.tabs.size
+    assert !user2.tabs.first.title.starts_with?("About")
+    assert user2.tabs.last.title.starts_with?("About")
 		assert_not_equal "-", user2.phone
 		assert_equal 'active', user2.state
 	end

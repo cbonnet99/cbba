@@ -85,8 +85,8 @@ namespace(:deploy) do
     rails_server.restart
   end
 
-  desc "Long deploy will throw up the maintenance.html page and run migrations then it restarts and enables the site again."
-  task :long do
+  desc "Deploy will throw up the maintenance.html page and run migrations then it restarts and enables the site again."
+  task :default do
     transaction do
       update_code
       web.disable

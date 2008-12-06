@@ -1,22 +1,39 @@
-<%= title @user.full_name, :h2  %>
-<% unless @user.phone.nil? -%>
-<p>T: <%=@user.phone%></p>
+<% javascript 'user-profile' %>
+
+<% if own_profile?(@user) -%>
+  <%= render :partial => "users/full_member_nav" %>
 <% end -%>
-<% unless @user.mobile.nil? -%>
-<p>M: <%=@user.mobile%></p>
-<% end -%>
-<p><%= @user.address1 %></p>
-<% unless @user.suburb.nil? -%>
-<p><%= @user.suburb %></p>
-<% end -%>
-<p><%= @user.city %></p>
-<p></p>
-<p></p>
-<% unless @articles.empty? -%>
-  <h3>Articles</h3>
-  <ul id="user-articles">
-  <% @articles.each do |a| -%>
-    <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "articles/article", :locals => {:article => a } %></li>
-  <% end -%>
-  </ul>
-<%end -%>
+<div id="profile-top">
+  <div id="profile-top-left">
+    <h4 id="<%=@user.slug%>">beamazing.co.nz full member <%@user.name%><%unless @user.city.blank?%>, <%=@user.city%><%end%></h4>
+    <%= title @user.full_name, :h3 %>
+    <% unless @user.subcategories.blank?%><p>Expertise: <%= @user.expertise %></p><% end %>
+  </div>
+  <div id="profile-top-right">
+    <a href="mailto:<%=@user.email%>?subject=Message via beamazing.co.nz">Ask me a question</a>
+  </div>
+  <div class="cleaner"></div>
+</div>
+<div id="profile-left">
+  <div id="profile-photo"><% if own_profile?(@user) -%>Upload your picture or your logo here<%end%></div>
+  <div id="profile-contact">
+    <p><%=@user.name%></p>
+    <% unless @user.business_name.nil? -%>
+      <p><%=@user.business_name%></p>
+    <% end -%>
+    <p><%= @user.address1 %></p>
+    <% unless @user.suburb.nil? -%>
+      <p><%= @user.suburb %></p>
+    <% end -%>
+    <p><%= @user.city %></p>
+    <% unless @user.phone.nil? -%>
+      <p>T: <%=@user.phone%></p>
+    <% end -%>
+    <% unless @user.mobile.nil? -%>
+      <p>M: <%=@user.mobile%></p>
+    <% end -%>
+  </div>
+</div>
+<div id="profile-right">
+  <%= render :partial => "tabs/index" %>
+</div>

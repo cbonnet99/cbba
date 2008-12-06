@@ -1,6 +1,7 @@
 cyrille:
   first_name:                Cyrille
   last_name:                 Bonnet
+  business_name:             Bioboy Inc
   email:                     cbonnet99@gmail.com
   salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
   crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
@@ -14,9 +15,11 @@ cyrille:
   region:                    wellington
   professional:              true
   free_listing:              false
+  phone:                     06-3086130
 norma:
   first_name:                Norma
   last_name:                 Stein
+  business_name:             Amazing Biz
   email:                     norma2@eurekacoaching.co.nz
   salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
   crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
@@ -30,6 +33,7 @@ norma:
   region:                    canterbury
   professional:              true
   free_listing:              false
+  phone:                     06-
 amcloughlin:
   first_name:                Aaron
   last_name:                 McLoughlin

@@ -1,3 +1,4 @@
 <%= link_to "Your articles", :controller => "users", :action => "profile"%> |
 <%= link_to "Change your password", :controller => "users", :action => "edit_password"%> |
-<%= link_to "Edit your details", :controller => "users", :action => "edit"%>
+<%= link_to "Edit your details", :controller => "users", :action => "edit"%> |
+<%= link_to "Your profile", user_path(current_user.slug)%>

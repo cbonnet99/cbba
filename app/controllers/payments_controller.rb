@@ -33,7 +33,7 @@ class PaymentsController < ApplicationController
     @payment.amount = Payment::TYPES[payment_type.to_sym][:amount]
     
     respond_to do |format|
-      format.html # new_full_membership.html.erb
+      format.html # new.html.erb
       format.xml  { render :xml => @payment }
     end
   end
@@ -49,7 +49,7 @@ class PaymentsController < ApplicationController
     if role.nil?
       logger.error("In thank you page, role #{payment_type} could not be found")
     else
-      current_user.roles << role
+      current_user.membership_type("full_member")
     end
   end
 

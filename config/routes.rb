@@ -16,9 +16,13 @@ ActionController::Routing::Routes.draw do |map|
 	map.category '/category/:category_name', :controller => "categories", :action => "show"
 	map.subcategory '/category/:category_name/subcategory/:subcategory_name', :controller => "subcategories", :action => "show"
   map.search_action '/search', :controller => 'search', :action => "search"
-  map.search_action '/search/:id/:action', :controller => 'search'
+  map.search_action_id '/search/:id/:action', :controller => 'search'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
+  map.action_tab_format '/tabs/:action.:format', :controller => 'tabs'
+  map.action_tab '/tabs/:action', :controller => 'tabs'
+  map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
+  map.action_tab_with_user '/users/:user_id/tabs/:id/:action', :controller => 'tabs'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.whyjoin '/whyjoin', :controller => 'users', :action => 'why_join'
@@ -26,6 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
   map.update_after_forgetting '/update_after_forgetting', :controller => 'passwords', :action => 'update_after_forgetting'
+  map.user_tabs '/users/:id/:selected_tab_id', :controller => 'users', :action => "show"
   map.user_profile '/users/profile', :controller => 'users', :action => "profile"
   map.user_edit_pwd '/users/edit_password', :controller => 'users', :action => "edit_password"
   map.user_edit_pwd '/users/update_password', :controller => 'users', :action => "update_password"

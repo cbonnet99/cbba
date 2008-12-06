@@ -3,19 +3,50 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
-  
-#  def test_position_search
-#
-#        puts "============ new_results:"
-#    new_results.each do |r|
-#      puts "+++++++++ #{r.email} (#{r.free_listing})"
-#    end
-#    puts "============ after_insert_results:"
-#    after_insert_results.each do |r|
-#      puts "+++++++++ #{r.email} (#{r.free_listing})"
-#    end
-#
-#  end
+
+  def test_unique_tab_title
+    cyrille = users(:cyrille)
+    old_size = Tab.all.size
+    cyrille.add_tab("Test", "Content")
+    assert_equal old_size+1, Tab.all.size
+    cyrille.add_tab("Test", "Content")
+    #no new tab created: the title of the 2nd tab is not unique
+    assert_equal old_size+1, Tab.all.size
+  end
+
+  def test_change_membership
+    canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+    canterbury = regions(:canterbury)
+    hypnotherapy = subcategories(:hypnotherapy)
+    user = User.new(:first_name => "Joe", :last_name => "Test",
+      :district_id => canterbury_christchurch_city.id, :business_name => "uytut",
+      :region_id => canterbury.id, :email => "joe.bill@nunu.com",
+      :free_listing => true, :professional => true,
+      :password => "blablabla", :password_confirmation => "blablabla", :subcategory1_id => hypnotherapy.id )
+    user.register!
+    user.activate!
+    assert_equal 0, user.tabs.size
+    user.membership_type = "full_member"
+    user.save!
+    user.reload
+    assert_equal 2, user.tabs.size
+    assert_equal "Hypnotherapy", user.tabs.first.title
+    assert_equal "About Joe", user.tabs.last.title
+  end
+
+  def test_phone_suffix
+    cyrille = users(:cyrille)
+    norma = users(:norma)
+    assert_equal "3086130", cyrille.phone_suffix
+    assert_equal "", norma.phone_suffix
+  end
+
+  def test_phone_prefix
+    cyrille = users(:cyrille)
+    norma = users(:norma)
+    assert_equal "06", cyrille.phone_prefix
+    assert_equal "06", norma.phone_prefix
+  end
 
 	def test_reviewers
 		assert_equal 1, User.reviewers.size
