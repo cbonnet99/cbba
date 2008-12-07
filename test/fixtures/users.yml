@@ -76,6 +76,7 @@ sgardiner:
   mobile:                    021 313 161
   free_listing:              false
   professional:              true
+  slug:                      stephanie-gardiner
 rmoore:
   first_name:                Roger
   last_name:                 Moore
@@ -98,3 +99,4 @@ rmoore:
   mobile:                    021 567 234
   free_listing:              true
   professional:              true
+  slug:                      roger-moore

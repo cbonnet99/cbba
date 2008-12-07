@@ -60,7 +60,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(params[:article])
     @article.author_id = @current_user.id
-    
+    get_subcategories
     respond_to do |format|
       if @article.save
         flash[:notice] = 'Article was successfully created.'
@@ -77,6 +77,7 @@ class ArticlesController < ApplicationController
   # PUT /articles/1.xml
   def update
     @article = Article.find(params[:id])
+        get_subcategories
 
     respond_to do |format|
       if @article.update_attributes(params[:article])

@@ -55,9 +55,10 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_difference('Article.count') do
       post :create, {:article => { :title => "Test9992323", :subcategory1_id => yoga.id  }}, {:user_id => cyrille.id }
     end
-
     assert_redirected_to article_path(assigns(:article))
 		assert_equal yoga.id, assigns(:article).subcategory1_id
+    assert_not_nil assigns(:subcategories)
+
   end
 
   def test_should_show_article
@@ -74,6 +75,7 @@ class ArticlesControllerTest < ActionController::TestCase
   def test_should_update_article
     put :update, :id => articles(:yoga).id, :article => { }
     assert_redirected_to article_path(assigns(:article))
+    assert_not_nil assigns(:subcategories)
   end
 
   def test_should_destroy_article

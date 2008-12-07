@@ -55,11 +55,10 @@ class ImportUtils
 						:region_id => region.id, :phone => phone, :mobile => mobile, :email => email,
 						:free_listing => (role == free_listing), :professional => true,
 						:password => "blablabla", :password_confirmation => "blablabla",
+            :subcategory1_id => subcategory.id, :category_id => category.id,
 						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing" )
 					user.register!
 					user.activate!
-					user.subcategories << subcategory
-					user.categories << category
 					puts "Added user #{user.name}"
 					user_count += 1
 				end

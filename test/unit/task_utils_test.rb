@@ -35,15 +35,18 @@ class TaskUtilsTest < ActiveSupport::TestCase
     # #another hypnoptherapist in Chrischurch!
     user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
       :region_id => canterbury.id, :email => "joe@test.com",
-      :free_listing => false, :professional => true,
+      :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
       :password => "blablabla", :password_confirmation => "blablabla" )
     user.register!
     user.activate!
     user.roles << Role.find_by_name("full_member")
-		user.subcategories << hypnotherapy
     assert_equal old_user_size+1, User.all.size
     after_insert_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
     #the new user should be in last place
+#    puts "============= after_insert_results:"
+#    after_insert_results.each do |r|
+#      puts r.name, r.free_listing
+#    end
     assert after_insert_results.first == new_results.first
     assert after_insert_results.last != new_results.last
   end

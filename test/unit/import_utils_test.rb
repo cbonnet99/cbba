@@ -14,21 +14,22 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		old_count_users = User.count
 		ImportUtils.import_users
 		assert User.count > old_count_users
-		user1 = User.find_by_email("info@yogaindailylife.org.nz")
-		assert !user1.receive_newsletter?
-		assert user1.has_role?('free_listing')
-		assert user1.free_listing?
-		assert !user1.subcategories.empty?
-		assert !user1.categories.empty?
-		assert_not_nil user1.subcategories.first.category
-		user2 = User.find_by_email("annette@bodysystems.co.nz")
-		assert user2.receive_newsletter?
-		assert user2.has_role?('full_member')
-		assert !user2.phone.blank?
-    assert_equal 2, user2.tabs.size
-    assert !user2.tabs.first.title.starts_with?("About")
-    assert user2.tabs.last.title.starts_with?("About")
-		assert_not_equal "-", user2.phone
-		assert_equal 'active', user2.state
+		yoga_daily = User.find_by_email("info@yogaindailylife.org.nz")
+		assert !yoga_daily.receive_newsletter?
+		assert yoga_daily.has_role?('free_listing')
+		assert yoga_daily.free_listing?
+		assert !yoga_daily.subcategories.empty?
+		assert !yoga_daily.categories.empty?
+		assert_not_nil yoga_daily.subcategories.first.category
+		annette = User.find_by_email("annette@bodysystems.co.nz")
+		assert annette.receive_newsletter?
+		assert annette.has_role?('full_member')
+		assert !annette.phone.blank?
+
+    assert_equal 2, annette.tabs.size
+    assert !annette.tabs.first.title.starts_with?("About")
+    assert annette.tabs.last.title.starts_with?("About")
+		assert_not_equal "-", annette.phone
+		assert_equal 'active', annette.state
 	end
 end

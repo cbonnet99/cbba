@@ -1,7 +1,7 @@
 <h1>Editing article</h1>
 
 <% form_for(@article) do |f| %>
-  <%= f.error_messages %>
+      <%= f.error_messages :header_message => "Please try again", :message => "Your article could not be saved" %>
 
   <fieldset>
     <legend>Article details</legend>

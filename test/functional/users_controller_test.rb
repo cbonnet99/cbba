@@ -6,12 +6,9 @@ class UsersControllerTest < ActionController::TestCase
   def test_show
     old_size = UserEvent.all.size
     rmoore = users(:rmoore)
-    yoga = articles(:yoga)
     
-    get :show, :id => rmoore.slug, :article_id => yoga.id
-    assert_equal old_size+1, UserEvent.all.size
-    assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.article_id
-    
+    get :show, :id => rmoore.slug
+    assert_equal old_size+1, UserEvent.all.size    
   end
 
 	def test_update_password
@@ -33,7 +30,7 @@ class UsersControllerTest < ActionController::TestCase
 	def test_update_phone2
     rmoore = users(:rmoore)
 		post :update, {:id => "123", :user => {:business_name => "My biz", :phone_prefix => "09", :phone_suffix => "111111" }}, {:user_id => rmoore.id }
-    puts assigns(:user).errors.inspect
+#    puts assigns(:user).errors.inspect
 		assert_equal "Your details have been updated", flash[:notice]
     rmoore.reload
 		assert_equal "09-111111", rmoore.phone
@@ -94,7 +91,6 @@ class UsersControllerTest < ActionController::TestCase
 	end
   def test_create_full_membership
 		old_size = User.all.size
-    old_tab_size = Tab.all.size
 		district = districts(:wellington_wellington_city)
 		wellington = regions(:wellington)
     hypnotherapy = subcategories(:hypnotherapy)
@@ -111,6 +107,6 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal "027-8987987", new_user.mobile
 		assert_equal wellington, new_user.region
     #2 tabs: one for about cyrille and one for hypnotherapy
-    assert_equal old_tab_size+2, Tab.all.size
+    assert_equal 2, new_user.tabs.size
 	end
 end

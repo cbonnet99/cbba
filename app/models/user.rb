@@ -53,10 +53,8 @@ class User < ActiveRecord::Base
   def add_tabs
     unless free_listing?
       subcategories.each do |s|
-        puts "========== for #{self.name}, adding tab #{s.name}"
         self.add_tab(s.name, s.name)
       end
-      puts "========== for #{self.name}, adding tab About#{first_name}"
        self.add_tab("About #{first_name}", "About #{first_name}")
     end
   end
