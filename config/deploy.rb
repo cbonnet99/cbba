@@ -91,7 +91,7 @@ namespace(:deploy) do
       update_code
       web.disable
       symlink
-      migrate
+      #migrate
     end
 
     restart
