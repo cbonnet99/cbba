@@ -23,6 +23,7 @@
             <% end -%>
           </div>
           <div id="login-right">
+            <%= yield :flash %>
             <% if logged_in? -%>
               <%= link_to 'Your profile', :controller => "users", :action => "profile"%>
             <% end -%>

@@ -1,3 +1,9 @@
+.fieldWithErrors {
+    display: inline;
+}
+.fieldWithErrors input, .fieldWithErrors select, .fieldWithErrors label {
+    background-color: #ffdfdf;
+}
 
 #profile-tab-content {
     padding: 5px;
@@ -235,7 +241,6 @@ div#login-info a {
 }
 .mandatoryStar {
     color: red;
-    float: left;
 }
 
 .nube1 {font-size: 1.0em;}

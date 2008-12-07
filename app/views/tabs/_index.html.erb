@@ -13,6 +13,7 @@
   <% if own_profile?(@user) -%>
      <div id="profile-tabs-nav"><%= render :partial => "tabs/tab_nav" %></div>
   <% end -%>
-  <div><%= @selected_tab.nil? ? "" : params[:action]=="edit" ? render(:partial => "tabs/form") : @selected_tab.content %></div>
+  <div><%= @selected_tab.nil? ? "" : params[:action]=="edit" || params[:action]=="update" ? render(:partial => "tabs/form") : @selected_tab.content %></div>
+
 </div>
 

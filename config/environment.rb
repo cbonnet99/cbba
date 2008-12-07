@@ -90,3 +90,10 @@ ActiveMerchant::Billing::Base.gateway_mode = :test
 ActiveMerchant::Billing::Base.integration_mode = :test
 ActiveMerchant::Billing::PaypalGateway.pem_file =
  File.read(File.dirname(__FILE__) + "/../paypal/#{$paypal_certificate}")
+
+#manage errors:
+ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+  msg = instance.error_message
+  title = msg.kind_of?(Array) ? '* ' + msg.join("\n* ") : msg
+  "<div class=\"fieldWithErrors\" title=\"#{title}\">#{html_tag}</div>"
+end

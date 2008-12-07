@@ -56,6 +56,7 @@ class TabsController < ApplicationController
 
   def update
     @selected_tab = current_user.tabs.find_by_slug(params[:id])
+    @user = current_user
     unless params[:tab]["title"].nil?
     end
     if @selected_tab.update_attributes(params[:tab])
@@ -64,7 +65,7 @@ class TabsController < ApplicationController
       flash[:notice] = "Your details have been updated"
     else
       flash.now[:error]  = "There were some errors in your details."
-      render :action => 'edit'
+      render :template => "users/show"
     end
 
   end

@@ -2,7 +2,6 @@
 
 div.flash {
     background-color: #f0f0f0;
-    padding: 5px;
     text-align: center;
     font-weight: bold;
     font-size: medium;
@@ -10,17 +9,14 @@ div.flash {
 
 div#flash-notice {
     color: green;
-    border: 1px solid green;
 }
 
 div#flash-warning {
     color: orange;
-    border: 1px solid orange;
 }
 
 div#flash-error {
     color: red;
-    border: 1px solid red;	
 }
 
 /* === ERROR MESSAGES === */
