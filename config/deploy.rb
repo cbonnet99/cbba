@@ -85,13 +85,31 @@ namespace(:deploy) do
     rails_server.restart
   end
 
+  desc "Run init script for AMIs"
+  task :run_init_ami do
+    run "chmod +x #{current_path}/script/init_*.sh"
+    run "cd #{current_path}/script"
+    run "./init_ami.sh"
+    run "cd #{current_path}"
+  end
+
+
+  desc "Initial set up of a new Amazon Machine Instance"
+  task :init do
+    transaction do
+      update_code
+      symlink
+
+    end
+  end
+
   desc "Deploy will throw up the maintenance.html page and run migrations then it restarts and enables the site again."
   task :default do
     transaction do
       update_code
       web.disable
       symlink
-      #migrate
+      migrate
     end
 
     restart

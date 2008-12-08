@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   
 	# Relationships
   has_many :roles_users
-  has_many :roles, :through => :roles_users
+  has_many :roles, :through => :roles_users, :uniq => true 
   belongs_to :region
   belongs_to :district
   has_many :articles
@@ -132,11 +132,15 @@ class User < ActiveRecord::Base
     case membership_type
     when "full_member"
       self.free_listing=false
-      self.add_role("full_member")
       add_tabs
+      unless has_role?("full_member")
+        self.add_role("full_member")
+      end
     else
       self.free_listing=true
-      self.add_role("free_listing")
+      unless has_role?("free_listing")
+        self.add_role("free_listing")
+      end
     end
     #!IMPORTANT: always return true in an around filter: see http://www.dansketcher.com/2006/12/30/activerecordrecordnotsaved-before_save-problem/
     return true
@@ -155,11 +159,11 @@ class User < ActiveRecord::Base
 	end
 
 	def self.find_all_by_region_and_subcategories(region, *subcategories)
-		User.find_by_sql(["select u.* from users u, subcategories_users su where u.state='active' and u.id = su.user_id and u.region_id = ? and su.subcategory_id in (?) order by free_listing", region.id, subcategories])
+		User.find_by_sql(["select u.* from users u, subcategories_users su where u.state='active' and u.id = su.user_id and u.region_id = ? and su.subcategory_id in (?) order by free_listing, su.position", region.id, subcategories])
 	end
 
 	def self.find_all_by_subcategories(*subcategories)
-		User.find_by_sql(["select u.* from users u, subcategories_users su where u.state='active' and u.id = su.user_id and su.subcategory_id in (?) order by free_listing", subcategories])
+		User.find_by_sql(["select u.* from users u, subcategories_users su where u.state='active' and u.id = su.user_id and su.subcategory_id in (?) order by free_listing, su.position", subcategories])
 	end
 
 	def self.count_all_by_subcategories(*subcategories)
@@ -208,14 +212,17 @@ class User < ActiveRecord::Base
 
 	def validate
 		if professional?
+      #combining name and business name must produce a unique string
+      # so that we can slug it
 			if business_name.blank?
-				errors.add(:business_name, "can't be blank")
+        duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where first_name = ? and last_name = ?", first_name, last_name])
+        if duplicate_users_count > 1
+          errors.add(:first_name, "^There is already a user with the same name. Please enter a business name to differentiate yourself or change your name (by adding a middle name, for instance)")
+        end
       else
-        #combining name and business name must produce a unique string
-        # so that we can slug it
         duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where business_name = ? and first_name = ? and last_name = ?", business_name, first_name, last_name])
         if duplicate_users_count > 1
-          errors.add(:business_name, "There is already a user with the same name and business name")
+          errors.add(:business_name, "^There is already a user with the same name and business name")
         end
 			end
 		end

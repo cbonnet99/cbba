@@ -4,6 +4,32 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_roles
+    cyrille = users(:cyrille)
+    full_member_role = roles(:full_member_role)
+    cyrille.roles << full_member_role
+    cyrille.reload
+    assert_equal 1, cyrille.roles.find_all_by_name("full_member").size
+  end
+
+  def test_roles2
+    canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+    canterbury = regions(:canterbury)
+    hypnotherapy = subcategories(:hypnotherapy)
+    old_roles_user_size = RolesUser.all.size
+    user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
+      :region_id => canterbury.id, :email => "joe@test.com",
+      :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
+      :password => "blablabla", :password_confirmation => "blablabla" )
+      user.register!
+      user.activate
+      assert_equal 1, user.roles.find_all_by_name("full_member").size
+      puts "======== RolesUser.all.last: #{RolesUser.all.last.inspect}"
+      puts "======== user: #{RolesUser.all.last.user.inspect}"
+      puts "======== role: #{RolesUser.all.last.role.inspect}"
+      assert_equal old_roles_user_size+1, RolesUser.all.size
+  end
+    
   def test_unique_tab_title
     cyrille = users(:cyrille)
     old_size = Tab.all.size
@@ -97,6 +123,10 @@ class UserTest < ActiveSupport::TestCase
 		practitioners = categories(:practitioners)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
     results = User.search_results(practitioners.id, nil, nil, canterbury_christchurch_city.id, 1)
+#    puts "========= results:"
+#    results.each do |r|
+#      puts r.name
+#    end
 		assert_equal 3, results.size
 	end
 

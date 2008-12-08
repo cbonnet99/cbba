@@ -26,11 +26,20 @@ class TaskUtilsTest < ActiveSupport::TestCase
     canterbury_christchurch_city = districts(:canterbury_christchurch_city)
     hypnotherapy = subcategories(:hypnotherapy)
     results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
+    # puts "============= results:"
+    # results.each do |r|
+    #   puts "#{r.name}  - #{r.free_listing}"
+    # end
     TaskUtils.rotate_user_positions_in_subcategories
     new_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
-    # #first full membe should have changed
+    new_results_size = new_results.size
+    # #first full member should have changed
     assert new_results.first != results.first
 
+    # puts "============= new_results:"
+    # new_results.each do |r|
+    #   puts "#{r.name}  - #{r.free_listing}"
+    # end
     old_user_size = User.all.size
     # #another hypnoptherapist in Chrischurch!
     user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
@@ -39,15 +48,20 @@ class TaskUtilsTest < ActiveSupport::TestCase
       :password => "blablabla", :password_confirmation => "blablabla" )
     user.register!
     user.activate!
-    user.roles << Role.find_by_name("full_member")
     assert_equal old_user_size+1, User.all.size
     after_insert_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
-    #the new user should be in last place
-#    puts "============= after_insert_results:"
-#    after_insert_results.each do |r|
-#      puts r.name, r.free_listing
-#    end
+    #the new user should be the last of the full members
+   # puts "============= after_insert_results:"
+   # after_insert_results.each do |r|
+   #   puts "#{r.name}  - #{r.free_listing}"
+   # end
+   
+    #only one result should have been added
+    assert_equal new_results_size+1, after_insert_results.size
     assert after_insert_results.first == new_results.first
-    assert after_insert_results.last != new_results.last
+    
+    last_full_member_new = new_results.select{|m| !m.free_listing?}.last
+    last_full_member_after_insert = after_insert_results.select{|m| !m.free_listing?}.last
+    assert last_full_member_new != last_full_member_after_insert
   end
 end

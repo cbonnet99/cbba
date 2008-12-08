@@ -17,6 +17,7 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		yoga_daily = User.find_by_email("info@yogaindailylife.org.nz")
 		assert !yoga_daily.receive_newsletter?
 		assert yoga_daily.has_role?('free_listing')
+    assert_equal 1, yoga_daily.roles.find_all_by_name("free_listing").size
 		assert yoga_daily.free_listing?
 		assert !yoga_daily.subcategories.empty?
 		assert !yoga_daily.categories.empty?
@@ -25,6 +26,7 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		assert annette.receive_newsletter?
 		assert annette.has_role?('full_member')
 		assert !annette.phone.blank?
+    assert_equal 1, annette.roles.find_all_by_name("full_member").size
 
     assert_equal 2, annette.tabs.size
     assert !annette.tabs.first.title.starts_with?("About")

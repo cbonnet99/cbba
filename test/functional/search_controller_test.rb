@@ -62,6 +62,10 @@ class SearchControllerTest < ActionController::TestCase
 		practitioners = categories(:practitioners)
 		get :search, :where => "r-#{canterbury.id}", :what => nil, :category_id => practitioners.id
 		assert_response :success
+#    puts "========= assigns(:results):"
+#    assigns(:results).each do |r|
+#      puts r.name
+#    end
 		assert_equal 4, assigns(:results).size
 		assert_select "select[name=where]" do
 			assert_select "option[value=r-#{canterbury.id}][selected=selected]"

@@ -4,11 +4,7 @@ class Subcategory < ActiveRecord::Base
 	has_many :users, :through => :subcategories_user
 	has_many :articles
 
-	def validate
-		unless Subcategory.find_by_category_id_and_name(category_id, name).nil?
-			errors.add(:name, "must be unique in this category")
-		end
-	end
+  validates_uniqueness_of :name, :scope => [:category_id], :message => "must be unique in this category"
 
 	def self.options(category, selected_subcategory_id=nil)
 		Subcategory.find_all_by_category_id(category.id,  :order => "name").inject("<option value=''>All #{category.name}</option>"){|memo, subcat|
