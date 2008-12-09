@@ -1,4 +1,4 @@
-<div id="profile-tabs-left">
+<div id="profile-tabs-left" class="column">
   <ul id="profile-tabs">
     <% @user.tabs.each do |t| -%>
       <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= user_tabs_path(@user.slug, t.slug) %>"><%=t.title%></a></li>
@@ -8,14 +8,14 @@
     <% end -%>
   </ul>
 </div>
-<div id="profile-tabs-right">
+<div id="profile-tabs-right" class="column">
   <% if own_profile?(@user) -%><span class="<%=@user.user_profile.workflow_css_class%>"><%=@user.user_profile.state%></span>
     <%unless @user.user_profile.published? -%>
       <% form_tag "/users/publish" do -%>
         <%= submit_tag "Publish" %>
       <%end -%><%end -%><%end%>
 </div>
-<div class="cleaner-left"></div>
+<div class="cleaner"></div>
 <div id="profile-tab-content">
   <% if own_profile?(@user) -%>
     <div id="profile-tabs-nav"><%= @selected_tab.nil? ? "" : render(:partial => "tabs/tab_nav") %></div>

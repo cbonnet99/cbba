@@ -1,10 +1,14 @@
+
+.column{
+  position: relative;
+  float: left;
+}
+
 #profile-container {
     padding-left: 150px;
 }
 #profile-left {
     border: 1px #c00 solid;
-    float: left;
-    position: relative;
     width: 150px;
     margin-left: -100%;
     right: 150px;
@@ -12,30 +16,17 @@
 }
 
 #profile-right {
-    float: left;
-    position: relative;
     text-align: left;
     width: 100%;
 }
 
 #profile-tabs-right {
-    float: left;
     text-align: right;
 }
 #profile-tabs-left {
-    float: left;
     text-align: left;
+    width: 80%;
 }
-#profile-header-left p{
-    font-style: italic;
-}
-.fieldWithErrors {
-    display: inline;
-}
-.fieldWithErrors input, .fieldWithErrors select, .fieldWithErrors label {
-    background-color: #ffdfdf;
-}
-
 #profile-tab-content {
     padding: 5px;
     border: 1px #c00 solid;
@@ -80,19 +71,24 @@ ul#profile-tabs li.selected-tab a {
 }
 #profile-header {
     border: 1px #c00 solid;
-    padding: 5px;
+    padding-left: 250px;
 }
 #profile-header-right {
-    float: left;
+    width: 100%;
     text-align: right;
     vertical-align: middle;
-    background-color: green;
 }
-
+#profile-ask-question-content, #profile-title-content{
+    padding: 5px;
+}
 #profile-header-left {
-    float: left;
+    width: 250px;
+    right: 250px;
+    margin-left: -100%;
 }
-
+#profile-header-left p{
+    font-style: italic;
+}
 #profile-photo {
     border-bottom: 1px #c00 solid;
     padding: 5px;
@@ -334,4 +330,10 @@ body {
     font-size:80%;
     min-width: 510px;      /* 2x LC width + RC width */
 
+}
+.fieldWithErrors {
+    display: inline;
+}
+.fieldWithErrors input, .fieldWithErrors select, .fieldWithErrors label {
+    background-color: #ffdfdf;
 }
