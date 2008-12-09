@@ -1,4 +1,4 @@
-<div>
+<div id="profile-tabs-left">
   <ul id="profile-tabs">
     <% @user.tabs.each do |t| -%>
       <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= user_tabs_path(@user.slug, t.slug) %>"><%=t.title%></a></li>
@@ -7,12 +7,18 @@
       <li id="add-tab" class="tab"><a alt="Add a new tab to your profile" href="<%= action_tab_path(:action => "create")%>">Add a new tab...</a></li>
     <% end -%>
   </ul>
-  Publish What's this?
 </div>
-<div class="cleaner"></div>
+<div id="profile-tabs-right">
+  <% if own_profile?(@user) -%><span class="<%=@user.user_profile.workflow_css_class%>"><%=@user.user_profile.state%></span>
+    <%unless @user.user_profile.published? -%>
+      <% form_tag "/users/publish" do -%>
+        <%= submit_tag "Publish" %>
+      <%end -%><%end -%><%end%>
+</div>
+<div class="cleaner-left"></div>
 <div id="profile-tab-content">
   <% if own_profile?(@user) -%>
-     <div id="profile-tabs-nav"><%= render :partial => "tabs/tab_nav" %></div>
+    <div id="profile-tabs-nav"><%= @selected_tab.nil? ? "" : render(:partial => "tabs/tab_nav") %></div>
   <% end -%>
   <div><%= @selected_tab.nil? ? "" : params[:action]=="edit" || params[:action]=="update" ? render(:partial => "tabs/form") : @selected_tab.content %></div>
 

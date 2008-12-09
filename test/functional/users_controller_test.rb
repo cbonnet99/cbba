@@ -3,12 +3,44 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
+	def test_publish
+		norma = users(:norma)
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+		post :publish, {}, {:user_id => norma.id}
+		norma.user_profile.reload
+		assert_not_nil norma.user_profile.published_at
+
+    # #an email should be sent to reviewers
+		assert ActionMailer::Base.deliveries.size > 0
+	end
+  
   def test_show
     old_size = UserEvent.all.size
     rmoore = users(:rmoore)
-    
-    get :show, :id => rmoore.slug
-    assert_equal old_size+1, UserEvent.all.size    
+    cyrille = users(:cyrille)
+
+    get :show, {:id => rmoore.slug}, {:user_id => rmoore.id }
+    # #visits to own profile should not be recorded
+    assert_equal old_size, UserEvent.all.size
+    get :show, {:id => cyrille.slug}, {:user_id => rmoore.id }
+    assert_equal old_size+1, UserEvent.all.size
+
+  end
+
+  def test_show2
+    rmoore = users(:rmoore)
+
+    get :show, {:id => rmoore.slug}, {:user_id => rmoore.id }
+    assert_select "input[value=Publish]"
+  end
+  def test_show3
+    cyrille = users(:cyrille)
+    get :show, {:id => cyrille.slug}, {:user_id => cyrille.id }
+    # #Cyrille's profile is already published: not button should be shown
+    assert_select "input[value=Publish]", :count => 0
   end
 
 	def test_update_password
@@ -30,7 +62,7 @@ class UsersControllerTest < ActionController::TestCase
 	def test_update_phone2
     rmoore = users(:rmoore)
 		post :update, {:id => "123", :user => {:business_name => "My biz", :phone_prefix => "09", :phone_suffix => "111111" }}, {:user_id => rmoore.id }
-#    puts assigns(:user).errors.inspect
+    #    puts assigns(:user).errors.inspect
 		assert_equal "Your details have been updated", flash[:notice]
     rmoore.reload
 		assert_equal "09-111111", rmoore.phone
@@ -66,7 +98,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_create
 		old_size = User.all.size
 		district = District.first
-		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
       :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing"}
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
@@ -79,7 +111,7 @@ class UsersControllerTest < ActionController::TestCase
 		wellington = regions(:wellington)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-      :mobile_suffix => "8987987", :business_name => "My biz", :membership_type => "free_listing"  }
+      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "free_listing"  }
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
@@ -96,17 +128,17 @@ class UsersControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-      :mobile_suffix => "8987987", :business_name => "My biz", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
+      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_redirected_to "payments/new?payment_type=full_member"
 		assert_not_nil assigns(:user)
-#		puts assigns(:user).errors.inspect
+    # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
 		assert_equal old_size+1, User.all.size
 		new_user = User.find_by_email("cyrille@stuff.com")
 		assert_not_nil(new_user)
 		assert_equal "027-8987987", new_user.mobile
 		assert_equal wellington, new_user.region
-    #2 tabs: one for about cyrille and one for hypnotherapy
+    # #2 tabs: one for about cyrille and one for hypnotherapy
     assert_equal 2, new_user.tabs.size
 	end
 end

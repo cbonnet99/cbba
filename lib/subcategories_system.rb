@@ -1,13 +1,13 @@
 module SubcategoriesSystem
   def self.included(base)
-		base.send :include, SubcategoriesSystemClassMethods
+		base.send :include, SubcategoriesSystemInstanceMethods
 		base.send :attr_accessor, :subcategory1_id, :subcategory2_id, :subcategory3_id
 		base.send :after_create, :save_subcategories
 		base.send :after_update, :save_subcategories
 	end
 
 
-	module SubcategoriesSystemClassMethods
+	module SubcategoriesSystemInstanceMethods
 		def after_find
 				self.subcategory1_id = self.subcategories[0].nil? ? nil : self.subcategories[0].id
 				self.subcategory2_id = self.subcategories[1].nil? ? nil : self.subcategories[1].id

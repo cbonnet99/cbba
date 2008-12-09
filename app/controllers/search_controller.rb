@@ -1,5 +1,9 @@
 class SearchController < ApplicationController
 
+  def test
+    render :layout => false 
+  end
+
 	def index
     @newest_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
     @total_articles = Article.count(:all, :conditions => "state='published'")

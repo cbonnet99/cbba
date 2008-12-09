@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.reviewer 'reviewer/:action', :controller => "reviewer"
 	map.category '/category/:category_name', :controller => "categories", :action => "show"
 	map.subcategory '/category/:category_name/subcategory/:subcategory_name', :controller => "subcategories", :action => "show"
+  map.test_search_action '/search/test', :controller => 'search', :action => "test"
   map.search_action '/search', :controller => 'search', :action => "search"
   map.search_action_id '/search/:id/:action', :controller => 'search'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
@@ -35,6 +36,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_edit_pwd '/users/edit_password', :controller => 'users', :action => "edit_password"
   map.user_edit_pwd '/users/update_password', :controller => 'users', :action => "update_password"
   map.user_edit '/users/edit', :controller => 'users', :action => "edit"
+  map.user_publish '/users/publish', :controller => 'users', :action => "publish"
   
   # Restful Authentication Resources
   map.resources :users

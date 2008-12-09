@@ -54,8 +54,8 @@ role :app, deploy_to_ip
 role :web, deploy_to_ip
 role :db, deploy_to_ip, :primary => true
 
-before "deploy", "deploy:setup"
-after "deploy:symlink", "deploy:elastic_server_symlink"
+before "deploy:init", "deploy:setup"
+#after "deploy:symlink", "deploy:elastic_server_symlink"
 
 # NOTE: This deployment script relies on calling Elastic Server rubberbands
 # which control the server (mongrel, etc) that lives in /etc/cft.d/mods-enabled
@@ -87,20 +87,32 @@ namespace(:deploy) do
 
   desc "Run init script for AMIs"
   task :run_init_ami do
-    run "chmod +x #{current_path}/script/init_*.sh"
-    run "cd #{current_path}/script"
-    run "./init_ami.sh"
-    run "cd #{current_path}"
+    run "#{sudo} chmod +x #{current_path}/script/init_*.sh"
+    run "#{sudo} #{current_path}/script/init_ami.sh"
   end
 
+  desc "Reload test data"
+  task :reload_data do
+    #Cyrille(7 Dev 2008): commented out for now as we use test data in staging
+#    unless ENV["RAILS_ENV"] == "production"
+    run("cd #{deploy_to}/current; /usr/bin/rake bam:load RAILS_ENV=production")
+#    end
+  end
 
-  desc "Initial set up of a new Amazon Machine Instance"
+  desc "Initializes BAM site"
   task :init do
     transaction do
       update_code
+      web.disable
       symlink
-
+      elastic_server_symlink
+      run_init_ami
+      migrate
+      reload_data
     end
+
+    restart
+    web.enable
   end
 
   desc "Deploy will throw up the maintenance.html page and run migrations then it restarts and enables the site again."
@@ -109,7 +121,10 @@ namespace(:deploy) do
       update_code
       web.disable
       symlink
+      elastic_server_symlink
+#      run_init_ami
       migrate
+#      reload_data
     end
 
     restart

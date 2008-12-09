@@ -24,9 +24,6 @@ class UserTest < ActiveSupport::TestCase
       user.register!
       user.activate
       assert_equal 1, user.roles.find_all_by_name("full_member").size
-      puts "======== RolesUser.all.last: #{RolesUser.all.last.inspect}"
-      puts "======== user: #{RolesUser.all.last.user.inspect}"
-      puts "======== role: #{RolesUser.all.last.role.inspect}"
       assert_equal old_roles_user_size+1, RolesUser.all.size
   end
     
@@ -164,5 +161,6 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal [hypnotherapy, yoga], new_user.subcategories
 		new_user2 = User.find_by_email("joe@test.com")
 		assert_equal [hypnotherapy, yoga], new_user2.subcategories
+    assert_not_nil new_user.user_profile
 	end
 end

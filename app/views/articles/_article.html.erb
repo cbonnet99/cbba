@@ -1,3 +1,3 @@
 <p><%=link_to article.title, article_path(article) %>
-<% if is_author?(article)%> (<span class="article-<%=article.state%>"><%=article.state%></span>)<%end%></p>
+<% if is_author?(article)%> (<span class="<%=article.workflow_css_class%>"><%=article.state%></span>)<%end%></p>
 <p><%=h article.introduction %></p>

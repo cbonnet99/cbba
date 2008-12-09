@@ -3,16 +3,21 @@
 <% if own_profile?(@user) -%>
   <%= render :partial => "users/full_member_nav" %>
 <% end -%>
-<div id="profile-top">
-  <div id="profile-top-left">
+<div id="profile-header">
+  <div id="profile-header-left">
     <h4 id="<%=@user.slug%>">beamazing.co.nz full member <%@user.name%><%unless @user.city.blank?%>, <%=@user.city%><%end%></h4>
     <%= title @user.full_name, :h3 %>
+    <% unless @user.member_since.blank?%><p>Member since: <%= @user.member_since.to_s(:short) %></p><% end %>
     <% unless @user.subcategories.blank?%><p>Expertise: <%= @user.expertise %></p><% end %>
   </div>
-  <div id="profile-top-right">
+  <div id="profile-header-right">
     <a href="mailto:<%=@user.email%>?subject=Message via beamazing.co.nz">Ask me a question</a>
   </div>
   <div class="cleaner"></div>
+</div>
+<div id="profile-container">
+<div id="profile-right">
+  <%= render :partial => "tabs/index" %>
 </div>
 <div id="profile-left">
   <div id="profile-photo"><% if own_profile?(@user) -%>Upload your picture or your logo here<%end%></div>
@@ -34,6 +39,4 @@
     <% end -%>
   </div>
 </div>
-<div id="profile-right">
-  <%= render :partial => "tabs/index" %>
 </div>

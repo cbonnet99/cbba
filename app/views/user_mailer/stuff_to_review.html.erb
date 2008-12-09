@@ -1,0 +1,18 @@
+Dear <%= @user.first_name %>,
+
+A new <%=@stuff.class.to_s.titleize.downcase%> has been published, please review it:
+
+<% if @path_method.nil? -%>
+<%= @stuff.title %>
+<%else -%>
+<% if @stuff.class.to_s == "UserProfile" -%>
+<%=link_to @stuff.title, @path_method.call(@stuff.user.slug) -%>
+<% else -%>
+<%=link_to @stuff.title, @path_method.call(@stuff.slug) -%>
+<% end -%>
+<% end -%>
+
+
+Thanks,
+
+BeAmazing.com

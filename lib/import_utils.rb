@@ -59,6 +59,8 @@ class ImportUtils
 						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing" )
 					user.register!
 					user.activate!
+          #publish profile
+          user.user_profile.publish!
 					puts "Added user #{user.name}"
 					user_count += 1
 				end

@@ -4,10 +4,16 @@ class UserMailer < ActionMailer::Base
 		@subject << "Your article must be revised for publication"
 		@body[:article] = article
 	end
-	def article_to_review(article, reviewer)
+	def stuff_to_review(stuff, reviewer)
     setup_email(reviewer)
-		@subject << "Article to review"
-		@body[:article] = article
+		@subject << "Review needed"
+		@body[:stuff] = stuff
+    path_method = self.method(stuff.path_method.to_sym)
+    if path_method.nil?
+      logger.error("No method called #{stuff.path_method} could be found in object: #{self.inspect}")
+    else
+      @body[:path_method] = path_method
+    end
 	end
   def signup_notification(user)
     setup_email(user)

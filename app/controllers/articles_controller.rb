@@ -5,8 +5,6 @@ class ArticlesController < ApplicationController
 	def publish
     @article = Article.find(params[:id])
 		if current_user.id == @article.author_id
-			@article.published_at = Time.now.utc
-			@article.save!
 			@article.publish!
 			flash[:notice] = "Article successfully published"
 		else

@@ -2,6 +2,11 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
 
+  def test_publish
+    yoga = articles(:yoga)
+    yoga.publish!
+  end
+
 	def test_count_reviewable
 		assert_equal 1, Article.count_reviewable
 	end

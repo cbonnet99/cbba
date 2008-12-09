@@ -41,6 +41,7 @@ class TaskUtils
   #be listed there as practicioners)
   def self.create_default_admins
     admin_role = Role.find_or_create_by_name("admin")
+    default_district = District.find_by_name("Wellington City")
     $admins.each do |admin|
       user = User.find_by_email(admin[:email])
       if user.nil?
@@ -48,12 +49,19 @@ class TaskUtils
           :email => admin[:email],
           :professional => true,
           :password => "monkey", :password_confirmation => "monkey",
-          :receive_newsletter => false )
-				user.register!
-				user.activate!
-        user.add_role(admin_role)
+          :receive_newsletter => false, :district_id => default_district.id  )
+        if user && user.valid?
+          user.register!
+          user.activate!
+          user.add_role("admin")
+        else
+          puts "Could not create user #{admin[:email]}, because of errors:"
+          user.errors.full_messages.each do |m|
+            puts "* #{m}"
+          end
+        end
       else
-        user.add_role(admin_role)
+        user.add_role("admin")
       end
     end
   end

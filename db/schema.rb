@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081205081055) do
+ActiveRecord::Schema.define(:version => 20081209052635) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -181,6 +181,17 @@ ActiveRecord::Schema.define(:version => 20081205081055) do
     t.integer  "results_found"
   end
 
+  create_table "user_profiles", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "state",          :default => "draft"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "published_at"
+    t.text     "reason_reject"
+    t.datetime "rejected_at"
+    t.integer  "rejected_by_id"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "first_name",                :limit => 100, :default => ""
     t.string   "last_name",                 :limit => 100, :default => ""
@@ -207,6 +218,8 @@ ActiveRecord::Schema.define(:version => 20081205081055) do
     t.string   "phone"
     t.string   "mobile"
     t.string   "slug"
+    t.datetime "member_since"
+    t.datetime "member_until"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

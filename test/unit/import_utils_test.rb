@@ -27,6 +27,8 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		assert annette.has_role?('full_member')
 		assert !annette.phone.blank?
     assert_equal 1, annette.roles.find_all_by_name("full_member").size
+    assert_not_nil annette.user_profile
+
 
     assert_equal 2, annette.tabs.size
     assert !annette.tabs.first.title.starts_with?("About")

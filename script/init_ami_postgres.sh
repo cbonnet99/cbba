@@ -6,4 +6,4 @@
 dropdb -U postgres be_amazing_production
 
 createdb -U postgres be_amazing_production
-psql be_amazing_production < /usr/local/cft/deploy/rails/db/be-amazing.sql
+#psql be_amazing_production < /usr/local/cft/deploy/rails/db/be-amazing.sql

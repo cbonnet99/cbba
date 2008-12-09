@@ -42,5 +42,7 @@ class Test::Unit::TestCase
 			raise "Invalid JSON: #{json}"
 		end
 	end
-
+  def read_fixture(action, subs = {} )
+    IO.read("#{File.dirname(__FILE__) + '/fixtures'}/#{action}")
+  end
 end

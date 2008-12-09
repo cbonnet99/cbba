@@ -49,7 +49,8 @@ class PaymentsController < ApplicationController
     if role.nil?
       logger.error("In thank you page, role #{payment_type} could not be found")
     else
-      current_user.membership_type("full_member")
+      current_user.membership_type = "full_member"
+      current_user.save!
     end
   end
 

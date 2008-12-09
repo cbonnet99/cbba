@@ -3,25 +3,8 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 class Article < ActiveRecord::Base
   include Slugalizer
 	include SubcategoriesSystem
-	include Authorization::AasmRoles::StatefulRolesInstanceMethods
-	include AASM
-	aasm_column :state
-	aasm_initial_state :initial => :draft
-	aasm_state :draft
-	aasm_state :published, :enter => :email_reviewers
-
-	aasm_event :publish do
-		transitions :from => :draft, :to => :published
-	end
-
-	aasm_event :remove do
-		transitions :from => :published, :to => :draft
-	end
-
-	aasm_event :reject do
-		transitions :from => :published, :to => :draft
-	end
-
+  include WorkflowSystem
+  
   acts_as_taggable
 	
   belongs_to :author, :class_name => "User"
@@ -41,14 +24,12 @@ class Article < ActiveRecord::Base
   MAX_LENGTH_INTRODUCTION = 100
 	MAX_LENGTH_SLUG = 20
 
+  def path_method
+    "article_path"
+  end
+
 	def reviewable?
 		state == "published" && approved_at.nil?
-	end
-
-	def email_reviewers
-		User.reviewers.each do |r|
-			UserMailer.deliver_article_to_review(self, r)
-		end
 	end
 
 	def self.count_reviewable

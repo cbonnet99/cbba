@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
 	
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
-  validates_presence_of :email, :district, :message => "^Your area can't be blank"
+  validates_presence_of :email, :first_name, :last_name
+  validates_presence_of :district, :message => "^Your area can't be blank"
   validates_length_of :email, :within => 6..100 #r@a.wk
   validates_uniqueness_of :email, :case_sensitive => false
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
@@ -29,12 +30,13 @@ class User < ActiveRecord::Base
 	has_many :categories_users
 	has_many :categories, :through => :categories_users
   has_many :tabs, :order => "position"
+  has_one :user_profile
   
 	# #around filters
 	before_create :assemble_phone_numbers, :set_region_from_district, :set_membership_type
 	before_update :assemble_phone_numbers, :set_region_from_district, :set_membership_type
 
-  after_create :create_slug
+  after_create :create_slug, :create_profile
 
 	# HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
 	# submitting a crafted form that bypasses activation anything else you want
@@ -43,9 +45,13 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def create_profile
+    UserProfile.create(:user_id => self.id)
+  end
+
   def add_role(role_string)
     role = Role.find_by_name(role_string)
-    unless role.nil?
+    unless role.nil? || has_role?(role_string)
       self.roles << role
     end
   end
@@ -132,6 +138,8 @@ class User < ActiveRecord::Base
     case membership_type
     when "full_member"
       self.free_listing=false
+      self.member_since = Time.now.utc
+      self.member_until = 1.year.from_now
       add_tabs
       unless has_role?("full_member")
         self.add_role("full_member")

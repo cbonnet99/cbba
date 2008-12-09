@@ -1,11 +1,20 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :only => [:edit, :update]
-	after_filter :store_location, :only => [:profile]
+  before_filter :login_required, :only => [:edit, :update, :publish]
+	after_filter :store_location, :only => [:profile, :show]
 
+	def publish
+    current_user.user_profile.publish!
+    flash[:notice] = "Your profile was successfully published"
+		redirect_back_or_default root_url
+	end
+  
   def show
     @user = User.find_by_slug(params[:id])
     unless @user.nil?
-      log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
+      #we don't want to count the visits to our own profile
+      unless @user == current_user
+        log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
+      end
 #      @articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "updated_at desc")
       @selected_tab = params[:selected_tab_id].nil? ? @user.tabs.first : @user.tabs.find_by_slug(params[:selected_tab_id]) || @user.tabs.first
     end

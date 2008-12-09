@@ -1,7 +1,7 @@
 development: &non_production_settings
   site_url: http://localhost:3000
   site_name: Be Amazing(development)
-  admin_email: cbonnet99@gmail.com
+  admin_email: admin@beamazing.co.nz
   
 test:
   <<: *non_production_settings
