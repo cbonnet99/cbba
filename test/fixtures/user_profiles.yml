@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+cyrille_profile:
+  user: cyrille
+  state: published
+
+norma_profile:
+  user: norma
+  state: draft
+
+amcloughlin_profile:
+  user: amcloughlin
+  state: draft
+
+sgardiner_profile:
+  user: sgardiner
+  state: draft
+
+rmoore_profile:
+  user: rmoore
+  state: draft
