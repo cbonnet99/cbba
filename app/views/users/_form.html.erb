@@ -21,11 +21,11 @@
         <%= f.select :district_id, @districts, {:prompt => "- Please select -"} %>
       </li>
       <li>
-        <%= f.label :first_name, 'Your first name:' %>
+        <%= f.label :first_name, "Your first name:<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :first_name %>
       </li>
       <li>
-        <%= f.label :last_name, 'Your surname:' %>
+        <%= f.label :last_name, "Your surname:<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :last_name %>
       </li>
       <li>
