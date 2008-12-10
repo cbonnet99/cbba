@@ -23,8 +23,8 @@
 #  set :deploy_via,  :copy
 #  set :copy_strategy, :export
 
-#set :scm_username,  "cbonnet99"
-#set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
+set :scm_username,  "cbonnet99"
+set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
 #set :repository, "https://github.com/cbonnet99/cbba/tree"
 #set :branch, "master"
 #set :scm, :git
