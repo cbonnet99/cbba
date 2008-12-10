@@ -28,11 +28,14 @@
 #set :repository, "https://github.com/cbonnet99/cbba/tree"
 #set :branch, "master"
 #set :scm, :git
-#set :deploy_via, :remote_cache
+set :deploy_via, :remote_cache
+set :scm, "git"
+set :repository, "git://github.com/cbonnet99/cbba.git"
+set :branch, "master"
 
-set :repository, "."
-set :scm, :none
-set :deploy_via, :copy
+#set :repository, "."
+#set :scm, :none
+#set :deploy_via, :copy
 
 # This script is designed to prompt you for the ip of your Elastic Server.
 # You can hardcode it by changing the :deploy_to_ip variable.
@@ -97,6 +100,7 @@ namespace(:deploy) do
     run "#{sudo} chmod +x #{current_path}/script/init_*.sh"
     run "#{sudo} #{current_path}/script/init_ami.sh"
     run "#{sudo} apt-get install imagemagick"
+    run "#{sudo} apt-get install git-core"
   end
 
   desc "Reload test data"
