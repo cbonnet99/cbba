@@ -39,7 +39,7 @@ module ApplicationHelper
     decrypted = {
       "cert_id" => "#{$paypal_cert_id}",
       "cmd" => "_xclick",
-      "business" => "cbonnet99@gmail.com",
+      "business" => "#{$paypal_business}",
       "item_name" => payment.title,
       "item_number" => "1",
       "custom" => payment.comment,
@@ -58,7 +58,8 @@ module ApplicationHelper
       "city" => current_user.city,
       "phone" => blank_phone_number?(current_user.phone) ? current_user.mobile : current_user.phone
       }
-
+      
+    logger.debug("============ decrypted: #{decrypted.inspect}")
     return CryptoPaypal::Button.from_hash(decrypted).get_encrypted_text
 
   end

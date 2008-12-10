@@ -84,6 +84,7 @@ $public_certificate="my-pubcert.pem"
 $private_key="my-prvkey.pem"
 $paypal_certificate="paypal_cert.pem"
 $paypal_cert_id = "4YTMA47WBP66S"
+$paypal_business="cbonnet99@gmail.com"
 
 # Ensure the gateway is in test mode
 ActiveMerchant::Billing::Base.gateway_mode = :test

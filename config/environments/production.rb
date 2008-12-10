@@ -27,6 +27,7 @@ $public_certificate="production-pubcert.pem"
 $private_key="production-prvkey.pem"
 $paypal_certificate="paypal_cert_production.pem"
 $paypal_cert_id = "P66P32N232MHL"
+$paypal_business="sav@beamazing.co.nz"
 
 ActiveMerchant::Billing::Base.gateway_mode = :production
 ActiveMerchant::Billing::Base.integration_mode = :production
