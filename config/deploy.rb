@@ -55,6 +55,8 @@ role :web, deploy_to_ip
 role :db, deploy_to_ip, :primary => true
 
 before "deploy:init", "deploy:setup"
+after 'deploy:update_code', 'deploy:symlink_shared'
+
 #after "deploy:symlink", "deploy:elastic_server_symlink"
 
 # NOTE: This deployment script relies on calling Elastic Server rubberbands
@@ -85,10 +87,17 @@ namespace(:deploy) do
     rails_server.restart
   end
 
+  desc "Symlink shared configs and folders on each release."
+  task :symlink_shared do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
+  end
+
   desc "Run init script for AMIs"
   task :run_init_ami do
     run "#{sudo} chmod +x #{current_path}/script/init_*.sh"
     run "#{sudo} #{current_path}/script/init_ami.sh"
+    run "#{sudo} apt-get install imagemagick"
   end
 
   desc "Reload test data"

@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
   include Authorization::AasmRoles
 	include SubcategoriesSystem
 	
+  has_attached_file :photo, :styles => { :medium => "200x250>", :thumbnail => "100x125>" },
+                            :url  => "/assets/profiles/:id/:style/:basename.:extension",
+                            :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
+                           
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
   validates_presence_of :email, :first_name, :last_name
@@ -16,8 +20,10 @@ class User < ActiveRecord::Base
   validates_length_of :email, :within => 6..100 #r@a.wk
   validates_uniqueness_of :email, :case_sensitive => false
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
-  
+  validates_attachment_size :photo, :less_than => 3.megabytes
+  validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/png', 'image/gif']
 	# Relationships
+
   has_many :roles_users
   has_many :roles, :through => :roles_users, :uniq => true 
   belongs_to :region
@@ -41,7 +47,7 @@ class User < ActiveRecord::Base
 	# HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
 	# submitting a crafted form that bypasses activation anything else you want
 	# your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 

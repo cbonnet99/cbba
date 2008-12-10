@@ -1,0 +1,6 @@
+<%if @user.photo.exists?%><%= image_tag @user.photo.url(:medium) %><%end%>
+<% form_for :user, @user, :url => user_create_photo_path, :html => { :multipart => true } do |form| %>
+        <%= form.label :photo, "Your picture or logo should be 200 pixels wide. If wider, it will be automatically resized to that size", :id => "profile-photo-label" %>
+      <%= form.file_field :photo, :size => "15"  %>
+    <%= submit_tag "Add photo"  %>
+  <% end %>

@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
+  def test_new_photo
+    cyrille = users(:cyrille)
+    get :new_photo, {}, {:user_id => cyrille.id }
+    assert_response :success
+    #make sure that we don't have a layout as it only used as AJAX
+    assert_select "div#header", :count => 0
+  end
+
 	def test_publish
 		norma = users(:norma)
 		ActionMailer::Base.delivery_method = :test

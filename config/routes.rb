@@ -34,9 +34,11 @@ ActionController::Routing::Routes.draw do |map|
   map.user_tabs '/users/:id/:selected_tab_id', :controller => 'users', :action => "show"
   map.user_profile '/users/profile', :controller => 'users', :action => "profile"
   map.user_edit_pwd '/users/edit_password', :controller => 'users', :action => "edit_password"
-  map.user_edit_pwd '/users/update_password', :controller => 'users', :action => "update_password"
+  map.user_update_pwd '/users/update_password', :controller => 'users', :action => "update_password"
   map.user_edit '/users/edit', :controller => 'users', :action => "edit"
   map.user_publish '/users/publish', :controller => 'users', :action => "publish"
+  map.user_new_photo '/users/new_photo', :controller => 'users', :action => "new_photo"
+  map.user_create_photo '/users/create_photo', :controller => 'users', :action => "create_photo"
   
   # Restful Authentication Resources
   map.resources :users

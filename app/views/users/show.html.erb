@@ -22,7 +22,7 @@
   <%= render :partial => "tabs/index" %>
 </div>
 <div id="profile-left" class="column">
-  <div id="profile-photo"><% if own_profile?(@user) -%>Upload your picture or your logo here<%end%></div>
+  <div id="profile-photo"><%if @user.photo.exists?%><%= image_tag @user.photo.url(:medium) %><%end%><% if own_profile?(@user) -%><%if @user.photo.exists?%><%= link_to_remote "Change your photo", :update => "profile-left", :url => user_new_photo_path %><%else%><%= link_to_remote "Upload your picture or your logo here", :update => "profile-left", :url => user_new_photo_path %><%end%><%end%></div>
   <div id="profile-contact">
     <p><%=@user.name%></p>
     <% unless @user.business_name.nil? -%>

@@ -1,6 +1,25 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :only => [:edit, :update, :publish]
+  before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish]
 	after_filter :store_location, :only => [:profile, :show]
+
+  def new_photo
+    @user = current_user
+    render :layout => false
+  end
+
+  def create_photo
+    @user = current_user
+    if @user.update_attributes( params[:user] )
+      flash[:notice]="Your photo was updated"
+    else
+      logger.error("Error while uploading a photofor user: #{@user.email}. Error were:")
+      @user.errors.full_messages.each do |m|
+        logger.error("* #{m}")
+      end
+      flash[:error]="Error while uploading your photo. Our administrator has been notified. Please try again later. Our sincere apologies for the inconvenience."
+    end
+		redirect_back_or_default root_url
+  end
 
 	def publish
     current_user.user_profile.publish!

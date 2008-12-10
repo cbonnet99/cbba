@@ -1,3 +1,7 @@
+#profile-photo-label{
+    font-size: small;
+    color: gray;
+}
 
 .column{
   position: relative;
@@ -5,13 +9,13 @@
 }
 
 #profile-container {
-    padding-left: 150px;
+    padding-left: 220px;
 }
 #profile-left {
     border: 1px #c00 solid;
-    width: 150px;
+    width: 220px;
     margin-left: -100%;
-    right: 150px;
+    right: 220px;
     text-align: center;
 }
 
