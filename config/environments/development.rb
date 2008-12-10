@@ -17,4 +17,3 @@ config.action_controller.perform_caching             = false
 config.action_mailer.raise_delivery_errors = false
 
 $hostname = "localhost:3000"
-$paypal_server = "https://www.sandbox.paypal.com/nz/cgi-bin/webscr"

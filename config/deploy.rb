@@ -27,8 +27,8 @@ set :scm_username,  "cbonnet99"
 #set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
 set :deploy_via, :remote_cache
 set :scm, "git"
-#set :repository, "git://github.com/cbonnet99/cbba.git"
-set :repository, "git@github.com:cbonnet99/cbba.git"
+set :repository, "git://github.com/cbonnet99/cbba.git"
+#set :repository, "git@github.com:cbonnet99/cbba.git"
 set :branch, "master"
 
 #set :repository, "."

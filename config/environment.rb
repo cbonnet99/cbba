@@ -80,17 +80,9 @@ $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last
 $number_articles_on_homepage = 3
 $max_number_tabs = 6
 
-$public_certificate="my-pubcert.pem"
-$private_key="my-prvkey.pem"
-$paypal_certificate="paypal_cert.pem"
-$paypal_cert_id = "4YTMA47WBP66S"
-$paypal_business="cbonnet99@gmail.com"
-
 # Ensure the gateway is in test mode
 ActiveMerchant::Billing::Base.gateway_mode = :test
 ActiveMerchant::Billing::Base.integration_mode = :test
-ActiveMerchant::Billing::PaypalGateway.pem_file =
- File.read(File.dirname(__FILE__) + "/../paypal/#{$paypal_certificate}")
 
 #manage errors:
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|

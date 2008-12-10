@@ -37,9 +37,9 @@ module ApplicationHelper
     # return is the url the user will be redirected to by paypal when the
     # transaction is completed.
     decrypted = {
-      "cert_id" => "#{$paypal_cert_id}",
+      "cert_id" => "#{CryptoPaypal::Config.paypal_cert_id}",
       "cmd" => "_xclick",
-      "business" => "#{$paypal_business}",
+      "business" => "#{CryptoPaypal::Config.paypal_business}",
       "item_name" => payment.title,
       "item_number" => "1",
       "custom" => payment.comment,
