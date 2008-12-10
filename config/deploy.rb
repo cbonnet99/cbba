@@ -24,13 +24,11 @@
 #  set :copy_strategy, :export
 
 set :scm_username,  "cbonnet99"
-set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
-#set :repository, "https://github.com/cbonnet99/cbba/tree"
-#set :branch, "master"
-#set :scm, :git
+#set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
 set :deploy_via, :remote_cache
 set :scm, "git"
-set :repository, "git://github.com/cbonnet99/cbba.git"
+#set :repository, "git://github.com/cbonnet99/cbba.git"
+set :repository, "git@github.com:cbonnet99/cbba.git"
 set :branch, "master"
 
 #set :repository, "."
@@ -85,6 +83,42 @@ namespace(:rails_server) do
 end
 
 namespace(:deploy) do
+  desc "Copy all cron jobs"
+  task :cron do
+    if (ENV['RAILS_ENV'] || '').downcase == 'production'
+	    cron_app
+	    cron_db
+    else
+	    puts "*** No cron jobs deployed as it is not a production environment"
+    end
+  end
+
+  desc "Copy cron jobs for application servers"
+  task :cron_app, :roles => :app do
+    Dir.foreach("cron_jobs/app") do |dir|
+	    if dir !="." && dir != ".." && dir != ".svn"
+        Dir.foreach("cron_jobs/app/"+dir) do |file|
+          if file !="." && file != ".." && file != ".svn"
+            put File.read("cron_jobs/app/"+dir+"/"+file), "/etc/"+dir+"/"+file, :mode => 0755
+          end
+        end
+	    end
+    end
+  end
+
+  desc "Copy cron jobs for database servers"
+  task :cron_db, :roles => :db do
+    Dir.foreach("cron_jobs/db") do |dir|
+	    if dir !="." && dir != ".." && dir != ".svn"
+        Dir.foreach("cron_jobs/db/"+dir) do |file|
+          if file !="." && file != ".." && file != ".svn"
+            put File.read("cron_jobs/db/"+dir+"/"+file), "/etc/"+dir+"/"+file, :mode => 0755
+          end
+        end
+	    end
+    end
+  end
+
   desc "Restart the Rails server."
   task :restart, :roles => :app do
     rails_server.restart
@@ -92,6 +126,9 @@ namespace(:deploy) do
 
   desc "Symlink shared configs and folders on each release."
   task :symlink_shared do
+    if Dir["#{shared_path}/assets"].nil?
+      run "mkdir #{shared_path}/assets"
+    end
     run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
   end
 
