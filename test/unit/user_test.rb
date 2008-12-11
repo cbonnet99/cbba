@@ -4,6 +4,11 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_sentence_to_review
+    cyrille = users(:cyrille)
+    assert_equal "1 article and 1 user profile to review", cyrille.sentence_to_review
+  end
+
   def test_roles
     cyrille = users(:cyrille)
     full_member_role = roles(:full_member_role)
@@ -89,18 +94,18 @@ class UserTest < ActiveSupport::TestCase
 		yoga = subcategories(:yoga)
 		hypnotherapy = subcategories(:hypnotherapy)
 		res = User.find_all_by_subcategories(hypnotherapy)
-		assert_equal 4, res.size
+		assert_equal 5, res.size
 		res = User.find_all_by_subcategories(hypnotherapy, yoga)
-		assert_equal 4, res.size
+		assert_equal 5, res.size
 	end
 
 	def test_count_all_by_subcategories
 		yoga = subcategories(:yoga)
 		hypnotherapy = subcategories(:hypnotherapy)
 		res = User.count_all_by_subcategories(hypnotherapy)
-		assert_equal 4, res
+		assert_equal 5, res
 		res = User.count_all_by_subcategories(hypnotherapy, yoga)
-		assert_equal 4, res
+		assert_equal 5, res
 	end
 
 	def test_has_role
@@ -143,6 +148,18 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [practitioners], test_user.categories
 	end
 
+	def test_create_without_subcategories
+		wellington = regions(:wellington)
+		wellington_wellington_city = districts(:wellington_wellington_city)
+
+		new_user = User.new(:first_name => "Joe", :last_name => "Test", :business_name => "Test",
+			:address1 => "1, Main St", :suburb => "Newtown", :district_id => wellington_wellington_city.id,
+			:region_id => wellington.id, :phone => "04-28392173", :mobile => "", :email => "joe@test.com",
+			:password => "blablabla", :password_confirmation => "blablabla"  )
+    assert !new_user.valid?
+    assert_equal 1, new_user.errors.size
+    assert_equal "^You must select at least one category", new_user.errors[:subcategory1_id]
+  end
 	def test_create
 		wellington = regions(:wellington)
 		wellington_wellington_city = districts(:wellington_wellington_city)

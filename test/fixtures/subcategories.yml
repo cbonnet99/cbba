@@ -7,3 +7,6 @@ hypnotherapy:
 aromatherapy:
     name: Aromatherapy
     category: practitioners
+life_coaching:
+    name: Life Coaching
+    category: coaching

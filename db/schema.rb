@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081210000829) do
+ActiveRecord::Schema.define(:version => 20081210233937) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -183,13 +183,16 @@ ActiveRecord::Schema.define(:version => 20081210000829) do
 
   create_table "user_profiles", :force => true do |t|
     t.integer  "user_id"
-    t.string   "state",          :default => "draft"
+    t.string   "state",           :default => "draft"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "published_at"
     t.text     "reason_reject"
     t.datetime "rejected_at"
     t.integer  "rejected_by_id"
+    t.text     "comment_approve"
+    t.datetime "approved_at"
+    t.integer  "approved_by_id"
   end
 
   create_table "users", :force => true do |t|

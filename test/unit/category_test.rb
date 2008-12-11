@@ -6,8 +6,8 @@ class CategoryTest < ActiveSupport::TestCase
 
   def test_list_categories
     practitioners = categories(:practitioners)
-		courses = categories(:courses)
+		coaching = categories(:coaching)
 		assert_equal practitioners, Category.list_categories.first
-		assert_equal courses, Category.list_categories.last
+		assert_equal coaching, Category.list_categories.last
   end
 end

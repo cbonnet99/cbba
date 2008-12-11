@@ -42,12 +42,13 @@ class TaskUtils
   def self.create_default_admins
     admin_role = Role.find_or_create_by_name("admin")
     default_district = District.find_by_name("Wellington City")
+    default_subcategory = Subcategory.find_by_name("Life Coaching")
     $admins.each do |admin|
       user = User.find_by_email(admin[:email])
       if user.nil?
         user = User.new(:first_name => admin[:first_name], :last_name => admin[:last_name],
           :email => admin[:email],
-          :professional => true,
+          :professional => true, :subcategory1_id => default_subcategory.id,
           :password => "monkey", :password_confirmation => "monkey",
           :receive_newsletter => false, :district_id => default_district.id  )
         if user && user.valid?

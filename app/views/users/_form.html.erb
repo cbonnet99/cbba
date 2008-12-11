@@ -1,4 +1,4 @@
-<%= f.error_messages %>
+  <%= f.error_messages :header_message => "Please try again", :message => "Your registration could not be completed" %>
   <fieldset>
     <legend>Your Details</legend>
     <ol>
@@ -47,7 +47,7 @@
       </li>
       <li>
         <div class="left-input"><%= f.radio_button :membership_type, "full_member" %></div>
-        <div class="right-label"><%= f.label :membership_type_full_membership, 'Full membership' %>(<%= link_to 'Benefits', whyjoin_path %>)</div>
+        <div class="right-label"><%= f.label :membership_type_full_member, 'Full membership' %>(<%= link_to 'Benefits', whyjoin_path %>)</div>
       </li>
       <li>
         <%= f.label :business_name, "Business name" %>
@@ -74,7 +74,7 @@
         <%= f.select :mobile_prefix, ["", "021", "027", "029"] %><%= f.text_field :mobile_suffix, :size => 10 %>
       </li>
       <li>
-        <label>Please enter up to 3 categories you would like to be listed in:</label>
+        <label>Please enter <span class="mandatoryStar">at least 1</span> and up to 3 categories you would like to be listed in:</label>
       </li>
       <li>
         <%= f.label :subcategory1, 'Category1:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>

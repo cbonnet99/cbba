@@ -51,6 +51,14 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def full_member?
+    has_role?("full_member")
+  end
+
+  def sentence_to_review
+    $workflowable_stuff.collect{|s| "#{help.pluralize(Kernel.const_get(s).count_reviewable, s.titleize.downcase)}"}.to_sentence << " to review"
+  end
+
   def create_profile
     UserProfile.create(:user_id => self.id)
   end
@@ -147,7 +155,7 @@ class User < ActiveRecord::Base
       self.member_since = Time.now.utc
       self.member_until = 1.year.from_now
       add_tabs
-      unless has_role?("full_member")
+      unless full_member?
         self.add_role("full_member")
       end
     else
@@ -225,6 +233,9 @@ class User < ActiveRecord::Base
   end
 
 	def validate
+    if subcategory1_id.nil? && subcategory2_id.nil? && subcategory3_id.nil?
+      errors.add(:subcategory1_id, "^You must select at least one category")
+    end
 		if professional?
       #combining name and business name must produce a unique string
       # so that we can slug it

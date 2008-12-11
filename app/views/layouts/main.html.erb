@@ -28,7 +28,7 @@
               <%= link_to 'Your profile', :controller => "users", :action => "profile"%>
             <% end -%>
             <% if is_reviewer? -%>
-              | <%= link_to "#{pluralize(Article.count_reviewable, 'article')} to review", :controller => "reviewer", :action => "index"    %>
+              | <%= link_to current_user.sentence_to_review, :controller => "reviewer", :action => "index"    %>
             <% end -%>
           </div>
         </div>

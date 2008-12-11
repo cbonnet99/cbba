@@ -4,6 +4,7 @@ module WorkflowSystem
 		base.send :include, AASM
 
     base.send :include, WorkflowInstanceMethods
+    base.send :extend, WorkflowClassMethods
     base.send :aasm_column, :state
     base.send :aasm_initial_state, :initial => :draft
     base.send :aasm_state, :draft
@@ -22,6 +23,14 @@ module WorkflowSystem
     end
 
   end
+  module WorkflowClassMethods
+    def count_reviewable(conditions=nil)
+      self.count(:all, :conditions => "approved_by_id is null and state='published'")
+    end
+    def reviewable(conditions=nil)
+      self.find(:all, :conditions => "approved_by_id is null and state='published'")
+    end
+  end
   module WorkflowInstanceMethods
     def workflow_css_class
       "workflow-#{self.state}"
@@ -33,5 +42,9 @@ module WorkflowSystem
         UserMailer.deliver_stuff_to_review(self, r)
       end
     end
+    def reviewable?
+      state == "published" && approved_at.nil?
+    end
+
   end
 end

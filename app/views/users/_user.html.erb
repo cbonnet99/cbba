@@ -1,1 +1,5 @@
-<h4><%=  user.full_name %></h4><p>T: <%= user.phone %> </p><% unless user.free_listing? %><%= link_to "More details for #{user.business_name}", user_path_with_context(user) %><% end %>
+<% custom_msg = "More details for" if local_assigns[:custom_msg].nil? -%>
+<div class="small-user-photo"><%if user.photo.exists?%><%= image_tag user.photo.url(:small) %><%end%></div>
+<div class="small-user-description">
+  <h4><%=  user.name %>, <%=  user.subcategories.first.name %>, <%=  user.district.name %></h4><p><%= user.business_name %> T: <%= user.phone %> </p><% unless user.free_listing? %><%= link_to "#{custom_msg} #{user.name}", user_path_with_context(user) %><% end %>
+</div>

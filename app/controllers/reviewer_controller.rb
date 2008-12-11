@@ -5,6 +5,7 @@ class ReviewerController < ApplicationController
 	end
   def index
 		@articles = Article.reviewable
+		@user_profiles = UserProfile.reviewable
   end
 
   def reject

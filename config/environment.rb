@@ -79,7 +79,7 @@ $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last
 
 $number_articles_on_homepage = 3
 $max_number_tabs = 6
-
+$workflowable_stuff = ['Article', 'UserProfile']
 # Ensure the gateway is in test mode
 ActiveMerchant::Billing::Base.gateway_mode = :test
 ActiveMerchant::Billing::Base.integration_mode = :test

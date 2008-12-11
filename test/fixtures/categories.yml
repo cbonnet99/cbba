@@ -4,3 +4,6 @@ courses:
 practitioners:
   name: Practitioners
   position: 1
+coaching:
+  position: 3
+  name: Coaching

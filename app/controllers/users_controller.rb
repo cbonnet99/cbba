@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish]
+  before_filter :full_member_required, :only => [:profile]
+  before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :profile]
 	after_filter :store_location, :only => [:profile, :show]
 
   def new_photo
@@ -12,7 +13,7 @@ class UsersController < ApplicationController
     if @user.update_attributes( params[:user] )
       flash[:notice]="Your photo was updated"
     else
-      logger.error("Error while uploading a photofor user: #{@user.email}. Error were:")
+      logger.error("Error while uploading a photo for user: #{@user.email}. Error were:")
       @user.errors.full_messages.each do |m|
         logger.error("* #{m}")
       end
@@ -29,7 +30,9 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find_by_slug(params[:id])
-    unless @user.nil?
+    if @user.nil? || !@user.full_member?
+      render :text => ""
+    else
       #we don't want to count the visits to our own profile
       unless @user == current_user
         log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
@@ -57,7 +60,6 @@ class UsersController < ApplicationController
       flash.now[:error]  = "There were some errors in your password details."
       render :action => 'edit_password'
     end
-		
 	end
 
 	def update

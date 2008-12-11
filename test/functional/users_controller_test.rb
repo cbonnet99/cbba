@@ -3,6 +3,18 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
+  def test_profile_full_member
+    cyrille = users(:cyrille)
+    get :profile, {}, {:user_id => cyrille.id }
+    assert_response :success
+  end
+
+  def test_profile_full_member
+    amcloughlin = users(:amcloughlin)
+    get :profile, {}, {:user_id => amcloughlin.id }
+    assert_response :unauthorized
+  end
+
   def test_new_photo
     cyrille = users(:cyrille)
     get :new_photo, {}, {:user_id => cyrille.id }
@@ -39,16 +51,23 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_show2
-    rmoore = users(:rmoore)
-
-    get :show, {:id => rmoore.slug}, {:user_id => rmoore.id }
+    sgardiner = users(:sgardiner)
+    get :show, {:id => sgardiner.slug}, {:user_id => sgardiner.id }
     assert_select "input[value=Publish]"
+    assert_select "a[href=/tabs/create]"
   end
+
   def test_show3
     cyrille = users(:cyrille)
     get :show, {:id => cyrille.slug}, {:user_id => cyrille.id }
     # #Cyrille's profile is already published: not button should be shown
     assert_select "input[value=Publish]", :count => 0
+  end
+
+  def test_show_free_listing
+    amcloughlin = users(:amcloughlin)
+    get :show, {:id => amcloughlin.slug}, {:user_id => amcloughlin.id }
+    assert_select "a[href=/tabs/create]", 0
   end
 
 	def test_update_password
@@ -106,10 +125,13 @@ class UsersControllerTest < ActionController::TestCase
   def test_create
 		old_size = User.all.size
 		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
-      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing"}
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :subcategory1_id => hypnotherapy.id
+      }
 		assert_not_nil assigns(:user)
-    # # 	puts assigns(:user).errors.inspect
+#    puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
 		assert_equal old_size+1, User.all.size
 	end
@@ -117,9 +139,11 @@ class UsersControllerTest < ActionController::TestCase
 		old_size = User.all.size
 		district = districts(:wellington_wellington_city)
 		wellington = regions(:wellington)
+    hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "free_listing"  }
+      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "free_listing",
+      :subcategory1_id => hypnotherapy.id }
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size

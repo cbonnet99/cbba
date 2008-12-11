@@ -28,18 +28,6 @@ class Article < ActiveRecord::Base
     "article_path"
   end
 
-	def reviewable?
-		state == "published" && approved_at.nil?
-	end
-
-	def self.count_reviewable
-		Article.count_by_sql("select count(*) from articles where approved_by_id is null and state='published'")
-	end
-
-	def self.reviewable
-		Article.find_by_sql("select a.* from articles a where approved_by_id is null and state='published'")
-	end
-
 	def self.find_all_by_subcategories(*subcategories)
 		Article.find_by_sql(["select a.* from articles a, articles_subcategories asub where a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
 	end
