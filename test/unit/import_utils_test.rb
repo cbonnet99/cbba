@@ -35,5 +35,8 @@ class ImporUtilsTest < ActiveSupport::TestCase
     assert annette.tabs.last.title.starts_with?("About")
 		assert_not_equal "-", annette.phone
 		assert_equal 'active', annette.state
+
+    #first name (and other fields) should be stripped of empty spaces ("Tracy", not "Tracy ")
+    assert_not_nil User.find_by_first_name("Tracy")
 	end
 end

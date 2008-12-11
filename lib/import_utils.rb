@@ -1,6 +1,15 @@
 require 'csv'
 
 class ImportUtils
+
+  def self.strip_and_nil(str)
+    if str.nil?
+      ""
+    else
+      str.strip
+    end
+  end
+
 	def self.import_districts
 		parsed_file = CSV::Reader.parse(File.open(File.dirname(__FILE__) + "/../csv/districts.csv"))
 		parsed_file.each  do |row|
@@ -18,25 +27,25 @@ class ImportUtils
 				full_member = Role.find_or_create_by_name("full_member")
 				user_count = 0
 				parsed_file.each  do |row|
-					first_name = row[0]
-					last_name = row[1]
-					business_name = row[4]
-					address1 = row[5]
-					suburb = row[6]
-					district_str = row[7]
-					region_str = row[8]
-					phone = row[9]
-					mobile = row[10]
-					email = row[11]
-					category_str = row[12]
-					subcategory_str = row[13]
-					role_str = row[15]
+					first_name = ImportUtils.strip_and_nil(row[0])
+					last_name = ImportUtils.strip_and_nil(row[1])
+					business_name = ImportUtils.strip_and_nil(row[4])
+					address1 = ImportUtils.strip_and_nil(row[5])
+					suburb = ImportUtils.strip_and_nil(row[6])
+					district_str = ImportUtils.strip_and_nil(row[7])
+					region_str = ImportUtils.strip_and_nil(row[8])
+					phone = ImportUtils.strip_and_nil(row[9])
+					mobile = ImportUtils.strip_and_nil(row[10])
+					email = ImportUtils.strip_and_nil(row[11])
+					category_str = ImportUtils.strip_and_nil(row[12])
+					subcategory_str = ImportUtils.strip_and_nil(row[13])
+					role_str = ImportUtils.strip_and_nil(row[15])
 					if role_str == "2"
 						role = full_member
 					else
 						role = free_listing
 					end
-					receive_newsletter_str = row[17]
+					receive_newsletter_str = ImportUtils.strip_and_nil(row[17])
 					receive_newsletter = (receive_newsletter_str =="Yes")
 					region = Region.find_by_name(region_str)
 					if region.nil?
