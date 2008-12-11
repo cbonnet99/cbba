@@ -56,7 +56,8 @@ class User < ActiveRecord::Base
   end
 
   def sentence_to_review
-    $workflowable_stuff.collect{|s| "#{help.pluralize(Kernel.const_get(s).count_reviewable, s.titleize.downcase)}"}.to_sentence << " to review"
+    total = $workflowable_stuff.inject(0) {|sum, stuff| sum +=Kernel.const_get(stuff).count_reviewable}
+    help.pluralize(total, "item") << " to review"
   end
 
   def create_profile
