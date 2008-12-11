@@ -50,6 +50,7 @@ class UsersController < ApplicationController
 	def edit
 #    current_user.disassemble_phone_numbers
 		get_districts_and_subcategories
+    current_user.set_membership_type
 	end
 
 	def update_password

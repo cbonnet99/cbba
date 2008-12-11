@@ -1,4 +1,3 @@
-======== calling config
 asset\:packager\:build_all=Merge and compress assets
 asset\:packager\:create_yml=Generate asset_packages.yml from existing assets
 asset\:packager\:delete_all=Delete all asset builds

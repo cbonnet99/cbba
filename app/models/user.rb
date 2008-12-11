@@ -39,8 +39,8 @@ class User < ActiveRecord::Base
   has_one :user_profile
   
 	# #around filters
-	before_create :assemble_phone_numbers, :set_region_from_district, :set_membership_type
-	before_update :assemble_phone_numbers, :set_region_from_district, :set_membership_type
+	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type
+	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type
 
   after_create :create_slug, :create_profile
 
@@ -150,6 +150,14 @@ class User < ActiveRecord::Base
   end
 
   def set_membership_type
+    if free_listing?
+      self.membership_type = "free_listing"
+    end
+    if full_member?
+      self.membership_type = "full_member"
+    end
+  end
+  def get_membership_type
     case membership_type
     when "full_member"
       self.free_listing=false
@@ -209,7 +217,7 @@ class User < ActiveRecord::Base
 		end
 	end
 
-	def set_region_from_district
+	def get_region_from_district
 		unless self.district.nil?
 			self.region = self.district.region
 		end

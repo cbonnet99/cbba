@@ -3,6 +3,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
+  def test_edit
+    cyrille = users(:cyrille)
+    get :edit, {}, {:user_id => cyrille.id }
+    assert_response :success
+    assert_select "input[type=radio][value=full_member][checked]"
+  end
+
   def test_profile_full_member
     cyrille = users(:cyrille)
     get :profile, {}, {:user_id => cyrille.id }
