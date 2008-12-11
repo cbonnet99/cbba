@@ -10,7 +10,11 @@ class SessionsController < ApplicationController
       self.current_user = user
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
-      redirect_back_or_default user_profile_url
+      if current_user.full_member?
+        redirect_back_or_default user_path(current_user)
+      else
+        redirect_back_or_default user_edit_path
+      end
       flash[:notice] = "Logged in successfully"
     else
       note_failed_signin

@@ -17,7 +17,7 @@
           <div id="login-left">
             <a href="/">Home</a> |
             <% if logged_in? -%>
-              Welcome, <%= link_to current_user.name, :controller => "users", :action => "profile"%> | <%= link_to 'Logout', logout_path %>
+              Welcome, <%= link_to current_user.name, current_user.full_member? ? user_path(current_user) : user_edit_path %> | <%= link_to 'Logout', logout_path %>
             <%else -%>
               <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', whyjoin_path %> | <%= link_to 'FREE Newsletter', signup_path %>
             <% end -%>
