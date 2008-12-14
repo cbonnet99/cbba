@@ -40,9 +40,18 @@ class TaskUtils
   #better to call after the exisitg users have been imported (because Norma, Julie, etc. will
   #be listed there as practicioners)
   def self.create_default_admins
-    admin_role = Role.find_or_create_by_name("admin")
-    default_district = District.find_by_name("Wellington City")
-    default_subcategory = Subcategory.find_by_name("Life Coaching")
+    #IMPORTANT: keep the following line to make sure that the admin role exists
+    Role.find_or_create_by_name("admin")
+    default_region = Region.find_or_create_by_name("Wellington")
+    default_district = District.find_by_name_and_region_id("Wellington City", default_region.id)
+    if default_district.nil?
+      default_district = District.create(:name => "Wellington City", :region_id => default_region.id  )
+    end
+    default_category = Category.find_or_create_by_name("Coaching")
+    default_subcategory = Subcategory.find_by_category_id_and_name(default_category.id, "Life Coaching")
+    if default_subcategory.nil?
+      default_subcategory = Subcategory.create(:name => "Life Coaching", :category_id => default_category.id  )
+    end
     $admins.each do |admin|
       user = User.find_by_email(admin[:email])
       if user.nil?

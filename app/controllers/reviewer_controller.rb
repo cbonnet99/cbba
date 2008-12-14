@@ -9,27 +9,28 @@ class ReviewerController < ApplicationController
   end
 
   def reject
-		get_article
-		@article.rejected_at = Time.now.utc
-		@article.rejected_by_id = current_user.id
+		get_item
+		@item.rejected_at = Time.now.utc
+		@item.rejected_by_id = current_user.id
 		unless params[:reason_reject].nil?
-			@article.reason_reject = params[:reason_reject]
+			@item.reason_reject = params[:reason_reject]
 		end
-		@article.reject!
-    UserMailer.deliver_article_rejected(@article, @article.author)
+		@item.reject!
+    UserMailer.deliver_item_rejected(@item, @item.author)
 		redirect_back_or_default root_url
   end
 
   def approve
-		get_article
-		@article.approved_at = Time.now.utc
-		@article.approved_by_id = current_user.id
-		@article.save!
+		get_item
+		@item.approved_at = Time.now.utc
+		@item.approved_by_id = current_user.id
+		@item.save!
 		redirect_back_or_default root_url
   end
 
-	def get_article
-				@article = Article.find(params[:article_id])
+	def get_item
+		@item = Article.find(params[:article_id]) unless params[:article_id].nil?
+		@item = UserProfile.find(params[:user_profile_id]) unless params[:user_profile_id].nil?
 	end
 
 end

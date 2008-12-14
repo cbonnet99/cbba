@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def admin?
+    has_role?("admin")
+  end
+
   def full_member?
     has_role?("full_member")
   end

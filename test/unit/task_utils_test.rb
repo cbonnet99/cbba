@@ -19,6 +19,9 @@ class TaskUtilsTest < ActiveSupport::TestCase
     # #user cbonnet99@gmail.com already exists in the test data (and so won't be
     # created) hence the -1
     assert_equal old_size+$admins.size-1, User.all.size
+    sav = User.find_by_email("sav@elevatecoaching.co.nz")
+    assert_not_nil sav
+    assert sav.admin?
   end
 
   def test_rotate_user_positions_in_subcategories

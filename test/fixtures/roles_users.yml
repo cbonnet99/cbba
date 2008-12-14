@@ -1,6 +1,9 @@
 cyrille_is_admin:
   user: cyrille
   role: admin_role
+cyrille_full_member:
+  user: cyrille
+  role: full_member_role
 sgardiner_full_member:
   user: sgardiner
   role: full_member_role

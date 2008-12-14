@@ -12,8 +12,6 @@ class Article < ActiveRecord::Base
 	has_many :subcategories, :through => :articles_subcategories
 	has_many :articles_categories
 	has_many :categories, :through => :articles_categories
-	belongs_to :approved_by, :class_name => "User"
-	belongs_to :rejected_by, :class_name => "User"
   
   validates_presence_of :title
   validates_length_of :title, :maximum => 80

@@ -13,7 +13,9 @@
     <%unless @user.user_profile.published? -%>
       <% form_tag "/users/publish" do -%>
         <%= submit_tag "Publish" %>
-      <%end -%><%end -%><%end%>
+      <%end -%>
+    <%end -%>
+  <%end-%>
 </div>
 <div class="cleaner"></div>
 <div id="profile-tab-content">

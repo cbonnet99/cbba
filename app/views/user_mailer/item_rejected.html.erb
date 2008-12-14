@@ -1,0 +1,15 @@
+Dear <%= @user.first_name %>,
+
+Your <%=@item.class.to_s.titleize.downcase%> must be revised for publication, please review:
+
+<% method = self.method((@item.class.to_s.tableize.singularize+"_path").to_sym) -%>
+
+<%=link_to @item.title, method.call(@item) %>
+
+Our reviewer commented:
+
+<%= @item.reason_reject %>
+
+Thanks,
+
+BeAmazing.com

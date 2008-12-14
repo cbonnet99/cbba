@@ -10,14 +10,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_roles
-    cyrille = users(:cyrille)
-    full_member_role = roles(:full_member_role)
-    cyrille.roles << full_member_role
-    cyrille.reload
-    assert_equal 1, cyrille.roles.find_all_by_name("full_member").size
-  end
-
-  def test_roles2
     canterbury_christchurch_city = districts(:canterbury_christchurch_city)
     canterbury = regions(:canterbury)
     hypnotherapy = subcategories(:hypnotherapy)

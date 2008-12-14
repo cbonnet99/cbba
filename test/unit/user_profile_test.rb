@@ -1,8 +1,8 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class UserProfileTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_reviewable
+    assert_equal 1, UserProfile.count_reviewable
+    assert_equal 1, UserProfile.reviewable.size
   end
 end

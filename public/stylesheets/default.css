@@ -75,7 +75,7 @@ ul#profile-tabs li.selected-tab a {
 }
 #profile-header {
     border: 1px #c00 solid;
-    padding-left: 250px;
+    padding-left: 350px;
 }
 #profile-header-right {
     width: 100%;
@@ -86,8 +86,8 @@ ul#profile-tabs li.selected-tab a {
     padding: 5px;
 }
 #profile-header-left {
-    width: 250px;
-    right: 250px;
+    width: 350px;
+    right: 350px;
     margin-left: -100%;
 }
 #profile-header-left p{

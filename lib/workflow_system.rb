@@ -5,6 +5,8 @@ module WorkflowSystem
 
     base.send :include, WorkflowInstanceMethods
     base.send :extend, WorkflowClassMethods
+    base.send :belongs_to, :approved_by, :class_name => "User"
+    base.send :belongs_to, :rejected_by, :class_name => "User"
     base.send :aasm_column, :state
     base.send :aasm_initial_state, :initial => :draft
     base.send :aasm_state, :draft
@@ -24,14 +26,24 @@ module WorkflowSystem
 
   end
   module WorkflowClassMethods
-    def count_reviewable(conditions=nil)
+    def count_reviewable
       self.count(:all, :conditions => "approved_by_id is null and state='published'")
     end
-    def reviewable(conditions=nil)
+    def reviewable
       self.find(:all, :conditions => "approved_by_id is null and state='published'")
     end
   end
   module WorkflowInstanceMethods
+
+#    def path_to_item(item=self)
+#      if respond_to?(:custom_path)
+#        custom_path(item)
+#      else
+#        method = self.method((self.class.to_s.tableize.singularize+"_path").to_sym)
+#        method.call(item)
+#      end
+#    end
+
     def workflow_css_class
       "workflow-#{self.state}"
     end
