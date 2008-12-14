@@ -2,10 +2,12 @@ Dear <%= @user.first_name %>,
 
 Your <%=@item.class.to_s.titleize.downcase%> must be revised for publication, please review:
 
+<% if @item.class.to_s == "UserProfile" -%>
+<%= link_to @item.title, user_path(@item.user) %>
+<%else -%>
 <% method = self.method((@item.class.to_s.tableize.singularize+"_path").to_sym) -%>
-
-<%=link_to @item.title, method.call(@item) %>
-
+<%= link_to @item.title, method.call(@item) %>
+<% end -%>
 Our reviewer commented:
 
 <%= @item.reason_reject %>

@@ -1,5 +1,4 @@
 class ReviewerController < ApplicationController
-
 	def authorized?
 		is_reviewer?
 	end
@@ -17,6 +16,7 @@ class ReviewerController < ApplicationController
 		end
 		@item.reject!
     UserMailer.deliver_item_rejected(@item, @item.author)
+    flash[:notice]="#{@item.class.to_s.titleize.downcase.capitalize} was rejected"
 		redirect_back_or_default root_url
   end
 
@@ -25,12 +25,22 @@ class ReviewerController < ApplicationController
 		@item.approved_at = Time.now.utc
 		@item.approved_by_id = current_user.id
 		@item.save!
+    flash[:notice]="#{@item.class.to_s.titleize.downcase.capitalize} was approved"
 		redirect_back_or_default root_url
   end
 
 	def get_item
-		@item = Article.find(params[:article_id]) unless params[:article_id].nil?
-		@item = UserProfile.find(params[:user_profile_id]) unless params[:user_profile_id].nil?
+    begin
+      @item = Article.find(params[:article_id]) unless params[:article_id].nil?
+    rescue ActiveRecord::RecordNotFound
+      #do nothing
+    end
+    begin
+      @item = UserProfile.find(params[:user_profile_id]) unless params[:user_profile_id].nil?
+    rescue ActiveRecord::RecordNotFound
+      #do nothing
+    end
+
 	end
 
 end

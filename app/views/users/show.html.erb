@@ -6,29 +6,9 @@
 <div id="profile-header">
   <div id="profile-header-right" class="column">
     <div id="profile-ask-question-content"><a href="mailto:<%=@user.email%>?subject=Message via beamazing.co.nz">Ask me a question</a></div>
-    <div id="profile-publish-information">
-<% if @user.user_profile.reviewable? && is_reviewer? -%>
-  <div id="reviewer-actions">
-  <% form_tag '/reviewer/approve' do -%>
-        <%= hidden_field_tag "user_profile_id", @user.user_profile.id %>
-        <%= submit_tag "Approve" %>
-  <%end -%>
-  <% form_tag '/reviewer/edit_reject_reason' do -%>
-        <%= hidden_field_tag "user_profile_id", @user.user_profile.id %>
-        <%= submit_tag "Reject" %>
-  <%end -%>
-  </div>
-<% end -%>
-<%unless @user.user_profile.published_at.nil?-%>
-<span class="publication-date">Published: <%= @user.user_profile.published_at %></span><br/>
-<%end-%>
-<% if !@user.user_profile.approved_at.nil? && (is_reviewer? || current_user == @user) -%>
-<span class="approval-date">Approved: <%= @user.user_profile.approved_at %> by <%=link_to @user.user_profile.approved_by.name, user_path(@user.user_profile.approved_by_id)%></span><br/>
-<%  end -%>
-<% if !@user.user_profile.rejected_at.nil? && (is_reviewer? || current_user == @user) -%>
-<span class="rejection-date">Rejected: <%= @user.user_profile.rejected_at %> by <%=link_to @user.user_profile.rejected_by.name, user_path(@user.user_profile.rejected_by_id)%>(Reason: <%=@article.reason_reject%>)</span><br/>
-<%end-%>
-</div>
+    <div id="profile-publish-information" class="publication-info">
+      <%= render :partial => "reviewer/publication_info", :locals => {:item => @user.user_profile, :class_name => "user_profile" }   %>
+    </div>
   </div>
   <div id="profile-header-left" class="column">
     <div id="profile-title-content">

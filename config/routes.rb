@@ -37,6 +37,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_update_pwd '/users/update_password', :controller => 'users', :action => "update_password"
   map.user_edit '/users/edit', :controller => 'users', :action => "edit"
   map.user_publish '/users/publish', :controller => 'users', :action => "publish"
+  map.user_profile_publish '/user_profiles/:id/publish', :controller => 'users', :action => "publish"
   map.user_new_photo '/users/new_photo', :controller => 'users', :action => "new_photo"
   map.user_create_photo '/users/create_photo', :controller => 'users', :action => "create_photo"
   

@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def user_profile_path(user_profile)
+    user_path(user_profile.user)
+  end
+
   def blank_phone_number?(number_as_string)
     number_as_string.blank? || number_as_string == "-"
   end

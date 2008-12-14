@@ -9,13 +9,6 @@
   </ul>
 </div>
 <div id="profile-tabs-right" class="column">
-  <% if own_profile?(@user) -%><span class="<%=@user.user_profile.workflow_css_class%>"><%=@user.user_profile.state%></span>
-    <%unless @user.user_profile.published? -%>
-      <% form_tag "/users/publish" do -%>
-        <%= submit_tag "Publish" %>
-      <%end -%>
-    <%end -%>
-  <%end-%>
 </div>
 <div class="cleaner"></div>
 <div id="profile-tab-content">

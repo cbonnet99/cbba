@@ -1,3 +1,16 @@
+#mccont div.publication-info form select, #mccont div.publication-info form input{
+    float: none;
+    display: inline;
+    text-align: right;
+}
+.publication-author{
+    float: left;
+    text-align: left;
+}
+.publication-info{
+    text-align: right;
+}
+
 #profile-photo-label{
     font-size: small;
     color: gray;
