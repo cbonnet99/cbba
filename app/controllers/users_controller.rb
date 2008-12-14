@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :full_member_required, :only => [:profile]
-  before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :profile]
-	after_filter :store_location, :only => [:profile, :show]
+  before_filter :full_member_required, :only => [:articles]
+  before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles]
+	after_filter :store_location, :only => [:articles, :show]
 
   def new_photo
     @user = current_user
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     end
   end
 
-	def profile
+	def articles
 		get_districts_and_subcategories
 		@articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
 	end

@@ -32,7 +32,7 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
   map.update_after_forgetting '/update_after_forgetting', :controller => 'passwords', :action => 'update_after_forgetting'
   map.user_tabs '/users/:id/:selected_tab_id', :controller => 'users', :action => "show"
-  map.user_profile '/users/profile', :controller => 'users', :action => "profile"
+  map.user_articles '/users/articles', :controller => 'users', :action => "articles"
   map.user_edit_pwd '/users/edit_password', :controller => 'users', :action => "edit_password"
   map.user_update_pwd '/users/update_password', :controller => 'users', :action => "update_password"
   map.user_edit '/users/edit', :controller => 'users', :action => "edit"

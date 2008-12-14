@@ -10,15 +10,15 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "input[type=radio][value=full_member][checked]"
   end
 
-  def test_profile_full_member
+  def test_articles_full_member
     cyrille = users(:cyrille)
-    get :profile, {}, {:user_id => cyrille.id }
+    get :articles, {}, {:user_id => cyrille.id }
     assert_response :success
   end
 
-  def test_profile_full_member
+  def test_articles_full_member2
     amcloughlin = users(:amcloughlin)
-    get :profile, {}, {:user_id => amcloughlin.id }
+    get :articles, {}, {:user_id => amcloughlin.id }
     assert_response :unauthorized
   end
 
