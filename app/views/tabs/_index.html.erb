@@ -1,5 +1,8 @@
 <div id="profile-tabs-left" class="column">
   <ul id="profile-tabs">
+    <% unless @count_articles==0 -%>
+      <li class="tab<%if @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="Articles" href="<%= user_tabs_path(@user.slug, Tab::ARTICLES) %>">Articles</a></li>
+    <% end -%>
     <% @user.tabs.each do |t| -%>
       <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= user_tabs_path(@user.slug, t.slug) %>"><%=t.title%></a></li>
     <% end -%>
@@ -12,10 +15,21 @@
 </div>
 <div class="cleaner"></div>
 <div id="profile-tab-content">
-  <% if own_profile?(@user) -%>
+  <% if own_profile?(@user)  && (@selected_tab.nil? || !@selected_tab.virtual?) -%>
     <div id="profile-tabs-nav"><%= @selected_tab.nil? ? "" : render(:partial => "tabs/tab_nav") %></div>
   <% end -%>
-  <div><%= @selected_tab.nil? ? "" : params[:action]=="edit" || params[:action]=="update" ? render(:partial => "tabs/form") : @selected_tab.content %></div>
-
+  <div>
+    <% unless @selected_tab.nil? -%>
+  <% if !@selected_tab.nil? && @selected_tab.virtual? -%>
+          <%= render :partial => @selected_tab.partial %>
+      <% else -%>
+        <% if params[:action]=="edit" || params[:action]=="update" -%>
+          <%= render(:partial => "tabs/form") %>
+        <% else -%>
+          <%=@selected_tab.content %>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+    </div>
 </div>
 

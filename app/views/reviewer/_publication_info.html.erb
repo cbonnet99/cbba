@@ -1,0 +1,27 @@
+<%unless item.published_at.nil?-%>
+<div class="publication-date">Published:<%= item.published_at %></div>
+<%end-%>
+<% if !item.approved_at.nil? && (is_reviewer? || is_author?(item)) -%>
+<div class="approval-date">Approved: <%= item.approved_at %> by <%=link_to item.approved_by.name, user_path(item.approved_by_id)%></div>
+<%  end -%>
+<% if !item.rejected_at.nil? && (is_reviewer? || is_author?(item)) -%>
+<div class="rejection-date">Rejected: <%= item.rejected_at %> by <%=link_to item.rejected_by.name, user_path(item.rejected_by_id)%>(Reason: <%=item.reason_reject%>)</div>
+<%end-%>
+<%if item.draft? && is_author?(item) -%>
+  <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/publish" do -%>
+        <%= submit_tag "Publish" %>
+  <%end -%>
+  </div>
+<%end-%>
+<% if item.reviewable? && is_reviewer? -%>
+  <div id="reviewer-actions">
+  <% form_tag '/reviewer/approve' do -%>
+        <%= hidden_field_tag "#{class_name}_id", item.id %>
+        <%= submit_tag "Approve" %>
+  <%end -%>
+  <% form_tag '/reviewer/edit_reject_reason' do -%>
+        <%= hidden_field_tag "#{class_name}_id", item.id %>
+        <%= submit_tag "Reject" %>
+  <%end -%>
+  </div>
+<% end -%>

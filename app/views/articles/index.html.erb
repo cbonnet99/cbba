@@ -1,4 +1,2 @@
 <%= title 'Articles', :h2 %>
-<% for article in @articles %>
-        <%= render :partial => "articles/article",  :locals => {:article => article }   %>
-<% end %>
+<%= render :partial => "articles/index"  %>

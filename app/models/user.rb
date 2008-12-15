@@ -51,6 +51,20 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def select_tab(tab_slug)
+    if tab_slug.nil?
+      tabs.first
+    else
+      if tab_slug == Tab::ARTICLES
+        virtual_tab = VirtualTab.new(Tab::ARTICLES, "Articles", "articles/index" )
+        puts "========= virtual_tab: #{virtual_tab.inspect}"
+        return virtual_tab
+      else
+        tabs.find_by_slug(tab_slug) || tabs.first
+      end
+    end
+  end
+
   def admin?
     has_role?("admin")
   end

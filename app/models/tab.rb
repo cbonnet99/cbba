@@ -1,6 +1,13 @@
+class VirtualTab < Struct.new( :slug, :title, :partial)
+  def virtual?
+    true
+  end
+end
 class Tab < ActiveRecord::Base
 
   include Slugalizer
+
+  ARTICLES = "articles"
 
   after_create :create_slug
 
@@ -10,6 +17,16 @@ class Tab < ActiveRecord::Base
 
   validates_presence_of :title
   validates_uniqueness_of :title, :scope => :user_id
+
+  def virtual?
+    false
+  end
+
+  def validate
+    if title.downcase == ARTICLES
+      errors.add(:title, "^#{title} is a reserved title")
+    end
+  end
 
   def to_param
      slug

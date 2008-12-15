@@ -37,8 +37,14 @@ class UsersController < ApplicationController
       unless @user == current_user
         log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
       end
-#      @articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "updated_at desc")
-      @selected_tab = params[:selected_tab_id].nil? ? @user.tabs.first : @user.tabs.find_by_slug(params[:selected_tab_id]) || @user.tabs.first
+      @count_articles = Article.count(:conditions => ["author_id = ? and state = ?", @user.id, "published"])
+      @selected_tab = @user.select_tab(params[:selected_tab_id])
+      if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES && @count_articles > 0
+        @articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "updated_at desc")
+      else
+        @articles = []
+      end
+
     end
   end
 
