@@ -2,7 +2,6 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
-  include Slugalizer
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
@@ -115,7 +114,7 @@ class User < ActiveRecord::Base
 	end
 
 	def computed_slug
-		Slugalizer.slugalize(full_name)
+		full_name.parameterize
 
 	end
 

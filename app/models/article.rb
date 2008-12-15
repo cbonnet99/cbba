@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class Article < ActiveRecord::Base
-  include Slugalizer
 	include SubcategoriesSystem
   include WorkflowSystem
   
@@ -48,7 +47,7 @@ class Article < ActiveRecord::Base
 	end
 
 	def computed_slug
-		Slugalizer.slugalize(help.shorten_string(title, MAX_LENGTH_SLUG, ""))
+		help.shorten_string(title, MAX_LENGTH_SLUG, "").parameterize
 	end
 
 	def slug

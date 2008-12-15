@@ -1,5 +1,4 @@
 class TabsController < ApplicationController
-  include Slugalizer
   
   before_filter :login_required, :except => [:select, :index]
 
@@ -60,7 +59,7 @@ class TabsController < ApplicationController
     unless params[:tab]["title"].nil?
     end
     if @selected_tab.update_attributes(params[:tab])
-      @selected_tab.update_attribute(:slug, Slugalizer.slugalize(@selected_tab.title))
+      @selected_tab.update_attribute(:slug, @selected_tab.title.parameterize)
       redirect_to user_tabs_path(current_user.slug, @selected_tab.slug)
       flash[:notice] = "Your details have been updated"
     else

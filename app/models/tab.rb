@@ -5,8 +5,6 @@ class VirtualTab < Struct.new( :slug, :title, :partial)
 end
 class Tab < ActiveRecord::Base
 
-  include Slugalizer
-
   ARTICLES = "articles"
 
   after_create :create_slug
@@ -37,7 +35,7 @@ class Tab < ActiveRecord::Base
 	end
 
 	def computed_slug
-		res = Slugalizer.slugalize(title)
+		res = title.parameterize
 	end
 
 end

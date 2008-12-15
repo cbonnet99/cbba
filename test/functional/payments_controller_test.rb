@@ -2,7 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class PaymentsControllerTest < ActionController::TestCase
   def test_should_get_index
+    cyrille = users(:cyrille)
     get :index
+    assert_redirected_to new_session_path
+    get :index, {}, {:user_id => cyrille.id }
     assert_response :success
     assert_not_nil assigns(:payments)
   end
@@ -22,7 +25,10 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_should_show_payment
+    cyrille = users(:cyrille)
     get :show, :id => payments(:one).id
+    assert_redirected_to new_session_path
+    get :show, {:id => payments(:one).id}, {:user_id => cyrille.id }
     assert_response :success
   end
 
