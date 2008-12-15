@@ -1,5 +1,6 @@
 <% custom_msg = "More details for" if local_assigns[:custom_msg].nil? -%>
-<div class="small-user-photo"><%if user.photo.exists?%><%= image_tag user.photo.url(:small) %><%end%></div>
+<div class="small-user-photo"><%if user.photo.exists?%><%= image_tag user.photo.url(:thumbnail) %><%end%></div>
 <div class="small-user-description">
   <h4><%=  user.name %>, <%=  user.subcategories.first.name %>, <%=  user.district.name %></h4><p><%= user.business_name %> T: <%= user.phone %> </p><% unless user.free_listing? %><% if user.user_profile.published?%><%= link_to "#{custom_msg} #{user.name}", user_path_with_context(user) %><%else%>Full profile coming soon<%end%><% end %>
 </div>
+<div class="cleaner"></div>

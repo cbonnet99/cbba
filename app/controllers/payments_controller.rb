@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
-  # GET /payments
-  # GET /payments.xml
+  before_filter :admin_required, :only => [:index, :show]
+
   def index
     @payments = Payment.find(:all)
 

@@ -1,3 +1,9 @@
+.small-user-photo{
+    padding: 5px;
+ }
+.small-user-photo, .small-user-description{
+    float:left;
+}
 #mccont div.publication-info form select, #mccont div.publication-info form input{
     float: none;
     display: inline;

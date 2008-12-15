@@ -2,23 +2,25 @@
 <p>We're an online community of health, wellbeing & development professionals passionate about helping people live AMAZING lives!</p>
 <p>Find the right providers and services for you on this site.</p>
 <p>Not a member yet? <%= link_to 'Signup', signup_path %>, it's free!</p>
-<% unless @newest_articles.empty? -%>
+<% unless @newest_full_members.empty? -%>
 <h3>New well-being providers</h3>
-  <ul id="homepage-full-members">
+<ul id="homepage-full-members">
   <% @newest_full_members.each do |u| -%>
-          <li class="<%= cycle('odd', 'even')%> "><%= render :partial => "users/user", :locals => {:user => u }  %></li>
+    <li class="<%= cycle('odd', 'even')%> "><%= render :partial => "users/user", :locals => {:user => u }  %></li>
   <% end -%>
-  </ul>
-  <% if @total_full_members > $number_full_members_on_homepage -%>
+</ul>
+<% if @total_full_members > $number_full_members_on_homepage -%>
   <%= link_to "View more well-being providers...", users_path %>
-  <% end -%>
-<h3>Articles</h3>
+<% end -%>
+<% end -%>
+<% unless @newest_articles.empty? -%>
+  <h3>Articles</h3>
   <ul id="homepage-articles">
-  <% @newest_articles.each do |a| -%>
-          <li class="<%= cycle('odd', 'even')%> "><%= render :partial => "articles/article", :locals => {:article => a }  %></li>
-  <% end -%>
+    <% @newest_articles.each do |a| -%>
+      <li class="<%= cycle('odd', 'even')%> "><%= render :partial => "articles/article", :locals => {:article => a }  %></li>
+    <% end -%>
   </ul>
   <% if @total_articles > $number_articles_on_homepage -%>
-  <%= link_to "View more articles...", articles_path %>
+    <%= link_to "View more articles...", articles_path %>
   <% end -%>
 <% end -%>

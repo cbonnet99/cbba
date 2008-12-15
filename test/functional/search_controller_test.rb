@@ -14,6 +14,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "ul#homepage-articles > li", $number_articles_on_homepage
     assert_select "a", :text => "View more articles..."
+    assert_equal 1, assigns(:newest_full_members).size
   end
 
 	def test_change_category
@@ -41,6 +42,8 @@ class SearchControllerTest < ActionController::TestCase
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
 		hypnotherapy = subcategories(:hypnotherapy)
 		sgardiner = users(:sgardiner)
+#    norma = users(:norma)
+#    norma.user_profile.publish!
 		get :search, :where => canterbury_christchurch_city.id, :what => hypnotherapy.id
 		assert_response :success
     assert @response.body =~ /Full profile coming soon/

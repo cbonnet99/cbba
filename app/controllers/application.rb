@@ -12,6 +12,12 @@ class ApplicationController < ActionController::Base
 	#  before_filter :tags
   before_filter :current_category, :categories, :search_init, :except => :change_category
 
+  def admin_required
+    unless logged_in? && current_user.admin?
+      access_denied
+    end
+  end
+
   def full_member_required
     unless logged_in? && current_user.full_member?
       access_denied
