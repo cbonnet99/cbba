@@ -51,6 +51,14 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def self.newest_full_members
+    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
+  end
+
+  def self.count_newest_full_members
+    User.count(:include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false")
+  end
+
   def select_tab(tab_slug)
     if tab_slug.nil?
       tabs.first
@@ -176,6 +184,13 @@ class User < ActiveRecord::Base
     end
   end
   def get_membership_type
+    if self.membership_type.nil?
+      if full_member?
+        self.membership_type = "full_member"
+      else
+        self.membership_type = "free_listing"
+      end
+    end
     case membership_type
     when "full_member"
       self.free_listing=false

@@ -22,6 +22,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     sav = User.find_by_email("sav@elevatecoaching.co.nz")
     assert_not_nil sav
     assert sav.admin?
+    assert !sav.free_listing?
   end
 
   def test_rotate_user_positions_in_subcategories

@@ -43,6 +43,7 @@ class SearchControllerTest < ActionController::TestCase
 		sgardiner = users(:sgardiner)
 		get :search, :where => canterbury_christchurch_city.id, :what => hypnotherapy.id
 		assert_response :success
+    assert @response.body =~ /Full profile coming soon/
 #		puts "========== #{assigns(:results).inspect}"
 		assert_equal 3, assigns(:results).size
 		#full members should be listed first

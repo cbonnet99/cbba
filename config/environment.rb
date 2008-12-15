@@ -78,6 +78,7 @@ $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last
   {:email => "norma@eurekacoaching.co.nz", :first_name => "Norma", :last_name => "Stein"}]
 
 $number_articles_on_homepage = 3
+$number_full_members_on_homepage = 3
 $max_number_tabs = 6
 $workflowable_stuff = ['Article', 'UserProfile']
 # Ensure the gateway is in test mode

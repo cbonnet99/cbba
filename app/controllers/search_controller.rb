@@ -7,6 +7,8 @@ class SearchController < ApplicationController
 	def index
     @newest_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
     @total_articles = Article.count(:all, :conditions => "state='published'")
+    @newest_full_members = User.newest_full_members
+    @total_full_members = User.count_newest_full_members
 	end
 
 	def change_category

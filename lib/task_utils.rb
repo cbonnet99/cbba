@@ -56,8 +56,9 @@ class TaskUtils
       user = User.find_by_email(admin[:email])
       if user.nil?
         user = User.new(:first_name => admin[:first_name], :last_name => admin[:last_name],
-          :email => admin[:email],
+          :email => admin[:email], :free_listing => false,
           :professional => true, :subcategory1_id => default_subcategory.id,
+          :membership_type => "full_member",
           :password => "monkey", :password_confirmation => "monkey",
           :receive_newsletter => false, :district_id => default_district.id  )
         if user && user.valid?

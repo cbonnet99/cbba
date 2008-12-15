@@ -54,7 +54,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal old_size, UserEvent.all.size
     get :show, {:id => cyrille.slug}, {:user_id => rmoore.id }
     assert_equal old_size+1, UserEvent.all.size
-
   end
 
   def test_show2
@@ -75,6 +74,15 @@ class UsersControllerTest < ActionController::TestCase
     amcloughlin = users(:amcloughlin)
     get :show, {:id => amcloughlin.slug}, {:user_id => amcloughlin.id }
     assert_select "a[href=/tabs/create]", 0
+  end
+
+  def test_show_draft_profile
+    norma = users(:norma)
+    cyrille = users(:cyrille)
+
+    get :show, {:id => norma.slug}, {:user_id => cyrille.id }
+#    puts "============= #{@response.body}"
+    assert @response.body =~ /Profile coming soon/
   end
 
 	def test_update_password
