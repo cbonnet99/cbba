@@ -26,7 +26,8 @@ ActionController::Routing::Routes.draw do |map|
   map.action_tab_with_user '/users/:user_id/tabs/:id/:action', :controller => 'tabs'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
-  map.whyjoin '/whyjoin', :controller => 'users', :action => 'why_join'
+  map.signup_intro '/signup_intro', :controller => 'users', :action => 'intro'
+  map.signup_newsletter '/signup_newsletter', :controller => 'users', :action => 'new_newsletter'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'

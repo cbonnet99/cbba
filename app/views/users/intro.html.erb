@@ -1,0 +1,32 @@
+<% javascript 'signup-intro' %>
+<%= title "Join us as a well-being professional", :h2 %>
+<%= link_to "Simply want to sign up for our free newsletter?", signup_newsletter_path %>
+<div id="signup-intro">
+  <div id="signup-intro-free-listing">
+    <h3 id="free-listing-title">Free listing</h3>
+    <ul>
+      <li>Name and phone</li>
+      <li>Feature in 3 sections</li>
+      <li>NO COST</li>
+      <li><%= link_to "Signup now", signup_path(:professional => "true") %> | <%= link_to "Learn more", signup_path %> | <%= link_to "Compare", signup_path %></li>
+    </ul>
+  </div>
+  <h3>Full membership</h3>
+  <ul>
+    <li>Phone, email and Web links</li>
+    <li>Your own section with multiple pages</li>
+    <li>Publish articles, special offers, event And gift vouchers</li>
+    <li>Priority listing in 3 sections</li>
+    <li>Year one trial price $99 (normally $199)</li>
+    <li><%= link_to "Signup now", signup_path(:professional => "true", :mt => "full_member" ) %> | <%= link_to "Learn more", signup_path %> | <%= link_to "Compare", signup_path %></li>
+  </ul>
+  <h3>Resident expert</h3>
+  <ul>
+    <li>Official BeAmazing expert in your field</li>
+    <li>Your own section with multiple pages</li>
+    <li>Publish articles, special offers, event And gift vouchers</li>
+    <li>Priority listing in 3 sections</li>
+    <li>Year one trial price $99 (normally $199)</li>
+    <li><%= link_to "Signup now", signup_path(:professional => "true", :mt => "full_member" ) %> | <%= link_to "Learn more", signup_path %> | <%= link_to "Compare", signup_path %></li>
+  </ul>
+</div>

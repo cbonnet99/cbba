@@ -1,3 +1,8 @@
+#signup-intro ul li{
+    list-style: disc;
+    list-style-position: inside;
+
+}
 .small-user-photo{
     padding: 5px;
  }

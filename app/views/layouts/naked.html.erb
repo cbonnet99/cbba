@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title><%= @page_title || APP_CONFIG[:site_name] %></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <%= stylesheet_link_tag 'default' %>
+    <%= stylesheet_link_tag 'base' %>
+    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag "liquid-canvas.js" %>
+    <%= javascript_include_tag "liquid-canvas-plugins.js" %>
+    <%= yield :head %>
+  </head>
+  <body>
+              <%= yield :layout %>
+  </body>
+</html>

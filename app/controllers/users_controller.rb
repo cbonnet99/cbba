@@ -84,11 +84,10 @@ class UsersController < ApplicationController
 	end
 
   def new
-    mt = params[:mt]
-    if mt.nil?
-      mt = "free_listing"
-    end
-    @user = User.new(:membership_type => mt)
+    mt = params[:mt] || "free_listing"
+    professional_str = params[:professional] || "false"
+    professional = professional_str == "true"
+    @user = User.new(:membership_type => mt, :professional => professional )
 		get_districts_and_subcategories
   end
  

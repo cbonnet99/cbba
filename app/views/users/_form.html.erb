@@ -38,7 +38,7 @@
       </li>
     </ol>
   </fieldset>
-  <fieldset id="fieldset-professional-details"<%unless f.object.free_listing? || f.object.has_role?('full_member')%>style="display: none;"<%end%>>
+  <fieldset id="fieldset-professional-details">
     <legend>Professional Details</legend>
     <ol>
       <li>
@@ -47,7 +47,7 @@
       </li>
       <li>
         <div class="left-input"><%= f.radio_button :membership_type, "full_member" %></div>
-        <div class="right-label"><%= f.label :membership_type_full_member, 'Full membership' %>(<%= link_to 'Benefits', whyjoin_path %>)</div>
+        <div class="right-label"><%= f.label :membership_type_full_member, 'Full membership' %>(Benefits)</div>
       </li>
       <li>
         <%= f.label :business_name, "Business name" %>
