@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def author?(stuff)
+    (self == stuff.author || self.admin?)
+  end
+
   def self.newest_full_members
     User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
   end
@@ -64,8 +68,7 @@ class User < ActiveRecord::Base
       tabs.first
     else
       if tab_slug == Tab::ARTICLES
-        virtual_tab = VirtualTab.new(Tab::ARTICLES, "Articles", "articles/index" )
-        puts "========= virtual_tab: #{virtual_tab.inspect}"
+        virtual_tab = VirtualTab.new(Tab::ARTICLES, "Articles", "articles/index", "articles/nav" )
         return virtual_tab
       else
         tabs.find_by_slug(tab_slug) || tabs.first

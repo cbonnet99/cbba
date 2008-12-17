@@ -1,4 +1,4 @@
-class VirtualTab < Struct.new( :slug, :title, :partial)
+class VirtualTab < Struct.new( :slug, :title, :partial, :nav)
   def virtual?
     true
   end

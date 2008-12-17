@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   
   before_filter :login_required, :only => [:new, :create, :destroy, :publish]
+	after_filter :store_location, :only => [:show]
 
 	def publish
     @article = Article.find(params[:id])
@@ -93,11 +94,12 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1.xml
   def destroy
     @article = Article.find(params[:id])
-    @article.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(articles_url) }
-      format.xml  { head :ok }
+    if current_user.author?(@article) && @article.draft?
+      @article.destroy
+      flash[:notice] = "The article was deleted"
+    else
+      flash[:error] = "You cannot delete this article"
     end
+    redirect_to(user_articles_path)
   end
 end

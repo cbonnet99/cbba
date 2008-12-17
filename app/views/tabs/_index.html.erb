@@ -1,8 +1,6 @@
 <div id="profile-tabs-left" class="column">
   <ul id="profile-tabs">
-    <% unless @count_articles==0 -%>
-      <li class="tab<%if @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="Articles" href="<%= user_tabs_path(@user.slug, Tab::ARTICLES) %>">Articles</a></li>
-    <% end -%>
+    <li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="Articles" href="<%= user_tabs_path(@user.slug, Tab::ARTICLES) %>">Articles</a></li>
     <% @user.tabs.each do |t| -%>
       <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= user_tabs_path(@user.slug, t.slug) %>"><%=t.title%></a></li>
     <% end -%>
@@ -17,6 +15,9 @@
 <div id="profile-tab-content">
   <% if own_profile?(@user)  && (@selected_tab.nil? || !@selected_tab.virtual?) -%>
     <div id="profile-tabs-nav"><%= @selected_tab.nil? ? "" : render(:partial => "tabs/tab_nav") %></div>
+  <% end -%>
+  <% if own_profile?(@user)  && !@selected_tab.nil? && @selected_tab.virtual? -%>
+    <div id="profile-tabs-nav"><%= render(:partial => @selected_tab.nav) %></div>
   <% end -%>
   <div>
     <% unless @selected_tab.nil? -%>

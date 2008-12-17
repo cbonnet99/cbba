@@ -26,11 +26,8 @@
           </div>
           <div id="login-right">
             <%= yield :flash %>
-            <% if logged_in? -%>
-              <%= link_to 'Your profile', user_path(current_user)%>
-            <% end -%>
             <% if is_reviewer? -%>
-              | <%= link_to current_user.sentence_to_review, :controller => "reviewer", :action => "index"    %>
+              <%= link_to current_user.sentence_to_review, :controller => "reviewer", :action => "index"    %>
             <% end -%>
           </div>
         </div>

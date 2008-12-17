@@ -84,6 +84,6 @@ class ArticlesControllerTest < ActionController::TestCase
       delete :destroy, {:id => articles(:yoga).id}, {:user_id => cyrille.id }
     end
 
-    assert_redirected_to articles_path
+    assert_redirected_to user_articles_path
   end
 end

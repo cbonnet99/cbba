@@ -1,3 +1,7 @@
-<% for article in @articles %>
+<%if @articles.blank? -%>
+  No articles
+<% else -%>
+  <% for article in @articles -%>
         <%= render :partial => "articles/article",  :locals => {:article => article }   %>
-<% end %>
+  <% end -%>
+<% end -%>

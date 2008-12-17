@@ -73,7 +73,7 @@ module ApplicationHelper
   end
 
 	def is_author?(article)
-		logged_in? && current_user == article.author		
+		logged_in? && current_user.author?(article)
 	end
 
 	def is_reviewer?
