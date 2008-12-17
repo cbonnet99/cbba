@@ -10,6 +10,9 @@ RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
 # #number of search results displayed per page
 $search_results_per_page = 50
 
+# #number of full members displayed per page
+$full_members_per_page = 50
+
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 

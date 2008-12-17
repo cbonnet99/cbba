@@ -1,0 +1,7 @@
+<%= will_paginate @full_members %>
+<ul class="simple">
+<% @full_members.each do |m| -%>
+        <li class="<%=cycle('odd','even')%>"><%= render :partial => "users/user", :locals => {:user => m } %></li>
+<% end -%>
+</ul>
+<%= will_paginate @full_members %>

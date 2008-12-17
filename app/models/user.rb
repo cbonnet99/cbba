@@ -75,6 +75,10 @@ class User < ActiveRecord::Base
     (self == stuff.author || self.admin?)
   end
 
+  def self.full_members(page, limit=$full_members_per_page)
+    User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false", :order => "published_at desc", :limit => limit, :page => page )
+  end
+
   def self.newest_full_members
     User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
   end

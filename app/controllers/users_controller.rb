@@ -3,6 +3,11 @@ class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles]
 	after_filter :store_location, :only => [:articles, :show]
 
+  def index
+    page = params[:page] || 1
+    @full_members = User.full_members(page)
+  end
+
   def new_photo
     @user = current_user
     render :layout => false
