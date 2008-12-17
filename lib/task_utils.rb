@@ -48,9 +48,9 @@ class TaskUtils
       default_district = District.create(:name => "Wellington City", :region_id => default_region.id  )
     end
     default_category = Category.find_or_create_by_name("Coaching")
-    default_subcategory = Subcategory.find_by_category_id_and_name(default_category.id, "Life Coaching")
+    default_subcategory = Subcategory.find_by_category_id_and_name(default_category.id, "Life coaching")
     if default_subcategory.nil?
-      default_subcategory = Subcategory.create(:name => "Life Coaching", :category_id => default_category.id  )
+      default_subcategory = Subcategory.create(:name => "Life coaching", :category_id => default_category.id  )
     end
     $admins.each do |admin|
       user = User.find_by_email(admin[:email])
@@ -72,6 +72,9 @@ class TaskUtils
           end
         end
       else
+        if user.free_listing?
+          user.update_attributes(:membership_type => "full_member", :free_listing => false )
+        end
         user.add_role("admin")
       end
     end

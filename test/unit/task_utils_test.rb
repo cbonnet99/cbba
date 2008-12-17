@@ -25,6 +25,17 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert !sav.free_listing?
   end
 
+  def test_create_default_admins_after_import_users
+    ImportUtils.import_districts
+    ImportUtils.import_users("small_users.csv")
+    TaskUtils.create_default_admins
+    #Norma exists in users
+    norma = User.find_by_email("norma@eurekacoaching.co.nz")
+    assert_not_nil norma
+    assert norma.admin?
+    assert !norma.free_listing?
+  end
+
   def test_rotate_user_positions_in_subcategories
     canterbury = regions(:canterbury)
     canterbury_christchurch_city = districts(:canterbury_christchurch_city)

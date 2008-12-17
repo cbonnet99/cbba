@@ -19,8 +19,8 @@ class ImportUtils
 			District.find_or_create_by_name_and_region_id(district_str, region.id)
 		end
 	end
-	def self.import_users
-		parsed_file = CSV::Reader.parse(File.open(File.dirname(__FILE__) + "/../csv/users.csv"))
+	def self.import_users(csv_file="users.csv")
+		parsed_file = CSV::Reader.parse(File.open(File.dirname(__FILE__) + "/../csv/#{csv_file}"))
 		User.transaction do
 			Category.transaction do
 				free_listing = Role.find_or_create_by_name("free_listing")

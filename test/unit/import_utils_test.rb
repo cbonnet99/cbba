@@ -12,7 +12,7 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		ImportUtils.import_districts
 		assert District.count > old_count
 		old_count_users = User.count
-		ImportUtils.import_users
+		ImportUtils.import_users("small_users.csv")
 		assert User.count > old_count_users
 		yoga_daily = User.find_by_email("info@yogaindailylife.org.nz")
 		assert !yoga_daily.receive_newsletter?
