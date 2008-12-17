@@ -1,11 +1,13 @@
 yoga:
   title: Yoga is good for you
+  lead: Yoga is good for you
   body: This is a test
   slug: yoga-is-good-for-you
   author: cyrille
   state: draft
 long:
   title: Article with a very long title, how far can we go
+  lead: Article with a very long title
   body: This is a test
   slug: 
   author: cyrille
@@ -14,6 +16,7 @@ long:
   approved_at: <%= 2.days.ago.to_s :db %>
 jogging:
   title: Jogging is good for you
+  lead: Jogging is good for you
   body: This is a test
   slug: jogging-is-good-for-you
   author: rmoore

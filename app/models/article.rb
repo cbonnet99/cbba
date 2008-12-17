@@ -12,13 +12,12 @@ class Article < ActiveRecord::Base
 	has_many :articles_categories
 	has_many :categories, :through => :articles_categories
   
-  validates_presence_of :title
+  validates_presence_of :title, :lead
   validates_length_of :title, :maximum => 80
+  validates_length_of :lead, :maximum => 200
 
-	after_create :create_slug, :create_intro
-#	after_update :create_slug, :create_intro
+	after_create :create_slug
 
-  MAX_LENGTH_INTRODUCTION = 100
 	MAX_LENGTH_SLUG = 20
 
   def path_method
@@ -57,19 +56,8 @@ class Article < ActiveRecord::Base
 
   def to_param  
      "#{id}-#{slug}"
-  end  
-
-	def create_intro
-		self.update_attribute(:introduction, computed_intro)
-	end
-
-	def computed_intro
-		help.shorten_string(body, MAX_LENGTH_INTRODUCTION)
-	end
-
-  def introduction
-		introduction ||= computed_intro
   end
+  
 	def self.id_from_url(url)
 		unless url.nil?
 			url.split("-").first.to_i

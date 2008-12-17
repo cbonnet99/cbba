@@ -53,7 +53,7 @@ class ArticlesControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
 		yoga = subcategories(:yoga)
     assert_difference('Article.count') do
-      post :create, {:article => { :title => "Test9992323", :subcategory1_id => yoga.id  }}, {:user_id => cyrille.id }
+      post :create, {:article => { :title => "Test9992323", :lead => "Test9992323", :subcategory1_id => yoga.id  }}, {:user_id => cyrille.id }
     end
     assert_redirected_to article_path(assigns(:article))
 		assert_equal yoga.id, assigns(:article).subcategory1_id
