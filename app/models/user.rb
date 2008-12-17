@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
+  extend ActiveSupport::Memoizable
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
@@ -50,6 +51,25 @@ class User < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
+
+
+  def main_expertise
+    if subcategories.blank?
+      ""
+    else
+      subcategories.first.name
+    end
+  end
+  memoize :main_expertise
+
+  def region_name
+    if region.blank?
+      ""
+    else
+      region.name
+    end
+  end
+  memoize :region_name
 
   def author?(stuff)
     (self == stuff.author || self.admin?)

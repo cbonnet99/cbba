@@ -1,12 +1,20 @@
+
+.homepage-small-user{
+    float: left;
+    background: #b3c4d4;
+    margin: 5px;
+    padding: 5px;
+    width: 25%;
+}
 #signup-intro ul li{
     list-style: disc;
     list-style-position: inside;
 
 }
-.small-user-photo{
+.user-photo{
     padding: 5px;
  }
-.small-user-photo, .small-user-description{
+.user-photo, user-description{
     float:left;
 }
 #mccont div.publication-info form select, #mccont div.publication-info form input{
@@ -221,14 +229,15 @@ ol {
     list-style-position: inside;
 }
 
-ul {
+ul.simple {
     margin: 0;
     padding-left: 0;
+
 }
 ul li.odd  {
     background: #b3c4d4;
 }
-ul li {
+ul.simple li {
     list-style: none;
     padding: 3px;
 }

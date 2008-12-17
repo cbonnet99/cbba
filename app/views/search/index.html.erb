@@ -1,14 +1,19 @@
 <%= title 'Welcome to beamazing.co.nz', :h2 %>
-<p>We're an online community of health, wellbeing & development professionals passionate about helping people live AMAZING lives!</p>
-<p>Find the right providers and services for you on this site.</p>
-<p>Not a member yet? <%= link_to 'Signup', signup_path %>, it's free!</p>
+<p>New Zealand premier site for health, wellbeing and development</p>
+<ul>
+          <li>Find wellbeing providers</li>
+          <li>Connect with Resident Experts</li>
+          <li>Search our &quot;how to&quot; articles</li>
+          <li>Find courses &amp; events</li>
+</ul>
 <% unless @newest_full_members.empty? -%>
   <h3>New well-being providers</h3>
-  <ul id="homepage-full-members">
+  <div id="homepage-full-members">
     <% @newest_full_members.each do |u| -%>
-      <li class="<%= cycle('odd', 'even')%> "><%= render :partial => "users/user", :locals => {:user => u }  %></li>
+      <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
     <% end -%>
-  </ul>
+  </div>
+  <div class="cleaner"></div>
   <% if @total_full_members > $number_full_members_on_homepage -%>
     <%= link_to "View more well-being providers...", users_path %>
   <% end -%>

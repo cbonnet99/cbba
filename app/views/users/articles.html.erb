@@ -4,7 +4,7 @@
 <% if @articles.empty? -%>
   No articles
 <% else -%>
-  <ul id="your-articles">
+  <ul class="simple" id="your-articles">
   <% @articles.each do |a| -%>
     <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "articles/article", :locals => {:article => a } %></li>
   <% end -%>

@@ -78,6 +78,8 @@ class UsersController < ApplicationController
     params[:user].delete("password_confirmation")
 		if @user.update_attributes(params[:user])
       redirect_back_or_default root_url
+      @user.region_name(:reload)
+      @user.main_expertise(:reload)
       flash[:notice] = "Your details have been updated"
     else
 			get_districts_and_subcategories

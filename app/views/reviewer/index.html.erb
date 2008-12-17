@@ -3,7 +3,7 @@
 <% if @articles.blank? -%>
   No articles for the moment
 <% else -%>
-  <ul id="reviewable-articles">
+  <ul class="simple" id="reviewable-articles">
   <% @articles.each do |a| -%>
     <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "articles/article", :locals => {:article => a } %></li>
   <% end -%>
@@ -13,7 +13,7 @@
 <% if @user_profiles.blank? -%>
   No user profiles for the moment
 <% else -%>
-  <ul id="reviewable-user-profiles">
+  <ul class="simple" id="reviewable-user-profiles">
   <% @user_profiles.each do |p| -%>
     <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => p.user, :custom_msg => "Review profile for"  } %></li>
   <% end -%>
