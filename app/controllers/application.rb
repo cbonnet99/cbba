@@ -12,6 +12,11 @@ class ApplicationController < ActionController::Base
 	#  before_filter :tags
   before_filter :current_category, :categories, :search_init, :except => :change_category
 
+	def get_districts_and_subcategories
+    get_districts
+		get_subcategories
+	end
+  
   def admin_required
     unless logged_in? && current_user.admin?
       access_denied

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   include Authentication::ByPassword
   include Authentication::ByCookieToken
   include Authorization::AasmRoles
+  include ContactSystem
 	include SubcategoriesSystem
 	
   has_attached_file :photo, :styles => { :medium => "200x250>", :thumbnail => "100x125>" },
@@ -249,12 +250,6 @@ class User < ActiveRecord::Base
 		end
 	end
 
-	def get_region_from_district
-		unless self.district.nil?
-			self.region = self.district.region
-		end
-	end
-
 	def assemble_phone_numbers
 			self.mobile = "#{mobile_prefix}-#{mobile_suffix}"
 			self.phone = "#{self.phone_prefix}-#{self.phone_suffix}"
@@ -310,10 +305,6 @@ class User < ActiveRecord::Base
   def has_role?(role)
     list ||= self.roles.map(&:name)
     list.include?(role.to_s) || list.include?('admin')
-  end
-
-  def name
-    "#{first_name.nil? ? "" : first_name.capitalize} #{last_name.nil? ? "" : last_name.capitalize}"
   end
   
 protected

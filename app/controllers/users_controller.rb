@@ -128,10 +128,4 @@ class UsersController < ApplicationController
       redirect_back_or_default root_url
     end
   end
-
-	def get_districts_and_subcategories
-    get_districts
-		get_subcategories
-	end
-
 end

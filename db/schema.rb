@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081210233937) do
+ActiveRecord::Schema.define(:version => 20081216231348) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -68,6 +68,17 @@ ActiveRecord::Schema.define(:version => 20081210233937) do
 
   add_index "categories_users", ["category_id"], :name => "index_categories_users_on_category_id"
   add_index "categories_users", ["user_id"], :name => "index_categories_users_on_user_id"
+
+  create_table "contacts", :force => true do |t|
+    t.string   "email"
+    t.boolean  "receive_newsletter"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "region_id"
+    t.integer  "district_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "districts", :force => true do |t|
     t.string   "name"
