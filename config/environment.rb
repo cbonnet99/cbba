@@ -96,3 +96,5 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
 end
 #I18n.locale = "en-NZ"
 #I18n.load_path += Dir[ File.join(RAILS_ROOT, 'lib', 'locale', '*.{rb,yml}') ]
+
+WhiteListHelper.attributes.merge %w(style)

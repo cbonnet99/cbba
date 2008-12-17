@@ -255,6 +255,18 @@ ul#categories li {
     clear: both;
 }
 
+#mccont #profile-tab-content  fieldset {
+    margin: 0;
+    padding: 0;
+}
+#mccont #profile-tab-content form label, #mccont #profile-tab-content form div.left-input {
+    display: block;
+    float: left;
+    text-align: right;
+    padding-right: 10px;
+    margin-bottom: 5px;
+    width: 50px;
+}
 #mccont form label, #mccont form div.left-input {
     display: block;
     float: left;

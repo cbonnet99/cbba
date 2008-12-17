@@ -1,3 +1,4 @@
+<% use_tinymce -%>
 <% form_for @selected_tab, :url => action_tab_with_id_path(@selected_tab.slug, :action => "update" )  do |f| -%>
   <%= f.error_messages %>
   <fieldset>

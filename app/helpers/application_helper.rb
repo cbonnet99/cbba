@@ -1,5 +1,16 @@
 module ApplicationHelper
 
+  def use_tinymce
+    @content_for_tinymce = ""
+    content_for :tinymce do
+      javascript_include_tag "tiny_mce/tiny_mce"
+    end
+    @content_for_tinymce_init = ""
+    content_for :tinymce_init do
+      javascript_include_tag "mce_editor"
+    end
+  end
+
   def user_profile_path(user_profile)
     user_path(user_profile.user)
   end
@@ -61,7 +72,7 @@ module ApplicationHelper
       "last_name" => current_user.last_name,
       "city" => current_user.city,
       "phone" => blank_phone_number?(current_user.phone) ? current_user.mobile : current_user.phone
-      }
+    }
       
     logger.debug("============ decrypted: #{decrypted.inspect}")
     return CryptoPaypal::Button.from_hash(decrypted).get_encrypted_text
