@@ -38,6 +38,9 @@ class User < ActiveRecord::Base
 	has_many :categories, :through => :categories_users
   has_many :tabs, :order => "position"
   has_one :user_profile
+
+  #named scopes
+  named_scope :full_members, :conditions => "free_listing is false"
   
 	# #around filters
 	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type
@@ -75,7 +78,7 @@ class User < ActiveRecord::Base
     (self == stuff.author || self.admin?)
   end
 
-  def self.full_members(page, limit=$full_members_per_page)
+  def self.paginated_full_members(page, limit=$full_members_per_page)
     User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false", :order => "published_at desc", :limit => limit, :page => page )
   end
 

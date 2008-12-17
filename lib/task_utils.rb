@@ -1,5 +1,13 @@
 class TaskUtils
 
+  def self.mark_down_old_full_members
+    User.full_members.each do |m|
+      if m.member_since < 1.month.ago
+        m.update_attribute(:new_user, false)
+      end
+    end
+  end
+
   def self.rotate_user_positions_in_subcategories
     Subcategory.all.each do |sub|
       s_users = sub.subcategories_users.find(:all, :include => "user", :conditions => "users.free_listing is false")

@@ -1,5 +1,5 @@
 <div id="profile-tabs-left" class="column">
-  <ul id="profile-tabs">
+  <ul class="simple" id="profile-tabs">
     <li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="Articles" href="<%= user_tabs_path(@user.slug, Tab::ARTICLES) %>">Articles</a></li>
     <% @user.tabs.each do |t| -%>
       <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= user_tabs_path(@user.slug, t.slug) %>"><%=t.title%></a></li>

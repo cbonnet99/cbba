@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ruby /usr/local/cft/deploy/capistrano/current/script/runner -e production TaskUtils.mark_down_old_users

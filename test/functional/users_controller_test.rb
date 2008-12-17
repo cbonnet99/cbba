@@ -3,6 +3,12 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
+  def test_index
+    get :index
+    assert_response :success
+    assert !assigns(:full_members).blank?
+  end
+
   def test_edit
     cyrille = users(:cyrille)
     get :edit, {}, {:user_id => cyrille.id }

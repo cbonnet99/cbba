@@ -6,6 +6,7 @@ namespace :bam do
 			ImportUtils.import_users
       TaskUtils.create_default_admins
 			TaskUtils.count_users
+			TaskUtils.mark_down_old_full_members
   end
 
 	desc "Recreates the database and reloads all users and districts (can only be used in dev, as it sends email to new users)"

@@ -112,6 +112,6 @@ rmoore:
   free_listing:              true
   professional:              true
   slug:                      roger-moore
-  member_since:              <%= 2.months.ago.to_s :db %>
-  member_until:              <%= 10.months.from_now.to_s :db %>
+  member_since:              <%= 2.weeks.ago.to_s :db %>
+  member_until:              <%= 50.weeks.from_now.to_s :db %>
   slug:                      roger-moore

@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def index
     page = params[:page] || 1
-    @full_members = User.full_members(page)
+    @full_members = User.paginated_full_members(page)
   end
 
   def new_photo
