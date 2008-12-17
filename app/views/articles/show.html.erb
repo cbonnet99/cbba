@@ -1,5 +1,5 @@
 <h1><%=h @article.title %></h1>
-<div class="publication-author">by <%= link_to @article.author.name, user_path_with_context(@article.author_id) %></div>
+<div class="publication-author">by <%= link_to @article.author.name, user_path_with_context(@article.author.slug) %></div>
 <div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
 <%= link_to 'Edit', edit_article_path(@article) %>
