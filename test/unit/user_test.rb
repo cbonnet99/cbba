@@ -156,10 +156,10 @@ class UserTest < ActiveSupport::TestCase
 		new_user = User.new(:first_name => "Joe", :last_name => "Test", :business_name => "Test",
 			:address1 => "1, Main St", :suburb => "Newtown", :district_id => wellington_wellington_city.id,
 			:region_id => wellington.id, :phone => "04-28392173", :mobile => "", :email => "joe@test.com",
-			:password => "blablabla", :password_confirmation => "blablabla"  )
+			:password => "blablabla", :password_confirmation => "blablabla", :professional => true  )
     assert !new_user.valid?
     assert_equal 1, new_user.errors.size
-    assert_equal "^You must select at least one category", new_user.errors[:subcategory1_id]
+    assert_equal "^You must select your main expertise", new_user.errors[:subcategory1_id]
   end
 	def test_create
 		wellington = regions(:wellington)

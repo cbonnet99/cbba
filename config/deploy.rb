@@ -100,6 +100,7 @@ namespace(:deploy) do
         Dir.foreach("cron_jobs/app/"+dir) do |file|
           if file !="." && file != ".." && file != ".svn"
             put File.read("cron_jobs/app/"+dir+"/"+file), "/etc/"+dir+"/"+file, :mode => 0755
+            puts "Copied #{"cron_jobs/app/"+dir+"/"+file} to #{"/etc/"+dir+"/"+file}"
           end
         end
 	    end

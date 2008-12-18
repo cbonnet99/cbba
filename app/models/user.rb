@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
 
   #named scopes
   named_scope :full_members, :conditions => "free_listing is false"
+  named_scope :new_users, :conditions => "new_user is true"
   
 	# #around filters
 	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type
@@ -299,10 +300,10 @@ class User < ActiveRecord::Base
   end
 
 	def validate
-    if subcategory1_id.nil? && subcategory2_id.nil? && subcategory3_id.nil?
-      errors.add(:subcategory1_id, "^You must select at least one category")
-    end
 		if professional?
+      if subcategory1_id.nil?
+        errors.add(:subcategory1_id, "^You must select your main expertise")
+      end
       #combining name and business name must produce a unique string
       # so that we can slug it
 			if business_name.blank?

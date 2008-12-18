@@ -1,7 +1,7 @@
 class TaskUtils
 
   def self.mark_down_old_full_members
-    User.full_members.each do |m|
+    User.full_members.new_users.each do |m|
       if m.member_since < 1.month.ago
         m.update_attribute(:new_user, false)
       end
