@@ -156,6 +156,17 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal 0, assigns(:user).errors.size
 		assert_equal old_size+1, User.all.size
 	end
+  def test_create_with_same_name
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Bonnet",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
   def test_create_free_listing
 		old_size = User.all.size
 		district = districts(:wellington_wellington_city)
