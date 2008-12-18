@@ -154,6 +154,7 @@ namespace(:deploy) do
     transaction do
       update_code
       web.disable
+      cron
       symlink
       elastic_server_symlink
       run_init_ami
