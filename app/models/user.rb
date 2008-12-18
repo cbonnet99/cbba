@@ -32,8 +32,8 @@ class User < ActiveRecord::Base
   has_many :articles
   has_many :approved_articles, :class_name => "articles"
   has_many :rejected_articles, :class_name => "articles"
-	has_many :subcategories_users
-	has_many :subcategories, :through => :subcategories_users
+	has_many :subcategories_users, :order => "expertise_position"
+	has_many :subcategories, :through => :subcategories_users, :include => :subcategories_users, :order => "subcategories_users.expertise_position"
 	has_many :categories_users
 	has_many :categories, :through => :categories_users
   has_many :tabs, :order => "position"

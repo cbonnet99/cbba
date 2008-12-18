@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081217092829) do
+ActiveRecord::Schema.define(:version => 20081218022911) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20081217092829) do
     t.integer  "subcategory_id"
     t.integer  "user_id"
     t.integer  "position"
+    t.integer  "expertise_position"
   end
 
   add_index "subcategories_users", ["subcategory_id"], :name => "index_subcategories_users_on_subcategory_id"
