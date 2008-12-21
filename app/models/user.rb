@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
       self.subcategory1_id = self.subcategories_users[0].subcategory_id
       old_subcategory1_id = self.subcategories_users[0].subcategory_id
       subcategory1_position = self.subcategories_users[0].position
-    @old_positions[old_subcategory1_id] = subcategory1_position
+      @old_positions[old_subcategory1_id] = subcategory1_position
     end
     if self.subcategories_users[1].nil?
       self.subcategory2_id = nil
@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
       self.subcategory2_id = self.subcategories_users[1].subcategory_id
       old_subcategory2_id = self.subcategories_users[1].subcategory_id
       subcategory2_position = self.subcategories_users[1].position
-    @old_positions[old_subcategory2_id] = subcategory2_position
+      @old_positions[old_subcategory2_id] = subcategory2_position
     end
     if self.subcategories_users[2].nil?
       self.subcategory3_id = nil
@@ -87,50 +87,50 @@ class User < ActiveRecord::Base
       self.subcategory3_id = self.subcategories_users[2].subcategory_id
       old_subcategory3_id = self.subcategories_users[2].subcategory_id
       subcategory3_position = self.subcategories_users[2].position
-    @old_positions[old_subcategory3_id] = subcategory3_position
+      @old_positions[old_subcategory3_id] = subcategory3_position
     end
 
   end
 
   def save_subcategories
-			self.subcategories = []
-			self.categories = []
-			unless subcategory1_id.blank?
-				sub1 = Subcategory.find(self.subcategory1_id)
-				self.subcategories << sub1
-        self.categories << sub1.category
-        #update expertise position
-        unless @old_positions.blank? || @old_positions[self.subcategory1_id].blank?
-          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
-          unless su.nil?
-            su.update_attribute(:position, @old_positions[self.subcategory1_id])
-          end
+    self.subcategories = []
+    self.categories = []
+    unless subcategory1_id.blank?
+      sub1 = Subcategory.find(self.subcategory1_id)
+      self.subcategories << sub1
+      self.categories << sub1.category
+      # #update expertise position
+      unless @old_positions.blank? || @old_positions[self.subcategory1_id].blank?
+        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
+        unless su.nil?
+          su.update_attribute(:position, @old_positions[self.subcategory1_id])
         end
-			end
-			unless subcategory2_id.blank?
-				sub2 = Subcategory.find(self.subcategory2_id)
-				self.subcategories << sub2
-        self.categories << sub2.category
-        #update expertise position
-        unless @old_positions.blank? || @old_positions[self.subcategory2_id].blank?
-          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
-          unless su.nil?
-            su.update_attribute(:position, @old_positions[self.subcategory2_id])
-          end
+      end
+    end
+    unless subcategory2_id.blank?
+      sub2 = Subcategory.find(self.subcategory2_id)
+      self.subcategories << sub2
+      self.categories << sub2.category
+      # #update expertise position
+      unless @old_positions.blank? || @old_positions[self.subcategory2_id].blank?
+        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
+        unless su.nil?
+          su.update_attribute(:position, @old_positions[self.subcategory2_id])
         end
-			end
-			unless subcategory3_id.blank?
-				sub3 = Subcategory.find(self.subcategory3_id)
-				self.subcategories << sub3
-        self.categories << sub3.category
-        #update expertise position
-        unless @old_positions.blank? || @old_positions[self.subcategory3_id].blank?
-          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)
-          unless su.nil?
-            su.update_attribute(:position, @old_positions[self.subcategory3_id])
-          end
+      end
+    end
+    unless subcategory3_id.blank?
+      sub3 = Subcategory.find(self.subcategory3_id)
+      self.subcategories << sub3
+      self.categories << sub3.category
+      # #update expertise position
+      unless @old_positions.blank? || @old_positions[self.subcategory3_id].blank?
+        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)
+        unless su.nil?
+          su.update_attribute(:position, @old_positions[self.subcategory3_id])
         end
-			end
+      end
+    end
   end
 
   def main_expertise

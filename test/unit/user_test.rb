@@ -61,6 +61,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 2, user.tabs.size
     assert_equal "Hypnotherapy", user.tabs.first.title
     assert_equal "About Joe", user.tabs.last.title
+    user.update_attributes(:last_name => "Test2")
+    user.reload
+    assert_equal 2, user.tabs.size
   end
 
   def test_phone_suffix
