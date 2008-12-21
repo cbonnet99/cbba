@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
 	include SubcategoriesSystem
 	
   has_attached_file :photo, :styles => { :medium => "200x250>", :thumbnail => "100x125>" },
-                            :url  => "/assets/profiles/:id/:style/:basename.:extension",
-                            :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
+   :url  => "/assets/profiles/:id/:style/:basename.:extension",
+   :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
                            
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
   validates_attachment_size :photo, :less_than => 3.megabytes
   validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/png', 'image/gif']
-	# Relationships
+  # Relationships
 
   has_many :roles_users
   has_many :roles, :through => :roles_users, :uniq => true 
@@ -39,23 +39,99 @@ class User < ActiveRecord::Base
   has_many :tabs, :order => "position"
   has_one :user_profile
 
-  #named scopes
+  # #named scopes
   named_scope :full_members, :conditions => "free_listing is false"
   named_scope :new_users, :conditions => "new_user is true"
   
-	# #around filters
+  # #around filters
 	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type
 	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type
 
-  after_create :create_slug, :create_profile
+  after_create :create_slug, :create_profile, :add_tabs
+  after_update :add_tabs
 
-	# HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
-	# submitting a crafted form that bypasses activation anything else you want
-	# your user to change should be added here.
+  # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
+  # submitting a crafted form that bypasses activation anything else you want
+  # your user to change should be added here.
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def after_find
+    @old_positions = {}
+    if self.subcategories_users[0].nil?
+      self.subcategory1_id = nil
+      old_subcategory1_id = nil
+      subcategory1_position = nil
+    else
+      self.subcategory1_id = self.subcategories_users[0].subcategory_id
+      old_subcategory1_id = self.subcategories_users[0].subcategory_id
+      subcategory1_position = self.subcategories_users[0].position
+    @old_positions[old_subcategory1_id] = subcategory1_position
+    end
+    if self.subcategories_users[1].nil?
+      self.subcategory2_id = nil
+      old_subcategory2_id = nil
+      subcategory2_position = nil
+    else
+      self.subcategory2_id = self.subcategories_users[1].subcategory_id
+      old_subcategory2_id = self.subcategories_users[1].subcategory_id
+      subcategory2_position = self.subcategories_users[1].position
+    @old_positions[old_subcategory2_id] = subcategory2_position
+    end
+    if self.subcategories_users[2].nil?
+      self.subcategory3_id = nil
+      old_subcategory3_id = nil
+      subcategory3_position = nil
+    else
+      self.subcategory3_id = self.subcategories_users[2].subcategory_id
+      old_subcategory3_id = self.subcategories_users[2].subcategory_id
+      subcategory3_position = self.subcategories_users[2].position
+    @old_positions[old_subcategory3_id] = subcategory3_position
+    end
+
+  end
+
+  def save_subcategories
+			self.subcategories = []
+			self.categories = []
+			unless subcategory1_id.blank?
+				sub1 = Subcategory.find(self.subcategory1_id)
+				self.subcategories << sub1
+        self.categories << sub1.category
+        #update expertise position
+        unless @old_positions.blank? || @old_positions[self.subcategory1_id].blank?
+          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
+          unless su.nil?
+            su.update_attribute(:position, @old_positions[self.subcategory1_id])
+          end
+        end
+			end
+			unless subcategory2_id.blank?
+				sub2 = Subcategory.find(self.subcategory2_id)
+				self.subcategories << sub2
+        self.categories << sub2.category
+        #update expertise position
+        unless @old_positions.blank? || @old_positions[self.subcategory2_id].blank?
+          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
+          unless su.nil?
+            su.update_attribute(:position, @old_positions[self.subcategory2_id])
+          end
+        end
+			end
+			unless subcategory3_id.blank?
+				sub3 = Subcategory.find(self.subcategory3_id)
+				self.subcategories << sub3
+        self.categories << sub3.category
+        #update expertise position
+        unless @old_positions.blank? || @old_positions[self.subcategory3_id].blank?
+          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)
+          unless su.nil?
+            su.update_attribute(:position, @old_positions[self.subcategory3_id])
+          end
+        end
+			end
+  end
 
   def main_expertise
     if subcategories.blank?
@@ -133,12 +209,12 @@ class User < ActiveRecord::Base
       subcategories.each do |s|
         self.add_tab(s.name, s.name)
       end
-       self.add_tab("About #{first_name}", "About #{first_name}")
+      self.add_tab("About #{first_name}", "About #{first_name}")
     end
   end
 
   def to_param
-     slug
+    slug
   end
 
 	def create_slug
@@ -152,45 +228,45 @@ class User < ActiveRecord::Base
 
   def phone_prefix
     @phone_prefix ||
-    (unless phone.blank?
-      phone_bits = phone.split("-")
-      phone_bits.first
-    end)
+     (unless phone.blank?
+        phone_bits = phone.split("-")
+        phone_bits.first
+      end)
   end
 
   def phone_suffix
     @phone_suffix ||
-    (unless phone.blank?
-      phone_bits = phone.split("-")
-      if phone_bits.size > 1
-        phone_bits.last
-      else
-        ""
-      end
-    end)
+     (unless phone.blank?
+        phone_bits = phone.split("-")
+        if phone_bits.size > 1
+          phone_bits.last
+        else
+          ""
+        end
+      end)
   end
 
   def mobile_prefix
     @mobile_prefix ||
-    (unless mobile.blank?
-      mobile_bits = mobile.split("-")
-      mobile_bits.first
-    end)
+     (unless mobile.blank?
+        mobile_bits = mobile.split("-")
+        mobile_bits.first
+      end)
   end
 
   def mobile_suffix
     @mobile_suffix ||
-    (unless mobile.blank?
-      mobile_bits = mobile.split("-")
-      if mobile_bits.size > 1
-        mobile_bits.last
-      else
-        ""
-      end
-    end)
+     (unless mobile.blank?
+        mobile_bits = mobile.split("-")
+        if mobile_bits.size > 1
+          mobile_bits.last
+        else
+          ""
+        end
+      end)
   end
 
-  #describes subcategories in a sentence
+  # #describes subcategories in a sentence
   def expertise
     subcategories.map(&:name).to_sentence
   end
@@ -227,7 +303,6 @@ class User < ActiveRecord::Base
       self.free_listing=false
       self.member_since = Time.now.utc
       self.member_until = 1.year.from_now
-      add_tabs
       unless full_member?
         self.add_role("full_member")
       end
@@ -237,7 +312,7 @@ class User < ActiveRecord::Base
         self.add_role("free_listing")
       end
     end
-    #!IMPORTANT: always return true in an around filter: see http://www.dansketcher.com/2006/12/30/activerecordrecordnotsaved-before_save-problem/
+    # #!IMPORTANT: always return true in an around filter: see http://www.dansketcher.com/2006/12/30/activerecordrecordnotsaved-before_save-problem/
     return true
   end
 
@@ -282,8 +357,8 @@ class User < ActiveRecord::Base
 	end
 
 	def assemble_phone_numbers
-			self.mobile = "#{mobile_prefix}-#{mobile_suffix}"
-			self.phone = "#{self.phone_prefix}-#{self.phone_suffix}"
+    self.mobile = "#{mobile_prefix}-#{mobile_suffix}"
+    self.phone = "#{self.phone_prefix}-#{self.phone_suffix}"
 	end
 
   def disassemble_phone_numbers
@@ -304,8 +379,8 @@ class User < ActiveRecord::Base
       if subcategory1_id.nil?
         errors.add(:subcategory1_id, "^You must select your main expertise")
       end
-      #combining name and business name must produce a unique string
-      # so that we can slug it
+      # #combining name and business name must produce a unique string so that
+      # we can slug it
 			if business_name.blank?
         duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(first_name) = lower(?) and lower(last_name) = lower(?) and lower(email) <> lower(?)", first_name, last_name, email])
         if duplicate_users_count > 0
@@ -320,25 +395,25 @@ class User < ActiveRecord::Base
 		end
 	end
 
-	# Authenticates a user by their login name and unencrypted password.  Returns
-	# the user or nil.
-	#
-	# uff.  this is really an authorization, not authentication routine. We really
-	# need a Dispatch Chain here or something. This will also let us return a human
-	# error message.
-	#
+  # Authenticates a user by their login name and unencrypted password.  Returns
+  # the user or nil.
+  #
+  # uff.  this is really an authorization, not authentication routine. We really
+  # need a Dispatch Chain here or something. This will also let us return a
+  # human error message.
+  #
   def self.authenticate(email, password)
     u = find_in_state :first, :active, :conditions => { :email => email } # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
   
-	# Check if a user has a role.
+  # Check if a user has a role.
   def has_role?(role)
     list ||= self.roles.map(&:name)
     list.include?(role.to_s) || list.include?('admin')
   end
   
-protected
+  protected
 
   def make_activation_code
     self.deleted_at = nil

@@ -118,11 +118,21 @@ class UsersControllerTest < ActionController::TestCase
 
 	def test_update_mobile
 		cyrille = users(:cyrille)
-
+    TaskUtils.rotate_user_positions_in_subcategories
+    cyrille.subcategories_users.reload
+    assert_not_nil cyrille.subcategories_users[0]
+    #position should not be nil
+    assert_not_nil cyrille.subcategories_users[0].position
+    old_position = cyrille.subcategories_users[0].position
 		post :update, {:id => "123", :user => {:mobile_prefix => "027", :mobile_suffix => "999999" }}, {:user_id => cyrille.id }
 		assert_equal "Your details have been updated", flash[:notice]
-    cyrille.reload
+    cyrille = User.find_by_email(cyrille.email)
 		assert_equal "027-999999", cyrille.mobile
+    assert !cyrille.subcategories_users.blank?
+    assert_not_nil cyrille.subcategories_users[0]
+    #position should stay unchanged
+    assert_not_nil cyrille.subcategories_users[0].position
+    assert_equal old_position, cyrille.subcategories_users[0].position
 	end
 
   def test_update_main_expertise
@@ -132,6 +142,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal hypnotherapy.name, sgardiner.main_expertise
 		post :update, {:id => "123", :user => {:subcategory1_id => aromatherapy.id, :subcategory2_id => hypnotherapy.id}}, {:user_id => sgardiner.id }
     assert_equal 0, assigns(:user).errors.size
+    sgardiner.subcategories_users.reload
 
     #IMPORTANT: do not reload as the reload does not go through the after_find callback...
     sgardiner = User.find_by_email(sgardiner.email)
