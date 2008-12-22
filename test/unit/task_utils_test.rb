@@ -3,6 +3,22 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_suspend_full_members_when_membership_expired
+    cyrille = users(:cyrille)
+    old_size = User.active.size
+    TaskUtils.suspend_full_members_when_membership_expired
+    #no full member to suspend
+    assert_equal old_size, User.active.size
+    cyrille.member_until = 1.day.ago
+    cyrille.save!
+    cyrille.reload
+    TaskUtils.suspend_full_members_when_membership_expired
+
+    cyrille.reload
+    #cyrille should have been suspended
+    assert_equal old_size-1, User.active.size
+  end
+
   def test_mark_down_old_full_members
     norma = users(:norma)
     rmoore = users(:rmoore)

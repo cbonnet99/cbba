@@ -1,5 +1,13 @@
 class TaskUtils
 
+  def self.suspend_full_members_when_membership_expired
+    User.all.each do |u|
+      if u.member_until < Time.now
+        u.suspend!
+      end
+    end
+  end
+
   def self.mark_down_old_full_members
     User.full_members.new_users.each do |m|
       if m.member_since < 1.month.ago

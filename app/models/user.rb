@@ -301,9 +301,9 @@ class User < ActiveRecord::Base
     case membership_type
     when "full_member"
       self.free_listing=false
-      self.member_since = Time.now.utc
-      self.member_until = 1.year.from_now
       unless full_member?
+        self.member_since = Time.now.utc
+        self.member_until = 1.year.from_now
         self.add_role("full_member")
       end
     else
