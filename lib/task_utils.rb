@@ -4,6 +4,10 @@ class TaskUtils
     User.all.each do |u|
       if u.member_until < Time.now
         u.suspend!
+        u.remove_role("full_member")
+        u.reload
+        u.free_listing = true
+        u.save!
       end
     end
   end

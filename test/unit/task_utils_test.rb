@@ -4,19 +4,21 @@ class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
   def test_suspend_full_members_when_membership_expired
-    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
     old_size = User.active.size
     TaskUtils.suspend_full_members_when_membership_expired
     #no full member to suspend
     assert_equal old_size, User.active.size
-    cyrille.member_until = 1.day.ago
-    cyrille.save!
-    cyrille.reload
+    rmoore.member_until = 1.day.ago
+    rmoore.save!
+    rmoore.reload
     TaskUtils.suspend_full_members_when_membership_expired
 
-    cyrille.reload
+    rmoore.reload
     #cyrille should have been suspended
     assert_equal old_size-1, User.active.size
+    #cyrille should have become a free listing
+    assert rmoore.free_listing?
   end
 
   def test_mark_down_old_full_members

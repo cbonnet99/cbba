@@ -204,6 +204,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def remove_role(role_string)
+    role = Role.find_by_name(role_string)
+    unless role.nil? || !has_role?(role_string)
+      self.roles.delete(role)
+    end
+  end
+
   def add_tabs
     unless free_listing?
       subcategories.each do |s|
