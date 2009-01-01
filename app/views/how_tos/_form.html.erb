@@ -1,0 +1,41 @@
+<% javascript 'how-to' %>
+ <ol>
+      <li>
+        <%= f.label "Title:<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :title %>
+      </li>
+      <li>
+        <%= f.label "Summary:<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_area :summary %>
+      </li>
+      <li>
+        <label>Please select if your article will be a series of steps or tips:</label>
+      </li>
+      <li>
+        <div class="left-input"><%= f.radio_button :step_label, "step" %></div>
+        <div class="right-label"><%= f.label :step_label_step, 'Step'%></div>
+      </li>
+      <li>
+        <div class="left-input"><%= f.radio_button :step_label, "tip" %></div>
+        <div class="right-label"><%= f.label :step_label_tip, 'Tip'%></div>
+      </li>
+      <div id="steps">
+        <%= render :partial => 'step', :collection => @how_to.how_to_steps %>
+      </div>
+    <li>
+      <div class="left-input"></div>
+      <div class="right-label"><%= add_step_link @how_to.step_label %></div>
+    </li>
+      <li>
+        <label><%=subcategories_label%></label>
+      </li>
+      <li>
+        <%= f.label :subcategory1, 'Category1:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true } %><br/>
+      </li>
+      <li>
+        <%= f.label :subcategory2, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
+      <li>
+        <%= f.label :subcategory3, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
+</ol>

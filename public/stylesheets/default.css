@@ -1,4 +1,12 @@
 
+.step-title{
+    font-size: large;
+    font-weight: bold;
+}
+.user-tab-selected{
+    background-color: #b3c4d4;
+    padding: 5px;
+}
 .homepage-small-user{
     float: left;
     background: #b3c4d4;

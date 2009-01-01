@@ -1,6 +1,6 @@
 <% javascript 'user-profile' %>
 <% if own_profile?(@user) -%>
-  <%= render :partial => "users/user_nav" %>
+  <%= render :partial => "users/user_nav", :locals => {:selected => "profile" } %>
 <% end -%>
 <% if own_profile?(@user) || @user.user_profile.published? -%>
 <div id="profile-header">

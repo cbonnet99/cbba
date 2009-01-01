@@ -1,0 +1,12 @@
+<%= render :partial => "users/user_nav", :locals => {:selected => "howtos" }  %>
+<%= title "Your howto articles", :h2  %>
+<p><%= link_to "Create new howto article", new_how_to_path %></p>
+<% if @howtos.empty? -%>
+  No howto articles
+<% else -%>
+  <ul class="simple" id="your-howto-articles">
+  <% @howtos.each do |h| -%>
+    <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "how_tos/how_to", :locals => {:how_to => h } %></li>
+  <% end -%>
+  </ul>
+<%end -%>

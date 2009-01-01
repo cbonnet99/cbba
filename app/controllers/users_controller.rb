@@ -61,6 +61,11 @@ class UsersController < ApplicationController
 		@articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
 	end
 
+	def howtos
+		get_districts_and_subcategories
+		@howtos = HowTo.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+	end
+
 	def edit
 #    current_user.disassemble_phone_numbers
 		get_districts_and_subcategories

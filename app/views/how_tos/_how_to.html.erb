@@ -1,0 +1,3 @@
+<p><%=link_to how_to.title, how_to_path(how_to) %>
+<% if is_author?(how_to)%> (<span class="<%=how_to.workflow_css_class%>"><%=how_to.state%></span>)<%end%></p>
+<p><%=h how_to.summary %></p>

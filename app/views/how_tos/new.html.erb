@@ -1,11 +1,11 @@
-<%= render :partial => "users/user_nav", :locals => {:selected => "articles" }  %>
-<%= title "Create a new article", :h2  %>
-<%= link_to 'Back to your articles', user_articles_path %>
-<% form_for(@article) do |f| %>
+<%= render :partial => "users/user_nav", :locals => {:selected => "howtos" }  %>
+<%= title "Create a new howto article", :h2  %>
+<%= link_to 'Back to your howto articles', user_howtos_path %>
+<% form_for(@how_to) do |f| %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your article could not be saved" %>
 
   <fieldset>
-    <legend>Article details</legend>
+    <legend>Howto article details</legend>
       <%= render :partial => "form", :locals => {:f => f, :subcategories_label => "Please enter up to 3 categories you would like this article to be listed in:"  }   %>
   </fieldset>
   <div class="buttons">

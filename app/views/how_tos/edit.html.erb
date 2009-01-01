@@ -1,0 +1,4 @@
+<% form_for :how_to, :url => how_to_path(@how_to), :html => { :method => 'put' } do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f, :subcategories_label => "Please enter up to 3 categories you would like this article to be listed in:" } %>
+  <p><%= submit_tag "Update How To" %></p>
+<% end %>

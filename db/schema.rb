@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081218022911) do
+ActiveRecord::Schema.define(:version => 20081225101415) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -87,6 +87,55 @@ ActiveRecord::Schema.define(:version => 20081218022911) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "how_to_steps", :force => true do |t|
+    t.integer  "how_to_id"
+    t.string   "title"
+    t.text     "body"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "how_tos", :force => true do |t|
+    t.string   "title"
+    t.string   "summary"
+    t.string   "step_label"
+    t.datetime "published_at"
+    t.text     "reason_reject"
+    t.datetime "rejected_at"
+    t.integer  "rejected_by_id"
+    t.text     "comment_approve"
+    t.datetime "approved_at"
+    t.integer  "approved_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "author_id"
+    t.string   "state",           :default => "draft"
+    t.string   "slug"
+  end
+
+  create_table "how_tos_categories", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "category_id"
+    t.integer  "how_to_id"
+    t.integer  "position"
+  end
+
+  add_index "how_tos_categories", ["category_id"], :name => "index_how_tos_categories_on_category_id"
+  add_index "how_tos_categories", ["how_to_id"], :name => "index_how_tos_categories_on_how_to_id"
+
+  create_table "how_tos_subcategories", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "subcategory_id"
+    t.integer  "how_to_id"
+    t.integer  "position"
+  end
+
+  add_index "how_tos_subcategories", ["how_to_id"], :name => "index_how_tos_subcategories_on_how_to_id"
+  add_index "how_tos_subcategories", ["subcategory_id"], :name => "index_how_tos_subcategories_on_subcategory_id"
 
   create_table "passwords", :force => true do |t|
     t.integer  "user_id"
