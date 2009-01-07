@@ -1,4 +1,20 @@
+input.button {
+    color: white;
+    font-weight: bold;
+    background-color:#c00;
+	border: 1px solid #666;
+    font-size: 80%;
+}
 
+a.button{
+	text-decoration:none;
+    padding: 2px 6px 2px 6px;
+	background-color: #C00;
+	border-color: #666;
+    font-weight: bold;
+    color: white;
+	border: 1px solid #666;
+}
 .step-title{
     font-size: large;
     font-weight: bold;

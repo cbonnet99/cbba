@@ -5,7 +5,7 @@
 <% if own_profile?(@user) || @user.user_profile.published? -%>
 <div id="profile-header">
   <div id="profile-header-right" class="column">
-    <div id="profile-ask-question-content"><a href="mailto:<%=@user.email%>?subject=Message via beamazing.co.nz">Ask me a question</a></div>
+    <div id="profile-ask-question-content"><a class="button" href="mailto:<%=@user.email%>?subject=Message via beamazing.co.nz">Ask me a question</a></div>
     <div id="profile-publish-information" class="publication-info">
       <%= render :partial => "reviewer/publication_info", :locals => {:item => @user.user_profile, :class_name => "user_profile" }   %>
     </div>
