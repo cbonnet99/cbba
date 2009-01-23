@@ -35,14 +35,14 @@ module WorkflowSystem
   end
   module WorkflowInstanceMethods
 
-#    def path_to_item(item=self)
-#      if respond_to?(:custom_path)
-#        custom_path(item)
-#      else
-#        method = self.method((self.class.to_s.tableize.singularize+"_path").to_sym)
-#        method.call(item)
-#      end
-#    end
+    #    def path_to_item(item=self)
+    #      if respond_to?(:custom_path)
+    #        custom_path(item)
+    #      else
+    #        method = self.method((self.class.to_s.tableize.singularize+"_path").to_sym)
+    #        method.call(item)
+    #      end
+    #    end
 
     def workflow_css_class
       "workflow-#{self.state}"

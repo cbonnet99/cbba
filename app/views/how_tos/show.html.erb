@@ -1,5 +1,5 @@
 <% if is_author?(@how_to) -%>
-<%= link_to 'Back to your howto articles', user_howtos_path %>
+<%= link_to "Back to your 'how to' articles", user_howtos_path %>
 <% end -%>
 <%= title @how_to.title, :h2 %>
 <div class="publication-author">by <%= link_to @how_to.author.name, user_path_with_context(@how_to.author.slug) %></div>

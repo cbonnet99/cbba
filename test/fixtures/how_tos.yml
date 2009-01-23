@@ -1,11 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  title: MyString
-  summary: MyString
-  step_label: MyString
-
-two:
-  title: MyString
-  summary: MyString
-  step_label: MyString
+improve:
+  title: Improve yourself
+  summary: Become a better person
+  step_label: Step
+  author: cyrille

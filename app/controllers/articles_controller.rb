@@ -4,16 +4,16 @@ class ArticlesController < ApplicationController
 	after_filter :store_location, :only => [:show]
 
 	def publish
-    @article = Article.find(params[:id])
-		if current_user.id == @article.author_id
-			@article.publish!
-			flash[:notice] = "Article successfully published"
-		else
-			flash[:error] = "You can not publish this article"
-		end
-		redirect_back_or_default root_url
-	end
+    @article = current_user.articles.find(params[:id])
+		@article.publish!
+		flash[:notice] = "Article successfully published"
+    redirect_back_or_default root_url
 
+		rescue ActiveRecord::RecordNotFound => e
+			flash[:error] = "You can not publish this article"
+      redirect_back_or_default root_url
+	end
+  
   def index
     @articles = Article.published
 

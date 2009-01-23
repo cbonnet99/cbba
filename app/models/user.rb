@@ -29,7 +29,8 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :roles_users, :uniq => true 
   belongs_to :region
   belongs_to :district
-  has_many :articles
+  has_many :articles, :foreign_key => :author_id
+  has_many :how_tos, :foreign_key => :author_id
   has_many :approved_articles, :class_name => "articles"
   has_many :rejected_articles, :class_name => "articles"
 	has_many :subcategories_users, :order => "expertise_position"

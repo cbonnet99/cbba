@@ -17,6 +17,10 @@ class HowTo < ActiveRecord::Base
 	after_create :create_slug
   after_update :save_steps
 
+  def path_method
+    "how_to_path"
+  end
+
 	def self.id_from_url(url)
 		unless url.nil?
 			url.split("-").first.to_i

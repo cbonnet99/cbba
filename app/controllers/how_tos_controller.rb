@@ -4,14 +4,14 @@ class HowTosController < ApplicationController
 	after_filter :store_location, :only => [:show]
 
 	def publish
-    @how_to = HowTo.find(params[:id])
-		if current_user.id == @how_to.author_id
-			@how_to.publish!
-			flash[:notice] = "How to successfully published"
-		else
-			flash[:error] = "You can not publish this how to"
-		end
-		redirect_back_or_default root_url
+    @how_to = current_user.how_tos.find(params[:id])
+		@how_to.publish!
+		flash[:notice] = "How to article successfully published"
+    redirect_back_or_default root_url
+    
+		rescue ActiveRecord::RecordNotFound => e
+			flash[:error] = "You can not publish this article"
+      redirect_back_or_default root_url
 	end
 
   def index
@@ -45,11 +45,8 @@ class HowTosController < ApplicationController
   end
 
   def edit
-    puts "======== params[:id]: #{params[:id]}"
-    puts "======== current_user.id: #{current_user.id}"
 		id = HowTo.id_from_url(params[:id])
     @how_to = HowTo.find_by_author_id_and_id(current_user.id, id)
-    puts "========= @how_to: #{@how_to.inspect}"
 #		@how_to.load_subcategories
 		get_subcategories
   end

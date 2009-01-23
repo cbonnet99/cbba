@@ -4,6 +4,12 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_articles
+    cyrille = users(:cyrille)
+    articles = cyrille.articles
+    assert !articles.blank?
+  end
+
   def test_newest_full_members
     cyrille = users(:cyrille)
     assert_equal [cyrille], User.newest_full_members
