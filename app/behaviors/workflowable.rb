@@ -1,4 +1,4 @@
-module WorkflowSystem
+module Workflowable
   def self.included(base)
 		base.send :include, Authorization::AasmRoles::StatefulRolesInstanceMethods
 		base.send :include, AASM

@@ -1,5 +1,5 @@
 class UserProfile < ActiveRecord::Base
-  include WorkflowSystem
+  include Workflowable
   
   belongs_to :user
 

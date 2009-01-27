@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class Article < ActiveRecord::Base
 	include SubcategoriesSystem
-  include WorkflowSystem
+  include Workflowable
   
   acts_as_taggable
 	
