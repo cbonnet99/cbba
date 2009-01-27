@@ -25,11 +25,13 @@
 
 set :scm_username,  "cbonnet99@gmail.com"
 #set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
-set :deploy_via, :remote_cache
-set :scm, "git"
-set :repository, "git://github.com/cbonnet99/cbba.git"
-#set :repository, "git@github.com:cbonnet99/cbba.git"
+#set :deploy_via, :remote_cache
+set :deploy_via,  :copy
+set :scm, :git
+#set :repository, "git://github.com/cbonnet99/cbba.git"
+set :repository, "git@github.com:cbonnet99/cbba.git"
 set :branch, "master"
+ssh_options[:forward_agent] = true
 
 #set :repository, "."
 #set :scm, :none
