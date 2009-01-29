@@ -1,4 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_]+/}
+
   map.resources :contacts
 
 

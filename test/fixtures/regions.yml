@@ -1,36 +1,54 @@
 auckland:
     name: Auckland
+    slug: auckland
 plenty:
     name: Bay Of Plenty
+    slug: bay-of-plenty
 canterbury:
     name: Canterbury
+    slug: canterbury
 gisborne:
     name: Gisborne
+    slug: gisborne
 hawkes_bay:
     name: Hawkes Bay
+    slug: hawkes-bay
 marlborough:
     name: Marlborough
+    slug: marlborough
 manawatu:
     name: Manawatu
+    slug: manawatu
 nelson:
     name: Nelson Bays
+    slug: nelson-bays
 northland:
     name: Northland
+    slug: northland
 otago:
     name: Otago
+    slug: otago
 southland:
     name: Southland
+    slug: southland
 taranaki:
     name: Taranaki
+    slug: taranaki
 timaru_oamaru:
     name: Timaru-Oamaru
+    slug: timaru-oamaru
 waikato:
     name: Waikato
+    slug: waikato
 wairarapa:
     name: Wairarapa
+    slug: wairarapa
 wanganui:
     name: Wanganui
+    slug: wanganui
 wellington:
     name: Wellington
+    slug: wellington
 west_coast:
     name: West Coast
+    slug: west-coast

@@ -34,7 +34,7 @@ class UsersController < ApplicationController
 	end
   
   def show
-    @user = User.find_by_slug(params[:id])
+    @user = User.find_by_slug(params[:name])
     if @user.nil? || !@user.full_member?
       render :text => ""
     else

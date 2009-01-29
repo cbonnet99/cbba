@@ -143,6 +143,15 @@ class User < ActiveRecord::Base
   end
   memoize :main_expertise
 
+  def main_expertise_slug
+    if subcategories.blank?
+      ""
+    else
+      subcategories.first.slug
+    end
+  end
+  memoize :main_expertise_slug
+
   def region_name
     if region.blank?
       ""
@@ -231,7 +240,6 @@ class User < ActiveRecord::Base
 
 	def computed_slug
 		full_name.parameterize
-
 	end
 
   def phone_prefix

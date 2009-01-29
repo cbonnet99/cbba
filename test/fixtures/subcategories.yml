@@ -1,12 +1,16 @@
 yoga:
     name: Yoga
     category: courses
+    slug: yoga
 hypnotherapy:
     name: Hypnotherapy
     category: practitioners
+    slug: hypnotherapy
 aromatherapy:
     name: Aromatherapy
     category: practitioners
+    slug: aromatherapy
 life_coaching:
     name: Life Coaching
     category: coaching
+    slug: life-coaching

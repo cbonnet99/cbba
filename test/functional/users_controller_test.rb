@@ -54,17 +54,21 @@ class UsersControllerTest < ActionController::TestCase
     old_size = UserEvent.all.size
     rmoore = users(:rmoore)
     cyrille = users(:cyrille)
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
 
-    get :show, {:id => rmoore.slug}, {:user_id => rmoore.id }
+    get :show, {:name => rmoore.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => rmoore.id }
     # #visits to own profile should not be recorded
     assert_equal old_size, UserEvent.all.size
-    get :show, {:id => cyrille.slug}, {:user_id => rmoore.id }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => rmoore.id }
     assert_equal old_size+1, UserEvent.all.size
   end
 
   def test_show2
     sgardiner = users(:sgardiner)
-    get :show, {:id => sgardiner.slug}, {:user_id => sgardiner.id }
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
+    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaching.slug  }, {:user_id => sgardiner.id }
     assert_select "input[value=Publish]"
     assert_select "a[href=/tabs/create]"
   end
@@ -85,8 +89,10 @@ class UsersControllerTest < ActionController::TestCase
   def test_show_draft_profile
     norma = users(:norma)
     cyrille = users(:cyrille)
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
 
-    get :show, {:id => norma.slug}, {:user_id => cyrille.id }
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => cyrille.id }
 #    puts "============= #{@response.body}"
     assert @response.body =~ /Profile coming soon/
   end

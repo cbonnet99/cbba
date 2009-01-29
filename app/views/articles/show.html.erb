@@ -2,7 +2,7 @@
 <%= link_to 'Back to your articles', user_articles_path %>
 <% end -%>
 <h1><%=h @article.title %></h1>
-<div class="publication-author">by <%= link_to @article.author.name, user_path_with_context(@article.author.slug) %></div>
+<div class="publication-author">by <%= link_to @article.author.name, user_path_with_context(@article.author) %></div>
 <div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
   <%if @article.draft? -%>

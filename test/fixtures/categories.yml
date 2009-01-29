@@ -1,9 +1,12 @@
 courses:
   position: 2
   name: Courses
+  slug: courses
 practitioners:
   name: Practitioners
   position: 1
+  slug: practitioners
 coaching:
   position: 3
   name: Coaching
+  slug: coaching

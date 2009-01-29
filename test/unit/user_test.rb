@@ -4,6 +4,11 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_user_slug
+    cyrille = users(:cyrille)
+    assert "cyrille-bonnet", cyrille.slug
+  end
+
   def test_articles
     cyrille = users(:cyrille)
     articles = cyrille.articles

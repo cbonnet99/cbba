@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081225101415) do
+ActiveRecord::Schema.define(:version => 20090129024313) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20081225101415) do
     t.datetime "updated_at"
     t.integer  "position"
     t.integer  "users_counter", :default => 0
+    t.string   "slug"
   end
 
   create_table "categories_users", :force => true do |t|
@@ -160,6 +161,7 @@ ActiveRecord::Schema.define(:version => 20081225101415) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug"
   end
 
   create_table "roles", :force => true do |t|
@@ -190,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20081225101415) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "users_counter", :default => 0
+    t.string   "slug"
   end
 
   create_table "subcategories_users", :force => true do |t|

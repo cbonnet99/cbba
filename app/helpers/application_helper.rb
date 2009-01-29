@@ -19,7 +19,7 @@ module ApplicationHelper
     number_as_string.blank? || number_as_string == "-"
   end
 
-  def user_path_with_context(id)
+  def user_path_with_context(user)
     options = {}
     unless @article.nil?
       options[:article_id] = @article.id
@@ -30,7 +30,9 @@ module ApplicationHelper
     unless @subcategory.nil?
       options[:subcategory_id] = @subcategory.id
     end
-    user_path(id, options)
+
+    options.merge!(:main_expertise => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
+    full_user_path(options)
   end
   def convert_amount(amount_integer)
     return amount_integer/100.0
