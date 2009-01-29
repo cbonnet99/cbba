@@ -1,6 +1,6 @@
 class HowTo < ActiveRecord::Base
 	include SubcategoriesSystem
-  include WorkflowSystem
+  include Workflowable
 
   has_many :how_to_steps, :order => "position", :dependent => :destroy
   belongs_to :author, :class_name => "User"
