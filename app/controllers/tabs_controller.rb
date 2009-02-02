@@ -2,6 +2,8 @@ class TabsController < ApplicationController
   
   before_filter :login_required, :except => [:select, :index]
 
+  include ApplicationHelper
+
   def move_right
     @selected_tab = current_user.tabs.find_by_slug(params[:id])
     @user = current_user
@@ -21,8 +23,9 @@ class TabsController < ApplicationController
   end
 
   def select
-    @user = User.find_by_slug(params[:id])
-    @selected_tab = @user.tabs.find_by_slug(params[:selected_tab_id])
+    puts "======== calling select"
+    @user = User.find_by_slug(params[:name])
+    @selected_tab = @user.tabs.find_by_slug(params[:id])
   end
 
   def create
@@ -35,7 +38,7 @@ class TabsController < ApplicationController
     else
 #      flash[:notice] = "Tab added successfully"
     end
-    redirect_to user_tabs_path(current_user.slug, @tab.slug)
+    redirect_to expanded_user_tabs_path(current_user, @tab.slug)
   end
 
   def destroy
@@ -44,7 +47,7 @@ class TabsController < ApplicationController
     unless tab_to_destroy_id.nil?
       current_user.remove_tab(tab_to_destroy_id)
     end
-    redirect_to user_tabs_path(current_user.slug, selected_tab_id)
+    redirect_to expanded_user_tabs_path(current_user, selected_tab_id)
   end
 
   def edit
@@ -60,16 +63,13 @@ class TabsController < ApplicationController
     end
     if @selected_tab.update_attributes(params[:tab])
       @selected_tab.update_attribute(:slug, @selected_tab.title.parameterize)
-      redirect_to user_tabs_path(current_user.slug, @selected_tab.slug)
+      redirect_to expanded_user_tabs_path(current_user, @selected_tab.slug)
       flash[:notice] = "Your details have been updated"
     else
       flash.now[:error]  = "There were some errors in your details."
       render :template => "users/show"
     end
 
-  end
-
-  def index
   end
 
 end

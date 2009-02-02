@@ -1,6 +1,6 @@
 <%if selected=="pwd"%><span class="user-tab-selected">Change your password</span><%else%><%= link_to "Change your password", :controller => "users", :action => "edit_password"%><%end%> |
 <%if selected=="details"%><span class="user-tab-selected">Edit your details</span><%else%><%= link_to "Edit your details", :controller => "users", :action => "edit"%><%end%>
-<% if current_user.full_member? -%> | <%if selected=="profile"%><span class="user-tab-selected">Your profile</span><%else%><%= link_to "Your profile", user_path(current_user.slug)%><%end%> |
+<% if current_user.full_member? -%> | <%if selected=="profile"%><span class="user-tab-selected">Your profile</span><%else%><%= link_to "Your profile", expanded_user_path(current_user)%><%end%> |
 <%if selected=="articles"%><span class="user-tab-selected">Your articles</span><%else%><%= link_to "Your articles", user_articles_path%><%end%> |
 <%if selected=="howtos"%><span class="user-tab-selected">Your 'how to' articles</span><%else%><%= link_to "Your 'how to' articles", user_howtos_path%><%end%>
 <% end -%>

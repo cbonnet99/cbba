@@ -19,6 +19,8 @@ module ApplicationHelper
     number_as_string.blank? || number_as_string == "-"
   end
 
+
+  #when the context needs to be recorded (ie when a user profile has been clicked from a particular listing or from an article)
   def user_path_with_context(user)
     options = {}
     unless @article.nil?
@@ -30,10 +32,23 @@ module ApplicationHelper
     unless @subcategory.nil?
       options[:subcategory_id] = @subcategory.id
     end
+    expanded_user_path(user, options)
+  end
 
+  def expanded_user_path(user, options={})
     options.merge!(:main_expertise => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
     full_user_path(options)
   end
+
+  def expanded_user_tabs_path(user, tab, options={})
+    if tab.blank?
+      tab = Tab::ARTICLES
+    end
+    options.merge!(:main_expertise => user.main_expertise_slug, :region => user.region.slug,
+      :name => user.slug, :selected_tab_id => tab )
+    user_tabs_path(options)
+  end
+
   def convert_amount(amount_integer)
     return amount_integer/100.0
   end

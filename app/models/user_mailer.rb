@@ -1,7 +1,16 @@
 class UserMailer < ActionMailer::Base
+
+  include ApplicationHelper
+
 	def item_rejected(item, author)
     setup_email(author)
 		@subject << "Your #{item.class.to_s.titleize.downcase} must be revised for publication"
+    path_method = self.method(item.path_method.to_sym)
+    if path_method.nil?
+      logger.error("No method called #{item.path_method} could be found in object: #{self.inspect}")
+    else
+      @body[:path_method] = path_method
+    end
 
 		@body[:item] = item
 	end

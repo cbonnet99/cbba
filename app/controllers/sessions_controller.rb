@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+  include ApplicationHelper
+
   def new
   end
 
@@ -11,7 +13,7 @@ class SessionsController < ApplicationController
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
       if current_user.full_member?
-        redirect_back_or_default user_path(current_user)
+        redirect_back_or_default expanded_user_path(current_user)
       else
         redirect_back_or_default user_edit_path
       end
