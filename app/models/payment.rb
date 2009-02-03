@@ -3,4 +3,6 @@ class Payment < ActiveRecord::Base
   TYPES = {:full_member => {:title => "Full membership for 1 year", :amount => 9999 },
             :renew_full_member => {:title => "Renewal of full membership for 1 year", :amount => 19999 }
   }
+
+  belongs_to :user
 end

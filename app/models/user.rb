@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
 	has_many :categories, :through => :categories_users
   has_many :tabs, :order => "position"
   has_one :user_profile
+  has_many :payments
 
   # #named scopes
   named_scope :full_members, :conditions => "free_listing is false"

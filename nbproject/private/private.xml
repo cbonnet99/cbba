@@ -62,6 +62,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/howtos.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/new_photo.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/select_tab.js.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/asset_packages.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/database.yml</file>
@@ -92,9 +93,11 @@
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081223084046_add_state_to_how_tos.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20081225101415_add_slug_to_how_tos.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090129024313_add_slugs_to_region_and_categories.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090203190104_add_status_to_payments.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/authenticated_system.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/crypto_paypal/button.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/crypto_paypal/config.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/hijacker.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/import_utils.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/role_requirement_system.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/subcategories_system.rb</file>
@@ -110,6 +113,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/how_tos.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/regions.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/subcategories.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/user_mailer/stuff_to_review</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/users.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/articles_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/how_tos_controller_test.rb</file>
@@ -130,5 +134,6 @@
         <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/README</file>
         <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/lib/action_view/base.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/activerecord/lib/active_record/callbacks.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/activerecord/lib/active_record/serializers/json_serializer.rb</file>
     </open-files>
 </project-private>

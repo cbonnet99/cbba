@@ -28,13 +28,31 @@ class PaymentsController < ApplicationController
     if payment_type.nil? || Payment::TYPES[payment_type.to_sym].nil?
       payment_type = Payment::DEFAULT_TYPE
     end
-    @payment = Payment.new
-    @payment.title = Payment::TYPES[payment_type.to_sym][:title]
-    @payment.amount = Payment::TYPES[payment_type.to_sym][:amount]
+    @payment = current_user.payments.create!(:type => Payment::TYPES[payment_type.to_sym], :title => Payment::TYPES[payment_type.to_sym][:title],
+      :amount => Payment::TYPES[payment_type.to_sym][:amount] )
     
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @payment }
+    end
+  end
+
+  #This is called by PayPal's IPN'
+  def complete
+    payment_type = params[:payment_type]
+    if payment_type.nil? || Payment::TYPES[payment_type.to_sym].nil?
+      payment_type = Payment::DEFAULT_TYPE
+    end
+
+    @payment = current_user.payments.find(params[:payment_id])
+
+    role = Role.find_by_name(payment_type)
+    if role.nil?
+      logger.error("In thank you page, role #{payment_type} could not be found")
+    else
+      current_user.membership_type = "full_member"
+      current_user.member_since = Time.now.utc
+      current_user.save!
     end
   end
 
