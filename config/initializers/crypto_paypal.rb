@@ -1,5 +1,12 @@
 case RAILS_ENV
-when 'development','test'
+when 'development'
+  CryptoPaypal::Config.paypal_server = "https://www.sandbox.paypal.com/nz/cgi-bin/webscr"
+  CryptoPaypal::Config.public_certificate="dev-pubcert.pem"
+  CryptoPaypal::Config.private_key="dev-prvkey.pem"
+  CryptoPaypal::Config.paypal_certificate="paypal_cert.pem"
+  CryptoPaypal::Config.paypal_cert_id = "AEMR66PBNBDYS"
+  CryptoPaypal::Config.paypal_business="cbonnet99@gmail.com"
+when'test'
   CryptoPaypal::Config.paypal_server = "https://www.sandbox.paypal.com/nz/cgi-bin/webscr"
   CryptoPaypal::Config.public_certificate="my-pubcert.pem"
   CryptoPaypal::Config.private_key="my-prvkey.pem"

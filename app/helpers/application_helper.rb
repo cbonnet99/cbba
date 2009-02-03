@@ -59,6 +59,32 @@ module ApplicationHelper
     "NZD #{s.pop.pop}.#{s.slice(-2, 2)}"
   end
 
+  def paypal_unencrypted_url(payment, payment_type="full_member", return_address="http://#{$hostname}/payments/thank_you?type=full_member")
+    decrypted = {
+      "cert_id" => "#{CryptoPaypal::Config.paypal_cert_id}",
+      "cmd" => "_xclick",
+      "business" => "#{CryptoPaypal::Config.paypal_business}",
+      "item_name" => payment.title,
+      "item_number" => "1",
+#      "custom" => payment.comment,
+      "amount" => convert_amount(payment.amount),
+      "currency_code" => "NZD",
+      "country" => "NZ",
+      "no_note" => "1",
+      "no_shipping" => "1",
+      "custom" => payment_type,
+#      "invoice" => payment.invoice_number,
+      "return" => return_address,
+      "rm" => "2"
+#      "address1" => current_user.address1,
+#      "first_name" => current_user.first_name,
+#      "last_name" => current_user.last_name,
+#      "city" => current_user.city,
+#      "phone" => blank_phone_number?(current_user.phone) ? current_user.mobile : current_user.phone
+    }
+    return CryptoPaypal::Config.paypal_server+"?"+decrypted.to_query
+  end
+
   def paypal_encrypted(payment, payment_type="full_member", return_address="http://#{$hostname}/payments/thank_you?type=full_member")
 
     # cert_id is the certificate if we see in paypal when we upload our own
