@@ -115,3 +115,24 @@ rmoore:
   member_since:              <%= 2.weeks.ago.to_s :db %>
   member_until:              <%= 50.weeks.from_now.to_s :db %>
   slug:                      roger-moore
+pending_user:
+  first_name:                Pending
+  last_name:                 User
+  business_name:             Pending Inc
+  email:                     pending@gmail.com
+  salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
+  crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
+  created_at:                <%= 5.days.ago.to_s :db  %>
+  remember_token_expires_at: <%= 1.days.from_now.to_s %>
+  remember_token:            77de68daecd823babbb58edb1c8e14d7106e83bb
+  activation_code:
+  activated_at:              <%= 5.days.ago.to_s :db %>
+  state:                     pending
+  district:                  wellington_wellington_city
+  region:                    wellington
+  professional:              true
+  free_listing:              false
+  phone:                     06-3086130
+  member_since:              <%= 6.months.ago.to_s :db %>
+  member_until:              <%= 6.months.from_now.to_s :db %>
+  slug:                      cyrille-bonnet

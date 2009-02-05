@@ -12,6 +12,8 @@ class Payment < ActiveRecord::Base
 
   validate_on_update :validate_card
 
+  named_scope :pending, :conditions => "status ='pending'"
+
   def purchase
     response = GATEWAY.purchase(amount, credit_card, purchase_options)
     logger.debug "============ response: #{response.inspect}"
@@ -19,8 +21,9 @@ class Payment < ActiveRecord::Base
     if response.success?
       update_attribute(:status, "completed")
       user.member_since = Time.now
-      user.membership_type = "full_member"
+      user.member_until = 1.year.from_now
       user.save!
+      user.activate!
     end
     response.success?
   end

@@ -54,7 +54,6 @@ module ActiveMerchant #:nodoc:
         end
         
         request = build_purchase_or_authorization_request(money, options)
-        logger.debug "============ request: #{request.inspect}"
         commit(:purchase, request)      
       end
       
@@ -65,7 +64,6 @@ module ActiveMerchant #:nodoc:
         options[:credit_card] = credit_card
 
         request = build_purchase_or_authorization_request(money, options)
-        logger.debug "============ request: #{request.inspect}"
         commit(:authorization, request)
       end
       
@@ -73,7 +71,6 @@ module ActiveMerchant #:nodoc:
       # See: http://www.paymentexpress.com/technical_resources/ecommerce_nonhosted/pxpost.html#Authcomplete
       def capture(money, identification, options = {})
         request = build_capture_or_credit_request(money, identification, options)
-        logger.debug "============ request: #{request.inspect}"
         commit(:capture, request)
       end
       
@@ -82,7 +79,6 @@ module ActiveMerchant #:nodoc:
         requires!(options, :description)
         
         request = build_capture_or_credit_request(money, identification, options)                                            
-        logger.debug "============ request: #{request.inspect}"
         commit(:credit, request)
       end
       

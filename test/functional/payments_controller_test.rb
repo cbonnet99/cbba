@@ -12,13 +12,13 @@ class PaymentsControllerTest < ActionController::TestCase
 
   def test_should_get_edit
     cyrille = users(:cyrille)
-    get :edit, {:id => payments(:one).id}, {:user_id => cyrille.id }
+    get :edit, {:id => payments(:pending).id}, {:user_id => cyrille.id }
     assert_response :success
   end
 
   def test_should_update_payment
-    cyrille = users(:cyrille)
-    new_payment = cyrille.payments.create!(:type => Payment::TYPES[:full_member], :title => Payment::TYPES[:full_member][:title],
+    pending_user = users(:pending_user)
+    new_payment = pending_user.payments.create!(:type => Payment::TYPES[:full_member], :title => Payment::TYPES[:full_member][:title],
       :amount => Payment::TYPES[:full_member][:amount])
     put :update, {:id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
       "city"=>"hjgjhgjhghg",
@@ -28,9 +28,11 @@ class PaymentsControllerTest < ActionController::TestCase
       "card_expires_on(3i)"=>"1",
       "first_name"=>"hjggh",
       "last_name"=>"gjhgjhgjhg",
-      "card_verification"=>"123"}}, {:user_id => cyrille.id }
+      "card_verification"=>"123"}}, {:user_id => pending_user.id }
     assert_response :success
     assert_template "thank_you"
+    pending_user.reload
+    assert pending_user.active?
   end
 
 end

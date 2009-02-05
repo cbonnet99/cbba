@@ -333,6 +333,10 @@ class User < ActiveRecord::Base
     return true
   end
 
+  def name_with_email
+    "#{name} [#{email}]"
+  end
+
 	def full_name
 		res = name
 		unless business_name.blank? || business_name == name
@@ -420,7 +424,7 @@ class User < ActiveRecord::Base
   # human error message.
   #
   def self.authenticate(email, password)
-    u = find_in_state :first, :active, :conditions => { :email => email } # need to get the salt
+    u = find :first, :conditions => { :email => email } # need to get the salt
     u && u.authenticated?(password) ? u : nil
   end
   
@@ -433,7 +437,7 @@ class User < ActiveRecord::Base
   protected
 
   def make_activation_code
-    self.deleted_at = nil
-    self.activation_code = self.class.make_token
+#    self.deleted_at = nil
+#    self.activation_code = self.class.make_token
   end
 end

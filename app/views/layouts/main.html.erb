@@ -21,7 +21,7 @@
           <div id="login-left">
             <a href="/">Home</a> |
             <% if logged_in? -%>
-              Welcome, <%=current_user.name%> | <%= link_to "Your profile", current_user.full_member? ? expanded_user_path(current_user) : user_edit_path %> | <%= link_to 'Logout', logout_path %>
+              Welcome, <%=current_user.name_with_email%> | <%= link_to "Your profile", current_user.full_member? ? expanded_user_path(current_user) : user_edit_path %> | <%= link_to 'Logout', logout_path %>
             <%else -%>
               <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', signup_intro_path %> | <%= link_to 'FREE Newsletter', signup_newsletter_path %>
             <% end -%>

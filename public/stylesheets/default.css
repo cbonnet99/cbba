@@ -212,7 +212,7 @@ h1, h2, h3 {
 div#login-left {
     float: left;
     display: block;
-    width: 50%;
+    width: 100%;
 }
 div#login-right {
     float: right;

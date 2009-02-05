@@ -19,3 +19,6 @@ norma_reviewer:
 norma_full_member:
   user: norma
   role: full_member_role
+pending_user_full_member:
+  user: pending_user
+  role: full_member_role

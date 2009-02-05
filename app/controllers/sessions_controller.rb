@@ -13,11 +13,22 @@ class SessionsController < ApplicationController
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
       if current_user.full_member?
-        redirect_back_or_default expanded_user_path(current_user)
+        if current_user.active?
+          flash[:notice] = "Logged in successfully"
+          redirect_back_or_default expanded_user_path(current_user)
+        else
+          payment = current_user.payments.pending.find(:first, :order => "created_at desc" )
+          if payment.nil?
+            logger.error("No pending payment found for pending user: #{user.email}")
+          else
+            flash[:warning] = "You need to complete your payment"
+            redirect_back_or_default edit_payment_path(payment)
+          end
+        end
       else
+        flash[:notice] = "Logged in successfully"
         redirect_back_or_default user_edit_path
       end
-      flash[:notice] = "Logged in successfully"
     else
       note_failed_signin
       @email       = params[:email]
