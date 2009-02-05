@@ -10,14 +10,6 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:payments)
   end
 
-  def test_should_show_payment
-    cyrille = users(:cyrille)
-    get :show, :id => payments(:one).id
-    assert_redirected_to new_session_path
-    get :show, {:id => payments(:one).id}, {:user_id => cyrille.id }
-    assert_response :success
-  end
-
   def test_should_get_edit
     cyrille = users(:cyrille)
     get :edit, {:id => payments(:one).id}, {:user_id => cyrille.id }

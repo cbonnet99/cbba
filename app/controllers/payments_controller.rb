@@ -1,23 +1,11 @@
 class PaymentsController < ApplicationController
-  before_filter :admin_required, :only => [:index, :show]
+  before_filter :login_required, :only => [:index]
 
   def index
-    @payments = current_user.payments
-
+    @payments = current_user.payments.find(:all, :order => "status desc" )
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @payments }
-    end
-  end
-
-  # GET /payments/1
-  # GET /payments/1.xml
-  def show
-    @payment = current_user.payments.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @payment }
     end
   end
 

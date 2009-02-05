@@ -1,3 +1,26 @@
+
+span.pending{
+    color: red;
+}
+span.completed{
+    color: green;
+}
+table#payments{
+    border: black solid;
+    padding: 4px;
+    border-collapse: collapse;
+    border: 1px solid #333;
+}
+
+table#payments th, table#payments td{
+    padding: 0.5em;
+    border: 1px dotted #666;
+}
+
+table#payments tr.odd  {
+    background: #b3c4d4;
+}
+
 em.money{
     font-weight: bold;
 }

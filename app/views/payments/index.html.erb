@@ -1,28 +1,21 @@
-<h1>Listing payments</h1>
+<%= title "Your payments", :h1  %>
 
-<table>
+<table id="payments">
   <tr>
+    <th>Status</th>
     <th>Title</th>
-    <th>User</th>
     <th>Amount</th>
-    <th>Comment</th>
-    <th>Invoice number</th>
+    <th>Date</th>
+    <th>Action</th>
   </tr>
 
 <% for payment in @payments %>
-  <tr>
+  <tr class="<%=cycle('odd', 'even')%>">
+    <td><span class="<%=payment.status%>"><%=h payment.status.capitalize %></span></td>
     <td><%=h payment.title %></td>
-    <td><%=h payment.user_id %></td>
-    <td><%=h payment.amount %></td>
-    <td><%=h payment.comment %></td>
-    <td><%=h payment.invoice_number %></td>
-    <td><%= link_to 'Show', payment %></td>
-    <td><%= link_to 'Edit', edit_payment_path(payment) %></td>
-    <td><%= link_to 'Destroy', payment, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%=h amount_view(payment.amount.to_s) %></td>
+    <td><%=h payment.created_at %></td>
+    <td><% if payment.status == "pending"%><%=link_to "Complete", edit_payment_path(payment)%><%else%>None required<%end%> </td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New payment', new_payment_path %>
