@@ -393,7 +393,7 @@ class User < ActiveRecord::Base
 
 	def validate
 		if professional?
-      if subcategory1_id.nil?
+      if subcategory1_id.blank?
         errors.add(:subcategory1_id, "^You must select your main expertise")
       end
       # #combining name and business name must produce a unique string so that

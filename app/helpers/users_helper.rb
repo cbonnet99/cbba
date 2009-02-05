@@ -1,5 +1,11 @@
 module UsersHelper
-  
+  MEMBERSHIP_DESCRIPTIONS = {:free_listing => "Free listing", :full_member => "Full membership"}
+
+  def membership_description(membership_type)
+    membership_type = "free_listing" if membership_type.blank?
+    MEMBERSHIP_DESCRIPTIONS[membership_type.to_sym]
+  end
+
   #
   # Use this to wrap view elements that the user can't access.
   # !! Note: this is an *interface*, not *security* feature !!

@@ -1,10 +1,6 @@
 <% javascript 'new-user' %>
-
-<%= title "Signup", :h1  %>
+<div foo="bar" camp="test"></div>
+<%= title "Signup for #{membership_description(params[:mt]).downcase}", :h1  %>
 <% form_for @user do |f| %>
-    <%= render :partial => "form", :locals => {:f => f, :with_password => true }   %>
-  <div class="buttons">
-    <label for=""></label>
-    <%= submit_tag 'Sign up' %>
-  </div>
+  <%= render :partial => "form", :locals => {:f => f, :with_password => true, :button_msg => params[:mt]=="free_listing"?"Sign up":"Proceed to payment"  }   %>
 <% end %>

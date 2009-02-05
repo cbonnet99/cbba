@@ -115,7 +115,8 @@ class UsersController < ApplicationController
       if @user.membership_type == "full_member"
         flash[:notice] = "You can now complete your payment"
         session[:user_id] = @user.id
-        redirect_to new_payment_path(:payment_type => "full_member" )
+        @payment = @user.payments.create!(Payment::TYPES[:full_member])
+        redirect_to edit_payment_path(@payment)
       else
         flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
         redirect_back_or_default root_url

@@ -1,3 +1,15 @@
+em.money{
+    font-weight: bold;
+}
+#payment-processor{
+    text-align: center;
+    font-size: x-small;
+}
+
+#payment-processor img{
+    border: 0;
+}
+
 input.button {
     color: white;
     font-weight: bold;

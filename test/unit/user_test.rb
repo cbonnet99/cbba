@@ -4,6 +4,13 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_validate
+    user = User.new(:professional => true, :subcategory1_id => ""  )
+    assert !user.valid?
+    assert !user.errors[:district].blank?
+    assert !user.errors[:subcategory1_id].blank?
+  end
+  
   def test_user_slug
     cyrille = users(:cyrille)
     assert "cyrille-bonnet", cyrille.slug

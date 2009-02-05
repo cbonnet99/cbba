@@ -2,14 +2,14 @@
 
 one:
   title: MyString
-  user_id: 1
+  user: cyrille
   amount: 1
   comment: MyString
   invoice_number: MyString
 
 two:
   title: MyString
-  user_id: 1
+  user: cyrille
   amount: 1
   comment: MyString
   invoice_number: MyString

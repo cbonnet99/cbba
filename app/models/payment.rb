@@ -19,6 +19,8 @@ class Payment < ActiveRecord::Base
     if response.success?
       update_attribute(:status, "completed")
       user.member_since = Time.now
+      user.membership_type = "full_member"
+      user.save!
     end
     response.success?
   end

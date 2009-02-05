@@ -224,7 +224,8 @@ class UsersControllerTest < ActionController::TestCase
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
       :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
-    assert_redirected_to "payments/new?payment_type=full_member"
+    assert_not_nil assigns(:payment)
+    assert_redirected_to edit_payment_path(assigns(:payment))
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
@@ -235,5 +236,17 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal wellington, new_user.region
     # #2 tabs: one for about cyrille and one for hypnotherapy
     assert_equal 2, new_user.tabs.size
+	end
+  def test_create_full_membership_with_error
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
+      :password_confirmation => "testtest23", :professional => true, :district_id => "", :mobile_prefix => "027",
+      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
+    assert_template "new"
+#    puts @response.body
+    assert_select "option[value=#{hypnotherapy.id}][selected=selected]"
+		assert_not_nil assigns(:user)
+    # # 	puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
 	end
 end

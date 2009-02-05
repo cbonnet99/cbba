@@ -2,9 +2,5 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "details" }  %>
 <%= title "Edit your details", :h2  %>
 <% form_for @current_user do |f| %>
-  <%= render :partial => "form", :locals => {:f => f, :with_password => false }   %>
-  <div class="buttons">
-    <label for=""></label>
-    <%= submit_tag 'Update' %>
-  </div>
+    <%= render :partial => "form", :locals => {:f => f, :with_password => false, :button_msg => "Update"  }   %>
 <% end %>
