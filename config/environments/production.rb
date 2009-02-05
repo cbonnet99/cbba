@@ -22,5 +22,10 @@ config.action_controller.perform_caching             = true
 
 $hostname = "75.101.132.186:9000"
 
-ActiveMerchant::Billing::Base.gateway_mode = :production
-ActiveMerchant::Billing::Base.integration_mode = :production
+config.after_initialize do
+  ActiveMerchant::Billing::Base.mode = :production
+  ::GATEWAY = ActiveMerchant::Billing::PaymentExpressGateway.new(
+    :login => "BeAmazingDev",
+    :password => "6229c3d7"
+  )
+end

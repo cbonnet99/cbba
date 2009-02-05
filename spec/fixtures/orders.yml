@@ -1,0 +1,19 @@
+one:
+  payment_id: 1
+  ip_address: MyString
+  first_name: MyString
+  last_name: MyString
+  address1: MyText
+  city: MyString
+  card_type: MyString
+  card_expires_on: 2009-02-04
+
+two:
+  payment_id: 1
+  ip_address: MyString
+  first_name: MyString
+  last_name: MyString
+  address1: MyText
+  city: MyString
+  card_type: MyString
+  card_expires_on: 2009-02-04

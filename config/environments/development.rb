@@ -16,4 +16,12 @@ config.action_controller.perform_caching             = false
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
+config.after_initialize do
+  ActiveMerchant::Billing::Base.mode = :test
+  ::GATEWAY = ActiveMerchant::Billing::PaymentExpressGateway.new(
+    :login => "BeAmazingDev",
+    :password => "6229c3d7"
+  )
+end
+
 $hostname = "localhost:3000"

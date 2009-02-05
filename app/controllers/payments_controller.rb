@@ -37,25 +37,6 @@ class PaymentsController < ApplicationController
     end
   end
 
-  #This is called by PayPal's IPN'
-  def complete
-    payment_type = params[:payment_type]
-    if payment_type.nil? || Payment::TYPES[payment_type.to_sym].nil?
-      payment_type = Payment::DEFAULT_TYPE
-    end
-
-    @payment = current_user.payments.find(params[:payment_id])
-
-    role = Role.find_by_name(payment_type)
-    if role.nil?
-      logger.error("In thank you page, role #{payment_type} could not be found")
-    else
-      current_user.membership_type = "full_member"
-      current_user.member_since = Time.now.utc
-      current_user.save!
-    end
-  end
-
   def thank_you
     payment_type = params[:payment_type]
     if payment_type.nil? || Payment::TYPES[payment_type.to_sym].nil?
@@ -99,15 +80,16 @@ class PaymentsController < ApplicationController
   def update
     @payment = Payment.find(params[:id])
 
-    respond_to do |format|
-      if @payment.update_attributes(params[:payment])
-        flash[:notice] = 'Payment was successfully updated.'
-        format.html { redirect_to(@payment) }
-        format.xml  { head :ok }
+    params[:payment].merge!(:ip_address => request.remote_ip)
+    if @payment.update_attributes(params[:payment])
+      if @payment.purchase
+        render :action => "success"
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @payment.errors, :status => :unprocessable_entity }
+        logger.debug "======= #{@payment.errors.inspect}"
+        render :action => 'new'
       end
+    else
+      render :action => 'new'
     end
   end
 

@@ -125,12 +125,9 @@
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/route_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/task_utils_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/user_test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/acts_as_list/README</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/exception_notification/lib/exception_notifiable.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/exception_notification/lib/exception_notifier.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/paperclip/README.rdoc</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/paperclip/lib/paperclip.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/paperclip/test/attachment_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/gems/activemerchant-1.4.1/lib/active_merchant/billing/gateways/payment_express.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/gems/activemerchant-1.4.1/test/fixtures.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/gems/activemerchant-1.4.1/test/remote/gateways/remote_payment_express_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/README</file>
         <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/lib/action_view/base.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/activerecord/lib/active_record/callbacks.rb</file>

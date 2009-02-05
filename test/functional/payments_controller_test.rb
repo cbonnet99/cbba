@@ -38,8 +38,20 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_should_update_payment
-    put :update, :id => payments(:one).id, :payment => { }
-    assert_redirected_to payment_path(assigns(:payment))
+    cyrille = users(:cyrille)
+    new_payment = cyrille.payments.create!(:type => Payment::TYPES[:full_member], :title => Payment::TYPES[:full_member][:title],
+      :amount => Payment::TYPES[:full_member][:amount])
+    put :update, :id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
+      "city"=>"hjgjhgjhghg",
+      "card_number"=>"1",
+      "card_expires_on(1i)"=>"2009",
+      "card_expires_on(2i)"=>"4",
+      "card_expires_on(3i)"=>"1",
+      "first_name"=>"hjggh",
+      "last_name"=>"gjhgjhgjhg",
+      "card_verification"=>"123"}
+    assert_response :success
+    assert_template "success"
   end
 
   def test_should_destroy_payment
