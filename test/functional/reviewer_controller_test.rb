@@ -43,6 +43,15 @@ class ReviewerControllerTest < ActionController::TestCase
 		assert_not_nil long.approved_at
 		assert_not_nil long.approved_by_id
   end
+  def test_approve_how_to
+		norma = users(:norma)
+		improve = how_tos(:improve)
+		post :approve, {:how_to_id => improve.id  }, {:user_id => norma.id }
+		assert_redirected_to root_url
+		improve.reload
+		assert_not_nil improve.approved_at
+		assert_not_nil improve.approved_by_id
+  end
   def test_approve_profile
 		norma = users(:norma)
 		cyrille_profile = user_profiles(:cyrille_profile)

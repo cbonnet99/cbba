@@ -36,6 +36,11 @@ class ReviewerController < ApplicationController
       #do nothing
     end
     begin
+      @item = HowTo.find(params[:how_to_id]) unless params[:how_to_id].nil?
+    rescue ActiveRecord::RecordNotFound
+      #do nothing
+    end
+    begin
       @item = UserProfile.find(params[:user_profile_id]) unless params[:user_profile_id].nil?
     rescue ActiveRecord::RecordNotFound
       #do nothing
