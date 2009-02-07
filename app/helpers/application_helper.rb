@@ -1,5 +1,14 @@
 module ApplicationHelper
 
+  
+  def author_link(user)
+    if user.active?
+      link_to user.name, user_path_with_context(user)
+    else
+      user.name
+    end
+  end
+
   def use_tinymce
     @content_for_tinymce = ""
     content_for :tinymce do

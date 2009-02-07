@@ -212,13 +212,13 @@ h1, h2, h3 {
 div#login-left {
     float: left;
     display: block;
-    width: 100%;
+    width: 70%;
 }
 div#login-right {
     float: right;
     display: block;
     text-align: right;
-    width: 50%;
+    width: 30%;
 }
 div#header .column-in {
     padding-bottom: 0;

@@ -18,4 +18,10 @@ class HowTosControllerTest < ActionController::TestCase
 		#an email should be sent to reviewers
 		assert ActionMailer::Base.deliveries.size > 0
 	end
+
+  def test_show
+    get :show, {:id => how_tos(:improve).id }, {:user_id => users(:cyrille).id }
+    assert_response :success
+  end
+
 end
