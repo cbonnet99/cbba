@@ -2,10 +2,10 @@
 <div class="publication-date">Published:<%= item.published_at %></div>
 <%end-%>
 <% if !item.approved_at.nil? && (is_reviewer? || is_author?(item)) -%>
-<div class="approval-date">Approved: <%= item.approved_at %> by <%=link_to item.approved_by.name, expanded_user_path(item.approved_by_id)%></div>
+<div class="approval-date">Approved: <%= item.approved_at %> by <%=link_to item.approved_by.name, expanded_user_path(item.approved_by)%></div>
 <%  end -%>
 <% if !item.rejected_at.nil? && (is_reviewer? || is_author?(item)) -%>
-<div class="rejection-date">Rejected: <%= item.rejected_at %> by <%=link_to item.rejected_by.name, expanded_user_path(item.rejected_by_id)%>(Reason: <%=item.reason_reject%>)</div>
+<div class="rejection-date">Rejected: <%= item.rejected_at %> by <%=link_to item.rejected_by.name, expanded_user_path(item.rejected_by)%>(Reason: <%=item.reason_reject%>)</div>
 <%end-%>
 <%if item.draft? && is_author?(item) && current_user.active? -%>
   <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/publish" do -%>

@@ -62,7 +62,7 @@ class ArticlesControllerTest < ActionController::TestCase
   end
 
   def test_should_show_article
-    get :show, :id => articles(:yoga).id
+    get :show, {:id => articles(:long).id}, {:user_id => users(:cyrille).id }
     assert_response :success
   end
 

@@ -34,7 +34,7 @@ class ReviewerControllerTest < ActionController::TestCase
 		assert_equal old_size+1, UserProfile.draft.size
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  def test_approve
+  def test_approve_article
 		norma = users(:norma)
 		long = articles(:long)
 		post :approve, {:article_id => long.id  }, {:user_id => norma.id }
@@ -42,5 +42,14 @@ class ReviewerControllerTest < ActionController::TestCase
 		long.reload
 		assert_not_nil long.approved_at
 		assert_not_nil long.approved_by_id
+  end
+  def test_approve_profile
+		norma = users(:norma)
+		cyrille_profile = user_profiles(:cyrille_profile)
+		post :approve, {:user_profile_id => cyrille_profile.id  }, {:user_id => norma.id }
+		assert_redirected_to root_url
+		cyrille_profile.reload
+		assert_not_nil cyrille_profile.approved_at
+		assert_not_nil cyrille_profile.approved_by_id
   end
 end
