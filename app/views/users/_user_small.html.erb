@@ -1,3 +1,4 @@
 <div class="small-user-photo"><%if user.photo.exists? && user.user_profile.published?%><%= image_tag user.photo.url(:thumbnail) %><%else%><%= image_tag "nophoto.gif" %><%end%></div>
 <div class="small-user-description"><%= user.name %>, <%=  user.main_expertise %><br/>
 <%=  user.region_name %></div>
+<%= link_to_profile(user) %>
