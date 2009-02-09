@@ -3,22 +3,49 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+
+  def test_send_reminder_on_expiring_memberships
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.send_reminder_on_expiring_memberships
+    assert_equal 4, ActionMailer::Base.deliveries.size
+    
+    #on 2nd run there should be no emails sent
+    ActionMailer::Base.deliveries = []
+    TaskUtils.send_reminder_on_expiring_memberships
+    assert_equal 0, ActionMailer::Base.deliveries.size
+  end
+
   def test_suspend_full_members_when_membership_expired
-    rmoore = users(:rmoore)
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    old_user_emails_size = UserEmail.all.size
+
+    cyrille = users(:cyrille)
     old_size = User.active.size
     TaskUtils.suspend_full_members_when_membership_expired
     #no full member to suspend
     assert_equal old_size, User.active.size
-    rmoore.member_until = 1.day.ago
-    rmoore.save!
-    rmoore.reload
+    cyrille.member_until = 1.day.ago
+    cyrille.save!
+    cyrille.reload
     TaskUtils.suspend_full_members_when_membership_expired
 
-    rmoore.reload
-    #cyrille should have been suspended
+    cyrille.reload
+    #Cyrille should have been suspended
     assert_equal old_size-1, User.active.size
-    #cyrille should have become a free listing
-    assert rmoore.free_listing?
+    #an email should have been sent to Cyrille
+    assert_equal 1, ActionMailer::Base.deliveries.size
+
+    assert_equal old_user_emails_size+1, UserEmail.all.size
+    last_email = UserEmail.last
+    assert_equal "membership_expired_today", last_email.email_type
+    assert_equal cyrille, last_email.user
+
   end
 
   def test_mark_down_old_full_members

@@ -1,7 +1,15 @@
 class UsersController < ApplicationController
   before_filter :full_member_required, :only => [:articles]
-  before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles]
+  before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles, :renew_membership]
 	after_filter :store_location, :only => [:articles, :show]
+
+  def renew_membership
+    #unless there is already a pending payment
+    @payment = current_user.payments.pending.renewals.first
+    @payment = current_user.payments.create!(Payment::TYPES[:renew_full_member]) if @payment.nil?
+    flash[:notice] = "Please complete the payment below to renew your membership"
+    redirect_to edit_payment_path(@payment)
+  end
 
   def index
     page = params[:page] || 1

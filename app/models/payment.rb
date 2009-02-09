@@ -1,7 +1,7 @@
 class Payment < ActiveRecord::Base
   DEFAULT_TYPE = "full_member"
-  TYPES = {:full_member => {:title => "Full membership for 1 year", :amount => 9999 },
-            :renew_full_member => {:title => "Renewal of full membership for 1 year", :amount => 19999 }
+  TYPES = {:full_member => {:payment_type => "new", :title => "Full membership for 1 year", :amount => 9999 },
+    :renew_full_member => {:payment_type => "renewal", :title => "Renewal of full membership for 1 year", :amount => 19999 }
   }
 
   belongs_to :user
@@ -13,6 +13,7 @@ class Payment < ActiveRecord::Base
   validate_on_update :validate_card
 
   named_scope :pending, :conditions => "status ='pending'"
+  named_scope :renewals, :conditions => "payment_type = 'renewal'"
 
   def purchase
     response = GATEWAY.purchase(amount, credit_card, purchase_options)
@@ -20,10 +21,14 @@ class Payment < ActiveRecord::Base
     transactions.create!(:action => "purchase", :amount => amount, :response => response)
     if response.success?
       update_attribute(:status, "completed")
-      user.member_since = Time.now
-      user.member_until = 1.year.from_now
+      user.member_since = Time.now if user.member_since.nil?
+      if user.member_until.nil?
+        user.member_until = 1.year.from_now
+      else
+        user.member_until += 1.year
+      end
       user.save!
-      user.activate!
+      user.activate! unless user.active?
     end
     response.success?
   end

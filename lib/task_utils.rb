@@ -1,20 +1,43 @@
 class TaskUtils
-
+  def self.send_reminder_on_expiring_memberships
+    User.full_members.each do |u|
+      if !u.member_until.nil?
+        if u.member_until < 3.weeks.ago || u.member_until > 3.weeks.from_now
+          #forget it
+        else
+          if u.member_until < 2.weeks.ago
+              UserMailer.deliver_past_membership_expiration(u, "2 weeks") unless past_membership_reminder_email_sent_in_last_week?(u)
+          else
+            if u.member_until < 1.week.ago
+                UserMailer.deliver_past_membership_expiration(u, "1 week") unless past_membership_reminder_email_sent_in_last_week?(u)
+            else
+              if u.member_until < 1.week.from_now
+                UserMailer.deliver_coming_membership_expiration(u, "1 week") unless future_membership_reminder_email_sent_in_last_week?(u)
+              else
+                if u.member_until < 2.weeks.from_now
+                  UserMailer.deliver_coming_membership_expiration(u, "2 weeks") unless future_membership_reminder_email_sent_in_last_week?(u)
+                end
+              end
+            end
+          end
+      end
+    end
+  end
+ end
   def self.suspend_full_members_when_membership_expired
     User.all.each do |u|
-      if u.member_until < Time.now
+      if !u.member_until.nil? && u.member_until < Time.now && u.active?
+        puts "Suspending #{u.email}"
         u.suspend!
-        u.remove_role("full_member")
-        u.reload
-        u.free_listing = true
-        u.save!
+        #send an email
+        UserMailer.deliver_membership_expired_today(u)
       end
     end
   end
 
   def self.mark_down_old_full_members
     User.full_members.new_users.each do |m|
-      if m.member_since < 1.month.ago
+      if !m.member_since.nil? && m.member_since < 1.month.ago
         m.update_attribute(:new_user, false)
       end
     end
@@ -98,5 +121,15 @@ class TaskUtils
         user.add_role("admin")
       end
     end
+  end
+
+protected
+  def self.past_membership_reminder_email_sent_in_last_week?(u)
+    last_email_sent = u.user_emails.past_membership_expirations.last
+    return !last_email_sent.nil? && last_email_sent.created_at < 1.week.from_now
+  end
+  def self.future_membership_reminder_email_sent_in_last_week?(u)
+    last_email_sent = u.user_emails.future_membership_expirations.last
+    return !last_email_sent.nil? && last_email_sent.created_at < 1.week.from_now
   end
 end

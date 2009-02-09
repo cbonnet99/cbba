@@ -3,6 +3,25 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
+
+  def test_renew_membership
+    cyrille = users(:cyrille)
+    old_payments_size = cyrille.payments.size
+    post :renew_membership, {}, {:user_id => cyrille.id }
+    assert_not_nil assigns(:payment)
+    assert_redirected_to edit_payment_path(assigns(:payment))
+    cyrille.reload
+    assert_equal old_payments_size+1, cyrille.payments.size
+    
+    #the 2nd time, now payment should be created
+    post :renew_membership, {}, {:user_id => cyrille.id }
+    assert_not_nil assigns(:payment)
+    assert_redirected_to edit_payment_path(assigns(:payment))
+    cyrille.reload
+    assert_equal old_payments_size+1, cyrille.payments.size
+
+  end
+
   def test_index
     get :index
     assert_response :success

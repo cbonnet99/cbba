@@ -6,6 +6,7 @@ class RoutingTest < Test::Unit::TestCase
     assert_recognizes({:controller => 'users', :action => 'show', :name => "cyrille-bonnet", :main_expertise => "yoga", :region => "bay-of-plenty" }, :path => "/yoga/bay-of-plenty/cyrille-bonnet")
     assert_recognizes({:controller => 'how_tos', :action => 'edit', :id => "221", }, :path => "/how_tos/221/edit")
     assert_recognizes({:controller => 'users', :action => 'publish', :id => "221", }, :path => "/user_profiles/221/publish")
+    assert_recognizes({:controller => 'users', :action => 'renew_membership' }, :path => "/users/renew_membership")
     assert_recognizes({:controller => 'search', :action => 'test'}, :path => "/search/test")
     assert_recognizes({:controller => 'tabs', :action => 'edit', :user_id => "cyrille-bonnet", :id => "tab-2" }, :path => "/users/cyrille-bonnet/tabs/tab-2/edit")
     assert_recognizes({:controller => 'users', :action => 'show', :name => "user-slug", :selected_tab_id => "tab-slug", :main_expertise => "yoga", :region => "bay-of-plenty" }, :path => "/yoga/bay-of-plenty/user-slug/tab-slug")

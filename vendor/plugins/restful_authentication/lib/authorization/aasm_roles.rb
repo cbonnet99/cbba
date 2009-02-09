@@ -26,7 +26,7 @@ module Authorization
         end
         
         aasm_event :suspend do
-          transitions :from => [:passive, :pending, :active], :to => :suspended
+          transitions :from => [:active], :to => :pending
         end
         
         aasm_event :delete do

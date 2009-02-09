@@ -43,6 +43,7 @@ ActionController::Routing::Routes.draw do |map|
   map.update_after_forgetting '/update_after_forgetting', :controller => 'passwords', :action => 'update_after_forgetting'
   map.user_tabs '/:main_expertise/:region/:name/:selected_tab_id', :controller => 'users', :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
   map.user_articles '/users/articles', :controller => 'users', :action => "articles"
+  map.user_renew_membership '/users/renew_membership', :controller => 'users', :action => "renew_membership"
   map.user_howtos '/users/howtos', :controller => 'users', :action => "howtos"
   map.user_edit_pwd '/users/edit_password', :controller => 'users', :action => "edit_password"
   map.user_update_pwd '/users/update_password', :controller => 'users', :action => "update_password"
