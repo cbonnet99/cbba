@@ -3,6 +3,13 @@ class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles, :renew_membership]
 	after_filter :store_location, :only => [:articles, :show]
 
+  def upgrade_to_full_membership
+    @payment = current_user.payments.pending.renewals.first
+    @payment = current_user.payments.create!(Payment::TYPES[:full_member]) if @payment.nil?
+    flash[:notice] = "Please complete the payment below to upgrade your membership"
+    redirect_to edit_payment_path(@payment)
+  end
+
   def membership
     @payment = current_user.payments.pending.find(:first, :order => "created_at desc" )
     @new_member = current_user.member_since.nil?

@@ -27,6 +27,11 @@ class Payment < ActiveRecord::Base
       else
         user.member_until += 1.year
       end
+      #in case this is a free listing user upgrading...
+      if user.free_listing?
+        user.free_listing = false
+        user.add_role("full_member")
+      end
       user.save!
       user.activate! unless user.active?
     end
