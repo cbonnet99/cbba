@@ -4,6 +4,31 @@ class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
 
+  def test_membership_full
+    cyrille = users(:cyrille)
+    get :membership, {}, {:user_id => cyrille.id }
+    assert_response :success
+    assert_nil assigns(:payment)
+    assert_match %r{You are a full member of BeAmazing since}, @response.body
+    assert_match %r{Your membership is valid until}, @response.body
+  end
+
+  def test_membership_new_pending
+    pending_user = users(:pending_user)
+    get :membership, {}, {:user_id => pending_user.id }
+    assert_response :success
+    assert_not_nil assigns(:payment)
+    assert_match %r{Your membership has not been activated yet}, @response.body
+  end
+
+  def test_membership_renew_pending
+    suspended_user1 = users(:suspended_user1)
+    get :membership, {}, {:user_id => suspended_user1.id }
+    assert_response :success
+    assert_nil assigns(:payment)
+    assert_match %r{Your membership has expired}, @response.body
+  end
+
   def test_renew_membership
     cyrille = users(:cyrille)
     old_payments_size = cyrille.payments.size
@@ -32,7 +57,6 @@ class UsersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     get :edit, {}, {:user_id => cyrille.id }
     assert_response :success
-    assert_select "input[type=radio][value=full_member][checked]"
   end
 
   def test_articles_full_member
@@ -254,6 +278,7 @@ class UsersControllerTest < ActionController::TestCase
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
       :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "free_listing",
       :subcategory1_id => hypnotherapy.id }
+    assert_redirected_to user_membership_path
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
@@ -262,6 +287,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_not_nil(new_user)
 		assert_equal "027-8987987", new_user.mobile
 		assert_equal wellington, new_user.region
+    assert new_user.active?
 	end
   def test_create_full_membership
 		old_size = User.all.size

@@ -1,11 +1,3 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-pending:
-  title: Full membership
-  user: cyrille
-  amount: 9999
-  invoice_number: 32423
-  status: pending
 completed:
   title: Full membership
   user: cyrille

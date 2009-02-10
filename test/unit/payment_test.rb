@@ -9,8 +9,8 @@ class PaymentTest < ActiveSupport::TestCase
   end
 
   def test_pending
-    cyrille = users(:cyrille)
-    assert_equal 1, cyrille.payments.pending.size
+    pending_user = users(:pending_user)
+    assert_equal 1, pending_user.payments.pending.size
   end
 
   def test_renewals

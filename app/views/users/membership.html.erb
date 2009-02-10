@@ -1,0 +1,20 @@
+<%= render :partial => "users/user_nav", :locals => {:selected => "membership" }  %>
+  <fieldset id="fieldset-membership-details">
+    <legend>Membership Details</legend>
+    <% if current_user.free_listing? -%>
+      You have a free membership to BeAmazing.<br/>
+      <%= link_to "Learn more about full membership", more_about_full_membership_path %><br/>
+      <%= link_to "Compare", compare_memberships_path %>
+    <% else -%>
+      <% if @payment && @new_member -%>
+        Your membership has not been activated yet. You must <%= link_to "complete your payment", edit_payment_path(@payment) %> to activate it.
+      <%  else -%>
+        You are a full member of BeAmazing since <%=current_user.member_since%>.<br/>
+        <% if current_user.active? -%>
+          Your membership is valid until <%= current_user.member_until %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at anytime.
+        <% else -%>
+          Your membership has expired on <%= current_user.member_until %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.
+        <% end -%>
+      <% end -%>
+    <% end -%>
+  </fieldset>

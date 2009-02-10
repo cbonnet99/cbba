@@ -1,3 +1,4 @@
+<%if selected=="membership"%><span class="user-tab-selected">Your membership</span><%else%><%= link_to "Your membership", :controller => "users", :action => "membership"%><%end%> |
 <%if selected=="pwd"%><span class="user-tab-selected">Change your password</span><%else%><%= link_to "Change your password", :controller => "users", :action => "edit_password"%><%end%> |
 <%if selected=="details"%><span class="user-tab-selected">Edit your details</span><%else%><%= link_to "Edit your details", :controller => "users", :action => "edit"%><%end%>
 <% if current_user.full_member? -%> | <%if selected=="profile"%><span class="user-tab-selected">Your profile</span><%else%><%= link_to "Your profile", expanded_user_path(current_user)%><%end%> |

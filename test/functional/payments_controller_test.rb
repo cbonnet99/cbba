@@ -11,8 +11,8 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_edit
-    cyrille = users(:cyrille)
-    get :edit, {:id => payments(:pending).id}, {:user_id => cyrille.id }
+    pending_user = users(:pending_user)
+    get :edit, {:id => payments(:pending_user_payment).id}, {:user_id => pending_user.id }
     assert_response :success
   end
 

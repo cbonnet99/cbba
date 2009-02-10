@@ -6,7 +6,7 @@
         <%= f.label :email, "Your email address:<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :email %>
       </li>
-      <% if with_password -%>
+      <% if sign_up -%>
       <li>
         <%= f.label :password, "Password:<span class='mandatoryStar'>*</span>" %>
         <%= f.password_field :password %>
@@ -40,15 +40,8 @@
   </fieldset>
   <fieldset id="fieldset-professional-details">
     <legend>Professional Details</legend>
+    <%= f.hidden_field :membership_type%>
     <ol>
-      <li>
-        <div class="left-input"><%= f.radio_button :membership_type, "free_listing" %></div>
-        <div class="right-label"><%= f.label :membership_type_free_listing, 'Free listing'%></div>
-      </li>
-      <li>
-        <div class="left-input"><%= f.radio_button :membership_type, "full_member" %></div>
-        <div class="right-label"><%= f.label :membership_type_full_member, 'Full membership' %>(Benefits)</div>
-      </li>
       <li>
         <%= f.label :business_name, "Business name" %>
         <%= f.text_field :business_name  %>

@@ -13,6 +13,14 @@ class SessionsControllerTest < ActionController::TestCase
     cyrille.reload
     assert !cyrille.free_listing?
   end
+  def test_create_free_listing
+    rmoore = users(:rmoore)
+    post :create, :email => rmoore.email, :password => "monkey"
+    assert_redirected_to user_edit_path
+    assert_equal "Logged in successfully", flash[:notice]
+    rmoore.reload
+    assert rmoore.free_listing?
+  end
   def test_create_pending
     pending_user = users(:pending_user)
     pending_user_payment = payments(:pending_user_payment)
