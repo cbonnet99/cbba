@@ -5,3 +5,10 @@ improve:
   summary: Become a better person
   step_label: Step
   author: cyrille
+money:
+  title: Make money
+  summary: Get rich
+  step_label: Step
+  author: cyrille
+  state: published
+  published_at: <%= 1.day.ago.to_s :db %>

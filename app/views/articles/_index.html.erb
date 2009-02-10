@@ -2,6 +2,10 @@
   No articles
 <% else -%>
   <% for article in @articles -%>
+      <% if article.class.to_s == "HowTo" -%>
+        <%= render :partial => "how_tos/how_to",  :locals => {:how_to => article }   %>
+      <%else -%>
         <%= render :partial => "articles/article",  :locals => {:article => article }   %>
+      <%end -%>
   <% end -%>
 <% end -%>

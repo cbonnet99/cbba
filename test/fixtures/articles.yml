@@ -14,6 +14,7 @@ long:
   state: published
   approved_by: norma
   approved_at: <%= 2.days.ago.to_s :db %>
+  published_at: <%= 2.days.ago.to_s :db %>
 jogging:
   title: Jogging is good for you
   lead: Jogging is good for you
@@ -21,3 +22,4 @@ jogging:
   slug: jogging-is-good-for-you
   author: rmoore
   state: published
+  published_at: <%= 2.days.ago.to_s :db %>

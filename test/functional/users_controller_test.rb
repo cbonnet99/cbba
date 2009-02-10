@@ -116,6 +116,34 @@ class UsersControllerTest < ActionController::TestCase
     assert @response.body =~ /Profile coming soon/
   end
 
+  def test_show_how_to
+    improve = how_tos(:improve)
+    money = how_tos(:money)
+    cyrille = users(:cyrille)
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
+
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug, :selected_tab_id => Tab::ARTICLES, }, {:user_id => cyrille.id }
+    assert !assigns(:articles).blank?
+    assert assigns(:articles).include?(improve)
+    assert assigns(:articles).include?(money)
+  end
+  
+  def test_show_how_to_for_anonymous_users
+    improve = how_tos(:improve)
+    money = how_tos(:money)
+    long = articles(:long)
+    cyrille = users(:cyrille)
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
+    
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug, :selected_tab_id => Tab::ARTICLES, }, { }
+    assert !assigns(:articles).blank?
+    assert assigns(:articles).include?(money)
+    assert !assigns(:articles).include?(improve)
+    assert assigns(:articles).index(money) < assigns(:articles).index(long)
+  end
+
 	def test_update_password
 		cyrille = users(:cyrille)
 		post :update_password, {:user => {:password => "bleblete", :password_confirmation => "bleblete"  }}, {:user_id => cyrille.id }

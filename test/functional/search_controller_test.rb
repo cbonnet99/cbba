@@ -4,17 +4,23 @@ class SearchControllerTest < ActionController::TestCase
   fixtures :all
 
   def test_index
+    money = how_tos(:money)
+    jogging = articles(:jogging)
     get :index
     assert_response :success
-    assert_select "ul#homepage-articles > li", 2
+    #2 articles + 1 howto article
+    assert_select "ul#homepage-articles > li", 3
     #Create 2 more published articles
-    Article.create(:title => "Test1", :lead => "Test1", :state => "published"  )
-    Article.create(:title => "Test2", :lead => "Test2", :state => "published"  )
+    Article.create(:title => "Test1", :lead => "Test1", :state => "published", :published_at => 3.days.ago  )
+    Article.create(:title => "Test2", :lead => "Test2", :state => "published", :published_at => 3.days.ago  )
     get :index
     assert_response :success
     assert_select "ul#homepage-articles > li", $number_articles_on_homepage
     assert_select "a", :text => "View more articles..."
     assert_equal 1, assigns(:newest_full_members).size
+    assert assigns(:newest_articles).include?(money)
+    assert_equal $number_articles_on_homepage, assigns(:newest_articles).size
+    assert assigns(:newest_articles).index(money) < assigns(:newest_articles).index(jogging)
   end
 
 	def test_change_category

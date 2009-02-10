@@ -53,9 +53,17 @@ class UsersController < ApplicationController
       @selected_tab = @user.select_tab(params[:selected_tab_id])
       if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES
         if @user == current_user
-          	@articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+          	@straight_articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+          	@how_to_articles = HowTo.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+            @articles = @straight_articles + @how_to_articles
+            @articles = @articles.sort_by(&:updated_at)
+            @articles.reverse!
         else
-            @articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "updated_at desc")
+            @straight_articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
+            @how_to_articles = HowTo.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
+            @articles = @straight_articles + @how_to_articles
+            @articles = @articles.sort_by(&:published_at)
+            @articles.reverse!
         end
       else
         @articles = []

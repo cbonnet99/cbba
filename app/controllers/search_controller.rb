@@ -5,8 +5,15 @@ class SearchController < ApplicationController
   end
 
 	def index
-    @newest_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
-    @total_articles = Article.count(:all, :conditions => "state='published'")
+    @newest_straight_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
+    @newest_howto_articles = HowTo.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
+    @newest_articles = @newest_straight_articles + @newest_howto_articles
+    @newest_articles = @newest_articles.sort_by(&:published_at)
+    @newest_articles.reverse!
+    @newest_articles = @newest_articles[0..$number_articles_on_homepage-1]
+    @total_straight_articles = Article.count(:all, :conditions => "state='published'")
+    @total_howto_articles = HowTo.count(:all, :conditions => "state='published'")
+    @total_articles = @total_straight_articles+@total_howto_articles
     @newest_full_members = User.newest_full_members
     @total_full_members = User.count_newest_full_members
 	end
