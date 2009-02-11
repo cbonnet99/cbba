@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-  before_filter :login_required, :only => [:index]
+  before_filter :login_required
 
   def index
     @payments = current_user.payments.find(:all, :order => "status desc" )

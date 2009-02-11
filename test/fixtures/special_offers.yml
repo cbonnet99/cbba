@@ -1,0 +1,15 @@
+one:
+  title: Offer one
+  slug: offer_one
+  description: MyText
+  how_to_book: MyText
+  terms: MyText
+  author: cyrille
+
+two:
+  title: Offer two
+  slug: offer_two
+  description: MyText
+  how_to_book: MyText
+  terms: MyText
+  author: cyrille

@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   has_one :user_profile
   has_many :payments
   has_many :user_emails
+  has_many :special_offers, :foreign_key => :author_id
 
   # #named scopes
   named_scope :full_members, :conditions => "free_listing is false"
@@ -59,6 +60,20 @@ class User < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
+
+  def default_how_to_book
+    str = "Bookings can be made by "
+    unless phone.blank? || phone == "-"
+      str << "phone or "
+    end
+    #email cannot be blank
+    str << "email:<br/>"
+    unless phone.blank? || phone == "-"
+      str << phone
+      str << "<br/>"
+    end
+    str << email
+  end
 
   def after_find
     @old_positions = {}

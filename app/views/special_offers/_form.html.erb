@@ -1,0 +1,26 @@
+<% use_tinymce -%>
+<% form_for @special_offer do |f| %>
+  <ol>
+      <%= f.error_messages :header_message => "Please try again", :message => "Your special offer could not be saved"%>
+      <li>
+        <%= f.label :title, "Title<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :title %>
+      </li>
+      <li>
+        <%= f.label :description, "Description<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_area :description %>
+      </li>
+      <li>
+        <%= f.label :how_to_book, "How to book<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_area :how_to_book %>
+      </li>
+      <li>
+        <%= f.label :terms, "Terms & Conditions<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_area :terms %>
+      </li>
+      <div class="buttons">
+        <label for=""></label>
+        <%= submit_tag 'Save' %>
+      </div>
+</ol>
+<% end %>

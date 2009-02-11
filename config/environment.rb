@@ -32,6 +32,7 @@ Rails::Initializer.run do |config|
   # "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "activemerchant", :lib => "active_merchant", :version => "1.4.1"
+  config.gem "pdf-writer", :lib => "pdf/writer", :version => "1.1.8"
   
   # Only load the plugins named here, in the order given. By default, all
   # plugins in vendor/plugins are loaded in alphabetical order. :all can be used
@@ -86,7 +87,7 @@ Rails::Initializer.run do |config|
 end
 
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
-  :default => '%d %B %Y %H:%M', :short => "%B %Y" )
+  :default => '%d %B %Y %H:%M', :short => "%B %Y", :date_only => '%d %B %Y' )
 
 $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last_name => "Savage"},
   {:email => "cbonnet99@gmail.com", :first_name => "Cyrille", :last_name => "Bonnet" },
@@ -97,7 +98,7 @@ $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last
 $number_articles_on_homepage = 3
 $number_full_members_on_homepage = 3
 $max_number_tabs = 6
-$workflowable_stuff = ['Article', 'UserProfile']
+$workflowable_stuff = ['Article', 'UserProfile', 'SpecialOffer']
 # Ensure the gateway is in test mode
 ActiveMerchant::Billing::Base.gateway_mode = :test
 ActiveMerchant::Billing::Base.integration_mode = :test

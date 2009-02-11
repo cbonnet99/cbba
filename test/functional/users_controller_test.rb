@@ -34,6 +34,7 @@ class UsersControllerTest < ActionController::TestCase
     old_payments_size = cyrille.payments.size
     post :renew_membership, {}, {:user_id => cyrille.id }
     assert_not_nil assigns(:payment)
+    assert_equal 19999, assigns(:payment).amount
     assert_redirected_to edit_payment_path(assigns(:payment))
     cyrille.reload
     assert_equal old_payments_size+1, cyrille.payments.size

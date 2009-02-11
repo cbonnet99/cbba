@@ -14,6 +14,7 @@ class PaymentsControllerTest < ActionController::TestCase
     pending_user = users(:pending_user)
     get :edit, {:id => payments(:pending_user_payment).id}, {:user_id => pending_user.id }
     assert_response :success
+    assert_not_nil assigns(:payment)
   end
 
   def test_should_update_payment
@@ -34,6 +35,14 @@ class PaymentsControllerTest < ActionController::TestCase
     assert pending_user.active?
   end
 
+  def test_edit_payment_on_full_membership_upgrade
+    rmoore = users(:rmoore)
+    new_payment = rmoore.payments.create!(Payment::TYPES[:renew_full_member])
+    get :edit, {:id => new_payment.id}, {:user_id => rmoore.id }
+    assert_response :success
+    assert_not_nil assigns(:payment)
+    assert_equal 19999, assigns(:payment).amount
+  end
   def test_update_payment_on_full_membership_upgrade
     rmoore = users(:rmoore)
     new_payment = rmoore.payments.create!(Payment::TYPES[:full_member])

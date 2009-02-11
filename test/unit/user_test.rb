@@ -4,6 +4,11 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_default_how_to_book
+    cyrille = users(:cyrille)
+    assert_equal "Bookings can be made by phone or email:<br/>06-3086130<br/>cbonnet99@gmail.com", cyrille.default_how_to_book
+  end
+
   def test_validate
     user = User.new(:professional => true, :subcategory1_id => ""  )
     assert !user.valid?

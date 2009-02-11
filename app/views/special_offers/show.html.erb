@@ -1,0 +1,15 @@
+<%= link_to "Back to your special offers", special_offers_path %>
+<%= title @special_offer.title %>
+<div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>
+<% if is_author?(@special_offer) -%>
+  <%if @special_offer.draft? -%>
+        <%= link_to 'Delete', special_offer_path(@special_offer.slug), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "button"  %>
+  <%end -%>
+<%= link_to 'Edit', edit_special_offer_path(@special_offer.slug), :class => "button" %>
+<% end -%></div>
+<hr/>
+  <h3>Description</h3>
+  <%=white_list @special_offer.description %>
+
+  <p>Download special offer</p>
+<%= link_to "Back to your special offers", special_offers_path %>

@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :special_offers
+
   map.resources :orders
 
 
