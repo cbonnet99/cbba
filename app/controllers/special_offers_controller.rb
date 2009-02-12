@@ -35,7 +35,7 @@ class SpecialOffersController < ApplicationController
     @special_offer = current_user.special_offers.new(params[:special_offer])
     if @special_offer.save
       flash[:notice] = "Successfully created special offer."
-      redirect_to special_offers_path
+      redirect_to @special_offer
     else
       render :action => 'new'
     end

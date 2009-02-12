@@ -1,6 +1,12 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ReviewerControllerTest < ActionController::TestCase
+
+  def test_index
+    get :index, {}, {:user_id => users(:norma).id }
+    assert_response :success
+  end
+
   def test_reject
 		norma = users(:norma)
 		long = articles(:long)

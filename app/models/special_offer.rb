@@ -1,6 +1,6 @@
 class SpecialOffer < ActiveRecord::Base
   include Workflowable
-#  include WhiteListHelper
+  #  include WhiteListHelper
   belongs_to :author, :class_name => "User"
   after_create :create_slug, :save_pdf_filename, :generate_pdf
   after_update :generate_pdf
@@ -9,28 +9,32 @@ class SpecialOffer < ActiveRecord::Base
   DEFAULT_TERMS = "<ul><li>Subject to availability at time of application</li><li>Bookings must be made in advance</li><li>Limited to one offer per person</li><li>Not to be used in conjunction with any other offer</li></ul>"
   PDF_SUFFIX_ABSOLUTE = File.dirname(__FILE__) + "/../../public"
   PDF_SUFFIX_RELATIVE = "/special-offers"
-  
+
+  PDF_TEXT_FONT = "Helvetica"
+  COLOR_TITLES = Color::RGB::CornflowerBlue
+  COLOR_TEXT = Color::RGB::DarkGrey
+  TEXT_BOTTOM1 = "This voucher was downloaded from:"
+  IMAGE_BOTTOM = "/images/bam-logo.jpg"
+  TEXT_BOTTOM2 = "We make having a choice about your wellbeing easy!"
+
   def generate_pdf
     FileUtils.mkdir_p(PDF_SUFFIX_ABSOLUTE + pdf_directory)
     pdf = PDF::Writer.new
-    pdf.select_font "Times-Roman"
-    pdf.fill_color Color::RGB::Blue
+    pdf.select_font PDF_TEXT_FONT
+    pdf.fill_color COLOR_TITLES
     pdf.text title, :justification => :center, :font_size => 24
-    pdf.fill_color Color::RGB::Blue
-    pdf.text "Special offer description", :justification => :left, :font_size => 18
-    pdf.fill_color Color::RGB::Black
+    title_text(pdf, "Special offer description")
     paragraph_text(pdf, description)
-#    pdf.text description, :justification => :left, :font_size => 12
-    pdf.fill_color  Color::RGB::Blue
-    pdf.text "How to book", :justification => :left, :font_size => 18
-    pdf.fill_color Color::RGB::Black
+    #    pdf.text description, :justification => :left, :font_size => 12
+    title_text(pdf, "How to book")
     paragraph_text(pdf, how_to_book)
-#    pdf.text how_to_book, :justification => :left, :font_size => 12
-    pdf.fill_color Color::RGB::Blue
-    pdf.text "Terms & conditions", :justification => :left, :font_size => 18
-    pdf.fill_color Color::RGB::Black
+    #    pdf.text how_to_book, :justification => :left, :font_size => 12
+    title_text(pdf, "Terms & conditions")
     paragraph_text(pdf, terms)
-#    pdf.text terms, :justification => :left, :font_size => 12
+    paragraph_text(pdf, "\n")
+    pdf.text TEXT_BOTTOM1, :font_size=>12, :justification=>:center
+    pdf.image(PDF_SUFFIX_ABSOLUTE+IMAGE_BOTTOM, :justification=>:center)
+    pdf.text TEXT_BOTTOM2, :font_size=>12, :justification=>:center
     logger.debug("----- Saving PDF file #{pdf_filename}")
     pdf.save_as(PDF_SUFFIX_ABSOLUTE+pdf_filename)
   end
@@ -60,16 +64,23 @@ class SpecialOffer < ActiveRecord::Base
   end
 
   private
-  def paragraph_text(pdf, text, paragraph_font_size=12, paragraph_color=Color::RGB::Black)
-#    text = white_list(text, {:attributes => ["class"], :tags => %w(strong  p  ul  li)})
+  def paragraph_text(pdf, text, paragraph_font_size=12, paragraph_color=COLOR_TEXT)
+    #    text = white_list(text, {:attributes => ["class"], :tags => %w(strong  p  ul  li)})
     sections = HtmlToPdfConverter.convert(text).split('\n')
     sections.each do |section|
       indent = found_bullet_point(section) ? 10 : 0
       pdf.fill_color! paragraph_color
       pdf.text "#{section}\n", :font_size=>paragraph_font_size, :left=>indent, :justification=>:full
     end
- end
 
+  end
+
+  def title_text(pdf, text)
+    pdf.fill_color! COLOR_TITLES
+    pdf.text text, :justification => :left, :font_size => 18
+
+  end
+  
   def found_bullet_point(section)
     /C:bullet/.match(section)
   end

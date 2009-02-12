@@ -9,6 +9,26 @@
   <% end -%>
   </ul>
 <% end -%>
+<h3>'How to' articles</h3>
+<% if @how_tos.blank? -%>
+  No 'how to' articles for the moment
+<% else -%>
+  <ul class="simple" id="reviewable-how-tos">
+  <% @how_tos.each do |a| -%>
+    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "how_tos/how_to", :locals => {:how_to => a } %></li>
+  <% end -%>
+  </ul>
+<% end -%>
+<h3>Special offers</h3>
+<% if @special_offers.blank? -%>
+  No special offers for the moment
+<% else -%>
+  <ul class="simple" id="reviewable-special-offers">
+  <% @special_offers.each do |a| -%>
+    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "special_offers/special_offer", :locals => {:special_offer => a } %></li>
+  <% end -%>
+  </ul>
+<% end -%>
 <h3>User profiles</h3>
 <% if @user_profiles.blank? -%>
   No user profiles for the moment

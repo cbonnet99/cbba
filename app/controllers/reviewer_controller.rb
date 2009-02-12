@@ -4,6 +4,8 @@ class ReviewerController < ApplicationController
 	end
   def index
 		@articles = Article.reviewable
+		@how_tos = HowTo.reviewable
+		@special_offers = SpecialOffer.reviewable
 		@user_profiles = UserProfile.reviewable
   end
 
