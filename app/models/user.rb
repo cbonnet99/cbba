@@ -198,8 +198,12 @@ class User < ActiveRecord::Base
     if tab_slug.nil?
       tabs.first
     else
-      if tab_slug == Tab::ARTICLES
+      case tab_slug
+      when Tab::ARTICLES:
         virtual_tab = VirtualTab.new(Tab::ARTICLES, "Articles", "articles/index", "articles/nav" )
+        return virtual_tab
+      when Tab::SPECIAL_OFFERS:
+        virtual_tab = VirtualTab.new(Tab::SPECIAL_OFFERS, "Special Offers", "special_offers/index", "special_offers/nav" )
         return virtual_tab
       else
         tabs.find_by_slug(tab_slug) || tabs.first

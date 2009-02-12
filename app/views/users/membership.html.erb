@@ -9,11 +9,11 @@
       <% if @payment && @new_member -%>
         Your membership has not been activated yet. You must <%= link_to "complete your payment", edit_payment_path(@payment) %> to activate it.
       <%  else -%>
-        You are a full member of BeAmazing since <%=current_user.member_since.to_s(:date_only)%>.<br/>
+        You are a full member of BeAmazing since <%=current_user.member_since.to_date.to_s(:default)%>.<br/>
         <% if current_user.active? -%>
-          Your membership is valid until <%= current_user.member_until.to_s(:date_only) %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.
+          Your membership is valid until <%= current_user.member_until.to_date %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.
         <% else -%>
-          Your membership has expired on <%= current_user.member_until.to_s(:date_only) %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.
+          Your membership has expired on <%= current_user.member_until.to_date %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.
         <% end -%>
       <% end -%>
     <% end -%>

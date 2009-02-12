@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class TabsControllerTest < ActionController::TestCase
+  include ApplicationHelper
   fixtures :all
 
   def test_move
@@ -28,11 +29,19 @@ class TabsControllerTest < ActionController::TestCase
   def test_update
     cyrille = users(:cyrille)
     cyrille_test = tabs(:cyrille_test)
-    old_size = Tab.all.size
     post :update, {:id => cyrille_test.slug, :tab => {:title => "bla", :content => "this is a new tab"} }, {:user_id => cyrille.id }
     cyrille_test.reload
     assert_equal "bla", cyrille_test.title
     assert_equal "bla", cyrille_test.slug
+  end
+
+  def test_destroy
+    cyrille = users(:cyrille)
+    cyrille_test = tabs(:cyrille_test)
+    old_size = Tab.all.size
+    post :destroy, {:id => cyrille_test.slug}, {:user_id => cyrille.id }
+    assert_equal old_size-1, Tab.all.size
+    assert_redirected_to expanded_user_tabs_path(cyrille, nil)
   end
 
 end

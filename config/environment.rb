@@ -86,8 +86,11 @@ Rails::Initializer.run do |config|
 
 end
 
+ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
+  :default => '%e %B %Y'
+)
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
-  :default => '%d %B %Y %H:%M', :short => "%B %Y", :date_only => '%d %B %Y' )
+  :default => '%e %B %Y %H:%M', :short => "%B %Y" )
 
 $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last_name => "Savage"},
   {:email => "cbonnet99@gmail.com", :first_name => "Cyrille", :last_name => "Bonnet" },

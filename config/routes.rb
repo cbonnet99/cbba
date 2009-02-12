@@ -4,7 +4,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :orders
 
 
-  map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
+  map.action_tab '/tabs/:action', :controller => 'tabs'
+  map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
+  map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/ }
 
   map.resources :contacts
 
@@ -32,8 +34,6 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.action_tab_format '/tabs/:action.:format', :controller => 'tabs'
-  map.action_tab '/tabs/:action', :controller => 'tabs'
-  map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
   map.action_tab_with_user '/users/:user_id/tabs/:id/:action', :controller => 'tabs'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
@@ -44,6 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
   map.update_after_forgetting '/update_after_forgetting', :controller => 'passwords', :action => 'update_after_forgetting'
   map.user_tabs '/:main_expertise/:region/:name/:selected_tab_id', :controller => 'users', :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
+  map.user_special_offers '/users/special_offers', :controller => 'users', :action => "special_offers"
   map.user_articles '/users/articles', :controller => 'users', :action => "articles"
   map.user_renew_membership '/users/renew_membership', :controller => 'users', :action => "renew_membership"
   map.upgrade_to_full_membership '/users/upgrade_to_full_membership', :controller => 'users', :action => "upgrade_to_full_membership"

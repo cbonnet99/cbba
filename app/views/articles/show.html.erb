@@ -11,6 +11,9 @@
 <%= link_to 'Edit', edit_article_path(@article), :class => "button" %>
 <% end -%></div>
 <div class="cleaner"></div>
+<%unless @article.published_at.nil?-%>
+<div class="publication-date">Published: <%= @article.published_at.to_date %></div>
+<%end-%>
 <hr/>
 <%= white_list @article.lead %>
 <%= white_list @article.body %>

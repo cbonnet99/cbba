@@ -1,12 +1,3 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "special_offers" }  %>
 <%= title "Your special offers" %>
-<p><%= link_to "Create a new special offer", new_special_offer_path %></p>
-<% if @special_offers.blank? -%>
-  No special offers
-<%else -%>
-  <ul id="your-special-offers" class="simple">
-  <% for special_offer in @special_offers %>
-      <li class="<%= cycle('odd','even')%>"><%=link_to special_offer.title, special_offer_path(special_offer.slug) %>(<span class="<%=special_offer.workflow_css_class%>"><%=special_offer.state%></span>)</li>
-  <% end %>
-  </ul>
-<% end -%>
+<%= render :partial => "articles/index"  %>

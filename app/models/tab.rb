@@ -6,7 +6,8 @@ end
 class Tab < ActiveRecord::Base
 
   ARTICLES = "articles"
-
+  SPECIAL_OFFERS = "special_offers"
+  
   after_create :create_slug
 
   acts_as_list :scope => :user_id

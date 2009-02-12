@@ -1,8 +1,12 @@
 require 'pdf/writer'
 class SpecialOffersController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => [:index_public]
 	after_filter :store_location, :only => [:index, :show]
-  
+
+  def index_public
+    @special_offers = current_user.special_offers.all
+  end
+
 	def publish
     @special_offer = current_user.special_offers.find(params[:id])
 		@special_offer.publish!

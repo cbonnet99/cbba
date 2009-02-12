@@ -20,6 +20,22 @@ class Article < ActiveRecord::Base
 
 	MAX_LENGTH_SLUG = 20
 
+  def self.all_articles(user)
+    straight_articles = Article.find_all_by_author_id(user.id, :order => "state, updated_at desc")
+    how_to_articles = HowTo.find_all_by_author_id(user.id, :order => "state, updated_at desc")
+    articles = straight_articles + how_to_articles
+    articles = articles.sort_by(&:updated_at)
+    return articles.reverse!
+  end
+
+  def self.all_published_articles(user)
+    straight_articles = Article.find_all_by_author_id_and_state(user.id, "published", :order => "published_at desc")
+    how_to_articles = HowTo.find_all_by_author_id_and_state(user.id, "published", :order => "published_at desc")
+    articles = straight_articles + how_to_articles
+    articles = articles.sort_by(&:published_at)
+    return articles.reverse!
+  end
+
   def path_method
     "article_path"
   end

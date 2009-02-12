@@ -1,9 +1,10 @@
 <div id="profile-tabs-left" class="column">
   <ul class="simple" id="profile-tabs">
-    <li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="Articles" href="<%= expanded_user_tabs_path(@user, Tab::ARTICLES) %>">Articles</a></li>
     <% @user.tabs.each do |t| -%>
       <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= expanded_user_tabs_path(@user, t.slug) %>"><%=t.title%></a></li>
     <% end -%>
+    <li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="Articles" href="<%= expanded_user_tabs_path(@user, Tab::ARTICLES) %>">Articles</a></li>
+    <li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::SPECIAL_OFFERS%> selected-tab<%end%>"><a alt="Special offers" href="<%= expanded_user_tabs_path(@user, Tab::SPECIAL_OFFERS) %>">Special offers</a></li>
     <% if own_profile?(@user) -%>
       <li id="add-tab" class="tab"><a alt="Add a new tab to your profile" href="<%= action_tab_path(:action => "create")%>">Add a new tab...</a></li>
     <% end -%>

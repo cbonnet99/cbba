@@ -1,6 +1,3 @@
-<%unless item.published_at.nil?-%>
-<div class="publication-date">Published:<%= item.published_at %></div>
-<%end-%>
 <% if !item.approved_at.nil? && (is_reviewer? || is_author?(item)) -%>
 <div class="approval-date">Approved: <%= item.approved_at %> by <%=link_to item.approved_by.name, expanded_user_path(item.approved_by)%></div>
 <%  end -%>

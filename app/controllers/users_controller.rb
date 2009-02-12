@@ -63,28 +63,28 @@ class UsersController < ApplicationController
         log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
       end
       @selected_tab = @user.select_tab(params[:selected_tab_id])
-      if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES
-        if @user == current_user
-          	@straight_articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
-          	@how_to_articles = HowTo.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
-            @articles = @straight_articles + @how_to_articles
-            @articles = @articles.sort_by(&:updated_at)
-            @articles.reverse!
-        else
-            @straight_articles = Article.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
-            @how_to_articles = HowTo.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
-            @articles = @straight_articles + @how_to_articles
-            @articles = @articles.sort_by(&:published_at)
-            @articles.reverse!
+      if !@selected_tab.nil?
+        if @selected_tab.slug == Tab::ARTICLES
+          if @user == current_user
+              @articles = Article.all_articles(current_user)
+          else
+              @articles = Article.all_published_articles(@user)
+          end
         end
-      else
-        @articles = []
+        if @selected_tab.slug == Tab::SPECIAL_OFFERS
+          if @user == current_user
+              @special_offers = SpecialOffer.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+          else
+              @special_offers = SpecialOffer.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
+          end
+        end
       end
 
     end
   end
 
 	def articles
+    logger.debug "========= calling articles on user"
 		get_districts_and_subcategories
 		@articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
 	end
