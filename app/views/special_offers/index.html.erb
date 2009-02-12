@@ -6,7 +6,7 @@
 <%else -%>
   <ul id="your-special-offers" class="simple">
   <% for special_offer in @special_offers %>
-      <li class="<%= cycle('odd','even')%>"><%=link_to special_offer.title, special_offer_path(special_offer.slug) %></li>
+      <li class="<%= cycle('odd','even')%>"><%=link_to special_offer.title, special_offer_path(special_offer.slug) %>(<span class="<%=special_offer.workflow_css_class%>"><%=special_offer.state%></span>)</li>
   <% end %>
   </ul>
 <% end -%>
