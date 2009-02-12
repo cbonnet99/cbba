@@ -7,9 +7,11 @@ class SpecialOffer < ActiveRecord::Base
   validates_presence_of :title, :description, :how_to_book, :terms
   validates_uniqueness_of :title, :scope => "author_id"
   DEFAULT_TERMS = "<ul><li>Subject to availability at time of application</li><li>Bookings must be made in advance</li><li>Limited to one offer per person</li><li>Not to be used in conjunction with any other offer</li></ul>"
-
+  PDF_SUFFIX_ABSOLUTE = File.dirname(__FILE__) + "/../../public"
+  PDF_SUFFIX_RELATIVE = "/special-offers"
+  
   def generate_pdf
-    FileUtils.mkdir_p(pdf_directory)
+    FileUtils.mkdir_p(PDF_SUFFIX_ABSOLUTE + pdf_directory)
     pdf = PDF::Writer.new
     pdf.select_font "Times-Roman"
     pdf.fill_color Color::RGB::Blue
@@ -29,8 +31,8 @@ class SpecialOffer < ActiveRecord::Base
     pdf.fill_color Color::RGB::Black
     paragraph_text(pdf, terms)
 #    pdf.text terms, :justification => :left, :font_size => 12
-    logger.debug("----- Saving PDF file #{filename}")
-    pdf.save_as(filename)
+    logger.debug("----- Saving PDF file #{pdf_filename}")
+    pdf.save_as(PDF_SUFFIX_ABSOLUTE+pdf_filename)
   end
 
   def to_param
@@ -50,7 +52,7 @@ class SpecialOffer < ActiveRecord::Base
 	end
 
   def pdf_directory
-    File.dirname(__FILE__) + "/../../public/#{author.slug}/special-offers"
+    "#{PDF_SUFFIX_RELATIVE}/#{author.slug}"
   end
 
   def pdf_filename

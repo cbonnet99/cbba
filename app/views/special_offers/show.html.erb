@@ -11,5 +11,5 @@
   <h3>Description</h3>
   <%=white_list @special_offer.description %>
 
-  <p>Download special offer</p>
+  <p><a href="<%=@special_offer.filename%>">Download special offer</a></p>
 <%= link_to "Back to your special offers", special_offers_path %>
