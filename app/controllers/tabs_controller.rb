@@ -38,7 +38,7 @@ class TabsController < ApplicationController
     else
 #      flash[:notice] = "Tab added successfully"
     end
-    redirect_to expanded_user_tabs_path(current_user, @tab.slug)
+    redirect_to action_tab_with_id_path(@tab.slug, :action => "edit" )
   end
 
   def destroy

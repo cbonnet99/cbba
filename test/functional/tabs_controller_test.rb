@@ -4,6 +4,16 @@ class TabsControllerTest < ActionController::TestCase
   include ApplicationHelper
   fixtures :all
 
+  def test_create
+    cyrille = users(:cyrille)
+    old_size = cyrille.tabs.size
+    post :create, { }, {:user_id => cyrille.id }
+    assert_not_nil assigns(:tab)
+    assert_redirected_to action_tab_with_id_path(assigns(:tab).slug, :action => "edit" )
+    cyrille.reload
+    assert_equal old_size+1, cyrille.tabs.size
+  end
+
   def test_move
     cyrille = users(:cyrille)
     cyrille_test = tabs(:cyrille_test)
