@@ -1,8 +1,6 @@
 <% use_tinymce -%>
 <% form_for @selected_tab, :url => action_tab_with_id_path(@selected_tab.slug, :action => "update" )  do |f| -%>
   <%= f.error_messages %>
-  <fieldset>
-    <legend>Your Details</legend>
     <ol>
       <li>
         <%= f.label :title, "Title:<span class='mandatoryStar'>*</span>" %>
@@ -13,7 +11,6 @@
         <%= f.text_area :content %>
       </li>
     </ol>
-    </fieldset>
   <div class="buttons">
     <label for=""></label>
     <%= submit_tag 'Update' %>
