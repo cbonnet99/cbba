@@ -48,9 +48,14 @@ class UsersController < ApplicationController
   end
 
 	def publish
-    current_user.user_profile.publish!
-    flash[:notice] = "Your profile was successfully published"
-		redirect_back_or_default root_url
+    if current_user.user_profile.draft?
+      current_user.user_profile.publish!
+      flash[:notice] = "Your profile was successfully published"
+      redirect_back_or_default root_url
+    else
+      flash[:error] = "Your profile is laready published"
+      redirect_back_or_default root_url
+    end
 	end
   
   def show

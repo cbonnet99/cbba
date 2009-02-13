@@ -81,14 +81,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
 	def test_publish
-		norma = users(:norma)
+		sgardiner = users(:sgardiner)
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
-		post :publish, {}, {:user_id => norma.id}
-		norma.user_profile.reload
-		assert_not_nil norma.user_profile.published_at
+		post :publish, {}, {:user_id => sgardiner.id}
+		sgardiner.user_profile.reload
+		assert_not_nil sgardiner.user_profile.published_at
 
     # #an email should be sent to reviewers
 		assert ActionMailer::Base.deliveries.size > 0
@@ -119,9 +119,44 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_show3
     cyrille = users(:cyrille)
-    get :show, {:id => cyrille.slug}, {:user_id => cyrille.id }
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => cyrille.id }
+    assert_response :success
     # #Cyrille's profile is already published: not button should be shown
     assert_select "input[value=Publish]", :count => 0
+    assert_select "a", :text => "2 articles"
+    assert_select "a", :text => "2 special offers"
+  end
+
+  def test_show_number_published_articles
+    cyrille = users(:cyrille)
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}
+    assert_response :success
+    assert_select "a", :text => "1 article"
+    assert_select "a", :text => "1 special offer"
+  end
+
+  def test_show_always_show_articles_when_own_profile
+    norma = users(:norma)
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => norma.id }
+    assert_response :success
+    assert_select "a", :text => "0 articles"
+    assert_select "a", :text => "0 special offers"
+  end
+
+  def test_show_hide_articles_when_0
+    norma = users(:norma)
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaching.slug}
+    assert_response :success
+    assert_select "a", :text => "0 articles", :count => 0
+    assert_select "a", :text => "0 special offers", :count => 0
   end
 
   def test_show_free_listing
@@ -131,12 +166,12 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_show_draft_profile
-    norma = users(:norma)
+    sgardiner = users(:sgardiner)
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
     coaching = categories(:coaching)
 
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => cyrille.id }
+    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => cyrille.id }
 #    puts "============= #{@response.body}"
     assert @response.body =~ /Profile coming soon/
   end

@@ -20,7 +20,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "ul#homepage-articles > li", $number_articles_on_homepage
     assert_select "a", :text => "View more articles..."
-    assert_equal 1, assigns(:newest_full_members).size
+    assert_equal 2, assigns(:newest_full_members).size
     assert assigns(:newest_articles).include?(money)
     assert_equal $number_articles_on_homepage, assigns(:newest_articles).size
     assert assigns(:newest_articles).index(money) < assigns(:newest_articles).index(jogging)

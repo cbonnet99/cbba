@@ -29,16 +29,16 @@ class UserTest < ActiveSupport::TestCase
 
   def test_newest_full_members
     cyrille = users(:cyrille)
-    assert_equal [cyrille], User.newest_full_members
+    assert_equal [cyrille, users(:norma)], User.newest_full_members
   end
 
   def test_count_newest_full_members
-    assert_equal 1, User.count_newest_full_members
+    assert_equal 2, User.count_newest_full_members
   end
 
   def test_sentence_to_review
     cyrille = users(:cyrille)
-    assert_equal "2 items to review", cyrille.sentence_to_review
+    assert_equal "4 items to review", cyrille.sentence_to_review
   end
 
   def test_roles

@@ -61,6 +61,30 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def no_articles_for_user?(current_user)
+    self != current_user && self.articles_count_for_user(current_user) == 0
+  end
+
+  def no_special_offers_for_user?(current_user)
+    self != current_user && self.special_offers_count_for_user(current_user) == 0
+  end
+
+  def articles_count_for_user(current_user)
+    if current_user == self
+      return articles_count + how_tos_count
+    else
+      return published_articles_count + published_how_tos_count
+    end
+  end
+
+  def special_offers_count_for_user(current_user)
+    if current_user == self
+      return special_offers_count
+    else
+      return published_special_offers_count
+    end
+  end
+
   def default_how_to_book
     str = "Bookings can be made by "
     unless phone.blank? || phone == "-"

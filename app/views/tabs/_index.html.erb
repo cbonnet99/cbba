@@ -3,8 +3,8 @@
     <% @user.tabs.each do |t| -%>
       <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= expanded_user_tabs_path(@user, t.slug) %>"><%=t.title%></a></li>
     <% end -%>
-    <li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="Articles" href="<%= expanded_user_tabs_path(@user, Tab::ARTICLES) %>">Articles</a></li>
-    <li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::SPECIAL_OFFERS%> selected-tab<%end%>"><a alt="Special offers" href="<%= expanded_user_tabs_path(@user, Tab::SPECIAL_OFFERS) %>">Special offers</a></li>
+<%unless @user.no_articles_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="<%=pluralize(@user.articles_count_for_user(current_user), "article")%>" href="<%= expanded_user_tabs_path(@user, Tab::ARTICLES) %>"><%=pluralize(@user.articles_count_for_user(current_user), "article")%></a></li><%end%>
+<%unless @user.no_special_offers_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::SPECIAL_OFFERS%> selected-tab<%end%>"><a alt="<%=pluralize(@user.special_offers_count_for_user(current_user), "special offer")%>" href="<%= expanded_user_tabs_path(@user, Tab::SPECIAL_OFFERS) %>"><%=pluralize(@user.special_offers_count_for_user(current_user), "special offer")%></a></li><%end%>
     <% if own_profile?(@user) -%>
       <li id="add-tab" class="tab"><a alt="Add a new tab to your profile" href="<%= action_tab_path(:action => "create")%>">Add a new tab...</a></li>
     <% end -%>

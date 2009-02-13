@@ -1,0 +1,1 @@
+<li class="<%= cycle('odd','even')%>"><%=link_to special_offer.title, special_offer_path(special_offer.slug) %>(<span class="<%=special_offer.workflow_css_class%>"><%=special_offer.state%></span>)</li>
