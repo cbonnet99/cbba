@@ -10,7 +10,7 @@ module Workflowable
     base.send :aasm_column, :state
     base.send :aasm_initial_state, :initial => :draft
     base.send :aasm_state, :draft
-    base.send :aasm_state, :published, :enter => :email_reviewers
+    base.send :aasm_state, :published, :enter => :email_reviewers_and_increment_count
 
     base.send :aasm_event, :publish do
       transitions :from => :draft, :to => :published
@@ -44,16 +44,25 @@ module Workflowable
     #      end
     #    end
 
+    def path_method
+      self.class.to_s.tableize.singularize+"_path"
+    end
+
     def workflow_css_class
       "workflow-#{self.state}"
     end
 
-  	def email_reviewers
+  	def email_reviewers_and_increment_count
       self.published_at = Time.now.utc
       User.reviewers.each do |r|
         UserMailer.deliver_stuff_to_review(self, r)
       end
+      unless self.class.to_s == "UserProfile"
+        sym = "published_#{self.class.to_s.tableize}_count".to_sym
+        self.author.update_attribute(sym, self.author.send(sym)+1)
+      end
     end
+
     def reviewable?
       state == "published" && approved_at.nil?
     end

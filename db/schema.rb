@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090211045059) do
+ActiveRecord::Schema.define(:version => 20090213033703) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -309,22 +309,22 @@ ActiveRecord::Schema.define(:version => 20090211045059) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "first_name",                :limit => 100, :default => ""
-    t.string   "last_name",                 :limit => 100, :default => ""
-    t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
-    t.string   "remember_token",            :limit => 40
-    t.string   "activation_code",           :limit => 40
-    t.string   "state",                                    :default => "passive"
+    t.string   "first_name",                     :limit => 100, :default => ""
+    t.string   "last_name",                      :limit => 100, :default => ""
+    t.string   "email",                          :limit => 100
+    t.string   "crypted_password",               :limit => 40
+    t.string   "salt",                           :limit => 40
+    t.string   "remember_token",                 :limit => 40
+    t.string   "activation_code",                :limit => 40
+    t.string   "state",                                         :default => "passive"
     t.datetime "remember_token_expires_at"
     t.datetime "activated_at"
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "region_id"
-    t.boolean  "receive_newsletter",                       :default => true
-    t.boolean  "professional",                             :default => false
+    t.boolean  "receive_newsletter",                            :default => true
+    t.boolean  "professional",                                  :default => false
     t.boolean  "free_listing"
     t.string   "business_name"
     t.string   "address1"
@@ -340,7 +340,13 @@ ActiveRecord::Schema.define(:version => 20090211045059) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.boolean  "new_user",                                 :default => true
+    t.boolean  "new_user",                                      :default => true
+    t.integer  "articles_count",                                :default => 0
+    t.integer  "how_tos_count",                                 :default => 0
+    t.integer  "special_offers_count",                          :default => 0
+    t.integer  "published_articles_count",                      :default => 0
+    t.integer  "published_how_tos_count",                       :default => 0
+    t.integer  "published_special_offers_count",                :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

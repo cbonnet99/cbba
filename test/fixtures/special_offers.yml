@@ -5,6 +5,7 @@ one:
   how_to_book: MyText
   terms: MyText
   author: cyrille
+  state: draft
 
 free_trial:
   title: FREE Trial Session Plus $150 Off A Full 12 Session Coaching Series

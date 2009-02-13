@@ -6,13 +6,16 @@ class SearchControllerTest < ActionController::TestCase
   def test_index
     money = how_tos(:money)
     jogging = articles(:jogging)
+    cyrille = users(:cyrille)
     get :index
     assert_response :success
     #2 articles + 1 howto article
     assert_select "ul#homepage-articles > li", 3
     #Create 2 more published articles
-    Article.create(:title => "Test1", :lead => "Test1", :state => "published", :published_at => 3.days.ago  )
-    Article.create(:title => "Test2", :lead => "Test2", :state => "published", :published_at => 3.days.ago  )
+    Article.create(:title => "Test1", :lead => "Test1", :state => "published",
+      :published_at => 3.days.ago, :author => cyrille )
+    Article.create(:title => "Test2", :lead => "Test2", :state => "published",
+      :published_at => 3.days.ago, :author => cyrille )
     get :index
     assert_response :success
     assert_select "ul#homepage-articles > li", $number_articles_on_homepage

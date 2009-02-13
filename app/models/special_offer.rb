@@ -1,7 +1,7 @@
 class SpecialOffer < ActiveRecord::Base
   include Workflowable
   #  include WhiteListHelper
-  belongs_to :author, :class_name => "User"
+  belongs_to :author, :class_name => "User", :counter_cache => true
   after_create :create_slug, :save_pdf_filename, :generate_pdf
   after_update :generate_pdf
   validates_presence_of :title, :description, :how_to_book, :terms

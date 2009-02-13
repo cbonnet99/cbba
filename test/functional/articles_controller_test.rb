@@ -6,6 +6,7 @@ class ArticlesControllerTest < ActionController::TestCase
 	def test_publish
 		yoga = articles(:yoga)
 		cyrille = users(:cyrille)
+    old_published_count = cyrille.published_articles_count
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
@@ -17,6 +18,9 @@ class ArticlesControllerTest < ActionController::TestCase
 
 		#an email should be sent to reviewers
 		assert ActionMailer::Base.deliveries.size > 0
+    
+    cyrille.reload
+    assert_equal old_published_count+1, cyrille.published_articles_count
 	end
 
 	def test_edit
@@ -52,12 +56,13 @@ class ArticlesControllerTest < ActionController::TestCase
   def test_should_create_article
 		cyrille = users(:cyrille)
 		yoga = subcategories(:yoga)
-    assert_difference('Article.count') do
-      post :create, {:article => { :title => "Test9992323", :lead => "Test9992323", :subcategory1_id => yoga.id  }}, {:user_id => cyrille.id }
-    end
+    old_count = cyrille.articles_count
+    post :create, {:article => { :title => "Test9992323", :lead => "Test9992323", :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
     assert_redirected_to article_path(assigns(:article))
 		assert_equal yoga.id, assigns(:article).subcategory1_id
     assert_not_nil assigns(:subcategories)
+    cyrille.reload
+    assert_equal old_count+1, cyrille.articles_count
 
   end
 

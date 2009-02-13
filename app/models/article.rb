@@ -6,13 +6,13 @@ class Article < ActiveRecord::Base
   
   acts_as_taggable
 	
-  belongs_to :author, :class_name => "User"
+  belongs_to :author, :class_name => "User", :counter_cache => true
 	has_many :articles_subcategories
 	has_many :subcategories, :through => :articles_subcategories
 	has_many :articles_categories
 	has_many :categories, :through => :articles_categories
   
-  validates_presence_of :title, :lead
+  validates_presence_of :title, :lead, :author
   validates_length_of :title, :maximum => 80
   validates_length_of :lead, :maximum => 200
 
@@ -34,10 +34,6 @@ class Article < ActiveRecord::Base
     articles = straight_articles + how_to_articles
     articles = articles.sort_by(&:published_at)
     return articles.reverse!
-  end
-
-  def path_method
-    "article_path"
   end
 
 	def self.find_all_by_subcategories(*subcategories)

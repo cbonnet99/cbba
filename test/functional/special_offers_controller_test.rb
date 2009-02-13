@@ -2,13 +2,26 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SpecialOffersControllerTest < ActionController::TestCase
 
+  def test_publish
+    cyrille = users(:cyrille)
+    one = special_offers(:one)
+    old_published_count = cyrille.published_special_offers_count
+    post :publish, {:id => one.id }, {:user_id => cyrille.id }
+    assert_redirected_to special_offer_path(one)
+    cyrille.reload
+    assert_equal old_published_count+1, cyrille.published_special_offers_count
+  end
+  
   def test_create
     cyrille = users(:cyrille)
+    old_size = cyrille.special_offers_count
     post :create, {:special_offer => {:title => "Title", :description => "Description",
       :how_to_book => "Book here", :terms => "Terms here"} }, {:user_id => cyrille.id }
     new_offer = assigns(:special_offer)
     assert_not_nil new_offer
     assert new_offer.errors.blank?, "Errors found in new_offer: #{new_offer.errors.inspect}"
+    cyrille.reload
+    assert_equal old_size+1, cyrille.special_offers_count
 
     #delete special offers directory
     FileUtils.rm_rf(SpecialOffer::PDF_SUFFIX_ABSOLUTE+SpecialOffer::PDF_SUFFIX_RELATIVE)

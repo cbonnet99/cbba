@@ -11,11 +11,11 @@ class SpecialOffersController < ApplicationController
     @special_offer = current_user.special_offers.find(params[:id])
 		@special_offer.publish!
 		flash[:notice] = "Special offer successfully published"
-    redirect_back_or_default root_url
+    redirect_back_or_default @special_offer
 
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not publish this special offer"
-      redirect_back_or_default root_url
+      redirect_back_or_default @special_offer
 	end
   def index
     @special_offers = current_user.special_offers.all

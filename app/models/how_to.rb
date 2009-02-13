@@ -3,7 +3,7 @@ class HowTo < ActiveRecord::Base
   include Workflowable
 
   has_many :how_to_steps, :order => "position", :dependent => :destroy
-  belongs_to :author, :class_name => "User"
+  belongs_to :author, :class_name => "User", :counter_cache => true
 	has_many :how_tos_subcategories
 	has_many :subcategories, :through => :how_tos_subcategories
 	has_many :how_tos_categories
@@ -16,10 +16,6 @@ class HowTo < ActiveRecord::Base
 
 	after_create :create_slug
   after_update :save_steps
-
-  def path_method
-    "how_to_path"
-  end
 
 	def self.id_from_url(url)
 		unless url.nil?
