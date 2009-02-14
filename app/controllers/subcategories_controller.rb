@@ -1,4 +1,9 @@
 class SubcategoriesController < ApplicationController
+
+  def index
+    @subcategories = Subcategory.find(:all, :order =>:name)
+  end
+
 	def show
 		if params[:category_name].nil? || params[:subcategory_name].nil?
 			@subcategory = Subcategory.find(params[:id])

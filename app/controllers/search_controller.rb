@@ -1,5 +1,45 @@
 class SearchController < ApplicationController
 
+  def fuzzy_search
+		@what = params[:fuzzy_what]
+		@where = params[:fuzzy_where]
+    log_user_event "Search fuzzy", "", "what: #{@what}, where: #{@where}"
+		begin
+      if @what.blank?
+        if @where.blank?
+          flash[:error] = "Please enter something in What or Where"
+        else
+          # #this is a location search
+        end
+      else
+        @subcategory = Subcategory.find_by_name(@what)
+        if @subcategory.nil?
+          # #guess a close match
+        else
+          if @where.blank?
+            # #show all results for the whole country
+          else
+            @region = Region.find_by_name(@where)
+            if @region.nil?
+              @district = District.find_by_name(@where)
+              if @district.nil?
+              else
+                @results = User.search_results(nil, @subcategory.id, nil, @district.id, params[:page])
+                log_user_event "Fuzzy search with subcategory", "subcategory: #{@subcategory.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :district_id => @district.id, :results_found => @results.size}
+              end
+            else
+              @results = User.search_results(nil, @subcategory.id, @region.id, nil, params[:page])
+              log_user_event "Fuzzy search with subcategory", "subcategory: #{@subcategory.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :region_id => @region.id, :results_found => @results.size}
+            end
+          end
+        end
+      end
+		rescue ActiveRecord::RecordNotFound
+			@results = []
+			logger.error("ActiveRecord::RecordNotFound in search, parameters: #{params.inspect}")
+		end
+  end
+
   def test
     render :layout => false 
   end
@@ -30,9 +70,9 @@ class SearchController < ApplicationController
 		@where = params[:where]
     log_user_event "Search raw", "", "what: #{@what}, where: #{@where}"
 		begin
-			# when user selects a whole region params[:where] is of form: r-342342
+      # when user selects a whole region params[:where] is of form: r-342342
 			if params[:where].starts_with?("r-")
-				#it is a region
+        # #it is a region
 				@region = Region.find(params[:where].split("-")[1])
 				@region_id = @region.id
 			else

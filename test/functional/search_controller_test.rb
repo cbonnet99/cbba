@@ -47,6 +47,20 @@ class SearchControllerTest < ActionController::TestCase
     assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.category_id
 	end
 
+  def test_fuzzy_search
+		hypnotherapy = subcategories(:hypnotherapy)
+		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+		sgardiner = users(:sgardiner)
+		get :fuzzy_search, :fuzzy_where => canterbury_christchurch_city.name, :fuzzy_what => hypnotherapy.name
+		assert_response :success
+    assert @response.body =~ /Full profile coming soon/
+#		puts "========== #{assigns(:results).inspect}"
+		assert_equal 3, assigns(:results).size
+		#full members should be listed first
+		assert_equal sgardiner, assigns(:results).first, "full members should be listed first"
+    
+  end
+
 	def test_search
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
 		hypnotherapy = subcategories(:hypnotherapy)

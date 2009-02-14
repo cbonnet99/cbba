@@ -1,3 +1,8 @@
+$(document).ready(function(){
+    $("#fuzzy_what").autocomplete(subcategories).setOptions({matchContains: true});
+    $("#fuzzy_where").autocomplete(locations).setOptions({matchContains: true});
+});
+
 U_Core = {};
 
 U_Core.F_SelectCategory = function(id, category_name) {

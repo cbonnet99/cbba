@@ -1,0 +1,4 @@
+var subcategories = new Array(<%= @subcategories.size %>);
+<% @subcategories.each_with_index do |subcategory, index| %>
+subcategories[<%= index %>] = "<%= subcategory.name %>";
+<% end %>
