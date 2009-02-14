@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
   # #named scopes
   named_scope :full_members, :conditions => "free_listing is false"
   named_scope :new_users, :conditions => "new_user is true"
+  named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   
   # #around filters
 	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type
@@ -57,9 +58,18 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
   # submitting a crafted form that bypasses activation anything else you want
   # your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
+
+  def full_info
+    arr = [full_name]
+    arr << main_expertise
+    arr << address1 unless address1.blank?
+    arr << suburb unless suburb.blank?
+    arr << district.name unless district.name.blank?
+    return arr.join("<br/>")
+  end
 
   def no_articles_for_user?(current_user)
     self != current_user && self.articles_count_for_user(current_user) == 0

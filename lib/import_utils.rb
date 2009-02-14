@@ -1,4 +1,5 @@
 require 'csv'
+require 'graticule'
 
 class ImportUtils
 
@@ -19,6 +20,45 @@ class ImportUtils
 			District.find_or_create_by_name_and_region_id(district_str, region.id)
 		end
 	end
+
+  def self.geocode_users(csv_file="users.csv")
+    success = 0
+    errors = 0
+    #TODO: remove hardocded Google Maps API key for BAM
+    geocoder = Graticule.service(:google).new "ABQIAAAAEUGw4om-AL6FPqaNLiT02xTtdy7lWpREaOTRxKljyUIPkk9sUhRgjCWR1VVeuR_sNL62bGyg47HMUw"
+    CSV.open(File.dirname(__FILE__) + "/../csv/geocoded_#{csv_file}", 'w') do |writer|
+      CSV.open(File.dirname(__FILE__) + "/../csv/#{csv_file}", 'r')  do |row|
+        address1 = ImportUtils.strip_and_nil(row[5])
+        suburb = ImportUtils.strip_and_nil(row[6])
+        district_str = ImportUtils.strip_and_nil(row[7])
+        region_str = ImportUtils.strip_and_nil(row[8])
+        unless address1.blank? && suburb.blank?
+          arr = []
+          arr << address1 unless address1.blank?
+          arr << suburb unless suburb.blank?
+          arr << district_str unless district_str.blank?
+          arr << "New Zealand"
+          req_str = arr.join(", ")
+          puts "Locating: #{req_str}"
+          begin
+            location = geocoder.locate(req_str)
+            puts "Found: #{location.inspect}"
+            success += 1
+            latitude = location.latitude
+            longitude = location.longitude
+            row << latitude
+            row << longitude
+          rescue Graticule::AddressError
+            errors += 1
+            puts "Address error"
+          end
+        end
+        writer << row
+      end
+      puts "===== Successfully geocoded #{success} users. Address error on #{errors} users"
+    end
+  end
+
 	def self.import_users(csv_file="users.csv")
 		parsed_file = CSV::Reader.parse(File.open(File.dirname(__FILE__) + "/../csv/#{csv_file}"))
 		User.transaction do
@@ -37,7 +77,7 @@ class ImportUtils
 					phone = ImportUtils.strip_and_nil(row[9])
 					mobile = ImportUtils.strip_and_nil(row[10])
 					email = ImportUtils.strip_and_nil(row[11])
-					category_str = ImportUtils.strip_and_nil(row[12])
+          # # 				category_str = ImportUtils.strip_and_nil(row[12])
 					subcategory_str = ImportUtils.strip_and_nil(row[13])
 					role_str = ImportUtils.strip_and_nil(row[15])
 					if role_str == "2"
@@ -47,6 +87,9 @@ class ImportUtils
 					end
 					receive_newsletter_str = ImportUtils.strip_and_nil(row[17])
 					receive_newsletter = (receive_newsletter_str =="Yes")
+
+          latitude = ImportUtils.strip_and_nil(row[18])
+          longitude = ImportUtils.strip_and_nil(row[19])
 					region = Region.find_by_name(region_str)
 					if region.nil?
 						raise "Error: region #{region_str} could not be found"
@@ -57,7 +100,9 @@ class ImportUtils
 						raise "Error: district #{district_str} could not be found"
 						puts "No user was added"
 					end
-					category = Category.find_or_create_by_name(category_str.strip.capitalize)
+          # # 				category =
+          # Category.find_or_create_by_name(category_str.strip.capitalize)
+					category = Category.find_or_create_by_name("All")
 					subcategory = Subcategory.find_or_create_by_name_and_category_id(subcategory_str.strip.capitalize, category.id)
 					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
@@ -65,10 +110,11 @@ class ImportUtils
 						:free_listing => (role == free_listing), :professional => true,
 						:password => "blablabla", :password_confirmation => "blablabla",
             :subcategory1_id => subcategory.id, :category_id => category.id,
-						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing" )
+						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing",
+            :latitude => latitude, :longitude => longitude )
 					user.register!
 					user.activate!
-          #publish profile
+          # #publish profile
           user.user_profile.publish!
 					puts "Added user #{user.name}"
 					user_count += 1

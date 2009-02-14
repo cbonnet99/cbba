@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ImporUtilsTest < ActiveSupport::TestCase
 
+
 	def test_import_districts
 		old_count = District.count
 		ImportUtils.import_districts

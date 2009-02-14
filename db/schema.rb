@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090213033703) do
+ActiveRecord::Schema.define(:version => 20090214092836) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -175,7 +175,6 @@ ActiveRecord::Schema.define(:version => 20090213033703) do
     t.string   "city"
     t.string   "card_type"
     t.date     "card_expires_on"
-    t.string   "type"
   end
 
   create_table "regions", :force => true do |t|
@@ -347,6 +346,8 @@ ActiveRecord::Schema.define(:version => 20090213033703) do
     t.integer  "published_articles_count",                      :default => 0
     t.integer  "published_how_tos_count",                       :default => 0
     t.integer  "published_special_offers_count",                :default => 0
+    t.string   "latitude"
+    t.string   "longitude"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

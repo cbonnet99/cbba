@@ -45,12 +45,17 @@ class SearchController < ApplicationController
   end
 
 	def index
-    @newest_straight_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
-    @newest_howto_articles = HowTo.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
-    @newest_articles = @newest_straight_articles + @newest_howto_articles
-    @newest_articles = @newest_articles.sort_by(&:published_at)
-    @newest_articles.reverse!
-    @newest_articles = @newest_articles[0..$number_articles_on_homepage-1]
+    @map = GMap.new("map_div_id")
+    @map.control_init(:large_map => true, :map_type => true)
+    @map.center_zoom_init([-41.3,172.5], 5)
+
+    User.geocoded.each do |u|
+      marker = GMarker.new([u.latitude, u.longitude],
+       :title => u.full_name, :info_window => u.full_info)
+      @map.overlay_init(marker)
+    end
+    
+    @newest_articles = Article.all_newest_articles
     @total_straight_articles = Article.count(:all, :conditions => "state='published'")
     @total_howto_articles = HowTo.count(:all, :conditions => "state='published'")
     @total_articles = @total_straight_articles+@total_howto_articles

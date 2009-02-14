@@ -40,6 +40,15 @@ class Article < ActiveRecord::Base
 		Article.find_by_sql(["select a.* from articles a, articles_subcategories asub where a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
 	end
 
+  def self.all_newest_articles
+    newest_straight_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
+    newest_howto_articles = HowTo.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
+    newest_articles = newest_straight_articles + newest_howto_articles
+    newest_articles = newest_articles.sort_by(&:published_at)
+    newest_articles.reverse!
+    return newest_articles[0..$number_articles_on_homepage-1]
+  end
+
 	def self.count_all_by_subcategories(*subcategories)
 		User.count_by_sql(["select count(a.*) as count from articles a, articles_subcategories asub where a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
 	end

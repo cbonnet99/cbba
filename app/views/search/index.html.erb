@@ -6,6 +6,8 @@
           <li>Search our &quot;how to&quot; articles</li>
           <li>Find courses &amp; events</li>
 </ul>
+<%= @map.to_html %>  
+<%= @map.div(:width => 600, :height => 400) %> 
 <% unless @newest_full_members.empty? -%>
   <h3>New well-being providers</h3>
   <div id="homepage-full-members">
@@ -19,7 +21,7 @@
   <% end -%>
 <% end -%>
 <% unless @newest_articles.empty? -%>
-  <h3>Articles</h3>
+  <h3>New articles</h3>
   <ul id="homepage-articles" class="simple">
     <% @newest_articles.each do |a| -%>
       <li class="<%= cycle('odd', 'even')%> ">
