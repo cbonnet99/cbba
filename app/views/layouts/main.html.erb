@@ -44,20 +44,23 @@
 
         <div class="column" id="middle"><div class="column-in">
             <div id="search">
-              <% form_tag :controller => "search", :action => "simple_search" do  -%>
-                <%= text_field_tag :category_id, @category_id, {:id => "search_category_id", :type => "hidden"}  %>
-                <span><label for="what">What:</label><%= select_tag :what, @what_subcategories  %></span>
-                <span><label for="where">Where:</label><%= select_tag :where, @where_districts  %></span>
-                <%= submit_tag "Search" %>
-              <% end -%>
               <% form_tag :controller => "search", :action => "fuzzy_search" do  -%>
+                <div id="what-wrapper" class="search-wrapper">
                 <label for="fuzzy_what">What: </label>
-                <input type="text" id="fuzzy_what" name="fuzzy_what" value="<%=params[:fuzzy_what]%>" />
+                <input class="text" type="text" id="fuzzy_what" name="fuzzy_what" value="<%=params[:fuzzy_what]%>" />
+                <p>Examples: yoga, acupuncture, life coaching, etc.</p>
+                </div>
+                <div id="where-wrapper" class="search-wrapper">
                 <label for="fuzzy_where">Where: </label>
-                <input type="text" id="fuzzy_where" name="fuzzy_where" value="<%=params[:fuzzy_where]%>"  />
-                <%= submit_tag "Search" %>
+                <input class="text" type="text" id="fuzzy_where" name="fuzzy_where" value="<%=params[:fuzzy_where]%>"  />
+                <p>Examples: wellington, canterbury, auckland, etc.</p>
+                </div>
+                <div id="search-submit-wrapper" class="search-wrapper">
+                  <%= submit_tag "Search", :class => "submit"  %>
+                </div>
                <%end%>
             </div>
+            <div class="cleaner"></div>
             <div id="mccont">
               <%= flash_messages %>
               <%= yield :layout %>

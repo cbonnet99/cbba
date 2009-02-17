@@ -85,7 +85,7 @@ class SearchController < ApplicationController
 
 	def index
     @map = GMap.new("map_div_id")
-    @map.control_init(:large_map => true, :map_type => true)
+    @map.control_init(:large_map => false, :map_type => true)
     @map.center_zoom_init([-41.3,172.5], 5)
 
     User.geocoded.each do |u|
