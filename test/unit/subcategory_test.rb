@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SubcategoryTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_from_param
+    hypnotherapy = subcategories(:hypnotherapy)
+    assert_equal hypnotherapy, Subcategory.from_param(hypnotherapy.name)
+    assert_nil Subcategory.from_param(nil)
+    assert_nil Subcategory.from_param('')
+    assert_nil Subcategory.from_param('whatever')
+  end
+
   def test_validate
 		yoga = subcategories(:yoga)
     new_subcat = Subcategory.create(:category_id => yoga.category_id, :name => yoga.name)

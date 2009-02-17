@@ -2,6 +2,12 @@ class District < ActiveRecord::Base
   has_many :users
 	belongs_to :region
 
+  def self.from_param(param)
+    unless param.blank?
+      return find_by_name(param)
+    end
+  end
+  
 	def self.options(region_id, selected_district_id=nil)
 		old_region_name = ""
 		District.find(:all, :include => "region",  :order => "regions.name, districts.name").inject(""){|memo, d|

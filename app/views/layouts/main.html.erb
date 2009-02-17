@@ -44,7 +44,7 @@
 
         <div class="column" id="middle"><div class="column-in">
             <div id="search">
-              <% form_tag :controller => "search", :action => "search" do  -%>
+              <% form_tag :controller => "search", :action => "simple_search" do  -%>
                 <%= text_field_tag :category_id, @category_id, {:id => "search_category_id", :type => "hidden"}  %>
                 <span><label for="what">What:</label><%= select_tag :what, @what_subcategories  %></span>
                 <span><label for="where">Where:</label><%= select_tag :where, @where_districts  %></span>
@@ -52,9 +52,9 @@
               <% end -%>
               <% form_tag :controller => "search", :action => "fuzzy_search" do  -%>
                 <label for="fuzzy_what">What: </label>
-                <input type="text" id="fuzzy_what" name="fuzzy_what" />
+                <input type="text" id="fuzzy_what" name="fuzzy_what" value="<%=params[:fuzzy_what]%>" />
                 <label for="fuzzy_where">Where: </label>
-                <input type="text" id="fuzzy_where" name="fuzzy_where" />
+                <input type="text" id="fuzzy_where" name="fuzzy_where" value="<%=params[:fuzzy_where]%>"  />
                 <%= submit_tag "Search" %>
                <%end%>
             </div>

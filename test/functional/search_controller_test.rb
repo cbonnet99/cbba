@@ -58,7 +58,40 @@ class SearchControllerTest < ActionController::TestCase
 		assert_equal 3, assigns(:results).size
 		#full members should be listed first
 		assert_equal sgardiner, assigns(:results).first, "full members should be listed first"
-    
+  end
+
+  def test_fuzzy_empty_search
+		get :fuzzy_search, :fuzzy_where => '', :fuzzy_what => ''
+		assert_redirected_to root_url
+    assert_equal "Please enter something in What or Where", flash[:error]
+  end
+  
+  def test_fuzzy_search_district_no_subcat
+		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+		get :fuzzy_search, :fuzzy_where => canterbury_christchurch_city.name, :fuzzy_what => ''
+		assert_response :success
+    assert !assigns(:results).empty?
+  end
+
+  def test_fuzzy_search_region_no_subcat
+		canterbury = regions(:canterbury)
+		get :fuzzy_search, :fuzzy_where => canterbury.name, :fuzzy_what => ''
+		assert_response :success
+    assert !assigns(:results).empty?
+  end
+
+  def test_fuzzy_search_no_location_subcat
+    hypnotherapy = subcategories(:hypnotherapy)
+		get :fuzzy_search, :fuzzy_where => '', :fuzzy_what => hypnotherapy.name
+		assert_response :success
+    assert !assigns(:results).empty?
+    assert_match %r{Search results for #{hypnotherapy.name}}, @response.body
+  end
+
+  def test_fuzzy_search_no_location_category
+		get :fuzzy_search, :fuzzy_where => '', :fuzzy_what => categories(:practitioners).name
+		assert_response :success
+    assert !assigns(:results).empty?
   end
 
 	def test_search
@@ -67,7 +100,7 @@ class SearchControllerTest < ActionController::TestCase
 		sgardiner = users(:sgardiner)
 #    norma = users(:norma)
 #    norma.user_profile.publish!
-		get :search, :where => canterbury_christchurch_city.id, :what => hypnotherapy.id
+		get :simple_search, :where => canterbury_christchurch_city.id, :what => hypnotherapy.id
 		assert_response :success
     assert @response.body =~ /Full profile coming soon/
 #		puts "========== #{assigns(:results).inspect}"
@@ -79,7 +112,7 @@ class SearchControllerTest < ActionController::TestCase
 	def test_search_no_subcategory
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
 		practitioners = categories(:practitioners)
-		get :search, :where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id
+		get :simple_search, :where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id
 		assert_response :success
 		assert_equal 3, assigns(:results).size
 	end
@@ -87,8 +120,9 @@ class SearchControllerTest < ActionController::TestCase
 	def test_search_no_subcategory_all_area
 		canterbury = regions(:canterbury)
 		practitioners = categories(:practitioners)
-		get :search, :where => "r-#{canterbury.id}", :what => nil, :category_id => practitioners.id
+		get :simple_search, :where => "r-#{canterbury.id}", :what => nil, :category_id => practitioners.id
 		assert_response :success
+    assert_match %r{Search results for Practitioners in Canterbury}, @response.body
 #    puts "========= assigns(:results):"
 #    assigns(:results).each do |r|
 #      puts r.name
@@ -103,7 +137,7 @@ class SearchControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
 		practitioners = categories(:practitioners)
-		get :search, {:where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id}, {:user_id => cyrille.id }
+		get :simple_search, {:where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id}, {:user_id => cyrille.id }
 		assert_response :success
 		#User cyrille is logged but has selected a different district than his default
 		assert_select "select#where > option[value=#{canterbury_christchurch_city.id}][selected=selected]"

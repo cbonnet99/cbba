@@ -3,6 +3,12 @@ class Region < ActiveRecord::Base
 	has_many :districts
   after_create :create_slug
 
+  def self.from_param(param)
+    unless param.blank?
+      return find_by_name(param)
+    end
+  end
+  
   def to_param
     slug
   end

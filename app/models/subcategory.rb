@@ -7,6 +7,12 @@ class Subcategory < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:category_id], :message => "must be unique in this category"
   after_create :create_slug
 
+  def self.from_param(param)
+    unless param.blank?
+      return find_by_name(param)
+    end
+  end
+
   def to_param
     slug
   end
