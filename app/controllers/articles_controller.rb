@@ -3,6 +3,17 @@ class ArticlesController < ApplicationController
   before_filter :login_required, :only => [:new, :create, :destroy, :publish]
 	after_filter :store_location, :only => [:show]
 
+	def unpublish
+    @article = current_user.articles.find(params[:id])
+		@article.remove!
+		flash[:notice] = "Article is no longer published"
+    redirect_back_or_default root_url
+
+		rescue ActiveRecord::RecordNotFound => e
+			flash[:error] = "You can not unpublish this article"
+      redirect_back_or_default root_url
+	end
+
 	def publish
     @article = current_user.articles.find(params[:id])
 		@article.publish!

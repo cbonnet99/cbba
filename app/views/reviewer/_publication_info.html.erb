@@ -10,6 +10,12 @@
   <%end -%>
   </div>
 <%end-%>
+<%if item.published? && is_author?(item) && current_user.active? -%>
+  <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/unpublish" do -%>
+      <%= submit_tag "Unpublish", :class => "button"  %>
+  <%end -%>
+  </div>
+<%end-%>
 <% if item.reviewable? && is_reviewer? -%>
   <div id="reviewer-actions">
   <% form_tag '/reviewer/approve' do -%>

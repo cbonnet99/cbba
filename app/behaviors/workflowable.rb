@@ -17,7 +17,7 @@ module Workflowable
     end
 
     base.send :aasm_event, :remove do
-      transitions :from => :published, :to => :draft
+      transitions :from => :published, :to => :draft, :on_transition => :remove_published_information_and_decrement_count
     end
 
     base.send :aasm_event, :reject do
@@ -50,6 +50,14 @@ module Workflowable
 
     def workflow_css_class
       "workflow-#{self.state}"
+    end
+
+    def remove_published_information_and_decrement_count
+      self.update_attributes(:approved_at => nil, :approved_by => nil, :published_at => nil)
+      unless self.class.to_s == "UserProfile"
+        sym = "published_#{self.class.to_s.tableize}_count".to_sym
+        self.author.update_attribute(sym, self.author.send(sym)-1)
+      end
     end
 
   	def email_reviewers_and_increment_count

@@ -123,14 +123,6 @@ class SearchControllerTest < ActionController::TestCase
 		get :simple_search, :where => "r-#{canterbury.id}", :what => nil, :category_id => practitioners.id
 		assert_response :success
     assert_match %r{Search results for Practitioners in Canterbury}, @response.body
-#    puts "========= assigns(:results):"
-#    assigns(:results).each do |r|
-#      puts r.name
-#    end
-		assert_equal 4, assigns(:results).size
-		assert_select "select[name=where]" do
-			assert_select "option[value=r-#{canterbury.id}][selected=selected]"
-		end
 	end
 
 	def test_search_while_logged_in
@@ -139,8 +131,6 @@ class SearchControllerTest < ActionController::TestCase
 		practitioners = categories(:practitioners)
 		get :simple_search, {:where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id}, {:user_id => cyrille.id }
 		assert_response :success
-		#User cyrille is logged but has selected a different district than his default
-		assert_select "select#where > option[value=#{canterbury_christchurch_city.id}][selected=selected]"
 	end
 
   def test_tag

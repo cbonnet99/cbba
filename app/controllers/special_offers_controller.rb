@@ -17,6 +17,18 @@ class SpecialOffersController < ApplicationController
 			flash[:error] = "You can not publish this special offer"
       redirect_back_or_default @special_offer
 	end
+
+	def unpublish
+    @special_offer = current_user.special_offers.find(params[:id])
+		@special_offer.remove!
+		flash[:notice] = "Special offer is no longer published"
+    redirect_back_or_default @special_offer
+
+		rescue ActiveRecord::RecordNotFound => e
+			flash[:error] = "You can not unpublish this special offer"
+      redirect_back_or_default @special_offer
+	end
+
   def index
     @special_offers = current_user.special_offers.all
   end

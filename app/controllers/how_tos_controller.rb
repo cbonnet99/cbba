@@ -3,12 +3,23 @@ class HowTosController < ApplicationController
   before_filter :login_required, :only => [:new, :create, :destroy, :publish]
 	after_filter :store_location, :only => [:show]
 
+	def unpublish
+    @how_to = current_user.how_tos.find(params[:id])
+		@how_to.remove!
+		flash[:notice] = "How to article is no longer published"
+    redirect_back_or_default root_url
+
+		rescue ActiveRecord::RecordNotFound => e
+			flash[:error] = "You can not unpublish this article"
+      redirect_back_or_default root_url
+	end
+
 	def publish
     @how_to = current_user.how_tos.find(params[:id])
 		@how_to.publish!
 		flash[:notice] = "How to article successfully published"
     redirect_back_or_default root_url
-    
+
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not publish this article"
       redirect_back_or_default root_url

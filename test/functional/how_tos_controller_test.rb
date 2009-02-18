@@ -40,6 +40,20 @@ class HowTosControllerTest < ActionController::TestCase
     assert_equal old_size+1, cyrille.published_how_tos_count
 	end
 
+	def test_unpublish
+		money = how_tos(:money)
+		cyrille = users(:cyrille)
+    old_size = cyrille.published_how_tos_count
+
+		post :unpublish, {:id => money.id }, {:user_id => cyrille.id}
+		assert_redirected_to root_url
+		money.reload
+		assert_nil money.published_at
+
+    cyrille.reload
+    assert_equal old_size-1, cyrille.published_how_tos_count
+	end
+
   def test_show
     get :show, {:id => how_tos(:improve).id }, {:user_id => users(:cyrille).id }
     assert_response :success

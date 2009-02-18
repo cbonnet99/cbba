@@ -11,7 +11,17 @@ class SpecialOffersControllerTest < ActionController::TestCase
     cyrille.reload
     assert_equal old_published_count+1, cyrille.published_special_offers_count
   end
-  
+
+  def test_unpublish
+    cyrille = users(:cyrille)
+    free_trial = special_offers(:free_trial)
+    old_published_count = cyrille.published_special_offers_count
+    post :unpublish, {:id => free_trial.id }, {:user_id => cyrille.id }
+    assert_redirected_to special_offer_path(free_trial)
+    cyrille.reload
+    assert_equal old_published_count-1, cyrille.published_special_offers_count
+  end
+
   def test_create
     cyrille = users(:cyrille)
     old_size = cyrille.special_offers_count
