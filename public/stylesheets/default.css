@@ -1,3 +1,23 @@
+
+.notice{
+    width: 400px;
+    color: #666;
+    font-size: x-small;
+}
+.important{
+    color: #C00;
+}
+#enlarge-map a img{
+    border: 0;
+    }
+#enlarge-map{
+    text-align: right;
+}
+
+#first-home-paragraph-text, #first-home-paragraph-map {
+    float: left;
+}
+
 #search p{
    font-size: x-small;
    line-height: 1.2em;

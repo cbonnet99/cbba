@@ -62,6 +62,14 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def self.map_geocoded(map)
+    User.geocoded.each do |u|
+      marker = GMarker.new([u.latitude, u.longitude],
+       :title => u.full_name, :info_window => u.full_info)
+      map.overlay_init(marker)
+    end
+  end
+
   def full_info
     arr = [full_name]
     arr << main_expertise

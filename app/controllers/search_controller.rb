@@ -79,20 +79,19 @@ class SearchController < ApplicationController
 		end
   end
 
-  def test
-    render :layout => false 
+  def map
+    @map = GMap.new("map_div_id")
+    @map.control_init(:large_map => true, :map_type => true)
+    @map.center_zoom_init([-41.3,172.5], 5)
+    User.map_geocoded(@map)
+
   end
 
 	def index
     @map = GMap.new("map_div_id")
     @map.control_init(:large_map => false, :map_type => true)
-    @map.center_zoom_init([-41.3,172.5], 5)
-
-    User.geocoded.each do |u|
-      marker = GMarker.new([u.latitude, u.longitude],
-       :title => u.full_name, :info_window => u.full_info)
-      @map.overlay_init(marker)
-    end
+    @map.center_zoom_init([-41.3,172.5], 4)
+    User.map_geocoded(@map)
     
     @newest_articles = Article.all_newest_articles
     @total_straight_articles = Article.count(:all, :conditions => "state='published'")

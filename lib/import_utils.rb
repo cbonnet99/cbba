@@ -77,7 +77,7 @@ class ImportUtils
 					phone = ImportUtils.strip_and_nil(row[9])
 					mobile = ImportUtils.strip_and_nil(row[10])
 					email = ImportUtils.strip_and_nil(row[11])
-          # # 				category_str = ImportUtils.strip_and_nil(row[12])
+#          category_str = ImportUtils.strip_and_nil(row[12])
 					subcategory_str = ImportUtils.strip_and_nil(row[13])
 					role_str = ImportUtils.strip_and_nil(row[15])
 					if role_str == "2"
@@ -100,8 +100,7 @@ class ImportUtils
 						raise "Error: district #{district_str} could not be found"
 						puts "No user was added"
 					end
-          # # 				category =
-          # Category.find_or_create_by_name(category_str.strip.capitalize)
+#          category = Category.find_or_create_by_name(category_str.strip.capitalize)
 					category = Category.find_or_create_by_name("All")
 					subcategory = Subcategory.find_or_create_by_name_and_category_id(subcategory_str.strip.capitalize, category.id)
 					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,

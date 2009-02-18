@@ -28,9 +28,8 @@ ActionController::Routing::Routes.draw do |map|
 	map.reviewer 'reviewer/:action', :controller => "reviewer"
 	map.category '/category/:category_name', :controller => "categories", :action => "show"
 	map.subcategory '/category/:category_name/subcategory/:subcategory_name', :controller => "subcategories", :action => "show"
-  map.test_search_action '/search/test', :controller => 'search', :action => "test"
-  map.search_action '/fuzzy_search', :controller => 'search', :action => "fuzzy_search"
-  map.search_action '/simple_search', :controller => 'search', :action => "simple_search"
+  map.fuzzy_search_action '/fuzzy_search', :controller => 'search', :action => "fuzzy_search"
+  map.search_action '/search/:action', :controller => 'search'
   map.search_action_id '/search/:id/:action', :controller => 'search'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'

@@ -1,13 +1,22 @@
+<%  content_for(:head, GMap.header)%>
 <%= title 'Welcome to beamazing.co.nz', :h2 %>
-<p>New Zealand premier site for health, wellbeing and development</p>
-<ul>
-          <li>Find wellbeing providers</li>
-          <li>Connect with Resident Experts</li>
-          <li>Search our &quot;how to&quot; articles</li>
-          <li>Find courses &amp; events</li>
-</ul>
-<%= @map.to_html %>  
-<%= @map.div(:width => 300, :height => 200) %>
+<div id="first-home-paragraph">
+  <div id="first-home-paragraph-map">
+       <%= @map.to_html %>
+       <%= @map.div(:width => 300, :height => 200) %>
+       <p id="enlarge-map"><%= link_to("Enlarge map", search_action_url(:action => "map"))%><%= link_to(image_tag("/images/magnifier.jpg"), search_action_url(:action => "map"))%></p>
+  </div>
+  <div id="first-home-paragraph-text">
+    <p>New Zealand premier site for health, wellbeing and development</p>
+    <ul>
+      <li>Find wellbeing providers</li>
+      <li>Connect with Resident Experts</li>
+      <li>Search our &quot;how to&quot; articles</li>
+      <li>Find courses &amp; events</li>
+    </ul>
+  </div>
+</div>
+<br class="cleaner"/>
 <% unless @newest_full_members.empty? -%>
   <h3>New well-being providers</h3>
   <div id="homepage-full-members">
