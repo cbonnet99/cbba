@@ -74,8 +74,8 @@ class ImportUtils
 					suburb = ImportUtils.strip_and_nil(row[6])
 					district_str = ImportUtils.strip_and_nil(row[7])
 					region_str = ImportUtils.strip_and_nil(row[8])
-					phone = ImportUtils.strip_and_nil(row[9])
-					mobile = ImportUtils.strip_and_nil(row[10])
+					phone_array = ImportUtils.decompose_phone_number(ImportUtils.strip_and_nil(row[9]))
+					mobile_array = ImportUtils.decompose_mobile_number(ImportUtils.strip_and_nil(row[10]))
 					email = ImportUtils.strip_and_nil(row[11])
 #          category_str = ImportUtils.strip_and_nil(row[12])
 					subcategory_str = ImportUtils.strip_and_nil(row[13])
@@ -105,7 +105,7 @@ class ImportUtils
 					subcategory = Subcategory.find_or_create_by_name_and_category_id(subcategory_str.strip.capitalize, category.id)
 					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
-						:region_id => region.id, :phone => phone, :mobile => mobile, :email => email,
+						:region_id => region.id, :phone_prefix => phone_array[0], :phone_suffix => phone_array[1], :mobile_prefix => mobile_array[0], :mobile_suffix => mobile_array[1], :email => email,
 						:free_listing => (role == free_listing), :professional => true,
 						:password => "blablabla", :password_confirmation => "blablabla",
             :subcategory1_id => subcategory.id, :category_id => category.id,
@@ -122,4 +122,22 @@ class ImportUtils
 			end
 		end
 	end
+
+  def self.decompose_phone_number(number_str)
+    if number_str.blank?
+      return number_str
+    else
+      number_str.gsub!(/ /, '').gsub!(/-/, '')
+      return [number_str[0,2], number_str[2,number_str.size]]
+    end
+  end
+
+  def self.decompose_mobile_number(number_str)
+    if number_str.blank?
+      return number_str
+    else
+      number_str.gsub!(/ /, '').gsub!(/-/, '')
+    return [number_str[0,3], number_str[3,number_str.size]]
+    end
+  end
 end

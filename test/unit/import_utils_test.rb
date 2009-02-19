@@ -1,7 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ImporUtilsTest < ActiveSupport::TestCase
+class ImportUtilsTest < ActiveSupport::TestCase
 
+
+  def test_decompose_phone_number
+    assert_equal ['09', '1234567'], ImportUtils.decompose_phone_number(" 09-123 45-67")
+  end
+
+  def test_decompose_mobile_number
+    assert_equal ['021', '1234567'], ImportUtils.decompose_mobile_number(" 021-123 45-67")
+  end
 
 	def test_import_districts
 		old_count = District.count
@@ -29,6 +37,9 @@ class ImporUtilsTest < ActiveSupport::TestCase
 		assert !annette.phone.blank?
     assert_equal 1, annette.roles.find_all_by_name("full_member").size
     assert_not_nil annette.user_profile
+		norma = User.find_by_email("norma@eurekacoaching.co.nz")
+    assert_equal "04-8018847", norma.phone
+    assert_equal "021-549923", norma.mobile
 
 
     assert_equal 2, annette.tabs.size
