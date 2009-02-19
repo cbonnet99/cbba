@@ -53,11 +53,22 @@ class UsersController < ApplicationController
       flash[:notice] = "Your profile was successfully published"
       redirect_back_or_default root_url
     else
-      flash[:error] = "Your profile is laready published"
+      flash[:error] = "Your profile is already published"
       redirect_back_or_default root_url
     end
 	end
-  
+
+	def unpublish
+    if current_user.user_profile.published?
+      current_user.user_profile.remove!
+      flash[:notice] = "Your profile is no longer published"
+      redirect_back_or_default root_url
+    else
+      flash[:error] = "Your profile is not published"
+      redirect_back_or_default root_url
+    end
+	end
+
   def show
     @user = User.find_by_slug(params[:name])
     if @user.nil? || !@user.full_member?

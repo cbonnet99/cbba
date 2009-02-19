@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :invoices
+
   map.resources :special_offers
 
   map.resources :orders
@@ -58,7 +60,7 @@ ActionController::Routing::Routes.draw do |map|
   map.more_about_resident_expert '/users/more_about_resident_expert', :controller => 'users', :action => "more_about_resident_expert"
   map.user_membership '/users/membership', :controller => 'users', :action => "membership"
   map.user_publish '/users/publish', :controller => 'users', :action => "publish"
-  map.user_profile_publish '/user_profiles/:id/publish', :controller => 'users', :action => "publish"
+  map.user_profile_action '/user_profiles/:id/:action', :controller => 'users'
   map.user_new_photo '/users/new_photo', :controller => 'users', :action => "new_photo"
   map.user_create_photo '/users/create_photo', :controller => 'users', :action => "create_photo"
   

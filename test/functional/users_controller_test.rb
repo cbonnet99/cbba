@@ -123,10 +123,28 @@ class UsersControllerTest < ActionController::TestCase
     coaching = categories(:coaching)
     get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => cyrille.id }
     assert_response :success
-    # #Cyrille's profile is already published: not button should be shown
+    # #Cyrille's profile is already published: Unpublish button should be shown
     assert_select "input[value=Publish]", :count => 0
+    assert_select "input[value=Unpublish]"
     assert_select "a", :text => "2 articles"
     assert_select "a", :text => "2 special offers"
+  end
+
+  def test_show_not_own_profile
+    cyrille = users(:cyrille)
+    norma = users(:norma)
+    auckland = regions(:auckland)
+    coaching = categories(:coaching)
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => norma.id }
+    assert_response :success
+    # #Cyrille's profile is already published: Unpublish button should be shown
+    assert_select "input[value=Publish]", :count => 0
+    assert_select "input[value=Unpublish]", :count => 0
+    #only one published article
+    assert_select "a", :text => "1 article"
+    
+    #only one published special offer
+    assert_select "a", :text => "1 special offer"
   end
 
   def test_show_number_published_articles
