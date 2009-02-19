@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090214092836) do
+ActiveRecord::Schema.define(:version => 20090219015207) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -138,6 +138,14 @@ ActiveRecord::Schema.define(:version => 20090214092836) do
   add_index "how_tos_subcategories", ["how_to_id"], :name => "index_how_tos_subcategories_on_how_to_id"
   add_index "how_tos_subcategories", ["subcategory_id"], :name => "index_how_tos_subcategories_on_subcategory_id"
 
+  create_table "invoices", :force => true do |t|
+    t.integer  "payment_id"
+    t.string   "filename"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.binary   "pdf"
+  end
+
   create_table "passwords", :force => true do |t|
     t.integer  "user_id"
     t.string   "reset_code"
@@ -175,6 +183,7 @@ ActiveRecord::Schema.define(:version => 20090214092836) do
     t.string   "city"
     t.string   "card_type"
     t.date     "card_expires_on"
+    t.integer  "gst"
   end
 
   create_table "regions", :force => true do |t|

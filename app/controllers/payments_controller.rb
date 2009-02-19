@@ -30,7 +30,7 @@ class PaymentsController < ApplicationController
     params[:payment].merge!(:ip_address => request.remote_ip)
     if @payment.update_attributes(params[:payment])
       if @payment.purchase
-        render :action => "thank_you"
+        render :action => Payment::REDIRECT_PAGES[@payment.payment_type.to_sym]
       else
         logger.debug "======= #{@payment.errors.inspect}"
         render :action => 'edit'

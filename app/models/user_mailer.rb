@@ -2,6 +2,17 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
 
+  def payment_invoice(user, payment, invoice)
+    setup_email(user)
+		@subject << "Invoice for your payment"
+    @body[:payment] = payment
+		@body[:url] = payments_path
+    attachment :content_type => "application/pdf",
+     :body => invoice.pdf,
+     :filename => invoice.filename
+
+  end
+
   def membership_expired_today(user)
     setup_email(user)
 		@subject << "Your membership has expired"

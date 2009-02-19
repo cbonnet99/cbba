@@ -3,24 +3,53 @@ class Payment < ActiveRecord::Base
   TYPES = {:full_member => {:payment_type => "new", :title => "Full membership for 1 year", :amount => 9999 },
     :renew_full_member => {:payment_type => "renewal", :title => "Renewal of full membership for 1 year", :amount => 19999 }
   }
+  REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal"}
+
+  GST = 1250
 
   belongs_to :user
   has_one :order
+  has_one :invoice
   has_many :transactions, :class_name => "PaymentTransaction"
 
   attr_accessor :card_number, :card_verification
 
   validate_on_update :validate_card
+  before_create :compute_gst
 
   named_scope :pending, :conditions => "status ='pending'"
   named_scope :renewals, :conditions => "payment_type = 'renewal'"
 
+  def total
+    amount+gst
+  end
+
+  def compute_gst
+    my_divmod = (GST*amount).divmod(10000)
+    diviseur = my_divmod[0]
+    reste = my_divmod[1]
+    diviseur += 1 if reste > 5000
+    self.gst = diviseur
+
+  end
+
+  def completed?
+    !status.nil? && status == "completed"
+  end
+
+  def pending?
+    !status.nil? && status == "pending"
+  end
+
   def purchase
     response = GATEWAY.purchase(amount, credit_card, purchase_options)
     logger.debug "============ response: #{response.inspect}"
-    transactions.create!(:action => "purchase", :amount => amount, :response => response)
+    transactions.create!(:action => "purchase", :amount => total, :response => response)
     if response.success?
       update_attribute(:status, "completed")
+      #create invoice
+      @invoice = Invoice.create(:payment_id => self.id )
+      update_attribute(:invoice_number, @invoice.filename)
       user.member_since = Time.now if user.member_since.nil?
       if user.member_until.nil?
         user.member_until = 1.year.from_now
@@ -34,6 +63,8 @@ class Payment < ActiveRecord::Base
       end
       user.save!
       user.activate! unless user.active?
+      #finally send an email with invoice
+      UserMailer.deliver_payment_invoice(user, self, @invoice)
     end
     response.success?
   end

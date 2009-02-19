@@ -1,6 +1,8 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "payments" }  %>
 <%= title "Your payments", :h2  %>
 
+Do you want to make a new payment? You will find a link in <%= link_to "your membership", :controller => "users", :action => "membership" %>
+
 <table id="payments">
   <tr>
     <th>Status</th>
@@ -8,6 +10,7 @@
     <th>Amount</th>
     <th>Date</th>
     <th>Action</th>
+    <th>Invoice</th>
   </tr>
 
 <% for payment in @payments %>
@@ -16,7 +19,8 @@
     <td><%=h payment.title %></td>
     <td><%=h amount_view(payment.amount.to_s) %></td>
     <td><%=h payment.created_at %></td>
-    <td><% if payment.status == "pending"%><%=link_to "Complete", edit_payment_path(payment)%><%else%>None required<%end%> </td>
+    <td><% if payment.pending?%><%=link_to "Complete", edit_payment_path(payment)%><%else%>None required<%end%> </td>
+    <td><% if payment.completed? && !payment.invoice.nil?%><%= link_to payment.invoice.filename, invoice_path(payment.invoice)%><%end%></td>
   </tr>
 <% end %>
 </table>

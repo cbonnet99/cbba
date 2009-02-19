@@ -4,6 +4,19 @@ class PaymentTest < ActiveSupport::TestCase
   fixtures :all
   include ApplicationHelper
 
+
+  #for GST calculations, see http://www.ird.govt.nz/technical-tax/general-articles/qwba-gst-5cent-coin-rounding.html
+  #IMPORTANT: the numbers quoted in the article above are INCLUSIVE of GST
+  def test_compute_gst
+    payment = Payment.create(:amount => 2302 )
+    assert_equal 288, payment.gst
+  end
+
+  def test_compute_gst2
+    payment = Payment.create(:amount => 2293 )
+    assert_equal 287, payment.gst
+  end
+
   def test_amount_view
     assert_equal "$101.45", amount_view(10145)
   end
@@ -22,6 +35,10 @@ class PaymentTest < ActiveSupport::TestCase
   end
 
   def test_purchase
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
     pending_user = users(:pending_user)
     payment = pending_user.payments.create!(Payment::TYPES[:full_member])
     payment.update_attributes(:card_number => "1", :card_expires_on => Time.now)
@@ -29,6 +46,8 @@ class PaymentTest < ActiveSupport::TestCase
     pending_user.reload
     assert_equal Time.now.to_date, pending_user.member_since.to_date
     assert_equal 1.year.from_now.to_date, pending_user.member_until.to_date
+    #an email should have been sent
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
   def test_purchase_renew

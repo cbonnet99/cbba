@@ -1,7 +1,7 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => ""}  %>
 <%= title "Thank you", :h2  %>
-Thank you for your payment and welcome to BeAmazing!<br/>
-<br/>
+<p>Thank you for your payment and welcome to BeAmazing!</p>
+<p>We've sent you an invoice. If you need to review your payment's details, please go to <%= link_to "your payments", payments_path %></p>
 To be listed with us, you only need to:
 <ol>
   <li>edit <%= link_to "your profile", expanded_user_path(current_user) %></li>

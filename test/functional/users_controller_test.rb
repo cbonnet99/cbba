@@ -138,6 +138,7 @@ class UsersControllerTest < ActionController::TestCase
     get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => norma.id }
     assert_response :success
     # #Cyrille's profile is already published: Unpublish button should be shown
+#    puts @response.body
     assert_select "input[value=Publish]", :count => 0
     assert_select "input[value=Unpublish]", :count => 0
     #only one published article

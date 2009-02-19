@@ -4,9 +4,11 @@ completed:
   amount: 9999
   invoice_number: 1234
   status: completed
+  gst: 1250
 pending_user_payment:
   title: Full membership
   user: pending_user
   amount: 9999
   invoice_number: 32423
   status: pending
+  gst: 1250

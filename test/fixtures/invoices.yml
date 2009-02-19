@@ -1,0 +1,7 @@
+invoice_for_completed:
+  payment: completed
+  filename: INV-0001234
+  pdf: \357\015\177
+two:
+  payment_id: 1
+  filename: MyString

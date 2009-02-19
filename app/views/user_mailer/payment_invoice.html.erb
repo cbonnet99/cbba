@@ -1,0 +1,9 @@
+Dear <%= @user.first_name %>,
+
+Thank you for your payment. Please find enclosed our invoice.
+
+If you need to review the details of this payment, please click on the following link:
+
+<%= @url %>
+
+<%= render :partial => "signature"  %>

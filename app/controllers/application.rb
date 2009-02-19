@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   layout :find_layout
 
 	#  before_filter :tags
-  before_filter :current_category, :categories, :search_init, :except => :change_category
+  before_filter :current_category, :categories, :except => :change_category
 
 	def get_districts_and_subcategories
     get_districts
@@ -53,25 +53,25 @@ class ApplicationController < ActionController::Base
       session[:category_id] = @category_id
     else
       @category_id = session[:category_id] || (Category.find_by_position(1).nil? ? nil : Category.find_by_position(1).id)
-      @category = Category.find(@category_id)
+      @category = Category.find(@category_id) unless @category_id.nil?
 		end
 	end
 
-	def search_init
-		selected_subcategory_id = params[:what] unless params[:what].blank?
-		if params[:where].blank?
-			selected_district_id = current_user.district_id unless current_user.nil?
-		else
-			if params[:where].starts_with?("r-")
-				selected_district_id = nil
-				region_id = params[:where].split("-")[1].to_i
-			else
-				selected_district_id = params[:where].to_i
-			end
-		end
-		@what_subcategories = Subcategory.options(@category, selected_subcategory_id)
-		@where_districts = District.options(region_id, selected_district_id)
-	end
+#	def search_init
+#		selected_subcategory_id = params[:what] unless params[:what].blank?
+#		if params[:where].blank?
+#			selected_district_id = current_user.district_id unless current_user.nil?
+#		else
+#			if params[:where].starts_with?("r-")
+#				selected_district_id = nil
+#				region_id = params[:where].split("-")[1].to_i
+#			else
+#				selected_district_id = params[:where].to_i
+#			end
+#		end
+#		@what_subcategories = Subcategory.options(@category, selected_subcategory_id)
+#		@where_districts = District.options(region_id, selected_district_id)
+#	end
 
 	def categories
 		@categories = Category.list_categories
