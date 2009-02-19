@@ -4,6 +4,13 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_slug_on_update
+    cyrille = users(:cyrille)
+    cyrille.update_attributes(:last_name => "Jones")
+    cyrille.reload
+    assert_equal "cyrille-jones-bioboy-inc", cyrille.slug
+  end
+
   def test_full_info
     assert_not_nil users(:cyrille).full_info
   end

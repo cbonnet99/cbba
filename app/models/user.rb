@@ -50,10 +50,10 @@ class User < ActiveRecord::Base
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   
   # #around filters
-	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type
-	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type
+	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug
+	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug
 
-  after_create :create_slug, :create_profile, :add_tabs
+  after_create :create_profile, :add_tabs
   after_update :add_tabs
 
   # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
@@ -299,7 +299,7 @@ class User < ActiveRecord::Base
   end
 
 	def create_slug
-		self.update_attribute(:slug, computed_slug)
+		self.slug = computed_slug
 	end
 
 	def computed_slug
