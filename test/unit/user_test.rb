@@ -4,6 +4,18 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_location_change_on_update
+    norma = users(:norma)
+    old_latitude = norma.latitude
+    old_longitude = norma.longitude
+    norma.district_id = districts(:wellington_wellington_city).id
+    norma.save
+    norma.reload
+    #latitude and longitude should have changed
+    assert old_latitude != norma.latitude
+    assert old_longitude != norma.longitude
+  end
+
   def test_slug_on_update
     cyrille = users(:cyrille)
     cyrille.update_attributes(:last_name => "Jones")
@@ -217,5 +229,7 @@ class UserTest < ActiveSupport::TestCase
 		new_user2 = User.find_by_email("joe@test.com")
 		assert_equal [hypnotherapy, yoga], new_user2.subcategories
     assert_not_nil new_user.user_profile
+    assert_not_nil new_user.latitude
+    assert_not_nil new_user.longitude
 	end
 end

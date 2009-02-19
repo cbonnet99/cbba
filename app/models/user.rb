@@ -50,8 +50,8 @@ class User < ActiveRecord::Base
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   
   # #around filters
-	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug
-	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug
+	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug, :create_geocodes
+	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug, :update_geocodes
 
   after_create :create_profile, :add_tabs
   after_update :add_tabs
@@ -62,6 +62,20 @@ class User < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude
 	attr_accessor :membership_type
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
+
+  def create_geocodes
+    unless district.blank?
+      locate_address
+    end
+  end
+
+  def update_geocodes
+    #has any of the location fields changed?
+    if self.address1_changed? || self.suburb_changed? || self.district_id_changed?
+        locate_address
+    end
+
+  end
 
   def self.map_geocoded(map)
     User.geocoded.each do |u|
@@ -516,5 +530,17 @@ class User < ActiveRecord::Base
   def make_activation_code
 #    self.deleted_at = nil
 #    self.activation_code = self.class.make_token
+  end
+
+  def locate_address
+      arr = []
+      arr << address1 unless address1.blank?
+      arr << suburb unless suburb.blank?
+      arr << district.name unless district.name.blank?
+      arr << "New Zealand"
+      address = arr.join(", ")
+      location = ImportUtils.geocode(address)
+      self.latitude = location.latitude
+      self.longitude = location.longitude
   end
 end

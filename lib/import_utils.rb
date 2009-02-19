@@ -21,11 +21,17 @@ class ImportUtils
 		end
 	end
 
+  
+  #returns a location object for the address passed as a parameter
+  def self.geocode(address)
+    #TODO: remove hardocded Google Maps API key for BAM
+    geocoder = Graticule.service(:google).new "ABQIAAAAEUGw4om-AL6FPqaNLiT02xTtdy7lWpREaOTRxKljyUIPkk9sUhRgjCWR1VVeuR_sNL62bGyg47HMUw"
+    return geocoder.locate(address)
+  end
+
   def self.geocode_users(csv_file="users.csv")
     success = 0
     errors = 0
-    #TODO: remove hardocded Google Maps API key for BAM
-    geocoder = Graticule.service(:google).new "ABQIAAAAEUGw4om-AL6FPqaNLiT02xTtdy7lWpREaOTRxKljyUIPkk9sUhRgjCWR1VVeuR_sNL62bGyg47HMUw"
     CSV.open(File.dirname(__FILE__) + "/../csv/geocoded_#{csv_file}", 'w') do |writer|
       CSV.open(File.dirname(__FILE__) + "/../csv/#{csv_file}", 'r')  do |row|
         address1 = ImportUtils.strip_and_nil(row[5])
@@ -41,7 +47,7 @@ class ImportUtils
           req_str = arr.join(", ")
           puts "Locating: #{req_str}"
           begin
-            location = geocoder.locate(req_str)
+            location = ImportUtils.geocode(req_str)
             puts "Found: #{location.inspect}"
             success += 1
             latitude = location.latitude

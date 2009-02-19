@@ -18,7 +18,7 @@ cyrille:
   phone:                     06-3086130
   member_since:              <%= 6.months.ago.to_s :db %>
   member_until:              <%= 6.months.from_now.to_s :db %>
-  slug:                      cyrille-bonnet
+  slug:                      cyrille-bonnet-bioboy-inc
   articles_count:            2
   published_articles_count:  1
   special_offers_count:            2
@@ -44,6 +44,8 @@ norma:
   member_since:              <%= 17.months.ago.to_s :db %>
   member_until:              <%= 1.week.from_now.to_s :db %>
   slug:                      norma-stein
+  latitude:                  123
+  longitude:                 20
 amcloughlin:
   first_name:                Aaron
   last_name:                 McLoughlin
