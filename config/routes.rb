@@ -38,6 +38,7 @@ ActionController::Routing::Routes.draw do |map|
   map.action_tab_format '/tabs/:action.:format', :controller => 'tabs'
   map.action_tab_with_user '/users/:user_id/tabs/:id/:action', :controller => 'tabs'
   map.register '/register', :controller => 'users', :action => 'create'
+  map.apply_resident_expert '/apply_resident_expert', :controller => 'users', :action => 'apply_resident_expert'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.signup_intro '/signup_intro', :controller => 'users', :action => 'intro'
   map.signup_newsletter '/signup_newsletter', :controller => 'contacts', :action => 'new'
