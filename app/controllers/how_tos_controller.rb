@@ -47,6 +47,8 @@ class HowTosController < ApplicationController
     @how_to = HowTo.new
     @how_to.step_label = "step"
     @how_to.how_to_steps.build
+    #default to user's main expertise
+    @how_to.subcategory1_id = current_user.subcategories.first.id unless current_user.subcategories.blank?
 		get_subcategories
 
     respond_to do |format|

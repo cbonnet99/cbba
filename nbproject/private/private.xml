@@ -1,41 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/search_controller.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/users_controller.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/helpers/application_helper.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/models/category.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/models/district.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/models/region.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/models/subcategory.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/models/user.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/_form.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/new.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/how_tos/_form.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/layouts/main.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/fuzzy_search.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/index.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/map.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/simple_search.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/special_offers/_form.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/subcategories/show.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_form.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/new.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/environment.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/environments/test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/routes.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/config/settings.yml</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/lib/import_utils.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/public/stylesheets/default.css</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/categories.yml</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/functional/search_controller_test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/category_test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/route_test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/subcategory_test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/gems/graticule-0.2.8/test/mocks/uri.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/gems/graticule-0.2.8/test/unit/graticule/geocoder/google_test.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/ym4r_gm/lib/gm_plugin/map.rb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/lib/action_view/helpers/capture_helper.rb</file>
-    </open-files>
 </project-private>

@@ -56,6 +56,8 @@ class ArticlesControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
     get :new, {}, {:user_id => cyrille.id }
     assert_response :success
+    #should default to the user's main expertise
+		assert_select "select#article_subcategory1_id > option[value=#{cyrille.subcategories.first.id}][selected=selected]"
   end
 
   def test_should_create_article

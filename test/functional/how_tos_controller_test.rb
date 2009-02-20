@@ -3,12 +3,20 @@ require File.dirname(__FILE__) + '/../test_helper'
 class HowTosControllerTest < ActionController::TestCase
 	fixtures :all
 
+  def test_should_get_new
+		cyrille = users(:cyrille)
+    get :new, {}, {:user_id => cyrille.id }
+    assert_response :success
+    #should default to the user's main expertise
+		assert_select "select#how_to_subcategory1_id > option[value=#{cyrille.subcategories.first.id}][selected=selected]"
+  end
+  
   def test_create
     cyrille = users(:cyrille)
     old_size = cyrille.how_tos.size
     old_count = cyrille.how_tos_count
     post :create, { :how_to =>
-       {:step_label => "step", :title =>"Title here", :summary => "Summary now",
+       {:step_label => "step", :title =>"Title here", :summary => "Summary now", :subcategory1_id => subcategories(:yoga).id,
         :new_step_attributes => [
           {:title =>"1st step", "body"=>"blabla"}]}}, {:user_id => cyrille.id }
     assert_not_nil assigns(:how_to)

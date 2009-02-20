@@ -49,6 +49,8 @@ class ArticlesController < ApplicationController
   # GET /articles/new.xml
   def new
     @article = Article.new
+    #default to user's main expertise
+    @article.subcategory1_id = current_user.subcategories.first.id unless current_user.subcategories.blank?
 		get_subcategories
 
     respond_to do |format|

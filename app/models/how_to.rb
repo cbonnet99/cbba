@@ -17,6 +17,12 @@ class HowTo < ActiveRecord::Base
 	after_create :create_slug
   after_update :save_steps
 
+  def validate
+    if subcategory1_id.blank?
+      errors.add(:subcategory1_id, "^You must select at least one category")
+    end
+  end
+
 	def self.id_from_url(url)
 		unless url.nil?
 			url.split("-").first.to_i

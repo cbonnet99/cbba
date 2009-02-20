@@ -20,6 +20,12 @@ class Article < ActiveRecord::Base
 
 	MAX_LENGTH_SLUG = 20
 
+  def validate
+    if subcategory1_id.blank?
+      errors.add(:subcategory1_id, "^You must select at least one category")
+    end
+  end
+
   def self.all_articles(user)
     straight_articles = Article.find_all_by_author_id(user.id, :order => "state, updated_at desc")
     how_to_articles = HowTo.find_all_by_author_id(user.id, :order => "state, updated_at desc")
