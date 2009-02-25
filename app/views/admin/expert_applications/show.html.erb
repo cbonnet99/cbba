@@ -1,0 +1,22 @@
+<%= title "Application for resident expert membership"  %>
+<p><%= link_to "Show all expert applications", expert_applications_action_path(:action => "index" ) %></p>
+<div class="resident-expert-application-workflow"><% form_tag expert_applications_action_with_id_path(:id => @expert_application.id, :action => "approve" ) do -%>
+<%= submit_tag "Approve", :class => "button"  %>
+<% end -%>
+<% form_tag expert_applications_action_with_id_path(@expert_application, :action => "edit_reject_reason" ) do -%>
+<%= submit_tag "Reject", :class => "button"  %>
+<% end -%></div>
+<div class="cleaner"></div>
+<h3>User</h3>
+<p><%= @expert_application.user.name %></p>
+<p><%= @expert_application.user.email %></p>
+<% unless @expert_application.user.phone.blank? || @expert_application.user.phone == "-" -%>
+<p><%= @expert_application.user.phone %></p>
+<% end -%>
+<% unless @expert_application.user.mobile.blank? || @expert_application.user.mobile == "-" -%>
+<p><%= @expert_application.user.mobile %></p>
+<% end -%>
+<h3>Expertise</h3>
+<p>Applying to become an expert in: <%=@expert_application.user.main_expertise%></p>
+<h3>Expert application</h3>
+<p><%= @expert_application.expert_presentation%></p>

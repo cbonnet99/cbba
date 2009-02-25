@@ -1,9 +1,20 @@
 cyrille_is_admin:
   user: cyrille
   role: admin_role
+#for cinsistency sake, we give Cyrille all roles explicitly
+#(since he is admin, he will have all roles anyway)
 cyrille_full_member:
   user: cyrille
   role: full_member_role
+cyrille_reviewer:
+  user: cyrille
+  role: reviewer_role
+cyrille_resident_expert:
+  user: cyrille
+  role: resident_expert_role
+cyrille_resident_expert_admin:
+  user: resident_expert_admin
+  role: resident_expert_admin_role
 sgardiner_full_member:
   user: sgardiner
   role: full_member_role
@@ -22,3 +33,12 @@ norma_full_member:
 pending_user_full_member:
   user: pending_user
   role: full_member_role
+suspended_user1_full_member:
+  user: suspended_user1
+  role: full_member_role
+suspended_user2_full_member:
+  user: suspended_user2
+  role: full_member_role
+resident_expert_user_resident_expert:
+  user: resident_expert_user
+  role: resident_expert_role

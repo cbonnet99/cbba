@@ -1,0 +1,6 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+applying_expert:
+  status: pending
+  expert_presentation: I think I am very qualified
+  user: applying_resident_expert

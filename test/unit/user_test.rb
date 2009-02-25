@@ -4,6 +4,36 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_reviewers
+    reviewers = []
+    #build the list the slow way (with lots of users, it would very slow)
+    User.all.each do |u|
+      reviewers << u if u.reviewer?
+    end
+    #now make sure that the named_scope finds the same result
+    assert_equal reviewers.size, User.reviewers.size
+  end
+
+  def test_resident_experts
+    resident_experts = []
+    #build the list the slow way (with lots of users, it would very slow)
+    User.all.each do |u|
+      resident_experts << u if u.resident_expert?
+    end
+    #now make sure that the named_scope finds the same result
+    assert_equal resident_experts.size, User.resident_experts.size
+  end
+
+  def test_full_members
+    full_members = []
+    #build the list the slow way (with lots of users, it would very slow)
+    User.all.each do |u|
+      full_members << u if u.full_member?
+    end
+    #now make sure that the named_scope finds the same result
+    assert_equal full_members.size, User.full_members.size
+  end
+
   def test_location_change_on_update
     norma = users(:norma)
     old_latitude = norma.latitude
@@ -125,10 +155,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "06", cyrille.phone_prefix
     assert_equal "06", norma.phone_prefix
   end
-
-	def test_reviewers
-		assert_equal 1, User.reviewers.size
-	end
 
 	def test_all_find_by_region_and_subcategories
 		canterbury = regions(:canterbury)

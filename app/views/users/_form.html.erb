@@ -1,4 +1,8 @@
   <%= f.error_messages :header_message => "Please try again", :message => "Your registration could not be completed" %>
+  <% if @mt == "resident_expert" && sign_up -%>
+    <p>Please fill out the following form. We will review your application and contact you.</p>
+    <p>If all goes well, you will then be invited to join BeAmazing as a resident expert (only at that stage will you be asked to pay)</p>
+  <%end -%>
   <fieldset>
     <legend>Your Details</legend>
     <ol>
@@ -32,7 +36,7 @@
         <%= f.label :receive_newsletter, 'Would you like to subscribe to our newsletter?' %>
         <%= f.check_box :receive_newsletter %>
       </li>
-      <li>
+      <li <%unless mt=="free_listing"%>style="display: none;"<%end%>>
         <%= f.label :professional, 'Are you a professional?' %>
         <%= f.check_box :professional   %>
       </li>
@@ -70,6 +74,12 @@
         <%= f.label :mobile_prefix, 'Mobile' %>
         <%= f.select :mobile_prefix, ["", "021", "027", "029"] %><%= f.text_field :mobile_suffix, :size => 10 %>
       </li>
+      <% if @mt == "resident_expert" && sign_up -%>
+      <li>
+        <div class="left-input"></div>
+        <div class="notice right-label"><span class="important">NOTICE</span>: We assume that you are applying to become an expert in your main expertise. If it isn't the case, please specify it below in the free-text area.</div>
+      </li>
+      <% end -%>
       <li>
         <label>Please select your main expertise and (optionally) 2 other categories you would like to be listed in:</label>
       </li>
@@ -82,9 +92,18 @@
       <li>
         <%= f.label :subcategory3_id, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
       </li>
+      <% if @mt == "resident_expert" && sign_up -%>
+      <li>
+        <div class="left-input"></div>
+        <div class="notice right-label"><span class="important">NOTICE</span>: The following section is just an opportunity to introduce yourself and will not be shown on the Web site.</div>
+      </li>
+      <li>
+        <%= f.label :resident_expert_application, 'Please tell us about yourself: what makes you an expert in your field? Feel free to describe your experience, your qualifications, etc.' %><%= f.text_area :resident_expert_application %><br/>
+      </li>
+      <% end -%>
       <div class="buttons">
         <label for=""></label>
-        <%= submit_tag button_msg %>
+        <%= submit_tag membership_button_msg(@mt, sign_up) %>
       </div>
     </ol>
   </fieldset>

@@ -1,0 +1,6 @@
+<%= title "Expert applications" %>
+<ul class="simple">
+<% @expert_applications.each do |a| -%>
+        <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "expert_application", :locals => {:expert_application => a }   %></li>
+<% end -%>
+</ul>

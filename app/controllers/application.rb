@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include RoleRequirementSystem
 
   helper :all # include all helpers, all the time
-  protect_from_forgery :secret => 'b0a876313f3f9195e9bd01473bc5cd06', :except => "thank_you"
+  protect_from_forgery :secret => 'b0a876313f3f9195e9bd01473bc5cd06'
   filter_parameter_logging :password, :password_confirmation
   filter_parameter_logging :card_number, :card_verification
   
@@ -20,6 +20,12 @@ class ApplicationController < ActionController::Base
   
   def admin_required
     unless logged_in? && current_user.admin?
+      access_denied
+    end
+  end
+
+  def resident_expert_admin_required
+    unless logged_in? && current_user.resident_expert_admin?
       access_denied
     end
   end

@@ -8,3 +8,7 @@ free_listing_role:
   name: free_listing
 reviewer_role:
   name: reviewer
+resident_expert_role:
+  name: resident_expert
+resident_expert_admin_role:
+  name: resident_expert_admin

@@ -43,9 +43,15 @@ class User < ActiveRecord::Base
   has_many :invoices, :through => :payments
   has_many :user_emails
   has_many :special_offers, :foreign_key => :author_id
+  has_many :expert_applications
 
   # #named scopes
-  named_scope :full_members, :conditions => "free_listing is false"
+  named_scope :active, :conditions => "state='active'"
+  named_scope :full_members, :include => "roles", :conditions => "roles.name='full_member'"
+  named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
+  named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"
+  named_scope :resident_expert_admins, :include => "roles", :conditions => "roles.name='resident_expert_admin'"
+  named_scope :resident_experts, :include => "roles", :conditions => "roles.name='resident_expert'"
   named_scope :new_users, :conditions => "new_user is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   
@@ -59,8 +65,8 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
   # submitting a crafted form that bypasses activation anything else you want
   # your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude
-	attr_accessor :membership_type
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application
+	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   def create_geocodes
@@ -268,12 +274,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def reviewer?
+    has_role?("reviewer")
+  end
+
   def admin?
     has_role?("admin")
   end
 
+  def resident_expert_admin?
+    has_role?("resident_expert_admin")
+  end
+
   def full_member?
     has_role?("full_member")
+  end
+
+  def resident_expert?
+    has_role?("resident_expert")
   end
 
   def sentence_to_review
@@ -382,6 +400,9 @@ class User < ActiveRecord::Base
     end
     if full_member?
       self.membership_type = "full_member"
+    end
+    if resident_expert?
+      self.membership_type = "resident_expert"
     end
   end
   def get_membership_type

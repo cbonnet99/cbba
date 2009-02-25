@@ -2,6 +2,13 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
 
+  def notifiy_admin_new_expert_application(expert_application, user)
+    setup_email(user)
+		@subject << "New expert application"
+    @body[:expert_application] = expert_application
+		@body[:url] = expert_applications_action_with_id_path(expert_application, :action => "show")
+  end
+
   def payment_invoice(user, payment, invoice)
     setup_email(user)
 		@subject << "Invoice for your payment"

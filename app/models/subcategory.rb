@@ -3,6 +3,7 @@ class Subcategory < ActiveRecord::Base
 	has_many :subcategories_users, :order => "position"
 	has_many :users, :through => :subcategories_user
 	has_many :articles
+  has_many :expert_applications
 
   validates_uniqueness_of :name, :scope => [:category_id], :message => "must be unique in this category"
   after_create :create_slug

@@ -3,6 +3,22 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 
+  def test_create_resident_expert
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+		old_size = ExpertApplication.all.size
+		district = districts(:wellington_wellington_city)
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
+      :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
+      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "resident_expert", :subcategory1_id => hypnotherapy.id   }
+    assert_redirected_to user_thank_you_resident_application_path
+		assert_equal old_size+1, ExpertApplication.all.size
+    assert_equal "pending", assigns(:expert_application).status
+    #an email should have been sent to each resident expert admin
+    assert_equal User.resident_expert_admins.size, ActionMailer::Base.deliveries.size
+	end
 
   def test_membership_full
     cyrille = users(:cyrille)

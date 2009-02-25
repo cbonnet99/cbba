@@ -1,5 +1,5 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "howtos" }  %>
-<%= title "Your howto articles", :h2  %>
+<%= title "Your howto articles"  %>
 <p><%= link_to "Create new howto article", new_how_to_path %></p>
 <% if @howtos.empty? -%>
   No howto articles

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090219015207) do
+ActiveRecord::Schema.define(:version => 20090224184049) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -87,6 +87,20 @@ ActiveRecord::Schema.define(:version => 20090219015207) do
     t.integer  "region_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "expert_applications", :force => true do |t|
+    t.text     "expert_presentation"
+    t.integer  "user_id"
+    t.integer  "subcategory_id"
+    t.string   "status",              :default => "pending"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "approved_at"
+    t.integer  "approved_by_id"
+    t.text     "reason_reject"
+    t.datetime "rejected_at"
+    t.integer  "rejected_by_id"
   end
 
   create_table "how_to_steps", :force => true do |t|

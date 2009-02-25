@@ -30,6 +30,7 @@ class PaymentTest < ActiveSupport::TestCase
     cyrille = users(:cyrille)
     old_size = cyrille.payments.renewals.size
     payment = cyrille.payments.create!(Payment::TYPES[:renew_full_member])
+    assert_equal 0, payment.errors.size
     cyrille.reload
     assert_equal old_size+1, cyrille.payments.renewals.size
   end

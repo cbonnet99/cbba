@@ -1,5 +1,16 @@
 module UsersHelper
-  MEMBERSHIP_DESCRIPTIONS = {:free_listing => "Free listing", :full_member => "Full membership"}
+  MEMBERSHIP_DESCRIPTIONS = {:free_listing => "Sign up for free listing", :full_member => "Sign up for full membership", :resident_expert => "Apply to become resident expert" }
+  MEMBERSHIP_BUTTON_MSGS = {:free_listing => "Sign up", :full_member => "Proceed to payment", :resident_expert => "Apply" }
+  
+
+  def membership_button_msg(membership_type, sign_up)
+    membership_type = "free_listing" if membership_type.blank?
+    if sign_up
+      MEMBERSHIP_BUTTON_MSGS[membership_type.to_sym]
+    else
+      "Update"
+    end
+  end
 
   def membership_description(membership_type)
     membership_type = "free_listing" if membership_type.blank?

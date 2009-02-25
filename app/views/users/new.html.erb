@@ -1,5 +1,5 @@
 <% javascript 'new-user' %>
-<%= title "Signup for #{membership_description(params[:mt]).downcase}", :h1  %>
+<%= title membership_description(@mt)  %>
 <% form_for @user do |f| %>
-  <%= render :partial => "form", :locals => {:f => f, :sign_up => true, :button_msg => params[:mt]=="free_listing"?"Sign up":"Proceed to payment"  }   %>
+    <%= render :partial => "form", :locals => {:f => f, :sign_up => true, :mt => @mt  }   %>
 <% end %>

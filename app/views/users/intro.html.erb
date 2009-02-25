@@ -1,5 +1,5 @@
 <% javascript 'signup-intro' %>
-<%= title "Join us as a well-being professional", :h2 %>
+<%= title "Join us as a well-being professional" %>
 <%= link_to "Simply want to sign up for our free newsletter?", signup_newsletter_path %>
 <div id="signup-intro">
   <div id="signup-intro-free-listing">
@@ -27,6 +27,6 @@
     <li>All full member benefits</li>
     <li>Premium exposure on the site</li>
     <li>Year one trial price: $499</li>
-    <li><%= link_to "Apply now", apply_resident_expert_path%> | <%= link_to "Learn more", more_about_resident_expert_path %> | <%= link_to "Compare", compare_memberships_path %></li>
+    <li><%= link_to "Apply now", signup_path(:professional => "true", :mt => "resident_expert" )%> | <%= link_to "Learn more", more_about_resident_expert_path %> | <%= link_to "Compare", compare_memberships_path %></li>
   </ul>
 </div>

@@ -1,0 +1,3 @@
+class ResidentExpertAdminApplicationController < SecureApplicationController
+  before_filter :resident_expert_admin_required
+end

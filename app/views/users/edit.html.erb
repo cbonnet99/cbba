@@ -1,6 +1,6 @@
 <% javascript 'new-user' %>
 <%= render :partial => "users/user_nav", :locals => {:selected => "details" }  %>
-<%= title "Edit your details", :h2  %>
+<%= title "Edit your details" %>
 <% form_for @current_user do |f| %>
-    <%= render :partial => "form", :locals => {:f => f, :sign_up => false, :button_msg => "Update"  }   %>
+      <%= render :partial => "form", :locals => {:f => f, :sign_up => false, :mt => "mt"   }   %>
 <% end %>

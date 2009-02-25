@@ -1,5 +1,5 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "articles" }  %>
-<%= title "Create a new article", :h2  %>
+<%= title "Create a new article"  %>
 <%= link_to 'Back to your articles', user_articles_path %>
 <% form_for(@article) do |f| %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your article could not be saved" %>

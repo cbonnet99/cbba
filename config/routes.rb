@@ -1,32 +1,22 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :invoices
-
   map.resources :special_offers
-
   map.resources :orders
+  map.resources :contacts
+  map.resources :payments
+  map.resources :subcategories
+  map.resources :categories
+  map.resources :how_tos
+  map.resources :articles
+  map.resources :regions
 
 
   map.action_tab '/tabs/:action', :controller => 'tabs'
   map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
   map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/ }
-
-  map.resources :contacts
-
-
-  map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
-  map.resources :payments
-
-  map.resources :subcategories
-
-  map.resources :categories
-
-  map.resources :how_tos
-
-  map.resources :articles
-
-  map.resources :regions
- 
-  # Restful Authentication Rewrites
+  map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/} 
+	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
+	map.expert_applications_action_with_id 'admin/expert_applications/:id/:action', :controller => "admin/expert_applications"
 	map.reviewer 'reviewer/:action', :controller => "reviewer"
 	map.category '/category/:category_name', :controller => "categories", :action => "show"
 	map.subcategory '/category/:category_name/subcategory/:subcategory_name', :controller => "subcategories", :action => "show"
@@ -38,7 +28,6 @@ ActionController::Routing::Routes.draw do |map|
   map.action_tab_format '/tabs/:action.:format', :controller => 'tabs'
   map.action_tab_with_user '/users/:user_id/tabs/:id/:action', :controller => 'tabs'
   map.register '/register', :controller => 'users', :action => 'create'
-  map.apply_resident_expert '/apply_resident_expert', :controller => 'users', :action => 'apply_resident_expert'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.signup_intro '/signup_intro', :controller => 'users', :action => 'intro'
   map.signup_newsletter '/signup_newsletter', :controller => 'contacts', :action => 'new'
@@ -46,6 +35,7 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
   map.update_after_forgetting '/update_after_forgetting', :controller => 'passwords', :action => 'update_after_forgetting'
+  map.user_thank_you_resident_application '/users/thank_you_resident_application', :controller => 'users', :action => "thank_you_resident_application"
   map.user_tabs '/:main_expertise/:region/:name/:selected_tab_id', :controller => 'users', :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
   map.user_special_offers '/users/special_offers', :controller => 'users', :action => "special_offers"
   map.user_articles '/users/articles', :controller => 'users', :action => "articles"
@@ -65,7 +55,6 @@ ActionController::Routing::Routes.draw do |map|
   map.user_new_photo '/users/new_photo', :controller => 'users', :action => "new_photo"
   map.user_create_photo '/users/create_photo', :controller => 'users', :action => "create_photo"
   
-  # Restful Authentication Resources
   map.resources :users
   map.resources :passwords
   map.resource :session

@@ -114,6 +114,7 @@ class UsersController < ApplicationController
 #    current_user.disassemble_phone_numbers
 		get_districts_and_subcategories
     current_user.set_membership_type
+    @mt = current_user.membership_type
 	end
 
 	def update_password
@@ -143,10 +144,10 @@ class UsersController < ApplicationController
 	end
 
   def new
-    mt = params[:mt] || "free_listing"
+    @mt = params[:mt] || "free_listing"
     professional_str = params[:professional] || "false"
     professional = professional_str == "true"
-    @user = User.new(:membership_type => mt, :professional => professional )
+    @user = User.new(:membership_type => @mt, :professional => professional )
 		get_districts_and_subcategories
   end
  
@@ -156,11 +157,17 @@ class UsersController < ApplicationController
     @user.register! if @user && @user.valid?
     success = @user && @user.valid?
     if success && @user.errors.empty?
-      if @user.membership_type == "full_member"
+      case @user.membership_type
+      when "full_member":
         flash[:notice] = "You can now complete your payment"
         session[:user_id] = @user.id
         @payment = @user.payments.create!(Payment::TYPES[:full_member])
         redirect_to edit_payment_path(@payment)
+      when "resident_expert":
+        @expert_application = @user.expert_applications.create(:subcategory_id => @user.subcategories.first, :expert_presentation => @user.resident_expert_application )
+        flash[:notice] = "Your application has been sent"
+#        session[:user_id] = @user.id
+        redirect_to user_thank_you_resident_application_path
       else
         @user.activate!
         session[:user_id] = @user.id

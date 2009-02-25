@@ -1,9 +1,10 @@
 class Payment < ActiveRecord::Base
   DEFAULT_TYPE = "full_member"
   TYPES = {:full_member => {:payment_type => "new", :title => "Full membership for 1 year", :amount => 9999 },
-    :renew_full_member => {:payment_type => "renewal", :title => "Renewal of full membership for 1 year", :amount => 19999 }
+    :renew_full_member => {:payment_type => "renewal", :title => "Renewal of full membership for 1 year", :amount => 19999 },
+    :resident_expert => {:payment_type => "resident_expert", :title => "Resident expert membership for 1 year", :amount => 99999 }
   }
-  REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal"}
+  REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal", :resident_expert => "thank_you_resident_expert"}
 
   GST = 1250
 
