@@ -8,6 +8,8 @@ class ExpertApplication < ActiveRecord::Base
   belongs_to :approved_by, :class_name => "User"
   belongs_to :rejected_by, :class_name => "User"
 
+  validates_presence_of :subcategory, :expert_presentation
+
   aasm_column :status
   aasm_initial_state :initial => :pending
   aasm_state :pending

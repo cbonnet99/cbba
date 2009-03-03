@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090224184049) do
+ActiveRecord::Schema.define(:version => 20090303090510) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -101,6 +101,9 @@ ActiveRecord::Schema.define(:version => 20090224184049) do
     t.text     "reason_reject"
     t.datetime "rejected_at"
     t.integer  "rejected_by_id"
+    t.boolean  "raise_profile"
+    t.boolean  "basic_articles"
+    t.boolean  "weekly_question"
   end
 
   create_table "how_to_steps", :force => true do |t|

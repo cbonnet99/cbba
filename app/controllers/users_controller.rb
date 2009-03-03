@@ -164,10 +164,9 @@ class UsersController < ApplicationController
         @payment = @user.payments.create!(Payment::TYPES[:full_member])
         redirect_to edit_payment_path(@payment)
       when "resident_expert":
-        @expert_application = @user.expert_applications.create(:subcategory_id => @user.subcategories.first, :expert_presentation => @user.resident_expert_application )
-        flash[:notice] = "Your application has been sent"
-#        session[:user_id] = @user.id
-        redirect_to user_thank_you_resident_application_path
+        @user.activate!
+        session[:user_id] = @user.id
+        redirect_to new_expert_application_path
       else
         @user.activate!
         session[:user_id] = @user.id

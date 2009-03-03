@@ -3,6 +3,9 @@ class SessionsController < ApplicationController
   include ApplicationHelper
 
   def new
+    unless params[:return_to].blank?
+      session[:return_to] = params[:return_to]
+    end
   end
 
   def create

@@ -214,6 +214,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  def main_expertise_id
+    if subcategories.blank?
+      ""
+    else
+      subcategories.first.id
+    end
+  end
+  memoize :main_expertise_id
+
   def main_expertise
     if subcategories.blank?
       ""

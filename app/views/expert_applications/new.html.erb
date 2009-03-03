@@ -1,0 +1,35 @@
+<%= title "Apply for resident expert membership" %>
+<% form_for @expert_application do |f| %>
+  <%= f.error_messages :header_message => "Please try again", :message => "Your application could not be completed" %>
+  <fieldset>
+    <legend>Your application</legend>
+    <ol>
+      <li>
+        <%= f.label :subcategory_id, 'Which field are you an expert in?<span class="mandatoryStar">*</span>:' %><%= f.select :subcategory_id, @subcategories %><br/>
+      </li>
+      <li>
+        <%= f.label :raise_profile, 'Are you looking to raise your profile via the web?' %>
+        <%= f.check_box :raise_profile %>
+      </li>
+      <li>
+        <%= f.label :basic_articles, 'Are you willing to produce basic articles to talk about your field of expertise?' %>
+        <%= f.check_box :basic_articles %>
+      </li>
+      <li>
+        <%= f.label :weekly_question, "Are you happy to answer the 'question of the week' from the public about your area of expertise?" %>
+        <%= f.check_box :weekly_question %>
+      </li>
+      <li>
+        <div class="left-input"></div>
+        <div class="notice right-label"><span class="important">NOTICE</span>: The following section is just an opportunity to introduce yourself and will not be shown on the Web site.</div>
+      </li>
+      <li>
+        <%= f.label :expert_presentation, 'Please tell us about yourself: what makes you an expert in your field? Feel free to describe your experience, your qualifications, etc.<span class="mandatoryStar">*</span>' %><%= f.text_area :expert_presentation %><br/>
+      </li>
+    </ol>
+  </fieldset>
+  <div class="buttons">
+    <label for=""></label>
+    <%= submit_tag "Apply now" %>
+  </div>
+<% end -%>

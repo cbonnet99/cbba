@@ -1,0 +1,19 @@
+<% form_for @expert_application do |f| %>
+  <%= f.error_messages :header_message => "Please try again", :message => "Your application could not be completed" %>
+  <fieldset>
+    <legend>Your application</legend>
+    <ol>
+      <li>
+        <div class="left-input"></div>
+        <div class="notice right-label"><span class="important">NOTICE</span>: The following section is just an opportunity to introduce yourself and will not be shown on the Web site.</div>
+      </li>
+      <li>
+        <%= f.label :resident_expert_application, 'Please tell us about yourself: what makes you an expert in your field? Feel free to describe your experience, your qualifications, etc.' %><%= f.text_area :resident_expert_application %><br/>
+      </li>
+    </ol>
+  </fieldset>
+  <div class="buttons">
+    <label for=""></label>
+    <%= submit_tag "Apply now" %>
+  </div>
+<% end -%>

@@ -7,9 +7,11 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/admin_application_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/application.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/articles_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/expert_applications_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/how_tos_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/invoices_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/payments_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/resident_expert_admin_application_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/reviewer_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/search_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/secure_application_controller.rb</file>
@@ -31,7 +33,9 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user_mailer.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user_profile.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/_expert_application.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/edit_reject_reason.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/_form.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/edit.html.erb</file>
@@ -40,6 +44,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/articles/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/categories/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/contacts/new.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/expert_applications/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/how_tos/_form.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/how_tos/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/how_tos/show.html.erb</file>
@@ -71,6 +76,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_form.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_user.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_user_nav.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/apply_expert.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/articles.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/edit.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/edit_password.html.erb</file>
@@ -120,6 +126,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/users.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/admin/expert_applications_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/articles_controller_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/functional/expert_applications_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/how_tos_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/invoices_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/reviewer_controller_test.rb</file>

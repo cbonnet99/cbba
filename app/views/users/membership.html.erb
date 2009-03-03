@@ -1,20 +1,23 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "membership" }  %>
-  <fieldset id="fieldset-membership-details">
-    <legend>Membership Details</legend>
-    <% if current_user.free_listing? -%>
-      You have a free membership to BeAmazing. You can <%= link_to "upgrade to full membership", upgrade_to_full_membership_path %> at any time.<br/><br/>
-      <%= link_to "Learn more about full membership", more_about_full_membership_path %><br/>
-      <%= link_to "Compare", compare_memberships_path %>
+<%= title "Your membership" %>
+<ul>
+<% if current_user.free_listing? -%>
+  <li>You have a free membership to BeAmazing. You can <%= link_to "upgrade to full membership", upgrade_to_full_membership_path %> at any time.</li>
+  <li><%= link_to "Learn more about full membership", more_about_full_membership_path %></li>
+  <li><%= link_to "Compare", compare_memberships_path %></li>
+<% else -%>
+  <% if @payment && @new_member -%>
+    <li>Your membership has not been activated yet. You must <%= link_to "complete your payment", edit_payment_path(@payment) %> to activate it.</li>
+  <%  else -%>
+    <li>You are a full member of BeAmazing since <%=current_user.member_since.to_date.to_s(:default)%>.</li>
+    <% if current_user.active? -%>
+      <li>Your membership is valid until <%= current_user.member_until.to_date %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.</li>
     <% else -%>
-      <% if @payment && @new_member -%>
-        Your membership has not been activated yet. You must <%= link_to "complete your payment", edit_payment_path(@payment) %> to activate it.
-      <%  else -%>
-        You are a full member of BeAmazing since <%=current_user.member_since.to_date.to_s(:default)%>.<br/>
-        <% if current_user.active? -%>
-          Your membership is valid until <%= current_user.member_until.to_date %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.
-        <% else -%>
-          Your membership has expired on <%= current_user.member_until.to_date %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.
-        <% end -%>
-      <% end -%>
+      <li>Your membership has expired on <%= current_user.member_until.to_date %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.</li>
     <% end -%>
-  </fieldset>
+  <% end -%>
+<% end -%>
+<% unless current_user.resident_expert? -%>
+  <li>You can <%= link_to "apply to become a resident expert", new_expert_application_path%>.</li>
+<% end -%>
+</ul>

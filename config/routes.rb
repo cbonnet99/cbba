@@ -11,10 +11,13 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :regions
 
 
+  map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"
+  map.resources :expert_applications
+  
   map.action_tab '/tabs/:action', :controller => 'tabs'
   map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
   map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/ }
-  map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/} 
+  map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
 	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
 	map.expert_applications_action_with_id 'admin/expert_applications/:id/:action', :controller => "admin/expert_applications"
 	map.reviewer 'reviewer/:action', :controller => "reviewer"
