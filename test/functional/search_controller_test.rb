@@ -54,6 +54,7 @@ class SearchControllerTest < ActionController::TestCase
 		sgardiner = users(:sgardiner)
 		get :fuzzy_search, :fuzzy_where => canterbury_christchurch_city.name, :fuzzy_what => hypnotherapy.name
 		assert_response :success
+    assert_match %r{More details on}, @response.body
     assert @response.body =~ /Full profile coming soon/
 #		puts "========== #{assigns(:results).inspect}"
 		assert_equal 3, assigns(:results).size

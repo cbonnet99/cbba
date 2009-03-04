@@ -154,7 +154,11 @@ module ApplicationHelper
 	def is_reviewer?
 		logged_in? && current_user.has_role?('reviewer')
 	end
-	
+
+	def is_admin?
+		logged_in? && current_user.has_role?('admin')
+	end
+
 	def dasherize(s)
 		s.downcase.gsub(/ /, '-')
 	end

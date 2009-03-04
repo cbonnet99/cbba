@@ -32,6 +32,9 @@
           </div>
           <div id="login-right">
             <%= yield :flash %>
+            <% if is_admin? -%>
+                <span class="important"><%= link_to "Admin interface", expert_applications_action_path(:action => "index" ) %></span>
+            <% end -%>
             <% if is_reviewer? -%>
               <%= link_to current_user.sentence_to_review, :controller => "reviewer", :action => "index"    %>
             <% end -%>

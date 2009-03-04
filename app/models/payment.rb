@@ -43,6 +43,7 @@ class Payment < ActiveRecord::Base
   end
 
   def purchase
+    msg = "#{user.name}(#{user.email}) paid #{amount} for "
     response = GATEWAY.purchase(amount, credit_card, purchase_options)
     logger.debug "============ response: #{response.inspect}"
     transactions.create!(:action => "purchase", :amount => total, :response => response)

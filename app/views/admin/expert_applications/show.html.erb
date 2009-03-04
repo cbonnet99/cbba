@@ -3,7 +3,7 @@
 <div class="resident-expert-application-workflow"><% form_tag expert_applications_action_with_id_path(:id => @expert_application.id, :action => "approve" ) do -%>
 <%= submit_tag "Approve", :class => "button"  %>
 <% end -%>
-<% form_tag expert_applications_action_with_id_path(@expert_application, :action => "edit_reject_reason" ) do -%>
+<% form_tag expert_applications_action_with_id_path(@expert_application, :action => "reject" ) do -%>
 <%= submit_tag "Reject", :class => "button"  %>
 <% end -%></div>
 <div class="cleaner"></div>

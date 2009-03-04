@@ -9,12 +9,12 @@ class Admin::ExpertApplicationsController < ResidentExpertAdminApplicationContro
   def reject
 		@expert_application.rejected_at = Time.now.utc
 		@expert_application.rejected_by_id = current_user.id
-		unless params[:reason_reject].nil?
-			@expert_application.reason_reject = params[:reason_reject]
-		end
+#		unless params[:reason_reject].nil?
+#			@expert_application.reason_reject = params[:reason_reject]
+#		end
 		@expert_application.reject!
     flash[:notice]="Expert application was rejected"
-		redirect_back_or_default root_url
+		redirect_to expert_applications_action_path(:action => "index" )
   end
 
   def approve
@@ -22,7 +22,7 @@ class Admin::ExpertApplicationsController < ResidentExpertAdminApplicationContro
 		@expert_application.approved_by_id = current_user.id
 		@expert_application.approve!
     flash[:notice]="Expert application was approved"
-		redirect_back_or_default root_url
+		redirect_to expert_applications_action_path(:action => "index" )
   end
 
   protected

@@ -13,11 +13,7 @@ class UsersControllerTest < ActionController::TestCase
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
       :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "resident_expert", :subcategory1_id => hypnotherapy.id   }
-    assert_redirected_to user_thank_you_resident_application_path
-		assert_equal old_size+1, ExpertApplication.all.size
-    assert_equal "pending", assigns(:expert_application).status
-    #an email should have been sent to each resident expert admin
-    assert_equal User.resident_expert_admins.size, ActionMailer::Base.deliveries.size
+    assert_redirected_to new_expert_application_path
 	end
 
   def test_membership_full
@@ -50,7 +46,7 @@ class UsersControllerTest < ActionController::TestCase
     old_payments_size = cyrille.payments.size
     post :renew_membership, {}, {:user_id => cyrille.id }
     assert_not_nil assigns(:payment)
-    assert_equal 19999, assigns(:payment).amount
+    assert_equal 19900, assigns(:payment).amount
     assert_redirected_to edit_payment_path(assigns(:payment))
     cyrille.reload
     assert_equal old_payments_size+1, cyrille.payments.size

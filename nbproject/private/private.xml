@@ -15,6 +15,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/reviewer_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/search_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/secure_application_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/sessions_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/special_offers_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/users_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/helpers/application_helper.rb</file>
@@ -45,6 +46,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/categories/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/contacts/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/expert_applications/new.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/expert_applications/thank_you.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/how_tos/_form.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/how_tos/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/how_tos/show.html.erb</file>
@@ -82,12 +84,12 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/edit_password.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/howtos.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/intro.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/membership.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/more_about_free_listing.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/more_about_full_membership.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/more_about_resident_expert.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/show.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/thank_you_resident_application.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/environment.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/environments/test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/routes.rb</file>
@@ -101,12 +103,14 @@
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090219015207_add_gst_to_payments.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090220094949_create_expert_applications.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090224184049_add_workflow_fields_to_expert_application.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090303090510_add_fields_to_expert_application.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/schema.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/authenticated_system.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/authenticated_test_helper.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/contact_system.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/import_utils.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/task_utils.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/tasks/be_amazing.rake</file>
         <file>file:/Users/cyrille/Sites/be_amazing/public/javascripts/application.js</file>
         <file>file:/Users/cyrille/Sites/be_amazing/public/stylesheets/default.css</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/articles.yml</file>
@@ -129,6 +133,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/expert_applications_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/how_tos_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/invoices_controller_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/functional/payments_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/reviewer_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/search_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/sessions_controller_test.rb</file>
