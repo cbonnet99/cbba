@@ -1,5 +1,10 @@
 <%= title "Payment for your #{@payment.title.downcase}" %>
-<p>Your total payment for full membership is: <em class="money"><%=amount_view(@payment.amount)%></em>, plus GST <em class="money"><%=amount_view(@payment.gst)%></em> for a total of <em class="money"><%=amount_view(@payment.total)%></em></p>
+<div class="payment-left">Your total payment for full membership is:</div>
+<div class="payment-right"> <em class="money"><%=amount_view(@payment.amount+@payment.discount)%></em><br/>
+-Discount <em class="money"><%=amount_view(@payment.discount) %></em><br/>
++GST <em class="money"><%=amount_view(@payment.gst)%></em><br/>
+Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
+<div class="cleaner"></div>
 <fieldset>
   <legend>Your payment details</legend>
   <ol>
