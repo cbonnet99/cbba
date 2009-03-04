@@ -48,6 +48,15 @@ class SearchControllerTest < ActionController::TestCase
     assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.category_id
 	end
 
+  def test_fuzzy_search_lowercase
+		hypnotherapy = subcategories(:hypnotherapy)
+		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+		get :fuzzy_search, :fuzzy_where => canterbury_christchurch_city.name, :fuzzy_what => hypnotherapy.name.upcase
+    assert_not_nil assigns(:subcategory)
+		assert_response :success
+		assert_equal 3, assigns(:results).size
+  end
+  
   def test_fuzzy_search
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)

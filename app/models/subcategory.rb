@@ -10,7 +10,7 @@ class Subcategory < ActiveRecord::Base
 
   def self.from_param(param)
     unless param.blank?
-      return find_by_name(param)
+      return find(:first, :conditions => ["lower(name) = ?", param.downcase])
     end
   end
 
