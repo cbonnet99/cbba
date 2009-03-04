@@ -2,6 +2,33 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SpecialOffersControllerTest < ActionController::TestCase
 
+  def test_limit_special_offers_for_full_members
+    sgardiner = users(:sgardiner)
+
+    SpecialOffer.create(:title => "Title", :description => "Description",
+      :how_to_book => "Book here", :terms => "Terms here", :state => "published", :author => sgardiner   )
+
+    new_offer2 = SpecialOffer.create(:title => "Title2", :description => "Description",
+      :how_to_book => "Book here", :terms => "Terms here", :author => sgardiner)
+    post :publish, {:id => new_offer2.id }, {:user_id => sgardiner.id }
+    assert_equal "You can only have 1 special offer published at any time", flash[:error]
+    assert_redirected_to special_offer_path(new_offer2)
+  end
+
+  def test_limit_special_offers_for_resident_expert
+    cyrille = users(:cyrille)
+    one = special_offers(:one)
+
+    SpecialOffer.create(:title => "Title", :description => "Description",
+      :how_to_book => "Book here", :terms => "Terms here", :state => "published", :author => cyrille   )
+    SpecialOffer.create(:title => "Title2", :description => "Description",
+      :how_to_book => "Book here", :terms => "Terms here", :state => "published", :author => cyrille   )
+
+    post :publish, {:id => one.id }, {:user_id => cyrille.id }
+    assert_equal "You can only have 3 special offers published at any time", flash[:error]
+    assert_redirected_to special_offer_path(one)
+  end
+
   def test_publish
     cyrille = users(:cyrille)
     one = special_offers(:one)
@@ -24,14 +51,16 @@ class SpecialOffersControllerTest < ActionController::TestCase
 
   def test_create
     cyrille = users(:cyrille)
-    old_size = cyrille.special_offers_count
+    old_count = cyrille.special_offers_count
+    old_size = cyrille.special_offers.size
     post :create, {:special_offer => {:title => "Title", :description => "Description",
       :how_to_book => "Book here", :terms => "Terms here"} }, {:user_id => cyrille.id }
     new_offer = assigns(:special_offer)
     assert_not_nil new_offer
     assert new_offer.errors.blank?, "Errors found in new_offer: #{new_offer.errors.inspect}"
     cyrille.reload
-    assert_equal old_size+1, cyrille.special_offers_count
+    assert_equal old_size+1, cyrille.special_offers.size
+    assert_equal old_count+1, cyrille.special_offers_count
 
     #delete special offers directory
     FileUtils.rm_rf(SpecialOffer::PDF_SUFFIX_ABSOLUTE+SpecialOffer::PDF_SUFFIX_RELATIVE)

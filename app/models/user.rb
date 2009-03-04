@@ -69,6 +69,16 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def max_published_special_offers
+    if resident_expert?
+      return SpecialOffer::MAX_PUBLISHED[:resident_expert]
+    end
+    if full_member?
+      return SpecialOffer::MAX_PUBLISHED[:full_member]
+    end
+    return 0
+  end
+
   def create_geocodes
     unless district.blank?
       locate_address
