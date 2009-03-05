@@ -69,6 +69,11 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def contact_details
+    [address1, suburb, city, phone, mobile].reject{|o| o.blank?||o=="-"}.join("<br/>")
+
+  end
+
   def max_published_special_offers
     if resident_expert?
       return SpecialOffer::MAX_PUBLISHED[:resident_expert]

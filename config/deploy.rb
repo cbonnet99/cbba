@@ -139,8 +139,18 @@ namespace(:deploy) do
   task :run_init_ami do
     run "#{sudo} chmod +x #{current_path}/script/init_*.sh"
     run "#{sudo} #{current_path}/script/init_ami.sh"
-    run "#{sudo} apt-get install imagemagick"
-    run "#{sudo} apt-get install git-core"
+    run "#{sudo} apt-get update"
+    run "#{sudo} apt-get install -y imagemagick"
+    run "#{sudo} apt-get install -y git-core"
+  end
+
+  desc "Installs gems necessary for BAM"
+  task :install_gems do
+    run("cd #{deploy_to}/current")
+    run "#{sudo} gem install rake"
+    run("rake gems:install")
+    run("rake gems:unpack:dependencies")
+    run("rake gems:build")
   end
 
   desc "Reload test data"
@@ -160,6 +170,7 @@ namespace(:deploy) do
       symlink
       elastic_server_symlink
       run_init_ami
+      install_gems
       migrate
       reload_data
     end

@@ -29,6 +29,16 @@ class Invoice < ActiveRecord::Base
     pdf = PDF::Writer.new
     pdf.select_font PDF_TEXT_FONT
     pdf.image(PDF_SUFFIX_ABSOLUTE+IMAGE_LOGO, :justification=>:left)
+    pdf.text "From:", :font_size => 16
+    pdf.text "BeAmazing Ltd", :font_size => 12
+    pdf.text "40 Woodward Street"
+    pdf.text "Featherston, Sth Wairarapa"
+    pdf.text "GST number: 101-412-473"
+    pdf.text "Bank account: Kiwibank 38-9008-0791899-00"
+    pdf.text "To:", :font_size => 16
+    pdf.text payment.user.full_name, :font_size => 12
+    pdf.text payment.user.contact_details.gsub(/<br\/>/, "\n")
+    
     PDF::SimpleTable.new do |table|
         table.title_font_size = 16
         table.title_color = COLOR_TITLES

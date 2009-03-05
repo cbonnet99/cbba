@@ -3,21 +3,21 @@ courses:
   name: Courses
   slug: courses
   description: |+
-    Find health and fitness classes like Yoga & Pilates, train in a new profession, of develop your skills ... whatever the course you are looking for, find them here on beamazing.co.nz! (Course Providers, click here to place yourself in this directory)
+    Find health and fitness classes like Yoga & Pilates, train in a new profession, of develop your skills ... whatever the course you are looking for, find them here on beamazing.co.nz!
 practitioners:
   name: Practitioners
   position: 1
   slug: practitioners
   description: |+
-    It's your health, so it's your choice! Don't waste the time trawling the net, we've made it easy to find the ideal practitioner for you. With hundreds of practitioners in one place, use the search menu to find exactly what you need. (Practitioners, click here to place yourself in this directory)
+    It's your health, so it's your choice! Don't waste the time trawling the net, we've made it easy to find the ideal practitioner for you. With hundreds of practitioners in one place, use the search menu to find exactly what you need.
 coaching:
   position: 3
   name: Coaching
   slug: coaching
   description: |+
-    Achieve your goals, create life balance and turn your ideas into reality ... Find New Zealand's finest coaches right here in one place from Life Coaches, to Business Coaches, Executive Coaches and Relationship Coaches. (Course Providers, click here to place yourself in this directory)
+    Achieve your goals, create life balance and turn your ideas into reality ... Find New Zealand's finest coaches right here in one place from Life Coaches, to Business Coaches, Executive Coaches and Relationship Coaches.
 health_centers:
   position: 4
   name: Health Centers
   description: |+
-    Fitness Gym's, Natural Health Centres & Clinics, Beauty Salons, Retreats & Day Spas ... Find a wide range of these places near you on this site. Health Centres, click here to place yourself in this directory)
+    Fitness Gym's, Natural Health Centres & Clinics, Beauty Salons, Retreats & Day Spas ... Find a wide range of these places near you on this site.
