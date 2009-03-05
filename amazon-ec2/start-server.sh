@@ -1,0 +1,1 @@
+ec2-run-instances ami-c27692ab
