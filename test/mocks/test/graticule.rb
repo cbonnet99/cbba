@@ -11,10 +11,14 @@ module Graticule #:nodoc:
       def initialize(key)
       end
       def locate(address)
-        location = VirtualLocation.new
-        location.latitude = -75
-        location.longitude = 30
-        return location
+        if address =="Test Address"
+          raise Graticule::AddressError
+        else
+          location = VirtualLocation.new
+          location.latitude = -75
+          location.longitude = 30
+          return location
+        end
       end
     end
   end

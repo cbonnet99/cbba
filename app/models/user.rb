@@ -585,7 +585,7 @@ class User < ActiveRecord::Base
         self.latitude = location.latitude
         self.longitude = location.longitude
       rescue Graticule::AddressError
-        logger.warning("Couldn't geocode address: #{address}")
+        logger.warn("Couldn't geocode address: #{address}")
       end
 
   end
