@@ -31,6 +31,8 @@ Rails::Initializer.run do |config|
   # with "rake gems:install" on new installations. config.gem "bj" config.gem
   # "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
+#  config.gem "transaction-simple", :version => "1.4.0"
+#  config.gem "color", :version => "1.4.0"
   config.gem "graticule", :version => "0.2.8"
   config.gem "activemerchant", :lib => "active_merchant", :version => "1.4.1"
   config.gem "pdf-writer", :lib => "pdf/writer", :version => "1.1.8"

@@ -1,0 +1,13 @@
+Dear <%= @user.first_name %>,
+
+Congratulations!
+
+Your application to become our resident expert in <%= @expert_application.subcategory.name %> has been approved.
+
+You can now complete your application and pay your annual fee:
+
+<%= @url %>
+
+Please note that you have 7 days to complete your payment.
+
+<%= render :partial => "signature"  %>

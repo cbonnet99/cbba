@@ -44,6 +44,7 @@ class User < ActiveRecord::Base
   has_many :user_emails
   has_many :special_offers, :foreign_key => :author_id
   has_many :expert_applications
+  has_one :expertise_subcategory, :foreign_key => :resident_expert_id
 
   # #named scopes
   named_scope :active, :conditions => "state='active'"
@@ -578,14 +579,14 @@ class User < ActiveRecord::Base
   end
 
   def locate_address
-      arr = []
-      arr << address1 unless address1.blank?
-      arr << suburb unless suburb.blank?
-      arr << district.name unless district.name.blank?
-      arr << "New Zealand"
-      address = arr.join(", ")
-      location = ImportUtils.geocode(address)
-      self.latitude = location.latitude
-      self.longitude = location.longitude
+      address = [address1, suburb, district, "New Zealand"].reject{|o| o.blank?}.join(", ")
+      begin
+        location = ImportUtils.geocode(address)
+        self.latitude = location.latitude
+        self.longitude = location.longitude
+      rescue Graticule::AddressError
+        logger.warning("Couldn't geocode address: #{address}")
+      end
+
   end
 end

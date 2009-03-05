@@ -146,11 +146,9 @@ namespace(:deploy) do
 
   desc "Installs gems necessary for BAM"
   task :install_gems do
-    run("cd #{deploy_to}/current")
-    run "#{sudo} gem install rake"
-    run("rake gems:install")
-    run("rake gems:unpack:dependencies")
-    run("rake gems:build")
+    run("cd #{deploy_to}/current && #{sudo} rake gems:install")
+    run("cd #{deploy_to}/current && #{sudo} rake gems:unpack:dependencies")
+    run("cd #{deploy_to}/current && #{sudo} rake gems:build")
   end
 
   desc "Reload test data"

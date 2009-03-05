@@ -8,15 +8,15 @@
 <% end -%></div>
 <div class="cleaner"></div>
 <h3>User</h3>
-<p><%= @expert_application.user.name %></p>
 <p><%= @expert_application.user.email %></p>
-<% unless @expert_application.user.phone.blank? || @expert_application.user.phone == "-" -%>
-<p><%= @expert_application.user.phone %></p>
-<% end -%>
-<% unless @expert_application.user.mobile.blank? || @expert_application.user.mobile == "-" -%>
-<p><%= @expert_application.user.mobile %></p>
-<% end -%>
+<p><%= @expert_application.user.contact_details %></p>
 <h3>Expertise</h3>
-<p>Applying to become an expert in: <%=@expert_application.user.main_expertise%></p>
+<p>Applying to become an expert in: <%=@expert_application.subcategory.name%></p>
+<% if !@expert_application.subcategory.resident_expert.nil? -%>
+  <div class="important">There is already a resident expert for this modality: <%=  link_to @expert_application.subcategory.resident_expert.full_name, expanded_user_path(@expert_application.subcategory.resident_expert) %></div>
+<% end -%>
 <h3>Expert application</h3>
 <p><%= @expert_application.expert_presentation%></p>
+<p>Are you looking to raise your profile via the web? <%= @expert_application.raise_profile?%></p>
+<p>Are you willing to produce basic articles to talk about your field of expertise? <%= @expert_application.basic_articles?%></p>
+<p>Are you happy to answer the 'question of the week' from the public about your area of expertise? <%= @expert_application.weekly_question?%></p>

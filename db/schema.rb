@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090304225209) do
+ActiveRecord::Schema.define(:version => 20090305080906) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(:version => 20090304225209) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "payment_type"
-    t.string   "status",          :default => "pending"
+    t.string   "status",                :default => "pending"
     t.string   "ip_address"
     t.string   "first_name"
     t.string   "last_name"
@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(:version => 20090304225209) do
     t.date     "card_expires_on"
     t.integer  "gst"
     t.integer  "discount"
+    t.integer  "expert_application_id"
   end
 
   create_table "regions", :force => true do |t|
@@ -259,8 +260,9 @@ ActiveRecord::Schema.define(:version => 20090304225209) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "users_counter", :default => 0
+    t.integer  "users_counter",      :default => 0
     t.string   "slug"
+    t.integer  "resident_expert_id"
   end
 
   create_table "subcategories_users", :force => true do |t|
@@ -376,6 +378,8 @@ ActiveRecord::Schema.define(:version => 20090304225209) do
     t.integer  "published_special_offers_count",                :default => 0
     t.string   "latitude"
     t.string   "longitude"
+    t.datetime "resident_since"
+    t.datetime "resident_until"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

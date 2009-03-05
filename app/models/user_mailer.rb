@@ -2,6 +2,13 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
 
+  def approve_expert(user, expert_application)
+    setup_email(user)
+		@subject << "Your expert application has been approved"
+    @body[:expert_application] = expert_application
+		@body[:url] = edit_payment_path(expert_application.payment)
+  end
+
   def notifiy_admin_new_expert_application(expert_application, user)
     setup_email(user)
 		@subject << "New expert application"

@@ -42,3 +42,8 @@ sgardiner_aromatherapy:
     subcategory: aromatherapy
     position: 2
     expertise_position: 2
+applying_resident_expert_aromatherapy:
+    user: applying_resident_expert
+    subcategory: aromatherapy
+    position: 3
+    expertise_position: 1

@@ -7,6 +7,7 @@ class ExpertApplication < ActiveRecord::Base
   belongs_to :subcategory
   belongs_to :approved_by, :class_name => "User"
   belongs_to :rejected_by, :class_name => "User"
+  has_one :payment
 
   validates_presence_of :subcategory, :expert_presentation
 
@@ -22,11 +23,11 @@ class ExpertApplication < ActiveRecord::Base
   named_scope :rejected, :conditions => "status='rejected'"
 
   aasm_event :approve do
-      transitions :from => :pending, :to => :approved, :on_transition => :email_new_expert
+      transitions :from => :pending, :to => :approved, :on_transition => :email_approve_expert
   end
 
   aasm_event :reject do
-      transitions :from => :pending, :to => :rejected, :on_transition => :email_reject_expert
+      transitions :from => :pending, :to => :rejected
   end
 
   aasm_event :time_out do
@@ -39,16 +40,14 @@ class ExpertApplication < ActiveRecord::Base
       end
   end
 
-  def email_reject_expert
-
-  end
-
-  def email_new_expert
-
+  def email_approve_expert
+    new_payment = user.payments.create!(Payment::TYPES[:resident_expert])
+    self.update_attribute(:payment, new_payment)
+    UserMailer.deliver_approve_expert(user, self)
   end
 
   def email_time_out_expert
-
+    
   end
 
 end

@@ -2,17 +2,17 @@ class Payment < ActiveRecord::Base
   DEFAULT_TYPE = "full_member"
   TYPES = {:full_member => {:payment_type => "new", :title => "12 month membership", :amount => 9900, :discount => 10000  },
     :renew_full_member => {:payment_type => "renewal", :title => "12 month membership renewal", :amount => 19900, :discount => 0 },
-    :resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership", :amount => 69900, :discount => 349 },
-    :renew_resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership renewal", :amount => 69900, :discount => 0 }
+    :resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership", :amount => 35000, :discount => 34900 },
+    :renew_resident_expert => {:payment_type => "resident_expert_renewal", :title => "12 month resident expert membership renewal", :amount => 69900, :discount => 0 }
   }
   REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal", :resident_expert => "thank_you_resident_expert"}
 
   GST = 1250
 
   belongs_to :user
-  has_one :order
   has_one :invoice
   has_many :transactions, :class_name => "PaymentTransaction"
+  belongs_to :expert_application
 
   attr_accessor :card_number, :card_verification
 
@@ -52,16 +52,36 @@ class Payment < ActiveRecord::Base
       #create invoice
       @invoice = Invoice.create(:payment_id => self.id )
       update_attribute(:invoice_number, @invoice.filename)
-      user.member_since = Time.now if user.member_since.nil?
-      if user.member_until.nil?
-        user.member_until = 1.year.from_now
-      else
-        user.member_until += 1.year
+      if payment_type == "new" || payment_type == "renewal"
+        user.member_since = Time.now if user.member_since.nil?
+        if user.member_until.nil?
+          user.member_until = 1.year.from_now
+        else
+          user.member_until += 1.year
+        end
+        #in case this is a free listing user upgrading...
+        if user.free_listing?
+          user.free_listing = false
+          user.add_role("full_member")
+        end
       end
-      #in case this is a free listing user upgrading...
-      if user.free_listing?
-        user.free_listing = false
-        user.add_role("full_member")
+      if payment_type == "resident_expert" || payment_type == "resident_expert_renewal"
+        user.resident_since = Time.now if user.resident_since.nil?
+        if user.resident_until.nil?
+          user.resident_until = 1.year.from_now
+        else
+          user.resident_until += 1.year
+        end
+        if !user.resident_expert?
+          user.free_listing = false
+          user.add_role("resident_expert")
+          subcat = expert_application.subcategory
+          if !subcat.resident_expert.nil?
+            logger.error("User: #{user.full_name} has paid to become resident expert on #{subcat.name}, but there is already an expert: #{subcat.resident_expert.full_name}")
+          else
+            subcat.update_attribute(:resident_expert_id, user.id)
+          end
+        end
       end
       user.save!
       user.activate! unless user.active?

@@ -35,6 +35,25 @@ class PaymentTest < ActiveSupport::TestCase
     assert_equal old_size+1, cyrille.payments.renewals.size
   end
 
+  def test_purchase_resident_expert
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    applying_resident_expert = users(:applying_resident_expert)
+    applying_expert = expert_applications(:applying_expert)
+    payment = applying_resident_expert.payments.create!(Payment::TYPES[:resident_expert])
+    payment.update_attributes(:card_number => "1", :card_expires_on => Time.now, :expert_application => applying_expert )
+    payment.purchase
+    applying_resident_expert.reload
+    assert_equal Time.now.to_date, applying_resident_expert.resident_since.to_date
+    assert_equal 1.year.from_now.to_date, applying_resident_expert.resident_until.to_date
+    #an email should have been sent
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    applying_resident_expert.reload
+    assert applying_resident_expert.resident_expert?
+  end
+
   def test_purchase
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
