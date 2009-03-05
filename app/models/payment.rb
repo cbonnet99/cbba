@@ -1,9 +1,9 @@
 class Payment < ActiveRecord::Base
   DEFAULT_TYPE = "full_member"
-  TYPES = {:full_member => {:payment_type => "new", :title => "Full membership for 1 year", :amount => 9900, :discount => 10000  },
-    :renew_full_member => {:payment_type => "renewal", :title => "Renewal of full membership for 1 year", :amount => 19900, :discount => 0 },
-    :resident_expert => {:payment_type => "resident_expert", :title => "Resident expert membership for 1 year", :amount => 69900, :discount => 349 },
-    :renew_resident_expert => {:payment_type => "resident_expert", :title => "Resident expert membership for 1 year", :amount => 69900, :discount => 0 }
+  TYPES = {:full_member => {:payment_type => "new", :title => "12 month membership", :amount => 9900, :discount => 10000  },
+    :renew_full_member => {:payment_type => "renewal", :title => "12 month membership renewal", :amount => 19900, :discount => 0 },
+    :resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership", :amount => 69900, :discount => 349 },
+    :renew_resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership renewal", :amount => 69900, :discount => 0 }
   }
   REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal", :resident_expert => "thank_you_resident_expert"}
 
@@ -44,7 +44,7 @@ class Payment < ActiveRecord::Base
   end
 
   def purchase
-    response = GATEWAY.purchase(amount, credit_card, purchase_options)
+    response = GATEWAY.purchase(total, credit_card, purchase_options)
     logger.debug "============ response from DPS: #{response.inspect}"
     transactions.create!(:action => "purchase", :amount => total, :response => response)
     if response.success?

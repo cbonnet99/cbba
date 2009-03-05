@@ -4,14 +4,9 @@
     font-weight: bold;
 }
 
-.payment-left {
-    float: left;
-}
-
 .payment-right {
     float: left;
     text-align: right;
-    margin: 5px;
 }
 
 .resident-expert-application-workflow input{
