@@ -147,7 +147,8 @@ class UsersController < ApplicationController
     @mt = params[:mt] || "free_listing"
     professional_str = params[:professional] || "false"
     professional = professional_str == "true"
-    @user = User.new(:membership_type => @mt, :professional => professional )
+    subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i
+    @user = User.new(:membership_type => @mt, :professional => professional, :subcategory1_id => subcategory1_id  )
 		get_districts_and_subcategories
   end
  
