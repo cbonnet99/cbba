@@ -78,14 +78,14 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   config.active_record.observers = :user_observer
 
-  config.action_mailer.smtp_settings = {
-		:address  => "smtp2.vodafone.net.nz",
-		:port  => 25,
-		:domain  => "beamazing.co.nz",
-		:authentication  => :login,
-		:user_name  => "oosav@vodafone.net.nz",
-		:password  => "urban74"
-	}
+#  config.action_mailer.smtp_settings = {
+#		:address  => "smtp2.vodafone.net.nz",
+#		:port  => 25,
+#		:domain  => "beamazing.co.nz",
+#		:authentication  => :login,
+#		:user_name  => "oosav@vodafone.net.nz",
+#		:password  => "urban74"
+#	}
 
 end
 
