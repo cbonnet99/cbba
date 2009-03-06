@@ -151,8 +151,8 @@ namespace(:deploy) do
 #    run("cd #{deploy_to}/current && #{sudo} rake gems:build")
   end
 
-  desc "Reload test data"
-  task :reload_data do
+  desc "Load test data"
+  task :load_data do
     #Cyrille(7 Dev 2008): commented out for now as we use test data in staging
 #    unless ENV["RAILS_ENV"] == "production"
     run("cd #{deploy_to}/current; /usr/bin/rake bam:load RAILS_ENV=production")
@@ -170,7 +170,7 @@ namespace(:deploy) do
       run_init_ami
       install_gems
       migrate
-      reload_data
+      load_data
     end
 
     restart
@@ -186,7 +186,7 @@ namespace(:deploy) do
       elastic_server_symlink
 #      run_init_ami
       migrate
-#      reload_data
+#      load_data
     end
 
     restart
