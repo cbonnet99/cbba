@@ -7,6 +7,7 @@ test:
   <<: *non_production_settings
   
 production:
-  site_url: http://www.beamazing.co.nz
+#  site_url: http://www.beamazing.co.nz
+  site_url: http://75.101.132.186:9000
   site_name: Be Amazing
   admin_email: cbonnet99@gmail.com
