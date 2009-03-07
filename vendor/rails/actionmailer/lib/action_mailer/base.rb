@@ -667,7 +667,9 @@ module ActionMailer #:nodoc:
         sender = mail['return-path'] || mail.from
 
         smtp = Net::SMTP.new(smtp_settings[:address], smtp_settings[:port])
-        smtp.enable_starttls_auto if smtp.respond_to?(:enable_starttls_auto)
+        #Cyrille (7 March 2009): commented out because the SMTP server we use accept TLS
+        ##but has incorrect SSL certificates, triggering an error...
+        #smtp.enable_starttls_auto if smtp.respond_to?(:enable_starttls_auto)
         smtp.start(smtp_settings[:domain], smtp_settings[:user_name], smtp_settings[:password],
                    smtp_settings[:authentication]) do |smtp|
           smtp.sendmail(mail.encoded, sender, destinations)
