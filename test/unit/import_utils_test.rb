@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ImportUtilsTest < ActiveSupport::TestCase
 
 
+  def test_import_categories
+    ImportUtils.import_categories
+  end
+
+  def test_import_subcategories
+    ImportUtils.import_subcategories
+  end
+
   def test_decompose_phone_number
     assert_equal ['09', '1234567'], ImportUtils.decompose_phone_number(" 09-123 45-67")
   end

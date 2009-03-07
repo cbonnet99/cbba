@@ -1,5 +1,6 @@
 require 'csv'
 require 'graticule'
+require 'active_record/fixtures'
 
 class ImportUtils
 
@@ -21,7 +22,16 @@ class ImportUtils
 		end
 	end
 
-  
+  def self.import_categories
+    directory = File.join( File.dirname(__FILE__) , '../test/fixtures' )
+    Fixtures.create_fixtures(directory, 'categories')
+  end
+
+  def self.import_subcategories
+    directory = File.join( File.dirname(__FILE__) , '../test/fixtures' )
+    Fixtures.create_fixtures(directory, 'subcategories')
+  end
+
   #returns a location object for the address passed as a parameter
   def self.geocode(address)
     #TODO: remove hardocded Google Maps API key for BAM
