@@ -465,12 +465,12 @@ body {
     width:170px;  /* LC width */
     right: 170px;  /* LC width */
     margin-left:-100%;
-    background:green top right no-repeat;
+    background: white top right no-repeat;
 }
 #right {
     width:170px;  /* RC width */
     margin-right: -170px;  /* RC width */
-    background:yellow top right no-repeat;
+    background: white top right no-repeat;
 }
 #middle {
     width: 100%;
@@ -512,4 +512,86 @@ body {
 }
 .fieldWithErrors input, .fieldWithErrors select, .fieldWithErrors label {
     background-color: #ffdfdf;
+}
+/* ------------------------  promowidget  ------------------------- */
+#promowidget {
+    padding-left: 10px;
+}
+.promowidget {
+	background-image: url(/images/promowidget/feat_shadow_middle.gif);
+	background-repeat: repeat-y;
+	background-position: left bottom;
+	padding: 0px;
+	/*margin-top: 10px;*/
+	width: 160px;
+}
+.promowidget .top {
+	height: 8px;
+	background-image: url(/images/promowidget/feat_shadow_top.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	font-size: 0.1em;
+}
+
+.promowidget .bottom {
+	background-image: url(/images/promowidget/feat_shadow_bot.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 16px;
+}
+
+.promowidget .nav {
+	background-image: url(/images/promowidget/nav_dottedline.gif);
+	background-repeat: no-repeat;
+	background-position: center top;
+	margin-left: 4px;
+	margin-right: 5px;
+	text-align: center;
+	color: #CCCCCC;
+	padding-top: 8px;
+	margin-top: 9px;
+}
+
+.promowidget .nav a {
+	outline: none;
+}
+
+.promowidget .content {
+	margin-right: 10px;
+	margin-left: 8px;
+	height: 180px;
+}
+
+.promowidget .title  {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #666666;
+	font-weight: bold;
+	font-size: 1.1em;
+	margin-bottom:3px;
+	margin-top:7px;
+	margin-left: 3px;
+}
+
+.promowidget .description  {
+	font-size: 1.1em;
+	color: #666666;
+	margin-left: 3px;
+}
+
+.promowidget .link  {
+	color: #398299;
+	margin-top:8px;
+	margin-left: 3px;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+.promowidget .link a {
+	text-decoration:none;
+	color: #398299;
+}
+.promowidget .link a:hover  {
+	text-decoration:underline;
+	color: #33cc33;
 }

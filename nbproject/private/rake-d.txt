@@ -4,6 +4,7 @@ asset\:packager\:delete_all=Delete all asset builds
 auth\:gen\:site_key=Generates config/initializers/site_keys.rb
 bam\:geocode=Geocodes all users from CSV (Warning: this is calling Google Maps)
 bam\:load=Loads all users and districts in the current database
+bam\:load_demo_data=Loads all users and districts in the current database
 bam\:load_geocoded=Loads all GEOCODED users and districts in the current database
 bam\:reload=Recreates the database and reloads all users and districts (can only be used in dev, as it sends email to new users)
 bam\:reload_geocoded=Recreates the database and reloads all GEOCODED users and districts (can only be used in dev, as it sends email to new users)

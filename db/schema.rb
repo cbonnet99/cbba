@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090305080906) do
+ActiveRecord::Schema.define(:version => 20090307084722) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -380,6 +380,7 @@ ActiveRecord::Schema.define(:version => 20090305080906) do
     t.string   "longitude"
     t.datetime "resident_since"
     t.datetime "resident_until"
+    t.string   "description"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
