@@ -278,6 +278,18 @@ class User < ActiveRecord::Base
     User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
   end
 
+  def self.published_resident_experts
+    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false", :order => "first_name, last_name")
+  end
+
+  def self.count_published_resident_experts
+    User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false")
+  end
+
+  def self.count_published_full_members
+    User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false")
+  end
+
   def self.count_newest_full_members
     User.count(:include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false")
   end

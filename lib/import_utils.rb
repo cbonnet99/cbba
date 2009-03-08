@@ -22,6 +22,11 @@ class ImportUtils
 		end
 	end
 
+  def self.import_counters
+    directory = File.join( File.dirname(__FILE__) , '../test/fixtures' )
+    Fixtures.create_fixtures(directory, 'counters')
+  end
+
   def self.import_categories
     directory = File.join( File.dirname(__FILE__) , '../test/fixtures' )
     Fixtures.create_fixtures(directory, 'categories')

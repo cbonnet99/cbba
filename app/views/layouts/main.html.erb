@@ -71,13 +71,17 @@
       </div>
 
       <div class="column" id="left"><div class="column-in">
-          <ul class="simple" id="categories">
+          <ul class="simple left-items" id="categories">
             <% @categories.each do |c| -%>
               <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
             <%end -%>
           </ul>
         </div>
-
+        <ul class="simple left-items">
+            <% @counters.each do |c| -%>
+              <li><%= link_to c.title, resident_experts_path%> <span class="users-counter"><%= c.count%></span></li>
+            <%  end -%>
+        </ul>
         <div class="column" id="right"><div class="column-in">
         </div></div>
 

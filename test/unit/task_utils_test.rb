@@ -4,6 +4,16 @@ class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
 
+  def test_update_counters
+    full_members = counters(:full_members)
+    resident_experts = counters(:resident_experts)
+    TaskUtils.update_counters
+    full_members.reload
+    assert_equal 2, full_members.count
+    resident_experts.reload
+    assert_equal 1, resident_experts.count
+  end
+
   def test_send_reminder_on_expiring_memberships
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true

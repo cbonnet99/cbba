@@ -298,7 +298,7 @@ div#header .column-in {
 .cleaner-left {
     clear: left;
 }
-ul#categories li.selected {
+ul.left-items li.selected {
     background-color: #b3c4d4;
 }
 .users-counter {
@@ -368,7 +368,7 @@ ul.simple li {
     list-style: none;
     padding: 3px;
 }
-ul#categories li {
+ul.left-items li {
     text-align: left;
     margin: 0;
     padding: 10px;

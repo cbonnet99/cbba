@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :resident_experts
   map.resources :invoices
   map.resources :special_offers
   map.resources :orders

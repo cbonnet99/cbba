@@ -76,6 +76,12 @@ class TaskUtils
 		end
 	end
 
+	def self.update_counters
+		Counter.all.each do |c|
+			c.update_attribute(:count, User.send("count_published_#{c.title.gsub(/ /, '_').downcase}".to_sym))
+		end
+	end
+
 #  def self.create_default_roles
 #    YAML::load(ERB.new(IO.read(File.dirname(__FILE__) +"/../test/fixtures/roles.yml")).result)
 #  end

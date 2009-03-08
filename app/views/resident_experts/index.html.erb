@@ -1,0 +1,4 @@
+<% javascript "resident-experts" %>
+<% @experts.each do |e| -%>
+  <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => e }  %></div>
+<% end -%>

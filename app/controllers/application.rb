@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   layout :find_layout
 
 	#  before_filter :tags
-  before_filter :current_category, :categories, :except => :change_category
+  before_filter :current_category, :categories, :counters, :except => :change_category
 
 	def get_districts_and_subcategories
     get_districts
@@ -81,6 +81,10 @@ class ApplicationController < ActionController::Base
 
 	def categories
 		@categories = Category.list_categories
+	end
+
+	def counters
+		@counters = Counter.all
 	end
 
   def tags

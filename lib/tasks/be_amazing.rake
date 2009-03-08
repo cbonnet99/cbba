@@ -8,10 +8,12 @@ namespace :bam do
   desc "Loads all users and districts in the current database"
   task :load => :environment do
 			ImportUtils.import_districts
+			ImportUtils.import_counters
 			ImportUtils.import_categories
 			ImportUtils.import_subcategories
       TaskUtils.create_default_admins
 			TaskUtils.count_users
+			TaskUtils.update_counters
 			TaskUtils.mark_down_old_full_members
   end
 
