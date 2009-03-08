@@ -12,7 +12,19 @@ module ApplicationHelper
       end
     end
   end
-  
+
+  def profile_description(user)
+    if user.free_listing?
+      ""
+    else
+      if user.user_profile.published?
+        "Full profile available"
+      else
+       "Full profile coming soon"
+      end
+    end
+  end
+
   def author_link(user)
     if user.active?
       link_to user.name, user_path_with_context(user)

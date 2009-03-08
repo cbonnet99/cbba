@@ -33,7 +33,7 @@
           <div id="login-right">
             <%= yield :flash %>
             <% if is_admin? -%>
-                <span class="important"><%= link_to "Admin interface", expert_applications_action_path(:action => "index" ) %></span>
+              <span class="important"><%= link_to "Admin interface", expert_applications_action_path(:action => "index" ) %></span>
             <% end -%>
             <% if is_reviewer? -%>
               <%= link_to current_user.sentence_to_review, :controller => "reviewer", :action => "index"    %>
@@ -43,47 +43,47 @@
       </div>
     </div>
     <div id="container">
-
-        <div class="column" id="middle"><div class="column-in">
-            <div id="search">
-              <% form_tag :controller => "/search", :action => "fuzzy_search" do  -%>
-                <div id="what-wrapper" class="search-wrapper">
+      <div class="column" id="middle"><div class="column-in">
+          <div id="search">
+            <% form_tag :controller => "/search", :action => "fuzzy_search" do  -%>
+              <div id="what-wrapper" class="search-wrapper">
                 <label for="fuzzy_what">What: </label>
                 <input class="text" type="text" id="fuzzy_what" name="fuzzy_what" value="<%=params[:fuzzy_what]%>" />
                 <p>Examples: yoga, acupuncture, life coaching, etc.</p>
-                </div>
-                <div id="where-wrapper" class="search-wrapper">
+              </div>
+              <div id="where-wrapper" class="search-wrapper">
                 <label for="fuzzy_where">Where: </label>
                 <input class="text" type="text" id="fuzzy_where" name="fuzzy_where" value="<%=params[:fuzzy_where]%>"  />
                 <p>Examples: wellington, canterbury, auckland, etc.</p>
-                </div>
-                <div id="search-submit-wrapper" class="search-wrapper">
-                  <%= submit_tag "Search", :class => "submit"  %>
-                </div>
-               <%end%>
-            </div>
-            <div class="cleaner"></div>
-            <div id="mccont">
-              <%= flash_messages %>
-              <%= yield :layout %>
-            </div>
+              </div>
+              <div id="search-submit-wrapper" class="search-wrapper">
+                <%= submit_tag "Search", :class => "submit"  %>
+              </div>
+            <%end%>
+          </div>
+          <div class="cleaner"></div>
+          <div id="mccont">
+            <%= flash_messages %>
+            <%= yield :layout %>
+          </div>
 
-        </div></div>
-        
-        <div class="column" id="left"><div class="column-in">
-            <ul class="simple" id="categories">
-              <% @categories.each do |c| -%>
-                <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
-              <%end -%>
-            </ul>
+        </div>
+      </div>
+
+      <div class="column" id="left"><div class="column-in">
+          <ul class="simple" id="categories">
+            <% @categories.each do |c| -%>
+              <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
+            <%end -%>
+          </ul>
         </div>
 
         <div class="column" id="right"><div class="column-in">
         </div></div>
 
 
+      </div>
     </div>
-
     <div id="footer"><div class="column-in">
         <p>&copy;Wellbeing Directory, part of the Elevate Group Ltd</p>
     </div></div>
