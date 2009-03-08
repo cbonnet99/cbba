@@ -5,30 +5,45 @@ $(document).ready(function(){
 
 U_Core = {};
 
-U_Core.F_SelectCategory = function(id, category_name) {
+U_Core.F_SelectCounter = function(id) {
         //save the selection to the server
-        $.get("/search/"+id+"/change_category");
+        $.get("/search/"+id+"/select_counter");
 
         //unselect all categories
-        $.("ul#categories li").each(
+        $("ul.left-items li").each(
             function(intIndex){
-                $.(this).removeClass("selected");
+                $(this).removeClass("selected");
+            }
+        );
+            
+        //select new current item
+        $(this).addClass("selected");        
+};
+
+U_Core.F_SelectCategory = function(id, category_name) {
+        //save the selection to the server
+        $.get("/search/"+id+"/select_category");
+
+        //unselect all categories
+        $("ul.left-items li").each(
+            function(intIndex){
+                $(this).removeClass("selected");
             }
         );
 
         //select new current category
-        $.(this).addClass("selected");
+        $(this).addClass("selected");
 
         //Change the value of the search hidden field
-        $("#search_category_id").get(0).value = ""+id;
+//        $("#search_category_id").get(0).value = ""+id;
 
         //change the drop-down for subcategories
-        $.getJSON("/categories/"+id+".js/subcategories",{
-        }, function(j){
-            var options = "<option value=''>All "+category_name+"</option>";
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i].optionValue + '">' + j[i].optionDisplay + '</option>';
-            }
-            $("select#what").html(options);
-        });
+//        $.getJSON("/categories/"+id+".js/subcategories",{
+//        }, function(j){
+//            var options = "<option value=''>All "+category_name+"</option>";
+//            for (var i = 0; i < j.length; i++) {
+//                options += '<option value="' + j[i].optionValue + '">' + j[i].optionDisplay + '</option>';
+//            }
+//            $("select#what").html(options);
+//        });
 }

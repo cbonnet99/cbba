@@ -1,5 +1,5 @@
 <% javascript "resident-experts" %>
-<%= title "Resident experts" %>
-<% @experts.each do |e| -%>
+<%= title "Full members" %>
+<% @members.each do |e| -%>
   <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => e }  %></div>
 <% end -%>

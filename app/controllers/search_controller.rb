@@ -101,13 +101,32 @@ class SearchController < ApplicationController
     @total_full_members = User.count_newest_full_members
 	end
 
-	def change_category
+	def select_category
+    logger.debug("---- in select_category")
 		@category = Category.find(params[:id])
-    log_user_event "Change category", "", @category.name, {:category_id => @category.id }
-		session[:category_id] = @category.id unless @category.nil?
+    log_user_event "Select category", "", @category.name, {:category_id => @category.id }
+    unless @category.nil?
+      session[:category_id] = @category.id
+      session[:counter_id] = nil
+      logger.debug("---- in select_category, session[:category_id]: #{session[:category_id]}")
+      logger.debug("---- in select_category, session[:counter_id]: #{session[:counter_id]}")
+    end
 		render :layout => false
 	end
-	
+
+	def select_counter
+    logger.debug("---- in select_counter")
+		@counter = Counter.find(params[:id])
+    log_user_event "Select counter", "", @counter.title
+    unless @counter.nil?
+      logger.debug("---- in select_counter, session[:category_id]: #{session[:category_id]}")
+      logger.debug("---- in select_counter, session[:counter_id]: #{session[:counter_id]}")
+      session[:category_id] = nil
+      session[:counter_id] = @counter.id
+    end
+		render :text => ''
+	end
+
 	def simple_search
 		@what = params[:what]
 		@where = params[:where]

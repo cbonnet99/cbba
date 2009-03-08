@@ -1,9 +1,10 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ResidentExpertsControllerTest < ActionController::TestCase
+class FullMembersControllerTest < ActionController::TestCase
   fixtures :all
-  test "valid JS response" do
-    get :index, :format => "js"
+  
+  test "valid response" do
+    get :index
 #    puts @response.body
     assert_match %r{Cyrille Bonnet}, @response.body
   end

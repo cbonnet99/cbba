@@ -53,13 +53,16 @@ class ApplicationController < ActionController::Base
 	end
 
 	def current_category
+    @counter_id = session[:counter_id]
     if !params[:category_name].nil?
 			@category = Category.find_by_name(undasherize(params[:category_name]))
       @category_id = @category.id
       session[:category_id] = @category_id
     else
-      @category_id = session[:category_id] || (Category.find_by_position(1).nil? ? nil : Category.find_by_position(1).id)
-      @category = Category.find(@category_id) unless @category_id.nil?
+      if @counter_id.blank?
+        @category_id = session[:category_id] || (Category.find_by_position(1).nil? ? nil : Category.find_by_position(1).id)
+        @category = Category.find(@category_id) unless @category_id.nil?
+      end
 		end
 	end
 

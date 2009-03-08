@@ -79,7 +79,7 @@
         </div>
         <ul class="simple left-items">
             <% @counters.each do |c| -%>
-              <li><%= link_to c.title, resident_experts_path%> <span class="users-counter"><%= c.count%></span></li>
+              <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to c.title, {:controller => c.title.gsub(/ /, '_').downcase, :action => "index"}, :onClick => "U_Core.F_SelectCounter(#{c.id})" %> <span class="users-counter"><%= c.count%></span></li>
             <%  end -%>
         </ul>
         <div class="column" id="right"><div class="column-in">

@@ -286,6 +286,10 @@ class User < ActiveRecord::Base
     User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false")
   end
 
+  def self.published_full_members
+    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false", :order => "first_name, last_name")
+  end
+
   def self.count_published_full_members
     User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false")
   end

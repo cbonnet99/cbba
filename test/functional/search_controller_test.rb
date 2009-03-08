@@ -27,22 +27,33 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:newest_articles).index(money) < assigns(:newest_articles).index(jogging)
   end
 
-	def test_change_category
+	def test_select_category
 		courses = categories(:courses)
     old_size = UserEvent.all.size
-		post :change_category, :id => courses.id
+		post :select_category, :id => courses.id
 		assert_response :success
 		assert_equal courses.id, session[:category_id]
     assert_equal old_size+1, UserEvent.all.size
 	end
 
-	def test_change_category_with_user
+	def test_select_counter
+		resident_experts = counters(:resident_experts)
+    old_size = UserEvent.all.size
+		post :select_counter, :id => resident_experts.id
+		assert_response :success
+		assert_equal resident_experts.id, session[:counter_id]
+    assert_nil session[:category_id]
+    assert_equal old_size+1, UserEvent.all.size
+	end
+
+	def test_select_category_with_user
 		courses = categories(:courses)
     cyrille = users(:cyrille)
     old_size = UserEvent.all.size
-		post :change_category, {:id => courses.id}, {:user_id => cyrille.id }
+		post :select_category, {:id => courses.id}, {:user_id => cyrille.id }
 		assert_response :success
 		assert_equal courses.id, session[:category_id]
+    assert_nil session[:counter_id]
     assert_equal old_size+1, UserEvent.all.size
     assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.user_id
     assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.category_id
