@@ -11,9 +11,6 @@
     <%= javascript_include_tag "jquery.autocomplete.pack.js" %>
     <script src="/subcategories.js" type="text/javascript"></script>
     <script src="/regions.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/javascripts/swfobject.js"></script>
-    <script type="text/javascript" src="/javascripts/jsonobj_min.js"></script>
-    <script type="text/javascript" src="/javascripts/promowidget.js"></script>
     <%= yield :tinymce %>
     <%= yield :tinymce_init %>
     <%= javascript_include_tag "liquid-canvas.js" %>
@@ -80,17 +77,6 @@
               <%end -%>
             </ul>
         </div>
-        <div id="promowidget">
-          <div class="promowidget">
-					<div class="top"></div>
-                    <div class="content"></div>
-					<div id="promowidget_nav" class="nav" style="display:none"><a href="#" onclick="pw.showPrev(); return false;"><img src="/images/promowidget/icon_prev.gif" alt="Previous" width="20" height="15" border="0" align="absbottom" />prev</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a id="promowidget_pause" href="#" onclick="pw.togglePause(); return false;">pause</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="pw.showNext(); return false;">next<img src="/images/promowidget/icon_next.gif" alt="Next" width="20" height="15" border="0" align="absbottom" /></a></div>
-					<div class="bottom"></div>
-          </div>
-        </div>
-      </div>
-    <script type="text/javascript" src="/resident_experts/index.js"></script>
-    <script type="text/javascript" src="/javascripts/resident_experts_widget.js"></script>
 
         <div class="column" id="right"><div class="column-in">
         </div></div>
