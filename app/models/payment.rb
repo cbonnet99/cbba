@@ -12,7 +12,7 @@ class Payment < ActiveRecord::Base
   belongs_to :user
   has_one :invoice
   has_many :transactions, :class_name => "PaymentTransaction"
-  belongs_to :expert_application
+  has_one :expert_application
 
   attr_accessor :card_number, :card_verification
 

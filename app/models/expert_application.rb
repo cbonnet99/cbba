@@ -7,7 +7,7 @@ class ExpertApplication < ActiveRecord::Base
   belongs_to :subcategory
   belongs_to :approved_by, :class_name => "User"
   belongs_to :rejected_by, :class_name => "User"
-  has_one :payment
+  belongs_to :payment
 
   validates_presence_of :subcategory, :expert_presentation
 
@@ -42,7 +42,7 @@ class ExpertApplication < ActiveRecord::Base
 
   def email_approve_expert
     new_payment = user.payments.create!(Payment::TYPES[:resident_expert])
-    self.update_attribute(:payment, new_payment)
+    self.update_attribute(:payment_id, new_payment.id)
     UserMailer.deliver_approve_expert(user, self)
   end
 

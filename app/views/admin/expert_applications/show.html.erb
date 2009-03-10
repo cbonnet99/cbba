@@ -11,7 +11,8 @@
 <p><%= @expert_application.user.email %></p>
 <p><%= @expert_application.user.contact_details %></p>
 <h3>Expertise</h3>
-<p>Applying to become an expert in: <%=@expert_application.subcategory.name%></p>
+<p>Applying to become an expert in <%= @expert_application.subcategory.name %></p>
+<p>Change to another modality? <% form_for @expert_application, :url => expert_applications_action_with_id_path(@expert_application, :action => "update") do |f|%><%= f.select :subcategory_id, @subcategories %><%=submit_tag "Change"%><%end%></p>
 <% if !@expert_application.subcategory.resident_expert.nil? -%>
   <div class="important">There is already a resident expert for this modality: <%=  link_to @expert_application.subcategory.resident_expert.full_name, expanded_user_path(@expert_application.subcategory.resident_expert) %></div>
 <% end -%>

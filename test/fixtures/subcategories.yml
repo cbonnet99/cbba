@@ -6,6 +6,7 @@ hypnotherapy:
     name: Hypnotherapy
     category: practitioners
     slug: hypnotherapy
+    resident_expert: cyrille
 aromatherapy:
     name: Aromatherapy
     category: practitioners

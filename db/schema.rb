@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090308030952) do
+ActiveRecord::Schema.define(:version => 20090308184626) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(:version => 20090308030952) do
     t.boolean  "raise_profile"
     t.boolean  "basic_articles"
     t.boolean  "weekly_question"
+    t.integer  "payment_id"
   end
 
   create_table "how_to_steps", :force => true do |t|
@@ -200,7 +201,7 @@ ActiveRecord::Schema.define(:version => 20090308030952) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "payment_type"
-    t.string   "status",                :default => "pending"
+    t.string   "status",          :default => "pending"
     t.string   "ip_address"
     t.string   "first_name"
     t.string   "last_name"
@@ -210,7 +211,6 @@ ActiveRecord::Schema.define(:version => 20090308030952) do
     t.date     "card_expires_on"
     t.integer  "gst"
     t.integer  "discount"
-    t.integer  "expert_application_id"
   end
 
   create_table "regions", :force => true do |t|

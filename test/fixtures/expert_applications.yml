@@ -5,3 +5,13 @@ applying_expert:
   expert_presentation: I think I am very qualified
   user: applying_resident_expert
   subcategory: yoga
+applying_expert2:
+  status: pending
+  expert_presentation: I think I am very qualified
+  user: applying_resident_expert
+  subcategory: hypnotherapy
+applying_expert3:
+  status: approved
+  expert_presentation: I think I am very qualified
+  user: applying_resident_expert
+  subcategory: aromatherapy

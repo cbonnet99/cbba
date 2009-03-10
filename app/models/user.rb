@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   has_many :user_emails
   has_many :special_offers, :foreign_key => :author_id
   has_many :expert_applications
-  has_one :expertise_subcategory, :foreign_key => :resident_expert_id
+  has_one :expertise_subcategory, :class_name => "Subcategory",  :foreign_key => :resident_expert_id
 
   # #named scopes
   named_scope :active, :conditions => "state='active'"
