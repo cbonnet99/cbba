@@ -3,10 +3,13 @@
 cyrille_profile:
   user: cyrille
   state: published
+  published_at: <%= 2.days.ago.to_s :db %>
+
 
 norma_profile:
   user: norma
   state: published
+  published_at: <%= 4.days.ago.to_s :db %>
 
 amcloughlin_profile:
   user: amcloughlin
