@@ -8,6 +8,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/admin/expert_applications_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/application.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/categories_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/expert_applications_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/full_members_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/resident_experts_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/search_controller.rb</file>
@@ -20,12 +21,14 @@
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user_mailer.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/_expert_application.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/expert_applications/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/full_members/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/layouts/main.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/resident_experts/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/resident_experts/index.js.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/fuzzy_search.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/select_category.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_form.html.erb</file>
@@ -43,6 +46,7 @@
         <file>file:/Users/cyrille/Sites/be_amazing/config/routes.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/settings.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/cron_jobs/app/cron.hourly/count_users</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/csv/users.csv</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090305072808_add_resident_since_resident_until_to_user.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090305080145_add_resident_expert_id_to_subcategory.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090305080906_add_expert_application_id_to_payment.rb</file>

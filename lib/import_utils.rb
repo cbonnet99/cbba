@@ -98,15 +98,28 @@ class ImportUtils
 					phone_array = ImportUtils.decompose_phone_number(ImportUtils.strip_and_nil(row[9]))
 					mobile_array = ImportUtils.decompose_mobile_number(ImportUtils.strip_and_nil(row[10]))
 					email = ImportUtils.strip_and_nil(row[11])
-          category_str = ImportUtils.strip_and_nil(row[12])
-					subcategory_str = ImportUtils.strip_and_nil(row[13])
-					role_str = ImportUtils.strip_and_nil(row[15])
+          website = ImportUtils.strip_and_nil(row[12])
+
+          category1_str = ImportUtils.strip_and_nil(row[13])
+					subcategory1_str = ImportUtils.strip_and_nil(row[14])
+          category2_str = ImportUtils.strip_and_nil(row[15])
+					subcategory2_str = ImportUtils.strip_and_nil(row[16])
+          category3_str = ImportUtils.strip_and_nil(row[17])
+					subcategory3_str = ImportUtils.strip_and_nil(row[18])
+
+          member_until_str = ImportUtils.strip_and_nil(row[19])
+          member_since_str = ImportUtils.strip_and_nil(row[20])
+          member_until = member_since = nil
+          member_until = DateTime.strptime(member_until_str, "%d.%m.%Y") unless member_until_str.blank?
+          member_since = DateTime.strptime(member_since_str, "%d.%m.%Y") unless member_since_str.blank?
+
+					role_str = ImportUtils.strip_and_nil(row[21])
 					if role_str == "2"
 						role = full_member
 					else
 						role = free_listing
 					end
-					receive_newsletter_str = ImportUtils.strip_and_nil(row[17])
+					receive_newsletter_str = ImportUtils.strip_and_nil(row[23])
 					receive_newsletter = (receive_newsletter_str =="Yes")
 
           latitude = ImportUtils.strip_and_nil(row[18])
@@ -121,21 +134,33 @@ class ImportUtils
 						raise "Error: district #{district_str} could not be found"
 						puts "No user was added"
 					end
-          category = Category.find_or_create_by_name(category_str.strip.capitalize)
-#					category = Category.find_or_create_by_name("All")
-					subcategory = Subcategory.find_or_create_by_name_and_category_id(subcategory_str.strip.capitalize, category.id)
+          category1 = Category.find_or_create_by_name(category1_str.strip.capitalize)
+					subcategory1 = Subcategory.find_or_create_by_name_and_category_id(subcategory1_str.strip.capitalize, category1.id)
+
+          category2 = Category.find_or_create_by_name(category2_str.strip.capitalize)
+					subcategory2 = Subcategory.find_or_create_by_name_and_category_id(subcategory2_str.strip.capitalize, category2.id)
+
+          category3 = Category.find_or_create_by_name(category3_str.strip.capitalize)
+					subcategory3 = Subcategory.find_or_create_by_name_and_category_id(subcategory3_str.strip.capitalize, category3.id)
+
 					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
 						:region_id => region.id, :phone_prefix => phone_array[0], :phone_suffix => phone_array[1], :mobile_prefix => mobile_array[0], :mobile_suffix => mobile_array[1], :email => email,
 						:free_listing => (role == free_listing), :professional => true,
 						:password => "blablabla", :password_confirmation => "blablabla",
-            :subcategory1_id => subcategory.id, :category_id => category.id,
+            :subcategory1_id => subcategory1.id, :category_id => category1.id,
+            :subcategory2_id => subcategory2.id,
+            :subcategory3_id => subcategory3.id,
 						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing",
-            :latitude => latitude, :longitude => longitude )
+            :latitude => latitude, :longitude => longitude, :website => website
+            )
 					user.register!
 					user.activate!
           # #publish profile
           user.user_profile.publish!
+          user.member_until = member_until
+          user.member_since = member_since
+          user.save!
 					puts "Added user #{user.name}"
 					user_count += 1
 				end

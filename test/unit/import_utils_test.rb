@@ -45,18 +45,20 @@ class ImportUtilsTest < ActiveSupport::TestCase
 		assert !annette.phone.blank?
     assert_equal 1, annette.roles.find_all_by_name("full_member").size
     assert_not_nil annette.user_profile
-		norma = User.find_by_email("norma@eurekacoaching.co.nz")
-    assert_equal "04-8018847", norma.phone
-    assert_equal "021-549923", norma.mobile
+    assert_equal "1 October 2007", annette.member_since.to_date.to_s.strip
+    assert_equal "1 May 2009", annette.member_until.to_date.to_s.strip
+		angela = User.find_by_email("angela.baines@paradise.net")
+    assert_equal "04-9051451", angela.phone
+    assert_equal "021-1103239", angela.mobile
 
 
-    assert_equal 2, annette.tabs.size
+    assert_equal 4, annette.tabs.size
     assert !annette.tabs.first.title.starts_with?("About")
     assert annette.tabs.last.title.starts_with?("About")
 		assert_not_equal "-", annette.phone
 		assert_equal 'active', annette.state
 
-    #first name (and other fields) should be stripped of empty spaces ("Tracy", not "Tracy ")
-    assert_not_nil User.find_by_first_name("Tracy")
+    #first name (and other fields) should be stripped of empty spaces ("Anne", not "Anne ")
+    assert_not_nil User.find_by_first_name("Anne")
 	end
 end
