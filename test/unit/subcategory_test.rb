@@ -3,6 +3,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SubcategoryTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_with_resident_expert
+    assert_equal 1, Subcategory.with_resident_expert.size
+  end
+
   def test_from_param
     hypnotherapy = subcategories(:hypnotherapy)
     assert_equal hypnotherapy, Subcategory.from_param(hypnotherapy.name)

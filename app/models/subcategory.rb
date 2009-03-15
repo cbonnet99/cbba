@@ -9,6 +9,8 @@ class Subcategory < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:category_id], :message => "must be unique in this category"
   after_create :create_slug
 
+  named_scope :with_resident_expert, :conditions => "resident_expert_id is not null"
+
   def self.from_param(param)
     unless param.blank?
       return find(:first, :conditions => ["lower(name) = ?", param.downcase])

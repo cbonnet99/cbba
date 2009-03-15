@@ -9,6 +9,7 @@ class ImportUtilsTest < ActiveSupport::TestCase
 
   def test_import_subcategories
     ImportUtils.import_subcategories
+    assert_equal 0, Subcategory.with_resident_expert.size
   end
 
   def test_decompose_phone_number

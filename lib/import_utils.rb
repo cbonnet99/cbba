@@ -35,6 +35,11 @@ class ImportUtils
   def self.import_subcategories
     directory = File.join( File.dirname(__FILE__) , '../test/fixtures' )
     Fixtures.create_fixtures(directory, 'subcategories')
+    #remove resident experts
+    Subcategory.with_resident_expert.each do |s|
+      s.resident_expert_id = nil
+      s.save
+    end
   end
 
   #returns a location object for the address passed as a parameter
