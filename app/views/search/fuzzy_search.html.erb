@@ -1,16 +1,13 @@
-<h1>Search results<%=  describe_search(@region, @district, @category, @subcategory) %></h1>
 <% unless logged_in? || @subcategory.nil? -%>
 <div id="bam-invite-join">
-  <p>Do you offer <%=@subcategory.name%>?</p>
-
-  <p>GREAT! We warmly invite you to <%= link_to 'join beamazing.co.nz', signup_intro_path %>!</p>
-
-  <p>If you're wanting make more use of the internet, reach more people and make a bigger difference, then you've come to the right place - we help 1000's of people find services like yours... <%= link_to 'LEARN MORE!', signup_intro_path %></p>
+  <p>Do you offer <%=@subcategory.name%>? GREAT! We warmly invite you to <%= link_to 'join beamazing.co.nz', signup_intro_path %>!</p>
+  <p>If you want to make more use of the Internet, reach more people and make a bigger difference, then you've come to the right place - we help 1000's of people find services like yours... <%= link_to 'LEARN MORE!', signup_intro_path %></p>
 </div>
 <%end%>
+<h1>Search results<%=  describe_search(@region, @district, @category, @subcategory) %></h1>
 <% unless @subcategory.nil? || @subcategory.resident_expert_id.nil? %>
   <p id="bam-meet-expert">Meet our resident expert:</p>
-  <%=render :partial => "users/user", :locals => {:user => @subcategory.resident_expert }  %>
+  <p><%=render :partial => "users/user", :locals => {:user => @subcategory.resident_expert }  %></p>
 <%end -%>
 <% if @results.empty? -%>
   No results found <%=  describe_search(@region, @district, @category, @subcategory) %>.
