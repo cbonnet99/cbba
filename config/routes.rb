@@ -18,8 +18,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.action_tab '/tabs/:action', :controller => 'tabs'
   map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
-	map.subcategory '/category/:category_name/:subcategory_name', :controller => "subcategories", :action => "show"
+	map.category_region '/category/:category_name/region/:region_name', :controller => "categories", :action => "region"
 	map.subcategory_region '/category/:category_name/:subcategory_name/:region_name', :controller => "subcategories", :action => "region"
+	map.subcategory '/category/:category_name/:subcategory_name', :controller => "subcategories", :action => "show"
   map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
 	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
