@@ -37,6 +37,7 @@ class ImportUtilsTest < ActiveSupport::TestCase
     assert_equal 1, yoga_daily.roles.find_all_by_name("free_listing").size
 		assert yoga_daily.free_listing?
 		assert !yoga_daily.subcategories.empty?
+		assert_equal 1, yoga_daily.subcategories.size
 		assert !yoga_daily.categories.empty?
 		assert_not_nil yoga_daily.subcategories.first.category
 		annette = User.find_by_email("annette@bodysystems.co.nz")

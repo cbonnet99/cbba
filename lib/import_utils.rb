@@ -134,23 +134,30 @@ class ImportUtils
 						raise "Error: district #{district_str} could not be found"
 						puts "No user was added"
 					end
-          category1 = Category.find_or_create_by_name(category1_str.strip.capitalize)
-					subcategory1 = Subcategory.find_or_create_by_name_and_category_id(subcategory1_str.strip.capitalize, category1.id)
-
-          category2 = Category.find_or_create_by_name(category2_str.strip.capitalize)
-					subcategory2 = Subcategory.find_or_create_by_name_and_category_id(subcategory2_str.strip.capitalize, category2.id)
-
-          category3 = Category.find_or_create_by_name(category3_str.strip.capitalize)
-					subcategory3 = Subcategory.find_or_create_by_name_and_category_id(subcategory3_str.strip.capitalize, category3.id)
-
+          category1_id = nil
+          subcategory1_id = nil
+          unless category1_str.blank?
+            category1_id = Category.find_or_create_by_name(category1_str.strip.capitalize).id
+            subcategory1_id = Subcategory.find_or_create_by_name_and_category_id(subcategory1_str.strip.capitalize, category1_id).id
+          end
+          subcategory2_id = nil
+          unless category2_str.blank?
+            category2_id = Category.find_or_create_by_name(category2_str.strip.capitalize).id
+            subcategory2_id = Subcategory.find_or_create_by_name_and_category_id(subcategory2_str.strip.capitalize, category2_id).id
+          end
+          subcategory3_id = nil
+          unless category3_str.blank?
+            category3_id = Category.find_or_create_by_name(category3_str.strip.capitalize).id
+            subcategory3_id = Subcategory.find_or_create_by_name_and_category_id(subcategory3_str.strip.capitalize, category3_id).id
+          end
 					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
 						:region_id => region.id, :phone_prefix => phone_array[0], :phone_suffix => phone_array[1], :mobile_prefix => mobile_array[0], :mobile_suffix => mobile_array[1], :email => email,
 						:free_listing => (role == free_listing), :professional => true,
 						:password => "blablabla", :password_confirmation => "blablabla",
-            :subcategory1_id => subcategory1.id, :category_id => category1.id,
-            :subcategory2_id => subcategory2.id,
-            :subcategory3_id => subcategory3.id,
+            :subcategory1_id => subcategory1_id, :category_id => category1_id,
+            :subcategory2_id => subcategory2_id,
+            :subcategory3_id => subcategory3_id,
 						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing",
             :latitude => latitude, :longitude => longitude, :website => website
             )
