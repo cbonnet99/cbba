@@ -1,3 +1,12 @@
+
+.bam-region-name{
+    color: white;
+    background-color: #06F;
+    padding: 3px;
+}
+.bam-region-name a{
+    color: white;
+}
 #bam-meet-expert {
     color: #C00;
     font-weight: bold;

@@ -1,0 +1,6 @@
+<%= title "#{@subcategory.full_name} in #{@region.name}" %>
+    <ul class="subcategories simple">
+      <% @users.each do |u| -%>
+        <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => u} %> </li>
+      <% end -%>
+    </ul>

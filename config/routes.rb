@@ -18,13 +18,14 @@ ActionController::Routing::Routes.draw do |map|
   
   map.action_tab '/tabs/:action', :controller => 'tabs'
   map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
-  map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/ }
+	map.subcategory '/category/:category_name/:subcategory_name', :controller => "subcategories", :action => "show"
+	map.subcategory_region '/category/:category_name/:subcategory_name/:region_name', :controller => "subcategories", :action => "region"
+  map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
 	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
 	map.expert_applications_action_with_id 'admin/expert_applications/:id/:action', :controller => "admin/expert_applications"
 	map.reviewer 'reviewer/:action', :controller => "reviewer"
 	map.category '/category/:category_name', :controller => "categories", :action => "show"
-	map.subcategory '/category/:category_name/subcategory/:subcategory_name', :controller => "subcategories", :action => "show"
   map.fuzzy_search_action '/fuzzy_search', :controller => 'search', :action => "fuzzy_search"
   map.search_action '/search/:action', :controller => 'search'
   map.search_action_id '/search/:id/:action', :controller => 'search'
