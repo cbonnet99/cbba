@@ -1,4 +1,10 @@
-#bam-invite-join{
+#bam-meet-expert {
+    color: #C00;
+    font-weight: bold;
+    font-size: large;
+}
+
+#bam-invite-join {
     color: #C00;
     font-weight: bold;
 }
