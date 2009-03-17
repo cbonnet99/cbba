@@ -7,6 +7,7 @@ class Tab < ActiveRecord::Base
 
   ARTICLES = "articles"
   SPECIAL_OFFERS = "special_offers"
+  GIFT_VOUCHERS = "gift_vouchers"
   
   after_create :create_slug
 

@@ -135,6 +135,10 @@ class User < ActiveRecord::Base
     self != current_user && self.special_offers_count_for_user(current_user) == 0
   end
 
+  def no_gift_vouchers_for_user?(current_user)
+    self != current_user && self.gift_vouchers_count_for_user(current_user) == 0
+  end
+
   def articles_count_for_user(current_user)
     if current_user == self
       return articles_count + how_tos_count
@@ -148,6 +152,14 @@ class User < ActiveRecord::Base
       return special_offers_count
     else
       return published_special_offers_count
+    end
+  end
+
+  def gift_vouchers_count_for_user(current_user)
+    if current_user == self
+      return gift_vouchers_count
+    else
+      return published_gift_vouchers_count
     end
   end
 
