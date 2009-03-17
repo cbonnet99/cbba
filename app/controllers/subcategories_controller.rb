@@ -12,7 +12,7 @@ class SubcategoriesController < ApplicationController
     else
       @subcategory = Subcategory.find_by_category_id_and_name(@category.id, undasherize(params[:subcategory_name]))
     end
-    @users = User.find_all_by_region_and_subcategories(@region, @subcategory)
+    @users = User.search_results(@category.id, @subcategory.id, @region.id, nil, params[:page])
   end
 
 	def show

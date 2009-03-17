@@ -15,7 +15,7 @@
     <%= will_paginate @results, :params => {:where => params[:where], :what => params[:what] , :category_id => params[:category_id] }  %>
 <ul class="simple" id="search-results">
   <% @results.each do |r| %>
-    <li class="<%= cycle('even', 'odd') %>"><%=render :partial => "users/user", :locals => {:user => r }  %></li>
+    <li class="<%= cycle('even', 'odd') %><%if r.user_profile.published?%> user-rollover<%end%>"><%=render :partial => "users/user", :locals => {:user => r }  %></li>
   <% end -%>
 </ul>
 <%= will_paginate @results, :params => {:where => params[:where], :what => params[:what] , :category_id => params[:category_id]}  %>

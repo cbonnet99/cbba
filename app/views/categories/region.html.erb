@@ -1,6 +1,8 @@
 <%= title "#{@category.name} in #{@region.name}" %>
+    <%= will_paginate @users, :params => {:category_name => params[:category_name], :region_name => params[:region_name] }  %>
     <ul class="categories simple">
       <% @users.each do |u| -%>
         <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => u} %> </li>
       <% end -%>
     </ul>
+    <%= will_paginate @users, :params => {:category_name => params[:category_name], :region_name => params[:region_name] }  %>

@@ -11,7 +11,7 @@ class CategoriesController < ApplicationController
     if @category.nil?
       logger.error("in categories controller Show, @category is nil")
     else
-      @users = User.find_all_by_region_and_subcategories(@region, *@category.subcategories)
+      @users = User.search_results(@category.id, nil, @region.id, nil, params[:page])
     end
   end
 

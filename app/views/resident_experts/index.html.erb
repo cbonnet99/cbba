@@ -1,5 +1,5 @@
-<% javascript "resident-experts" %>
+<% javascript "users-rollover" %>
 <%= title "Resident experts" %>
 <% @experts.each do |e| -%>
-  <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => e }  %></div>
+  <div class="homepage-small-user user-rollover"><%= render :partial => "users/user_small", :locals => {:user => e }  %></div>
 <% end -%>

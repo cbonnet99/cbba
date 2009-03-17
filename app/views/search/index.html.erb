@@ -1,4 +1,4 @@
-<% javascript 'homepage' %>
+<% javascript 'users-rollover' %>
 <%  content_for(:head, GMap.header)%>
 <%= title 'Welcome to beamazing.co.nz' %>
 <div id="first-home-paragraph">
@@ -22,7 +22,7 @@
   <h3>New well-being providers</h3>
   <div id="homepage-full-members">
     <% @newest_full_members.each do |u| -%>
-      <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
+      <div class="homepage-small-user user-rollover"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
     <% end -%>
   </div>
   <div class="cleaner"></div>
