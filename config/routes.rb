@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :gift_vouchers
   map.resources :full_members
   map.resources :resident_experts
   map.resources :invoices
@@ -45,6 +46,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_thank_you_resident_application '/users/thank_you_resident_application', :controller => 'users', :action => "thank_you_resident_application"
   map.user_tabs '/:main_expertise/:region/:name/:selected_tab_id', :controller => 'users', :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
   map.user_special_offers '/users/special_offers', :controller => 'users', :action => "special_offers"
+  map.user_gift_vouchers '/users/gift_vouchers', :controller => 'users', :action => "gift_vouchers"
   map.user_articles '/users/articles', :controller => 'users', :action => "articles"
   map.user_renew_membership '/users/renew_membership', :controller => 'users', :action => "renew_membership"
   map.upgrade_to_full_membership '/users/upgrade_to_full_membership', :controller => 'users', :action => "upgrade_to_full_membership"

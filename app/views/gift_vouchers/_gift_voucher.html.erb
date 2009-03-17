@@ -1,0 +1,1 @@
+<li class="<%= cycle('odd','even')%>"><%=link_to gift_voucher.title, gift_voucher_path(gift_voucher.slug) %>(<span class="<%=gift_voucher.workflow_css_class%>"><%=gift_voucher.state%></span>)</li>

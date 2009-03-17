@@ -44,6 +44,7 @@ class User < ActiveRecord::Base
   has_many :user_emails
   has_many :special_offers, :foreign_key => :author_id
   has_many :expert_applications
+  has_many :gift_vouchers, :foreign_key => :author_id
   has_one :expertise_subcategory, :class_name => "Subcategory",  :foreign_key => :resident_expert_id
 
   # #named scopes
@@ -81,6 +82,16 @@ class User < ActiveRecord::Base
     end
     if full_member?
       return SpecialOffer::MAX_PUBLISHED[:full_member]
+    end
+    return 0
+  end
+
+  def max_published_gift_vouchers
+    if resident_expert?
+      return GiftVoucher::MAX_PUBLISHED[:resident_expert]
+    end
+    if full_member?
+      return GiftVoucher::MAX_PUBLISHED[:full_member]
     end
     return 0
   end

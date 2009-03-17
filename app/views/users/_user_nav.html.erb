@@ -5,5 +5,6 @@
 <%if selected=="articles"%><span class="user-tab-selected">Your articles</span><%else%><%= link_to "Your articles", user_articles_path%><%end%> |
 <%if selected=="howtos"%><span class="user-tab-selected">Your 'how to' articles</span><%else%><%= link_to "Your 'how to' articles", user_howtos_path%><%end%> |
 <%if selected=="special_offers"%><span class="user-tab-selected">Your special offers</span><%else%><%= link_to "Your special offers", special_offers_path%><%end%> |
+<%if selected=="gift_vouchers"%><span class="user-tab-selected">Your gift vouchers</span><%else%><%= link_to "Your gift vouchers", gift_vouchers_path%><%end%> |
 <%if selected=="payments"%><span class="user-tab-selected">Your payments</span><%else%><%= link_to "Your payments", payments_path%><%end%>
 <% end -%>

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090314013128) do
+ActiveRecord::Schema.define(:version => 20090317195256) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -113,6 +113,24 @@ ActiveRecord::Schema.define(:version => 20090314013128) do
     t.boolean  "basic_articles"
     t.boolean  "weekly_question"
     t.integer  "payment_id"
+  end
+
+  create_table "gift_vouchers", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "author_id"
+    t.string   "slug"
+    t.string   "state",           :default => "draft"
+    t.string   "string",          :default => "draft"
+    t.datetime "published_at"
+    t.datetime "reason_reject"
+    t.datetime "rejected_at"
+    t.integer  "rejected_by_id"
+    t.text     "comment_approve"
+    t.datetime "approved_at"
+    t.integer  "approved_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "how_to_steps", :force => true do |t|
@@ -389,6 +407,7 @@ ActiveRecord::Schema.define(:version => 20090314013128) do
     t.datetime "resident_until"
     t.string   "description"
     t.string   "website"
+    t.integer  "gift_vouchers_count",                           :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

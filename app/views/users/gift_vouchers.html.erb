@@ -1,0 +1,12 @@
+<%= render :partial => "users/user_nav", :locals => {:selected => "gift_vouchers" }  %>
+<%= title "Your gift vouchers"  %>
+<p><%= link_to "Create new gift voucher", new_gift_voucher_path %></p>
+<% if @gift_vouchers.empty? -%>
+  No gift vouchers
+<% else -%>
+  <ul class="simple" id="your-gift-vouchers">
+  <% @gift_vouchers.each do |v| -%>
+    <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "gift_vouchers/gift_voucher", :locals => {:gift_vouchers => v } %></li>
+  <% end -%>
+  </ul>
+<%end -%>
