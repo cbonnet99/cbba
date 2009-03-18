@@ -11,7 +11,11 @@ class ApplicationController < ActionController::Base
   layout :find_layout
 
 	#  before_filter :tags
-  before_filter :current_category, :categories, :counters, :except => :change_category
+  before_filter :current_category, :categories, :counters, :resident_experts, :except => :change_category
+
+  def resident_experts
+    @resident_experts = User.active.resident_experts
+  end
 
 	def get_districts_and_subcategories
     get_districts

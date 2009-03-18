@@ -1,7 +1,7 @@
 cyrille_is_admin:
   user: cyrille
   role: admin_role
-#for cinsistency sake, we give Cyrille all roles explicitly
+#for consistency sake, we give Cyrille all roles explicitly
 #(since he is admin, he will have all roles anyway)
 cyrille_full_member:
   user: cyrille

@@ -1,4 +1,46 @@
 
+
+.pics h4, .pics p{
+    line-height: 0.8em;
+}
+.pics-resident-experts-item {
+    font-size: small;
+}
+
+.nav-expert{
+    margin-left:10px;
+    width: 125px;
+}
+
+.nav-expert .nav-left {
+    float: left;
+    text-align: left;
+}
+
+.nav-expert .nav-right {
+    float: right;
+    text-align: right;
+}
+
+.pics {
+    width:  105px;
+    height: 145px;
+    padding: 0;
+    margin-left:  10px;
+}
+.pics img, .small-user-photo img {
+    border: none;
+}
+.pics div.pics-resident-experts-item {
+    padding: 5px 10px 20px 10px;
+    border:  1px solid #ccc;
+    background-color: #eee;
+    width:  105px;
+    height: 145px;
+    top:  0;
+    left: 0
+}
+
 .bam-region-name{
     color: white;
     background-color: #06F;

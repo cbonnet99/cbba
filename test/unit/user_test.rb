@@ -23,7 +23,7 @@ class UserTest < ActiveSupport::TestCase
     resident_experts = []
     #build the list the slow way (with lots of users, it would very slow)
     User.all.each do |u|
-      resident_experts << u if u.resident_expert?
+      resident_experts << u if u.resident_expert? && !u.expertise_subcategory.blank?
     end
     #now make sure that the named_scope finds the same result
     assert_equal resident_experts.size, User.resident_experts.size

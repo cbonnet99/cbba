@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   include ContactSystem
 	include SubcategoriesSystem
 	
-  has_attached_file :photo, :styles => { :medium => "200x250>", :thumbnail => "100x125>" },
+  has_attached_file :photo, :styles => { :medium => "200x250>", :thumbnail => "85x100>" },
    :url  => "/assets/profiles/:id/:style/:basename.:extension",
    :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
                            
@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
   named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"
   named_scope :resident_expert_admins, :include => "roles", :conditions => "roles.name='resident_expert_admin'"
-  named_scope :resident_experts, :include => "roles", :conditions => "roles.name='resident_expert'"
+  named_scope :resident_experts, :include => ["roles", "subcategories"], :conditions => "roles.name='resident_expert' and users.id = subcategories.resident_expert_id"
   named_scope :new_users, :conditions => "new_user is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   

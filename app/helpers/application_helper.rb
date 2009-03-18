@@ -1,6 +1,14 @@
 module ApplicationHelper
 
 
+  def small_image(user)
+    if user.photo.exists? && user.user_profile.published?
+      image_tag user.photo.url(:thumbnail), :height => 100, :width => 85
+    else
+      image_tag "nophoto.gif", :height => 100, :width => 85
+    end
+  end
+
   def link_to_profile(user)
     if user.free_listing?
       ""

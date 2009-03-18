@@ -1,0 +1,3 @@
+<% @resident_experts.each do |re| -%>
+<div class="pics-resident-experts-item"><%= link_to small_image(re), expanded_user_path(re) %><h4><%=re.name%></h4><p><%=re.expertise_subcategory.name%></p></div>
+<% end -%>

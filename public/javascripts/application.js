@@ -1,9 +1,11 @@
 $(document).ready(function(){
+    $('#pics-resident-experts').cycle({fx: 'fade', pause: '1', prev: '#prev-expert', next: '#next-expert'});
     $("#fuzzy_what").autocomplete(subcategories).setOptions({matchContains: true});
     $("#fuzzy_where").autocomplete(locations).setOptions({matchContains: true});
 });
 
 U_Core = {};
+
 
 U_Core.F_SelectCounter = function(id) {
         //save the selection to the server
