@@ -1,3 +1,5 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "reviews" }  %>
+<%= title 'Stuff to review' %>
   <% form_tag '/reviewer/reject' do -%>
         <%= hidden_field_tag "article_id", params[:article_id] %>
         <%= hidden_field_tag "user_profile_id", params[:user_profile_id] %>

@@ -1,7 +1,4 @@
-class ReviewerController < ApplicationController
-	def authorized?
-		is_reviewer?
-	end
+class Admin::ReviewerController < AdminApplicationController
   def index
 		@articles = Article.reviewable
 		@how_tos = HowTo.reviewable

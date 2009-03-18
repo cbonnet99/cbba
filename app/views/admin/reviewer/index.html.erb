@@ -1,38 +1,31 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "reviews" }  %>
 <%= title 'Stuff to review' %>
+<% unless @articles.blank? -%>
 <h3>Articles</h3>
-<% if @articles.blank? -%>
-  No articles for the moment
-<% else -%>
   <ul class="simple" id="reviewable-articles">
   <% @articles.each do |a| -%>
     <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "articles/article", :locals => {:article => a } %></li>
   <% end -%>
   </ul>
 <% end -%>
+<% unless @how_tos.blank? -%>
 <h3>'How to' articles</h3>
-<% if @how_tos.blank? -%>
-  No 'how to' articles for the moment
-<% else -%>
   <ul class="simple" id="reviewable-how-tos">
   <% @how_tos.each do |a| -%>
     <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "how_tos/how_to", :locals => {:how_to => a } %></li>
   <% end -%>
   </ul>
 <% end -%>
+<% unless @special_offers.blank? -%>
 <h3>Special offers</h3>
-<% if @special_offers.blank? -%>
-  No special offers for the moment
-<% else -%>
   <ul class="simple" id="reviewable-special-offers">
   <% @special_offers.each do |a| -%>
     <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "special_offers/special_offer", :locals => {:special_offer => a } %></li>
   <% end -%>
   </ul>
 <% end -%>
+<% unless @user_profiles.blank? -%>
 <h3>User profiles</h3>
-<% if @user_profiles.blank? -%>
-  No user profiles for the moment
-<% else -%>
   <ul class="simple" id="reviewable-user-profiles">
   <% @user_profiles.each do |p| -%>
     <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => p.user, :custom_msg => "Review profile for"  } %></li>

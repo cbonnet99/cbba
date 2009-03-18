@@ -1,4 +1,4 @@
-class Admin::ExpertApplicationsController < ResidentExpertAdminApplicationController
+class Admin::ExpertApplicationsController < AdminApplicationController
 
   before_filter :get_expert_application, :except => :index
 
