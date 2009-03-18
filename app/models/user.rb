@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
   end
 
   def create_geocodes
-    unless district.blank?
+    unless district.blank? || (!latitude.blank? && !longitude.blank?)
       locate_address
     end
   end
@@ -111,7 +111,7 @@ class User < ActiveRecord::Base
   end
 
   def self.map_geocoded(map)
-    User.geocoded.each do |u|
+    User.full_members.geocoded.each do |u|
       marker = GMarker.new([u.latitude, u.longitude],
        :title => u.full_name, :info_window => u.full_info)
       map.overlay_init(marker)
@@ -119,12 +119,7 @@ class User < ActiveRecord::Base
   end
 
   def full_info
-    arr = [full_name]
-    arr << main_expertise
-    arr << address1 unless address1.blank?
-    arr << suburb unless suburb.blank?
-    arr << district.name unless district.name.blank?
-    return arr.join("<br/>")
+    [full_name, main_expertise, address1, suburb, district.name, phone, mobile, email].reject{|o| o.blank?}.join("<br/>")
   end
 
   def no_articles_for_user?(current_user)
@@ -618,9 +613,10 @@ class User < ActiveRecord::Base
   end
 
   def locate_address
-      address = [address1, suburb, district, "New Zealand"].reject{|o| o.blank?}.join(", ")
+      address = [address1, suburb, district.name, "New Zealand"].reject{|o| o.blank?}.join(", ")
       begin
         location = ImportUtils.geocode(address)
+        logger.debug("====== Geocoding: #{address}: #{location.inspect}")
         self.latitude = location.latitude
         self.longitude = location.longitude
       rescue Graticule::AddressError

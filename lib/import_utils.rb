@@ -127,8 +127,8 @@ class ImportUtils
 					receive_newsletter_str = ImportUtils.strip_and_nil(row[23])
 					receive_newsletter = (receive_newsletter_str =="Yes")
 
-          latitude = ImportUtils.strip_and_nil(row[18])
-          longitude = ImportUtils.strip_and_nil(row[19])
+          latitude = ImportUtils.strip_and_nil(row[24])
+          longitude = ImportUtils.strip_and_nil(row[25])
 					region = Region.find_by_name(region_str)
 					if region.nil?
 						raise "Error: region #{region_str} could not be found"
