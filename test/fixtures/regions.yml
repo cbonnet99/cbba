@@ -1,6 +1,6 @@
 auckland:
-    name: Auckland
-    slug: auckland
+    name: Auckland Region
+    slug: auckland-region
 plenty:
     name: Bay Of Plenty
     slug: bay-of-plenty
@@ -47,8 +47,8 @@ wanganui:
     name: Wanganui
     slug: wanganui
 wellington:
-    name: Wellington
-    slug: wellington
+    name: Wellington Region
+    slug: wellington-region
 west_coast:
     name: West Coast
     slug: west-coast

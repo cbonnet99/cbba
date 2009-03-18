@@ -106,5 +106,8 @@ protected
 	def undasherize(s)
 		s.gsub(/-/, ' ').capitalize
 	end
+	def undasherize_capitalize(s)
+		s.split('-').map(&:capitalize).join(' ')
+	end
 end
 

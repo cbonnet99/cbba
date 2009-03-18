@@ -5,7 +5,7 @@ class CategoriesControllerTest < ActionController::TestCase
 	fixtures :all
 
   def test_region
-    get :region, {:region_name => "wellington", :category_name => "practitioners" }
+    get :region, {:region_name => "wellington-region", :category_name => "practitioners" }
     assert_response :success
   end
 

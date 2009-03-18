@@ -6,18 +6,18 @@ Northland,Kerikeri
 Northland,Maungaturoto
 Northland,Paihia
 Northland,Whangarei
-Auckland,Auckland City
-Auckland,Franklin
-Auckland,Great Barrier Island
-Auckland,Helensville
-Auckland,Hibiscus Coast
-Auckland,Manukau City
-Auckland,North Shore
-Auckland,Papakura City
-Auckland,Waiheke Island
-Auckland,Waitakere City
-Auckland,Warkworth
-Auckland,Wellsford
+Auckland Region,Auckland City
+Auckland Region,Franklin
+Auckland Region,Great Barrier Island
+Auckland Region,Helensville
+Auckland Region,Hibiscus Coast
+Auckland Region,Manukau City
+Auckland Region,North Shore
+Auckland Region,Papakura City
+Auckland Region,Waiheke Island
+Auckland Region,Waitakere City
+Auckland Region,Warkworth
+Auckland Region,Wellsford
 Waikato,Cambridge
 Waikato,Coromandel
 Waikato,Hamilton
@@ -73,11 +73,11 @@ Wairarapa,Martinborough
 Wairarapa,Masterton
 Wairarapa,Pahiatua
 Wairarapa,Woodville
-Wellington,Kapiti
-Wellington,Lower Hutt City
-Wellington,Porirua
-Wellington,Upper Hutt City
-Wellington,Wellington City
+Wellington Region,Kapiti
+Wellington Region,Lower Hutt City
+Wellington Region,Porirua
+Wellington Region,Upper Hutt City
+Wellington Region,Wellington City
 Nelson Bays,Golden Bay
 Nelson Bays,Motueka
 Nelson Bays,Murchison
