@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :mass_emails, :path_prefix => "/admin", :controller => "admin/mass_emails"
   map.resources :gift_vouchers
   map.resources :full_members
   map.resources :resident_experts

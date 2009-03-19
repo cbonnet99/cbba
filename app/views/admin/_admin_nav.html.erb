@@ -1,4 +1,3 @@
-<%if selected=="expert_applications"%><span class="user-tab-selected">Expert_applications</span><%else%><%= link_to "Expert_applications", expert_applications_path%><%end%> |
-<% if is_reviewer? -%>
-    <%if selected=="reviews"%><span class="user-tab-selected"><%=current_user.sentence_to_review%></span><%else%><%= link_to current_user.sentence_to_review, reviewer_path(:action => "index")%><%end%>
-<% end -%>
+<%if selected=="emails"%><span class="user-tab-selected">Emails</span><%else%><%= link_to "Emails", mass_emails_path %><%end%> |
+<%if selected=="expert_applications"%><span class="user-tab-selected">Expert_applications</span><%else%><%= link_to "Expert_applications", expert_applications_action_path(:action => "index")%><%end%> |
+<%if selected=="reviews"%><span class="user-tab-selected"><%=current_user.sentence_to_review%></span><%else%><%= link_to current_user.sentence_to_review, reviewer_path(:action => "index")%><%end%>

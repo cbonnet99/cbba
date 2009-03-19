@@ -2,6 +2,12 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
 
+  def mass_email_test(user, subject, body)
+    setup_email(user)
+		@subject << subject
+		@body[:body] = body
+  end
+
   def approve_expert(user, expert_application)
     setup_email(user)
 		@subject << "Your expert application has been approved"

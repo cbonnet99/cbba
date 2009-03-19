@@ -1,0 +1,18 @@
+<% use_tinymce -%>
+<% form_for @mass_email do |f| %>
+  <ol>
+      <%= f.error_messages :header_message => "Please try again", :message => "Your email could not be saved"%>
+      <li>
+        <%= f.label :subject, "Subject<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :subject %>
+      </li>
+      <li>
+        <%= f.label :body, "Body<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_area :body, :cols => "80" %>
+      </li>
+      <div class="buttons">
+        <label for=""></label>
+        <%= submit_tag 'Save' %>
+      </div>
+</ol>
+<% end %>

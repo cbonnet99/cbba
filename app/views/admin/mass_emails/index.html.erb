@@ -1,0 +1,12 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "emails" }  %>
+<%= title "Emails" %>
+<p><%= link_to "Create new email", new_mass_email_path %></p>
+<% if @emails.blank? -%>
+  No emails
+<%  else -%>
+<ul class="simple">
+<% @mass_emails.each do |e| -%>
+  <li class="<%= cycle('odd', 'even')%>"><%= render :partial => "admin/mass_emails/mass_email", :locals => {:mass_email => e}  %> </li>
+<% end -%>
+</ul>
+<% end -%>

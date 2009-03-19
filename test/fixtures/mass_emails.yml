@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+simple:
+  subject: Sending a test
+  body: Pretty cool
+
+test_email:
+  subject: Welcome
+  body: |+
+    Dear %first_name%,
+
+    This email is a test. Your company %business_name% is now on beamazing. Your email is:
+    %email%

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090317195256) do
+ActiveRecord::Schema.define(:version => 20090319025545) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -188,6 +188,23 @@ ActiveRecord::Schema.define(:version => 20090317195256) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.binary   "pdf"
+  end
+
+  create_table "mass_email_instances", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "mass_email_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mass_emails", :force => true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "test_sent_at"
+    t.integer  "test_sent_to_id"
+    t.string   "recipients"
   end
 
   create_table "passwords", :force => true do |t|
