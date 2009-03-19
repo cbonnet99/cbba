@@ -1,6 +1,6 @@
 class Admin::MassEmailsController < ApplicationController
 
-  before_filter :mass_email, :only => [:edit, :show, :update, :send_test]
+  before_filter :mass_email, :except => [:new, :create, :index]
 
   def index
     @mass_emails = MassEmail.find(:all, :order => "updated_at desc" )
@@ -29,25 +29,14 @@ class Admin::MassEmailsController < ApplicationController
     end
   end
 
+  def select_email_recipients
+    @possible_recipients = MassEmail::RECIPIENTS
+  end
+
   def send_test
-    arr = []
-    errors = []
-    @mass_email.body.split("%").each_with_index do |piece, index|
-      if index.even?
-        arr << piece
-      else
-        if current_user.public_methods.include?(piece)
-          arr << current_user.send(piece.to_sym)
-        else
-          errors << piece
-        end
-      end
-    end
+    errors = @mass_email.unknown_attributes(current_user)
     if errors.blank?
-      UserMailer.deliver_mass_email_test(current_user, @mass_email.subject, arr.join(''))
-      @mass_email.test_sent_at = Time.now
-      @mass_email.test_sent_to = current_user
-      @mass_email.save
+      @mass_email.send_email(current_user)
       flash[:notice] = "The test email was sent"
     else
       flash[:error] = "The fields: #{errors.to_sentence} could not be found"

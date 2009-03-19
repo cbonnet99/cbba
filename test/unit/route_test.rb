@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class RoutingTest < Test::Unit::TestCase
   def test_routes
+    assert_recognizes({:controller => 'admin/mass_emails', :action => 'send_test', :id => "2" }, :path => "/admin/mass_emails/2/send_test" )
     assert_recognizes({:controller => 'admin/mass_emails', :action => 'index'}, :path => "/admin/mass_emails" )
     assert_recognizes({:controller => 'categories', :action => 'region', :category_name => "coaching", :region_name => "wellington"}, :path => "/category/coaching/region/wellington" )
     assert_recognizes({:controller => 'subcategories', :action => 'region', :category_name => "coaching", :subcategory_name => "life-coaching", :region_name => "wellington"}, :path => "/category/coaching/life-coaching/wellington" )

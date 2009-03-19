@@ -72,7 +72,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by_slug(params[:name])
     if @user.nil? || !@user.full_member?
-      render :text => ""
+      flash[:notice] = "Sorry, we could not find this user"
+      redirect_to root_url
     else
       #we don't want to count the visits to our own profile
       unless @user == current_user

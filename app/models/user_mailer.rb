@@ -6,6 +6,7 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
 		@subject << subject
 		@body[:body] = body
+    @content_type = 'text/html'
   end
 
   def approve_expert(user, expert_application)

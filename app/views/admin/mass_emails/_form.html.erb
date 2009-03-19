@@ -1,7 +1,15 @@
 <% use_tinymce -%>
 <% form_for @mass_email do |f| %>
+  <%= f.error_messages :header_message => "Please try again", :message => "Your email could not be saved"%>
+  <p>You can use the following expressions in your emails:</p>
+  <ul>
+    <li>%first_name%</li>
+    <li>%last_name%</li>
+    <li>%name%</li>
+    <li>%business_name%</li>
+    <li>%email%</li>
+  </ul>
   <ol>
-      <%= f.error_messages :header_message => "Please try again", :message => "Your email could not be saved"%>
       <li>
         <%= f.label :subject, "Subject<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :subject %>
