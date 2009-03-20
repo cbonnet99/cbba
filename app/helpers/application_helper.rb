@@ -1,6 +1,10 @@
 module ApplicationHelper
 
 
+  def phone_blank?(phone_number_str)
+    phone_number_str.blank? || phone_number_str == "-"
+  end
+
   def small_image(user)
     if user.photo.exists? && user.user_profile.published?
       image_tag user.photo.url(:thumbnail), :height => 100, :width => 85
@@ -14,7 +18,7 @@ module ApplicationHelper
       ""
     else
       if user.user_profile.published?
-        link_to "More details on #{user.name}", user_path_with_context(user)
+        link_to "View full profile", user_path_with_context(user)
       else
        "Full profile coming soon"
       end

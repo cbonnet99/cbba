@@ -1,5 +1,6 @@
-
-
+h4.title-user-free-listing {
+    font-weight: normal;
+}
 .pics h4, .pics p{
     line-height: 0.8em;
 }

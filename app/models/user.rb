@@ -72,12 +72,20 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def css_class_role_description
+    "title-user-#{role_description.downcase.gsub(/ /, '-')}"
+  end
+
   def role_description
     if resident_expert?
       "resident expert"
     else
       if full_member?
         "full member"
+      else
+        if free_listing?
+          "free listing"
+        end
       end
     end
   end

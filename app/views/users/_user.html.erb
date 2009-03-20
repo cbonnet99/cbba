@@ -1,5 +1,16 @@
 <%if user.photo.exists? && user.user_profile.published?%><div class="user-photo"><%= image_tag user.photo.url(:thumbnail) %></div><%end%>
 <div class="user-description">
-  <h4><%if user.new_user?%><%= image_tag "new.gif"%><%end%><%= user.name %>, <%=  user.main_expertise %>, <%=  user.region_name %></h4><p><%= user.business_name %> T: <%= user.phone %> </p><%= link_to_profile(user) %>
+  <h4 class="<%=user.css_class_role_description%>"><%if !user.free_listing? && user.new_user?%><%= image_tag "new.gif"%><%end%><%= user.name %>, <%=  user.main_expertise %>, <%=  user.region_name %></h4>
+  <%if user.free_listing?%><a class="bam-show-more-details" href="#">Show more details</a><%end%>
+  <div class="bam-user-details" <%if user.free_listing?%>style="display: none"<%end%>>
+  <p><%= user.business_name %></p>
+  <%unless phone_blank?(user.phone) -%>
+  <p>T: <%= user.phone %></p>
+  <% end -%>
+  <%unless phone_blank?(user.mobile) -%>
+  <p>M: <%= user.mobile %></p>
+  <% end -%>
+  <%= link_to_profile(user) %>
+  </div>
 </div>
 <div class="cleaner"></div>

@@ -2,6 +2,12 @@ $(document).ready(function(){
     $('#pics-resident-experts').cycle({fx: 'fade', pause: '1', prev: '#prev-expert', next: '#next-expert'});
     $("#fuzzy_what").autocomplete(subcategories).setOptions({matchContains: true});
     $("#fuzzy_where").autocomplete(locations).setOptions({matchContains: true});
+
+    $('a.bam-show-more-details').click(function() {
+        $(this).hide()
+        .next('div.bam-user-details').fadeIn();
+        return false;
+    });
 });
 
 U_Core = {};
