@@ -72,6 +72,16 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  def role_description
+    if resident_expert?
+      "resident expert"
+    else
+      if full_member?
+        "full member"
+      end
+    end
+  end
+
   def contact_details
     [address1, suburb, city, phone, mobile].reject{|o| o.blank?||o=="-"}.join("<br/>")
 

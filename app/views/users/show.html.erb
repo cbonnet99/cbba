@@ -12,7 +12,7 @@
   </div>
   <div id="profile-header-left" class="column">
     <div id="profile-title-content">
-      <h4 id="<%=@user.slug%>">beamazing.co.nz full member <%@user.name%><%unless @user.city.blank?%>, <%=@user.city%><%end%></h4>
+      <h4 id="<%=@user.slug%>">beamazing.co.nz <%= @user.role_description %> <%@user.name%><%unless @user.city.blank?%>, <%=@user.city%><%end%></h4>
       <%= title @user.full_name, :h3 %>
       <% unless @user.member_since.blank?%><p>Member since: <%= @user.member_since.to_s(:short) %></p><% end %>
       <% unless @user.subcategories.blank?%><p>Expertise: <%= @user.expertise %></p><% end %>
