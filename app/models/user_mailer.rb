@@ -2,7 +2,7 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
 
-  def mass_email_test(user, subject, body)
+  def mass_email(user, subject, body)
     setup_email(user)
 		@subject << subject
 		@body[:body] = body
@@ -98,7 +98,9 @@ class UserMailer < ActionMailer::Base
     @sent_on = Time.now
     @body[:user] = user
     #record that an email was sent
-    UserEmail.create(:user => user, :email_type => caller_method_name )
+    if user.is_a?(User)
+      UserEmail.create(:user => user, :email_type => caller_method_name )
+    end
   end
 def caller_method_name
     parse_caller(caller(2).first).last

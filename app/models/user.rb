@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
 
   # #named scopes
   named_scope :active, :conditions => "state='active'"
+  named_scope :free_users, :conditions => "free_listing is true"
   named_scope :full_members, :include => "roles", :conditions => "roles.name='full_member'"
   named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
   named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"

@@ -22,7 +22,13 @@ class Admin::MassEmailsController < ApplicationController
 
   def update
     if @mass_email.update_attributes(params[:mass_email])
-      flash[:notice] = "Successfully updated email."
+      if @mass_email.recipients.blank?
+        flash[:notice] = "Successfully updated email."
+      else
+#        call_rake :send_mass_email, :mass_email_id => @mass_email.id
+        @mass_email.deliver
+        flash[:notice] = "Sending emails."
+      end
       redirect_to @mass_email
     else
       render :action => 'edit'
@@ -36,7 +42,7 @@ class Admin::MassEmailsController < ApplicationController
   def send_test
     errors = @mass_email.unknown_attributes(current_user)
     if errors.blank?
-      @mass_email.send_email(current_user)
+      @mass_email.deliver_test(current_user)
       flash[:notice] = "The test email was sent"
     else
       flash[:error] = "The fields: #{errors.to_sentence} could not be found"

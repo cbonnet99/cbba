@@ -74,6 +74,13 @@
     color: #666;
     font-size: x-small;
 }
+
+.form-help {
+    color: #666;
+    font-size: small;
+}
+
+
 .important{
     color: #C00;
 }

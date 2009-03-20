@@ -1,13 +1,19 @@
 <%= title "Send email" %>
 <% form_for @mass_email do |f| %>
-  <ol>
-      <li>
-        <%= f.label :recipients, "Who do you want to send this email to?" %>
-        <%= f.select :recipients, @possible_recipients, {:prompt => "- Please select -"} %>
-      </li>
+  <ul>
+        <% @possible_recipients.each do |k, v| -%>
+          <li>
+          <%= f.label "recipients_#{k}".to_sym, v %>
+          <%= f.check_box "recipients_#{k}".to_sym %>
+          </li>
+        <% end -%>
+          <div class="left-input"></div>
+          <div class="form-help right-label">Enter email addresses separated by commas: joe@gmail.com, sarah@yahoo.com</div>
+        </li>
+        </li>
       <div class="buttons">
         <label for=""></label>
         <%= submit_tag 'Send' %>
       </div>
-</ol>
+</ul>
 <% end %>

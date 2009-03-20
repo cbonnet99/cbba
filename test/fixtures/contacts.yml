@@ -1,17 +1,15 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+joe:
+  email: joe@yahoo.com
+  receive_newsletter: true
+  first_name: Joe
+  last_name: Public
+  region: canterbury
+  district: christchurch
 
-one:
-  email: MyString
+sarah:
+  email: sarah@gmail.com
   receive_newsletter: false
-  first_name: MyString
-  last_name: MyString
-  region_id: 1
-  district_id: 1
-
-two:
-  email: MyString
-  receive_newsletter: false
-  first_name: MyString
-  last_name: MyString
-  region_id: 1
-  district_id: 1
+  first_name: Sarah
+  last_name: Public
+  region: canterbury
+  district: christchurch

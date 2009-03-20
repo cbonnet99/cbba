@@ -11,3 +11,7 @@ test_email:
 
     This email is a test. Your company %business_name% is now on beamazing. Your email is:
     %email%
+
+test_transformed:
+  subject: Testing transformed body
+  body: This is 10% my friend
