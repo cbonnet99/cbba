@@ -9,4 +9,6 @@ class UserEvent < ActiveRecord::Base
 
 	named_scope :login, :conditions => ["event_type='Login'"]
 	named_scope :for_session, lambda { |session| {:conditions => ["session = ?", session] }}
+  named_scope :search, :conditions => "event_type='Fuzzy search'"
+  named_scope :no_results, :conditions => "results_found=0"
 end

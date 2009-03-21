@@ -3,7 +3,6 @@ class SearchController < ApplicationController
   def fuzzy_search
 		@what = params[:fuzzy_what]
 		@where = params[:fuzzy_where]
-    log_user_event "Search fuzzy", "", "what: #{@what}, where: #{@where}"
 		begin
       if @what.blank? && @where.blank?
           logger.debug("======== EMPTY params in search")
@@ -18,7 +17,7 @@ class SearchController < ApplicationController
         logger.debug("====== in fuzzy_search, @category: #{@category.inspect}")
         logger.debug("====== in fuzzy_search, @subcategory: #{@subcategory.inspect}")
         @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
-        log_user_event "Fuzzy search", "category: :#{@category.try(:name)}, subcategory: :#{@subcategory.try(:name)}, region :#{@region.try(:name)}, district: :#{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size}
+        log_user_event "Fuzzy search", "", "what: #{@what}, where: #{@where},category: :#{@category.try(:name)}, subcategory: :#{@subcategory.try(:name)}, region :#{@region.try(:name)}, district: :#{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size}
       end
 
 #      if @what.blank?

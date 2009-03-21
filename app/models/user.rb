@@ -42,6 +42,8 @@ class User < ActiveRecord::Base
   has_many :payments
   has_many :invoices, :through => :payments
   has_many :user_emails
+  has_many :user_events
+  has_many :profile_visits, :class_name => "UserEvent", :foreign_key => :visited_user_id
   has_many :special_offers, :foreign_key => :author_id
   has_many :expert_applications
   has_many :gift_vouchers, :foreign_key => :author_id
