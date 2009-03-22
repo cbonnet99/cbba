@@ -6,8 +6,13 @@ class Admin::MassEmailsController < ApplicationController
     @mass_emails = MassEmail.find(:all, :order => "updated_at desc" )
   end
 
+  def edit
+    @email_types = MassEmail::TYPES
+  end
+
   def new
     @mass_email = MassEmail.new
+    @email_types = MassEmail::TYPES
   end
 
   def create
@@ -22,7 +27,7 @@ class Admin::MassEmailsController < ApplicationController
 
   def update
     if @mass_email.update_attributes(params[:mass_email])
-      if @mass_email.recipients.blank?
+      if @mass_email.no_recipients?
         flash[:notice] = "Successfully updated email."
       else
 #        call_rake :send_mass_email, :mass_email_id => @mass_email.id

@@ -12,4 +12,6 @@ class Contact < ActiveRecord::Base
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
   validates_length_of :email, :within => 6..100 #r@a.wk
   
+  named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
+  
 end

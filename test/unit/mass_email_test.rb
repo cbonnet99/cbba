@@ -3,6 +3,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 class MassEmailTest < ActiveSupport::TestCase
   fixtures :all
 
+  def test_unknown_attributes
+    assert_equal ["bla"], mass_emails(:unknown_attributes).unknown_attributes(users(:cyrille))
+  end
+
   def test_transformed_body
     assert_equal "This is 10% my friend", mass_emails(:test_transformed).transformed_body(users(:cyrille))
   end

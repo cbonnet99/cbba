@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   has_one :expertise_subcategory, :class_name => "Subcategory",  :foreign_key => :resident_expert_id
 
   # #named scopes
+  named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
   named_scope :active, :conditions => "state='active'"
   named_scope :free_users, :conditions => "free_listing is true"
   named_scope :full_members, :include => "roles", :conditions => "roles.name='full_member'"

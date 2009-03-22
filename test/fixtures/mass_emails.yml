@@ -15,3 +15,11 @@ test_email:
 test_transformed:
   subject: Testing transformed body
   body: This is 10% my friend
+
+unknown_attributes:
+  subject: Test unknown attributes
+  body: |+
+    Dear %first_name%,
+
+    This email is a test with 20%. Your company %business_name% is now on beamazing. Your email is:
+    %bla%

@@ -9,10 +9,10 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
 
     test_email = mass_emails(:test_email)
-    post :update, {:id => test_email.id, :mass_email => {:recipients_full_members => "1" }  }, {:user_id => users(:cyrille).id }
+    post :update, {:id => test_email.id, :mass_email => {:recipients_full_members => true }  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     test_email.reload
-    assert_equal "full_members", test_email.recipients
+    assert test_email.recipients_full_members
     assert_not_nil test_email.sent_at
 
     assert_equal User.full_members.size, ActionMailer::Base.deliveries.size
@@ -24,10 +24,11 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
 
     test_email = mass_emails(:test_email)
-    post :update, {:id => test_email.id, :mass_email => {:recipients_full_members => "1", :recipients_free_users => "1" }  }, {:user_id => users(:cyrille).id }
+    post :update, {:id => test_email.id, :mass_email => {:recipients_full_members => true, :recipients_free_users => true }  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     test_email.reload
-    assert_equal "full_members,free_users", test_email.recipients
+    assert test_email.recipients_full_members
+    assert test_email.recipients_free_users
     assert_not_nil test_email.sent_at
 
     assert_equal User.full_members.size+User.free_users.size, ActionMailer::Base.deliveries.size
@@ -39,10 +40,11 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
 
     simple = mass_emails(:simple)
-    post :update, {:id => simple.id, :mass_email => {:recipients_full_members => "1", :recipients_general_public => "1" }  }, {:user_id => users(:cyrille).id }
+    post :update, {:id => simple.id, :mass_email => {:recipients_full_members => true, :recipients_general_public => true }  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     simple.reload
-    assert_equal "full_members,general_public", simple.recipients
+    assert simple.recipients_full_members
+    assert simple.recipients_general_public
     assert_not_nil simple.sent_at
 
     assert_equal User.full_members.size+Contact.all.size, ActionMailer::Base.deliveries.size

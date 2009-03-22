@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090320064625) do
+ActiveRecord::Schema.define(:version => 20090321193727) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -204,8 +204,12 @@ ActiveRecord::Schema.define(:version => 20090320064625) do
     t.datetime "updated_at"
     t.datetime "test_sent_at"
     t.integer  "test_sent_to_id"
-    t.string   "recipients"
     t.datetime "sent_at"
+    t.string   "email_type"
+    t.boolean  "recipients_resident_experts", :default => false
+    t.boolean  "recipients_full_members",     :default => false
+    t.boolean  "recipients_free_users",       :default => false
+    t.boolean  "recipients_general_public",   :default => false
   end
 
   create_table "passwords", :force => true do |t|

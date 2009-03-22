@@ -2,23 +2,30 @@ class MassEmail < ActiveRecord::Base
 
   belongs_to :test_sent_to, :class_name => "User"
 
-  before_update :assemble_recipients
+  before_create :check_newsletter
 
   validates_presence_of :subject, :body
+
+  TYPES = ["Normal", "Business newsletter", "Public newsletter"]
 
   RECIPIENTS = {:resident_experts => "Resident experts", :full_members => "Full members",
     :free_users => "Free users", :general_public => "General public"}
 
-  attr_accessor :recipients_resident_experts, :recipients_full_members, :recipients_free_users, :recipients_general_public
+  def no_recipients?
+    !recipients_full_members? && !recipients_resident_experts? && !recipients_free_users? && !recipients_general_public?
+  end
 
-  def assemble_recipients
-    a = []
-    RECIPIENTS.each do |k,v|
-      if self.send("recipients_#{k}".to_sym) == "1"
-        a << k.to_s
-      end
+  def check_newsletter
+    if email_type == "Business Newsletter"
+      self.recipients.full_members = true
+      self.recipients_resident_experts = true
     end
-    self.recipients = a.join(',')
+    if email_type == "Public Newsletter"
+      self.recipients.full_members = true
+      self.recipients_resident_experts = true
+      self.general_public = true
+      self.free_users = true
+    end
   end
 
   def deliver_test(user)
@@ -29,16 +36,32 @@ class MassEmail < ActiveRecord::Base
   end
 
   def deliver
-    unless recipients.blank? || !sent_at.nil?
-      recipients.split(',').each do |r|
-        if r == "general_public"
-          Contact.all.each do |u|
-            UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
-          end
-        else
-          User.send(r.to_sym).each do |u|
-            UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
-          end
+    if sent_at.nil?
+      if email_type =~ /newsletter/
+        users_obj = User.wants_newsletter
+        contact_obj = Contact.wants_newsletter
+      else
+        users_obj = User
+        contact_obj = Contact
+      end
+      if recipients_general_public
+        contact_obj.all.each do |u|
+          UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+        end
+      end
+      if recipients_full_members
+        users_obj.full_members.each do |u|
+          UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+        end
+      end
+      if recipients_resident_experts
+        users_obj.resident_experts.each do |u|
+          UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+        end
+      end
+      if recipients_free_users
+        users_obj.free_users.each do |u|
+          UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
         end
       end
       self.update_attribute(:sent_at, Time.now)
@@ -46,12 +69,15 @@ class MassEmail < ActiveRecord::Base
   end
 
   def unknown_attributes(user)
-    errors = []
-    self.body.split("%").each_with_index do |piece, index|
-    if index.odd? && !user.attribute_names.include?(piece) && !user.public_methods.include?(piece)
-        errors << piece
-      end
-    end
+    #    errors = []
+    #    self.body.split("%").each_with_index do |piece, index|
+    #    if index.odd? && !user.attribute_names.include?(piece) && !user.public_methods.include?(piece)
+    #        errors << piece
+    #      end
+    #    end
+    #    return errors
+    errors =[]
+    self.body.scan(/%[a-zA-Z_]+%/) {|s| errors << s[1..s.length-2] if !user.attribute_names.include?(s[1..s.length-2])}
     return errors
   end
   
