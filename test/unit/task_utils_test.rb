@@ -4,6 +4,25 @@ class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
 
+  def test_mark_down_old_expert_applications
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    applying_expert_without_payment = expert_applications(:applying_expert_without_payment)
+    assert_not_nil applying_expert_without_payment.approved_by_id
+    assert_not_nil applying_expert_without_payment.approved_at
+    
+    TaskUtils.mark_down_old_expert_applications
+    applying_expert_without_payment.reload
+    assert_nil applying_expert_without_payment.approved_at
+    assert_nil applying_expert_without_payment.approved_by_id
+    assert applying_expert_without_payment.pending?
+
+    assert_equal 1, ActionMailer::Base.deliveries.size
+
+  end
+
   def test_update_counters
     full_members = counters(:full_members)
     resident_experts = counters(:resident_experts)

@@ -15,3 +15,20 @@ applying_expert3:
   expert_presentation: I think I am very qualified
   user: applying_resident_expert
   subcategory: aromatherapy
+  approved_at: <%= 2.days.ago.to_s :db %>
+  approved_by: cyrille
+applying_expert_without_payment:
+  status: approved
+  expert_presentation: I think I am very qualified
+  user: applying_resident_expert
+  subcategory: aromatherapy
+  approved_at: <%= 8.days.ago.to_s :db %>
+  approved_by: cyrille
+applying_expert_with_payment:
+  status: approved
+  expert_presentation: I think I am very qualified
+  user: applying_resident_expert
+  subcategory: aromatherapy
+  approved_at: <%= 8.days.ago.to_s :db %>
+  approved_by: cyrille
+  payment: completed_expert

@@ -94,6 +94,7 @@ h4.title-user-free-listing {
 
 #first-home-paragraph-text, #first-home-paragraph-map {
     float: left;
+    padding: 5px;
 }
 
 #search p{

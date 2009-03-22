@@ -43,6 +43,16 @@ class TaskUtils
     end
   end
 
+  def self.mark_down_old_expert_applications
+    ExpertApplication.approved_without_payment.each do |a|
+      if a.approved_at < 1.week.ago
+        a.approved_at = nil
+        a.approved_by_id = nil
+        a.time_out!
+      end
+    end
+  end
+
   def self.rotate_user_positions_in_subcategories
     Subcategory.all.each do |sub|
       s_users = sub.subcategories_users.find(:all, :include => "user", :conditions => "users.free_listing is false")

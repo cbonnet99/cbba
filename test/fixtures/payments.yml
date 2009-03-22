@@ -14,3 +14,11 @@ pending_user_payment:
   status: pending
   gst: 1250
   discount: 10000
+completed_expert:
+  title: Resident expert
+  user: cyrille
+  amount: 35000
+  invoice_number: 1235
+  status: completed
+  gst: 4375
+  discount: 34900

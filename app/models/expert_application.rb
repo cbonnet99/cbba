@@ -18,9 +18,7 @@ class ExpertApplication < ActiveRecord::Base
   aasm_state :rejected
   aasm_state :timed_out
 
-  named_scope :pending, :conditions => "status='pending'"
-  named_scope :approved, :conditions => "status='approved'"
-  named_scope :rejected, :conditions => "status='rejected'"
+  named_scope :approved_without_payment, :conditions => "status='approved' and payment_id is null"
 
   aasm_event :approve do
       transitions :from => :pending, :to => :approved, :on_transition => :email_approve_expert
@@ -31,7 +29,7 @@ class ExpertApplication < ActiveRecord::Base
   end
 
   aasm_event :time_out do
-      transitions :from => :confirmed, :to => :pending, :on_transition => :email_time_out_expert
+      transitions :from => :approved, :to => :pending, :on_transition => :email_time_out_expert
   end
 
   def email_admins
@@ -47,7 +45,7 @@ class ExpertApplication < ActiveRecord::Base
   end
 
   def email_time_out_expert
-    
+    UserMailer.deliver_expert_application_time_out(user, self)
   end
 
 end

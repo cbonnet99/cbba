@@ -141,7 +141,15 @@ class User < ActiveRecord::Base
   end
 
   def full_info
-    [full_name, main_expertise, address1, suburb, district.name, phone, mobile, email].reject{|o| o.blank?}.join("<br/>")
+    if photo.exists? && user_profile.published?
+      res = "<div class='bam-gmarker-photo'><img src='#{photo.url(:thumbnail)}'/></div><div class='bam-gmarker-text'>"
+    else
+      res = "<div class='bam-gmarker-text'>"
+    end
+    res << [full_name, main_expertise, address1, suburb, district.name].reject{|o| o.blank?}.join("<br/>")
+    res << "<br/>"
+    res << [phone, mobile].reject{|o| o.blank? || o == "-"}.join("<br/>")
+    res << "</div><div class='cleaner'></div>"
   end
 
   def no_articles_for_user?(current_user)

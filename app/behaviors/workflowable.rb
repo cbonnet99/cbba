@@ -32,6 +32,15 @@ module Workflowable
     def reviewable
       self.find(:all, :conditions => "approved_by_id is null and state='published'")
     end
+    def approved
+      self.find(:all, :conditions => "status='approved'")
+    end
+    def rejected
+      self.find(:all, :conditions => "status='rejected'")
+    end
+    def pending
+      self.find(:all, :conditions => "status='pending'")
+    end
   end
   module WorkflowInstanceMethods
 
