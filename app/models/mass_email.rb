@@ -16,12 +16,12 @@ class MassEmail < ActiveRecord::Base
   end
 
   def check_newsletter
-    if email_type == "Business Newsletter"
-      self.recipients.full_members = true
+    if email_type == "Business newsletter"
+      self.recipients_full_members = true
       self.recipients_resident_experts = true
     end
-    if email_type == "Public Newsletter"
-      self.recipients.full_members = true
+    if email_type == "Public newsletter"
+      self.recipients_full_members = true
       self.recipients_resident_experts = true
       self.general_public = true
       self.free_users = true

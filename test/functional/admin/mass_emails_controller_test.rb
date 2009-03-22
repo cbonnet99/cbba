@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class Admin::MassEmailsControllerTest < ActionController::TestCase
   fixtures :all
 
+
+  def test_create
+    post :create, {:mass_email => {:subject => "Test", :body => "This is cool", :email_type => "Business newsletter"  }}, {:user_id => users(:cyrille).id }
+    assert_equal "Successfully created email.", flash[:notice]
+    assert assigns(:mass_email).recipients_full_members
+    assert assigns(:mass_email).recipients_resident_experts
+  end
+
   def test_update
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
