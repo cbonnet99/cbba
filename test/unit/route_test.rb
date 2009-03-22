@@ -18,6 +18,7 @@ class RoutingTest < Test::Unit::TestCase
     assert_recognizes({:controller => 'how_tos', :action => 'edit', :id => "221", }, :path => "/how_tos/221/edit")
     assert_recognizes({:controller => 'users', :action => 'publish', :id => "221", }, :path => "/user_profiles/221/publish")
     assert_recognizes({:controller => 'users', :action => 'renew_membership' }, :path => "/users/renew_membership")
+    assert_recognizes({:controller => 'search', :action => 'count_show_more_details', :id => "bam-show-more-details-12" }, :path => "/search/bam-show-more-details-12/count_show_more_details")
     assert_recognizes({:controller => 'search', :action => 'test'}, :path => "/search/test")
     assert_recognizes({:controller => 'tabs', :action => 'destroy', :id => "tab" }, :path => "/tabs/tab/destroy")
     assert_recognizes({:controller => 'tabs', :action => 'edit', :user_id => "cyrille-bonnet", :id => "tab-2" }, :path => "/users/cyrille-bonnet/tabs/tab-2/edit")

@@ -3,6 +3,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SearchControllerTest < ActionController::TestCase
   fixtures :all
 
+  def test_count_show_more_details
+    old_count = UserEvent.free_users_show_details.size
+    post :count_show_more_details, {:id => "bam-show-more-details-#{users(:rmoore).id}" }
+    assert_response :success
+    assert_equal old_count+1, UserEvent.free_users_show_details.size
+  end
+
   def test_index
     money = how_tos(:money)
     jogging = articles(:jogging)

@@ -1,5 +1,15 @@
 class SearchController < ApplicationController
 
+  def count_show_more_details
+    id = params[:id].split("-").last
+    logger.debug("==== in count_show_more_details, id: #{id}")
+    user = User.find(id)
+    logger.debug("==== in count_show_more_details, user: #{user}")
+    unless user.nil?
+      log_user_event "Free user show details", "", "User: #{user.email} (#{user.id})"
+    end
+  end
+
   def fuzzy_search
 		@what = params[:fuzzy_what]
 		@where = params[:fuzzy_where]
