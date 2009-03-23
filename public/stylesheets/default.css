@@ -1,3 +1,10 @@
+bam-gmarker-photo {
+    float: left;
+}
+bam-gmarker-text {
+    float: left;
+    padding: 3px;
+}
 h4.title-user-free-listing {
     font-weight: normal;
 }
