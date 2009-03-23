@@ -5,42 +5,85 @@
         <file>file:/Users/cyrille/Sites/be_amazing/amazon-ec2/README.txt</file>
         <file>file:/Users/cyrille/Sites/be_amazing/amazon-ec2/start-server.sh</file>
         <file>file:/Users/cyrille/Sites/be_amazing/apache/apache_modrails.conf</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/behaviors/workflowable.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/admin/expert_applications_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/admin/mass_emails_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/admin/reviewer_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/admin_application_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/application.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/categories_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/expert_applications_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/full_members_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/gift_vouchers_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/resident_experts_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/search_controller.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/special_offers_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/subcategories_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/controllers/users_controller.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/helpers/application_helper.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/article.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/contact.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/expert_application.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/gift_voucher.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/mass_email.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/payment.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/special_offer.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/subcategory.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/models/tab.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user_email.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/models/user_mailer.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/_admin_nav.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/_expert_application.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/expert_applications/show.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/mass_emails/_form.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/mass_emails/_mass_email.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/mass_emails/edit.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/mass_emails/index.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/mass_emails/new.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/mass_emails/select_email_recipients.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/mass_emails/show.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/reviewer/edit_reject_reason.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/admin/reviewer/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/categories/region.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/categories/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/expert_applications/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/full_members/index.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/gift_vouchers/_form.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/gift_vouchers/_gift_voucher.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/gift_vouchers/_index.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/gift_vouchers/edit.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/gift_vouchers/index.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/gift_vouchers/new.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/gift_vouchers/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/layouts/main.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/resident_experts/_gallery.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/resident_experts/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/resident_experts/index.js.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/count_show_more_details.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/fuzzy_search.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/index.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/search/select_category.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/special_offers/_form.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/special_offers/_index.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/special_offers/_special_offer.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/special_offers/edit.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/special_offers/index.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/special_offers/new.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/special_offers/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/subcategories/region.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/subcategories/show.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/tabs/_index.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/tabs/_tab_nav.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/user_mailer/activation.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/user_mailer/approve_expert.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/user_mailer/expert_application_time_out.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_form.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_user.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_user_nav.html.erb</file>
-        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/_user_small.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/articles.html.erb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/gift_vouchers.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/new.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/app/views/users/show.html.erb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/deploy.rb</file>
@@ -51,18 +94,28 @@
         <file>file:/Users/cyrille/Sites/be_amazing/config/gmaps_api_key.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/routes.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/config/settings.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/cron_jobs/app/cron.daily/reminder_expiring_memberships</file>
         <file>file:/Users/cyrille/Sites/be_amazing/cron_jobs/app/cron.hourly/count_users</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/csv/districts.csv</file>
         <file>file:/Users/cyrille/Sites/be_amazing/csv/small_users.csv</file>
         <file>file:/Users/cyrille/Sites/be_amazing/csv/users.csv</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090211044713_add_workflow_fields_to_special_offers.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090213033703_add_counts_on_articles.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090305072808_add_resident_since_resident_until_to_user.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090305080145_add_resident_expert_id_to_subcategory.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090305080906_add_expert_application_id_to_payment.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090307084722_add_description_to_user.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090308030952_create_counters.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090308184626_add_payment_id_to_expert_application.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090317044820_create_gift_vouchers.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090317195256_add_gift_vouchers_count_to_user.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/db/migrate/20090321193727_modify_mass_email.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/contact_system.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/helpers.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/import_utils.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/task_utils.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/lib/tasks/be_amazing.rake</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/lib/tasks/mailer.rake</file>
         <file>file:/Users/cyrille/Sites/be_amazing/public/javascripts/application.js</file>
         <file>file:/Users/cyrille/Sites/be_amazing/public/javascripts/new-user.js</file>
         <file>file:/Users/cyrille/Sites/be_amazing/public/javascripts/promowidget.js</file>
@@ -72,26 +125,48 @@
         <file>file:/Users/cyrille/Sites/be_amazing/script/init_ami.sh</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/articles.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/categories.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/contacts.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/counters.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/districts.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/expert_applications.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/gift_vouchers.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/mass_emails.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/payments.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/regions.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/roles_users.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/subcategories.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/subcategories_users.yml</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/user_mailer/stuff_to_review</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/user_profiles.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/fixtures/users.yml</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/admin/expert_applications_controller_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/functional/admin/mass_emails_controller_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/functional/admin/reviewer_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/categories_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/full_members_controller_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/functional/regions_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/resident_experts_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/search_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/functional/users_controller_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/mocks/test/graticule.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/category_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/import_utils_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/mass_email_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/payment_test.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/test/unit/region_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/route_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/subcategory_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/task_utils_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/test/unit/user_test.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/restful_authentication/lib/authentication.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/user_event_logger/lib/models/user_event.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/user_event_logger/lib/user_event_logger.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/plugins/user_event_logger/lib/view_helpers.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/lib/action_controller/base.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/lib/action_controller/dispatcher.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/lib/action_controller/rescue.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/actionpack/lib/action_controller/url_rewriter.rb</file>
         <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/activesupport/lib/active_support/multibyte/chars.rb</file>
+        <file>file:/Users/cyrille/Sites/be_amazing/vendor/rails/railties/lib/tasks/routes.rake</file>
     </open-files>
 </project-private>

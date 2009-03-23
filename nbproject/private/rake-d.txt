@@ -114,6 +114,7 @@ rails\:update\:javascripts=Update your javascripts from your current rails insta
 rails\:update\:scripts=Add new scripts to the application script/ directory
 routes=Print out all defined routes in match order, with names.
 secret=Generate a crytographically secure secret key. This is typically used to generate a secret for cookie sessions.
+send_mass_email=Send mass email
 spec=Run all specs in spec directory (excluding plugin specs)
 spec\:clobber=
 spec\:clobber_rcov=Remove rcov products for rcov
