@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   before_filter :current_category, :categories, :counters, :resident_experts, :except => :change_category
 
   def resident_experts
-    @resident_experts = User.active.resident_experts
+    @resident_experts = User.published_resident_experts
   end
 
 	def get_districts_and_subcategories
