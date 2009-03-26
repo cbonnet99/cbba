@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def renew_membership
-    #unless there is already a pending payment
+    # #unless there is already a pending payment
     @payment = current_user.payments.pending.renewals.first
     @payment = current_user.payments.create!(Payment::TYPES[:renew_full_member]) if @payment.nil?
     flash[:notice] = "Please complete the payment below to renew your membership"
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Sorry, we could not find this user"
       redirect_to root_url
     else
-      #we don't want to count the visits to our own profile
+      # #we don't want to count the visits to our own profile
       unless @user == current_user
         log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
       end
@@ -83,16 +83,16 @@ class UsersController < ApplicationController
       if !@selected_tab.nil?
         if @selected_tab.slug == Tab::ARTICLES
           if @user == current_user
-              @articles = Article.all_articles(current_user)
+            @articles = Article.all_articles(current_user)
           else
-              @articles = Article.all_published_articles(@user)
+            @articles = Article.all_published_articles(@user)
           end
         end
         if @selected_tab.slug == Tab::SPECIAL_OFFERS
           if @user == current_user
-              @special_offers = SpecialOffer.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+            @special_offers = SpecialOffer.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
           else
-              @special_offers = SpecialOffer.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
+            @special_offers = SpecialOffer.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
           end
         end
       end
@@ -116,7 +116,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-#    current_user.disassemble_phone_numbers
+    #    current_user.disassemble_phone_numbers
 		get_districts_and_subcategories
     current_user.set_membership_type
     @mt = current_user.membership_type
@@ -158,30 +158,36 @@ class UsersController < ApplicationController
   end
  
   def create
-    logout_keeping_session!
     @user = User.new(params[:user])
-    @user.register! if @user && @user.valid?
-    success = @user && @user.valid?
-    if success && @user.errors.empty?
-      case @user.membership_type
-      when "full_member":
-        flash[:notice] = "You can now complete your payment"
-        session[:user_id] = @user.id
-        @payment = @user.payments.create!(Payment::TYPES[:full_member])
-        redirect_to edit_payment_path(@payment)
-      when "resident_expert":
-        @user.activate!
-        session[:user_id] = @user.id
-        redirect_to new_expert_application_path
+    if verify_human
+      logout_keeping_session!
+      @user.register! if @user && @user.valid?
+      success = @user && @user.valid?
+      if success && @user.errors.empty?
+        case @user.membership_type
+        when "full_member":
+           flash[:notice] = "You can now complete your payment"
+          session[:user_id] = @user.id
+          @payment = @user.payments.create!(Payment::TYPES[:full_member])
+          redirect_to edit_payment_path(@payment)
+        when "resident_expert":
+           @user.activate!
+          session[:user_id] = @user.id
+          redirect_to new_expert_application_path
+        else
+          @user.activate!
+          session[:user_id] = @user.id
+          flash[:notice] = "Welcome to BeAmazing!"
+          redirect_to user_membership_path
+        end
       else
-        @user.activate!
-        session[:user_id] = @user.id
-        flash[:notice] = "Welcome to BeAmazing!"
-        redirect_to user_membership_path
+        get_districts_and_subcategories
+        flash.now[:error]  = "There were some errors in your signup information."
+        render :action => 'new'
       end
     else
-			get_districts_and_subcategories
-      flash.now[:error]  = "There were some errors in your signup information."
+      flash[:error] = "There was a problem with the words you entered, please try again"
+      get_districts_and_subcategories
       render :action => 'new'
     end
   end

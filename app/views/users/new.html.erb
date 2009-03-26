@@ -4,5 +4,6 @@
   <p class="important">If you already have an account with BeAmazing, please <%= link_to "login", new_session_path(:return_to => new_expert_application_path) %>.</p>
 <%end -%>
 <% form_for @user do |f| %>
+    <%= render :partial => "users/verify_human" %>
     <%= render :partial => "form", :locals => {:f => f, :sign_up => true, :mt => @mt  }   %>
 <% end %>

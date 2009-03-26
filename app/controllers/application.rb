@@ -13,6 +13,21 @@ class ApplicationController < ActionController::Base
 	#  before_filter :tags
   before_filter :current_category, :categories, :counters, :resident_experts, :except => :change_category
 
+  def verify_human
+    if session[:verify_human_count].blank? || session[:verify_human_count] > 10
+      my_test = verify_recaptcha
+      if my_test
+        session[:verify_human_count] = 1
+      else
+        logger.debug("=== failed captcha with response: #{params[:recaptcha_response_field]}")
+      end
+      return my_test
+    else
+      session[:verify_human_count] += 1
+      return true
+    end
+  end
+
   def resident_experts
     @resident_experts = User.published_resident_experts
   end
