@@ -10,7 +10,7 @@
   <%unless phone_blank?(user.mobile) -%>
   <p>M: <%= user.mobile %></p>
   <% end -%>
-  <%= link_to_profile(user) %>
+  <%=link_to_message(user)%><% unless user.free_listing?%>  | <%end%><%= link_to_profile(user) %>
   </div>
 </div>
 <div class="cleaner"></div>

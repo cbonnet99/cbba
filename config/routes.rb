@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :mass_emails, :path_prefix => "/admin", :controller => "admin/mass_emails"
   map.action_mass_emails '/admin/mass_emails/:id/:action', :controller => "admin/mass_emails"
+  map.resources :messages
   map.resources :gift_vouchers
   map.resources :full_members
   map.resources :resident_experts
@@ -24,6 +25,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.category_region '/category/:category_name/region/:region_name', :controller => "categories", :action => "region"
 	map.subcategory_region '/category/:category_name/:subcategory_name/:region_name', :controller => "subcategories", :action => "region"
 	map.subcategory '/category/:category_name/:subcategory_name', :controller => "subcategories", :action => "show"
+  map.user_slug_action '/user/:slug/:action', :controller => "users"
   map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
 	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
@@ -45,8 +47,8 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
   map.update_after_forgetting '/update_after_forgetting', :controller => 'passwords', :action => 'update_after_forgetting'
-  map.user_thank_you_resident_application '/users/thank_you_resident_application', :controller => 'users', :action => "thank_you_resident_application"
   map.user_tabs '/:main_expertise/:region/:name/:selected_tab_id', :controller => 'users', :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
+  map.user_thank_you_resident_application '/users/thank_you_resident_application', :controller => 'users', :action => "thank_you_resident_application"
   map.user_special_offers '/users/special_offers', :controller => 'users', :action => "special_offers"
   map.user_gift_vouchers '/users/gift_vouchers', :controller => 'users', :action => "gift_vouchers"
   map.user_articles '/users/articles', :controller => 'users', :action => "articles"

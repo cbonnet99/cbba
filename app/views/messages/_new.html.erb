@@ -1,0 +1,27 @@
+  <%= f.error_messages :header_message => "Please try again", :message => "Your message could not be sent" %>
+  <fieldset>
+    <legend>Your message</legend>
+    <ol>
+      <li>
+        <div class="left-input"></div>
+        <div class="notice right-label">Enter your phone number or your email address</div>
+      </li>
+      <li>
+        <%= f.hidden_field :user_id, :value => user.id %>
+        <%= f.label :preferred_contact, "Please contact me at:<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :preferred_contact %>
+      </li>
+      <li>
+        <%= f.label :subject, "Subject:<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :subject %>
+      </li>
+      <li>
+        <%= f.label :body, "Body:<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_area :body, :cols => "80" %>
+      </li>
+    </ol>
+  </fieldset>
+<div class="buttons">
+    <label for=""></label>
+    <%= submit_tag 'Send' %>
+  </div>

@@ -2,6 +2,12 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
 
+  def message(message)
+    setup_email(message.user)
+		@subject << message.subject
+		@body[:body] = message.body
+		@body[:preferred_contact] = message.preferred_contact
+  end
   def mass_email(user, subject, body)
     setup_email(user)
 		@subject << subject

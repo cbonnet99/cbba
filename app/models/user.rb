@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   validates_attachment_size :photo, :less_than => 3.megabytes
   validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/png', 'image/gif']
   # Relationships
-
+  has_many :messages
   has_many :roles_users
   has_many :roles, :through => :roles_users, :uniq => true 
   belongs_to :region

@@ -25,6 +25,14 @@ module ApplicationHelper
     end
   end
 
+  def link_to_message(user)
+    if user.free_listing?
+      ""
+    else
+      link_to "Send message", user_slug_action_path(:slug => user.slug, :action => "message")
+    end
+  end
+
   def profile_description(user)
     if user.free_listing?
       ""
