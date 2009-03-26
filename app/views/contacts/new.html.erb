@@ -1,5 +1,6 @@
 <%= title "Signup for our newsletter"  %>
 <% form_for @contact do |f| %>
+  <%= render :partial => "users/verify_human" %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your registration could not be completed" %>
   <fieldset>
     <legend>Your Details</legend>
