@@ -1,5 +1,5 @@
 <% javascript 'users-rollover' %>
-<%  content_for(:head, GMap.header)%>
+<%  content_for(:head, GMap.header(:host => request.host ))%>
 <%= title 'Welcome to beamazing.co.nz' %>
 <div id="first-home-paragraph">
   <div id="first-home-paragraph-map">
