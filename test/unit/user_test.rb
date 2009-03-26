@@ -4,6 +4,10 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_invoices
+    assert_equal 1, users(:cyrille).invoices.size
+  end
+
   def test_css_class_role_description
     #if you change any below, make sure that the name is changed in the CSS
     assert_equal "title-user-free-listing", users(:rmoore).css_class_role_description

@@ -40,7 +40,6 @@ class User < ActiveRecord::Base
   has_many :tabs, :order => "position"
   has_one :user_profile
   has_many :payments
-  has_many :invoices, :through => :payments
   has_many :user_emails
   has_many :user_events
   has_many :profile_visits, :class_name => "UserEvent", :foreign_key => :visited_user_id
@@ -74,6 +73,11 @@ class User < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application
 	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
+
+
+  def invoices
+    Invoice.find_by_sql(["select invoices.* from payments, invoices where payments.user_id = ? and payments.id = invoices.payment_id", self.id])
+  end
 
   def css_class_role_description
     "title-user-#{role_description.downcase.gsub(/ /, '-')}"
