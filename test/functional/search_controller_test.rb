@@ -20,9 +20,9 @@ class SearchControllerTest < ActionController::TestCase
     #2 articles + 1 howto article
     assert_select "ul#homepage-articles > li", 3
     #Create 2 more published articles
-    Article.create(:title => "Test1", :lead => "Test1", :state => "published",
+    Article.create(:title => "Test1", :lead => "Test1", :body => "",  :state => "published",
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id  )
-    Article.create(:title => "Test2", :lead => "Test2", :state => "published",
+    Article.create(:title => "Test2", :lead => "Test2", :body => "", :state => "published",
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id )
     get :index
     assert_response :success

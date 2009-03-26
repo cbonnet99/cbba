@@ -13,8 +13,9 @@ class Article < ActiveRecord::Base
 	has_many :categories, :through => :articles_categories
   
   validates_presence_of :title, :lead, :author
-  validates_length_of :title, :maximum => 80
-  validates_length_of :lead, :maximum => 200
+  validates_length_of :title, :maximum => 255
+  validates_length_of :lead, :maximum => 500
+  validates_length_of :body, :maximum => 100000
 
 	after_create :create_slug
 

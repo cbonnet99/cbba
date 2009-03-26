@@ -12,6 +12,8 @@ class HowTo < ActiveRecord::Base
 	MAX_LENGTH_SLUG = 50
   
   validates_presence_of :title, :summary
+  validates_length_of :title, :maximum => 255
+  validates_length_of :summary, :maximum => 500
   validates_associated :how_to_steps
 
 	after_create :create_slug

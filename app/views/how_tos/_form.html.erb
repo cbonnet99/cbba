@@ -1,11 +1,11 @@
 <% javascript 'how-to' %>
  <ol>
       <li>
-        <%= f.label "Title:<span class='mandatoryStar'>*</span>" %>
+        <%= f.label "Title (max. 255 characters):<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :title %>
       </li>
       <li>
-        <%= f.label "Summary:<span class='mandatoryStar'>*</span>" %>
+        <%= f.label "Summary (max. 500 characters):<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :summary %>
       </li>
       <li>

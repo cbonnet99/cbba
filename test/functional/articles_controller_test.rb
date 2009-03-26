@@ -64,7 +64,7 @@ class ArticlesControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
 		yoga = subcategories(:yoga)
     old_count = cyrille.articles_count
-    post :create, {:article => { :title => "Test9992323", :lead => "Test9992323", :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
+    post :create, {:article => { :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
     assert_redirected_to article_path(assigns(:article))
 		assert_equal yoga.id, assigns(:article).subcategory1_id
     assert_not_nil assigns(:subcategories)

@@ -19,7 +19,7 @@ class ArticleTest < ActiveSupport::TestCase
 
 	def test_create
 		yoga = subcategories(:yoga)
-		new_article = Article.create(:title => "Test", :lead => "This is my lead",
+		new_article = Article.create(:title => "Test", :lead => "This is my lead", :body => "",
       :subcategory1_id => yoga.id, :author => users(:cyrille)  )
 #    puts new_article.errors.inspect
 		assert_equal 1, new_article.subcategories.size
