@@ -1,4 +1,4 @@
-<%  content_for(:head, GMap.header)%>
+<%  content_for(:head, GMap.header(:host => request.host))%>
 <%= title 'Full members map' %>
 <%= @map.to_html %>
 <%= @map.div(:width => 600, :height => 400) %>
