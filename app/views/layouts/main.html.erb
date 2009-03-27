@@ -79,14 +79,14 @@
                 <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to c.title, {:controller => c.title.gsub(/ /, '_').downcase, :action => "index"}, :onClick => "U_Core.F_SelectCounter(#{c.id})" %> <span class="users-counter"><%= c.count%></span></li>
               <%  end -%>
           </ul>
-          <div id="pics-resident-experts" class="pics">
-            <%= render :partial => "resident_experts/gallery"  %>
-          </div>
           <div class="nav-expert">
               <a id="prev-expert" class="nav-left" href="#">&lt;Prev</a>
               <a id="next-expert" class="nav-right" href="#">Next&gt;</a>
           </div>
           <div class="cleaner"></div>
+          <div id="pics-resident-experts" class="pics">
+            <%= render :partial => "resident_experts/gallery"  %>
+          </div>
           </div>
         </div>
         <div class="column" id="right"><div class="column-in">
