@@ -139,6 +139,9 @@ namespace(:deploy) do
   task :run_init_ami do
     run "#{sudo} chmod +x #{current_path}/script/init_*.sh"
     run "#{sudo} #{current_path}/script/init_ami.sh"
+    run "#{sudo} #{current_path}/script/init_ami_postgres.sh"
+    run "#{sudo} #{current_path}/script/init_assets.sh"
+    run "#{sudo} #{current_path}/script/init_bash_profile.sh"
     run "#{sudo} apt-get update"
     run "#{sudo} apt-get install -y imagemagick"
     run "#{sudo} apt-get install -y git-core"
@@ -159,6 +162,15 @@ namespace(:deploy) do
 #    end
   end
 
+  task :after_update_code, :roles => [:app] do
+    run "cd #{release_path} && #{rake} asset:packager:build_all RAILS_ENV=production"
+  end
+
+  desc "Installs gems necessary for BAM"
+  task :install_gems do
+
+  end
+  
   desc "Initializes BAM site"
   task :init do
     transaction do

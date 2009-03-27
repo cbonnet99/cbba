@@ -1,12 +1,12 @@
 --- 
 javascripts: 
 - base: 
-  - prototype
-  - effects
-  - dragdrop
-  - controls
+  - jrails
+  - jquery.cycle.min
+  - jquery.autocomplete.pack
   - application
 stylesheets: 
 - base:
-  - common
+  - default
   - base
+  - jquery.autocomplete
