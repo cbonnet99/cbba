@@ -163,7 +163,7 @@ namespace(:deploy) do
   end
 
   task :after_update_code, :roles => [:app] do
-    run "cd #{release_path} && #{rake} asset:packager:build_all RAILS_ENV=production"
+    run "cd #{release_path} && rake asset:packager:build_all RAILS_ENV=production"
   end
 
   desc "Installs gems necessary for BAM"
