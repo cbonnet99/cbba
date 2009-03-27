@@ -98,11 +98,11 @@ namespace(:deploy) do
   desc "Copy cron jobs for application servers"
   task :cron_app, :roles => :app do
     Dir.foreach("cron_jobs/app") do |dir|
-	    if dir !="." && dir != ".." && dir != ".svn"
+	    if ![".", ".."].include?(dir)
         Dir.foreach("cron_jobs/app/"+dir) do |file|
-          if file !="." && file != ".." && file != ".svn"
-            put File.read("cron_jobs/app/"+dir+"/"+file), "/etc/"+dir+"/"+file, :mode => 0755
-            puts "Copied #{"cron_jobs/app/"+dir+"/"+file} to #{"/etc/"+dir+"/"+file}"
+          if ![".", ".."].include?(file)
+            run "#{sudo} cp #{current_path}/cron_jobs/app/#{dir}/#{file} /etc/#{dir}/#{file}"
+            run "#{sudo} chmod 0755 /etc/#{dir}/#{file}"
           end
         end
 	    end
@@ -112,10 +112,11 @@ namespace(:deploy) do
   desc "Copy cron jobs for database servers"
   task :cron_db, :roles => :db do
     Dir.foreach("cron_jobs/db") do |dir|
-	    if dir !="." && dir != ".." && dir != ".svn"
+	    if ![".", ".."].include?(dir)
         Dir.foreach("cron_jobs/db/"+dir) do |file|
-          if file !="." && file != ".." && file != ".svn"
-            put File.read("cron_jobs/db/"+dir+"/"+file), "/etc/"+dir+"/"+file, :mode => 0755
+          if ![".", ".."].include?(file)
+            run "#{sudo} cp #{current_path}/cron_jobs/db/#{dir}/#{file} /etc/#{dir}/#{file}"
+            run "#{sudo} chmod 0755 /etc/#{dir}/#{file}"
           end
         end
 	    end
