@@ -101,7 +101,7 @@ class TaskUtils
   def self.create_default_admins
     #IMPORTANT: keep the following line to make sure that the admin role exists
     Role.find_or_create_by_name("admin")
-    default_region = Region.find_or_create_by_name("Wellington")
+    default_region = Region.find_or_create_by_name("Wellington Region")
     default_district = District.find_by_name_and_region_id("Wellington City", default_region.id)
     if default_district.nil?
       default_district = District.create(:name => "Wellington City", :region_id => default_region.id  )
