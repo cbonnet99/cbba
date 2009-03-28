@@ -1,7 +1,17 @@
-htmlbam-gmarker-photo {
+#bam-search-results {
+    float: left;
+    padding: 3px;
+    width: 60%;
+}
+
+#bam-search-map {
     float: left;
 }
-bam-gmarker-text {
+
+.bam-gmarker-photo {
+    float: left;
+}
+.bam-gmarker-text {
     float: left;
     padding: 3px;
 }
@@ -526,7 +536,7 @@ body {
 }
 #container {
     padding-left: 170px;  /* LC width */
-    padding-right: 170px;  /* RC width */
+    padding-right: 0px;  /* RC width */
 
     background:white top right repeat-y;
 }
@@ -541,8 +551,8 @@ body {
     background: white top right no-repeat;
 }
 #right {
-    width: 170px;  /* RC width */
-    margin-right: -170px;  /* RC width */
+    width: 0px;  /* RC width */
+    margin-right: -0px;  /* RC width */
     background: white top right no-repeat;
 }
 #middle {

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :full_member_required, :only => [:articles]
   before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles, :renew_membership]
-	after_filter :store_location, :only => [:articles, :show]
+#	after_filter :store_location, :only => [:articles, :show]
 
   def message
     @message = Message.new

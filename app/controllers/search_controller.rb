@@ -10,7 +10,7 @@ class SearchController < ApplicationController
     end
   end
 
-  def fuzzy_search
+  def fuzzy_search    
 		@what = params[:fuzzy_what]
 		@where = params[:fuzzy_where]
 		begin
@@ -28,6 +28,23 @@ class SearchController < ApplicationController
         logger.debug("====== in fuzzy_search, @subcategory: #{@subcategory.inspect}")
         @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
         log_user_event "Fuzzy search", "", "what: #{@what}, where: #{@where},category: :#{@category.try(:name)}, subcategory: :#{@subcategory.try(:name)}, region :#{@region.try(:name)}, district: :#{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size}
+        latitude = Region::DEFAULT_NZ_LATITUDE
+        longitude = Region::DEFAULT_NZ_LONGITUDE
+        zoom = 5
+        unless @region.blank?
+          latitude = @region.latitude.to_f
+          longitude = @region.longitude.to_f
+          zoom = 7
+        end
+        unless @district.blank?
+          latitude = @district.latitude.to_f
+          longitude = @district.longitude.to_f
+          zoom = 11
+        end
+        @map = GMap.new("map_div_id")
+        @map.control_init(:large_map => true, :map_type => true)
+        @map.center_zoom_init([latitude,longitude], zoom)
+        User.map_geocoded(@map, @results)
       end
 
 #      if @what.blank?
@@ -91,7 +108,7 @@ class SearchController < ApplicationController
   def map
     @map = GMap.new("map_div_id")
     @map.control_init(:large_map => true, :map_type => true)
-    @map.center_zoom_init([-41.3,172.5], 5)
+    @map.center_zoom_init([Region::DEFAULT_NZ_LATITUDE,Region::DEFAULT_NZ_LONGITUDE], 5)
     User.map_geocoded(@map)
 
   end
@@ -99,7 +116,7 @@ class SearchController < ApplicationController
 	def index
     @map = GMap.new("map_div_id")
     @map.control_init(:large_map => false, :map_type => true)
-    @map.center_zoom_init([-41.3,172.5], 4)
+    @map.center_zoom_init([Region::DEFAULT_NZ_LATITUDE,Region::DEFAULT_NZ_LONGITUDE], 4)
     User.map_geocoded(@map)
     
     @newest_articles = Article.all_newest_articles

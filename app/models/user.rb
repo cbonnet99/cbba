@@ -136,8 +136,11 @@ class User < ActiveRecord::Base
 
   end
 
-  def self.map_geocoded(map)
-    User.full_members.geocoded.each do |u|
+  def self.map_geocoded(map, users=nil)
+    if users.nil?
+      users = User.full_members.geocoded
+    end
+    users.each do |u|
       marker = GMarker.new([u.latitude, u.longitude],
        :title => u.full_name, :info_window => u.full_info)
       map.overlay_init(marker)
@@ -656,6 +659,5 @@ class User < ActiveRecord::Base
       rescue Graticule::AddressError
         logger.warn("Couldn't geocode address: #{address}")
       end
-
   end
 end

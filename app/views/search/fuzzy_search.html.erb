@@ -1,3 +1,4 @@
+<%  content_for(:head, GMap.header(:host => request.host))%>
 <% unless logged_in? || @subcategory.nil? -%>
 <div id="bam-invite-join">
   <p>Do you offer <%=@subcategory.name%>? GREAT! We warmly invite you to <%= link_to 'join beamazing.co.nz', signup_intro_path %>!</p>
@@ -12,6 +13,7 @@
 <% if @results.empty? -%>
   No results found <%=  describe_search(@region, @district, @category, @subcategory) %>.
 <% else -%>
+  <div id="bam-search-results">
     <%= will_paginate @results, :params => {:where => params[:where], :what => params[:what] , :category_id => params[:category_id] }  %>
 <ul class="simple" id="search-results">
   <% @results.each do |r| %>
@@ -19,4 +21,10 @@
   <% end -%>
 </ul>
 <%= will_paginate @results, :params => {:where => params[:where], :what => params[:what] , :category_id => params[:category_id]}  %>
+  </div>
+  <div id="bam-search-map">
+    <%= @map.to_html %>
+    <%= @map.div(:width => 400, :height => 400) %>
+  </div>
+  <div class="cleaner"></div>
 <% end -%>

@@ -62,14 +62,8 @@ class ImportUtils
         address1 = ImportUtils.strip_and_nil(row[5])
         suburb = ImportUtils.strip_and_nil(row[6])
         district_str = ImportUtils.strip_and_nil(row[7])
-        region_str = ImportUtils.strip_and_nil(row[8])
         unless address1.blank? && suburb.blank?
-          arr = []
-          arr << address1 unless address1.blank?
-          arr << suburb unless suburb.blank?
-          arr << district_str unless district_str.blank?
-          arr << "New Zealand"
-          req_str = arr.join(", ")
+          req_str = [address1, suburb, district_str, "New Zealand"].reject{|s| s.blank?}.join(", ")
           puts "Locating: #{req_str}"
           begin
             location = ImportUtils.geocode(req_str)

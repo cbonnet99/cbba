@@ -2,6 +2,28 @@ class District < ActiveRecord::Base
   has_many :users
 	belongs_to :region
 
+  before_create :locate
+  before_update :update_geocodes
+
+  def update_geocodes
+    if self.name_changed?
+      locate
+    end
+  end
+
+  def locate
+      address = [name, "New Zealand"].reject{|o| o.blank?}.join(", ")
+      begin
+        location = ImportUtils.geocode(address)
+        logger.debug("====== Geocoding: #{address}: #{location.inspect}")
+        self.latitude = location.latitude
+        self.longitude = location.longitude
+      rescue Graticule::AddressError
+        logger.warn("Couldn't geocode address: #{address}")
+      end
+  end
+
+
   def self.from_param(param)
     unless param.blank?
       return find(:first, :conditions => ["lower(name) = ?", param.downcase])
