@@ -1,4 +1,4 @@
-bam-gmarker-photo {
+htmlbam-gmarker-photo {
     float: left;
 }
 bam-gmarker-text {
@@ -308,9 +308,9 @@ ul#profile-tabs li.selected-tab a {
     padding-left: 350px;
 }
 #profile-header-right {
-    width: 100%;
     text-align: right;
     vertical-align: middle;
+    width: 100%;
 }
 #profile-ask-question-content, #profile-title-content{
     padding: 5px;
@@ -525,7 +525,7 @@ body {
     background:white top left repeat-y;
 }
 #container {
-    padding-left: 170px;   /* LC width */
+    padding-left: 170px;  /* LC width */
     padding-right: 170px;  /* RC width */
 
     background:white top right repeat-y;
@@ -537,11 +537,11 @@ body {
 #left {
     width:170px;  /* LC width */
     right: 170px;  /* LC width */
-    margin-left:-100%;
+    margin-left: -100%;
     background: white top right no-repeat;
 }
 #right {
-    width:170px;  /* RC width */
+    width: 170px;  /* RC width */
     margin-right: -170px;  /* RC width */
     background: white top right no-repeat;
 }
@@ -549,11 +549,6 @@ body {
     width: 100%;
     background:white;
 }
-/*** IE6 Fix ***/
-* html #left {
-  left: 170px;           /* RC width */
-}
-/*** End IE6 Fix ***/
 
 .column-in {
     margin:0;
