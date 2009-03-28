@@ -44,7 +44,7 @@ class Article < ActiveRecord::Base
   end
 
 	def self.find_all_by_subcategories(*subcategories)
-		Article.find_by_sql(["select a.* from articles a, articles_subcategories asub where a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
+		Article.find_by_sql(["select a.* from articles a, articles_subcategories asub where a.state = 'published' and a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
 	end
 
   def self.all_newest_articles

@@ -25,6 +25,12 @@
   <div id="bam-search-map">
     <%= @map.to_html %>
     <%= @map.div(:width => 400, :height => 400) %>
+    <% unless @articles.blank? || @subcategory.blank? -%>
+      <h3>Articles on <%=@subcategory.name%></h3>
+      <% @articles.each do |a| -%>
+              <%= render :partial => "articles/article", :locals => {:article => a }   %>
+      <% end -%>
+    <% end -%>
   </div>
   <div class="cleaner"></div>
 <% end -%>

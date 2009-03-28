@@ -444,7 +444,7 @@ ul.simple {
     padding-left: 0;
 
 }
-ul li.odd  {
+ul li.even {
     background: #b3c4d4;
 }
 ul.simple li {
