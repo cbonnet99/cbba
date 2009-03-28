@@ -139,6 +139,8 @@ namespace(:deploy) do
   desc "Run init script for AMIs"
   task :run_init_ami do
     run "#{sudo} chmod +x #{current_path}/script/init_*.sh"
+    run "#{sudo} ln -s /etc/apache2/mods-available/expires.load /etc/apache2/mods-enabled/expires.load"
+    run "#{sudo}  ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/headers.load"
     run "#{sudo} #{current_path}/script/init_ami.sh"
     run "#{sudo} #{current_path}/script/init_ami_postgres.sh"
     run "#{sudo} #{current_path}/script/init_assets.sh"
