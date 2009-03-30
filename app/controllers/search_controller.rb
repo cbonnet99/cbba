@@ -10,22 +10,22 @@ class SearchController < ApplicationController
     end
   end
 
-  def fuzzy_search    
-		@what = params[:fuzzy_what]
-		@where = params[:fuzzy_where]
+  def search    
+		@what = params[:what]
+		@where = params[:where]
 		begin
       if @what.blank? && @where.blank?
           logger.debug("======== EMPTY params in search")
           flash[:error] = "Please enter something in What or Where"
           redirect_back_or_default root_url
       else
-        logger.debug("====== in fuzzy_search, @what #{@what}")
+        logger.debug("====== in search, @what #{@what}")
         @region = Region.from_param(@where)
         @district = District.from_param(@where)
         @category = Category.from_param(@what)
         @subcategory = Subcategory.from_param(@what)
-        logger.debug("====== in fuzzy_search, @category: #{@category.inspect}")
-        logger.debug("====== in fuzzy_search, @subcategory: #{@subcategory.inspect}")
+        logger.debug("====== in search, @category: #{@category.inspect}")
+        logger.debug("====== in search, @subcategory: #{@subcategory.inspect}")
         @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
         log_user_event "Fuzzy search", "", "what: #{@what}, where: #{@where},category: :#{@category.try(:name)}, subcategory: :#{@subcategory.try(:name)}, region :#{@region.try(:name)}, district: :#{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size}
         latitude = Region::DEFAULT_NZ_LATITUDE

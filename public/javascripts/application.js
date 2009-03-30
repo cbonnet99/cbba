@@ -3,6 +3,18 @@ $(document).ready(function(){
     $("#fuzzy_what").autocomplete(subcategories).setOptions({matchContains: true});
     $("#fuzzy_where").autocomplete(locations).setOptions({matchContains: true});
 
+    $("form#bam-search-form").submit(function() {
+        var action = "/search";
+        if ($("input#what").val() != "") {
+            action = action + "/what/" + $("input#what").val();
+        }
+        if ($("input#where").val() != "") {
+            action = action + "/where/" + $("input#where").val();
+        }
+        this.action = action;
+        this.submit();
+    });
+
     $('a.bam-show-more-details').click(function() {
         $(this).hide()
         .next('div.bam-user-details').fadeIn();

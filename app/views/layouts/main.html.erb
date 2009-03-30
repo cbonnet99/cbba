@@ -51,15 +51,15 @@
     <div id="container">
       <div class="column" id="middle"><div class="column-in">
           <div id="search">
-            <% form_tag :controller => "/search", :action => "fuzzy_search" do  -%>
+            <% form_tag search_path(:what => "yoga", :where => "wellington" ), :id => "bam-search-form" do  -%>
               <div id="what-wrapper" class="search-wrapper">
-                <label for="fuzzy_what">What: </label>
-                <input class="text" type="text" id="fuzzy_what" name="fuzzy_what" value="<%=params[:fuzzy_what]%>" />
+                <label for="what">What: </label>
+                <input class="text" type="text" id="what" name="what" value="<%=params[:what]%>" />
                 <p>Examples: yoga, acupuncture, life coaching, etc.</p>
               </div>
               <div id="where-wrapper" class="search-wrapper">
-                <label for="fuzzy_where">Where: </label>
-                <input class="text" type="text" id="fuzzy_where" name="fuzzy_where" value="<%=params[:fuzzy_where]%>"  />
+                <label for="where">Where: </label>
+                <input class="text" type="text" id="where" name="where" value="<%=params[:where]%>"  />
                 <p>Examples: wellington, canterbury, auckland, etc.</p>
               </div>
               <div id="search-submit-wrapper" class="search-wrapper">

@@ -73,6 +73,7 @@ doc\:plugins\:exception_notification=Generate documentation for the exception_no
 doc\:plugins\:forgot_password=Generate documentation for the forgot_password plugin
 doc\:plugins\:jrails=Generate documentation for the jrails plugin
 doc\:plugins\:paperclip=Generate documentation for the paperclip plugin
+doc\:plugins\:recaptcha=Generate documentation for the recaptcha plugin
 doc\:plugins\:restful_authentication=Generate documentation for the restful_authentication plugin
 doc\:plugins\:role_requirement=Generate documentation for the role_requirement plugin
 doc\:plugins\:rspec=Generate documentation for the rspec plugin

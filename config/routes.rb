@@ -19,14 +19,17 @@ ActionController::Routing::Routes.draw do |map|
 
   map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"
   map.resources :expert_applications
-  
+
+  map.search '/search/what/:what/where/:where', :controller => "search", :action => "search"
+  map.search_what '/search/what/:what', :controller => "search", :action => "search"
+  map.search_where '/search/where/:where', :controller => "search", :action => "search"
   map.action_tab '/tabs/:action', :controller => 'tabs'
   map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
 	map.category_region '/category/:category_name/region/:region_name', :controller => "categories", :action => "region"
 	map.subcategory_region '/category/:category_name/:subcategory_name/:region_name', :controller => "subcategories", :action => "region"
 	map.subcategory '/category/:category_name/:subcategory_name', :controller => "subcategories", :action => "show"
   map.user_slug_action '/user/:slug/:action', :controller => "users"
-  map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
+  map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_|-]+/, :main_expertise => /[a-z|A-Z|_|-]+/}
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
 	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
 	map.expert_applications_action_with_id 'admin/expert_applications/:id/:action', :controller => "admin/expert_applications"

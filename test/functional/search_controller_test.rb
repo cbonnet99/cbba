@@ -66,20 +66,20 @@ class SearchControllerTest < ActionController::TestCase
     assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.category_id
 	end
 
-  def test_fuzzy_search_lowercase
+  def test_search_lowercase
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		get :fuzzy_search, :fuzzy_where => canterbury_christchurch_city.name, :fuzzy_what => hypnotherapy.name.upcase
+		get :search, :where => canterbury_christchurch_city.name, :what => hypnotherapy.name.upcase
     assert_not_nil assigns(:subcategory)
 		assert_response :success
 		assert_equal 3, assigns(:results).size
   end
   
-  def test_fuzzy_search
+  def test_search
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
 		sgardiner = users(:sgardiner)
-		get :fuzzy_search, :fuzzy_where => canterbury_christchurch_city.name, :fuzzy_what => hypnotherapy.name
+		get :search, :where => canterbury_christchurch_city.name, :what => hypnotherapy.name
 		assert_response :success
     assert_match %r{View full profile}, @response.body
     assert @response.body =~ /Full profile coming soon/
@@ -89,36 +89,36 @@ class SearchControllerTest < ActionController::TestCase
 		assert_equal sgardiner, assigns(:results).first, "full members should be listed first"
   end
 
-  def test_fuzzy_empty_search
-		get :fuzzy_search, :fuzzy_where => '', :fuzzy_what => ''
+  def test_empty_search
+		get :search, :where => '', :what => ''
 		assert_redirected_to root_url
     assert_equal "Please enter something in What or Where", flash[:error]
   end
   
-  def test_fuzzy_search_district_no_subcat
+  def test_search_district_no_subcat
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		get :fuzzy_search, :fuzzy_where => canterbury_christchurch_city.name, :fuzzy_what => ''
+		get :search, :where => canterbury_christchurch_city.name, :what => ''
 		assert_response :success
     assert !assigns(:results).empty?
   end
 
-  def test_fuzzy_search_region_no_subcat
+  def test_search_region_no_subcat
 		canterbury = regions(:canterbury)
-		get :fuzzy_search, :fuzzy_where => canterbury.name, :fuzzy_what => ''
+		get :search, :where => canterbury.name, :what => ''
 		assert_response :success
     assert !assigns(:results).empty?
   end
 
-  def test_fuzzy_search_no_location_subcat
+  def test_search_no_location_subcat
     hypnotherapy = subcategories(:hypnotherapy)
-		get :fuzzy_search, :fuzzy_where => '', :fuzzy_what => hypnotherapy.name
+		get :search, :where => '', :what => hypnotherapy.name
 		assert_response :success
     assert !assigns(:results).empty?
     assert_match %r{Search results for #{hypnotherapy.name}}, @response.body
   end
 
-  def test_fuzzy_search_no_location_category
-		get :fuzzy_search, :fuzzy_where => '', :fuzzy_what => categories(:practitioners).name
+  def test_search_no_location_category
+		get :search, :where => '', :what => categories(:practitioners).name
 		assert_response :success
     assert !assigns(:results).empty?
   end
