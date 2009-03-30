@@ -14,7 +14,7 @@
   No results found <%=  describe_search(@region, @district, @category, @subcategory) %>.
 <% else -%>
   <div id="bam-search-results">
-    <%= will_paginate @results, :params => {:where => params[:where], :what => params[:what] , :category_id => params[:category_id] }  %>
+    <%= will_paginate @results  %>
 <ul class="simple" id="search-results">
   <% @results.each do |r| %>
     <li class="<%= cycle('even', 'odd') %><%if r.user_profile.published?%> user-rollover<%end%>"><%=render :partial => "users/user", :locals => {:user => r }  %></li>

@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/../../lib/helpers'
+
 class CategoriesController < ApplicationController
 
 	def subcategories
@@ -6,8 +8,8 @@ class CategoriesController < ApplicationController
 	end
 
   def region
-    @region = Region.find_by_name(undasherize_capitalize(params[:region_name]))
-    @category = Category.find_by_name(undasherize(params[:category_name]))
+    @region = Region.find_by_name(help.undasherize_capitalize(params[:region_name]))
+    @category = Category.find_by_name(help.undasherize(params[:category_name]))
     if @category.nil?
       logger.error("in categories controller Show, @category is nil")
     else

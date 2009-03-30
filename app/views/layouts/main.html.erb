@@ -54,13 +54,13 @@
             <% form_tag search_path(:what => "yoga", :where => "wellington" ), :id => "bam-search-form" do  -%>
               <div id="what-wrapper" class="search-wrapper">
                 <label for="what">What: </label>
-                <input class="text" type="text" id="what" name="what" value="<%=params[:what]%>" />
+                <input class="text" type="text" id="what" name="what" value="<%=undasherize(params[:what])%>" />
                 <p>Examples: yoga, acupuncture, life coaching, etc.</p>
               </div>
               <div id="where-wrapper" class="search-wrapper">
                 <label for="where">Where: </label>
-                <input class="text" type="text" id="where" name="where" value="<%=params[:where]%>"  />
-                <p>Examples: wellington, canterbury, auckland, etc.</p>
+                <input class="text" type="text" id="where" name="where" value="<%=undasherize(params[:where])%>"  />
+                <p>Examples: wellington city, canterbury, auckland city, etc.</p>
               </div>
               <div id="search-submit-wrapper" class="search-wrapper">
                 <%= submit_tag "Search", :class => "submit"  %>

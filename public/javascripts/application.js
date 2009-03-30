@@ -1,15 +1,15 @@
 $(document).ready(function(){
     $('#pics-resident-experts').cycle({fx: 'fade', pause: '1', prev: '#prev-expert', next: '#next-expert'});
-    $("#fuzzy_what").autocomplete(subcategories).setOptions({matchContains: true});
-    $("#fuzzy_where").autocomplete(locations).setOptions({matchContains: true});
+    $("#what").autocomplete(subcategories).setOptions({matchContains: true});
+    $("#where").autocomplete(locations).setOptions({matchContains: true});
 
     $("form#bam-search-form").submit(function() {
         var action = "/search";
         if ($("input#what").val() != "") {
-            action = action + "/what/" + $("input#what").val();
+            action = action + "/what/" + $("input#what").val().replace(/ /, '-');
         }
         if ($("input#where").val() != "") {
-            action = action + "/where/" + $("input#where").val();
+            action = action + "/where/" + $("input#where").val().replace(/ /, '-');
         }
         this.action = action;
         this.submit();

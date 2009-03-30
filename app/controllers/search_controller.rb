@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/../../lib/helpers'
+
 class SearchController < ApplicationController
 
   def count_show_more_details
@@ -11,8 +13,8 @@ class SearchController < ApplicationController
   end
 
   def search    
-		@what = params[:what]
-		@where = params[:where]
+		@what = help.undasherize(params[:what])
+		@where =help. undasherize(params[:where])
 		begin
       if @what.blank? && @where.blank?
           logger.debug("======== EMPTY params in search")

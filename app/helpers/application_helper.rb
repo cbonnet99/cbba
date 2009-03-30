@@ -1,5 +1,15 @@
 module ApplicationHelper
 
+	def undasherize(s)
+    unless s.nil?
+      s.gsub(/-/, ' ').capitalize
+    end
+	end
+	def undasherize_capitalize(s)
+    unless s.nil?
+      s.split('-').map(&:capitalize).join(' ')
+    end
+	end
 
   def phone_blank?(phone_number_str)
     phone_number_str.blank? || phone_number_str == "-"

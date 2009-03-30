@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/../../lib/helpers'
+
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   include AuthenticatedSystem
@@ -73,7 +75,7 @@ class ApplicationController < ActionController::Base
 
 	def current_category
     if !params[:category_name].nil?
-			@category = Category.find_by_name(undasherize(params[:category_name]))
+			@category = Category.find_by_name(help.undasherize(params[:category_name]))
       @category_id = @category.id
 		end
 	end
@@ -116,13 +118,6 @@ class ApplicationController < ActionController::Base
 
 	def get_regions
 		@regions = Region.find(:all, :order => "name" )
-	end
-protected
-	def undasherize(s)
-		s.gsub(/-/, ' ').capitalize
-	end
-	def undasherize_capitalize(s)
-		s.split('-').map(&:capitalize).join(' ')
 	end
 end
 

@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
   named_scope :active, :conditions => "state='active'"
   named_scope :free_users, :conditions => "free_listing is true"
+  named_scope :paying, :conditions => "free_listing is false"
   named_scope :full_members, :include => "roles", :conditions => "roles.name='full_member'"
   named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
   named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"
@@ -59,6 +60,7 @@ class User < ActiveRecord::Base
   named_scope :resident_experts, :include => ["roles", "subcategories"], :conditions => "roles.name='resident_expert' and users.id = subcategories.resident_expert_id"
   named_scope :new_users, :conditions => "new_user is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
+
   
   # #around filters
 	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug, :create_geocodes
@@ -74,6 +76,10 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+
+  def geocoded?
+    !latitude.blank? && !longitude.blank?
+  end
 
   def invoices
     Invoice.find_by_sql(["select invoices.* from payments, invoices where payments.user_id = ? and payments.id = invoices.payment_id", self.id])
@@ -138,12 +144,14 @@ class User < ActiveRecord::Base
 
   def self.map_geocoded(map, users=nil)
     if users.nil?
-      users = User.full_members.geocoded
+      users = User.paying.geocoded
     end
     users.each do |u|
-      marker = GMarker.new([u.latitude, u.longitude],
-       :title => u.full_name, :info_window => u.full_info)
-      map.overlay_init(marker)
+      if u.geocoded? && !u.free_listing?
+        marker = GMarker.new([u.latitude, u.longitude],
+         :title => u.full_name, :info_window => u.full_info)
+        map.overlay_init(marker)
+      end
     end
   end
 
