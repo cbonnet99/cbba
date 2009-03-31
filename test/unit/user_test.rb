@@ -15,7 +15,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_contact_details
-    assert_equal "06-3086130", users(:cyrille).contact_details
+    assert_equal "(06)3086130", users(:cyrille).contact_details
     assert_equal "23 Queen St<br/>One tree Hill<br/>03 333 44444<br/>021 567 234", users(:amcloughlin).contact_details
   end
 
@@ -74,7 +74,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_default_how_to_book
     cyrille = users(:cyrille)
-    assert_equal "Bookings can be made by phone or email:<br/>06-3086130<br/>cbonnet99@gmail.com", cyrille.default_how_to_book
+    assert_equal "Bookings can be made by phone or email:<br/>(06)3086130<br/>cbonnet99@gmail.com", cyrille.default_how_to_book
   end
 
   def test_validate

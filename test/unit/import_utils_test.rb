@@ -50,8 +50,8 @@ class ImportUtilsTest < ActiveSupport::TestCase
     assert_equal "1 October 2007", annette.member_since.to_date.to_s.strip
     assert_equal "1 May 2009", annette.member_until.to_date.to_s.strip
 		angela = User.find_by_email("angela.baines@paradise.net")
-    assert_equal "04-9051451", angela.phone
-    assert_equal "021-1103239", angela.mobile
+    assert_equal "(04)9051451", angela.phone
+    assert_equal "(021)1103239", angela.mobile
 
 
     assert_equal 4, annette.tabs.size
