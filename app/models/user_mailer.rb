@@ -7,6 +7,7 @@ class UserMailer < ActionMailer::Base
 		@subject << message.subject
 		@body[:body] = message.body
 		@body[:preferred_contact] = message.preferred_contact
+    @content_type = 'text/html'
   end
   def mass_email(user, subject, body)
     setup_email(user)
