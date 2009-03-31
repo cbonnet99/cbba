@@ -1,3 +1,4 @@
 #!/bin/sh
 
 ruby /usr/local/cft/deploy/capistrano/current/script/runner -e production TaskUtils.rotate_user_positions_in_subcategories
+ruby /usr/local/cft/deploy/capistrano/current/script/runner -e production TaskUtils.rotate_user_positions_in_categories

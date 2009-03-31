@@ -122,60 +122,116 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert !norma.free_listing?
   end
 
-  def test_rotate_user_positions_in_subcategories
-    canterbury = regions(:canterbury)
-    canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-    hypnotherapy = subcategories(:hypnotherapy)
-    results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
-#     puts "============= results:"
-#     results.each do |r|
-#       puts "#{r.name}  - #{r.free_listing}- #{r.id}"
-#       r.subcategories_users.each do |su|
-#         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
-#       end
-#     end
+    def test_rotate_user_positions_in_subcategories
+      canterbury = regions(:canterbury)
+      canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+      hypnotherapy = subcategories(:hypnotherapy)
+      results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
+  #     puts "============= results:"
+  #     results.each do |r|
+  #       puts "#{r.name}  - #{r.free_listing}- #{r.id}"
+  #       r.subcategories_users.each do |su|
+  #         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
+  #       end
+  #     end
 
-    TaskUtils.rotate_user_positions_in_subcategories
-    new_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
-    new_results_size = new_results.size
-    # #first full member should have changed
-    assert new_results.first != results.first
+      TaskUtils.rotate_user_positions_in_subcategories
+      new_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
+      new_results_size = new_results.size
+      # #first full member should have changed
+      assert new_results.first != results.first
 
-#     puts "============= new_results:"
-#     new_results.each do |r|
-#       puts "#{r.name}  - #{r.free_listing}- #{r.id}"
-#       r.subcategories_users.each do |su|
-#         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
-#       end
-#     end
-    old_user_size = User.all.size
-    # #another hypnoptherapist in Chrischurch!
-    user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
-      :region_id => canterbury.id, :email => "joe@test.com",
-      :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
-      :password => "blablabla", :password_confirmation => "blablabla" )
-    user.register!
+  #     puts "============= new_results:"
+  #     new_results.each do |r|
+  #       puts "#{r.name}  - #{r.free_listing}- #{r.id}"
+  #       r.subcategories_users.each do |su|
+  #         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
+  #       end
+  #     end
+      old_user_size = User.all.size
+      # #another hypnoptherapist in Chrischurch!
+      user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
+        :region_id => canterbury.id, :email => "joe@test.com",
+        :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
+        :password => "blablabla", :password_confirmation => "blablabla" )
+      user.register!
 
-    user.activate!
-    user.subcategories_users.reload
-    assert_equal 1, user.subcategories_users.size
-    assert_equal old_user_size+1, User.all.size
-    after_insert_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
-    #the new user should be the last of the full members
-#    puts "============= after_insert_results:"
-#    after_insert_results.each do |r|
-#      puts "#{r.name}  - #{r.free_listing}"
-#       r.subcategories_users.each do |su|
-#         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
-#       end
-#    end
-   
-    #only one result should have been added
-    assert_equal new_results_size+1, after_insert_results.size
-    assert after_insert_results.first == new_results.first
-    
-    last_full_member_new = new_results.select{|m| !m.free_listing?}.last
-    last_full_member_after_insert = after_insert_results.select{|m| !m.free_listing?}.last
-    assert last_full_member_new != last_full_member_after_insert
-  end
+      user.activate!
+      user.subcategories_users.reload
+      assert_equal 1, user.subcategories_users.size
+      assert_equal old_user_size+1, User.all.size
+      after_insert_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
+      #the new user should be the last of the full members
+  #    puts "============= after_insert_results:"
+  #    after_insert_results.each do |r|
+  #      puts "#{r.name}  - #{r.free_listing}"
+  #       r.subcategories_users.each do |su|
+  #         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
+  #       end
+  #    end
+
+      #only one result should have been added
+      assert_equal new_results_size+1, after_insert_results.size
+      assert after_insert_results.first == new_results.first
+
+      last_full_member_new = new_results.select{|m| !m.free_listing?}.last
+      last_full_member_after_insert = after_insert_results.select{|m| !m.free_listing?}.last
+      assert last_full_member_new != last_full_member_after_insert
+    end
+    def test_rotate_user_positions_in_categories
+      canterbury = regions(:canterbury)
+      canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+      practitioners = categories(:practitioners)
+      results = User.search_results(practitioners.id, nil, canterbury.id, nil, 1)
+  #     puts "============= results:"
+  #     results.each do |r|
+  #       puts "#{r.name}  - #{r.free_listing}- #{r.id}"
+  #       r.subcategories_users.each do |su|
+  #         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
+  #       end
+  #     end
+
+      TaskUtils.rotate_user_positions_in_categories
+      new_results = User.search_results(practitioners.id, nil, canterbury.id, nil, 1)
+      new_results_size = new_results.size
+      # #first full member should have changed
+      assert new_results.first != results.first
+
+  #     puts "============= new_results:"
+  #     new_results.each do |r|
+  #       puts "#{r.name}  - #{r.free_listing}- #{r.id}"
+  #       r.subcategories_users.each do |su|
+  #         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
+  #       end
+  #     end
+      old_user_size = User.all.size
+      # #another hypnoptherapist in Chrischurch!
+      user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
+        :region_id => canterbury.id, :email => "joe@test.com",
+        :membership_type => "full_member", :professional => true, :subcategory1_id => subcategories(:hypnotherapy).id,
+        :password => "blablabla", :password_confirmation => "blablabla" )
+      user.register!
+
+      user.activate!
+      user.categories_users.reload
+      assert_equal 1, user.categories_users.size
+      assert_equal old_user_size+1, User.all.size
+      after_insert_results = User.search_results(practitioners.id, nil, canterbury.id, nil, 1)
+      #the new user should be the last of the full members
+  #    puts "============= after_insert_results:"
+  #    after_insert_results.each do |r|
+  #      puts "#{r.name}  - #{r.free_listing}"
+  #       r.subcategories_users.each do |su|
+  #         puts "+++++++++ #{su.subcategory_id} - #{su.position}"
+  #       end
+  #    end
+
+      #only one result should have been added
+      assert_equal new_results_size+1, after_insert_results.size
+      assert after_insert_results.first == new_results.first
+
+      last_full_member_new = new_results.select{|m| !m.free_listing?}.last
+      last_full_member_after_insert = after_insert_results.select{|m| !m.free_listing?}.last
+      assert last_full_member_new != last_full_member_after_insert
+    end
 end

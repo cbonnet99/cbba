@@ -53,29 +53,52 @@ class TaskUtils
     end
   end
 
-  def self.rotate_user_positions_in_subcategories
-    Subcategory.all.each do |sub|
-      s_users = sub.subcategories_users.find(:all, :include => "user", :conditions => "users.free_listing is false")
-#      s_users = SubcategoriesUser.find_by_sql("select su.* from subcategories_users su, users u where su.subactegsu.user_id = u.id and u.free_listing is false order by su.position")
-      #if there is only 1, no rotation is needed
-#      puts "========= s_users before: #{s_users.inspect}"
-      unless s_users.empty? || s_users.size <= 1
-        first = s_users.first
-        pos = 1
-        s_users.each do |su|
-#          puts "====== su: #{su.inspect}"
-          if su != first
-#            puts "====== setting to: #{pos}"
-            su.update_attribute(:position, pos)
-            pos += 1
+    def self.rotate_user_positions_in_subcategories
+      Subcategory.all.each do |sub|
+        s_users = sub.subcategories_users.find(:all, :include => "user", :conditions => "users.free_listing is false")
+  #      s_users = SubcategoriesUser.find_by_sql("select su.* from subcategories_users su, users u where su.subactegsu.user_id = u.id and u.free_listing is false order by su.position")
+        #if there is only 1, no rotation is needed
+  #      puts "========= s_users before: #{s_users.inspect}"
+        unless s_users.empty? || s_users.size <= 1
+          first = s_users.first
+          pos = 1
+          s_users.each do |su|
+  #          puts "====== su: #{su.inspect}"
+            if su != first
+  #            puts "====== setting to: #{pos}"
+              su.update_attribute(:position, pos)
+              pos += 1
+            end
           end
+          #put first at the end
+          first.update_attribute(:position, pos)
         end
-        #put first at the end
-        first.update_attribute(:position, pos)
+  #      puts "========= s_users after: #{s_users.inspect}"
+      end    
+    end
+
+      def self.rotate_user_positions_in_categories
+        Category.all.each do |c|
+          c_users = c.categories_users.find(:all, :include => "user", :conditions => "users.free_listing is false")
+          #if there is only 1, no rotation is needed
+    #      puts "========= c_users before: #{c_users.inspect}"
+          unless c_users.empty? || c_users.size <= 1
+            first = c_users.first
+            pos = 1
+            c_users.each do |cu|
+    #          puts "====== cu: #{cu.inspect}"
+              if cu != first
+    #            puts "====== setting to: #{pos}"
+                cu.update_attribute(:position, pos)
+                pos += 1
+              end
+            end
+            #put first at the end
+            first.update_attribute(:position, pos)
+          end
+    #      puts "========= c_users after: #{c_users.inspect}"
+        end    
       end
-#      puts "========= s_users after: #{s_users.inspect}"
-    end    
-  end
 
 	def self.count_users
 		Category.all.each do |c|
