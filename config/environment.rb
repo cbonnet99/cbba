@@ -118,6 +118,10 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   title = msg.kind_of?(Array) ? '* ' + msg.join("\n* ") : msg
   "<div class=\"fieldWithErrors\" title=\"#{title}\">#{html_tag}</div>"
 end
+
+#
+ActionController::Base.asset_host = "assets.beamazing.co.nz"
+
 #I18n.locale = "en-NZ"
 #I18n.load_path += Dir[ File.join(RAILS_ROOT, 'lib', 'locale', '*.{rb,yml}') ]
 
