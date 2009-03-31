@@ -15,3 +15,7 @@ life_coaching:
     name: Life coaching
     category: coaching
     slug: life-coaching
+business_coaching:
+    name: Business coaching
+    category: coaching
+    slug: business-coaching

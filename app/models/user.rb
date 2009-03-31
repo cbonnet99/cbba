@@ -258,7 +258,9 @@ class User < ActiveRecord::Base
     unless subcategory1_id.blank?
       sub1 = Subcategory.find(self.subcategory1_id)
       self.subcategories << sub1
-      self.categories << sub1.category
+      unless self.categories.include?(sub1.category)
+        self.categories << sub1.category
+      end
       # #update expertise position
       unless @old_positions.blank? || @old_positions[self.subcategory1_id].blank?
         su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
@@ -270,7 +272,9 @@ class User < ActiveRecord::Base
     unless subcategory2_id.blank?
       sub2 = Subcategory.find(self.subcategory2_id)
       self.subcategories << sub2
-      self.categories << sub2.category
+      unless self.categories.include?(sub2.category)
+        self.categories << sub2.category
+      end
       # #update expertise position
       unless @old_positions.blank? || @old_positions[self.subcategory2_id].blank?
         su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
@@ -282,7 +286,9 @@ class User < ActiveRecord::Base
     unless subcategory3_id.blank?
       sub3 = Subcategory.find(self.subcategory3_id)
       self.subcategories << sub3
-      self.categories << sub3.category
+      unless self.categories.include?(sub3.category)      
+        self.categories << sub3.category
+      end
       # #update expertise position
       unless @old_positions.blank? || @old_positions[self.subcategory3_id].blank?
         su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)

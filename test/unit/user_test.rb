@@ -212,16 +212,26 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal 3, results.size
 	end
 
-	def test_search_results_category
-		practitioners = categories(:practitioners)
-		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-    results = User.search_results(practitioners.id, nil, nil, canterbury_christchurch_city.id, 1)
-#    puts "========= results:"
-#    results.each do |r|
-#      puts r.name
-#    end
-		assert_equal 3, results.size
-	end
+  	def test_search_results_category
+  		practitioners = categories(:practitioners)
+  		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+      results = User.search_results(practitioners.id, nil, nil, canterbury_christchurch_city.id, 1)
+  #    puts "========= results:"
+  #    results.each do |r|
+  #      puts r.name
+  #    end
+  		assert_equal 3, results.size
+  	end
+
+    	def test_search_results_category_coaching
+    		coaching = categories(:coaching)
+        results = User.search_results(coaching.id, nil, nil, nil, 1)
+       # puts "========= results:"
+       # results.each do |r|
+       #   puts r.name
+       # end
+    		assert_equal 1, results.size
+    	end
 
 	def test_search_results_category_region
 		practitioners = categories(:practitioners)

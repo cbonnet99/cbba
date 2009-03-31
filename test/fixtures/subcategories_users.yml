@@ -23,6 +23,14 @@ sgardiner_hypnotherapy:
     subcategory: hypnotherapy
     position: 1
     expertise_position: 1
+sgardiner_life_coaching:
+    subcategory: life_coaching
+    user: sgardiner
+    expertise_position: 2
+sgardiner_business_coaching:
+    subcategory: business_coaching
+    user: sgardiner
+    expertise_position: 3
 rmoore_hypnotherapy:
     user: rmoore
     subcategory: hypnotherapy
