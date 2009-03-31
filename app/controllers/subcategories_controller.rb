@@ -2,6 +2,7 @@ class SubcategoriesController < ApplicationController
 
   def index
     @subcategories = Subcategory.find(:all, :order =>:name)
+    @subcategories.concat(Category.find(:all, :order =>:name))
   end
 
   def region
