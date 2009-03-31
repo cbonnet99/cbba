@@ -248,7 +248,7 @@ class UsersControllerTest < ActionController::TestCase
 		post :update, {:id => "123", :user => {:phone_prefix => "06", :phone_suffix => "999999" }}, {:user_id => cyrille.id }
 		assert_equal "Your details have been updated", flash[:notice]
     cyrille.reload
-		assert_equal "06-999999", cyrille.phone
+		assert_equal "(06)999999", cyrille.phone
   end
   
 	def test_update_phone2
@@ -257,7 +257,7 @@ class UsersControllerTest < ActionController::TestCase
     #    puts assigns(:user).errors.inspect
 		assert_equal "Your details have been updated", flash[:notice]
     rmoore.reload
-		assert_equal "09-111111", rmoore.phone
+		assert_equal "(09)111111", rmoore.phone
 	end
 
 	def test_update_mobile
@@ -271,7 +271,7 @@ class UsersControllerTest < ActionController::TestCase
 		post :update, {:id => "123", :user => {:mobile_prefix => "027", :mobile_suffix => "999999" }}, {:user_id => cyrille.id }
 		assert_equal "Your details have been updated", flash[:notice]
     cyrille = User.find_by_email(cyrille.email)
-		assert_equal "027-999999", cyrille.mobile
+		assert_equal "(027)999999", cyrille.mobile
     assert !cyrille.subcategories_users.blank?
     assert_not_nil cyrille.subcategories_users[0]
     #position should stay unchanged
@@ -300,7 +300,7 @@ class UsersControllerTest < ActionController::TestCase
 		post :update, {:id => "123", :user => {:business_name => "My biz", :mobile_prefix => "021", :mobile_suffix => "999999" }}, {:user_id => rmoore.id }
 		assert_equal "Your details have been updated", flash[:notice]
     rmoore.reload
-		assert_equal "021-999999", rmoore.mobile
+		assert_equal "(021)999999", rmoore.mobile
 	end
 
 	def test_update_mobile3
@@ -309,7 +309,7 @@ class UsersControllerTest < ActionController::TestCase
 		post :update, {:id => "123", :user => {:mobile_prefix => "021", :mobile_suffix => "999999" }}, {:user_id => norma.id }
 		assert_equal "Your details have been updated", flash[:notice]
     norma.reload
-		assert_equal "021-999999", norma.mobile
+		assert_equal "(021)999999", norma.mobile
 	end
 
   def test_create
@@ -352,7 +352,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal old_size+1, User.all.size
 		new_user = User.find_by_email("cyrille@stuff.com")
 		assert_not_nil(new_user)
-		assert_equal "027-8987987", new_user.mobile
+		assert_equal "(027)8987987", new_user.mobile
 		assert_equal wellington, new_user.region
     assert new_user.active?
 	end
@@ -372,7 +372,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal old_size+1, User.all.size
 		new_user = User.find_by_email("cyrille@stuff.com")
 		assert_not_nil(new_user)
-		assert_equal "027-8987987", new_user.mobile
+		assert_equal "(027)8987987", new_user.mobile
 		assert_equal wellington, new_user.region
     # #2 tabs: one for about cyrille and one for hypnotherapy
     assert_equal 2, new_user.tabs.size

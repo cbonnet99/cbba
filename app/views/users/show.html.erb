@@ -31,16 +31,17 @@
       <% unless @user.business_name.nil? -%>
         <p><%=@user.business_name%></p>
       <% end -%>
+	  <p><%=link_to_message(@user)%></p>
       <p><%= @user.address1 %></p>
       <% unless @user.suburb.nil? -%>
         <p><%= @user.suburb %></p>
       <% end -%>
       <p><%= @user.city %></p>
-      <% unless @user.phone.nil? -%>
-        <p>T: <%=@user.phone%></p>
+      <% unless @user.phone.nil? || @user.phone == "()" -%>
+        <p>ph: <%=@user.phone%></p>
       <% end -%>
-      <% unless @user.mobile.nil? -%>
-        <p>M: <%=@user.mobile%></p>
+      <% unless @user.mobile.nil? || @user.mobile == "()" -%>
+        <p>m: <%=@user.mobile%></p>
       <% end -%>
     </div>
   </div>

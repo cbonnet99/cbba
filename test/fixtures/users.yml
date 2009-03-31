@@ -15,7 +15,7 @@ cyrille:
   region:                    wellington
   professional:              true
   free_listing:              false
-  phone:                     06-3086130
+  phone:                     (06)3086130
   member_since:              <%= 6.months.ago.to_s :db %>
   member_until:              <%= 6.months.from_now.to_s :db %>
   slug:                      cyrille-bonnet-bioboy-inc
@@ -41,7 +41,7 @@ norma:
   region:                    canterbury
   professional:              true
   free_listing:              false
-  phone:                     06-
+  phone:                     (06)
   member_since:              <%= 17.months.ago.to_s :db %>
   member_until:              <%= 1.week.from_now.to_s :db %>
   slug:                      norma-stein
@@ -139,7 +139,7 @@ pending_user:
   region:                    wellington
   professional:              true
   free_listing:              false
-  phone:                     06-3086130
+  phone:                     (06)3086130
   slug:                      pending-user
 suspended_user1:
   first_name:                Suspended
@@ -155,7 +155,7 @@ suspended_user1:
   region:                    wellington
   professional:              true
   free_listing:              false
-  phone:                     06-3086130
+  phone:                     (06)3086130
   member_since:              <%= 1.year.ago.to_s :db %>
   member_until:              <%= 1.week.ago.to_s :db %>
   slug:                      suspended1
@@ -173,7 +173,7 @@ suspended_user2:
   region:                    wellington
   professional:              true
   free_listing:              false
-  phone:                     06-3086130
+  phone:                     (06)3086130
   member_since:              <%= 1.year.ago.to_s :db %>
   member_until:              <%= 2.weeks.ago.to_s :db %>
   slug:                      suspended2
@@ -191,7 +191,7 @@ resident_expert_user:
   region:                    wellington
   professional:              true
   free_listing:              false
-  phone:                     06-3086130
+  phone:                     (06)3086130
   member_since:              <%= 1.year.ago.to_s :db %>
   member_until:              <%= 99.years.from_now.to_s :db %>
   slug:                      resident
@@ -208,5 +208,5 @@ applying_resident_expert:
   region:                    wellington
   professional:              true
   free_listing:              false
-  phone:                     06-3086130
+  phone:                     (06)3086130
   slug:                      joe-smith

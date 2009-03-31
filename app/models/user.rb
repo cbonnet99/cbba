@@ -104,7 +104,7 @@ class User < ActiveRecord::Base
   end
 
   def contact_details
-    [address1, suburb, city, phone, mobile].reject{|o| o.blank?||o=="-"}.join("<br/>")
+    [address1, suburb, city, phone, mobile].reject{|o| o.blank?||o=="()"}.join("<br/>")
 
   end
 
@@ -163,7 +163,7 @@ class User < ActiveRecord::Base
     end
     res << [full_name, main_expertise, address1, suburb, district.name].reject{|o| o.blank?}.join("<br/>")
     res << "<br/>"
-    res << [phone, mobile].reject{|o| o.blank? || o == "-"}.join("<br/>")
+    res << [phone, mobile].reject{|o| o.blank? || o == "()"}.join("<br/>")
     res << "</div><div class='cleaner'></div>"
   end
 
@@ -205,12 +205,12 @@ class User < ActiveRecord::Base
 
   def default_how_to_book
     str = "Bookings can be made by "
-    unless phone.blank? || phone == "-"
+    unless phone.blank? || phone == "()"
       str << "phone or "
     end
     #email cannot be blank
     str << "email:<br/>"
-    unless phone.blank? || phone == "-"
+    unless phone.blank? || phone == "()"
       str << phone
       str << "<br/>"
     end
@@ -451,15 +451,15 @@ class User < ActiveRecord::Base
   def phone_prefix
     @phone_prefix ||
      (unless phone.blank?
-        phone_bits = phone.split("-")
-        phone_bits.first
+        phone_bits = phone.split(")")
+        phone_bits.first.gsub(/\(/, '')
       end)
   end
 
   def phone_suffix
     @phone_suffix ||
      (unless phone.blank?
-        phone_bits = phone.split("-")
+        phone_bits = phone.split(")")
         if phone_bits.size > 1
           phone_bits.last
         else
@@ -471,15 +471,15 @@ class User < ActiveRecord::Base
   def mobile_prefix
     @mobile_prefix ||
      (unless mobile.blank?
-        mobile_bits = mobile.split("-")
-        mobile_bits.first
+        mobile_bits = mobile.split(")")
+        mobile_bits.first.gsub(/\(/, '')
       end)
   end
 
   def mobile_suffix
     @mobile_suffix ||
      (unless mobile.blank?
-        mobile_bits = mobile.split("-")
+        mobile_bits = mobile.split(")")
         if mobile_bits.size > 1
           mobile_bits.last
         else
@@ -600,19 +600,19 @@ class User < ActiveRecord::Base
 	end
 
 	def assemble_phone_numbers
-    self.mobile = "#{mobile_prefix}-#{mobile_suffix}"
-    self.phone = "#{self.phone_prefix}-#{self.phone_suffix}"
+    self.mobile = "(#{mobile_prefix})#{mobile_suffix}"
+    self.phone = "(#{self.phone_prefix})#{self.phone_suffix}"
 	end
 
   def disassemble_phone_numbers
-    unless phone.blank? && !phone.include?("-")
-      phone_bits = phone.split("-")
-      self.phone_prefix = phone_bits.first
+    unless phone.blank? && !phone.include?(")")
+      phone_bits = phone.split(")")
+      self.phone_prefix = phone_bits.first.gsub(/\(/, '')
       self.phone_suffix = phone_bits.last
     end
-    unless mobile.blank? && !mobile.include?("-")
-      mobile_bits = mobile.split("-")
-      self.mobile_prefix = mobile_bits.first
+    unless mobile.blank? && !mobile.include?(")")
+      mobile_bits = mobile.split(")")
+      self.mobile_prefix = mobile_bits.first.gsub(/\(/, '')
       self.mobile_suffix = mobile_bits.last
     end
   end
