@@ -76,7 +76,13 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
+  SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
+  SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
 
+  def self.generate_random_password
+    "#{SPECIAL_CHARACTERS.rand}#{PasswordGenerator.generate(5).capitalize}#{rand(9)}#{rand(9)}"
+  end
+  
   def geocoded?
     !latitude.blank? && !longitude.blank?
   end

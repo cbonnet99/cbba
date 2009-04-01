@@ -1,4 +1,16 @@
 class TaskUtils
+  
+  def self.generate_random_passwords
+    User.free_users.each do |u|
+      u.password = u.password_confirmation = User.generate_random_password
+      u.save!
+    end
+    User.full_members.each do |u|
+      u.password = u.password_confirmation = User.generate_random_password
+      u.save!
+    end
+  end
+  
   def self.send_reminder_on_expiring_memberships
     User.full_members.each do |u|
       if !u.member_until.nil?
