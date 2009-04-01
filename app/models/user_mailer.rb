@@ -20,28 +20,28 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
 		@subject << "Your expert application has been approved"
     @body[:expert_application] = expert_application
-		@body[:url] = edit_payment_path(expert_application.payment)
+		@body[:url] = edit_payment_url(expert_application.payment)
   end
 
   def expert_application_time_out(user, expert_application)
     setup_email(user)
 		@subject << "Your expert application has timed out"
     @body[:expert_application] = expert_application
-		@body[:url] = edit_expert_application_path(expert_application)
+		@body[:url] = edit_expert_application_url(expert_application)
   end
 
   def notifiy_admin_new_expert_application(expert_application, user)
     setup_email(user)
 		@subject << "New expert application"
     @body[:expert_application] = expert_application
-		@body[:url] = expert_applications_action_with_id_path(expert_application, :action => "show")
+		@body[:url] = expert_applications_action_with_id_url(expert_application, :action => "show")
   end
 
   def payment_invoice(user, payment, invoice)
     setup_email(user)
 		@subject << "Invoice for your payment"
     @body[:payment] = payment
-		@body[:url] = payments_path
+		@body[:url] = payments_url
     attachment :content_type => "application/pdf",
      :body => invoice.pdf,
      :filename => invoice.filename
@@ -51,21 +51,21 @@ class UserMailer < ActionMailer::Base
   def membership_expired_today(user)
     setup_email(user)
 		@subject << "Your membership has expired"
-		@body[:url] = user_renew_membership_path(:user => user)
+		@body[:url] = user_renew_membership_url(:user => user)
   end
 
   def past_membership_expiration(user, time_description)
     setup_email(user)
 		@subject << "Your membership has expired #{time_description} ago"
 		@body[:time_description] = time_description
-		@body[:url] = user_renew_membership_path(:user => user)
+		@body[:url] = user_renew_membership_url(:user => user)
   end
 
   def coming_membership_expiration(user, time_description)
     setup_email(user)
 		@subject << "Your membership will expire in #{time_description}"
 		@body[:time_description] = time_description
-		@body[:url] = user_renew_membership_path(:user => user)
+		@body[:url] = user_renew_membership_url(:user => user)
   end
 
 	def item_rejected(item, author)
@@ -94,18 +94,19 @@ class UserMailer < ActionMailer::Base
   def signup_notification(user)
     setup_email(user)
     @subject << 'Please activate your new account with BeAmazing.com'
-    @body[:url] = "#{APP_CONFIG[:site_url]}/activate/#{user.activation_code}"
+    @body[:url] = activate_url(:activation_code => user.activation_code)
   end
   
   def activation(user)
     setup_email(user)
     @subject << 'Your BeAmazing account has been activated!'
-    @body[:url] = APP_CONFIG[:site_url]
+    @body[:url] = root_url
   end
   
   protected
   
   def setup_email(user)
+    default_url_options[:host] = APP_CONFIG[:site_host]
     @recipients = "#{user.email}"
     @from = APP_CONFIG[:admin_email]
     @subject = "[#{APP_CONFIG[:site_name]}] "

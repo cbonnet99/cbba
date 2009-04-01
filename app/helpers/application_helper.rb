@@ -100,7 +100,7 @@ module ApplicationHelper
 
   def expanded_user_path(user, options={})
     options.merge!(:main_expertise => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
-    full_user_path(options)
+    full_user_url(options)
   end
 
   def expanded_user_tabs_path(user, tab, options={})
