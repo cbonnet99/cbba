@@ -12,7 +12,7 @@ module ApplicationHelper
 	end
 
   def phone_blank?(phone_number_str)
-    phone_number_str.blank? || phone_number_str == "-"
+    phone_number_str.blank? || phone_number_str == "()"
   end
 
   def small_image(user)

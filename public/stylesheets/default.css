@@ -536,7 +536,7 @@ body {
 }
 #container {
     padding-left: 170px;  /* LC width */
-    padding-right: 0px;  /* RC width */
+    padding-right: 170px;  /* RC width */
 
     background:white top right repeat-y;
 }
@@ -551,9 +551,9 @@ body {
     background: white top right no-repeat;
 }
 #right {
-    width: 0px;  /* RC width */
-    margin-right: -0px;  /* RC width */
-    background: white top right no-repeat;
+    width: 170px;  /* RC width */
+    margin-right: -170px;  /* RC width */
+    background: yellow top right no-repeat;
 }
 #middle {
     width: 100%;
