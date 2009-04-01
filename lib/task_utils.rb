@@ -136,19 +136,19 @@ class TaskUtils
   def self.create_default_admins
     #IMPORTANT: keep the following line to make sure that the admin role exists
     Role.find_or_create_by_name("admin")
-    default_region = Region.find_or_create_by_name("Wellington Region")
-    default_district = District.find_by_name_and_region_id("Wellington City", default_region.id)
-    if default_district.nil?
-      default_district = District.create(:name => "Wellington City", :region_id => default_region.id  )
-    end
-    default_category = Category.find_or_create_by_name("Coaching")
-    default_subcategory = Subcategory.find_by_category_id_and_name(default_category.id, "Life coaching")
-    if default_subcategory.nil?
-      default_subcategory = Subcategory.create(:name => "Life coaching", :category_id => default_category.id  )
-    end
     $admins.each do |admin|
       user = User.find_by_email(admin[:email])
       if user.nil?
+        default_region = Region.find_or_create_by_name(admin[:region])
+        default_district = District.find_by_name_and_region_id(admin[:district], default_region.id)
+        if default_district.nil?
+          default_district = District.create(:name => admin[:district], :region_id => default_region.id  )
+        end
+        default_category = Category.find_or_create_by_name(admin[:category])
+        default_subcategory = Subcategory.find_by_category_id_and_name(default_category.id, admin[:subcategory])
+        if default_subcategory.nil?
+          default_subcategory = Subcategory.create(:name => admin[:subcategory], :category_id => default_category.id  )
+        end
         user = User.new(:first_name => admin[:first_name], :last_name => admin[:last_name],
           :email => admin[:email], :free_listing => false,
           :professional => true, :subcategory1_id => default_subcategory.id,

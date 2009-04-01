@@ -101,7 +101,7 @@ ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
 $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last_name => "Savage"},
   {:email => "cbonnet99@gmail.com", :first_name => "Cyrille", :last_name => "Bonnet" },
   {:email => "megan@beamazing.co.nz", :first_name => "Megan", :last_name => "Savage"},
-  {:email => "julie@thatblindwoman.co.nz", :first_name => "Julie", :last_name => "Woods"},
+  {:email => "julie@thatblindwoman.co.nz", :first_name => "Julie", :last_name => "Woods", :region => "Otago", :district => "Dunedin", :category => "Coaching", :subcategory => "Life coaching" },
   {:email => "norma@eurekacoaching.co.nz", :first_name => "Norma", :last_name => "Stein"}]
 
 $number_articles_on_homepage = 3
