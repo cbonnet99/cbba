@@ -51,7 +51,7 @@
     <div id="container">
       <div class="column" id="middle"><div class="column-in">
           <div id="search">
-            <% form_tag search_path(:what => "yoga", :where => "wellington" ), :id => "bam-search-form" do  -%>
+            <% form_tag search_path(:what => "", :where => "" ), :id => "bam-search-form" do  -%>
               <div id="what-wrapper" class="search-wrapper">
                 <label for="what">What: </label>
                 <input class="text" type="text" id="what" name="what" value="<%=undasherize(params[:what])%>" />

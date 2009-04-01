@@ -19,7 +19,7 @@ module ApplicationHelper
     if user.photo.exists? && user.user_profile.published?
       image_tag user.photo.url(:thumbnail), :height => 100, :width => 85
     else
-      image_tag "nophoto.gif", :height => 100, :width => 85
+      image_tag "nophoto.gif", :width => 85
     end
   end
 

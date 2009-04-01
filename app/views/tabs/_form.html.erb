@@ -3,12 +3,12 @@
   <%= f.error_messages %>
     <ol>
       <li>
-        <%= f.label :title, "Title:<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :title, "Title (30 char.):<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :title %>
       </li>
       <li>
         <%= f.label :content, 'Content:' %>
-        <%= f.text_area :content %>
+        <%= f.text_area :content, :cols => 80 %>
       </li>
     </ol>
   <div class="buttons">
