@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('#pics-resident-experts').cycle({fx: 'fade', pause: '1', prev: '#prev-expert', next: '#next-expert'});
-    $("#what").autocomplete(subcategories).setOptions({matchContains: true});
-    $("#where").autocomplete(locations).setOptions({matchContains: true});
+    $("#what").autocomplete(sbg).setOptions({matchContains: true});
+    $("#where").autocomplete(lts).setOptions({matchContains: true});
 
     $("form#bam-search-form").submit(function() {
         var action = "/search";

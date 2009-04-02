@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090328102122) do
+ActiveRecord::Schema.define(:version => 20090401215050) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -323,6 +323,7 @@ ActiveRecord::Schema.define(:version => 20090328102122) do
     t.integer  "users_counter",      :default => 0
     t.string   "slug"
     t.integer  "resident_expert_id"
+    t.text     "description"
   end
 
   create_table "subcategories_users", :force => true do |t|

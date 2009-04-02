@@ -15,7 +15,11 @@ life_coaching:
     name: Life coaching
     category: coaching
     slug: life-coaching
+    description: |+
+        This is a description here
 business_coaching:
     name: Business coaching
     category: coaching
     slug: business-coaching
+    description: |+
+        This is a description here

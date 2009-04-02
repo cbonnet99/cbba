@@ -67,6 +67,21 @@ after 'deploy:update_code', 'deploy:symlink_shared'
 #
 # In a future version, the commands will be performed via webservice.
 #
+
+namespace(:bam) do
+  desc "Import existing users"
+  task :import_users, :roles => :app do
+    run "cd #{release_path} && rake bam:import_users RAILS_ENV=production"    
+  end
+     
+  desc "Regenerates JS files after a new subcategory or location has been added"
+  task :regenerates_js, :roles => :app do
+    run "cd #{release_path} && rake bam:generate_autocomplete_js RAILS_ENV=production"    
+    run "cd #{release_path} && rake asset:packager:build_all RAILS_ENV=production"    
+  end
+  
+end
+
 namespace(:rails_server) do
   desc "start the app server"
   task :start, :roles => :app do

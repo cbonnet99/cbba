@@ -1,11 +1,40 @@
 namespace :bam do
-
+  
+    task :generate_autocomplete_js => :environment do
+      File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
+        subcategories = Subcategory.find(:all, :order =>:name)
+        subcategories.concat(Category.find(:all, :order =>:name))
+        out << "var sbg=new Array(#{subcategories.size});"
+        subcategories.each_with_index do |subcategory, index|
+          out << "sbg[#{index}]='#{subcategory.name}';"
+        end
+      end
+      File.open("#{RAILS_ROOT}/public/javascripts/regions.js", 'w') do |out|
+        regions = Region.find(:all, :order => "name" )
+        districts = District.find(:all, :order => "name" )
+        locations = regions + districts
+        out << "var lts = new Array(#{locations.size});"
+        locations.each_with_index do |location, index|
+          out << "lts[#{index}]='#{location.name}';"
+        end
+      end
+    end
+  
+  
   desc "Geocodes all users from CSV (Warning: this is calling Google Maps)"
   task :geocode => :environment do
 			ImportUtils.geocode_users
   end
 
-  desc "Loads all users and districts in the current database"
+  desc "Import existing users"
+  task :import_users => :environment do
+			ImportUtils.import_users
+			TaskUtils.count_users
+			TaskUtils.update_counters
+			TaskUtils.mark_down_old_full_members			
+	end
+	
+  desc "Loads roles, districts, modalities, etc. in the current database"
   task :load => :environment do
 			ImportUtils.import_roles
 			ImportUtils.import_districts

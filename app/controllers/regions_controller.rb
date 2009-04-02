@@ -4,7 +4,6 @@ class RegionsController < ApplicationController
     @regions = Region.find(:all, :order => "name" )
     @districts = District.find(:all, :order => "name" )
     @locations = @regions + @districts
-    @locations = @locations.sort_by(&:name)
   end
 	
 	def districts
