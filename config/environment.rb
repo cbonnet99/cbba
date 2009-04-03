@@ -39,6 +39,7 @@ Rails::Initializer.run do |config|
   config.gem "activemerchant", :lib => "active_merchant", :version => "1.4.1"
   config.gem "pdf-writer", :lib => "pdf/writer", :version => "1.1.8"
   config.gem "tlconnor-xero_gateway", :lib => "xero_gateway",  :source => "http://gems.github.com"
+  config.gem "newrelic_rpm"
   
   # Only load the plugins named here, in the order given. By default, all
   # plugins in vendor/plugins are loaded in alphabetical order. :all can be used

@@ -217,7 +217,7 @@ module ApplicationHelper
 	end
 
 	def javascript(*files)
-		content_for(:head) { javascript_include_tag(*files) }
+		content_for(:js) { javascript_include_tag(*files) }
 	end
 
 	def shorten_string(str, max_size, extension="...")
