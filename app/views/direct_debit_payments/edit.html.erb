@@ -1,4 +1,4 @@
-<%= title "Pay by credit card for your #{@payment.title.downcase}" %>
+<%= title "Direct debit payment for your #{@payment.title.downcase}" %>
 <div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount)%></em><br/>
 <% unless @payment.discount == 0 -%>
 - Year one discount <em class="money"><%=amount_view(@payment.discount) %></em><br/>
@@ -8,8 +8,8 @@ You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
 +GST <em class="money"><%=amount_view(@payment.gst)%></em><br/>
 Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
 <div class="cleaner"></div>
-<hr/>
-<%= render :partial => "payment_nav", :locals => {:selected => "credit" } %>
+<fieldset>
+  <legend>Your payment details</legend>
   <ol>
     <% form_for @payment do |f| %>
       <%= f.error_messages :header_message => "Please try again", :message => "Your payment could not be processed"%>
@@ -55,6 +55,7 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
       </div>
     <% end %>
   </ol>
+</fieldset>
 <div id="payment-processor">Payments processed by <a href="http://www.paymentexpress.com/about/about_paymentexpress/privacy_policy.html">
 <img src="/images/paymentexpress.png" alt="Payment Processor" width="118" height="21" />
 </a></div>

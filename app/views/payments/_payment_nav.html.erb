@@ -1,0 +1,2 @@
+<%if selected=="credit"%><span class="user-tab-selected">Pay by credit card</span><%else%><%= link_to "Pay by credit card", :controller => "payments", :action => "edit", :id => @payment.id%><%end%> |
+<%if selected=="debit"%><span class="user-tab-selected">Pay by direct debit</span><%else%><%= link_to "Pay by direct debit", :controller => "payments", :action => "edit_debit", :id => @payment.id %><%end%>

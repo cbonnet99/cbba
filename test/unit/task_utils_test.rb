@@ -4,6 +4,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
 
+  def test_process_paid_xero_invoices
+    TaskUtils.process_paid_xero_invoices
+  end
+
   def test_generate_random_passwords
     TaskUtils.generate_random_passwords
   end

@@ -6,7 +6,7 @@ class Invoice < ActiveRecord::Base
   belongs_to :payment
 
   after_create :create_filename, :generate_pdf
-
+  INVOICE_STARTS=5000
   INVOICE_PREFIX="INV-"
   INVOICE_NUMBER_LENGTH=6
   PDF_SUFFIX_ABSOLUTE = File.dirname(__FILE__) + "/../../public"
@@ -22,7 +22,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def invoice_number
-    "#{INVOICE_PREFIX}#{self.id.to_s.rjust(INVOICE_NUMBER_LENGTH, '0')}"
+    "#{INVOICE_PREFIX}#{(INVOICE_STARTS+self.id).to_s.rjust(INVOICE_NUMBER_LENGTH, '0')}"
   end
 
   def generate_pdf

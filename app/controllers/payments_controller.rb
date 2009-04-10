@@ -16,7 +16,15 @@ class PaymentsController < ApplicationController
     @payment.last_name = current_user.last_name
     @payment.address1 = current_user.address1
     @payment.city = current_user.city
-    if @payment.status != "pending"
+    unless @payment.pending?
+      flash[:error] = "This payment is not pending"
+      redirect_back_or_default root_url
+    end
+  end
+
+  def edit_debit
+    @payment = current_user.payments.find(params[:id])
+    unless @payment.pending?
       flash[:error] = "This payment is not pending"
       redirect_back_or_default root_url
     end

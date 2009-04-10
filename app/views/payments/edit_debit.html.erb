@@ -1,0 +1,18 @@
+<%= title "Pay by direct debit for your #{@payment.title.downcase}" %>
+<div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount)%></em><br/>
+<% unless @payment.discount == 0 -%>
+- Year one discount <em class="money"><%=amount_view(@payment.discount) %></em><br/>
+You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
+<br/>
+<% end -%>
++GST <em class="money"><%=amount_view(@payment.gst)%></em><br/>
+Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
+<div class="cleaner"></div>
+<hr/>
+<%= render :partial => "payment_nav", :locals => {:selected => "debit" } %>
+<p>To pay by direct debit, please send your payment to our bank account:<br/>
+<br/>
+BeAmazing Ltd<br/>
+Kiwibank 38-9008-0791899-00</p>
+
+<p>In your payment, please put the following reference: <%= @payment.code%></p>

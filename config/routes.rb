@@ -9,7 +9,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :special_offers
   map.resources :orders
   map.resources :contacts
-  map.resources :payments
   map.resources :subcategories
   map.resources :categories
   map.resources :how_tos
@@ -31,6 +30,8 @@ ActionController::Routing::Routes.draw do |map|
   map.user_slug_action '/user/:slug/:action', :controller => "users"
   map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_|-]+/, :main_expertise => /[a-z|A-Z|_|-]+/}
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
+  map.payment_action_with_id '/payments/:id/:action', :controller => "payments"
+  map.resources :payments
 	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
 	map.expert_applications_action_with_id 'admin/expert_applications/:id/:action', :controller => "admin/expert_applications"
 	map.reviewer 'reviewer/:action', :controller => "admin/reviewer"

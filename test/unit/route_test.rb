@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class RoutingTest < Test::Unit::TestCase
   def test_routes
+    assert_recognizes({:controller => 'payments', :action => "edit_debit", :id => "123"  }, :path => "/payments/123/edit_debit" )
     assert_recognizes({:controller => 'search', :action => "search", :where => "wellington" }, :path => "/search/where/wellington" )
     assert_recognizes({:controller => 'search', :action => "search",  :what => 'yoga' }, :path => "/search/what/yoga" )
     assert_recognizes({:controller => 'search', :action => "search",  :what => 'yoga', :where => "wellington" }, :path => "/search/what/yoga/where/wellington" )
@@ -10,6 +11,7 @@ class RoutingTest < Test::Unit::TestCase
     assert_recognizes({:controller => 'admin/mass_emails', :action => 'index'}, :path => "/admin/mass_emails" )
     assert_recognizes({:controller => 'categories', :action => 'region', :category_name => "coaching", :region_name => "wellington"}, :path => "/category/coaching/region/wellington" )
     assert_recognizes({:controller => 'subcategories', :action => 'region', :category_name => "coaching", :subcategory_name => "life-coaching", :region_name => "wellington"}, :path => "/category/coaching/life-coaching/wellington" )
+    assert_recognizes({:controller => 'subcategories', :action => 'region', :category_name => "courses", :subcategory_name => "yoga", :region_name => "bay-of-plenty"}, :path => "/category/courses/yoga/bay-of-plenty" )
     assert_recognizes({:controller => 'subcategories', :action => 'show', :category_name => "coaching", :subcategory_name => "life-coaching"}, :path => "/category/coaching/life-coaching" )
     assert_recognizes({:controller => 'users', :action => 'create' }, :path => "/users", :method => "post" )
     assert_recognizes({:controller => 'expert_applications', :action => 'create' }, :path => "/expert_applications", :method => "post")

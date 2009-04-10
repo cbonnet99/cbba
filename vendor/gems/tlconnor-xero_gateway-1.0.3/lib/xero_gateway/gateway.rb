@@ -207,12 +207,16 @@ module XeroGateway
     end    
 
     def parse_error(error_element, response)
-      response.errors << Error.new(
+      error = Error.new(
           :description => REXML::XPath.first(error_element, "Description").text,
           :date_time => REXML::XPath.first(error_element, "//DateTime").text,
           :type => REXML::XPath.first(error_element, "//ExceptionType").text,
           :message => REXML::XPath.first(error_element, "//Message").text           
       )
+      if defined?(Rails)
+        Rails.logger.error("There was an error in a Xero gateway response (#{error.type}): #{error.message} - #{error.description}")
+      end
+      response.errors << error
     end
   end  
 end
