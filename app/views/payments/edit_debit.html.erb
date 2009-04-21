@@ -16,3 +16,7 @@ BeAmazing Ltd<br/>
 Kiwibank 38-9008-0791899-00</p>
 
 <p>In your payment, please put the following reference: <%= @payment.code%></p>
+<% form_tag '/payments/thank_you_direct_debit' do -%>
+      <%= hidden_field_tag "id", @payment.id %>
+      <%= submit_tag "Choose direct debit", :class => "button" %>
+<%end -%>

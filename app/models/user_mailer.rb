@@ -2,6 +2,13 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
 
+  def thank_you_direct_debit(user, payment)
+    setup_email(user)
+		@subject << "Your direct debit details for BeAmazing"
+		@body[:payment] = payment
+		@body[:credit_card_url] = payment_action_with_id_path(:action => "edit", :id => payment.id)
+  end
+
   def message(message)
     setup_email(message.user)
 		@subject << message.subject

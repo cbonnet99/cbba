@@ -1,0 +1,12 @@
+Dear <%= @user.first_name %>,
+
+To pay by direct debit, please send your payment to our bank account:
+
+BeAmazing Ltd
+Kiwibank 38-9008-0791899-00
+
+In your payment, please put the following reference: <%= @payment.code%>
+
+You can also pay by credit card at any time: <%= @credit_card_url %>
+
+<%= render :partial => "signature"  %>

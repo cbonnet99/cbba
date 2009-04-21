@@ -1,5 +1,10 @@
 class PaymentsController < ApplicationController
   before_filter :login_required
+  before_filter :get_payment, :only => [:edit, :edit_debit, :thank_you_direct_debit, :update] 
+
+  def thank_you_direct_debit
+    UserMailer.deliver_thank_you_direct_debit(current_user, @payment)
+  end
 
   def index
     @payments = current_user.payments.find(:all, :order => "status desc" )
@@ -11,7 +16,6 @@ class PaymentsController < ApplicationController
 
   # GET /payments/1/edit
   def edit
-    @payment = current_user.payments.find(params[:id])
     @payment.first_name = current_user.first_name
     @payment.last_name = current_user.last_name
     @payment.address1 = current_user.address1
@@ -23,7 +27,6 @@ class PaymentsController < ApplicationController
   end
 
   def edit_debit
-    @payment = current_user.payments.find(params[:id])
     unless @payment.pending?
       flash[:error] = "This payment is not pending"
       redirect_back_or_default root_url
@@ -33,7 +36,6 @@ class PaymentsController < ApplicationController
   # PUT /payments/1
   # PUT /payments/1.xml
   def update
-    @payment = current_user.payments.find(params[:id])
 
     params[:payment].merge!(:ip_address => request.remote_ip)
     if @payment.update_attributes(params[:payment])
@@ -47,4 +49,11 @@ class PaymentsController < ApplicationController
       render :action => 'edit'
     end
   end
+  
+  private
+  
+  def get_payment
+    @payment = current_user.payments.find(params[:id])
+  end
 end
+

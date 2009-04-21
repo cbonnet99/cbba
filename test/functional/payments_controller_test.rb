@@ -1,6 +1,18 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class PaymentsControllerTest < ActionController::TestCase
+  
+  def test_thank_you_direct_debit
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    get :thank_you_direct_debit, {:id => payments(:pending_user_payment).id}, {:user_id => users(:pending_user).id }
+    assert_response :success
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size
+  end
+  
   def test_should_get_index
     cyrille = users(:cyrille)
     get :index

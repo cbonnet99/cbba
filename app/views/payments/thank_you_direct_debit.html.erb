@@ -1,0 +1,7 @@
+<%= render :partial => "users/user_nav", :locals => {:selected => ""}  %>
+<%= title "Thank you"  %>
+<p>Thank you for choosing BeAmazing!</p>
+<p>We've sent you an email with our banking details.</p>
+<br/>	
+<p>You can change your mind at any time and <%= link_to "pay by credit card", payment_action_with_id_path(:action => "edit", :id => @payment.id) %></p>
+<p>While your payment is processed, you can edit <%= link_to "your profile", expanded_user_path(current_user) %> (please note that you will be able to publish your profile only once your payment has been received).</p>
