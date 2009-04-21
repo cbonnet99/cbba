@@ -13,8 +13,7 @@ class XeroGatewaySingleton
     XERO_API_KEY = YAML.load_file(RAILS_ROOT + '/config/xero.yml')[env]
   end
           
-  def gateway
-    
+  def gateway  
     XeroGateway::Gateway.new(
       :customer_key => XERO_API_KEY["customer_key"],
       :api_key => XERO_API_KEY["api_key"],

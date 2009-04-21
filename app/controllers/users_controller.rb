@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include ApplicationHelper
+  
   before_filter :full_member_required, :only => [:articles]
   before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles, :renew_membership]
 #	after_filter :store_location, :only => [:articles, :show]
@@ -49,17 +51,17 @@ class UsersController < ApplicationController
       end
       flash[:error]="Error while uploading your photo. Our administrator has been notified. Please try again later. Our sincere apologies for the inconvenience."
     end
-		redirect_back_or_default root_url
+		redirect_to expanded_user_path(@user)
   end
 
 	def publish
     if current_user.user_profile.draft?
       current_user.user_profile.publish!
       flash[:notice] = "Your profile was successfully published"
-      redirect_back_or_default root_url
+      redirect_to expanded_user_path(current_user)
     else
       flash[:error] = "Your profile is already published"
-      redirect_back_or_default root_url
+      redirect_to expanded_user_path(current_user)
     end
 	end
 
@@ -67,10 +69,10 @@ class UsersController < ApplicationController
     if current_user.user_profile.published?
       current_user.user_profile.remove!
       flash[:notice] = "Your profile is no longer published"
-      redirect_back_or_default root_url
+      redirect_to expanded_user_path(current_user)
     else
       flash[:error] = "Your profile is not published"
-      redirect_back_or_default root_url
+      redirect_to expanded_user_path(current_user)
     end
 	end
 
@@ -129,7 +131,7 @@ class UsersController < ApplicationController
 
 	def update_password
 		if current_user.update_attributes(params[:user])
-      redirect_back_or_default root_url
+      redirect_to expanded_user_path(current_user)
       flash[:notice] = "Your password has been updated"
     else
       flash.now[:error]  = "There were some errors in your password details."
@@ -142,7 +144,7 @@ class UsersController < ApplicationController
     params[:user].delete("password")
     params[:user].delete("password_confirmation")
 		if @user.update_attributes(params[:user])
-      redirect_back_or_default root_url
+      redirect_to expanded_user_path(@user)
       @user.region_name(:reload)
       @user.main_expertise(:reload)
       flash[:notice] = "Your details have been updated"
@@ -207,10 +209,10 @@ class UsersController < ApplicationController
       redirect_to  login_url
     when params[:activation_code].blank?
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
-      redirect_back_or_default root_url
+      redirect_to expanded_user_path(@user)
     else 
       flash[:error]  = "We couldn't find a user with that activation code -- check your email? Or maybe you've already activated -- try signing in."
-      redirect_back_or_default root_url
+      redirect_to expanded_user_path(@user)
     end
   end
 end

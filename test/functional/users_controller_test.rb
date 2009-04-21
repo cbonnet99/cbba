@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
+	include ApplicationHelper
 
   def test_create_resident_expert
 		ActionMailer::Base.delivery_method = :test
@@ -244,8 +245,8 @@ class UsersControllerTest < ActionController::TestCase
 
 	def test_update_phone
 		cyrille = users(:cyrille)
-    
 		post :update, {:id => "123", :user => {:phone_prefix => "06", :phone_suffix => "999999" }}, {:user_id => cyrille.id }
+		assert_redirected_to expanded_user_path(cyrille)
 		assert_equal "Your details have been updated", flash[:notice]
     cyrille.reload
 		assert_equal "(06)999999", cyrille.phone
