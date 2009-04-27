@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/../../lib/gateway'
 require 'xero_gateway'
 
 class Payment < ActiveRecord::Base  
@@ -47,16 +46,14 @@ class Payment < ActiveRecord::Base
     update_attribute(:invoice_number, my_invoice.invoice_number)
     update_attribute(:code, "#{user.id}-#{self.invoice_number}")
     
-    #create draft invoice in Xero
-    gateway = xero.gateway
-    
+    #create draft invoice in Xero    
     invoice = XeroGateway::Invoice.new({
       :invoice_type => "ACCREC",
       :due_date => 1.week.from_now,
       :invoice_number => self.invoice_number,
       :reference => self.code,
       :tax_inclusive => true,
-      :includes_tax => false,
+      :includes_tax => true,
       :sub_total => '%.2f' % (amount/100.0) ,
       :total_tax => '%.2f' % (gst/100.0),
       :total => '%.2f' % ((amount+gst)/100.0)
@@ -72,8 +69,8 @@ class Payment < ActiveRecord::Base
       :tracking_category => "Internet subscription",
       :tracking_option => self.title
     )
-
-  	gateway.create_invoice(invoice)
+    logger.debug("Creating invoice number #{invoice.invoice_number}")
+  	$xero_gateway.create_invoice(invoice)
   end
 
   def mark_as_paid

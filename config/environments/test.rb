@@ -25,3 +25,9 @@ config.after_initialize do
   ActiveMerchant::Billing::Base.mode = :test
   ::GATEWAY = ActiveMerchant::Billing::BogusGateway.new
 end
+
+$xero_gateway = XeroGateway::Gateway.new(
+  :customer_key => "ZDYWYWY1ODG1ZTG0NGQ5ZTKYNGZMYM",
+  :api_key => "MDCYODC0ZMNJOTBJNDI1NZG0N2I0MZ",
+  :xero_url => "DUMMY_URL"
+  )

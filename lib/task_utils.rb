@@ -1,11 +1,10 @@
-require File.dirname(__FILE__) + '/gateway'
+require 'xero_gateway'
 
 class TaskUtils
 
   def self.process_paid_xero_invoices
-    gateway = xero.gateway
     run = Time.now
-    response = gateway.get_invoices(Task.last_run(Task::XERO_INVOICES))
+    response = $xero_gateway.get_invoices(Task.last_run(Task::XERO_INVOICES))
     response.invoices.each do |invoice|
       if invoice.invoice_status == "PAID"
         user_id, invoice_number = invoice.reference.split("-INV-")

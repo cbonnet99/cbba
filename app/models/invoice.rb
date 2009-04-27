@@ -22,7 +22,11 @@ class Invoice < ActiveRecord::Base
   end
 
   def invoice_number
-    "#{INVOICE_PREFIX}#{(INVOICE_STARTS+self.id).to_s.rjust(INVOICE_NUMBER_LENGTH, '0')}"
+    if !ENV["RAILS_ENV"].nil? && ENV["RAILS_ENV"] == "test"
+      "#{INVOICE_PREFIX}#{Time.now.to_f}"
+    else
+      "#{INVOICE_PREFIX}#{(INVOICE_STARTS+self.id).to_s.rjust(INVOICE_NUMBER_LENGTH, '0')}"
+    end
   end
 
   def generate_pdf

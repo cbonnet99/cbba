@@ -4,7 +4,6 @@ class PaymentTest < ActiveSupport::TestCase
   fixtures :all
   include ApplicationHelper
 
-
   #for GST calculations, see http://www.ird.govt.nz/technical-tax/general-articles/qwba-gst-5cent-coin-rounding.html
   #IMPORTANT: the numbers quoted in the article above are INCLUSIVE of GST
   def test_compute_gst
