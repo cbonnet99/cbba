@@ -16,6 +16,7 @@
         <div id="login-info">
           <div id="login-left">
             <a href="/">Home</a> |
+			<%= link_to "Our members", :controller => "full_members", :action => "index" %> |
             <% if logged_in? -%>
               Welcome, <%=current_user.name_with_email%> | <%= link_to "Your profile", current_user.full_member? ? expanded_user_path(current_user) : user_edit_path %> | <%= link_to 'Logout', logout_path %>
             <%else -%>
