@@ -12,7 +12,7 @@ class TaskUtils
         if payment.nil?
           Rails.logger.error("Payment not found for Xero invoice reference: #{invoice.reference} (user_id: #{user_id}, invoice number: #{invoice_number})")
         else
-          payment.mark_as_paid
+          payment.mark_as_paid!
           puts "Processed invoice INV-#{invoice_number} for payment"
         end
       end

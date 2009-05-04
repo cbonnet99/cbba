@@ -52,7 +52,6 @@ class UserMailer < ActionMailer::Base
     attachment :content_type => "application/pdf",
      :body => invoice.pdf,
      :filename => invoice.filename
-
   end
 
   def membership_expired_today(user)

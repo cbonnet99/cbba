@@ -73,9 +73,14 @@ class Payment < ActiveRecord::Base
   	$xero_gateway.create_invoice(invoice)
   end
 
-  def mark_as_paid
+  def mark_as_paid!
     self.complete!
     #send an email with invoice
+    if invoice.nil?
+      create_invoice
+      self.reload
+      logger.error("Invoice was nil for payment: #{self.id} (user: payment: #{self.user.name}), recreated invoice (no action required, but please investigate: double invoices might have been created.)")
+    end
     UserMailer.deliver_payment_invoice(user, self, self.invoice)    
   end
 
@@ -84,7 +89,7 @@ class Payment < ActiveRecord::Base
     logger.debug "============ response from DPS: #{response.inspect}"
     transactions.create!(:action => "purchase", :amount => total, :response => response)
     if response.success?
-      self.mark_as_paid
+      self.mark_as_paid!
     end
     response.success?
   end

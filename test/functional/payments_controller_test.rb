@@ -32,12 +32,13 @@ class PaymentsControllerTest < ActionController::TestCase
   def test_should_update_payment
     pending_user = users(:pending_user)
     new_payment = pending_user.payments.create!(Payment::TYPES[:full_member])
+    expires = Time.now.advance(:year => 1 )
     put :update, {:id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
       "city"=>"hjgjhgjhghg",
       "card_number"=>"1",
-      "card_expires_on(1i)"=>"2009",
-      "card_expires_on(2i)"=>"4",
-      "card_expires_on(3i)"=>"1",
+      "card_expires_on(1i)"=>expires.year.to_s,
+      "card_expires_on(2i)"=>expires.month.to_s,
+      "card_expires_on(3i)"=>expires.day.to_s,
       "first_name"=>"hjggh",
       "last_name"=>"gjhgjhgjhg",
       "card_verification"=>"123"}}, {:user_id => pending_user.id }
@@ -58,12 +59,14 @@ class PaymentsControllerTest < ActionController::TestCase
   def test_update_payment_on_full_membership_upgrade
     rmoore = users(:rmoore)
     new_payment = rmoore.payments.create!(Payment::TYPES[:full_member])
+    
+    expires = Time.now.advance(:year => 1 )
     put :update, {:id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
       "city"=>"hjgjhgjhghg",
       "card_number"=>"1",
-      "card_expires_on(1i)"=>"2009",
-      "card_expires_on(2i)"=>"4",
-      "card_expires_on(3i)"=>"1",
+      "card_expires_on(1i)"=>expires.year.to_s,
+      "card_expires_on(2i)"=>expires.month.to_s,
+      "card_expires_on(3i)"=>expires.day.to_s,
       "first_name"=>"hjggh",
       "last_name"=>"gjhgjhgjhg",
       "card_verification"=>"123"}}, {:user_id => rmoore.id }

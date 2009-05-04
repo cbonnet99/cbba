@@ -38,7 +38,7 @@ Rails::Initializer.run do |config|
   config.gem "graticule", :version => "0.2.8"
   config.gem "activemerchant", :lib => "active_merchant", :version => "1.4.1"
   config.gem "pdf-writer", :lib => "pdf/writer", :version => "1.1.8"
-  config.gem "libxml-ruby", :lib => "libxml" 
+  config.gem "libxml-ruby", :lib => "libxml"
   config.gem "tlconnor-xero_gateway", :lib => "xero_gateway",  :source => "http://gems.github.com"
   config.gem "newrelic_rpm"
   

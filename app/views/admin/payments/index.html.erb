@@ -1,0 +1,23 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "payments" }  %>
+<%= title "Payments"%>
+
+<table id="payments">
+  <tr>
+    <th>Status</th>
+    <th>Title</th>
+    <th>Amount</th>
+    <th>Date</th>
+    <th>Action</th>
+    <th>Invoice</th>
+  </tr>
+<% for payment in @payments %>
+  <tr class="<%=cycle('odd', 'even')%>">
+    <td><span class="<%=payment.status%>"><%=h payment.status.capitalize %></span></td>
+    <td><%=h payment.title %></td>
+    <td><%=h amount_view(payment.amount.to_s) %></td>
+    <td><%=h payment.created_at %></td>
+    <td><% if payment.pending?%><%=link_to "Mark as paid", :controller => "admin/payments", :action => "mark_as_paid", :id => payment.id %><%else%>None<%end%></td>
+    <td><% if payment.completed? && !payment.invoice.nil?%><%= link_to payment.invoice.filename, invoice_path(payment.invoice)%><%end%></td>
+  </tr>
+<% end %>
+</table>

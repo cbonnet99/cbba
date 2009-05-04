@@ -34,6 +34,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :payments
 	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
 	map.expert_applications_action_with_id 'admin/expert_applications/:id/:action', :controller => "admin/expert_applications"
+	map.payments_action_with_id 'admin/payments/:id/:action', :controller => "admin/payments"
 	map.reviewer 'reviewer/:action', :controller => "admin/reviewer"
 	map.category '/category/:category_name', :controller => "categories", :action => "show"
   map.fuzzy_search_action '/fuzzy_search', :controller => 'search', :action => "fuzzy_search"
