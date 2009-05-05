@@ -66,7 +66,12 @@
               <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
             <%end -%>
           </ul>
-		  <div id="bam-meet-experts"><%= link_to "Meet our resident experts", :controller => "resident_experts", :action => "index"  %></div>
+		<ul class="simple left-items">
+			<% @counters.each do |c| -%>
+		      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to c.title, {:controller => c.title.gsub(/ /, '_').downcase, :action => "index"}, :onClick => "U_Core.F_SelectCounter(#{c.id})" %> <span class="users-counter"><%= c.count%></span></li>
+		    <%  end -%>
+		</ul>
+		<div id="bam-meet-experts"><%= link_to "Meet our resident experts", :controller => "resident_experts", :action => "index"  %></div>
           <div class="nav-expert">
               <a id="prev-expert" class="nav-left" href="#">&lt;Prev</a>
               <a id="next-expert" class="nav-right" href="#">Next&gt;</a>

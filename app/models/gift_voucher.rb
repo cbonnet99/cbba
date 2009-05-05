@@ -21,4 +21,9 @@ class GiftVoucher < ActiveRecord::Base
 	def computed_slug
 		title.parameterize
 	end
+	
+	def self.count_published_gift_vouchers
+	  GiftVoucher.find_by_state("published")
+  end
+	
 end

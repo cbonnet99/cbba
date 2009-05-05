@@ -44,11 +44,11 @@ class SearchControllerTest < ActionController::TestCase
 	end
 
 	def test_select_counter
-		resident_experts = counters(:resident_experts)
+		special_offers = counters(:special_offers)
     old_size = UserEvent.all.size
-		post :select_counter, :id => resident_experts.id
+		post :select_counter, :id => special_offers.id
 		assert_response :success
-		assert_equal resident_experts.id, session[:counter_id]
+		assert_equal special_offers.id, session[:counter_id]
     assert_nil session[:category_id]
     assert_equal old_size+1, UserEvent.all.size
 	end

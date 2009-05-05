@@ -1,7 +1,21 @@
 full_members:
-  title: Full members
-  count: 2
+    class_name: User
+    title: Full members
+    count: 2
+    state: draft
 resident_experts:
-  title: Resident experts
-  count: 1
+    class_name: User
+    title: Resident experts
+    count: 1
+    state: draft
+special_offers:
+    class_name: SpecialOffer
+    title: Special offers
+    count: 2
+    state: published
+gift_vouchers:
+    class_name: GiftVoucher
+    title: Gift vouchers
+    count: 1
+    state: published
 

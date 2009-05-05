@@ -143,7 +143,7 @@ class TaskUtils
 
 	def self.update_counters
 		Counter.all.each do |c|
-			c.update_attribute(:count, User.send("count_published_#{c.title.gsub(/ /, '_').downcase}".to_sym))
+			c.update_attribute(:count, Object.const_get(c.class_name).send("count_published_#{c.title.gsub(/ /, '_').downcase}".to_sym))
 		end
 	end
 

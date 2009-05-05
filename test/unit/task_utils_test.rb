@@ -34,6 +34,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
   def test_update_counters
     full_members = counters(:full_members)
     resident_experts = counters(:resident_experts)
+    special_offers = counters(:special_offers)
+    gift_vouchers = counters(:gift_vouchers)
     TaskUtils.update_counters
     full_members.reload
     assert_equal 2, full_members.count

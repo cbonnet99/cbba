@@ -18,6 +18,10 @@ class SpecialOffer < ActiveRecord::Base
   IMAGE_BOTTOM = "/images/bam-logo.jpg"
   TEXT_BOTTOM2 = "We make having a choice about your wellbeing easy!"
 
+	def self.count_published_special_offers
+	  SpecialOffer.find_by_state("published")
+  end
+
   def generate_pdf
     FileUtils.mkdir_p(PDF_SUFFIX_ABSOLUTE + pdf_directory)
     pdf = PDF::Writer.new

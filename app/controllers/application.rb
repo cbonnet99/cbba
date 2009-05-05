@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def counters
-		@counters = Counter.all
+		@counters = Counter.published
 	end
 
   def tags
