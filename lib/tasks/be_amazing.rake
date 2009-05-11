@@ -1,24 +1,27 @@
 namespace :bam do
-  
-    task :generate_autocomplete_js => :environment do
-      File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
-        subcategories = Subcategory.find(:all, :order =>:name)
-        subcategories.concat(Category.find(:all, :order =>:name))
-        out << "var sbg=new Array(#{subcategories.size});"
-        subcategories.each_with_index do |subcategory, index|
-          out << "sbg[#{index}]='#{subcategory.name}';"
-        end
-      end
-      File.open("#{RAILS_ROOT}/public/javascripts/regions.js", 'w') do |out|
-        regions = Region.find(:all, :order => "name" )
-        districts = District.find(:all, :order => "name" )
-        locations = regions + districts
-        out << "var lts = new Array(#{locations.size});"
-        locations.each_with_index do |location, index|
-          out << "lts[#{index}]='#{location.name}';"
-        end
+
+  desc "Generates autocomplete JS files (run after changing or adding categories/subcategories)"
+  task :generate_autocomplete_js => :environment do
+    File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
+      subcategories = Subcategory.find(:all, :order =>:name)
+      subcategories.concat(Category.find(:all, :order =>:name))
+      out << "var sbg=new Array(#{subcategories.size});"
+      subcategories.each_with_index do |subcategory, index|
+        # puts "Adding #{subcategory.name}"
+        out << "sbg[#{index}]='#{subcategory.name}';"
       end
     end
+    File.open("#{RAILS_ROOT}/public/javascripts/regions.js", 'w') do |out|
+      regions = Region.find(:all, :order => "name" )
+      districts = District.find(:all, :order => "name" )
+      locations = regions + districts
+      out << "var lts = new Array(#{locations.size});"
+      locations.each_with_index do |location, index|
+        # puts "Adding #{location.name}"
+        out << "lts[#{index}]='#{location.name}';"
+      end
+    end
+  end
   
   
   desc "Geocodes all users from CSV (Warning: this is calling Google Maps)"

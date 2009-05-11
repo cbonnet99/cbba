@@ -1,1 +1,1 @@
-var sbg=new Array(10);sbg[0]='Aromatherapy';sbg[1]='Business coaching';sbg[2]='Hypnotherapy';sbg[3]='Life coaching';sbg[4]='Massage, Therapeutic';sbg[5]='Yoga';sbg[6]='Coaching';sbg[7]='Courses';sbg[8]='Health centres';sbg[9]='Practitioners';
+var sbg=new Array(12);sbg[0]='Aromatherapy';sbg[1]='Business coaching';sbg[2]='Business coaching';sbg[3]='Hypnotherapy';sbg[4]='Life coaching';sbg[5]='Life coaching';sbg[6]='Massage, Therapeutic';sbg[7]='Yoga';sbg[8]='Coaches';sbg[9]='Courses';sbg[10]='Health centres';sbg[11]='Practitioners';

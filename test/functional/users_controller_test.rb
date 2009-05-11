@@ -112,20 +112,20 @@ class UsersControllerTest < ActionController::TestCase
     rmoore = users(:rmoore)
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
+    coaches = categories(:coaches)
 
-    get :show, {:name => rmoore.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => rmoore.id }
+    get :show, {:name => rmoore.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => rmoore.id }
     # #visits to own profile should not be recorded
     assert_equal old_size, UserEvent.all.size
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => rmoore.id }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => rmoore.id }
     assert_equal old_size+1, UserEvent.all.size
   end
 
   def test_show2
     sgardiner = users(:sgardiner)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
-    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaching.slug  }, {:user_id => sgardiner.id }
+    coaches = categories(:coaches)
+    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaches.slug  }, {:user_id => sgardiner.id }
     assert_select "input[value=Publish]"
     assert_select "a[href=/tabs/create]"
   end
@@ -133,8 +133,8 @@ class UsersControllerTest < ActionController::TestCase
   def test_show3
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => cyrille.id }
+    coaches = categories(:coaches)
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => cyrille.id }
     assert_response :success
     # #Cyrille's profile is already published: Unpublish button should be shown
     assert_select "input[value=Publish]", :count => 0
@@ -147,8 +147,8 @@ class UsersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     norma = users(:norma)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => norma.id }
+    coaches = categories(:coaches)
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => norma.id }
     assert_response :success
     # #Cyrille's profile is already published: Unpublish button should be shown
 #    puts @response.body
@@ -164,8 +164,8 @@ class UsersControllerTest < ActionController::TestCase
   def test_show_number_published_articles
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug}
+    coaches = categories(:coaches)
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}
     assert_response :success
     assert_select "a", :text => "1 article"
     assert_select "a", :text => "1 special offer"
@@ -174,8 +174,8 @@ class UsersControllerTest < ActionController::TestCase
   def test_show_always_show_articles_when_own_profile
     norma = users(:norma)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => norma.id }
+    coaches = categories(:coaches)
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => norma.id }
     assert_response :success
     assert_select "a", :text => "0 articles"
     assert_select "a", :text => "0 special offers"
@@ -184,8 +184,8 @@ class UsersControllerTest < ActionController::TestCase
   def test_show_hide_articles_when_0
     norma = users(:norma)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaching.slug}
+    coaches = categories(:coaches)
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug}
     assert_response :success
     assert_select "a", :text => "0 articles", :count => 0
     assert_select "a", :text => "0 special offers", :count => 0
@@ -201,9 +201,9 @@ class UsersControllerTest < ActionController::TestCase
     sgardiner = users(:sgardiner)
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
+    coaches = categories(:coaches)
 
-    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaching.slug}, {:user_id => cyrille.id }
+    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => cyrille.id }
 #    puts "============= #{@response.body}"
     assert @response.body =~ /Profile coming soon/
   end
@@ -213,9 +213,9 @@ class UsersControllerTest < ActionController::TestCase
     money = how_tos(:money)
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
+    coaches = categories(:coaches)
 
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug, :selected_tab_id => Tab::ARTICLES, }, {:user_id => cyrille.id }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => Tab::ARTICLES, }, {:user_id => cyrille.id }
     assert !assigns(:articles).blank?
     assert assigns(:articles).include?(improve)
     assert assigns(:articles).include?(money)
@@ -227,9 +227,9 @@ class UsersControllerTest < ActionController::TestCase
     long = articles(:long)
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
-    coaching = categories(:coaching)
+    coaches = categories(:coaches)
     
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaching.slug, :selected_tab_id => Tab::ARTICLES, }, { }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => Tab::ARTICLES, }, { }
     assert !assigns(:articles).blank?
     assert assigns(:articles).include?(money)
     assert !assigns(:articles).include?(improve)

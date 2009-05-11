@@ -68,7 +68,7 @@
           </ul>
 		<ul class="simple left-items">
 			<% @counters.each do |c| -%>
-		      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to c.title, {:controller => c.title.gsub(/ /, '_').downcase, :action => "index"}, :onClick => "U_Core.F_SelectCounter(#{c.id})" %> <span class="users-counter"><%= c.count%></span></li>
+		      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to c.title, {:controller => "/"+c.controller_name, :action => c.action_name}, :onClick => "U_Core.F_SelectCounter(#{c.id})" %> <span class="users-counter"><%= c.count%></span></li>
 		    <%  end -%>
 		</ul>
 		<div id="bam-meet-experts"><%= link_to "Meet our resident experts", :controller => "resident_experts", :action => "index"  %></div>

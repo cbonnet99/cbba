@@ -1,6 +1,6 @@
 class GiftVouchersController < ApplicationController
   def index_public
-    @gift_vouchers = current_user.gift_vouchers.all
+    @gift_vouchers = GiftVoucher.all
   end
 
 	def publish

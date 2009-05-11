@@ -2,11 +2,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :mass_emails, :path_prefix => "/admin", :controller => "admin/mass_emails"
   map.action_mass_emails '/admin/mass_emails/:id/:action', :controller => "admin/mass_emails"
   map.resources :messages
-  map.resources :gift_vouchers
   map.resources :full_members
   map.resources :resident_experts
   map.resources :invoices
-  map.resources :special_offers
   map.resources :orders
   map.resources :contacts
   map.resources :subcategories
@@ -15,7 +13,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :articles
   map.resources :regions
 
-
+  map.gift_vouchers_action '/gift_vouchers/:action', :controller => "gift_vouchers", :requirements => {:action => /[a-z|A-Z|_]+/}
+  map.resources :gift_vouchers  
+  
+  map.special_offers_action '/special_offers/:action', :controller => "special_offers", :requirements => {:action => /[a-z|A-Z|_]+/}
+  map.resources :special_offers
+  
   map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"
   map.resources :expert_applications
 

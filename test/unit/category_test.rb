@@ -12,8 +12,8 @@ class CategoryTest < ActiveSupport::TestCase
 
   def test_list_categories
     practitioners = categories(:practitioners)
-		coaching = categories(:coaching)
+    coaches = categories(:coaches)
 		assert_equal practitioners, Category.list_categories.first
-		assert_equal coaching, Category.list_categories.third
+		assert_equal coaches, Category.list_categories.third
   end
 end

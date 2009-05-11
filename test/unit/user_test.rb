@@ -224,8 +224,8 @@ class UserTest < ActiveSupport::TestCase
   	end
 
     	def test_search_results_category_coaching
-    		coaching = categories(:coaching)
-        results = User.search_results(coaching.id, nil, nil, nil, 1)
+        coaches = categories(:coaches)
+        results = User.search_results(coaches.id, nil, nil, nil, 1)
        # puts "========= results:"
        # results.each do |r|
        #   puts r.name

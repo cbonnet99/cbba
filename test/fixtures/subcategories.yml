@@ -13,13 +13,13 @@ aromatherapy:
     slug: aromatherapy
 life_coaching:
     name: Life coaching
-    category: coaching
+    category: coaches
     slug: life-coaching
     description: |+
         This is a description here
 business_coaching:
     name: Business coaching
-    category: coaching
+    category: coaches
     slug: business-coaching
     description: |+
         This is a description here

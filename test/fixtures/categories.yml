@@ -10,10 +10,10 @@ practitioners:
   slug: practitioners
   description: |+
     It's your health, so it's your choice! Don't waste the time trawling the net, we've made it easy to find the ideal practitioner for you. With hundreds of practitioners in one place, use the search menu to find exactly what you need.
-coaching:
+coaches:
   position: 3
-  name: Coaching
-  slug: coaching
+  name: Coaches
+  slug: coaches
   description: |+
     Achieve your goals, create life balance and turn your ideas into reality ... Find New Zealand's finest coaches right here in one place from Life Coaches, to Business Coaches, Executive Coaches and Relationship Coaches.
 health_centres:
