@@ -1,10 +1,11 @@
-<%if selected=="membership"%><span class="user-tab-selected">Your membership</span><%else%><%= link_to "Your membership", :controller => "users", :action => "membership"%><%end%> |
-<%if selected=="pwd"%><span class="user-tab-selected">Change your password</span><%else%><%= link_to "Change your password", :controller => "users", :action => "edit_password"%><%end%> |
-<%if selected=="details"%><span class="user-tab-selected">Edit your details</span><%else%><%= link_to "Edit your details", :controller => "users", :action => "edit"%><%end%>
-<% if current_user.full_member? -%> | <%if selected=="profile"%><span class="user-tab-selected">Your profile</span><%else%><%= link_to "Your profile", expanded_user_path(current_user)%><%end%> |
-<%if selected=="articles"%><span class="user-tab-selected">Your articles</span><%else%><%= link_to "Your articles", user_articles_path%><%end%> |
-<%if selected=="howtos"%><span class="user-tab-selected">Your 'how to' articles</span><%else%><%= link_to "Your 'how to' articles", user_howtos_path%><%end%> |
-<%if selected=="special_offers"%><span class="user-tab-selected">Your special offers</span><%else%><%= link_to "Your special offers", special_offers_path%><%end%> |
-<%if selected=="gift_vouchers"%><span class="user-tab-selected">Your gift vouchers</span><%else%><%= link_to "Your gift vouchers", gift_vouchers_path%><%end%> |
-<%if selected=="payments"%><span class="user-tab-selected">Your payments</span><%else%><%= link_to "Your payments", payments_path%><%end%>
+<%if selected=="stats"%><span class="user-tab-selected">Statistics</span><%else%><%= link_to "Statistics", :controller => "users", :action => "stats"%><%end%> |
+	<%if selected=="membership"%><span class="user-tab-selected">Membership</span><%else%><%= link_to "Membership", :controller => "users", :action => "membership"%><%end%> |
+<%if selected=="pwd"%><span class="user-tab-selected">Change password</span><%else%><%= link_to "Change password", :controller => "users", :action => "edit_password"%><%end%> |
+<%if selected=="details"%><span class="user-tab-selected">Edit details</span><%else%><%= link_to "Edit details", :controller => "users", :action => "edit"%><%end%>
+<% if current_user.full_member? -%> | <%if selected=="profile"%><span class="user-tab-selected">Profile</span><%else%><%= link_to "Profile", expanded_user_path(current_user)%><%end%> |
+<%if selected=="articles"%><span class="user-tab-selected">Articles</span><%else%><%= link_to "Articles", user_articles_path%><%end%> |
+<%if selected=="howtos"%><span class="user-tab-selected">'How to' articles</span><%else%><%= link_to "'How to' articles", user_howtos_path%><%end%> |
+<%if selected=="special_offers"%><span class="user-tab-selected">Special offers</span><%else%><%= link_to "Special offers", special_offers_path%><%end%> |
+<%if selected=="gift_vouchers"%><span class="user-tab-selected">Gift vouchers</span><%else%><%= link_to "Gift vouchers", gift_vouchers_path%><%end%> |
+<%if selected=="payments"%><span class="user-tab-selected">Payments</span><%else%><%= link_to "Payments", payments_path%><%end%>
 <% end -%>

@@ -4,6 +4,11 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_stats
+    cyrille = users(:cyrille)
+    assert_equal 2, cyrille.total_stats(UserEvent.VISIT_PROFILE)
+  end
+
   def test_invoices
     assert_equal 1, users(:cyrille).invoices.size
   end

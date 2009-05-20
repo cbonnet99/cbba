@@ -12,4 +12,11 @@ class UserEvent < ActiveRecord::Base
 	named_scope :for_session, lambda { |session| {:conditions => ["session = ?", session] }}
   named_scope :search, :conditions => "event_type='Fuzzy search'"
   named_scope :no_results, :conditions => "results_found=0"
+  
+  MSG_SENT = "Message sent"
+  FREE_USER_DETAILS = "Free user show details"
+  SEARCH = "Search"
+  SELECT_CATEGORY = "Select category"
+  SELECT_COUNTER = "Select counter"
+  VISIT_PROFILE = "Visit full member profile"
 end

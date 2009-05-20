@@ -1,6 +1,7 @@
 module UserEventLogger
   module UserEventLoggerMixin
     def log_user_event(name, destination_url = nil, extra_data = nil, options = {})
+      
       event = UserEvent.create(:source_url => request.path,
        :destination_url => destination_url,
        :remote_ip => request.remote_ip,

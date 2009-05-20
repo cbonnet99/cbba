@@ -151,6 +151,15 @@ namespace(:deploy) do
     run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
   end
 
+  desc "Initialize APT packages"
+  task :run_init_packages do
+    run "#{sudo} apt-get update"
+    run "#{sudo} apt-get install -y imagemagick"
+    run "#{sudo} apt-get install -y git-core"
+    run "#{sudo} apt-get install -y build-essential"
+    run "#{sudo} apt-get install -y libxml2-dev"
+    run "#{sudo} gem install libxml-ruby"
+  end
   desc "Run init script for AMIs"
   task :run_init_ami do
     run "#{sudo} chmod +x #{current_path}/script/init_*.sh"
@@ -160,9 +169,6 @@ namespace(:deploy) do
     run "#{sudo} #{current_path}/script/init_ami_postgres.sh"
     run "#{sudo} #{current_path}/script/init_assets.sh"
     run "#{sudo} #{current_path}/script/init_bash_profile.sh"
-    run "#{sudo} apt-get update"
-    run "#{sudo} apt-get install -y imagemagick"
-    run "#{sudo} apt-get install -y git-core"
   end
 
   desc "Installs gems necessary for BAM"
@@ -192,6 +198,7 @@ namespace(:deploy) do
   desc "Initializes BAM site"
   task :init do
     transaction do
+      run_init_packages
       update_code
       web.disable
       cron

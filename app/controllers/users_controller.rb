@@ -5,6 +5,10 @@ class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles, :renew_membership]
 #	after_filter :store_location, :only => [:articles, :show]
 
+  def stats
+    
+  end
+
   def message
     @message = Message.new
     @user = User.find_by_free_listing_and_slug(false, params[:slug])
@@ -84,7 +88,7 @@ class UsersController < ApplicationController
     else
       # #we don't want to count the visits to our own profile
       unless @user == current_user
-        log_user_event "Visit full member profile", "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
+        log_user_event UserEvent.VISIT_PROFILE, "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
       end
       @selected_tab = @user.select_tab(params[:selected_tab_id])
       if !@selected_tab.nil?

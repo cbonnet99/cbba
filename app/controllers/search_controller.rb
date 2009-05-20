@@ -12,7 +12,7 @@ class SearchController < ApplicationController
     user = User.find(id)
     logger.debug("==== in count_show_more_details, user: #{user}")
     unless user.nil?
-      log_user_event "Free user show details", "", "User: #{user.email} (#{user.id})"
+      log_user_event UserEvent.FREE_USER_DETAILS, "", "User: #{user.email} (#{user.id})", {:visited_user_id => user.id }
     end
   end
 
@@ -33,7 +33,7 @@ class SearchController < ApplicationController
         logger.debug("====== in search, @category: #{@category.inspect}")
         logger.debug("====== in search, @subcategory: #{@subcategory.inspect}")
         @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
-        log_user_event "Search", "", "what: #{@what}, where: #{@where},category: :#{@category.try(:name)}, subcategory: :#{@subcategory.try(:name)}, region :#{@region.try(:name)}, district: :#{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size}
+        log_user_event UserEvent.SEARCH, "", "what: #{@what}, where: #{@where},category: :#{@category.try(:name)}, subcategory: :#{@subcategory.try(:name)}, region :#{@region.try(:name)}, district: :#{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size}
         latitude = Region::DEFAULT_NZ_LATITUDE
         longitude = Region::DEFAULT_NZ_LONGITUDE
         zoom = 5
@@ -142,7 +142,7 @@ class SearchController < ApplicationController
 	def select_category
     logger.debug("---- in select_category")
 		@category = Category.find(params[:id])
-    log_user_event "Select category", "", @category.name, {:category_id => @category.id }
+    log_user_event UserEvent.SELECT_CATEGORY, "", @category.name, {:category_id => @category.id }
     unless @category.nil?
       session[:category_id] = @category.id
       session[:counter_id] = nil
@@ -155,7 +155,7 @@ class SearchController < ApplicationController
 	def select_counter
     logger.debug("---- in select_counter")
 		@counter = Counter.find(params[:id])
-    log_user_event "Select counter", "", @counter.title
+    log_user_event UserEvent.SELECT_COUNTER, "", @counter.title
     unless @counter.nil?
       logger.debug("---- in select_counter, session[:category_id]: #{session[:category_id]}")
       logger.debug("---- in select_counter, session[:counter_id]: #{session[:counter_id]}")

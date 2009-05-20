@@ -8,10 +8,14 @@ class MessagesControllerTest < ActionController::TestCase
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
+    old_events_size = UserEvent.all.size
     post :create, :message => {:preferred_contact => "021 185 3433", :subject => "I like your style", :body => "When can I get an appointment?", :user_id => cyrille.id}
     assert_redirected_to root_url
 
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_equal [cyrille.email], ActionMailer::Base.deliveries.first.to
+    assert_equal old_events_size+1, UserEvent.all.size
+    last_event = UserEvent.find(:first, :order => "logged_at desc")
+    assert_equal cyrille.id, last_event.visited_user_id
   end
 end
