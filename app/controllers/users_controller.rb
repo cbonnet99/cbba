@@ -88,7 +88,7 @@ class UsersController < ApplicationController
     else
       # #we don't want to count the visits to our own profile
       unless @user == current_user
-        log_user_event UserEvent.VISIT_PROFILE, "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
+        log_user_event UserEvent::VISIT_PROFILE, "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
       end
       @selected_tab = @user.select_tab(params[:selected_tab_id])
       if !@selected_tab.nil?

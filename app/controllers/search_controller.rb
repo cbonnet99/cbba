@@ -12,7 +12,7 @@ class SearchController < ApplicationController
     user = User.find(id)
     logger.debug("==== in count_show_more_details, user: #{user}")
     unless user.nil?
-      log_user_event UserEvent.FREE_USER_DETAILS, "", "User: #{user.email} (#{user.id})", {:visited_user_id => user.id }
+      log_user_event UserEvent::FREE_USER_DETAILS, "", "User: #{user.email} (#{user.id})", {:visited_user_id => user.id }
     end
   end
 
@@ -142,7 +142,7 @@ class SearchController < ApplicationController
 	def select_category
     logger.debug("---- in select_category")
 		@category = Category.find(params[:id])
-    log_user_event UserEvent.SELECT_CATEGORY, "", @category.name, {:category_id => @category.id }
+    log_user_event UserEvent::SELECT_CATEGORY, "", @category.name, {:category_id => @category.id }
     unless @category.nil?
       session[:category_id] = @category.id
       session[:counter_id] = nil
@@ -155,7 +155,7 @@ class SearchController < ApplicationController
 	def select_counter
     logger.debug("---- in select_counter")
 		@counter = Counter.find(params[:id])
-    log_user_event UserEvent.SELECT_COUNTER, "", @counter.title
+    log_user_event UserEvent::SELECT_COUNTER, "", @counter.title
     unless @counter.nil?
       logger.debug("---- in select_counter, session[:category_id]: #{session[:category_id]}")
       logger.debug("---- in select_counter, session[:counter_id]: #{session[:counter_id]}")

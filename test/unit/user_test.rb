@@ -6,7 +6,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_stats
     cyrille = users(:cyrille)
-    assert_equal 2, cyrille.total_stats(UserEvent.VISIT_PROFILE)
+    assert_equal 2, cyrille.total_stats(UserEvent::VISIT_PROFILE)
   end
 
   def test_invoices

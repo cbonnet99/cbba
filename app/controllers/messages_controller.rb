@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
       if verify_human
         if @message.save
           UserMailer.deliver_message(@message)
-          log_user_event UserEvent.MSG_SENT, "Subject: #{@message.subject}", {}, {:visited_user_id => @message.user.id }
+          log_user_event UserEvent::MSG_SENT, "Subject: #{@message.subject}", {}, {:visited_user_id => @message.user.id }
           flash[:notice] = "Your message has been sent"
           redirect_to root_url
         else

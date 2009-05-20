@@ -157,7 +157,6 @@ class TaskUtils
     #IMPORTANT: keep the following line to make sure that the admin role exists
     Role.find_or_create_by_name("admin")
     $admins.each do |admin|
-      sleep 2
       user = User.find_by_email(admin[:email])
       if user.nil?
         default_region = Region.find_or_create_by_name(admin[:region])
