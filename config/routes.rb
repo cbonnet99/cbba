@@ -22,6 +22,7 @@ ActionController::Routing::Routes.draw do |map|
   map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"
   map.resources :expert_applications
 
+  map.search '/whyjoin', :controller => "search", :action => "whyjoin"  
   map.search '/about', :controller => "search", :action => "about"  
   map.search '/goals', :controller => "search", :action => "goals"  
   map.search '/team', :controller => "search", :action => "team"  

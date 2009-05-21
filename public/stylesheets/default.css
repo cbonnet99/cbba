@@ -1,3 +1,24 @@
+.bam-whyjoin-left {
+	padding-top: 1em;
+	font-weight: bold;
+	float: left;
+	display: block;
+	vertical-align: middle;
+	width: 70px;
+}
+.bam-whyjoin-number {
+	font-size: x-large;
+}
+.bam-whyjoin-word {
+	font-size: medium;
+}
+.bam-whyjoin-description {
+	float: left;
+	display: block;
+	width: 60%;
+	padding-bottom: 1em;
+}
+
 #bam-meet-experts {
 	font-size: small;
 	text-decoration: underline;
