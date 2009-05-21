@@ -1,0 +1,24 @@
+cyrille_profile1:
+    visited_user: cyrille
+    event_type: <%=UserEvent::VISIT_PROFILE%>
+    logged_at: <%= Time.now.advance(:days => -32 )%>    
+cyrille_profile2:
+    visited_user: cyrille
+    event_type: <%=UserEvent::VISIT_PROFILE%>
+    logged_at: <%= Time.now.advance(:months => -6 )%>
+cyrille_msg1:
+    visited_user: cyrille
+    event_type: <%=UserEvent::MSG_SENT%>
+    logged_at: <%= Time.now.advance(:months => -6 )%>
+cyrille_msg2:
+    visited_user: cyrille
+    event_type: <%=UserEvent::MSG_SENT%>
+    logged_at: <%= Time.now.advance(:days => -32 )%>
+cyrille_website1:
+    visited_user: cyrille
+    event_type: <%=UserEvent::REDIRECT_WEBSITE%>
+    logged_at: <%= Time.now.advance(:months => -6 )%>
+cyrille_website2:
+    visited_user: cyrille
+    event_type: <%=UserEvent::REDIRECT_WEBSITE%>
+    logged_at: <%= Time.now.advance(:days => -32 )%>

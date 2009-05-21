@@ -31,6 +31,9 @@
       <% unless @user.business_name.nil? -%>
         <p><%=@user.business_name%></p>
       <% end -%>
+      <% unless @user.website.nil? -%>
+		<p><%= link_to @user.website, :controller => "users", :action => "redirect_website",  :slug =>@user.slug%></p>
+	  <% end -%>
 	  <p><%=link_to_message(@user)%></p>
       <p><%= @user.address1 %></p>
       <% unless @user.suburb.nil? -%>

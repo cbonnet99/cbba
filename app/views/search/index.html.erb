@@ -1,12 +1,6 @@
 <% javascript 'users-rollover' %>
-<%  content_for(:head, GMap.header(:host => request.host))%>
 <%= title 'Welcome to beamazing.co.nz' %>
 <div id="first-home-paragraph">
-  <div id="first-home-paragraph-map">
-    <%= @map.to_html %>
-    <%= @map.div(:width => 300, :height => 200) %>
-    <p id="enlarge-map"><%= link_to("Enlarge map", search_action_url(:action => "map"))%><%= link_to(image_tag("/images/magnifier.jpg"), search_action_url(:action => "map"))%></p>
-  </div>
   <div id="first-home-paragraph-text">
     <p>New Zealand premier site for health, wellbeing and development</p>
     <ul>

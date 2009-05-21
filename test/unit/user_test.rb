@@ -4,9 +4,34 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
-  def test_stats
+  def test_last_month_redirect_website
     cyrille = users(:cyrille)
-    assert_equal 2, cyrille.total_stats(UserEvent::VISIT_PROFILE)
+    assert_equal 1, cyrille.last_month_redirect_website
+  end
+
+  def test_last_12months_redirect_website
+    cyrille = users(:cyrille)
+    assert_equal 2, cyrille.last_12months_redirect_website
+  end
+
+  def test_last_month_received_messages
+    cyrille = users(:cyrille)
+    assert_equal 1, cyrille.last_month_received_messages
+  end
+
+  def test_last_12months_received_messages
+    cyrille = users(:cyrille)
+    assert_equal 2, cyrille.last_12months_received_messages
+  end
+
+  def test_last_month_profile_visits
+    cyrille = users(:cyrille)
+    assert_equal 1, cyrille.last_month_profile_visits
+  end
+
+  def test_last_12_months_profile_visits
+    cyrille = users(:cyrille)
+    assert_equal 2, cyrille.last_12months_profile_visits
   end
 
   def test_invoices

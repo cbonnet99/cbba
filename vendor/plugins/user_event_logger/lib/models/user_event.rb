@@ -19,4 +19,5 @@ class UserEvent < ActiveRecord::Base
   SELECT_CATEGORY = "Select category"
   SELECT_COUNTER = "Select counter"
   VISIT_PROFILE = "Visit full member profile"
+  REDIRECT_WEBSITE = "Redirected to website"
 end

@@ -72,12 +72,36 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
   # submitting a crafted form that bypasses activation anything else you want
   # your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application, :website
 	attr_accessor :membership_type, :resident_expert_application
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
+
+  def last_month_redirect_website
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  1.month.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  end
+
+  def last_12months_redirect_website
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  end
+  
+  def last_month_received_messages
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  1.month.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  end
+
+  def last_12months_received_messages
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  end
+  
+  def last_month_profile_visits
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  1.month.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  end
+
+  def last_12months_profile_visits
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  end
 
   def self.generate_random_password
     "#{SPECIAL_CHARACTERS.rand}#{PasswordGenerator.generate(5).capitalize}#{rand(9)}#{rand(9)}"

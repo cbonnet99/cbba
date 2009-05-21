@@ -1,2 +1,14 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "stats" }  %>
-<%= title "Statistics for year #{Time.now.year}"  %>
+<%= title "Statistics"  %>
+<p>For the <strong>last month</strong>, you had:</p>
+<ul>
+	<li><%=pluralize(current_user.last_month_profile_visits, "visit")%> to your profile</li>
+	<li><%=pluralize(current_user.last_month_received_messages, "email enquiry")%> through BeAmazing</li>
+	<li><%=pluralize(current_user.last_month_redirect_website, "click")%> through to your website</li>
+</ul>
+<p>For the <strong>last 12 months</strong>, you had:</p>
+<ul>
+	<li><%=pluralize(current_user.last_12months_profile_visits, "visit")%> to your profile</li>
+	<li><%=pluralize(current_user.last_12months_received_messages, "email enquiry")%> through BeAmazing</li>
+	<li><%=pluralize(current_user.last_12months_redirect_website, "click")%> through to your website</li>
+</ul>

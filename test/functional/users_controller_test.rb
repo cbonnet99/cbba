@@ -4,6 +4,16 @@ class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
 
+  def test_redirect_website
+    cyrille = users(:cyrille)
+    old_events_size = UserEvent.all.size
+    post :redirect_website, :slug => cyrille.slug
+    assert_equal old_events_size+1, UserEvent.all.size
+    last_event = UserEvent.find(:first, :order => "logged_at desc")
+    assert_equal cyrille.id, last_event.visited_user_id
+    assert_equal UserEvent::REDIRECT_WEBSITE, last_event.event_type
+  end
+
   def test_create_resident_expert
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true

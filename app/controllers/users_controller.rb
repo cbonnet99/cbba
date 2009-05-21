@@ -5,8 +5,17 @@ class UsersController < ApplicationController
   before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles, :renew_membership]
 #	after_filter :store_location, :only => [:articles, :show]
 
-  def stats
-    
+  def redirect_website
+    @user = User.find_by_slug(params[:slug])
+    if @user.website.blank?
+      flash[:error] = "This user does not have a Web site."
+      logger.error("Attempt to redirect to website for user #{@user.email}(ID: #{@user.id})")
+    else
+      log_user_event UserEvent::REDIRECT_WEBSITE, "Redirected to #{@user.website}", {}, {:visited_user_id => @user.id }
+      logger.debug("+++++++++++++++ redirecting to #{@user.website}")
+      headers["Status"] = "301 Moved Permanently"
+      redirect_to "http://#{@user.website}"
+    end
   end
 
   def message

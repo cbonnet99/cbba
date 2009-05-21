@@ -19,6 +19,7 @@ cyrille:
   member_since:              <%= 6.months.ago.to_s :db %>
   member_until:              <%= 6.months.from_now.to_s :db %>
   slug:                      cyrille-bonnet-bioboy-inc
+  website:                   www.google.com
   articles_count:            2
   published_articles_count:  1
   special_offers_count:            2
