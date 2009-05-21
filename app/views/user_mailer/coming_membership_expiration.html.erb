@@ -2,13 +2,13 @@ Dear <%= @user.first_name %>,
 
 <p>Just to let you know that your membership is due to expire in <%= @time_description %>.</p>
 <br/>
-<p>Over the last 12 months you’ve been with us you’ve had:</p>
+<p>Over the last 12 months you've been with us you've had:</p>
 <ul>
 	<li><%=pluralize(@user.last_12months_profile_visits, "visit")%> to your profile</li>
 	<li><%=pluralize(@user.last_12months_received_messages, "email enquiry")%> through BeAmazing</li>
 	<li><%=pluralize(@user.last_12months_redirect_website, "click")%> through to your website</li>
 </ul>
-<p>We love having you on the site and together we're making a bigger difference to Kiwis' wellbeing. To renew your membership effective for only $199+gst (that’s only 61c per day inc gst!) please click on the link below:</p>
+<p>We love having you on the site and together we're making a bigger difference to Kiwis' wellbeing. To renew your membership for only $199+gst (that's only 61c per day inc gst!) please click on the link below:</p>
 <%= @url %>
 <br/>
 <p>PLUS, if you want to reach more people, here are a few ideas:</p>
@@ -16,7 +16,7 @@ Dear <%= @user.first_name %>,
     <li>Run a special offer to increase your customer base</li>
     <li>Add more articles to profile your expertise</li>
     <li>Get professionally endorsed by other members to dramatically increase your credibility</li>
-    <li>Get client testimonials to build trust with other kiwis</li>
+    <li>Get client testimonials to build trust with other Kiwis</li>
 </ul>
 <p>Also, if we can do things better, we'd love to hear your constructive <%= link_to "feedback", "mailto:feedback@beamazing.co.nz"%></p>
 <br/>

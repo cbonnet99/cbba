@@ -2,6 +2,7 @@ yoga:
     name: Yoga
     category: courses
     slug: yoga
+    resident_expert: resident_expert_user
 hypnotherapy:
     name: Hypnotherapy
     category: practitioners

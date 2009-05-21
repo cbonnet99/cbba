@@ -1,6 +1,6 @@
 <%= title "Forgot Your Password?" %>
 <% form_for @password do |f| %>
-  <%= f.error_messages %>
+<%= f.error_messages :header_message => "Please try again", :message => "Your password could not be sent" %>
 	<fieldset>
 		<legend>Enter Your Email Address</legend>
 		<ol>
