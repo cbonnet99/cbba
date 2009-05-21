@@ -58,6 +58,7 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
 		@subject << "Your membership has expired"
 		@body[:url] = user_renew_membership_url(:user => user)
+    @content_type = 'text/html'
   end
 
   def past_membership_expiration(user, time_description)
@@ -65,6 +66,7 @@ class UserMailer < ActionMailer::Base
 		@subject << "Your membership has expired #{time_description} ago"
 		@body[:time_description] = time_description
 		@body[:url] = user_renew_membership_url(:user => user)
+    @content_type = 'text/html'
   end
 
   def coming_membership_expiration(user, time_description)
@@ -72,6 +74,7 @@ class UserMailer < ActionMailer::Base
 		@subject << "Your membership will expire in #{time_description}"
 		@body[:time_description] = time_description
 		@body[:url] = user_renew_membership_url(:user => user)
+    @content_type = 'text/html'
   end
 
 	def item_rejected(item, author)

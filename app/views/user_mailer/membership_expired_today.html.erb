@@ -1,9 +1,14 @@
 Dear <%= @user.first_name %>,
 
-Your membership with us has expired today.
-
-You can renew your membership by clicking on the link below:
-
+<p>Just to let you know that your membership officially expires today!</p>
+<br/>
+<p>Over the last 12 months you’ve been with us you’ve had:</p>
+<ul>
+	<li><%=pluralize(@user.last_12months_profile_visits, "visit")%> to your profile</li>
+	<li><%=pluralize(@user.last_12months_received_messages, "email enquiry")%> through BeAmazing</li>
+	<li><%=pluralize(@user.last_12months_redirect_website, "click")%> through to your website</li>
+</ul>
+<p>Together let's make a bigger difference to NZ's wellbeing! Renew your membership, $199+gst (that’s only 61c per day inc gst!), click on the link below:</p>
 <%= @url %>
-
+<br/>
 <%= render :partial => "signature"  %>
