@@ -1,6 +1,7 @@
 class GiftVouchersController < ApplicationController
   def index_public
-    @gift_vouchers = GiftVoucher.all
+    @gift_vouchers = GiftVoucher.published
+    log_user_event UserEvent::SELECT_COUNTER, "", "Gift vouchers"
   end
 
 	def publish

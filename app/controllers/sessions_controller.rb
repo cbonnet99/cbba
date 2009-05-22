@@ -18,7 +18,11 @@ class SessionsController < ApplicationController
       if current_user.full_member?
         if current_user.active?
           flash[:notice] = "Logged in successfully"
-          redirect_back_or_default expanded_user_path(current_user)
+          if current_user.admin?
+            redirect_back_or_default expert_applications_action_path(:action => "index" )
+          else
+            redirect_back_or_default expanded_user_path(current_user)
+          end
         else
           payment = current_user.payments.pending.find(:first, :order => "created_at desc" )
           if payment.nil?

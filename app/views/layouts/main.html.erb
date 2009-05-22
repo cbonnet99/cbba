@@ -18,7 +18,7 @@
             <a href="/">Home</a> |
 			<%= link_to "Our members", :controller => "full_members", :action => "index" %> |
             <% if logged_in? -%>
-              Welcome, <%=current_user.name_with_email%> | <%= link_to "Your profile", current_user.full_member? ? expanded_user_path(current_user) : user_edit_path %> | <%= link_to 'Logout', logout_path %>
+              Welcome, <%=current_user.name_with_email%> | <% if  current_user.region.nil? || current_user.main_expertise_slug.blank?%> No profile<%else%><%= link_to "Your profile", current_user.full_member? ? expanded_user_path(current_user) : user_edit_path %><%end%> | <%= link_to 'Logout', logout_path %>
             <%else -%>
               <%= link_to 'Login', new_session_path %> | <%= link_to 'Join us', signup_intro_path %> | <%= link_to 'FREE Newsletter', signup_newsletter_path %>
             <% end -%>
@@ -63,12 +63,12 @@
       <div class="column" id="left"><div class="column-in">
           <ul class="simple left-items" id="categories">
             <% @categories.each do |c| -%>
-              <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>" onClick="U_Core.F_SelectCategory(<%=c.id%>, '<%=c.name%>');"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
+              <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
             <%end -%>
           </ul>
 		<ul class="simple left-items">
 			<% @counters.each do |c| -%>
-		      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to c.title, {:controller => "/"+c.controller_name, :action => c.action_name}, :onClick => "U_Core.F_SelectCounter(#{c.id})" %> <span class="users-counter"><%= c.count%></span></li>
+		      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to c.title, {:controller => "/"+c.controller_name, :action => c.action_name} %> <span class="users-counter"><%= c.count%></span></li>
 		    <%  end -%>
 		</ul>
 		<div id="bam-meet-experts"><%= link_to "Meet our resident experts", :controller => "resident_experts", :action => "index"  %></div>

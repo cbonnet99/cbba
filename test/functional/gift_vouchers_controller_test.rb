@@ -1,8 +1,9 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class GiftVouchersControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  fixtures :all
+  
+  def test_index_public
+    get :index_public
   end
 end

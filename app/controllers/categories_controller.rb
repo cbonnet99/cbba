@@ -21,5 +21,6 @@ class CategoriesController < ApplicationController
 		if params[:category_name].nil?
 			@category = Category.find(params[:id])
 		end
+    log_user_event UserEvent::SELECT_CATEGORY, "", @category.name, {:category_id => @category.id }		
 	end
 end

@@ -6,7 +6,8 @@ class SpecialOffersController < ApplicationController
 	after_filter :store_location, :only => [:index, :show]
 
   def index_public
-    @special_offers = current_user.special_offers.all
+    @special_offers = SpecialOffer.published
+    log_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
   end
 
 	def publish

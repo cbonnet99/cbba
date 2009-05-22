@@ -2,6 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SpecialOffersControllerTest < ActionController::TestCase
 
+  def test_index_public
+    get :index_public
+  end
+
   def test_limit_special_offers_for_full_members
     sgardiner = users(:sgardiner)
 
