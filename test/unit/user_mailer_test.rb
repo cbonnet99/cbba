@@ -20,4 +20,10 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal @expected.encoded, actual_mail.encoded
 
   end
+  def test_coming_membership_expiration
+    cyrille = users(:cyrille)
+
+    actual_mail = UserMailer.create_coming_membership_expiration(cyrille, "2 weeks")
+
+  end
 end

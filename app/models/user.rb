@@ -57,7 +57,8 @@ class User < ActiveRecord::Base
   named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
   named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"
   named_scope :resident_expert_admins, :include => "roles", :conditions => "roles.name='resident_expert_admin'"
-  named_scope :resident_experts, :include => ["roles", "subcategories"], :conditions => "roles.name='resident_expert' and users.id = subcategories.resident_expert_id"
+  #resident experts with an assigned subcategory (i.e. subcategories.id is not null)
+  named_scope :resident_experts, :include => ["roles", "expertise_subcategory"], :conditions => "roles.name='resident_expert' AND subcategories.id is not null"
   named_scope :new_users, :conditions => "new_user is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
 
@@ -79,28 +80,28 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
 
-  def last_month_redirect_website
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  1.month.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  def last_30days_redirect_website
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
   end
 
   def last_12months_redirect_website
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
   end
   
-  def last_month_received_messages
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  1.month.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  def last_30days_received_messages
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
   end
 
   def last_12months_received_messages
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
   end
   
-  def last_month_profile_visits
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  1.month.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+  def last_30days_profile_visits
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
   end
 
   def last_12months_profile_visits
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago.at_beginning_of_month,  1.month.ago.at_end_of_month])
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
   end
 
   def self.generate_random_password
