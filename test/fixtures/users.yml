@@ -45,7 +45,7 @@ norma:
   phone:                     (06)
   member_since:              <%= 17.months.ago.to_s :db %>
   member_until:              <%= 1.week.from_now.to_s :db %>
-  slug:                      norma-stein
+  slug:                      norma-stein2-amazing-biz
   latitude:                  123
   longitude:                 20
 amcloughlin:

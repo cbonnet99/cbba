@@ -34,38 +34,6 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:newest_articles).index(money) < assigns(:newest_articles).index(jogging)
   end
 
-	def test_select_category
-		courses = categories(:courses)
-    old_size = UserEvent.all.size
-		post :select_category, :id => courses.id
-		assert_response :success
-		assert_equal courses.id, session[:category_id]
-    assert_equal old_size+1, UserEvent.all.size
-	end
-
-	def test_select_counter
-		special_offers = counters(:special_offers)
-    old_size = UserEvent.all.size
-		post :select_counter, :id => special_offers.id
-		assert_response :success
-		assert_equal special_offers.id, session[:counter_id]
-    assert_nil session[:category_id]
-    assert_equal old_size+1, UserEvent.all.size
-	end
-
-	def test_select_category_with_user
-		courses = categories(:courses)
-    cyrille = users(:cyrille)
-    old_size = UserEvent.all.size
-		post :select_category, {:id => courses.id}, {:user_id => cyrille.id }
-		assert_response :success
-		assert_equal courses.id, session[:category_id]
-    assert_nil session[:counter_id]
-    assert_equal old_size+1, UserEvent.all.size
-    assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.user_id
-    assert_not_nil UserEvent.find(:all, :order => "logged_at desc").first.category_id
-	end
-
   def test_search_lowercase
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)

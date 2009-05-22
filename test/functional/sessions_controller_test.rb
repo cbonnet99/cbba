@@ -5,13 +5,21 @@ class SessionsControllerTest < ActionController::TestCase
 
   include ApplicationHelper
 
-  def test_create
+  def test_create_admin
     cyrille = users(:cyrille)
     post :create, :email => cyrille.email, :password => "monkey"
-    assert_redirected_to expanded_user_path(cyrille)
+    assert_redirected_to expert_applications_action_path(:action => "index" )
     assert_equal "Logged in successfully", flash[:notice]
     cyrille.reload
     assert !cyrille.free_listing?
+  end
+  def test_create
+    norma = users(:norma)
+    post :create, :email => norma.email, :password => "monkey"
+    assert_redirected_to expanded_user_path(norma)
+    assert_equal "Logged in successfully", flash[:notice]
+    norma.reload
+    assert !norma.free_listing?
   end
   def test_create_free_listing
     rmoore = users(:rmoore)
