@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
   validates_presence_of :email, :first_name, :last_name
-  validates_presence_of :district, :message => "^Your area can't be blank"
+  validates_presence_of :district, :message => "^Your area can't be blank", :if => Proc.new { |user| !user.admin? }
   validates_length_of :email, :within => 6..100 #r@a.wk
   validates_uniqueness_of :email, :case_sensitive => false
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
@@ -650,13 +650,13 @@ class User < ActiveRecord::Base
 
 	def validate
 		if professional?
-      if subcategory1_id.blank?
+      if subcategory1_id.blank? && !self.admin?
         errors.add(:subcategory1_id, "^You must select your main expertise")
       end
       # #combining name and business name must produce a unique string so that
       # we can slug it
 			if business_name.blank?
-        duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(first_name) = lower(?) and lower(last_name) = lower(?) and lower(email) <> lower(?)", first_name, last_name, email])
+        duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(first_name) = lower(?) and lower(last_name) = lower(?) and lower(email) <> lower(?) and (business_name is null or business_name = '')", first_name, last_name, email])
         if duplicate_users_count > 0
           errors.add(:first_name, "^There is already a user with the same name. Please enter a business name to differentiate yourself or change your name (by adding a middle name, for instance)")
         end
@@ -695,6 +695,10 @@ class User < ActiveRecord::Base
   end
 
   def locate_address
+    if district.nil?
+      self.latitude = nil
+      self.longitude = nil
+    else
       address = [address1, suburb, district.name, "New Zealand"].reject{|o| o.blank?}.join(", ")
       begin
         location = ImportUtils.geocode(address)
@@ -704,5 +708,6 @@ class User < ActiveRecord::Base
       rescue Graticule::AddressError
         logger.warn("Couldn't geocode address: #{address}")
       end
+    end
   end
 end

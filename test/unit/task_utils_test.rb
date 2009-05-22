@@ -112,13 +112,18 @@ class TaskUtilsTest < ActiveSupport::TestCase
   def test_create_default_admins
     old_size = User.all.size
     TaskUtils.create_default_admins
-    # #user cbonnet99@gmail.com already exists in the test data (and so won't be
-    # created) hence the -1
-    assert_equal old_size+$admins.size-1, User.all.size
+    assert_equal old_size+$admins.size, User.all.size
     sav = User.find_by_email("sav@elevatecoaching.co.nz")
     assert_not_nil sav
     assert sav.admin?
     assert !sav.free_listing?
+    cyrille = User.find_by_email("cbonnet99@gmail.com")
+    assert_not_nil cyrille
+    assert cyrille.admin?
+    assert_nil cyrille.district
+    assert_nil cyrille.subcategory1_id
+    assert_nil cyrille.latitude
+    assert_nil cyrille.longitude
   end
 
   def test_create_default_admins_after_import_users

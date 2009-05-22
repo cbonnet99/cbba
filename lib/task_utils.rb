@@ -159,22 +159,26 @@ class TaskUtils
     $admins.each do |admin|
       user = User.find_by_email(admin[:email])
       if user.nil?
-        default_region = Region.find_or_create_by_name(admin[:region])
-        default_district = District.find_by_name_and_region_id(admin[:district], default_region.id)
-        if default_district.nil?
-          default_district = District.create(:name => admin[:district], :region_id => default_region.id  )
+        unless admin[:region].nil?
+          default_region = Region.find_or_create_by_name(admin[:region])
+          default_district = District.find_by_name_and_region_id(admin[:district], default_region.id)
+          if default_district.nil?
+            default_district = District.create(:name => admin[:district], :region_id => default_region.id  )
+          end
         end
-        default_category = Category.find_or_create_by_name(admin[:category])
-        default_subcategory = Subcategory.find_by_category_id_and_name(default_category.id, admin[:subcategory])
-        if default_subcategory.nil?
-          default_subcategory = Subcategory.create(:name => admin[:subcategory], :category_id => default_category.id  )
+        unless admin[:category].nil?
+          default_category = Category.find_or_create_by_name(admin[:category])
+          default_subcategory = Subcategory.find_by_category_id_and_name(default_category.id, admin[:subcategory])
+          if default_subcategory.nil?
+            default_subcategory = Subcategory.create(:name => admin[:subcategory], :category_id => default_category.id  )
+          end
         end
         user = User.new(:first_name => admin[:first_name], :last_name => admin[:last_name],
           :email => admin[:email], :free_listing => false,
-          :professional => true, :subcategory1_id => default_subcategory.id,
+          :professional => true, :subcategory1_id => default_subcategory.nil? ? nil : default_subcategory.id,
           :membership_type => "full_member",
           :password => "monkey", :password_confirmation => "monkey",
-          :receive_newsletter => false, :district_id => default_district.id  )
+          :receive_newsletter => false, :district_id => default_district.nil? ? nil : default_district.id  )
         if user && user.valid?
           user.register!
           user.activate!
@@ -191,6 +195,11 @@ class TaskUtils
         end
         user.add_role("admin")
       end
+    end
+    #finally for Cyrille, remove district and subcategory1_id
+    c = User.find_by_email("cbonnet99@gmail.com")
+    unless c.nil?
+      c.update_attributes(:district_id => nil, :subcategory1_id => nil)
     end
   end
 

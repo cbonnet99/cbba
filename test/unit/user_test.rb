@@ -104,7 +104,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_default_how_to_book
     cyrille = users(:cyrille)
-    assert_equal "Bookings can be made by phone or email:<br/>(06)3086130<br/>cbonnet99@gmail.com", cyrille.default_how_to_book
+    assert_equal "Bookings can be made by phone or email:<br/>(06)3086130<br/>cbonnet99@yahoo.fr", cyrille.default_how_to_book
   end
 
   def test_validate

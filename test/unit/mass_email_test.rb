@@ -12,6 +12,6 @@ class MassEmailTest < ActiveSupport::TestCase
   end
 
   def test_transformed_body2
-    assert_equal "Dear Cyrille,\n\nThis email is a test. Your company Bioboy Inc is now on beamazing. Your email is:\ncbonnet99@gmail.com\n\n", mass_emails(:test_email).transformed_body(users(:cyrille))
+    assert_equal "Dear Cyrille,\n\nThis email is a test. Your company Bioboy Inc is now on beamazing. Your email is:\ncbonnet99@yahoo.fr\n\n", mass_emails(:test_email).transformed_body(users(:cyrille))
   end
 end

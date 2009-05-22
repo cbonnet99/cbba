@@ -27,7 +27,7 @@ class Admin::ExpertApplicationsControllerTest < ActionController::TestCase
     applying_expert.save
 		post :approve, {:id => applying_expert.id }, {:user_id => users(:cyrille).id }
 #		assert_redirected_to root_url
-    assert_equal "This modality already has an expert: Cyrille Bonnet [cbonnet99@gmail.com]. Please select a different modality", flash[:error]
+    assert_equal "This modality already has an expert: Cyrille Bonnet [cbonnet99@yahoo.fr]. Please select a different modality", flash[:error]
 		applying_expert.reload
 		assert_nil applying_expert.approved_at
 		assert_nil applying_expert.approved_by_id
