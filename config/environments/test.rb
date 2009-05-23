@@ -29,5 +29,5 @@ end
 $xero_gateway = XeroGateway::Gateway.new(
   :customer_key => "ZDYWYWY1ODG1ZTG0NGQ5ZTKYNGZMYM",
   :api_key => "MDCYODC0ZMNJOTBJNDI1NZG0N2I0MZ",
-  :xero_url => "DUMMY_URL"
+  :xero_url => "https://networktest.xero.com/api.xro/1.0"
   )

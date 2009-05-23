@@ -31,7 +31,8 @@ module XeroGateway
       response.response_item << invoice
       return response
     end
-
+    
+    #To create Xero invoices on tests, the easiest is to delete this file temporarily...
     def create_invoice(invoice)
     end
   end
