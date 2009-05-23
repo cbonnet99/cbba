@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090504203744) do
+ActiveRecord::Schema.define(:version => 20090523083707) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -266,6 +266,15 @@ ActiveRecord::Schema.define(:version => 20090504203744) do
     t.integer  "discount"
     t.string   "code"
     t.boolean  "debit"
+  end
+
+  create_table "recommendations", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "recommended_user_id"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "status"
   end
 
   create_table "regions", :force => true do |t|

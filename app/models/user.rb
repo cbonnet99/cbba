@@ -47,6 +47,9 @@ class User < ActiveRecord::Base
   has_many :expert_applications
   has_many :gift_vouchers, :foreign_key => :author_id
   has_one :expertise_subcategory, :class_name => "Subcategory",  :foreign_key => :resident_expert_id
+  has_many :recommendations
+  has_many :recommended_by_recommendations, :class_name => "Recommendation" , :foreign_key => :recommended_user_id 
+  has_many :recommended_by, :class_name => "User" , :through => :recommended_by_recommendations, :source => :user  
 
   # #named scopes
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"

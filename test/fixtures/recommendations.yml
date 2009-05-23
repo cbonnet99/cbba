@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+cyrille_recommends_norma:
+  user: cyrille
+  recommended_user: norma
+  comment: Norma is great!
+
+cyrille_recommends_amcloughlin:
+  user: cyrille
+  recommended_user: amcloughlin
+  comment: Aaron is exceptional
