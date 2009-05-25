@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
         if current_user.active?
           flash[:notice] = "Logged in successfully"
           if current_user.admin?
-            redirect_back_or_default expert_applications_action_path(:action => "index" )
+            redirect_back_or_default reviewer_path(:action => "index" )
           else
             redirect_back_or_default expanded_user_path(current_user)
           end

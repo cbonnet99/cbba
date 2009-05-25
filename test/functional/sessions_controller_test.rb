@@ -8,7 +8,7 @@ class SessionsControllerTest < ActionController::TestCase
   def test_create_admin
     cyrille = users(:cyrille)
     post :create, :email => cyrille.email, :password => "monkey"
-    assert_redirected_to expert_applications_action_path(:action => "index" )
+    assert_redirected_to reviewer_path(:action => "index" )
     assert_equal "Logged in successfully", flash[:notice]
     cyrille.reload
     assert !cyrille.free_listing?
