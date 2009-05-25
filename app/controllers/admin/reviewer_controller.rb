@@ -25,7 +25,7 @@ class Admin::ReviewerController < AdminApplicationController
 		@item.approved_by_id = current_user.id
 		@item.save!
     flash[:notice]="#{@item.class.to_s.titleize.downcase.capitalize} was approved"
-		redirect_back_or_default root_url
+		redirect_back_or_default reviewer_path(:action => "index")
   end
 
 	def get_item

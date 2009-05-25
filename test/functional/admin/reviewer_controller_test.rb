@@ -44,7 +44,7 @@ class Admin::ReviewerControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
 		long = articles(:long)
 		post :approve, {:article_id => long.id  }, {:user_id => cyrille.id }
-		assert_redirected_to root_url
+		assert_redirected_to reviewer_path(:action => "index")
 		long.reload
 		assert_not_nil long.approved_at
 		assert_not_nil long.approved_by_id
@@ -53,7 +53,7 @@ class Admin::ReviewerControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
 		improve = how_tos(:improve)
 		post :approve, {:how_to_id => improve.id  }, {:user_id => cyrille.id }
-		assert_redirected_to root_url
+		assert_redirected_to reviewer_path(:action => "index")
 		improve.reload
 		assert_not_nil improve.approved_at
 		assert_not_nil improve.approved_by_id
@@ -62,7 +62,7 @@ class Admin::ReviewerControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
 		cyrille_profile = user_profiles(:cyrille_profile)
 		post :approve, {:user_profile_id => cyrille_profile.id  }, {:user_id => cyrille.id }
-		assert_redirected_to root_url
+		assert_redirected_to reviewer_path(:action => "index")
 		cyrille_profile.reload
 		assert_not_nil cyrille_profile.approved_at
 		assert_not_nil cyrille_profile.approved_by_id
