@@ -1,6 +1,8 @@
 <% use_tinymce -%>
 <%= title "Send a message to #{@user.name}"  %>
 <% form_for @message do |f| %>
-  <%= render :partial => "users/verify_human" %>
+	<% unless logged_in? -%>
+		<%= render :partial => "users/verify_human" %>
+		<% end -%>
   <%= render :partial => "messages/new", :locals => {:f => f, :user => @user  }  %>
 <% end %>

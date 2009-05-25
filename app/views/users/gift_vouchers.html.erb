@@ -6,7 +6,7 @@
 <% else -%>
   <ul class="simple" id="your-gift-vouchers">
   <% @gift_vouchers.each do |v| -%>
-    <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "gift_vouchers/gift_voucher", :locals => {:gift_vouchers => v } %></li>
+    <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "gift_vouchers/gift_voucher", :locals => {:gift_voucher => v } %></li>
   <% end -%>
   </ul>
 <%end -%>

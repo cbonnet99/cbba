@@ -13,7 +13,7 @@ module Workflowable
     base.send :aasm_state, :published, :enter => :email_reviewers_and_increment_count
 
     base.send :aasm_event, :publish do
-      transitions :from => :draft, :to => :published
+      transitions :from => :draft, :to => :published, :guard => Proc.new {|item| item.exceeds_max_published?}
     end
 
     base.send :aasm_event, :remove do
@@ -23,6 +23,8 @@ module Workflowable
     base.send :aasm_event, :reject do
       transitions :from => :published, :to => :draft
     end
+
+    base.send :after_destroy, :decrement_count
 
   end
   module WorkflowClassMethods
@@ -53,12 +55,23 @@ module Workflowable
     #      end
     #    end
 
+    def exceeds_max_published?
+      !self.author.respond_to?("max_published_#{self.class.to_s.tableize}") || (self.author.respond_to?("max_published_#{self.class.to_s.tableize}") && self.class.to_s != "UserProfile" && self.author.send("#{self.class.to_s.tableize}".to_sym).published.size < self.author.send("max_published_#{self.class.to_s.tableize}"))
+    end
+
     def path_method
       self.class.to_s.tableize.singularize+"_path"
     end
 
     def workflow_css_class
       "workflow-#{self.state}"
+    end
+
+    def decrement_count
+      unless self.class.to_s == "UserProfile"
+        sym = "published_#{self.class.to_s.tableize}_count".to_sym
+        self.author.update_attribute(sym, self.author.send(sym)-1)
+      end      
     end
 
     def remove_published_information_and_decrement_count

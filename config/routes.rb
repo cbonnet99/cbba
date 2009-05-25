@@ -13,10 +13,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :articles
   map.resources :regions
 
-  map.gift_vouchers_action '/gift_vouchers/:action', :controller => "gift_vouchers", :requirements => {:action => /[a-z|A-Z|_]+/}
+  map.gift_vouchers_index_public '/gift_vouchers/index_public', :controller => "gift_vouchers", :action => "index_public"
   map.resources :gift_vouchers  
   
-  map.special_offers_action '/special_offers/:action', :controller => "special_offers", :requirements => {:action => /[a-z|A-Z|_]+/}
+  map.special_offers_index_public '/special_offers/index_public', :controller => "special_offers", :action => "index_public" 
   map.resources :special_offers
   
   map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"

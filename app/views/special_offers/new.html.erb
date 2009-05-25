@@ -2,6 +2,17 @@
 <%= title "Create a new special offer" %>
 <%= link_to "Back to your special offers", special_offers_path %>
 
-<%= render :partial => 'form' %>
+<% form_for @special_offer do |f| %>
+    <%= f.error_messages :header_message => "Please try again", :message => "Your special offer could not be saved"%>
+
+	<%= render :partial => 'form', :locals => {:f => f} %>
+	
+<div class="buttons">
+  <label for=""></label>
+  <%= submit_tag 'Save &amp; Publish', :name => "save_and_publish"  %>
+  <%= submit_tag 'Save As Draft', :name => "save_as_draft"  %>
+  <%= submit_tag 'Cancel', :name => "cancel"  %>
+</div>
+<% end %>
 
 <%= link_to "Back to your special offers", special_offers_path %>

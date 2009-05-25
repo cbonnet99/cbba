@@ -1,7 +1,5 @@
 <% use_tinymce -%>
-<% form_for @gift_voucher do |f| %>
   <ol>
-      <%= f.error_messages :header_message => "Please try again", :message => "Your gift voucher could not be saved"%>
       <li>
         <%= f.label :title, "Title<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :title %>
@@ -10,9 +8,4 @@
         <%= f.label :description, "Description<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :description, :cols => "80" %>
       </li>
-      <div class="buttons">
-        <label for=""></label>
-        <%= submit_tag 'Save' %>
-      </div>
 </ol>
-<% end %>

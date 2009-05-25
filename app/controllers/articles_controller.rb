@@ -70,17 +70,27 @@ class ArticlesController < ApplicationController
   # POST /articles
   # POST /articles.xml
   def create
-    @article = Article.new(params[:article])
-    @article.author_id = @current_user.id
-    get_subcategories
-    respond_to do |format|
-      if @article.save
-        flash[:notice] = 'Article was successfully created.'
-        format.html { redirect_to(@article) }
-        format.xml  { render :xml => @article, :status => :created, :location => @article }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
+    if params["cancel"]
+      flash[:notice]="Article cancelled"
+      redirect_back_or_default user_articles_path
+    else  
+      @article = Article.new(params[:article])
+      @article.author_id = @current_user.id
+      get_subcategories
+      respond_to do |format|
+        if @article.save
+          if params["save_as_draft"]
+            flash[:notice] = 'Your draft article was successfully saved.'
+          else
+            @article.publish!
+            flash[:notice] = 'Your article was successfully saved and published.'
+          end
+          format.html { redirect_to(@article) }
+          format.xml  { render :xml => @article, :status => :created, :location => @article }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end

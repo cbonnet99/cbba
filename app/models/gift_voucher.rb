@@ -1,12 +1,12 @@
 class GiftVoucher < ActiveRecord::Base
   include Workflowable
-  
+
   belongs_to :author, :class_name => "User", :counter_cache => true
   
   after_create :create_slug
 
   validates_presence_of :title, :description
-  validates_uniqueness_of :title, :scope => "author_id"
+  validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your gift vouchers" 
 
   MAX_PUBLISHED = {:full_member => 1, :resident_expert => 3 }
 

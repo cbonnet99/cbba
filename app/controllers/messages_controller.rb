@@ -1,9 +1,10 @@
 class MessagesController < ApplicationController
+  
   def create
     @user = User.find_by_free_listing_and_id(false, params[:message]["user_id"])
     @message = Message.new(params[:message])
     unless @user.nil?
-      if verify_human
+      if logged_in? || verify_human
         if @message.save
           UserMailer.deliver_message(@message)
           log_user_event UserEvent::MSG_SENT, "Subject: #{@message.subject}", {}, {:visited_user_id => @message.user.id }

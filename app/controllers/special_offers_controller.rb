@@ -12,11 +12,10 @@ class SpecialOffersController < ApplicationController
 
 	def publish
     @special_offer = current_user.special_offers.find(params[:id])
-    if current_user.special_offers.published.size >= current_user.max_published_special_offers
-      flash[:error] = "You can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time"
-    else
-      @special_offer.publish!
+    if @special_offer.publish!
       flash[:notice] = "Special offer successfully published"
+    else
+      flash[:error] = "You can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time"      
     end
     redirect_back_or_default @special_offer
 		rescue ActiveRecord::RecordNotFound => e
@@ -50,12 +49,25 @@ class SpecialOffersController < ApplicationController
   end
   
   def create
-    @special_offer = current_user.special_offers.new(params[:special_offer])
-    if @special_offer.save
-      flash[:notice] = "Successfully created special offer."
-      redirect_to @special_offer
-    else
-      render :action => 'new'
+    if params["cancel"]
+      flash[:notice]="Special offer cancelled"
+      redirect_back_or_default user_special_offers_path
+    else  
+      @special_offer = current_user.special_offers.new(params[:special_offer])
+      if @special_offer.save
+        if params["save_as_draft"]
+          flash[:notice] = 'Your draft special offer was successfully saved.'
+        else
+          if @special_offer.publish!
+            flash[:notice] = 'Your special offer was successfully saved and published.'
+          else
+            flash[:error] = "Your special offer was saved as draft (you can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time)"
+          end
+        end
+        redirect_to @special_offer
+      else
+        render :action => 'new'
+      end
     end
   end
   
@@ -64,12 +76,17 @@ class SpecialOffersController < ApplicationController
   end
   
   def update
-    @special_offer = current_user.special_offers.find_by_slug(params[:id])
-    if @special_offer.update_attributes(params[:special_offer])
-      flash[:notice] = "Successfully updated special offer."
-      redirect_to @special_offer
+    if params["cancel"]
+      flash[:notice]="Special offer cancelled"
+      redirect_back_or_default user_special_offers_path
     else
-      render :action => 'edit'
+      @special_offer = current_user.special_offers.find_by_slug(params[:id])
+      if @special_offer.update_attributes(params[:special_offer])
+        flash[:notice] = "Successfully updated special offer."
+        redirect_to @special_offer
+      else
+        render :action => 'edit'
+      end
     end
   end
   

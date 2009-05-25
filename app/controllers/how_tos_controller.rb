@@ -65,17 +65,27 @@ class HowTosController < ApplicationController
   end
 
   def create
-    @how_to = HowTo.new(params[:how_to])
-    @how_to.author_id = @current_user.id
-    get_subcategories
-    respond_to do |format|
-      if @how_to.save
-        flash[:notice] = 'HowTo was successfully created.'
-        format.html { redirect_to(@how_to) }
-        format.xml  { render :xml => @how_to, :status => :created, :location => @how_to }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @how_to.errors, :status => :unprocessable_entity }
+    if params["cancel"]
+      flash[:notice]="'How to' article cancelled"
+      redirect_back_or_default user_howtos_path
+    else  
+      @how_to = HowTo.new(params[:how_to])
+      @how_to.author_id = @current_user.id
+      get_subcategories
+      respond_to do |format|
+        if @how_to.save
+          if params["save_as_draft"]
+            flash[:notice] = "Your draft 'how to' article was successfully saved."
+          else
+            @how_to.publish!
+            flash[:notice] = "Your 'how to' article was successfully saved and published."
+          end
+          format.html { redirect_to(@how_to) }
+          format.xml  { render :xml => @how_to, :status => :created, :location => @how_to }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @how_to.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end

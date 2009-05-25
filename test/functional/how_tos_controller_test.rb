@@ -21,7 +21,7 @@ class HowTosControllerTest < ActionController::TestCase
           {:title =>"1st step", "body"=>"blabla"}]}}, {:user_id => cyrille.id }
     assert_not_nil assigns(:how_to)
     assert assigns(:how_to).errors.blank?
-    assert_equal flash[:notice], 'HowTo was successfully created.'
+    assert_equal flash[:notice], "Your 'how to' article was successfully saved and published."
     assert_redirected_to how_to_path(assigns(:how_to))
     cyrille.reload
     assert_equal old_size+1, cyrille.how_tos.size

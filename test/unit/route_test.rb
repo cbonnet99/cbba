@@ -2,6 +2,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class RoutingTest < Test::Unit::TestCase
   def test_routes
+    assert_recognizes({:controller => 'gift_vouchers', :action => "update", :id => "my-gift"  }, :path => "/gift_vouchers/my-gift", :method => "put" )
+    assert_recognizes({:controller => 'gift_vouchers', :action => "create"  }, :path => "/gift_vouchers", :method => "post" )
     assert_recognizes({:controller => 'users', :action => "stats"  }, :path => "/users/stats" )
     assert_recognizes({:controller => 'search', :action => "whyjoin"  }, :path => "/whyjoin" )
     assert_recognizes({:controller => 'search', :action => "team"  }, :path => "/team" )

@@ -1,7 +1,16 @@
-<%= render :partial => "users/user_nav", :locals => {:selected => "special_offers" }  %>
+<%= render :partial => "users/user_nav", :locals => {:selected => "gift_vouchers" }  %>
 <%= title "Create a new gift voucher" %>
 <%= link_to "Back to your gift vouchers", gift_vouchers_path %>
+<% form_for @gift_voucher  do |f| %>
+<%= f.error_messages :header_message => "Please try again", :message => "Your gift voucher could not be saved"%>
 
-<%= render :partial => 'form' %>
+<%= render :partial => 'form', :locals => {:f => f} %>
+<div class="buttons">
+  <label for=""></label>
+  <%= submit_tag 'Save &amp; Publish', :name => "save_and_publish"  %>
+  <%= submit_tag 'Save As Draft', :name => "save_as_draft"  %>
+  <%= submit_tag 'Cancel', :name => "cancel"  %>
+</div>
+<% end %>
 
 <%= link_to "Back to your gift vouchers", gift_vouchers_path %>

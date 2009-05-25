@@ -10,6 +10,8 @@
   </fieldset>
   <div class="buttons">
     <label for=""></label>
-    <%= submit_tag 'Create' %>
+    <%= submit_tag 'Save &amp; Publish', :name => "save_and_publish"  %>
+    <%= submit_tag 'Save As Draft', :name => "save_as_draft"  %>
+    <%= submit_tag 'Cancel', :name => "cancel"  %>
   </div>
 <% end %>

@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  title: MyString
-  description: MyText
-
-two:
-  title: MyString
-  description: MyText
+free_massage:
+  title: Free massage
+  description: 1 paid, 1 free
+  state: published
+  slug: free-massage
+  author: cyrille
+  

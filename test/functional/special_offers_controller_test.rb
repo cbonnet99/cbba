@@ -38,6 +38,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
     one = special_offers(:one)
     old_published_count = cyrille.published_special_offers_count
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
+    assert_equal "Special offer successfully published", flash[:notice]
     assert_redirected_to special_offer_path(one)
     cyrille.reload
     assert_equal old_published_count+1, cyrille.published_special_offers_count

@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def message
-    @message = Message.new
+    @message = Message.new(params[:message])
     @user = User.find_by_free_listing_and_slug(false, params[:slug])
   end
 
