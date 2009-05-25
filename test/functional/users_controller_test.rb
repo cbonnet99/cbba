@@ -4,6 +4,10 @@ class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
 
+  def test_stats
+    get :stats, {}, {:user_id => users(:cyrille).id }
+  end
+
   def test_redirect_website
     cyrille = users(:cyrille)
     old_events_size = UserEvent.all.size
