@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   include ContactSystem
 	include SubcategoriesSystem
 	
-  has_attached_file :photo, :styles => { :medium => "200x250>", :thumbnail => "85x100>" },
+  has_attached_file :photo, :styles => { :medium => "90x100>", :thumbnail => "50x55>" },
    :url  => "/assets/profiles/:id/:style/:basename.:extension",
    :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
                            
