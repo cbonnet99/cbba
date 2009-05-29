@@ -39,6 +39,7 @@ namespace :bam do
 	
   desc "Loads roles, districts, modalities, etc. in the current database"
   task :load => :environment do
+      ImportUtils.import_charities
 			ImportUtils.import_roles
 			ImportUtils.import_districts
 			ImportUtils.import_counters

@@ -11,21 +11,21 @@ class GiftVouchersController < ApplicationController
     else
       flash[:error] = "You can only have #{help.pluralize(current_user.max_published_gift_vouchers, "gift voucher")} published at any time"
     end
-    redirect_back_or_default @gift_voucher
+    redirect_back_or_default gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not publish this gift voucher"
-      redirect_back_or_default @gift_voucher
+      redirect_back_or_default gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 	end
 
 	def unpublish
     @gift_voucher = current_user.gift_vouchers.find(params[:id])
 		@gift_voucher.remove!
 		flash[:notice] = "Gift voucher is no longer published"
-    redirect_back_or_default @gift_voucher
+    redirect_back_or_default gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not unpublish this gift voucher"
-      redirect_back_or_default @gift_voucher
+      redirect_back_or_default gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 	end
 
   def index
@@ -33,7 +33,25 @@ class GiftVouchersController < ApplicationController
   end
 
   def show
-    @gift_voucher = current_user.gift_vouchers.find_by_slug(params[:id])
+    get_selected_user
+    if @selected_user.nil?
+      flash[:error]="Sorry, this gift voucher could not be found"
+      if params[:index_public] == "true"
+        redirect_to gift_vouchers_index_public_path
+      else
+        redirect_to user_gift_vouchers_path
+      end
+    else
+      @gift_voucher = @selected_user.find_gift_voucher_for_user(params[:id], current_user)
+      if @gift_voucher.nil?
+        flash[:error]="Sorry, this gift voucher could not be found"
+        if params[:index_public] == "true"
+          redirect_to gift_vouchers_index_public_path
+        else
+          redirect_to user_gift_vouchers_path
+        end        
+      end      
+    end
   end
 
   def new
@@ -56,7 +74,7 @@ class GiftVouchersController < ApplicationController
             flash[:error] = "Your gift voucher was saved as draft (you can only have #{help.pluralize(current_user.max_published_gift_vouchers, "gift voucher")} published at any time)"
           end
         end
-        redirect_to @gift_voucher
+        redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
       else
         render :action => 'new'
       end
@@ -75,7 +93,7 @@ class GiftVouchersController < ApplicationController
       @gift_voucher = current_user.gift_vouchers.find_by_slug(params[:id])
       if @gift_voucher.update_attributes(params[:gift_voucher])
         flash[:notice] = "Successfully updated gift voucher."
-        redirect_to @gift_voucher
+        redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
       else
         render :action => 'edit'
       end

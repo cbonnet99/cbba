@@ -2,11 +2,13 @@
 
 improve:
   title: Improve yourself
+  slug: improve-yourself
   summary: Become a better person
   step_label: Step
   author: cyrille
 money:
   title: Make money
+  slug: make-money
   summary: Get rich
   step_label: Step
   author: cyrille

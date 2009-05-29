@@ -17,21 +17,21 @@ class SpecialOffersController < ApplicationController
     else
       flash[:error] = "You can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time"      
     end
-    redirect_back_or_default @special_offer
+    redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not publish this special offer"
-      redirect_back_or_default @special_offer
+      redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
 	end
 
 	def unpublish
     @special_offer = current_user.special_offers.find(params[:id])
 		@special_offer.remove!
 		flash[:notice] = "Special offer is no longer published"
-    redirect_back_or_default @special_offer
+    redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
 
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not unpublish this special offer"
-      redirect_back_or_default @special_offer
+      redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
 	end
 
   def index
@@ -39,7 +39,25 @@ class SpecialOffersController < ApplicationController
   end
   
   def show
-    @special_offer = current_user.special_offers.find_by_slug(params[:id])
+    get_selected_user
+    if @selected_user.nil?
+      flash[:error]="Sorry, this gift voucher could not be found"
+      if params[:index_public] == "true"
+        redirect_to special_offers_index_public_path
+      else
+        redirect_to user_special_offers_path
+      end
+    else
+      @special_offer = @selected_user.find_special_offer_for_user(params[:id], current_user)
+      if @special_offer.nil?
+        flash[:error]="Sorry, this special offer could not be found"
+        if params[:index_public] == "true"
+          redirect_to special_offers_index_public_path
+        else
+          redirect_to user_special_offers_path
+        end        
+      end      
+    end
   end
   
   def new
@@ -64,7 +82,7 @@ class SpecialOffersController < ApplicationController
             flash[:error] = "Your special offer was saved as draft (you can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time)"
           end
         end
-        redirect_to @special_offer
+        redirect_to special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
       else
         render :action => 'new'
       end
@@ -83,7 +101,7 @@ class SpecialOffersController < ApplicationController
       @special_offer = current_user.special_offers.find_by_slug(params[:id])
       if @special_offer.update_attributes(params[:special_offer])
         flash[:notice] = "Successfully updated special offer."
-        redirect_to @special_offer
+        redirect_to special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
       else
         render :action => 'edit'
       end

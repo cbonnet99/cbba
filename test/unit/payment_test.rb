@@ -16,6 +16,16 @@ class PaymentTest < ActiveSupport::TestCase
     assert_equal 287, payment.gst
   end
 
+  def test_compute_gst3
+    payment = users(:cyrille).payments.create(:amount => 2298 )
+    assert_equal 287, payment.gst
+  end
+
+  def test_compute_gst4
+    payment = users(:cyrille).payments.create(:amount => 19900 )
+    assert_equal 2487, payment.gst
+  end
+
   def test_amount_view
     assert_equal "$101.45", amount_view(10145)
   end

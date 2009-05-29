@@ -16,6 +16,7 @@ class Article < ActiveRecord::Base
   validates_length_of :title, :maximum => 255
   validates_length_of :lead, :maximum => 500
   validates_length_of :body, :maximum => 100000
+  validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your articles" 
 
 	after_create :create_slug
 

@@ -15,8 +15,10 @@ class HowTo < ActiveRecord::Base
   validates_length_of :title, :maximum => 255
   validates_length_of :summary, :maximum => 500
   validates_associated :how_to_steps
+  validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your 'how to' articles" 
 
 	after_create :create_slug
+	before_update :update_slug
   after_update :save_steps
 
   def validate
@@ -33,6 +35,10 @@ class HowTo < ActiveRecord::Base
   
 	def create_slug
 		self.update_attribute(:slug, computed_slug)
+	end
+
+	def update_slug
+		self.slug = computed_slug
 	end
 
 	def computed_slug

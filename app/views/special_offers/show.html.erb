@@ -1,5 +1,10 @@
+<% if params[:index_public] == "true" -%>
+<%= link_to "Back to special offers", :controller => "special_offers", :action => "index_public"  %>
+<% else -%>
 <%= link_to "Back to your special offers", special_offers_path %>
+<% end -%>
 <%= title @special_offer.title %>
+<% unless params[:index_public] -%>
 <div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>
 <% if is_author?(@special_offer) -%>
   <%if @special_offer.draft? -%>
@@ -7,9 +12,14 @@
   <%end -%>
 <%= link_to 'Edit', edit_special_offer_path(@special_offer.slug), :class => "button" %>
 <% end -%></div>
+<% end -%>
 <hr/>
   <h3>Description</h3>
   <%=white_list @special_offer.description %>
 
   <p><a href="<%=@special_offer.filename%>">Download special offer</a></p>
+<% if params[:index_public] == "true" -%>
+<%= link_to "Back to special offers", :controller => "special_offers", :action => "index_public"  %>
+<% else -%>
 <%= link_to "Back to your special offers", special_offers_path %>
+<% end -%>

@@ -146,14 +146,15 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_show3
     cyrille = users(:cyrille)
-    auckland = regions(:auckland)
-    coaches = categories(:coaches)
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => cyrille.id }
+    wellington = regions(:wellington)
+    practitioners = categories(:practitioners)
+    get :show, {:name => cyrille.slug, :region => wellington.slug, :main_expertise => practitioners.slug}, {:user_id => cyrille.id }
     assert_response :success
     # #Cyrille's profile is already published: Unpublish button should be shown
     assert_select "input[value=Publish]", :count => 0
     assert_select "input[value=Unpublish]"
-    assert_select "a", :text => "2 articles"
+    #counts both articles and 'how to' articles
+    assert_select "a", :text => "4 articles"
     assert_select "a", :text => "2 special offers"
   end
 

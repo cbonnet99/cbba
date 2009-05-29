@@ -1,0 +1,10 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+heart_children:
+  name: Heart Children of New Zealand
+
+guide_dogs:
+  name: Guide Dog Services
+
+te_araroa:
+    name: Te Araroa - The Walkway

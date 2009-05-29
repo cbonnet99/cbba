@@ -2,7 +2,7 @@
 <%= title "Create a new howto article"  %>
 <%= link_to "Back to your 'how to' articles", user_howtos_path %>
 <% form_for(@how_to) do |f| %>
-  <%= f.error_messages :header_message => "Please try again", :message => "Your article could not be saved" %>
+  <%= f.error_messages :header_message => "Please try again", :message => "Your 'how to' article could not be saved" %>
 
   <fieldset>
     <legend>Howto article details</legend>

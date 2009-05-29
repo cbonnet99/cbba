@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
 	#  before_filter :tags
   before_filter :current_category, :categories, :counters, :resident_experts, :except => :change_category
 
+  def get_selected_user
+    @selected_user = User.find_by_slug(params[:selected_user])
+  end
+
   def verify_human
     if session[:verify_human_count].blank? || session[:verify_human_count] > 10
       my_test = verify_recaptcha

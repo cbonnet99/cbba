@@ -189,8 +189,8 @@ module ApplicationHelper
     logged_in? && current_user == user
   end
 
-	def is_author?(article)
-		logged_in? && current_user.author?(article)
+	def is_author?(item)
+		logged_in? && !item.nil? && current_user.author?(item)
 	end
 
 	def is_reviewer?

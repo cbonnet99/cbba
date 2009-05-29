@@ -9,7 +9,7 @@ long:
   title: Article with a very long title, how far can we go
   lead: Article with a very long title
   body: This is a test
-  slug: 
+  slug: article-with-a-very
   author: cyrille
   state: published
   approved_by: norma

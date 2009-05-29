@@ -65,7 +65,7 @@ class ArticlesControllerTest < ActionController::TestCase
 		yoga = subcategories(:yoga)
     old_count = cyrille.articles_count
     post :create, {:article => { :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
-    assert_redirected_to article_path(assigns(:article))
+    assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug)
 		assert_equal yoga.id, assigns(:article).subcategory1_id
     assert_not_nil assigns(:subcategories)
     cyrille.reload
@@ -74,8 +74,11 @@ class ArticlesControllerTest < ActionController::TestCase
   end
 
   def test_should_show_article
-    get :show, {:id => articles(:long).id}, {:user_id => users(:cyrille).id }
+    cyrille = users(:cyrille)
+    get :show, {:id => articles(:long).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }
     assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:article)
   end
 
   def test_should_get_edit
@@ -86,7 +89,7 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_update_article
     put :update, :id => articles(:yoga).id, :article => { }
-    assert_redirected_to article_path(assigns(:article))
+    assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug)
     assert_not_nil assigns(:subcategories)
   end
 

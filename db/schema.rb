@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090523083707) do
+ActiveRecord::Schema.define(:version => 20090525093512) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -71,6 +71,13 @@ ActiveRecord::Schema.define(:version => 20090523083707) do
 
   add_index "categories_users", ["category_id"], :name => "index_categories_users_on_category_id"
   add_index "categories_users", ["user_id"], :name => "index_categories_users_on_user_id"
+
+  create_table "charities", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "contacts", :force => true do |t|
     t.string   "email"
@@ -266,6 +273,7 @@ ActiveRecord::Schema.define(:version => 20090523083707) do
     t.integer  "discount"
     t.string   "code"
     t.boolean  "debit"
+    t.integer  "charity_id"
   end
 
   create_table "recommendations", :force => true do |t|

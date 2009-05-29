@@ -83,6 +83,38 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
 
+  def find_how_to_for_user(slug, user=nil)
+    if user == self
+      self.how_tos.find_by_slug(slug)
+    else
+      self.how_tos.find_by_state_and_slug("published", slug)
+    end
+  end
+
+  def find_article_for_user(slug, user=nil)
+    if user == self
+      self.articles.find_by_slug(slug)
+    else
+      self.articles.find_by_state_and_slug("published", slug)
+    end
+  end
+
+  def find_gift_voucher_for_user(slug, user=nil)
+    if user == self
+      self.gift_vouchers.find_by_slug(slug)
+    else
+      self.gift_vouchers.find_by_state_and_slug("published", slug)
+    end
+  end
+
+  def find_special_offer_for_user(slug, user=nil)
+    if user == self
+      self.special_offers.find_by_slug(slug)
+    else
+      self.special_offers.find_by_state_and_slug("published", slug)
+    end
+  end
+
   def last_30days_redirect_website
     UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
   end

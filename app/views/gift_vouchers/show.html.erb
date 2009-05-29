@@ -1,4 +1,8 @@
+<% if params[:index_public] == "true" -%>
+<%= link_to "Back to gift vouchers", :controller => "gift_vouchers", :action => "index_public" %>
+<% else -%>
 <%= link_to "Back to your gift vouchers", gift_vouchers_path %>
+<% end -%>
 <%= title @gift_voucher.title %>
 <div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
 <% if is_author?(@gift_voucher) -%>
@@ -12,4 +16,9 @@
   <%=white_list @gift_voucher.description %>
   <h3>To order</h3>
   <p>Please <%= link_to "email #{@gift_voucher.author.name}", user_slug_action_path(:slug => @gift_voucher.author.slug, :action => "message", :message => {:subject => "Voucher: #{@gift_voucher.title}"}  )%> . Vouchers can be sent to you or direct to the recipient.</p>
+<% if params[:index_public] == "true" -%>
+<%= link_to "Back to gift vouchers", :controller => "gift_vouchers", :action => "index_public" %>
+<% else -%>
 <%= link_to "Back to your gift vouchers", gift_vouchers_path %>
+<% end -%>
+

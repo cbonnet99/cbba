@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 class HowTosControllerTest < ActionController::TestCase
 	fixtures :all
 
+  def test_destroy
+    cyrille = users(:cyrille)
+    old_size = cyrille.how_tos.size
+    post :destroy, {:id => how_tos(:improve) }, {:user_id => cyrille.id }
+    cyrille.reload
+    assert_equal old_size-1, cyrille.how_tos.size
+  end
+
   def test_should_get_new
 		cyrille = users(:cyrille)
     get :new, {}, {:user_id => cyrille.id }
@@ -22,7 +30,7 @@ class HowTosControllerTest < ActionController::TestCase
     assert_not_nil assigns(:how_to)
     assert assigns(:how_to).errors.blank?
     assert_equal flash[:notice], "Your 'how to' article was successfully saved and published."
-    assert_redirected_to how_to_path(assigns(:how_to))
+    assert_redirected_to how_tos_show_path(cyrille.slug, "title-here")
     cyrille.reload
     assert_equal old_size+1, cyrille.how_tos.size
     assert_equal old_count+1, cyrille.how_tos_count
@@ -37,7 +45,7 @@ class HowTosControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
 
 		post :publish, {:id => improve.id }, {:user_id => cyrille.id}
-		assert_redirected_to root_url
+		assert_redirected_to how_tos_show_path(improve.author.slug, improve.slug)
 		improve.reload
 		assert_not_nil improve.published_at
 
@@ -54,7 +62,7 @@ class HowTosControllerTest < ActionController::TestCase
     old_size = cyrille.published_how_tos_count
 
 		post :unpublish, {:id => money.id }, {:user_id => cyrille.id}
-		assert_redirected_to root_url
+		assert_redirected_to how_tos_show_path(money.author.slug, money.slug)
 		money.reload
 		assert_nil money.published_at
 
@@ -63,8 +71,11 @@ class HowTosControllerTest < ActionController::TestCase
 	end
 
   def test_show
-    get :show, {:id => how_tos(:improve).id }, {:user_id => users(:cyrille).id }
+    cyrille = users(:cyrille)
+    get :show, {:id => how_tos(:money).slug, :selected_user => cyrille.slug  }, {:user_id => cyrille.id }
     assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:how_to)
   end
 
 end

@@ -37,11 +37,16 @@ class ArticlesController < ApplicationController
   # GET /articles/1
   # GET /articles/1.xml
   def show
-    @article = Article.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @article }
+    get_selected_user
+    if @selected_user.nil?
+      flash[:error]="Sorry, this article could not be found"
+      redirect_to user_articles_path
+    else
+      @article = @selected_user.find_article_for_user(params[:id], current_user)
+      if @article.nil?
+        flash[:error]="Sorry, this article could not be found"
+        redirect_to user_articles_path
+      end      
     end
   end
 
@@ -85,7 +90,7 @@ class ArticlesController < ApplicationController
             @article.publish!
             flash[:notice] = 'Your article was successfully saved and published.'
           end
-          format.html { redirect_to(@article) }
+          format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug)) }
           format.xml  { render :xml => @article, :status => :created, :location => @article }
         else
           format.html { render :action => "new" }
@@ -104,7 +109,7 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       if @article.update_attributes(params[:article])
         flash[:notice] = 'Article was successfully updated.'
-        format.html { redirect_to(@article) }
+        format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

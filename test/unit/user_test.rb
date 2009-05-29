@@ -4,6 +4,79 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_find_article_for_user
+    long = articles(:long)
+    yoga = articles(:yoga)
+    cyrille = users(:cyrille)
+    norma = users(:norma)
+    assert_equal yoga, cyrille.find_article_for_user(yoga.slug, cyrille)
+    assert_nil cyrille.find_article_for_user(yoga.slug, norma)
+    assert_nil cyrille.find_article_for_user(yoga.slug, nil)
+
+    assert_equal long, cyrille.find_article_for_user(long.slug, cyrille)
+    assert_equal long, cyrille.find_article_for_user(long.slug, norma)
+    assert_equal long, cyrille.find_article_for_user(long.slug, nil)
+  end
+
+  def test_find_how_to_for_user
+    money = how_tos(:money)
+    improve = how_tos(:improve)
+    cyrille = users(:cyrille)
+    norma = users(:norma)
+    assert_equal improve, cyrille.find_how_to_for_user(improve.slug, cyrille)
+    assert_nil cyrille.find_how_to_for_user(improve.slug, norma)
+    assert_nil cyrille.find_how_to_for_user(improve.slug, nil)
+
+    assert_equal money, cyrille.find_how_to_for_user(money.slug, cyrille)
+    assert_equal money, cyrille.find_how_to_for_user(money.slug, norma)
+    assert_equal money, cyrille.find_how_to_for_user(money.slug, nil)
+  end
+
+  def test_find_special_offer_for_user
+    one = special_offers(:one)
+    free_trial = special_offers(:free_trial)
+    cyrille = users(:cyrille)
+    norma = users(:norma)
+    assert_equal one, cyrille.find_special_offer_for_user(one.slug, cyrille)
+    assert_nil cyrille.find_special_offer_for_user(one.slug, norma)
+    assert_nil cyrille.find_special_offer_for_user(one.slug, nil)
+
+    assert_equal free_trial, cyrille.find_special_offer_for_user(free_trial.slug, cyrille)
+    assert_equal free_trial, cyrille.find_special_offer_for_user(free_trial.slug, norma)
+    assert_equal free_trial, cyrille.find_special_offer_for_user(free_trial.slug, nil)
+  end
+
+  def test_find_gift_voucher_for_user
+    free_massage = gift_vouchers(:free_massage)
+    free_massage_draft = gift_vouchers(:free_massage_draft)
+    cyrille = users(:cyrille)
+    norma = users(:norma)
+    assert_equal free_massage_draft, cyrille.find_gift_voucher_for_user(free_massage_draft.slug, cyrille)
+    assert_nil cyrille.find_gift_voucher_for_user(free_massage_draft.slug, norma)
+    assert_nil cyrille.find_gift_voucher_for_user(free_massage_draft.slug, nil)
+
+    assert_equal free_massage, cyrille.find_gift_voucher_for_user(free_massage.slug, cyrille)
+    assert_equal free_massage, cyrille.find_gift_voucher_for_user(free_massage.slug, norma)
+    assert_equal free_massage, cyrille.find_gift_voucher_for_user(free_massage.slug, nil)
+  end
+  
+  def test_gift_vouchers_size
+    assert_equal 2, users(:norma).gift_vouchers.size
+    assert_equal 2, users(:cyrille).gift_vouchers.size
+  end
+
+  def test_special_offers_size
+    cyrille = users(:cyrille)
+    assert_equal 2, cyrille.special_offers.size
+  end
+
+  def test_articles_size
+    cyrille = users(:cyrille)
+    assert_equal 2, cyrille.articles.size
+    #counts both articles and 'how to' articles
+    assert_equal 4, cyrille.articles_count_for_user(cyrille)
+  end
+
   def test_last_30days_redirect_website
     cyrille = users(:cyrille)
     assert_equal 1, cyrille.last_30days_redirect_website

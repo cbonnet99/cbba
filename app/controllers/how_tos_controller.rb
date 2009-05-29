@@ -7,39 +7,35 @@ class HowTosController < ApplicationController
     @how_to = current_user.how_tos.find(params[:id])
 		@how_to.remove!
 		flash[:notice] = "How to article is no longer published"
-    redirect_back_or_default root_url
+    redirect_back_or_default how_tos_show_path(@how_to.author.slug, @how_to.slug)
 
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not unpublish this article"
-      redirect_back_or_default root_url
+      redirect_back_or_default how_tos_show_path(@how_to.author.slug, @how_to.slug)
 	end
 
 	def publish
     @how_to = current_user.how_tos.find(params[:id])
 		@how_to.publish!
 		flash[:notice] = "How to article successfully published"
-    redirect_back_or_default root_url
+    redirect_back_or_default how_tos_show_path(@how_to.author.slug, @how_to.slug)
 
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not publish this article"
-      redirect_back_or_default root_url
+      redirect_back_or_default how_tos_show_path(@how_to.author.slug, @how_to.slug)
 	end
 
-  def index
-    @how_tos = HowTo.published
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @how_tos }
-    end
-  end
-
   def show
-    @how_to = HowTo.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @how_to }
+    get_selected_user
+    if @selected_user.nil?
+      flash[:error]="Sorry, this 'how to' article could not be found"
+      redirect_to user_howtos_path
+    else
+      @how_to = @selected_user.find_how_to_for_user(params[:id], current_user)
+      if @how_to.nil?
+        flash[:error]="Sorry, this 'how to' article could not be found"
+        redirect_to user_howtos_path        
+      end      
     end
   end
 
@@ -58,8 +54,7 @@ class HowTosController < ApplicationController
   end
 
   def edit
-		id = HowTo.id_from_url(params[:id])
-    @how_to = HowTo.find_by_author_id_and_id(current_user.id, id)
+    @how_to = current_user.how_tos.find(params[:id])
 #		@how_to.load_subcategories
 		get_subcategories
   end
@@ -80,7 +75,7 @@ class HowTosController < ApplicationController
             @how_to.publish!
             flash[:notice] = "Your 'how to' article was successfully saved and published."
           end
-          format.html { redirect_to(@how_to) }
+          format.html { redirect_to(how_tos_show_path(@how_to.author.slug, @how_to.slug)) }
           format.xml  { render :xml => @how_to, :status => :created, :location => @how_to }
         else
           format.html { render :action => "new" }
@@ -91,13 +86,13 @@ class HowTosController < ApplicationController
   end
 
   def update
-    @how_to = HowTo.find(params[:id])
+    @how_to = current_user.how_tos.find(params[:id])
         get_subcategories
 
     respond_to do |format|
       if @how_to.update_attributes(params[:how_to])
-        flash[:notice] = 'HowTo was successfully updated.'
-        format.html { redirect_to(@how_to) }
+        flash[:notice] = "Your 'how to' article was successfully updated."
+        format.html { redirect_to(how_tos_show_path(@how_to.author.slug, @how_to.slug)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -107,13 +102,13 @@ class HowTosController < ApplicationController
   end
 
   def destroy
-    @how_to = HowTo.find(params[:id])
+    @how_to = current_user.how_tos.find(params[:id])
     if current_user.author?(@how_to) && @how_to.draft?
       @how_to.destroy
-      flash[:notice] = "The how to was deleted"
+      flash[:notice] = "Your 'how to' article was deleted"
     else
-      flash[:error] = "You cannot delete this how to"
+      flash[:error] = "You cannot delete this 'how to' article"
     end
-    redirect_to(user_how_tos_path)
+    redirect_to(user_howtos_path)
   end
 end

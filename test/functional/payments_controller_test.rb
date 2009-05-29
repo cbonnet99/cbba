@@ -77,6 +77,8 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_not_nil rmoore.member_since
     assert !rmoore.free_listing?
     assert rmoore.full_member?
+    new_payment.reload
+    assert new_payment.completed?
   end
 
 end

@@ -6,4 +6,20 @@ free_massage:
   state: published
   slug: free-massage
   author: cyrille
+free_massage_draft:
+    title: Free massage draft
+    description: 1 paid, 1 free
+    state: draft
+    slug: free-massage-draft
+    author: cyrille
+free_session:
+    title: 2 sessions for the price of 1
+    state: draft
+    slug: free-session
+    author: norma
+free_massage_norma:
+    title: Free massage
+    state: draft
+    slug: free-massage
+    author: norma
   

@@ -21,8 +21,10 @@ cyrille:
   slug:                      cyrille-bonnet-bioboy-inc
   website:                   www.google.com
   articles_count:            2
+  how_tos_count:            2
   published_articles_count:  1
   special_offers_count:            2
+  gift_vouchers_count:            2
   published_special_offers_count:  1
   published_gift_vouchers_count:  1
   description:               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac velit ac odio molestie aliquet. Vestibulum rutrum orci nec lectus. Phasellus eget leo vitae mauris vestibulum varius. Aenean nec velit ac diam vestibulum scelerisque. Nullam cras amet.
@@ -47,6 +49,7 @@ norma:
   member_since:              <%= 17.months.ago.to_s :db %>
   member_until:              <%= 1.week.from_now.to_s :db %>
   slug:                      norma-stein2-amazing-biz
+  gift_vouchers_count:       2
   latitude:                  123
   longitude:                 20
 amcloughlin:

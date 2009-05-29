@@ -29,6 +29,7 @@ class Payment < ActiveRecord::Base
   has_one :invoice
   has_many :transactions, :class_name => "PaymentTransaction"
   has_one :expert_application
+  belongs_to :charity
 
   attr_accessor :card_number, :card_verification
 

@@ -37,6 +37,11 @@ class ImportUtils
     Fixtures.create_fixtures(directory, 'roles')
   end
 
+  def self.import_charities
+    directory = File.join( File.dirname(__FILE__) , '../test/fixtures' )
+    Fixtures.create_fixtures(directory, 'charities')
+  end
+
   def self.import_subcategories
     directory = File.join( File.dirname(__FILE__) , '../test/fixtures' )
     Fixtures.create_fixtures(directory, 'subcategories')
