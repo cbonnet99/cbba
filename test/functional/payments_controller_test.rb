@@ -58,10 +58,11 @@ class PaymentsControllerTest < ActionController::TestCase
   end
   def test_update_payment_on_full_membership_upgrade
     rmoore = users(:rmoore)
+    heart_children = charities(:heart_children)
     new_payment = rmoore.payments.create!(Payment::TYPES[:full_member])
     
     expires = Time.now.advance(:year => 1 )
-    put :update, {:id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
+    put :update, {:id => new_payment.id, "payment"=>{:charity_id => heart_children.id, "address1"=>"hjgjhghgjhg",
       "city"=>"hjgjhgjhghg",
       "card_number"=>"1",
       "card_expires_on(1i)"=>expires.year.to_s,
@@ -79,6 +80,7 @@ class PaymentsControllerTest < ActionController::TestCase
     assert rmoore.full_member?
     new_payment.reload
     assert new_payment.completed?
+    assert_equal heart_children.id, new_payment.charity_id
   end
 
 end

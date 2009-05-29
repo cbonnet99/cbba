@@ -36,7 +36,6 @@ class PaymentsController < ApplicationController
   # PUT /payments/1
   # PUT /payments/1.xml
   def update
-
     params[:payment].merge!(:ip_address => request.remote_ip)
     if @payment.update_attributes(params[:payment])
       if @payment.purchase
