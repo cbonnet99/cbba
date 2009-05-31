@@ -4,7 +4,7 @@
   <p><%= link_to "Click here to place yourself in this directory", signup_intro_path %></p>
   <ul class="simple" class="category">
     <% @category.subcategories.each do |s| -%>
-      <li><%=link_to s.name, subcategory_url(dasherize(@category.name), dasherize(s.name))%><span class="users-counter"> <%=h s.users_counter%></span></li>
+      <li><%=link_to s.name, subcategory_url(@category.slug, s.slug)%><span class="users-counter"> <%=h s.users_counter%></span></li>
     <% end -%>
   </ul>
 <% end -%>

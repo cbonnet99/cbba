@@ -2,7 +2,7 @@
   <% @regions.each do |r| -%>
       <% users = User.find_all_by_region_and_subcategories(r, @subcategory) -%>
     <% unless users.empty? -%>
-    <h3 class="bam-region-name"><%=link_to r.name, subcategory_region_url(dasherize(@category.name), dasherize(@subcategory.name), dasherize(r.name))%></h3>
+    <h3 class="bam-region-name"><%=link_to r.name, subcategory_region_url(@category.slug, @subcategory.slug, r.slug)%></h3>
     <ul class="subcategories simple">
       <% users.each do |u| -%>
         <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => u} %> </li>

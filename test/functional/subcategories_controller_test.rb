@@ -11,11 +11,51 @@ class SubcategoriesControllerTest < ActionController::TestCase
   
   def test_region
     plenty = regions(:plenty)
-    get :region, {:region_name => dasherize(plenty.name),
-      :category_name => dasherize(categories(:courses).name),
-      :subcategory_name => dasherize(subcategories(:yoga).name)}
+    get :region, {:region_slug => plenty.slug,
+      :category_slug => categories(:courses).slug,
+      :subcategory_slug => subcategories(:yoga).slug}
     assert_response:success
     assert_equal plenty, assigns(:region)
+  end
+
+  def test_region_error_region
+    plenty = regions(:plenty)
+    get :region, {:region_slug => "bla",
+      :category_slug => categories(:courses).slug,
+      :subcategory_slug => subcategories(:yoga).slug}
+    assert_redirected_to root_url
+    assert "Could not find this subcategory", flash[:error]
+  end
+
+  def test_region_error_category
+    plenty = regions(:plenty)
+    get :region, {:region_slug => plenty.slug,
+      :category_slug => "bla",
+      :subcategory_slug => subcategories(:yoga).slug}
+    assert_redirected_to root_url
+    assert "Could not find this subcategory", flash[:error]
+  end
+
+  def test_region_error_subcategory
+    plenty = regions(:plenty)
+    get :region, {:region_slug => plenty.slug,
+      :category_slug => categories(:courses).slug,
+      :subcategory_slug => "bla"}
+    assert_redirected_to root_url
+    assert "Could not find this subcategory", flash[:error]
+  end
+  
+  def test_show
+    yoga = subcategories(:yoga)
+    get :show, :subcategory_slug => yoga.slug, :category_slug => yoga.category.slug
+    assert_response :success
+  end
+  
+  def test_show_with_error
+    yoga = subcategories(:yoga)
+    get :show, :subcategory_slug => "bla", :category_slug => yoga.category.slug
+    assert_redirected_to root_url
+    assert "Could not find this subcategory", flash[:error]
   end
   
 end

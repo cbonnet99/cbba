@@ -6,27 +6,40 @@ class SubcategoriesController < ApplicationController
   end
 
   def region
-    @region = Region.find_by_name(help.undasherize_capitalize(params[:region_name]))
-    @category = Category.find_by_name(help.undasherize(params[:category_name]))
-    if @category.nil?
-      logger.error("in Subcategories controller Show, @category is nil")
+    @region = Region.find_by_slug(params[:region_slug])
+    if @region.nil?
+		  flash[:error]="Could not find region #{params[:region_slug]}"
+		  redirect_to root_url
     else
-      @subcategory = Subcategory.find_by_category_id_and_name(@category.id, help.undasherize(params[:subcategory_name]))
+      @category = Category.find_by_slug(params[:category_slug])
+      if @category.nil?
+  		  flash[:error]="Could not find category #{params[:category_slug]}"
+  		  redirect_to root_url
+      else
+        @subcategory = Subcategory.find_by_category_id_and_slug(@category.id, params[:subcategory_slug])
+        if @subcategory.nil?
+    		  flash[:error]="Could not find subcategory #{params[:subcategory_slug]}"
+    		  redirect_to root_url
+  		  else
+          @users = User.search_results(@category.id, @subcategory.id, @region.id, nil, params[:page])  		    
+  		  end
+      end
     end
-    @users = User.search_results(@category.id, @subcategory.id, @region.id, nil, params[:page])
   end
 
 	def show
-		if params[:category_name].nil? || params[:subcategory_name].nil?
-			@subcategory = Subcategory.find(params[:id])
-		else
-			@category = Category.find_by_name(help.undasherize(params[:category_name]))
+			@category = Category.find_by_slug(params[:category_slug])
 			if @category.nil?
-				logger.error("in Subcategories controller Show, @category is nil")
+			  flash[:error]="Could not find category #{params[:category_slug]}"
+			  redirect_to root_url
 			else
-				@subcategory = Subcategory.find_by_category_id_and_name(@category.id, help.undasherize(params[:subcategory_name]))
+				@subcategory = Subcategory.find_by_category_id_and_slug(@category.id, params[:subcategory_slug])
+  			if @subcategory.nil?
+  			  flash[:error]="Could not find subcategory #{params[:subcategory_slug]}"
+  			  redirect_to root_url
+				else
+      		get_regions
+			  end
 			end
-		end
-		get_regions
 	end
 end
