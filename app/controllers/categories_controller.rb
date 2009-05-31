@@ -8,19 +8,22 @@ class CategoriesController < ApplicationController
 	end
 
   def region
-    @region = Region.find_by_name(help.undasherize_capitalize(params[:region_name]))
-    @category = Category.find_by_name(help.undasherize(params[:category_name]))
-    if @category.nil?
-      logger.error("in categories controller Show, @category is nil")
+    @region = Region.find_by_slug(params[:region_slug])
+    if @region.nil?
+		  flash[:error]="Could not find region #{params[:region_slug]}"
+		  redirect_to root_url
     else
-      @users = User.search_results(@category.id, nil, @region.id, nil, params[:page])
+      @category = Category.find_by_slug(params[:category_slug])
+      if @category.nil?
+  		  flash[:error]="Could not find category #{params[:category_slug]}"
+  		  redirect_to root_url
+      else
+        @users = User.search_results(@category.id, nil, @region.id, nil, params[:page])
+      end
     end
   end
 
 	def show
-		if params[:category_name].nil?
-			@category = Category.find(params[:id])
-		end
     log_user_event UserEvent::SELECT_CATEGORY, "", @category.name, {:category_id => @category.id }		
 	end
 end

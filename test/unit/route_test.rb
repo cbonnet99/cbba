@@ -23,7 +23,7 @@ class RoutingTest < Test::Unit::TestCase
     assert_recognizes({:controller => 'users', :action => 'message', :slug => "cyrille" }, :path => "/user/cyrille/message" )
     assert_recognizes({:controller => 'admin/mass_emails', :action => 'send_test', :id => "2" }, :path => "/admin/mass_emails/2/send_test" )
     assert_recognizes({:controller => 'admin/mass_emails', :action => 'index'}, :path => "/admin/mass_emails" )
-    assert_recognizes({:controller => 'categories', :action => 'region', :category_name => "coaching", :region_name => "wellington"}, :path => "/category/coaching/region/wellington" )
+    assert_recognizes({:controller => 'categories', :action => 'region', :category_slug => "coaching", :region_slug => "wellington"}, :path => "/category/coaching/region/wellington" )
     assert_recognizes({:controller => 'subcategories', :action => 'region', :category_slug => "coaching", :subcategory_slug => "life-coaching", :region_slug => "wellington"}, :path => "/category/coaching/life-coaching/wellington" )
     assert_recognizes({:controller => 'subcategories', :action => 'region', :category_slug => "courses", :subcategory_slug => "yoga", :region_slug => "bay-of-plenty"}, :path => "/category/courses/yoga/bay-of-plenty" )
     assert_recognizes({:controller => 'subcategories', :action => 'show', :category_slug => "coaching", :subcategory_slug => "life-coaching"}, :path => "/category/coaching/life-coaching" )

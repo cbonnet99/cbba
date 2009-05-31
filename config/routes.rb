@@ -42,7 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   map.search_where '/search/where/:where', :controller => "search", :action => "search"
   map.action_tab '/tabs/:action', :controller => 'tabs'
   map.action_tab_with_id '/tabs/:id/:action', :controller => 'tabs'
-	map.category_region '/category/:category_name/region/:region_name', :controller => "categories", :action => "region"
+	map.category_region '/category/:category_slug/region/:region_slug', :controller => "categories", :action => "region"
 	map.subcategory_region '/category/:category_slug/:subcategory_slug/:region_slug', :controller => "subcategories", :action => "region"
 	map.subcategory '/category/:category_slug/:subcategory_slug', :controller => "subcategories", :action => "show"
   map.user_slug_action '/user/:slug/:action', :controller => "users"
@@ -54,7 +54,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.expert_applications_action_with_id 'admin/expert_applications/:id/:action', :controller => "admin/expert_applications"
 	map.payments_action_with_id 'admin/payments/:id/:action', :controller => "admin/payments"
 	map.reviewer 'reviewer/:action', :controller => "admin/reviewer"
-	map.category '/category/:category_name', :controller => "categories", :action => "show"
+	map.category '/category/:category_slug', :controller => "categories", :action => "show"
   map.fuzzy_search_action '/fuzzy_search', :controller => 'search', :action => "fuzzy_search"
   map.search_action '/search/:action', :controller => 'search'
   map.search_action_id '/search/:id/:action', :controller => 'search'

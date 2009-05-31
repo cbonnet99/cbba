@@ -78,9 +78,14 @@ class ApplicationController < ActionController::Base
 	end
 
 	def current_category
-    if !params[:category_name].nil?
-			@category = Category.find_by_name(help.undasherize(params[:category_name]))
-      @category_id = @category.id
+    if !params[:category_slug].nil?
+			@category = Category.find_by_slug(params[:category_slug])
+      if @category.nil?
+  		  flash[:error]="Could not find category #{params[:category_slug]}"
+  		  redirect_to root_url
+      else
+			  @category_id = @category.id
+		  end
 		end
 	end
 
