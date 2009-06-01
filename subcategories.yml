@@ -1,0 +1,555 @@
+addiction_recovery:
+  name: Addiction Recovery
+  category: practitioners
+  slug: addiction-recovery
+  description: Services providing strategies and support for recovery from addictions.
+
+allergy_testing:
+  name: Allergy Testing
+  category: practitioners
+  slug: allergy-testing
+  description: An allergy is an inappropriate response by the body's immune system to a substance that is not normally harmful. Refer to practitioners details for information about their specific practice.
+
+astrology:
+  name: Astrology
+  category: practitioners
+  slug: astrology
+  description: The study of the positions of the moon, Sun, and other planets in the belief that their motions affect human beings.  Astrologists may use differing techniques, so check in with the practitioners details to find out their specific methods.
+
+bach_flowers:
+  name: Bach Flowers
+  category: practitionerss
+  slug: bach-flowers
+  description: Developed in the U.K by Dr. Edward Bach. A system of highly diluted plant extracts which, when correctly prescribed and administered, work on emotional states and personality 'traits' to bring balance for the client.  The well-known 'Rescue Remedy' is widely used and is a combination of four of the thirty-eight remedies Bach discovered. 
+
+beauty_therapy:
+  name: Beauty Therapy
+  category: practitioners
+  slug: beauty-therapy
+  description: Various services are offered to pamper, relax and 'maintain' your body. Check with individual clinics or Therapists for services offered.
+
+bowen_technique:
+  name: Bowen Technique
+  category: practitioners
+  slug: bowen-technique
+  description: Bowen Therapy allows the body to reset and heal itself. The work consists of a series of gently rolling, connective tissue moves. There are frequent important pauses between these moves, which give the body time to benefit from each set. Bowen therapy aims to balance and stimulate energy flows, frequently resulting in a deep sense of overall relaxation.
+
+clairvoyancy:
+  name: Clairvoyancy
+  category: practitioners
+  slug: clairvoyancy
+  description: Clairvoyancy is a term which encompasses the different ways people are able to communicate with their guides, spiritual helpers and loved ones.   It encompasses Clairvoyance (clear seeing of spirit), Clairaudience (clear hearing of spirit) and Clairsentience (clear sensing of spirit).
+
+life_coaching:
+  name: Life Coaching 
+  category: coaches
+  slug: coaching-life
+  description: Life Coaches support and encourage people  to take important steps and overcome barriers to achieving their goals in any area of their life.
+
+business_coaching:
+  name: Business Coaching 
+  category: coaches
+  slug: coaching-business
+  description: Business Coaches work with Business owners and Managers within their Businesses, ranging from start-up through to international companies.  A Business Coach will typically look at the business as a whole to then help the Business owner 'zoom in' and set goals around the parts of the Business they want to improve.
+
+executive_coaching:
+  name: Executive Coaching
+  category: coaches
+  slug: coaching-executive
+  description: Executive Coaches work with people within Corporate and Government organisations, from high-potentials through to Executive Board and CEO's. Executive Coaches are normally highly qualified and can work with Executives on both strategic and personal goals.
+
+career_coaching:
+  name: Career Coaching 
+  category: coaches
+  slug: coaching-career
+  description: Career Coaches are specialists in helping people transition between roles or companies and also helping people to find work that aligns with their strengths and values.  A Career Coach may also provide tools and support for CV writing, interviewing competence and job applications.
+
+team_coaching:
+  name: Team Coaching 
+  category: coaches
+  slug: coaching-team
+  description: Team Coaches will often provide a range of services from Team-Building to Strategic Planning, communication and Professional Team Leadership. A good Team Coach will be a confident Facilitator and skilled at bringing teams together to achieve high performance.
+
+parent_coaching:
+  name: Parent Coaching 
+  category: coaches
+  slug: coaching-parent
+  description: Parent Coaches may work with clients on goals specific to aspects of their parenting role, or on broader goals to achieve greater life balance so that their parenting can be supported and enjoyed.
+
+workplace_coaching:
+  name: Workplace Coaching 
+  category: coaches  
+  slug: coaching-workplace
+  description: Workplace Coaching can be applied in numerous workplace scenarios from performance management to management culture.
+
+health_coaching:
+  name: Health Coaching-Health
+  category: coaches
+  slug: coaching-health  
+  description: A health Coach will look at your health from a bigger-picture perspective and then help you zoom-in to the areas most important to develop a highly supported health action plan. Some health coaches may also have a background in Personal Training or other Health modality, such as Nutrition, Massage, Naturopathy.
+
+counseling:
+  name: Counseling
+  category: practitioners
+  slug: counseling
+  description: Provides professional help and guidance for individuals seeking resolution of personal or psychological matters.
+
+ear_candling:
+  name: Ear Candling
+  category: practitioners
+  slug: ear-candling
+  description: Ear candling (also called ear coning, and auricular candling or coning) is an ancient practice that dates back to the time of the Egyptians in 2500 BC. The exact origin of candling is unknown, but there is a great deal of evidence indicating its use in many different cultures around the world. Today, candling is a popular alternative therapy used to treat many ailments in the general vicinity of the head.
+
+emotional_freedom_technique:
+  name: Emotional Freedom Technique
+  category: practitioners
+  slug: emotional-freedom-technique
+  description: Tapping on acupressure points while saying affirmations is said to clear blockages in the body's meridians (energy pathways). As the body's energetic balance is restored, negative emotions, phobias, physical pain and limiting beliefs drop away.
+
+ericsonian_therapy:
+  name: Ericsonian Therapy
+  category: practitioners
+  slug: ericsonian-therapy 
+  description: Milton Erickson is most famous as a hypnotherapist, but his extensive research into and experience with hypnosis led him to develop an effective therapeutic technique. Many of these techniques are not explicitly hypnotic, but they are extensions of hypnotic strategies and language patterns.
+
+fractology:
+  name: Fractology
+  category: practitioners
+  slug: fractology
+  description: &quot;The science of awareness&quot;.  A person's 'fractal' pattern is repeated infinitely, establishing the pattern of a person's optimal health and well-being, as well as their spiritual integrity. When a client experiences illness or difficulties this is always reflected in a break or distortion in the pattern. Fractologists work to re-establish an optimal pattern.
+
+health_and_safety:
+  name: Health and Safety
+  category: practitioners
+  slug: health-and-safety
+  description: Professionals who ensure that workplaces are safe environments for employees and meet current best-practice guidelines, and advise businesses about how to make positive changes.
+
+herbal_medicine:
+  name: Herbal medicine
+  category: practitioners
+  slug: herbal-medicine
+  description: The medicinal benefits of herbs have been known and documented for centuries.  Many herbs contain powerful ingredients that, used correctly, can help to heal the body.  Administered through Essential Oils, tinctures, teas, poultices, creams, powders and many other methods,
+
+lymphatic_drainage:
+  name: Lymphatic Drainage
+  category: practitioners
+  slug: lymphatic-drainage
+  description: Manual Lymphatic Drainage is a form of massage that stimulates the lymphatic system with gentle massaging strokes. The light rhythmical massage stimulates the lymphatic system to eliminate metabolic waste products, excess fluid and bacteria. The technique was invented by massage therapists Dr Emil and Mrs. Estrid Vodder in the early 1930s.
+
+
+detox_massage:
+  name: Detox Massage
+  category: practitioners
+  slug: massage-detox
+  description: The goal of these massages are to not only rid the body of certain foreign substances and invading pathogens that make you sick, but it is also meant to strengthen the muscles
+
+lomi_lomi_massage:
+  name: Lomi Lomi Massage
+  category: practitioners
+  slug: massage-lomi-lomi
+  description: The word 'Lomi Lomi' simply means massage and its origins are from Hawaii. Lomi Lomi massage is given in fluid, rhythmic motion using the forearms as well as the hands, using gentle, deep strokes and achieving deep relaxation.
+
+hot_stone_massage:
+  name: Hot Stone Massage 
+  category: practitioners
+  slug: massage-hot-stone
+  description: Smooth, flat stones are heated and applied to the clients body, usually on Chakra or energy points, to affect the meridian lines of the body.  Stones may also be oiled and used as a massage tool to work the muscles. 
+
+indian_head_massage:
+  name: Indian Head Massage
+  category: practitioners
+  slug: massage-indian-head
+  description: An ancient massage technique based on the Indian Ayurvedic healing system. The head, neck and face are massaged with the purpose of manipulating energy channels. The goal is to clear blocks in these energy channels that cause a build-up of negative energy that are purported to cause ailments. 
+
+shiatsu_massage:
+  name: Shiatsu Massage
+  category: practitioners
+  slug: massage-shiatsu
+  description: A Japanese form of physical therapy based on traditional Chinese medicine. Combining massage, gentle physical manipulation, and pressure along channels or rivers of energy called meridians.
+
+migraine_relief:
+  name: Migraine Relief
+  category: practitioners
+  slug: migraine-relief
+  description: practitionerss listed in this section use varying techniques to assist clients with relief from Migraines. Check individual practitioners details for more information.
+
+numerology:
+  name: Numerology
+  category: practitioners
+  slug: numerology
+  description: Numerology is an easy and simple system of numbers that can show in a practical way who we are and what we are here to do.
+
+nutrition:
+  name: Nutrition        
+  category: practitioners
+  slug: nutrition
+  description: The science of nutrition, particularly the role of nutrition in growth and development, health and well-being and peak performance in humans and animals. 
+
+occupational_therapy:
+  name: Occupational Therapy
+  category: practitioners
+  slug: occupational-therapy
+  description: Occupational therapists are registered health professionals, who use processes of enabling occupation to optimise human activity and participation in all life domains and promote the health and well-being of individuals, groups, and communities.
+
+
+personal_training:
+  name: Personal Training
+  category: practitioners
+  slug: personal-training
+  description: Personal trainers work with clients to achieve their health and/or fitness goals.  The scope of practice is broad and it is essential that you check out whether a Personal Trainers' skills and experience match your particular need.
+
+physiotherapy:
+  name: Physiotherapy
+  category: practitioners
+  slug: physiotherapy
+  description: Physiotherapists are involved in health promotion, injury prevention, treatment and rehabilitation.¬†After assessing a patient's potential for movement and function, the physiotherapist establishes treatment goals designed to restore or develop that potential, and then maintain it.
+
+pregnancy_therapies:
+  name: Pregnancy Therapies
+  category: practitioners
+  slug: pregnancy-therapies
+  description: The Therapists listed here provide pregnancy-specific therapies and treatments. Check individual practitioners details for more information.
+
+psychosynthesis:
+  name: Psychosynthesis
+  category: practitioners
+  slug: psychosynthesis
+  description: One of the aims of psychology is to help us understand the nature of human consciousness.  Psychosynthesis is widely recognised as on of the most coherent and effective frameworks of psycho-spiritual psychology.  Its holistic perspective can be applied therapeutically and in self-development, and also in any context of systemic process or organisation.
+
+sound_healing:
+  name: Sound Healing
+  category: practitioners
+  slug: sound-healing
+  description: Sound Healing through various techniques and technologies, is the educated and conscious use of the energy of sound to reach identified goals and promote wellness in the human system - including the expansion of consciousness.
+
+weight_loss:
+  name: Weight Loss
+  category: practitioners
+  slug: weight-loss
+  description: practitionerss listed here provide various Weight Loss services.  Check practitionerss details to learn more about their specific service.
+
+leadership_development:
+  name: Leadership Development
+  category: courses
+  slug: leadership-development
+  description: Various types of Leadership Development Courses may be listed here.  Check specific course details for more information.
+
+swimming:
+  name: Swimming
+  category: courses
+  slug: swimming
+  description: Learning to swim, stroke improvement and technique, and on-going swim coaching.  Check individual course details for more specific information.
+
+meditation:
+  name: Meditation
+  category: courses
+  slug: meditation
+  description: As there are many different styles of Meditation, please check with individual course information to learn more about what is offered.
+
+pilates:
+  name: Pilates
+  category: courses
+  slug: pilates
+  description: The Pilates &quot;method&quot; is an exercise system focused on improving flexibility, strength, and body awareness. The method is a series of controlled movements performed on specially designed spring-resistant exercise apparatus or on the floor (mat work), and the sessions are supervised by specially trained instructors.
+
+public_speaking:
+  name: Public Speaking
+  category: courses
+  slug: public-speaking
+  description: The courses listed here offer various specialties and styles.  Please check individual provider's details.
+
+health_centres:
+  name: Health Centres
+  category: health-centres
+  slug: health-centres
+  description: Centres offering a range specialised Health or Well-being services or practitionerss.
+
+beauty_salons:
+  name: Beauty Salons
+  category: health-centres
+  slug: beauty-salons
+  description: Beauty Salons offer a broad range of Beauty Therapy, massage and hairdressing services.  Check with Salons for information about their specific services.
+
+day_spas:
+  name: Day Spas
+  category: health-centres
+  slug: day-spas
+  description: Day Spas offer various packages of health, beauty and well-being services. The name 'Day Spa' implying that you can spend all day being pampered if you choose!
+
+health_stores:
+  name: Health Stores
+  category: health-centres
+  slug: health-stores
+  description: Health stores provide a range of products and services related to health and well-being.
+
+retreats:
+  name: Retreats
+  category: health-centres
+  slug: retreats
+  description: Various wellbeing and health related retreats. Check details to learn more  specific retreats.
+
+
+workshop_venues:
+  name: Workshop Venues
+  category: health-centres
+  slug: workshop-venues
+  description: Check each listing for specific venue details.
+
+acupressure:
+  name: Acupressure
+  category: practitioners
+  slug:  acupressure
+  description: Based on the same beliefs as Acupuncture, but using finger and hand pressure to restore balance to the flow of Chi through the body's Meridians, rather than fine needles.
+
+acupuncture:
+  name: Acupuncture
+  category: practitioners
+  slug:  acupressure
+  description: An Acupuncturist uses very fine needles to restore the flow of Chi (vital life energy) that is thought to move through the body via pathways called Meridians, each linked to a specific organ. If the flow is interrupted an individual may experience health problems.
+
+alexander_technique:
+  name: Alexander Technique
+  category: practitioners
+  slug:  alexander-technique
+  description: A method of psychophysical re-education using voice and hands to reduce tension, improve posture and encourage lengthening of the body.
+
+aromatherapy:  
+  name: Aromatherapy
+  category: practitioners
+  slug: aromatherapy
+  description: The essential oils extracted from  various parts of plants are used by Aromatherapists to enhance the body and mind. Various applications, such as massage and inhalation have been used for thousands of years.
+
+ayurvedic_medicine: 
+  name: Ayurvedic Medicine
+  category: practitioners
+  slug: ayurvedic-medicine
+  description: Ayurvedic science is based on the principle that everything in the universe is made up of Ether, Air, Water, Earth and Fire, which constitute three essential components of the body, the 'tridoshas'. Each person is said to have a unique combination of these three doshas, Vata, Pitta and Kapha, which become a persons body type or 'prakriti'. Ayurveda seeks to correct any imbalances in an individual to preserve health and prevent disease.
+
+bowen_technique:
+  name: Bowen Technique 
+  category: practitoner
+  slug: bowen-technique
+  description:  A gentle muscle and connective tissue procedure that stimulates the muscular system, aiding skeletal alignment, blood flow and nervous system.  Is used for people of all ages and conditions.
+
+chi_kung:
+  name: Chi Kung 
+  category: courses
+  slug: chi-kung
+  description: Part of Traditional Chinese Medicine, Chi Kung (Qi Gong) is series of slow exercises concentrating on movement and breath meditation. Believed to help prevent illness, tone and strengthen the body and improve the mind. 'Chi' means 'energy/life force' and Kung means 'skill of practice, work'.
+
+chi_nei_tsang:
+  name: Chi Nei Tsang
+  category: practitioners
+  slug: chi-nei-tsang
+  description: &quot;Chi Nei Tsang works on the internal structures of the body to upgrade the quality and quantity of Chi.  It is an internal form of feng-shui that creates a field of information in which healing takes place‚Äù. (Giles Marin, Director of the Chi Nei Tsang Institute, USA).
+
+chinese_herbal_medicine:
+  name: Chinese Herbal Medicine
+  category: practitioners
+  slug: chinese-herbal-medicine
+  description: The key aim of Chinese Herbal Medicine is to ensure the body has what it requires to retain balance, therefore preventing illness.  Uses herbs, acupuncture, acupressure, massage and diet to balance the yin/yang of the body.
+
+
+chiropractor: 
+  name: Chiropractor
+  category: practitioners
+  slug: chiropractor
+  description: Chiropractors work on correcting the alignment of the Spinal Vertebrae to allow impulses from the brain to travel freely along the spinal cord to the various organs, maintaining healthy functioning of the body.  Chiropractic adjustment is used to establish normal function when joint misalignments are located.
+
+colon_therapy: 
+  name: Colon Therapy
+  category: practitioners
+  slug: colon-therapy
+  description: Colon Hydrotherapy introduces small amounts of water or other fluids to the colon to remove retained debris, helping to prevent and treat a variety of health problems.
+
+colour_therapy: 
+  name: Colour Therapy
+  category: practitioners
+  slug: colour-therapy
+  description: Colour Therapists determine the colour energy needs of  clients, using the energy vibrations of colours to naturally assist the body in achieving health and wellness.
+
+craniosacral_therapy:
+  name: Craniosacral Therapy
+  category: practitioners
+  slug: craniosacral-therapy
+  description:  A gentle and non-invasive whole-body treatment, in which the practitioners 'listens to the craniosacral motion in the body using a light touch, and facilitates the body to recognise holding patterns within the tissues, and create a re-balancing of affected areas.
+
+energy_therapies: 
+  name: Energy Therapies
+  category: practitioners
+  slug: energy-therapies
+  description: Is based on the premise that the human body is composed of various energy fields and that people fall ill when the energy in those fields becomes blocked, out of balance, or otherwise disturbed.  Energy Therapists attempt to restore health by first detecting and then removing blockages.  There are many different techniques practised in this field.
+
+feldenkrais_method: 
+  name: Feldenkrais Method
+  category: practitioners
+  slug: feldenkrais-method
+  description: &quot;Taught both individually or in groups, the Feldenkrais Method uses movement to improve our ability to function better at all levels, especially as we age.&quot;
+
+feng_shui:
+  name: Feng Shui
+  category: practitioners
+  slug: feng-shui
+  description: Literally means &quot;wind-water&quot;.  Practitioners study wind and water patterns, believed to indicate the flow of the earth's chi, and then ensure buildings, rooms, objects and activities are harmoniously aligned with 'good' Feng Shui.  This practice is believed to enhance health and good fortune. 
+
+flower_essence_therapy:
+  name: Flower Essence Therapy
+  category: practitioners
+  slug: flower-essence-therapy
+  description: An ancient modality, used by many indigenous cultures, and recently made prominent by Dr. Edward Bach's Bach Flower Remedies.  A basic explanation is that physical illness is preceded by the imbalance of thoughts and emotions.  Flower Essences work in an energetic and vibrational way, on the body's electrical network, influencing conditioned responses, diseases, and emotional and mental patterns that underlie many physical conditions.
+
+hellerwork:
+  name: Hellerwork
+  category: practitoner
+  slug: hellerwork
+  description: Hellerwork is a holistic system of Bodywork, Movement Education and Psychological Dialogue, connecting the body's physiology and psychology. Hellerwork was developed by Joseph Heller who began studying with Ida Rolf in the 1970's.
+
+holistic_ pulsing:
+  name: Holistic Pulsing
+  category: practitoner
+  slug: holistic-pulsing
+  description: Holistic Pulsing uses rocking, stretching, and movements that create wave-like movements that effect joints, muscles, organs, body-fluids and systems. Can be used as a relaxation technique, increase energy or to gain insights at emotional, spiritual and physical levels.
+
+homeobotanicals:
+  name: Homeobotanicals
+  category: practitioners
+  slug: homeobotanicals
+  description: A combination of Botanical Medicine and Homeopathy used to address physical ailments. The Therapist may also use physical, emotional or vibrational techniques.
+
+homeopathy:
+  name: Homeopathy
+  category: practitioners
+  slug: homeopathy
+  description: The basic principle of Homeopathy is that the body's natural state is one of health and possesses a natural ability to heal itself.  ‚ÄòSymptoms‚Äô are seen as the body‚Äôs efforts to protect itself against disease and Homeopathy seeks not to suppress the symptoms, but to stimulate the body‚Äôs own natural healing processes using the appropriate Homeopathic remedies.
+
+hypnotherapy:
+  name: Hypnotherapy
+  category: practitioners
+  slug: hypnotherapy
+  description: Hypnotherapists work to quieten, heighten or relax a person's conscious mind to make the unconscious mind more accessible, allowing deep relaxation, positive imagery, reduction of anxiety, pain control and/or relief, as well as exploring other issues that may be assisted by this technique.
+
+iridology: 
+  name: Iridology
+  category: practitioners
+  slug: iridology
+  description: Iridologists use the markings and lines in the iris of the eyes to evaluate and analyse imbalance or weaknesses in the body and determine the appropriate treatment.  Or indeed to evaluate a persons wellness.
+
+kinesiology:
+  name: Kinesiology
+  category: practitioners
+  slug: kinesiology 
+  description: Kinesiologists use muscle testing to identify imbalances in the body using gentle procedures that can treat muscular pain, effect emotional states and enhance learning and behaviour.
+
+relaxation_massage:
+  name: Relaxation Massage 
+  category: practitioners
+  slug: massage-relaxation
+  description: Uses massage techniques that encourage relaxation of the body; kneading, stroking, shaking and tapping.  Can also aid muscle healing. Sometimes referred to as 'Swedish Massage' after  Swedish Therapist Peter Hendriks Ling developed the technique in the early 1800's.
+
+therapeutic_massage:
+  name: Therapeutic Massage 
+  category: practitioners
+  slug: massage-therapeutic
+  description: Therapeutic Massage is applied with greater pressure than Swedish Massage and may focus specifically on areas of tension or pain.
+
+neuromuscular_therapy_massage:
+  name: NeuroMuscular Therapy
+  category: practitioners
+  slug: massage-neuromuscular-therapy
+  description: Focusses specifically on the soft tissues that are causing pain or dysfunction.  Based upon findings of Postural Analysis, the Therapists work with the muscles and soft tissues involved, and also consider other contributing factors such as nutrition, hydration, skeletal function, supplementation and exercise.  
+
+sports_massage: 
+  name: Sports Massage 
+  category: practitioners
+  slug: sports-massage
+  description: A Sports Massage Therapist is able to tailor massage techniques to suit a clients specific training or sports' requirements. Generally designed to ease muscle strain, and improve flexibility. 
+
+thai_yoga_massage:
+  name: Thai Yoga Massage 
+  category: practitioners
+  slug: massage-thai-yoga
+  description: Began in India and brought to Thailand over 2000 years ago by Ayurvedic Doctors and Buddhist Monks. It is a dynamic, movement-based therapy, combining acupressure, energy balancing and stretching.  It is like having yoga done to you!  Great for improving flexibility, increasing energy levels and relaxing. Patients wear comfortable clothes and the 'massage' is performed on a floor mat.
+
+pregnancy_massage:
+  name: Pregnancy Massage 
+  category: practitioners
+  slug: massage-pregnancy
+  description: Massage therapy that is tailored for expectant mothers by a Therapist knowledgeable in the contraindications of massaging during pregnancy.
+
+medical_herbalism:
+  name: Medical Herbalism
+  category: practitioners
+  slug: medical-herbalism
+  description: As old as medicine itself!  Herbalism is the therapeutic use of plants to treat and prevent illness and ailments.  A Medical Herbalist is qualified to prescribe correct dosages and best use of herbs.
+
+naturopathy:
+  name: Naturopathy
+  category: practitioners
+  slug: naturopathy
+  description: Naturopathic treatment is intended to stimulate and support a persons own potential to balance or heal.  Naturopaths are equipped with several modalities, to identify and treat presenting health problems.  These may include Iridology, Homeobotanical Remedies, Bach Flowers, Supplements, Bodywork,Tissue Cell Salts, Dietary Advice, Hair Analysis.
+
+meditation: 
+  name: Meditation
+  category: courses
+  slug: meditation
+  description: Has been practised for thousands of years. Generally speaking, meditation is an activity designed to calm the mind and keep it focussed on the present or specific sensations or objects.  Studies show that Meditation is an effective self-care technique, useful for controlling anxiety, enhancing immunity, treating chronic pain and controlling substance abuse.
+
+neuro_linguistic_programming:
+  name: Neuro Linguistic Programming
+  category: practitioners
+  slug: neuro-linguistic-programming
+  description: NLP practitionerss use the language of the mind to change, adopt or eliminate behaviours and create the emotional, mental and physical state that they desire. NLP has become a widely used discipline in business, sports, counselling, psychotherapy, health, and Education, and research shows its successful and consistently effective outcomes in people‚Äôs lives.
+
+ortho_bionomy:
+  name: Ortho-Bionomy
+  category: practitioners
+  slug: ortho-bionomy
+  description: Ortho-bionomy uses gentle movement and positioning of the body with light compression into the joints to re-educate the clients body, facilitating changes in posture, injury rehabilitation and prevention, and to relieve pain.
+
+osteopathy:
+  name: Osteopathy
+  category: practitioners
+  slug: osteopathy
+  description: Osteopathy is based upon the integration of the Neuro-Musculo-Skeletal system, visceral and connective tissues of the body to eliminate pain, and promote wellness.  It also considers Nutrition, circulation and Biochemistry.
+
+psychology:
+  name: Psychology
+  category: practitioners
+  slug: psychology
+  description: The scientific study of the human mind and mental states, and how the mind works. 
+
+psychotherapy:
+  name: Psychotherapy
+  category: practitioners
+  slug: psychotherapy
+  description: Psychotherapists believe that clearing emotional pain, enhancing self-awareness, resolving fears and stress symptoms enables an individual to accept their true self and live to their full potential.  This 'healing of the soul' enables the body to heal. 
+
+reflexology: 
+  name: Reflexology
+  category: practitioners
+  slug: reflexology
+  description: The Reflexologist applies pressure on specific points of the feet, hands or ears which correspond to the different body organs, opening up energy channels to flow to the affected area of the body. An ancient Chinese Health Practice.
+
+reiki: 
+  name: Reiki
+  category: practitioners
+  slug: reiki
+  description: &quot;Reiki&quot; means &quot;Universal life energy&quot;.  The Therapist places their hands on various parts of the body, (fully clothed) to promote energy to flow freely through the body, and assist the body to return to health through &quot;wholeness&quot;
+
+shiatsu:
+  name: Shiatsu
+  category: practitioners
+  slug: shiatsu
+  description: Firm, rhythmic finger pressure is applied to Acupressure points to unblock the energy flow through the body's meridians, restoring and maintaining good health. Stretching, tapping, kneading and stroking may also be used.
+
+spiritual_healing:
+  name: Spiritual Healing
+  category: practitioners
+  slug: spiritual-healing
+  description: Spiritual Healing may be used for any illness, disease, injury or stress. Therefore, it can be complimentary to other Modalities.  Assisting the restoration of health at all levels is the primary focus. Healers use various techniques depending upon their individual skills.
+
+yoga:
+  name: Yoga
+  category: courses
+  slug: yoga
+  description: Developed in India over 5,000 years ago and used to unite the body, mind and spirit.  There are many styles of Yoga, ranging from softer, relaxing forms to very challenging and strenuous.  All Yoga aims to create greater awareness of the body, strengthen mental and spiritual balance and enhance energy. 
