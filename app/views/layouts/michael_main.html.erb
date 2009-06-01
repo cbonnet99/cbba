@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Be Amazing - New Zealand premier site for health, wellbeing and development</title>
+<meta name="keywords" content="New Zealand"/>
+<meta name="description" content="Looking for well-being professionals in New Zealand? Thousands of NZ well-being companies listed. - Be Amazing - be well. be bold. be you."/>
+<meta name="author" content="Be Amazing"/>
+<meta name="copyright" content="Be Amazing"/>
+<link rel="accessibility" href="help/legal-and-rules/accessibility/" title="Accessibility details"/>
+<link rel="help" href="help/" title="Help"/>
+<link rel="home" href="/" title="Home page"/>
+<link rel="Shortcut Icon" type="image/png" href="images/favicon.png"/>
+<link rel="stylesheet" href="stylesheets/michael-base.css" media="all" type="text/css" />
+<link rel="stylesheet" href="stylesheets/print.css" media="print" type="text/css" />
+
+<!--[if lte IE 5.5]>
+		<link rel="stylesheet" type="text/css" href="stylesheets/ie5.css" media="screen" />
+	<![endif]-->
+<!--[if lte IE 6]>
+		<link rel="stylesheet" type="text/css" href="stylesheets/ie6.css" media="screen" />
+	<![endif]-->
+<!--[if lte IE 7]>
+		<link rel="stylesheet" type="text/css" href="stylesheets/ie7.css" media="screen" />
+	<![endif]-->
+</head>
+<body id="home">
+<!--Accessibility Info Starts -->
+<ul class="aural">
+  <li><a href="#content" accesskey="[" title="access key: [">Skip to main content</a></li>
+  <li><a href="#search" accesskey="3" title="access key: 3">Skip to search box</a></li>
+  <li><a href="#categoryList" accesskey="2" title="access key: 2">Skip to category list</a></li>
+</ul>
+<!--Accessibility Info Ends -->
+<hr class="hide noprint"/>
+
+<!--Container Starts -->
+<div id="container"> 
+<!--Public Navigation Starts -->
+  <ul id="navPublic">
+    <li><a href="/">Home</a></li>
+    <li><%= link_to 'About Us', about_path  %></li>
+  </ul>
+  <!--Public Navigation Ends -->
+  <!--Member Navigation Starts -->
+  <ul id="navMembers">
+    <% if logged_in? -%>
+      <li><%=current_user.name_with_email%></li>
+		<% if  current_user.region.nil? || current_user.main_expertise_slug.blank?%>
+		 <li>No profile</li>
+		<%else%>
+		 <li><%= link_to "Your profile", current_user.full_member? ? expanded_user_path(current_user) : user_edit_path %></li>
+		<%end%>
+		<li><%= link_to 'Logout', logout_path %></li>
+    <%else -%>
+	  <li><%= link_to 'FREE Newsletter', signup_newsletter_path %></li>
+      <li><%= link_to 'Login', new_session_path %></li>
+	  <li><%= link_to 'Join us', signup_intro_path %></li>
+    <% end -%>
+  </ul>
+  <!--Member Navigation Ends -->
+  <div class="cleaner">&nbsp;</div>
+  <hr class="hide noprint"/>
+  <!--Header Starts -->
+  <div id="header">
+    <h1><a href="http://www.beamazing.co.nz/">Be Amazing – New Zealand premier site for health, wellbeing and development</a></h1>
+    <p class="branding">be well. be bold. be you.</p>
+  </div>
+  <hr class="hide noprint"/>
+  <!--Header Ends -->
+  <!--Search Bar Starts -->
+  <a name="search" href="#search" class="skip-dest"></a>
+  <% form_tag search_path(:what => "", :where => "" ), :id => "bam-search-form" do  -%>
+    <div id="what-wrapper" class="search-wrapper">
+      <label for="what">What: </label>
+      <input class="text" type="text" id="what" name="what" value="<%=undasherize(params[:what])%>" />
+      <span>e.g. yoga, life coaching</span>
+    </div>
+    <div id="where-wrapper" class="search-wrapper">
+      <label for="where">Where: </label>
+      <input class="text" type="text" id="where" name="where" value="<%=undasherize(params[:where])%>"  />
+      <span>e.g. wellington city, canterbury</span>
+    </div>
+    <div id="search-submit-wrapper">
+      <%= submit_tag "Find", :class => "submit"  %>
+    </div>
+  <%end%>
+  
+  <!--Search Bar Ends -->
+  <hr class="hide noprint"/>
+  <!--Sidebar1 Starts -->
+  <div id="sidebar1" class="column">
+    <div class="columnTop">&nbsp;</div>
+    <a name="categoryList" href="#categoryList" class="skip-dest"></a>
+    <ul id="categories">
+      <li><a href="http://beta.beamazing.co.nz/category/practitioners">Practitioners <span class="users-counter">1</span></a></li>
+      <% @categories.each do |c| -%>
+        <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
+      <%end -%>
+    </ul>
+    <ul>
+		<% @counters.each do |c| -%>
+	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/"+c.controller_name, :action => c.action_name} %></li>
+	    <%  end -%>
+    </ul>
+	<div id="bam-meet-experts"><h3><%= link_to "Resident experts", :controller => "resident_experts", :action => "index"  %></h3>
+      <div class="nav-expert">
+          <a id="prev-expert" class="nav-left" href="#"><span>&lt;Prev</span></a>
+		<div id="pics-resident-experts" class="pics">
+       	<%= render :partial => "resident_experts/gallery"  %>
+		</div>
+          <a id="next-expert" class="nav-right" href="#"><span>Next&gt;</span></a>
+      </div>
+	</div>
+	<%= link_to "<span>Add FREE Listing</span>", signup_path(:professional => "true", :mt => "free_listing" ), :class => "addListing button" %>
+    <div class="columnBottom">&nbsp;</div>
+  </div>
+  <!--Sidebar1 Ends -->
+  <hr class="hide noprint"/>
+  <!--MainContent Starts -->
+  <div id="contentMain">
+  	<a name="content" href="#content" class="skip-dest"></a>
+    <div class="columnTop">&nbsp;</div>
+    <div class="column-in">
+        <%= flash_messages %>
+        <%= yield :layout %>	
+    </div>
+  </div>
+  <!--MainContent Ends -->
+  <hr class="hide noprint"/>
+  <!--Sidebar2 Starts -->
+  <div id="sidebar2" class="column">
+    <div class="columnTop">&nbsp;</div>
+    <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_path, :class => "newsletterBtn button" %>
+    <div class="advert"><a href="http://beta.beamazing.co.nz/business-coaching/wellington-region/cyrille-bonnet"><img src="images/advertSample.jpg" width="151" height="302" alt="advert" /></a><a id="prev-advert" class="nav-left" href="#"><span>&lt;Prev</span></a><a id="next-advert" class="nav-right" href="#"><span>Next&gt;,</span></a></div>
+    <div class="columnBottom">&nbsp;</div>
+  </div>
+  <!--Sidebar2 Ends -->
+  <hr class="hide noprint"/>
+  <!--Footer Starts -->
+  <div id="footer">
+    <p class="floatLeft">&copy;Wellbeing Directory, part of the Elevate Group Ltd</p>
+    <p class="floatRight"><%= link_to "Terms &amp; Conditions", terms_path %> | <%= link_to "Disclaimer", disclaimer_path %> | design :: <a href="http://www.catchgraphics.com/">catch graphics</a></p>
+  </div>
+  <!--Footer Starts -->
+</div>
+<!--Container Ends -->
+<% if ENV["RAILS_ENV"] == "production" -%>
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-8125380-1");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+<% end -%>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script>
+<%= javascript_include_merged :base %>
+<%= yield :js %>
+</body>
+</html>

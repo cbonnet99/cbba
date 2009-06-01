@@ -1,2 +1,2 @@
-<a href="<%=user_path_with_context(user)%>"><div class="small-user-photo"><%= small_image(user) %></div>
-<div class="small-user-description"><%= user.name %><br/><%=  user.expertise %><br/><%= user.region_name %></div></a>
+<a href="<%=user_path_with_context(user)%>"><%= thumbnail_image(user) %></a>
+<h6><a href="<%=user_path_with_context(user)%>"><%= user.name %></a></h6><p class="highlight"><%=  user.expertise %></p><p><%= user.region_name %></p>

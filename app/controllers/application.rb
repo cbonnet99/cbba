@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
 		if params[:format] == "js"
 			return false
 		else
-			return "main"
+			return "michael_main"
 		end
 	end
 

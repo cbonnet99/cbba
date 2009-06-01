@@ -1,43 +1,46 @@
-<% javascript 'users-rollover' %>
-<%= title 'Welcome to beamazing.co.nz' %>
-<div id="first-home-paragraph">
-  <div id="first-home-paragraph-text">
-    <p>New Zealand premier site for health, wellbeing and development</p>
-    <ul>
-      <li>Find wellbeing providers</li>
-      <li>Connect with Resident Experts</li>
-      <li>Search our &quot;how to&quot; articles</li>
-      <li>Find courses &amp; events</li>
-    </ul>
-  </div>
+<!-- Intro Starts -->
+<div class="intro">
+  <h2>Be Amazing is New Zealand's home of health, well-being and development</h2>
+  <h3>&ndash; helping inspired Kiwis live Amazing lives!</h3>
+  <ul>
+    <li>Find <%= link_to "Well-being Providers", :controller => "full_members", :action => "index"%></li>
+    <li>Connect with <%= link_to "Resident Experts", :controller => "resident_experts", :action => "index"%></li>
+    <li>Search our <%= link_to "&quot;How to&quot; Articles", :controller => "how_tos", :action => "index"%></li>
+    <li>Find <a href="#">Courses &amp; Events</a></li>
+  </ul>
+  <p class="video"><span class="video-embed"><object class="flashvideo" width="218" height="160"><param name="movie" value="http://www.youtube.com/v/KkQeU9OJppU&hl=en&fs=1&rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/KkQeU9OJppU&hl=en&fs=1&rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="218" height="160"></embed></object></span></p>
 </div>
-<br class="cleaner"/>
+<!-- Intro Ends -->
 <% unless @newest_full_members.empty? -%>
-  <h3>New well-being providers</h3>
+<!--New Full Members Starts -->
+<div class="box">
+  <h3>New Well-being Providers</h3>
   <div id="homepage-full-members">
     <% @newest_full_members.each do |u| -%>
-      <div class="homepage-small-user user-rollover"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
-    <% end -%>
+      <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
+    <% end -%>	
   </div>
-  <div class="cleaner"></div>
   <% if @total_full_members > $number_full_members_on_homepage -%>
-    <%= link_to "View more well-being providers...", users_path %>
+  <p class="floatRight"><%= link_to "View more new well-being providers &raquo;", :controller => "full_members", :action => "index"%></p>
   <% end -%>
+</div>
+<!--New Full Members Ends -->
 <% end -%>
-<% unless @newest_articles.empty? -%>
-  <h3>New articles</h3>
-  <ul id="homepage-articles" class="simple">
-    <% @newest_articles.each do |a| -%>
-      <li class="<%= cycle('odd', 'even')%> ">
-        <% if a.class.to_s == "HowTo" -%>
-          <%= render :partial => "how_tos/how_to", :locals => {:how_to => a }  %>
-        <% else -%>
-          <%= render :partial => "articles/article", :locals => {:article => a }  %>
-        <% end -%>
-      </li>
-    <% end -%>
-  </ul>
+<!--News Starts -->
+
+<div class="section"> 
+<h3>News Articles</h3>
+<% @newest_articles.each do |a| -%>
+  <div class="homepage-article <%= cycle('col1', 'col2')%>">
+  <% if a.class.to_s == "HowTo" -%>
+    <%= render :partial => "how_tos/how_to_homepage", :locals => {:how_to => a }  %>
+  <% else -%>
+    <%= render :partial => "articles/article_homepage", :locals => {:article => a }  %>
+  <% end -%>
+  </div>
+<% end -%>
+</div>
+<!--News Ends -->
   <% if @total_articles > $number_articles_on_homepage -%>
-    <%= link_to "View more articles...", articles_path %>
+    <p class="floatRight"><%= link_to "View more articles &raquo;", articles_path %></p>
   <% end -%>
-<% end -%>

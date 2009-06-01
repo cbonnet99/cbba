@@ -15,11 +15,19 @@ module ApplicationHelper
     phone_number_str.blank? || phone_number_str == "()"
   end
 
-  def small_image(user)
+  def thumbnail_image(user)
     if user.photo.exists? && user.user_profile.published?
-      image_tag user.photo.url(:thumbnail), :height => 100, :width => 85
+      image_tag user.photo.url(:thumbnail), :width => 50
     else
-      image_tag "nophoto.gif", :width => 85
+      image_tag "nophoto.gif", :width => 50
+    end
+  end
+
+  def medium_image(user)
+    if user.photo.exists? && user.user_profile.published?
+      image_tag user.photo.url(:medium), :width => 90
+    else
+      image_tag "nophoto.gif", :width => 90
     end
   end
 

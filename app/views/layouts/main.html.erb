@@ -4,7 +4,7 @@
     <title><%= @page_title || APP_CONFIG[:site_name] %></title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <%= stylesheet_link_merged :base %>
+    <%= stylesheet_link_merged :base,  %>
     <%= yield :tinymce %>
     <%= yield :tinymce_init %>
     <%= yield :head %>

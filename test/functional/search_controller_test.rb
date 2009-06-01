@@ -18,7 +18,7 @@ class SearchControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     #2 articles + 1 howto article
-    assert_select "ul#homepage-articles > li", 3
+    assert_select "div.homepage-article", 3
     #Create 2 more published articles
     Article.create(:title => "Test1", :lead => "Test1", :body => "",  :state => "published",
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id  )
@@ -26,8 +26,8 @@ class SearchControllerTest < ActionController::TestCase
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id )
     get :index
     assert_response :success
-    assert_select "ul#homepage-articles > li", $number_articles_on_homepage
-    assert_select "a", :text => "View more articles..."
+    assert_select "div.homepage-article", $number_articles_on_homepage
+    assert_select "a", :text => "View more articles &raquo;"
     assert_equal 2, assigns(:newest_full_members).size
     assert assigns(:newest_articles).include?(money)
     assert_equal $number_articles_on_homepage, assigns(:newest_articles).size

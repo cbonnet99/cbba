@@ -1,0 +1,7 @@
+/***IE6 and Below Styles ***/
+	#prev-expert {left:-74px;}
+	#next-expert {right:10px;}
+	.columnBottom {position:relative; bottom:-10px;}
+	.box p.floatRight {float:none;padding:0 0 0 10px;position:relative; top:-4px;}
+	.video {right:20px;}
+	#profile-tab-content {margin: 0 ;}
