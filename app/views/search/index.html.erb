@@ -29,6 +29,7 @@
 <!--News Starts -->
 
 <div class="section"> 
+<% unless @newest_articles.empty? -%>
 <h3>News Articles</h3>
 <% @newest_articles.each do |a| -%>
   <div class="homepage-article <%= cycle('col1', 'col2')%>">
@@ -40,6 +41,7 @@
   </div>
 <% end -%>
 </div>
+<% end -%>
 <!--News Ends -->
   <% if @total_articles > $number_articles_on_homepage -%>
     <p class="floatRight"><%= link_to "View more articles &raquo;", articles_path %></p>
