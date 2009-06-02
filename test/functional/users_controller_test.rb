@@ -141,7 +141,6 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
     get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaches.slug  }, {:user_id => sgardiner.id }
     assert_select "input[value=Publish]"
-    assert_select "a[href=/tabs/create]"
   end
 
   def test_show3

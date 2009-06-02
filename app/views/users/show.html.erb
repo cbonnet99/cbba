@@ -1,54 +1,31 @@
 <% javascript 'user-profile' %>
-<% if own_profile?(@user) -%>
-  <%= render :partial => "users/user_nav", :locals => {:selected => "profile" } %>
-<% end -%>
-<% if own_profile?(@user) || @user.user_profile.published? -%>
-<div id="profile-header">
-  <div id="profile-header-right" class="column">
-    <div id="profile-ask-question-content"><%= link_to "Ask me a question", user_slug_action_path(:slug => @user.slug, :action => "message"), {:class => "button"}%></div>
-    <div id="profile-publish-information" class="publication-info">
-      <%= render :partial => "reviewer/publication_info", :locals => {:item => @user.user_profile, :class_name => "user_profile" }   %>
-    </div>
-  </div>
-  <div id="profile-header-left" class="column">
-    <div id="profile-title-content">
-      <h4 id="<%=@user.slug%>">beamazing.co.nz <%= @user.role_description %> <%@user.name%><%unless @user.city.blank?%>, <%=@user.city%><%end%></h4>
-      <%= title @user.full_name, :h3 %>
-      <% unless @user.member_since.blank?%><p>Member since: <%= @user.member_since.to_s(:short) %></p><% end %>
-      <% unless @user.subcategories.blank?%><p>Expertise: <%= @user.expertise %></p><% end %>
-    </div>
-  </div>
-  <div class="cleaner"></div>
-</div>
-<div id="profile-container">
-  <div id="profile-right" class="column">
-    <%= render :partial => "tabs/index" %>
-  </div>
-  <div id="profile-left" class="column">
-    <div id="profile-photo"><%if @user.photo.exists?%><%= image_tag @user.photo.url(:medium) %><%end%><% if own_profile?(@user) -%><%if @user.photo.exists?%><%= link_to_remote "Change your photo", :update => "profile-left", :url => user_new_photo_path %><%else%><%= link_to_remote "Upload your picture or your logo here", :update => "profile-left", :url => user_new_photo_path %><%end%><%end%></div>
-    <div id="profile-contact">
-      <p><%=@user.name%></p>
-      <% unless @user.business_name.nil? -%>
-        <p><%=@user.business_name%></p>
-      <% end -%>
-      <% unless @user.website.nil? -%>
-		<p><%= link_to @user.website, :controller => "users", :action => "redirect_website",  :slug =>@user.slug%></p>
-	  <% end -%>
-	  <p><%=link_to_message(@user)%></p>
-      <p><%= @user.address1 %></p>
-      <% unless @user.suburb.nil? -%>
-        <p><%= @user.suburb %></p>
-      <% end -%>
-      <p><%= @user.city %></p>
-      <% unless @user.phone.nil? || @user.phone == "()" -%>
-        <p>ph: <%=@user.phone%></p>
-      <% end -%>
-      <% unless @user.mobile.nil? || @user.mobile == "()" -%>
-        <p>m: <%=@user.mobile%></p>
-      <% end -%>
-    </div>
-  </div>
-</div>
-<% else -%>
-Profile coming soon
-<%  end -%>
+
+	  <!--Profile Starts -->
+      <div id="profile-header">
+		<% if own_profile?(@user) -%>
+		  <%= render :partial => "users/user_nav", :locals => {:selected => "profile" } %>
+		<% end -%>
+	    <div id="profile-publish-information" class="publication-info">
+	      <%= render :partial => "reviewer/publication_info", :locals => {:item => @user.user_profile, :class_name => "user_profile" }   %>
+	    </div>
+		<% if own_profile?(@user) || @user.user_profile.published? -%>
+             <div id="profile-photo"><%= medium_image(@user)%></div>
+			<%= link_to "Ask me a question", user_slug_action_path(:slug => @user.slug, :action => "message"), {:id => "profile-ask-question-content", :class => "button"}%>
+	      <%= title @user.full_name, :h3 %>
+	      <h4><%= @user.role_description %></h4>
+	      <% unless @user.subcategories.blank?%><p>Expertise: <span class="business"><%= @user.expertise %></span></p><% end %>
+		  <%unless @user.city.blank?%>  <p>Location: <span class="location"><%=@user.city%>, <%unless @user.region.nil?%><%=@user.region.name%><%end%></span></p>
+	      <%end%>
+	      <% unless @user.member_since.blank?%><p>Member since: <%= @user.member_since.to_s(:short) %></p><% end %>
+          <ul>
+          	<%unless @user.phone.nil? || @user.phone == "()"%><li class="phone"><span class="hide">phone:</span> <%=@user.phone%></li><%end%>
+            <%unless @user.mobile.nil? || @user.mobile == "()"%><li class="fax"><span class="hide">mobile:</span> <%= @user.mobile%></li><%end%>
+            <li class="email"><span class="hide">email:</span> <a href="#"><%=link_to_message(@user)%></a></li>
+            <%unless @user.website.blank? %><li class="web"><span class="hide">website:</span> <a href="#"><%= link_to @user.website, :controller => "users", :action => "redirect_website",  :slug =>@user.slug%></a></li><%end%>
+        </ul>
+	    <%= render :partial => "tabs/index" %>
+		<% else -%>
+		Profile coming soon
+		<%  end -%>
+     </div>        
+<!--Profile Ends -->
