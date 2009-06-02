@@ -56,6 +56,7 @@ class ImportUtils
   def self.geocode(address)
     #TODO: remove hardocded Google Maps API key for BAM
     geocoder = Graticule.service(:google).new "ABQIAAAAEUGw4om-AL6FPqaNLiT02xTtdy7lWpREaOTRxKljyUIPkk9sUhRgjCWR1VVeuR_sNL62bGyg47HMUw"
+    sleep 1
     return geocoder.locate(address)
   end
 
