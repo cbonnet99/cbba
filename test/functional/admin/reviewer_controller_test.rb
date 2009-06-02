@@ -16,7 +16,7 @@ class Admin::ReviewerControllerTest < ActionController::TestCase
 
 		old_size = Article.draft.size
 		post :reject, {:article_id => long.id, :reason_reject => "Don't like it"   }, {:user_id => cyrille.id }
-		assert_redirected_to root_url
+		assert_redirected_to reviewer_path(:action => "index")
 		long.reload
 		assert_not_nil long.rejected_at
 		assert_not_nil long.rejected_by_id
@@ -32,7 +32,7 @@ class Admin::ReviewerControllerTest < ActionController::TestCase
 
 		old_size = UserProfile.draft.size
 		post :reject, {:user_profile_id => cyrille.user_profile.id, :reason_reject => "Don't like it"   }, {:user_id => cyrille.id }
-		assert_redirected_to root_url
+		assert_redirected_to reviewer_path(:action => "index")
 		cyrille.user_profile.reload
 		assert_not_nil cyrille.user_profile.rejected_at
 		assert_not_nil cyrille.user_profile.rejected_by_id

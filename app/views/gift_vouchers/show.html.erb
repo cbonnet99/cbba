@@ -4,13 +4,14 @@
 <%= link_to "Back to your gift vouchers", gift_vouchers_path %>
 <% end -%>
 <%= title @gift_voucher.title %>
-<div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
+<div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
 <% if is_author?(@gift_voucher) -%>
   <%if @gift_voucher.draft? -%>
         <%= link_to 'Delete', gift_voucher_path(@gift_voucher.slug), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "button"  %>
   <%end -%>
 <%= link_to 'Edit', edit_gift_voucher_path(@gift_voucher.slug), :class => "button" %>
 <% end -%></div>
+<%= render :partial => "reviewer/publication_info", :locals => {:item => @gift_voucher} %>
 <hr/>
   <h3>Description</h3>
   <%=white_list @gift_voucher.description %>

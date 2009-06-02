@@ -3,7 +3,7 @@
 <% end -%>
 <h1><%=h @article.title %></h1>
 <div class="publication-author">by <%= author_link(@article.author) %></div>
-<div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @article, :class_name => "article" }   %>
+<div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
   <%if @article.draft? -%>
       <%= link_to 'Delete', article_path(@article), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "button"  %>
@@ -11,9 +11,7 @@
 <%= link_to 'Edit', edit_article_path(@article), :class => "button" %>
 <% end -%></div>
 <div class="cleaner"></div>
-<%unless @article.published_at.nil?-%>
-<div class="publication-date">Published: <%= @article.published_at.to_date %></div>
-<%end-%>
+<%= render :partial => "reviewer/publication_info", :locals => {:item => @article} %>
 <hr/>
 <%= white_list @article.lead %>
 <%= white_list @article.body %>

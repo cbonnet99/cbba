@@ -13,5 +13,6 @@ stylesheets:
   - base
   - jquery.autocomplete
 - base_michael:
+  - base
   - michael-base
-  - jquery.autocomplete  
+  - jquery.autocomplete

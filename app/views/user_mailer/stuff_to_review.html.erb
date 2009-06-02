@@ -8,7 +8,7 @@ A new <%=@stuff.class.to_s.titleize.downcase%> has been published, please review
 <% if @stuff.class.to_s == "UserProfile" -%>
 <%=link_to @stuff.title, @path_method.call(@stuff.user, :host =>APP_CONFIG[:site_host]) -%>
 <% else -%>
-<%=link_to @stuff.title, @path_method.call(@stuff.slug, :host =>APP_CONFIG[:site_host]) -%>
+<%=link_to @stuff.title, @path_method.call(@stuff.id, :host =>APP_CONFIG[:site_host]) -%>
 <% end -%>
 <% end -%>
 

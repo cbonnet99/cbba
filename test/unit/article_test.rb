@@ -25,12 +25,6 @@ class ArticleTest < ActiveSupport::TestCase
 		assert_equal 1, new_article.subcategories.size
 	end
 
-	def test_url_extraction
-		s = "692675549-article-with-a-very"
-		assert_equal 692675549, Article.id_from_url(s)
-		assert_equal "article-with-a-very", Article.slug_from_url(s)
-	end
-
   def test_for_tag
     yoga = articles(:yoga)
     my_articles = Article.for_tag("yoga")

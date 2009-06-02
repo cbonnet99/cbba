@@ -1,0 +1,24 @@
+<%if item.draft? && is_author?(item) && current_user.active? -%>
+  <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/publish" do -%>
+      <%= submit_tag "Publish", :class => "button"  %>
+  <%end -%>
+  </div>
+<%end-%>
+<%if item.published? && is_author?(item) && current_user.active? -%>
+  <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/unpublish" do -%>
+      <%= submit_tag "Unpublish", :class => "button"  %>
+  <%end -%>
+  </div>
+<%end-%>
+<% if item.reviewable? && is_reviewer? -%>
+  <div id="reviewer-actions">
+  <% form_tag '/reviewer/approve' do -%>
+        <%= hidden_field_tag "#{class_name}_id", item.id %>
+        <%= submit_tag "Approve", :class => "button" %>
+  <%end -%>
+  <% form_tag '/reviewer/edit_reject_reason' do -%>
+        <%= hidden_field_tag "#{class_name}_id", item.id %>
+        <%= submit_tag "Reject", :class => "button" %>
+  <%end -%>
+  </div>
+<% end -%>

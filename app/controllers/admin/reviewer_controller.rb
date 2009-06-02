@@ -16,7 +16,7 @@ class Admin::ReviewerController < AdminApplicationController
 		@item.reject!
     UserMailer.deliver_item_rejected(@item, @item.author)
     flash[:notice]="#{@item.class.to_s.titleize.downcase.capitalize} was rejected"
-		redirect_back_or_default root_url
+		redirect_back_or_default  reviewer_path(:action => "index")
   end
 
   def approve
@@ -41,6 +41,16 @@ class Admin::ReviewerController < AdminApplicationController
     end
     begin
       @item = UserProfile.find(params[:user_profile_id]) unless params[:user_profile_id].nil?
+    rescue ActiveRecord::RecordNotFound
+      #do nothing
+    end
+    begin
+      @item = SpecialOffer.find(params[:special_offer_id]) unless params[:special_offer_id].nil?
+    rescue ActiveRecord::RecordNotFound
+      #do nothing
+    end
+    begin
+      @item = GiftVoucher.find(params[:gift_voucher_id]) unless params[:gift_voucher_id].nil?
     rescue ActiveRecord::RecordNotFound
       #do nothing
     end

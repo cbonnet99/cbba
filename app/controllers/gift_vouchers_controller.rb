@@ -11,21 +11,21 @@ class GiftVouchersController < ApplicationController
     else
       flash[:error] = "You can only have #{help.pluralize(current_user.max_published_gift_vouchers, "gift voucher")} published at any time"
     end
-    redirect_back_or_default gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
+    redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not publish this gift voucher"
-      redirect_back_or_default gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
+      redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 	end
 
 	def unpublish
     @gift_voucher = current_user.gift_vouchers.find(params[:id])
 		@gift_voucher.remove!
 		flash[:notice] = "Gift voucher is no longer published"
-    redirect_back_or_default gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
+    redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not unpublish this gift voucher"
-      redirect_back_or_default gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
+      redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 	end
 
   def index
@@ -61,7 +61,7 @@ class GiftVouchersController < ApplicationController
   def create
     if params["cancel"]
       flash[:notice]="Gift voucher cancelled"
-      redirect_back_or_default user_gift_vouchers_path
+      redirect_to user_gift_vouchers_path
     else  
       @gift_voucher = current_user.gift_vouchers.new(params[:gift_voucher])
       if @gift_voucher.save
@@ -88,7 +88,7 @@ class GiftVouchersController < ApplicationController
   def update
     if params["cancel"]
       flash[:notice]="Gift voucher cancelled"
-      redirect_back_or_default user_gift_vouchers_path
+      redirect_to user_gift_vouchers_path
     else
       @gift_voucher = current_user.gift_vouchers.find_by_slug(params[:id])
       if @gift_voucher.update_attributes(params[:gift_voucher])

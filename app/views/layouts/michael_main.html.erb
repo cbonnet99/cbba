@@ -140,8 +140,11 @@
   <hr class="hide noprint"/>
   <!--Footer Starts -->
   <div id="footer">
-    <p class="floatLeft">&copy;Wellbeing Directory, part of the Elevate Group Ltd</p>
-    <p class="floatRight"><%= link_to "Terms &amp; Conditions", terms_path %> | <%= link_to "Disclaimer", disclaimer_path %> | design :: <a href="http://www.catchgraphics.com/">catch graphics</a></p>
+    <p class="floatLeft">&copy; Be Amazing Ltd</p>
+	<p class="floatRight">
+	<% if logged_in? -%>
+    <%= link_to "Terms &amp; Conditions", terms_path %> | <%= link_to "Disclaimer", disclaimer_path %> | <%end -%>
+	design :: <a href="http://www.catchgraphics.com/">catch graphics</a></p>
   </div>
   <!--Footer Starts -->
 </div>

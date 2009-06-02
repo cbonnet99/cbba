@@ -77,28 +77,4 @@ class Article < ActiveRecord::Base
 	def computed_slug
 		help.shorten_string(title, MAX_LENGTH_SLUG, "").parameterize
 	end
-
-	def slug
-		#just in case the slug is nil (for fixtures, for instance)
-		slug ||= computed_slug
-	end
-
-  def to_param  
-     "#{id}-#{slug}"
-  end
-  
-	def self.id_from_url(url)
-		unless url.nil?
-			url.split("-").first.to_i
-		end
-	end
-
-	def self.slug_from_url(url)
-		unless url.nil?
-			a = url.split("-")
-			a.shift
-			a.join("-")
-		end
-	end
-
 end

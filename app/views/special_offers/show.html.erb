@@ -5,7 +5,7 @@
 <% end -%>
 <%= title @special_offer.title %>
 <% unless params[:index_public] -%>
-<div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>
+<div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>
 <% if is_author?(@special_offer) -%>
   <%if @special_offer.draft? -%>
         <%= link_to 'Delete', special_offer_path(@special_offer.slug), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "button"  %>
@@ -13,6 +13,7 @@
 <%= link_to 'Edit', edit_special_offer_path(@special_offer.slug), :class => "button" %>
 <% end -%></div>
 <% end -%>
+<%= render :partial => "reviewer/publication_info", :locals => {:item => @special_offer} %>
 <hr/>
   <h3>Description</h3>
   <%=white_list @special_offer.description %>

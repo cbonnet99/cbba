@@ -3,7 +3,7 @@
 <% end -%>
 <%= title @how_to.title %>
 <div class="publication-author">by <%= author_link(@how_to.author) %></div>
-<div class="publication-info"><%= render :partial => "reviewer/publication_info", :locals => {:item => @how_to, :class_name => "how_to" }   %>
+<div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @how_to, :class_name => "how_to" }   %>
 <% if is_author?(@how_to) -%>
   <%if @how_to.draft? -%>
       <%= link_to 'Delete', how_to_path(@how_to), :method => "delete", :confirm => "Are you sure? This action can not be undone"  %>
@@ -11,6 +11,7 @@
 <%= link_to 'Edit', edit_how_to_path(@how_to) %>
 <% end -%></div>
 <div class="cleaner"></div>
+<%= render :partial => "reviewer/publication_info", :locals => {:item => @how_to} %>
 <hr/>
 <p><%= @how_to.summary %></p>
 <ul>

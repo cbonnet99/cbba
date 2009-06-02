@@ -1,2 +1,2 @@
-<h4><%=link_to article.title, article_path(article) %></h4>
+<h4><%=link_to article.title, articles_show_path(article.author.slug, article.slug) %></h4>
 <p><%= white_list article.lead %></p>

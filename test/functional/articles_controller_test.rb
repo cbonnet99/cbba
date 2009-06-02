@@ -41,7 +41,7 @@ class ArticlesControllerTest < ActionController::TestCase
 		yoga = articles(:yoga)
 		yoga_sub = subcategories(:yoga)
 		cyrille = users(:cyrille)
-		get :edit, {:id => "#{yoga.id}-blabla" }, {:user_id => cyrille.id}
+		get :edit, {:id => yoga.id }, {:user_id => cyrille.id}
 		assert_response :success
 		assert_select "select#article_subcategory1_id > option[value=#{yoga_sub.id}][selected=selected]"
 	end
@@ -83,7 +83,7 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_get_edit
 		cyrille = users(:cyrille)
-    get :edit, {:id => "#{articles(:yoga).id}-blabla"}, {:user_id => cyrille.id }
+    get :edit, {:id => articles(:yoga).id}, {:user_id => cyrille.id }
     assert_response :success
   end
 

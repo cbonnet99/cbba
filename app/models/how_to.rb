@@ -26,12 +26,6 @@ class HowTo < ActiveRecord::Base
       errors.add(:subcategory1_id, "^You must select at least one category")
     end
   end
-
-	def self.id_from_url(url)
-		unless url.nil?
-			url.split("-").first.to_i
-		end
-	end
   
 	def create_slug
 		self.update_attribute(:slug, computed_slug)
@@ -44,15 +38,6 @@ class HowTo < ActiveRecord::Base
 	def computed_slug
 		help.shorten_string(title, MAX_LENGTH_SLUG, "").parameterize
 	end
-
-	def slug
-		#just in case the slug is nil (for fixtures, for instance)
-		slug ||= computed_slug
-	end
-
-  def to_param
-     "#{id}-#{slug}"
-  end
   
   def new_step_attributes=(step_attributes)
     step_attributes.each do |attributes|

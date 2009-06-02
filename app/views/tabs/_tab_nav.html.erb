@@ -1,5 +1,2 @@
-<%= link_to "< Move left", action_tab_with_id_path(@selected_tab.slug, :action => "move_left" ) %> |
-<%= link_to "Edit tab", action_tab_with_id_path(@selected_tab.slug, :action => "edit" ) %> |
-<%= link_to "Remove tab", action_tab_with_id_path(@selected_tab.slug, :action => "destroy", :tab_id => @selected_tab.slug ), :confirm => "Are you sure? This action can not be undone"  %> |
-<%= link_to "Move right >", action_tab_with_id_path(@selected_tab.slug, :action => "move_right" ) %>
+<%= link_to "Edit tab", action_tab_with_id_path(@selected_tab.slug, :action => "edit" ) %>
 <hr/>
