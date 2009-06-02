@@ -252,12 +252,11 @@ class UserTest < ActiveSupport::TestCase
     user.membership_type = "full_member"
     user.save!
     user.reload
-    assert_equal 2, user.tabs.size
+    assert_equal 1, user.tabs.size
     assert_equal "Hypnotherapy", user.tabs.first.title
-    assert_equal "About Joe", user.tabs.last.title
     user.update_attributes(:last_name => "Test2")
     user.reload
-    assert_equal 2, user.tabs.size
+    assert_equal 1, user.tabs.size
   end
 
   def test_phone_suffix

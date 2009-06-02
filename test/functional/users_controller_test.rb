@@ -389,8 +389,8 @@ class UsersControllerTest < ActionController::TestCase
 		assert_not_nil(new_user)
 		assert_equal "(027)8987987", new_user.mobile
 		assert_equal wellington, new_user.region
-    # #2 tabs: one for about cyrille and one for hypnotherapy
-    assert_equal 2, new_user.tabs.size
+    # #1 tab for hypnotherapy
+    assert_equal 1, new_user.tabs.size
 	end
   def test_create_full_membership_with_error
     hypnotherapy = subcategories(:hypnotherapy)

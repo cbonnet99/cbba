@@ -60,9 +60,8 @@ class ImportUtilsTest < ActiveSupport::TestCase
     assert_equal "(021)1103239", angela.mobile
 
 
-    assert_equal 4, annette.tabs.size
+    assert_equal 3, annette.tabs.size
     assert !annette.tabs.first.title.starts_with?("About")
-    assert annette.tabs.last.title.starts_with?("About")
 		assert_not_equal "-", annette.phone
 		assert_equal 'active', annette.state
 

@@ -498,7 +498,6 @@ class User < ActiveRecord::Base
       subcategories.each do |s|
         self.add_tab(s.name, s.name)
       end
-      self.add_tab("About #{first_name}", "About #{first_name}")
     end
   end
 
