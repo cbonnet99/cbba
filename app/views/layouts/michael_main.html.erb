@@ -94,7 +94,6 @@
     <div class="columnTop">&nbsp;</div>
     <a name="categoryList" href="#categoryList" class="skip-dest"></a>
     <ul id="categories">
-      <li><a href="http://beta.beamazing.co.nz/category/practitioners">Practitioners <span class="users-counter">1</span></a></li>
       <% @categories.each do |c| -%>
         <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
       <%end -%>
