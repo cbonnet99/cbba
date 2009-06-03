@@ -14,6 +14,9 @@ class TaskUtilsTest < ActiveSupport::TestCase
 		life_coaching = Subcategory.find(:all, :conditions => ["LOWER(name) = 'life coaching'"])
 		assert_not_nil life_coaching
 		assert_equal 1, life_coaching.size
+		
+		wrong_life_coaching = Subcategory.find(:all, :conditions => ["LOWER(name) = 'lifecoaching'"])
+		assert wrong_life_coaching.blank?
   end
 
 
