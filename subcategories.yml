@@ -17,8 +17,8 @@ astrology:
   description: The study of the positions of the moon, Sun, and other planets in the belief that their motions affect human beings.  Astrologists may use differing techniques, so check in with the practitioners details to find out their specific methods.
 
 bach_flowers:
-  name: Bach Flowers
-  category: practitionerss
+  name: Bach Flower Remedies
+  category: practitioners
   slug: bach-flowers
   description: Developed in the U.K by Dr. Edward Bach. A system of highly diluted plant extracts which, when correctly prescribed and administered, work on emotional states and personality 'traits' to bring balance for the client.  The well-known 'Rescue Remedy' is widely used and is a combination of four of the thirty-eight remedies Bach discovered. 
 
@@ -28,16 +28,16 @@ beauty_therapy:
   slug: beauty-therapy
   description: Various services are offered to pamper, relax and 'maintain' your body. Check with individual clinics or Therapists for services offered.
 
-bowen_technique:
-  name: Bowen Technique
+bowen_therapy:
+  name: Bowen Therapy
   category: practitioners
   slug: bowen-technique
   description: Bowen Therapy allows the body to reset and heal itself. The work consists of a series of gently rolling, connective tissue moves. There are frequent important pauses between these moves, which give the body time to benefit from each set. Bowen therapy aims to balance and stimulate energy flows, frequently resulting in a deep sense of overall relaxation.
 
-clairvoyancy:
-  name: Clairvoyancy
+clairvoyants:
+  name: Clairvoyants
   category: practitioners
-  slug: clairvoyancy
+  slug: clairvoyants
   description: Clairvoyancy is a term which encompasses the different ways people are able to communicate with their guides, spiritual helpers and loved ones.   It encompasses Clairvoyance (clear seeing of spirit), Clairaudience (clear hearing of spirit) and Clairsentience (clear sensing of spirit).
 
 life_coaching:
@@ -125,7 +125,7 @@ health_and_safety:
   description: Professionals who ensure that workplaces are safe environments for employees and meet current best-practice guidelines, and advise businesses about how to make positive changes.
 
 herbal_medicine:
-  name: Herbal medicine
+  name: Herbal Medicine
   category: practitioners
   slug: herbal-medicine
   description: The medicinal benefits of herbs have been known and documented for centuries.  Many herbs contain powerful ingredients that, used correctly, can help to heal the body.  Administered through Essential Oils, tinctures, teas, poultices, creams, powders and many other methods,
@@ -138,31 +138,31 @@ lymphatic_drainage:
 
 
 detox_massage:
-  name: Detox Massage
+  name: Massage (Detox)
   category: practitioners
   slug: massage-detox
   description: The goal of these massages are to not only rid the body of certain foreign substances and invading pathogens that make you sick, but it is also meant to strengthen the muscles
 
 lomi_lomi_massage:
-  name: Lomi Lomi Massage
+  name: Massage (Lomi Lomi)
   category: practitioners
   slug: massage-lomi-lomi
   description: The word 'Lomi Lomi' simply means massage and its origins are from Hawaii. Lomi Lomi massage is given in fluid, rhythmic motion using the forearms as well as the hands, using gentle, deep strokes and achieving deep relaxation.
 
 hot_stone_massage:
-  name: Hot Stone Massage 
+  name: Massage (Hot Stone)
   category: practitioners
   slug: massage-hot-stone
   description: Smooth, flat stones are heated and applied to the clients body, usually on Chakra or energy points, to affect the meridian lines of the body.  Stones may also be oiled and used as a massage tool to work the muscles. 
 
 indian_head_massage:
-  name: Indian Head Massage
+  name: Massage (Indian Head)
   category: practitioners
   slug: massage-indian-head
   description: An ancient massage technique based on the Indian Ayurvedic healing system. The head, neck and face are massaged with the purpose of manipulating energy channels. The goal is to clear blocks in these energy channels that cause a build-up of negative energy that are purported to cause ailments. 
 
 shiatsu_massage:
-  name: Shiatsu Massage
+  name: Massage (Shiatsu)
   category: practitioners
   slug: massage-shiatsu
   description: A Japanese form of physical therapy based on traditional Chinese medicine. Combining massage, gentle physical manipulation, and pressure along channels or rivers of energy called meridians.
@@ -171,7 +171,7 @@ migraine_relief:
   name: Migraine Relief
   category: practitioners
   slug: migraine-relief
-  description: practitionerss listed in this section use varying techniques to assist clients with relief from Migraines. Check individual practitioners details for more information.
+  description: practitioners listed in this section use varying techniques to assist clients with relief from Migraines. Check individual practitioners details for more information.
 
 numerology:
   name: Numerology
@@ -226,7 +226,7 @@ weight_loss:
   name: Weight Loss
   category: practitioners
   slug: weight-loss
-  description: practitionerss listed here provide various Weight Loss services.  Check practitionerss details to learn more about their specific service.
+  description: practitioners listed here provide various Weight Loss services.  Check practitioners details to learn more about their specific service.
 
 leadership_development:
   name: Leadership Development
@@ -448,13 +448,13 @@ relaxation_massage:
   description: Uses massage techniques that encourage relaxation of the body; kneading, stroking, shaking and tapping.  Can also aid muscle healing. Sometimes referred to as 'Swedish Massage' after  Swedish Therapist Peter Hendriks Ling developed the technique in the early 1800's.
 
 therapeutic_massage:
-  name: Therapeutic Massage 
+  name: Massage (Therapeutic)
   category: practitioners
   slug: massage-therapeutic
   description: Therapeutic Massage is applied with greater pressure than Swedish Massage and may focus specifically on areas of tension or pain.
 
 neuromuscular_therapy_massage:
-  name: NeuroMuscular Therapy
+  name: Neuromuscular Therapy
   category: practitioners
   slug: massage-neuromuscular-therapy
   description: Focusses specifically on the soft tissues that are causing pain or dysfunction.  Based upon findings of Postural Analysis, the Therapists work with the muscles and soft tissues involved, and also consider other contributing factors such as nutrition, hydration, skeletal function, supplementation and exercise.  
@@ -499,7 +499,7 @@ neuro_linguistic_programming:
   name: Neuro Linguistic Programming
   category: practitioners
   slug: neuro-linguistic-programming
-  description: NLP practitionerss use the language of the mind to change, adopt or eliminate behaviours and create the emotional, mental and physical state that they desire. NLP has become a widely used discipline in business, sports, counselling, psychotherapy, health, and Education, and research shows its successful and consistently effective outcomes in people‚Äôs lives.
+  description: NLP practitioners use the language of the mind to change, adopt or eliminate behaviours and create the emotional, mental and physical state that they desire. NLP has become a widely used discipline in business, sports, counselling, psychotherapy, health, and Education, and research shows its successful and consistently effective outcomes in people‚Äôs lives.
 
 ortho_bionomy:
   name: Ortho-Bionomy

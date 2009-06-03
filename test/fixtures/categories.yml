@@ -17,6 +17,7 @@ coaches:
   description: |+
     Achieve your goals, create life balance and turn your ideas into reality ... Find New Zealand's finest coaches right here in one place from Life Coaches, to Business Coaches, Executive Coaches and Relationship Coaches.
 health_centres:
+  slug: health-centres
   position: 4
   name: Health centres
   description: |+

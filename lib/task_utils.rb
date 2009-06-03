@@ -2,6 +2,12 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.reset_slugs
+    Category.all.each do |c|
+      c.save!
+    end
+  end
+
   def self.process_paid_xero_invoices
     run = Time.now
     response = $xero_gateway.get_invoices(Task.last_run(Task::XERO_INVOICES))

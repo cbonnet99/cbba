@@ -26,6 +26,11 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_show_health
+    get :show, :category_slug => categories(:health_centres).slug
+    assert_response :success
+  end
+
   def test_show_error
     get :show, :category_slug => "bla"
     assert_redirected_to root_url

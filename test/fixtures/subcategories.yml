@@ -88,8 +88,8 @@ health_coaching:
   slug: coaching-health  
   description: A health Coach will look at your health from a bigger-picture perspective and then help you zoom-in to the areas most important to develop a highly supported health action plan. Some health coaches may also have a background in Personal Training or other Health modality, such as Nutrition, Massage, Naturopathy.
 
-counseling:
-  name: Counseling
+counselling:
+  name: Counselling
   category: practitioners
   slug: counseling
   description: Provides professional help and guidance for individuals seeking resolution of personal or psychological matters.
