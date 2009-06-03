@@ -692,12 +692,12 @@ class User < ActiveRecord::Base
 			if business_name.blank?
         duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(first_name) = lower(?) and lower(last_name) = lower(?) and lower(email) <> lower(?) and (business_name is null or business_name = '')", first_name, last_name, email])
         if duplicate_users_count > 0
-          errors.add(:first_name, "^There is already a user with the same name. Please enter a business name to differentiate yourself or change your name (by adding a middle name, for instance)")
+          errors.add(:first_name, "^There is already a user with the same name (#{first_name} #{last_name}). Please enter a business name to differentiate yourself or change your name (by adding a middle name, for instance)")
         end
       else
         duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(business_name) = lower(?) and lower(first_name) = lower(?) and lower(last_name) = lower(?) and lower(email) <> lower(?)", business_name, first_name, last_name, email])
         if duplicate_users_count > 0
-          errors.add(:business_name, "^There is already a user with the same name and business name")
+          errors.add(:business_name, "^There is already a user with the same name (#{first_name} #{last_name}) and business name (#{business_name})")
         end
 			end
 		end

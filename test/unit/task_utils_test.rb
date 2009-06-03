@@ -3,6 +3,19 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_imports
+		ImportUtils.import_roles
+		ImportUtils.import_districts
+		ImportUtils.import_categories
+		ImportUtils.import_subcategories
+    TaskUtils.create_default_admins
+		ImportUtils.import_users("small_users.csv")
+		
+		life_coaching = Subcategory.find(:all, :conditions => ["LOWER(name) = 'life coaching'"])
+		assert_not_nil life_coaching
+		assert_equal 1, life_coaching.size
+  end
+
 
   def test_process_paid_xero_invoices
     TaskUtils.process_paid_xero_invoices

@@ -56,7 +56,9 @@ class ImportUtils
   def self.geocode(address)
     #TODO: remove hardocded Google Maps API key for BAM
     geocoder = Graticule.service(:google).new "ABQIAAAAEUGw4om-AL6FPqaNLiT02xTtdy7lWpREaOTRxKljyUIPkk9sUhRgjCWR1VVeuR_sNL62bGyg47HMUw"
-    sleep 1
+    #If your connection is slow and you get a "too many queries" error,
+    #uncomment the following line (it will slow down the requests)
+    # sleep 1
     return geocoder.locate(address)
   end
 
@@ -147,18 +149,18 @@ class ImportUtils
           category1_id = nil
           subcategory1_id = nil
           unless category1_str.blank?
-            category1_id = Category.find_or_create_by_name(category1_str.strip.capitalize).id
-            subcategory1_id = Subcategory.find_or_create_by_name_and_category_id(subcategory1_str.strip.capitalize, category1_id).id
+            category1_id = Category.find_or_create_by_name(category1_str.strip.split(" ").map(&:capitalize).join).id
+            subcategory1_id = Subcategory.find_or_create_by_name_and_category_id(subcategory1_str.strip.split(" ").map(&:capitalize).join, category1_id).id
           end
           subcategory2_id = nil
           unless category2_str.blank?
-            category2_id = Category.find_or_create_by_name(category2_str.strip.capitalize).id
-            subcategory2_id = Subcategory.find_or_create_by_name_and_category_id(subcategory2_str.strip.capitalize, category2_id).id
+            category2_id = Category.find_or_create_by_name(category2_str.strip.split(" ").map(&:capitalize).join).id
+            subcategory2_id = Subcategory.find_or_create_by_name_and_category_id(subcategory2_str.strip.split(" ").map(&:capitalize).join, category2_id).id
           end
           subcategory3_id = nil
           unless category3_str.blank?
-            category3_id = Category.find_or_create_by_name(category3_str.strip.capitalize).id
-            subcategory3_id = Subcategory.find_or_create_by_name_and_category_id(subcategory3_str.strip.capitalize, category3_id).id
+            category3_id = Category.find_or_create_by_name(category3_str.strip.split(" ").map(&:capitalize).join).id
+            subcategory3_id = Subcategory.find_or_create_by_name_and_category_id(subcategory3_str.strip.split(" ").map(&:capitalize).join, category3_id).id
           end
 					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,

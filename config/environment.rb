@@ -100,11 +100,11 @@ ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
   :default => '%e %B %Y %H:%M', :short => "%B %Y" )
 
-$admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last_name => "Savage", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business coaching"},
-  {:email => "cbonnet99@gmail.com", :first_name => "Cyrille", :last_name => "Bonnet", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business coaching" },
+$admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last_name => "Savage", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business Coaching"},
+  {:email => "cbonnet99@gmail.com", :first_name => "Cyrille", :last_name => "Bonnet", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business Coaching" },
   {:email => "megan@beamazing.co.nz", :first_name => "Megan", :last_name => "Savage", :region => "Wellington Region", :district => "Wellington City", :category => "Practitioners", :subcategory => "Therapeutic Massage"},
-  {:email => "julie@thatblindwoman.co.nz", :first_name => "Julie", :last_name => "Woods", :region => "Otago", :district => "Dunedin", :category => "Coaches", :subcategory => "Life coaching" },
-  {:email => "norma@eurekacoaching.co.nz", :first_name => "Norma", :last_name => "Stein", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business coaching"}]
+  {:email => "julie@thatblindwoman.co.nz", :first_name => "Julie", :last_name => "Woods", :region => "Otago", :district => "Dunedin", :category => "Coaches", :subcategory => "Life Coaching" },
+  {:email => "norma@eurekacoaching.co.nz", :first_name => "Norma", :last_name => "Stein", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business Coaching"}]
 
 $number_articles_on_homepage = 3
 $number_full_members_on_homepage = 3
