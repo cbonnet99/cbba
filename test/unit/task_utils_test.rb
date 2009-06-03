@@ -17,6 +17,12 @@ class TaskUtilsTest < ActiveSupport::TestCase
 		
 		wrong_life_coaching = Subcategory.find(:all, :conditions => ["LOWER(name) = 'lifecoaching'"])
 		assert wrong_life_coaching.blank?
+		
+		health_centres = Category.find(:all, :conditions => ["LOWER(name) = 'health centres'"])
+		assert_equal 1, health_centres.size
+		#Health centres should be lowercase c (as it is displayed that way on left nav)
+		health_centres = Category.find(:all, :conditions => ["name = 'Health centres'"])
+		assert_equal 1, health_centres.size
   end
 
 

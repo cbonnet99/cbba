@@ -262,7 +262,7 @@ health_centres:
   name: Health Centres
   category: health-centres
   slug: health-centres
-  description: Centres offering a range specialised Health or Well-being services or practitionerss.
+  description: Centres offering a range specialised Health or Well-being services or practitioners.
 
 beauty_salons:
   name: Beauty Salons
