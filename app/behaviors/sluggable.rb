@@ -12,7 +12,7 @@ module Sluggable
   
   module WorkflowInstanceMethods
     def to_param
-      slug
+      self.slug
     end
 
   	def create_slug
