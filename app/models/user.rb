@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   include Authorization::AasmRoles
   include ContactSystem
 	include SubcategoriesSystem
+  include Sluggable
 	
   has_attached_file :photo, :styles => { :medium => "90x100>", :thumbnail => "50x55>" },
    :url  => "/assets/profiles/:id/:style/:basename.:extension",
@@ -67,8 +68,8 @@ class User < ActiveRecord::Base
 
   
   # #around filters
-	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug, :create_geocodes
-	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_slug, :update_geocodes
+	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_geocodes
+	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :update_geocodes
 
   after_create :create_profile, :add_tabs
   after_update :add_tabs
@@ -500,18 +501,6 @@ class User < ActiveRecord::Base
       end
     end
   end
-
-  def to_param
-    slug
-  end
-
-	def create_slug
-		self.slug = computed_slug
-	end
-
-	def computed_slug
-		full_name.parameterize
-	end
 
   def phone_prefix
     @phone_prefix ||

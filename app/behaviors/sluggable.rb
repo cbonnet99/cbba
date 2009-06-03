@@ -20,7 +20,11 @@ module Sluggable
   	end
 
   	def computed_slug
-  		name.parameterize
+  	  if respond_to?(:full_name)
+  	    full_name.parameterize
+	    else
+  		  name.parameterize
+		  end
   	end    
   end
 end
