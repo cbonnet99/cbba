@@ -58,7 +58,7 @@ class ImportUtils
     geocoder = Graticule.service(:google).new "ABQIAAAAEUGw4om-AL6FPqaNLiT02xTtdy7lWpREaOTRxKljyUIPkk9sUhRgjCWR1VVeuR_sNL62bGyg47HMUw"
     #If your connection is slow and you get a "too many queries" error,
     #uncomment the following line (it will slow down the requests)
-    sleep 0.5
+    sleep 1
     return geocoder.locate(address)
   end
 
