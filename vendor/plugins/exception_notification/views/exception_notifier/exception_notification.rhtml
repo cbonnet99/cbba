@@ -1,4 +1,4 @@
-A <%= @exception.class %> occurred in <%= @controller.controller_name %>#<%= @controller.action_name %>:
+User <%= current_user %> received an error <%= @exception.class %> in <%= @controller.controller_name %>#<%= @controller.action_name %>:
 
   <%= @exception.message %>
   <%= @backtrace.first %>
