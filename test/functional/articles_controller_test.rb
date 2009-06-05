@@ -73,6 +73,18 @@ class ArticlesControllerTest < ActionController::TestCase
 
   end
 
+  def test_should_create_article_lead_too_long
+		cyrille = users(:cyrille)
+		yoga = subcategories(:yoga)
+    old_count = cyrille.articles_count
+    post :create, {:article => { :title => "Test9992323", :lead => "T"*501, :body => "",  :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
+    assert_not_nil assigns(:article)
+    assert !assigns(:article).errors.blank?
+    cyrille.reload
+    assert_equal old_count, cyrille.articles_count
+
+  end
+
   def test_should_show_article
     cyrille = users(:cyrille)
     get :show, {:id => articles(:long).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }

@@ -36,6 +36,21 @@ class HowTosControllerTest < ActionController::TestCase
     assert_equal old_count+1, cyrille.how_tos_count
   end
 
+  def test_create_summary_too_long
+    cyrille = users(:cyrille)
+    old_size = cyrille.how_tos.size
+    old_count = cyrille.how_tos_count
+    post :create, { :how_to =>
+       {:step_label => "step", :title =>"Title", :summary => "S"*501, :subcategory1_id => subcategories(:yoga).id,
+        :new_step_attributes => [
+          {:title =>"1st step", "body"=>"blabla"}]}}, {:user_id => cyrille.id }
+    assert_not_nil assigns(:how_to)
+    assert !assigns(:how_to).errors.blank?
+    cyrille.reload
+    assert_equal old_size, cyrille.how_tos.size
+    assert_equal old_count, cyrille.how_tos_count
+  end
+
 	def test_publish
 		improve = how_tos(:improve)
 		cyrille = users(:cyrille)

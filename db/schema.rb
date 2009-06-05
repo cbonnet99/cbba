@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090525093512) do
+ActiveRecord::Schema.define(:version => 20090605105229) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20090525093512) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "introduction"
-    t.string   "state",           :default => "draft"
+    t.string   "state",                          :default => "draft"
     t.datetime "published_at"
     t.text     "reason_reject"
     t.datetime "rejected_at"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20090525093512) do
     t.text     "comment_approve"
     t.datetime "approved_at"
     t.integer  "approved_by_id"
-    t.string   "lead"
+    t.string   "lead",            :limit => 500
   end
 
   create_table "articles_categories", :force => true do |t|
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(:version => 20090525093512) do
 
   create_table "how_tos", :force => true do |t|
     t.string   "title"
-    t.string   "summary"
+    t.string   "summary",         :limit => 500
     t.string   "step_label"
     t.datetime "published_at"
     t.text     "reason_reject"
@@ -167,7 +167,7 @@ ActiveRecord::Schema.define(:version => 20090525093512) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "author_id"
-    t.string   "state",           :default => "draft"
+    t.string   "state",                          :default => "draft"
     t.string   "slug"
   end
 
