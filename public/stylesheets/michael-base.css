@@ -111,7 +111,7 @@ h1, h2 { color:#000; font-size:24px;font-weight:bold; }
 h3 {color:#20ACCD; font-size:18px; margin:0 0 10px 0; padding:20px 0 0; }
 	.section h3 {background:#fff;  border-bottom:1px solid #EFEDED; }
 	#profile-header h3 {border-bottom:2px solid #f2f2f2; color:#cc0000; margin:0 0 8px 102px;padding:0 0 6px;}
-	h3.bam-region-name  {background:#cbe5eb;font-size:14px;font-weight:bold; margin:20px 0 0 0;padding:0 0 0 10px; text-transform:uppercase;} 
+	h3.bam-region-name  {background:#cbe5eb;font-size:14px;font-weight:bold; margin:20px 0 0 0;padding:0 0 0 10px;} 
 		h3.bam-region-name  a {color:#000; font-weight:bold; }
 			h3.bam-region-name  a:hover {color:#cc0000;  }
 h4 { font-size:14px; line-height:19px; padding:8px 0 4px; }
@@ -132,6 +132,7 @@ a:focus, a:active, input:focus { outline:0; }
 /***** List Styles *****/ 
 	ul, ol { /*margin: 0 0 18px 24px;*/ }
 		#contentMain ul, #contentMain ol {list-style-type: disc; margin: 0 0 18px 24px;padding:4px 0 0; }
+		#contentMain ul.simple {list-style-type: none;} 
 		#contentMain .intro ul { list-style-type: none; }
 		#profile-header ul {margin:0;}
 li { font-size: 12px; /*margin: 5px 10px; */}
@@ -174,7 +175,7 @@ li li { font-size: 12px; }
 .branding { background:url(../images/BeAmazingByline.gif) top right no-repeat; float:left; height:19px; padding:0 0 6px 40px; text-indent:-9999px; width:259px; }
 /* =ContentMain
    ----------------------------------------------------*/
-	#contentMain { background:url(../images/contentMainBg.gif) repeat-y; float:left; margin:30px 0 0 17px; overflow:hidden; padding:0 0 30px; width:603px; }
+	#contentMain { min-height:410px; background:url(../images/contentMainBg.gif) repeat-y; float:left; margin:30px 0 0 17px; overflow:hidden; padding:0 0 30px; width:603px; }
 #contentMain .columnTop { background:url(../images/contentMainTopBg.gif) no-repeat; height:8px; width:603px; }
 #homepage-full-members { background:url(../images/boxBg.gif) repeat-y; border-bottom:solid 1px #efeded; clear:both; margin:0 0 8px; overflow:hidden; width:564px; }
 .homepage-small-user { float:left; min-height:68px; padding:9px 0; width:188px; }
