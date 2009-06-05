@@ -3,6 +3,6 @@
 <p><%= link_to "Back to the expert application", expert_applications_action_with_id_path(@expert_application, :action => "show") %></p>
 
 <% form_tag expert_applications_action_with_id_path(@expert_application, :action => "reject" ) do -%>
-        <label for="reason_reject">Please explain why you are rejecting this application (it will be sent to the user):</label><%= text_area_tag "reason_reject" %>
+        <label for="reason_reject">Please explain why you are rejecting this application (it will be sent to the user):</label><%= text_area_tag "reason_reject", :cols => "35"  %>
         <%= submit_tag "Reject" %>
   <%end -%>

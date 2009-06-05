@@ -1,12 +1,12 @@
 <% javascript 'how-to' %>
  <ol>
       <li>
-        <%= f.label "Title (max. 255 characters):<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :title, "Title (max. 255 characters):<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :title %>
       </li>
       <li>
-        <%= f.label "Summary (max. 500 characters):<span class='mandatoryStar'>*</span>" %>
-        <%= f.text_area :summary %>
+        <%= f.label :summary, "Summary (max. 500 characters):<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_area :summary, :cols => "35"  %>
       </li>
       <li>
         <label>Please select if your article will be a series of steps or tips:</label>
