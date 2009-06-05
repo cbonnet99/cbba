@@ -4,7 +4,7 @@ module XeroGateway
     
     def initialize(params = {})
       params = {
-        :address_type => "DEFAULT"
+        :address_type => "STREET"
       }.merge(params)
       
       params.each do |k,v|
