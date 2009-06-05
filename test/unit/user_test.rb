@@ -355,7 +355,7 @@ class UserTest < ActiveSupport::TestCase
 		wellington = regions(:wellington)
 		wellington_wellington_city = districts(:wellington_wellington_city)
 
-		new_user = User.new(:first_name => "Joe", :last_name => "Test", :business_name => "Test",
+		new_user = User.new(:accept_terms => "1", :first_name => "Joe", :last_name => "Test", :business_name => "Test",
 			:address1 => "1, Main St", :suburb => "Newtown", :district_id => wellington_wellington_city.id,
 			:region_id => wellington.id, :phone => "04-28392173", :mobile => "", :email => "joe@test.com",
 			:password => "blablabla", :password_confirmation => "blablabla", :professional => true  )

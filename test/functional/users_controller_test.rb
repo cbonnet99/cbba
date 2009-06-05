@@ -27,7 +27,7 @@ class UsersControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "resident_expert", :subcategory1_id => hypnotherapy.id   }
+      :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "resident_expert", :subcategory1_id => hypnotherapy.id   }
     assert_redirected_to new_expert_application_path
 	end
 
@@ -333,7 +333,7 @@ class UsersControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
       :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
-      :subcategory1_id => hypnotherapy.id
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id
       }
 		assert_not_nil assigns(:user)
 #    puts assigns(:user).errors.inspect
@@ -345,7 +345,7 @@ class UsersControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Bonnet",
       :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
-      :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
       }
 		assert_not_nil assigns(:user)
 #    puts assigns(:user).errors.inspect
@@ -359,7 +359,7 @@ class UsersControllerTest < ActionController::TestCase
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
       :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "free_listing",
-      :subcategory1_id => hypnotherapy.id }
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id }
     assert_redirected_to user_membership_path
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
@@ -378,7 +378,7 @@ class UsersControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
+      :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_not_nil assigns(:payment)
     assert_redirected_to edit_payment_path(assigns(:payment))
 		assert_not_nil assigns(:user)
@@ -396,7 +396,7 @@ class UsersControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => "", :mobile_prefix => "027",
-      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
+      :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_template "new"
 #    puts @response.body
     assert_select "option[value=#{hypnotherapy.id}][selected=selected]"

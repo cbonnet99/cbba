@@ -179,7 +179,7 @@ class TaskUtils
             default_subcategory = Subcategory.create(:name => admin[:subcategory], :category_id => default_category.id  )
           end
         end
-        user = User.new(:first_name => admin[:first_name], :last_name => admin[:last_name],
+        user = User.new(:accept_terms => "1", :first_name => admin[:first_name], :last_name => admin[:last_name],
           :email => admin[:email], :free_listing => false,
           :professional => true, :subcategory1_id => default_subcategory.nil? ? nil : default_subcategory.id,
           :membership_type => "full_member",

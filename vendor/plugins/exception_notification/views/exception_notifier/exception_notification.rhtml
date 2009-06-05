@@ -1,4 +1,4 @@
-User <%= current_user %> received an error <%= @exception.class %> in <%= @controller.controller_name %>#<%= @controller.action_name %>:
+<%if current_user.nil? %>Anonymous user<%else%><%= current_user.full_name%><%end%> received an error <%= @exception.class %> in <%= @controller.controller_name %>#<%= @controller.action_name %>:
 
   <%= @exception.message %>
   <%= @backtrace.first %>

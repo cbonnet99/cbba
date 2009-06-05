@@ -19,6 +19,10 @@
         <%= f.label :password_confirmation, "Confirm Password:<span class='mandatoryStar'>*</span>" %>
         <%= f.password_field :password_confirmation %>
       </li>
+      <li>
+        <%= f.label :accept_terms, "I accept BeAmazing #{link_to("Terms &amp; Conditions", terms_path)}:<span class='mandatoryStar'>*</span>" %>
+        <%= f.check_box :accept_terms %>
+      </li>
       <%end -%>
       <li>
         <%= f.label :district_id, "Your area:<span class='mandatoryStar'>*</span>" %>

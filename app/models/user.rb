@@ -77,8 +77,8 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
   # submitting a crafted form that bypasses activation anything else you want
   # your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application, :website
-	attr_accessor :membership_type, :resident_expert_application
+  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application, :website, :accept_terms
+	attr_accessor :membership_type, :resident_expert_application, :accept_terms
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
@@ -668,6 +668,12 @@ class User < ActiveRecord::Base
       mobile_bits = mobile.split(")")
       self.mobile_prefix = mobile_bits.first.gsub(/\(/, '')
       self.mobile_suffix = mobile_bits.last
+    end
+  end
+
+  def validate_on_create
+    if accept_terms.nil? || accept_terms == "0"
+      errors.add(:accept_terms, "^Please accept our terms and conditions")      
     end
   end
 
