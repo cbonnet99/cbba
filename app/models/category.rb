@@ -5,7 +5,7 @@ class Category < ActiveRecord::Base
 	acts_as_list
 
 	has_many :categories_users, :order => "position"
-	has_many :users, :through => :categories_user
+	has_many :users, :through => :categories_users
 	has_many :subcategories, :order => "name"
 	validates_uniqueness_of :name
 
