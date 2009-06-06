@@ -47,6 +47,9 @@
   <ul id="navMembers">
     <% if logged_in? -%>
       <li><%=current_user.name_with_email%></li>
+      <% if is_admin? -%>
+        <li><%= link_to "Admin interface", reviewer_path(:action => "index" ) %></li>
+      <% end -%>
 		<% if  current_user.region.nil? || current_user.main_expertise_slug.blank?%>
 		 <li>No profile</li>
 		<%else%>
@@ -131,7 +134,9 @@
   <!--Sidebar2 Starts -->
   <div id="sidebar2" class="column">
     <div class="columnTop">&nbsp;</div>
+<% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
     <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_path, :class => "newsletterBtn button" %>
+<% end -%>
     <div class="advert"><a href="http://beta.beamazing.co.nz/business-coaching/wellington-region/cyrille-bonnet"><img src="/images/advertSample.jpg" width="151" height="302" alt="advert" /></a><a id="prev-advert" class="nav-left" href="#"><span>&lt;Prev</span></a><a id="next-advert" class="nav-right" href="#"><span>Next&gt;,</span></a></div>
     <div class="columnBottom">&nbsp;</div>
   </div>

@@ -84,6 +84,14 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
 
+  def make_resident_expert!(subcategory)
+    self.roles << Role.find_by_name("resident_expert")
+    self.expertise_subcategory = subcategory
+    self.save!
+    subcategory.resident_expert = self
+    subcategory.save!
+  end
+
   def find_how_to_for_user(slug, user=nil)
     if user == self
       self.how_tos.find_by_slug(slug)

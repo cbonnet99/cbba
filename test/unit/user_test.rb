@@ -4,6 +4,14 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_make_resident_expert
+    rmoore = users(:rmoore)
+    kinesiology = subcategories(:kinesiology)
+    rmoore.make_resident_expert!(kinesiology)
+    assert rmoore.resident_expert?
+    assert_not_nil rmoore.expertise_subcategory
+  end
+
   def test_find_article_for_user
     long = articles(:long)
     yoga = articles(:yoga)
