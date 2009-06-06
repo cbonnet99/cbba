@@ -19,6 +19,11 @@
 	padding-bottom: 1em;
 }
 
+#contentMain form li {
+    list-style: none;
+    clear: both;
+}
+
 #contentMain #profile-tab-content  fieldset {
     margin: 0;
     padding: 0;

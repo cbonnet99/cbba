@@ -1,15 +1,15 @@
 <% use_tinymce -%>
   <ol>
       <li>
-        <%= f.label "Title (max. 255 characters):<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :title, "Title (max. 255 characters):<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :title %>
       </li>
       <li>
-        <%= f.label "Lead (max. 500 characters):<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :lead, "Lead (max. 500 characters):<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :lead, :cols => "35" %>
       </li>
       <li>
-        <%= f.label "Body:" %>
+        <%= f.label :body, "Body:" %>
         <%= f.text_area :body, :cols => "35" %>
       </li>
       <li>
