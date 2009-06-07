@@ -53,6 +53,7 @@ class SearchController < ApplicationController
         unless @category.blank?
           @articles = Article.find_all_by_subcategories(*@category.subcategories)
         end
+        
         @map = GMap.new("map_div_id")
         @map.control_init(:large_map => true, :map_type => true)
         @map.center_zoom_init([latitude,longitude], zoom)
