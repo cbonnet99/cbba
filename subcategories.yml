@@ -420,7 +420,7 @@ homeopathy:
   name: Homeopathy
   category: practitioners
   slug: homeopathy
-  description: The basic principle of Homeopathy is that the body's natural state is one of health and possesses a natural ability to heal itself.  ‚ÄòSymptoms‚Äô are seen as the body‚Äôs efforts to protect itself against disease and Homeopathy seeks not to suppress the symptoms, but to stimulate the body‚Äôs own natural healing processes using the appropriate Homeopathic remedies.
+  description: The basic principle of Homeopathy is that the body's natural state is one of health and possesses a natural ability to heal itself.  &quot;Symptoms&quot; are seen as the body's efforts to protect itself against disease and Homeopathy seeks not to suppress the symptoms, but to stimulate the body's own natural healing processes using the appropriate Homeopathic remedies.
 
 hypnotherapy:
   name: Hypnotherapy
