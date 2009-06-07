@@ -4,7 +4,10 @@
   <p>Do you offer <%=@subcategory.name%>? GREAT! We warmly invite you to <%= link_to 'join beamazing.co.nz', signup_intro_path %>!</p>
   <p>If you want to make more use of the Internet, reach more people and make a bigger difference, then you've come to the right place - we help 1000's of people find services like yours... <%= link_to 'LEARN MORE!', signup_intro_path %></p>
 </div>
-<%end%>
+<%end -%>
+<% if is_full_member? && !@subcategory.nil? -%>
+<p>Are you an expert in <%= @subcategory.name%>? <%= link_to "Apply to become a resident expert", signup_path(:professional => "true", :mt => "resident_expert" )%></p>
+<% end -%>
 <h1>Search results<%=  describe_search(@region, @district, @category, @subcategory) %></h1>
 <% unless @subcategory.nil? || @subcategory.resident_expert_id.nil? %>
   <p id="bam-meet-expert">Meet our resident expert:</p>

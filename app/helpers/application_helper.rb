@@ -201,6 +201,10 @@ module ApplicationHelper
 		logged_in? && !item.nil? && current_user.author?(item)
 	end
 
+	def is_full_member?
+		logged_in? && !item.nil? && current_user.full_member?
+	end
+
 	def is_reviewer?
 		logged_in? && current_user.has_role?('reviewer')
 	end
