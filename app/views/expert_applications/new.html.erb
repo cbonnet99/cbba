@@ -4,6 +4,7 @@
   <fieldset>
     <legend>Your application</legend>
     <ol>
+	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
         <%= f.label :subcategory_id, 'Which field are you an expert in?<span class="mandatoryStar">*</span>:' %><%= f.select :subcategory_id, @subcategories %><br/>
       </li>

@@ -24,6 +24,12 @@
     clear: both;
 }
 
+#contentMain fieldset {
+    margin: 3px;
+    padding: 0;
+	border: 1px solid grey;
+}
+
 #contentMain #profile-tab-content  fieldset {
     margin: 0;
     padding: 0;

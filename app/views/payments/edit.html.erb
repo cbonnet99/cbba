@@ -13,6 +13,7 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
   <ol>
     <% form_for @payment do |f| %>
       <%= f.error_messages :header_message => "Please try again", :message => "Your payment could not be processed"%>
+	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
         <div class="left-input">Amount:</div>
         <div class="right-label"><em class="money"><%=amount_view(@payment.total)%></em></div>
