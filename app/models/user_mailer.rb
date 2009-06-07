@@ -11,8 +11,11 @@ class UserMailer < ActionMailer::Base
 
   def message(message)
     setup_email(message.user)
-		@subject << message.subject
-		@body[:body] = message.body
+		@subject << "[via beamazing.co.nz] #{message.subject}"
+		body = "This message came to you via <a href='#{APP_CONFIG[:site_host]}'>beamazing.co.nz</a><br/>"
+		body << message.body
+		body << "TIP from the Be Amazing Team: &quot;Want more enquiries from <a href='#{APP_CONFIG[:site_host]}'>beamazing.co.nz</a>? Then add articles, run special offers and offer a gift voucher - just log-in, follow the links and increase your profile!&quot;"
+		@body[:body] = body
 		@body[:preferred_contact] = message.preferred_contact
     @content_type = 'text/html'
   end
