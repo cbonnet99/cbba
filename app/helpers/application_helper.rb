@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def thumbnail_image(user)
-    if user.photo.exists? && user.user_profile.published?
+    if user.photo.exists? && (user.user_profile.published? || (logged_in? && current_user == user))
       image_tag user.photo.url(:thumbnail), :width => 50
     else
       image_tag "nophoto.gif", :width => 50
@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def medium_image(user)
-    if user.photo.exists? && user.user_profile.published?
+    if user.photo.exists? && (user.user_profile.published? || (logged_in? && current_user == user))
       image_tag user.photo.url(:medium), :width => 90
     else
       image_tag "nophoto.gif", :width => 90
