@@ -27,7 +27,7 @@
   </div>
   <div id="bam-search-map">
     <%= @map.to_html %>
-    <%= @map.div(:width => 250, :height => 350) %>
+    <%= @map.div(:width => 275, :height => 350) %>
     <% unless @articles.blank? || @subcategory.blank? -%>
       <h3>Articles on <%=@subcategory.name%></h3>
       <% @articles.each do |a| -%>

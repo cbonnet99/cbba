@@ -161,7 +161,11 @@ class User < ActiveRecord::Base
   end
 
   def css_class_role_description
-    "title-user-#{role_description.downcase.gsub(/ /, '-')}"
+    if self.free_listing?
+      "title-user-free-listing"
+    else
+      "title-user-paying"
+    end
   end
 
   def role_description
