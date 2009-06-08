@@ -202,7 +202,7 @@ module ApplicationHelper
 	end
 
 	def is_full_member?
-		logged_in? && !item.nil? && current_user.full_member?
+		logged_in? && current_user.full_member?
 	end
 
 	def is_reviewer?

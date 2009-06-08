@@ -51,6 +51,13 @@ class SubcategoriesControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  def test_show_full_member
+    yoga = subcategories(:yoga)
+    norma = users(:norma)
+    get :show, {:subcategory_slug => yoga.slug, :category_slug => yoga.category.slug}, {:user_id => norma.id }
+    assert_response :success
+  end
+  
   def test_show_with_error
     yoga = subcategories(:yoga)
     get :show, :subcategory_slug => "bla", :category_slug => yoga.category.slug
