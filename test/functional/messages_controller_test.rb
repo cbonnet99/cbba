@@ -14,7 +14,9 @@ class MessagesControllerTest < ActionController::TestCase
 
     assert_equal 1, ActionMailer::Base.deliveries.size
     assert_equal [cyrille.email], ActionMailer::Base.deliveries.first.to
-    assert_equal old_events_size+1, UserEvent.all.size
+    
+    #1 event to verify captcha and 1 event for the msg
+    assert_equal old_events_size+2, UserEvent.all.size
     last_event = UserEvent.find(:first, :order => "logged_at desc")
     assert_equal cyrille.id, last_event.visited_user_id
     assert_equal UserEvent::MSG_SENT, last_event.event_type

@@ -122,7 +122,7 @@ class UserTest < ActiveSupport::TestCase
   def test_css_class_role_description
     #if you change any below, make sure that the name is changed in the CSS
     assert_equal "title-user-free-listing", users(:rmoore).css_class_role_description
-    assert_equal "title-user-full-member", users(:sgardiner).css_class_role_description
+    assert_equal "title-user-paying", users(:sgardiner).css_class_role_description
   end
 
   def test_contact_details

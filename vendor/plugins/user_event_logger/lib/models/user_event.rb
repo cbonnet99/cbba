@@ -21,4 +21,5 @@ class UserEvent < ActiveRecord::Base
   VISIT_PROFILE = "Visit full member profile"
   REDIRECT_WEBSITE = "Redirected to website"
   VERIFY_CATPCHA = "Verify captcha"
+  LOGIN = "Login"
 end
