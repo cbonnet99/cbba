@@ -454,7 +454,7 @@ neuromuscular_therapy_massage:
   description: Focusses specifically on the soft tissues that are causing pain or dysfunction.  Based upon findings of Postural Analysis, the Therapists work with the muscles and soft tissues involved, and also consider other contributing factors such as nutrition, hydration, skeletal function, supplementation and exercise.  
 
 sports_massage: 
-  name: Sports Massage 
+  name: Massage (Sports) 
   category: practitioners
   slug: sports-massage
   description: A Sports Massage Therapist is able to tailor massage techniques to suit a clients specific training or sports' requirements. Generally designed to ease muscle strain, and improve flexibility. 
@@ -466,7 +466,7 @@ thai_yoga_massage:
   description: Began in India and brought to Thailand over 2000 years ago by Ayurvedic Doctors and Buddhist Monks. It is a dynamic, movement-based therapy, combining acupressure, energy balancing and stretching.  It is like having yoga done to you!  Great for improving flexibility, increasing energy levels and relaxing. Patients wear comfortable clothes and the 'massage' is performed on a floor mat.
 
 pregnancy_massage:
-  name: Pregnancy Massage 
+  name: Massage (Pregnancy) 
   category: practitioners
   slug: massage-pregnancy
   description: Massage therapy that is tailored for expectant mothers by a Therapist knowledgeable in the contraindications of massaging during pregnancy.
@@ -490,7 +490,7 @@ meditation:
   description: Has been practised for thousands of years. Generally speaking, meditation is an activity designed to calm the mind and keep it focussed on the present or specific sensations or objects.  Studies show that Meditation is an effective self-care technique, useful for controlling anxiety, enhancing immunity, treating chronic pain and controlling substance abuse.
 
 neuro_linguistic_programming:
-  name: Nlp
+  name: NLP
   category: practitioners
   slug: neuro-linguistic-programming
   description: NLP practitioners use the language of the mind to change, adopt or eliminate behaviours and create the emotional, mental and physical state that they desire. NLP has become a widely used discipline in business, sports, counselling, psychotherapy, health, and Education, and research shows its successful and consistently effective outcomes in people‚Äôs lives.
@@ -548,3 +548,20 @@ yoga:
   category: courses
   slug: yoga
   description: Developed in India over 5,000 years ago and used to unite the body, mind and spirit.  There are many styles of Yoga, ranging from softer, relaxing forms to very challenging and strenuous.  All Yoga aims to create greater awareness of the body, strengthen mental and spiritual balance and enhance energy. 
+  
+relationship_coaching:
+    name: Relationship Coaching
+    category: coaches
+    slug: relationship-coaching
+    description: A relationship coach may work with individuals and couples to help them set and achieve goals to improve their relationship ... or even prepare the ground for love!
+leadership_coaching:
+    name: Leadership Coaching
+    category: coaches
+    slug: leadership-coaching
+    description: A Leadership Coach is a specialist at coaching people in leadership skills and performance, from CEO's to Emerging Leaders - goals and coaching may also cover everything from Personal Leadership, Organisational Leadership, Authentic Leadership and even Neuro-Leadership. 
+
+reiki_training: 
+  name: Reiki Training
+  category: courses
+  slug: reiki-training
+  description: For people wanting to learn the art of Reiki, harnessing and working with energy. &quot;Reiki&quot; means &quot;Universal life energy&quot;.  The Therapist places their hands on various parts of the body, (fully clothed) to promote energy to flow freely through the body, and assist the body to return to health through &quot;wholeness&quot;
