@@ -27,10 +27,15 @@ class ArticlesController < ApplicationController
   
   def index
     @articles = Article.published
+    @how_tos = HowTo.published
+    
+    @all_articles = @articles.concat(@how_tos)
+    
+    
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @articles }
+      format.xml  { render :xml => @all_articles }
     end
   end
 

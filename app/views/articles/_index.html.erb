@@ -1,7 +1,7 @@
-<%if @articles.blank? -%>
+<%if @all_articles.blank? -%>
   No articles
 <% else -%>
-  <% for article in @articles -%>
+  <% for article in @all_articles -%>
       <% if article.class.to_s == "HowTo" -%>
         <%= render :partial => "how_tos/how_to",  :locals => {:how_to => article }   %>
       <%else -%>
