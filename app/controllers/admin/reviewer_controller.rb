@@ -16,7 +16,7 @@ class Admin::ReviewerController < AdminApplicationController
 		@item.reject!
     UserMailer.deliver_item_rejected(@item, @item.author)
     flash[:notice]="#{@item.class.to_s.titleize.downcase.capitalize} was rejected"
-		redirect_back_or_default  reviewer_path(:action => "index")
+		redirect_to  reviewer_path(:action => "index")
   end
 
   def approve
@@ -25,7 +25,7 @@ class Admin::ReviewerController < AdminApplicationController
 		@item.approved_by_id = current_user.id
 		@item.save!
     flash[:notice]="#{@item.class.to_s.titleize.downcase.capitalize} was approved"
-		redirect_back_or_default reviewer_path(:action => "index")
+		redirect_to reviewer_path(:action => "index")
   end
 
 	def get_item
