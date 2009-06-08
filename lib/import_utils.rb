@@ -151,17 +151,17 @@ class ImportUtils
           subcategory1_id = nil
           unless category1_str.blank?
             category1_id = Category.find_or_create_by_name(category1_str.strip.capitalize).id
-            subcategory1_id = Subcategory.find_or_create_by_name_and_category_id(subcategory1_str.strip.split(" ").map(&:capitalize).join(" "), category1_id).id
+            subcategory1_id = Subcategory.find_or_create_by_name_and_category_id(subcategory1_str, category1_id).id
           end
           subcategory2_id = nil
           unless category2_str.blank?
             category2_id = Category.find_or_create_by_name(category2_str.strip.capitalize).id
-            subcategory2_id = Subcategory.find_or_create_by_name_and_category_id(subcategory2_str.strip.split(" ").map(&:capitalize).join(" "), category2_id).id
+            subcategory2_id = Subcategory.find_or_create_by_name_and_category_id(subcategory2_str, category2_id).id
           end
           subcategory3_id = nil
           unless category3_str.blank?
             category3_id = Category.find_or_create_by_name(category3_str.strip.capitalize).id
-            subcategory3_id = Subcategory.find_or_create_by_name_and_category_id(subcategory3_str.strip.split(" ").map(&:capitalize).join(" "), category3_id).id
+            subcategory3_id = Subcategory.find_or_create_by_name_and_category_id(subcategory3_str, category3_id).id
           end
 					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,

@@ -1,6 +1,6 @@
 namespace :bam do
 
-  desc "Generates autocomplete JS files (run after changing or adding categories/subcategories). In production, run: rake asset:packager:build_all afterwards."
+  desc "Generates cat/subcat autocomplete JS files (in production, run also: rake asset:packager:build_all)"
   task :generate_autocomplete_js => :environment do
     File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
       subcategories = Subcategory.find(:all, :order =>:name)
