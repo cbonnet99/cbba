@@ -1,6 +1,6 @@
 namespace :bam do
 
-  desc "Generates autocomplete JS files (run after changing or adding categories/subcategories). In production, run: rake asset:packager:build_all afterwards"
+  desc "Generates autocomplete JS files (run after changing or adding categories/subcategories). In production, run: rake asset:packager:build_all afterwards."
   task :generate_autocomplete_js => :environment do
     File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
       subcategories = Subcategory.find(:all, :order =>:name)
@@ -39,15 +39,25 @@ namespace :bam do
 	
   desc "Loads roles, districts, modalities, etc. in the current database"
   task :load => :environment do
+      puts "Importing charities"
       ImportUtils.import_charities
+      puts "Importing roles"
 			ImportUtils.import_roles
+      puts "Importing districts"
 			ImportUtils.import_districts
+      puts "Importing counters"
 			ImportUtils.import_counters
+      puts "Importing categories"
 			ImportUtils.import_categories
+      puts "Importing subcategories"
 			ImportUtils.import_subcategories
+      puts "Creating default admins"
       TaskUtils.create_default_admins
+      puts "Counting users"
 			TaskUtils.count_users
+      puts "Updating counters"
 			TaskUtils.update_counters
+      puts "Marking down old full members"
 			TaskUtils.mark_down_old_full_members
   end
 

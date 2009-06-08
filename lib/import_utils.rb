@@ -17,6 +17,7 @@ class ImportUtils
 		parsed_file.each  do |row|
 			region_str = row[0]
 			district_str = row[1]
+			puts "Creating district #{district_str} in region #{region_str}"
 			region = Region.find_or_create_by_name(region_str)
 			District.find_or_create_by_name_and_region_id(district_str, region.id)
 		end
@@ -180,7 +181,7 @@ class ImportUtils
           user.member_until = member_until
           user.member_since = member_since
           user.save!
-					puts "Added user #{user.name}"
+					puts "Added user number #{user_count}: #{user.name}"
 					user_count += 1
 				end
 				puts "Added #{user_count} users"
