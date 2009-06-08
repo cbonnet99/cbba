@@ -83,6 +83,17 @@ class MassEmail < ActiveRecord::Base
   
   def transformed_body(user)
     arr = []
-    self.body.gsub(/%[a-zA-Z_]+%/) {|s| user.send(s[1..s.length-2].to_sym)}
+    self.body.gsub(/%[a-zA-Z_]+%/) do |s|
+      if s == "%password%"
+        #reset password
+        r_pass = User.generate_random_password
+        user.update_attributes(:password => r_pass, :confirm_password => r_pass)
+      else
+        puts "==== #{s[0]} #{s[s.length-1]} #{user.respond_to?(s[1..s.length-2].to_sym)}"
+        if (s[0] == "%") && (s[s.length-1] == "%") && user.respond_to?(s[1..s.length-2].to_sym)
+          user.send(s[1..s.length-2].to_sym)
+        end
+      end
+    end
   end
 end

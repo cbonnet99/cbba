@@ -150,18 +150,48 @@ class ImportUtils
           category1_id = nil
           subcategory1_id = nil
           unless category1_str.blank?
-            category1_id = Category.find_or_create_by_name(category1_str.strip.capitalize).id
-            subcategory1_id = Subcategory.find_or_create_by_name_and_category_id(subcategory1_str, category1_id).id
+            category1 = Category.find_by_name(category1_str.strip.capitalize)
+            if category1.nil?
+              puts "ERROR! importing category1: #{category1_str.strip.capitalize}"
+            else
+              category1_id = category1.id
+              subcategory1 = Subcategory.find_by_name_and_category_id(subcategory1_str, category1_id)
+              if subcategory1.nil?
+                puts "ERROR! importing subcategory1: #{subcategory1_str}"
+              else
+                subcategory1_id = subcategory1.id
+              end
+            end
           end
           subcategory2_id = nil
           unless category2_str.blank?
-            category2_id = Category.find_or_create_by_name(category2_str.strip.capitalize).id
-            subcategory2_id = Subcategory.find_or_create_by_name_and_category_id(subcategory2_str, category2_id).id
+            category2 = Category.find_by_name(category2_str.strip.capitalize)
+            if category2.nil?
+              puts "ERROR! importing category2: #{category2_str.strip.capitalize}"
+            else
+              category2_id = category2.id
+              subcategory2 = Subcategory.find_by_name_and_category_id(subcategory2_str, category2_id)
+              if subcategory2.nil?
+                puts "ERROR! importing subcategory2: #{subcategory2_str}"
+              else
+                subcategory2_id = subcategory2.id
+              end
+            end
           end
           subcategory3_id = nil
           unless category3_str.blank?
-            category3_id = Category.find_or_create_by_name(category3_str.strip.capitalize).id
-            subcategory3_id = Subcategory.find_or_create_by_name_and_category_id(subcategory3_str, category3_id).id
+            category3 = Category.find_by_name(category3_str.strip.capitalize)
+            if category3.nil?
+              puts "ERROR! importing category3: #{category3_str.strip.capitalize}"
+            else
+              category3_id = category3.id
+              subcategory3 = Subcategory.find_by_name_and_category_id(subcategory3_str, category3_id)
+              if subcategory3.nil?
+                puts "ERROR! importing subcategory3: #{subcategory3_str}"
+              else
+                subcategory3_id = subcategory3.id
+              end
+            end
           end
 					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,

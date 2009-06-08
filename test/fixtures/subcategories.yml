@@ -88,10 +88,10 @@ health_coaching:
   slug: coaching-health  
   description: A health Coach will look at your health from a bigger-picture perspective and then help you zoom-in to the areas most important to develop a highly supported health action plan. Some health coaches may also have a background in Personal Training or other Health modality, such as Nutrition, Massage, Naturopathy.
 
-counseling:
-  name: Counseling
+counselling:
+  name: Counselling
   category: practitioners
-  slug: counseling
+  slug: counselling
   description: Provides professional help and guidance for individuals seeking resolution of personal or psychological matters.
 
 ear_candling:
@@ -325,12 +325,6 @@ ayurvedic_medicine:
   slug: ayurvedic-medicine
   description: Ayurvedic science is based on the principle that everything in the universe is made up of Ether, Air, Water, Earth and Fire, which constitute three essential components of the body, the 'tridoshas'. Each person is said to have a unique combination of these three doshas, Vata, Pitta and Kapha, which become a persons body type or 'prakriti'. Ayurveda seeks to correct any imbalances in an individual to preserve health and prevent disease.
 
-bowen_technique:
-  name: Bowen Technique 
-  category: practitioners
-  slug: bowen-technique
-  description:  A gentle muscle and connective tissue procedure that stimulates the muscular system, aiding skeletal alignment, blood flow and nervous system.  Is used for people of all ages and conditions.
-
 chi_kung:
   name: Chi Kung 
   category: courses
@@ -442,7 +436,7 @@ kinesiology:
   description: Kinesiologists use muscle testing to identify imbalances in the body using gentle procedures that can treat muscular pain, effect emotional states and enhance learning and behaviour.
 
 relaxation_massage:
-  name: Relaxation Massage 
+  name: Massage (Relaxation) 
   category: practitioners
   slug: massage-relaxation
   description: Uses massage techniques that encourage relaxation of the body; kneading, stroking, shaking and tapping.  Can also aid muscle healing. Sometimes referred to as 'Swedish Massage' after  Swedish Therapist Peter Hendriks Ling developed the technique in the early 1800's.
@@ -454,7 +448,7 @@ therapeutic_massage:
   description: Therapeutic Massage is applied with greater pressure than Swedish Massage and may focus specifically on areas of tension or pain.
 
 neuromuscular_therapy_massage:
-  name: Neuromuscular Therapy
+  name: Massage (Neuromuscular Therapy)
   category: practitioners
   slug: massage-neuromuscular-therapy
   description: Focusses specifically on the soft tissues that are causing pain or dysfunction.  Based upon findings of Postural Analysis, the Therapists work with the muscles and soft tissues involved, and also consider other contributing factors such as nutrition, hydration, skeletal function, supplementation and exercise.  
@@ -466,7 +460,7 @@ sports_massage:
   description: A Sports Massage Therapist is able to tailor massage techniques to suit a clients specific training or sports' requirements. Generally designed to ease muscle strain, and improve flexibility. 
 
 thai_yoga_massage:
-  name: Thai Yoga Massage 
+  name: Massage (Thai Yoga) 
   category: practitioners
   slug: massage-thai-yoga
   description: Began in India and brought to Thailand over 2000 years ago by Ayurvedic Doctors and Buddhist Monks. It is a dynamic, movement-based therapy, combining acupressure, energy balancing and stretching.  It is like having yoga done to you!  Great for improving flexibility, increasing energy levels and relaxing. Patients wear comfortable clothes and the 'massage' is performed on a floor mat.
@@ -496,7 +490,7 @@ meditation:
   description: Has been practised for thousands of years. Generally speaking, meditation is an activity designed to calm the mind and keep it focussed on the present or specific sensations or objects.  Studies show that Meditation is an effective self-care technique, useful for controlling anxiety, enhancing immunity, treating chronic pain and controlling substance abuse.
 
 neuro_linguistic_programming:
-  name: Neuro Linguistic Programming
+  name: Nlp
   category: practitioners
   slug: neuro-linguistic-programming
   description: NLP practitioners use the language of the mind to change, adopt or eliminate behaviours and create the emotional, mental and physical state that they desire. NLP has become a widely used discipline in business, sports, counselling, psychotherapy, health, and Education, and research shows its successful and consistently effective outcomes in people‚Äôs lives.
