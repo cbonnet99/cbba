@@ -8,6 +8,7 @@ ActionController::Base.asset_host = "assets.beamazing.co.nz"
 config.cache_classes = true
 
 # Use a different logger for distributed setups
+require 'syslog_logger'
 config.logger = SyslogLogger.new
 
 # Full error reports are disabled and caching is turned on
