@@ -160,6 +160,40 @@ class UserTest < ActiveSupport::TestCase
     assert_equal full_members.size, User.full_members.size
   end
 
+  def test_tab_change_on_update
+    norma = users(:norma)
+    spiritual_healing = subcategories(:spiritual_healing)
+    old_subcategories = norma.subcategories
+    old_tabs = norma.tabs
+    old_first_tab = old_tabs[0]
+    old_second_tab = old_tabs[1]
+    
+    norma.save
+    norma.reload
+    assert_equal 2, norma.tabs.size
+    norma.subcategory1_id = old_subcategories[1].id
+    norma.subcategory2_id = old_subcategories[0].id
+    norma.save
+    norma.reload
+
+    assert_equal 2, norma.tabs.size
+    #tab titles should have been swapped
+    assert_equal old_subcategories[1].name, norma.tabs.first.title
+    assert_equal old_subcategories[0].name, norma.tabs[1].title
+    
+    #tab content should be the same
+    assert_equal old_first_tab.content, norma.tabs[1].content
+    assert_equal old_second_tab.content, norma.tabs[0].content    
+     
+    norma.subcategory1_id = spiritual_healing.id
+    norma.subcategory2_id = nil
+    norma.save
+    norma.reload
+    assert_equal 1, norma.tabs.size
+    assert_not_nil norma.tabs.first
+    assert_equal spiritual_healing.name, norma.tabs.first.title
+  end
+
   def test_location_change_on_update
     norma = users(:norma)
     old_latitude = norma.latitude

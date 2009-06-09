@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
 	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :update_geocodes
 
   after_create :create_profile, :add_tabs
-  after_update :add_tabs
+  before_update :update_tabs
 
   # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
   # submitting a crafted form that bypasses activation anything else you want
@@ -510,6 +510,28 @@ class User < ActiveRecord::Base
     unless free_listing?
       subcategories.each do |s|
         self.add_tab(s.name, s.name)
+      end
+    end
+  end
+
+  def update_tabs
+    if subcategories.map(&:id) != [subcategory1_id, subcategory2_id, subcategory3_id]
+      unless free_listing?
+        old_tabs = Hash.new
+        self.tabs.each {|t| old_tabs[t.title] = t.content}
+        new_tabs = Hash.new
+        [subcategory1_id, subcategory2_id, subcategory3_id].each do |id|
+          unless id.nil?
+            s = Subcategory.find(id)
+            if old_tabs.keys.include?(s.name)
+              new_tabs[s.name] = old_tabs[s.name]
+            else
+              new_tabs[s.name] = s.name
+            end
+            self.tabs.delete_all
+            new_tabs.each {|k,v| self.tabs.create(:title => k, :content => v)}
+          end
+        end
       end
     end
   end
