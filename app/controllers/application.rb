@@ -15,6 +15,13 @@ class ApplicationController < ActionController::Base
 	#  before_filter :tags
   before_filter :current_category, :categories, :counters, :resident_experts, :except => :change_category
 
+	protected
+	exception_data :additional_data
+
+	def additional_data
+		{ :user => current_user}
+	end
+	
   def get_selected_user
     @selected_user = User.find_by_slug(params[:selected_user])
   end
