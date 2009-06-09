@@ -1,2 +1,2 @@
-User: <%if @session[:user_id].nil? %>Anonymous user<%else%><% user = User.find_by_id(@session[:user_id])%><%= user.nil? ? : "Unknown user" : user.full_name%><%end%>
+User: <%if @session[:user_id].nil? %>Anonymous user<%else%><% user = User.find_by_id(@session[:user_id])%><%= user.nil? ? "Unknown user" : user.full_name%><%end%>
 	
