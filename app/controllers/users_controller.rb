@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       log_user_event UserEvent::REDIRECT_WEBSITE, "Redirected to #{@user.website}", {}, {:visited_user_id => @user.id }
       logger.debug("+++++++++++++++ redirecting to #{@user.website}")
       headers["Status"] = "301 Moved Permanently"
-      redirect_to "#{@user.website}"
+      redirect_to "#{@user.clean_website}"
     end
   end
 
