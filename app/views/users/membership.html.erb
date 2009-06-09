@@ -17,7 +17,25 @@
     <% end -%>
   <% end -%>
 <% end -%>
-<% unless current_user.resident_expert? -%>
+
+<% unless @pending_expert_apps.blank? -%>
+	<% @pending_expert_apps.each do |app| -%>
+	<li>You have applied to become a resident expert in <%= app.expertise %>. We are reviewing your application.</li>
+	<% end -%>	
+<% end -%>
+<% unless @awaiting_payment_expert_apps.blank? -%>
+	<% @awaiting_payment_expert_apps.each do |app| -%>
+	<li>Your application to become a resident expert in <%= app.expertise %> has been approved! To become a resident expert, please <%= link_to "complete your payment", edit_payment_path(app.payment) %></li>
+	<% end -%>
+<% end -%>
+<% if current_user.resident_expert? -%>
+  <li>You are a resident expert of BeAmazing since <%=current_user.resident_since.to_date.to_s(:default)%>.</li>
+  <% if current_user.active? -%>
+    <li>Your membership is valid until <%= current_user.member_until.to_date %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.</li>
+  <% else -%>
+    <li>Your membership has expired on <%= current_user.member_until.to_date %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.</li>
+  <% end -%>
+<% else %>
   <li>You can <%= link_to "apply to become a resident expert", new_expert_application_path%>.</li>
 <% end -%>
 </ul>

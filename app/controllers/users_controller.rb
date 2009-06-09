@@ -33,6 +33,9 @@ class UsersController < ApplicationController
   def membership
     @payment = current_user.payments.pending.find(:first, :order => "created_at desc" )
     @new_member = current_user.member_since.nil?
+    @new_resident = current_user.resident_since.nil?
+    @awaiting_payment_expert_apps = current_user.expert_applications.approved_without_payment
+    @pending_expert_apps = current_user.expert_applications.pending
   end
 
   def renew_membership

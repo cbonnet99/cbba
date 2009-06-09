@@ -19,6 +19,7 @@ class ExpertApplication < ActiveRecord::Base
   aasm_state :timed_out
 
   named_scope :approved_without_payment, :conditions => "status='approved' and payment_id is null"
+  named_scope :pending, :conditions => "status='pending'"
 
   aasm_event :approve do
       transitions :from => :pending, :to => :approved, :on_transition => :email_approve_expert
@@ -30,6 +31,10 @@ class ExpertApplication < ActiveRecord::Base
 
   aasm_event :time_out do
       transitions :from => :approved, :to => :pending, :on_transition => :email_time_out_expert
+  end
+
+  def expertise
+    subcategory.name unless subcategory.nil?
   end
 
   def email_admins
