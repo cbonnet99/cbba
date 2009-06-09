@@ -226,7 +226,7 @@ ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { bac
 #bam-meet-experts img { margin:0; }
 #bam-meet-experts a span { display:block; }/* fix for Safari showing anchor link color */
 #bam-meet-experts h3 { background-color:#ebf5f7; border-bottom:1px solid #ccc; border-top:1px solid #ccc; color:#1b4d57; font-size:13px; margin:0; padding:0 18px; text-align:center; }
-#bam-meet-experts h3 a { color:#1b4d57; text-decoration:none; }
+#bam-meet-experts h3 a { color:#1b4d57; }
 #bam-meet-experts h3 a:hover { color:#cc0000; }
 .pics {
 	position: relative;
