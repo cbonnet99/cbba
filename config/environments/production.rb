@@ -8,6 +8,7 @@ ActionController::Base.asset_host = "assets.beamazing.co.nz"
 config.cache_classes = true
 
 # Use a different logger for distributed setups
+$:.unshift File.join(RAILS_ROOT, "vendor", "SyslogLogger-1.4.0", "lib")
 require 'syslog_logger'
 config.logger = SyslogLogger.new
 
