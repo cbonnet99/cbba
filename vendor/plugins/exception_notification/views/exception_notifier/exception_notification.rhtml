@@ -1,4 +1,4 @@
-<%if !logged_in? %>Anonymous user<%else%><%= current_user.full_name%><%end%> received an error <%= @exception.class %> in <%= @controller.controller_name %>#<%= @controller.action_name %>:
+A <%= @exception.class %> occurred in <%= @controller.controller_name %>#<%= @controller.action_name %>:
 
   <%= @exception.message %>
   <%= @backtrace.first %>
