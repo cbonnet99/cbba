@@ -5,13 +5,11 @@
   <p>If you want to make more use of the Internet, reach more people and make a bigger difference, then you've come to the right place - we help 1000's of people find services like yours... <%= link_to 'LEARN MORE!', signup_intro_path %></p>
 </div>
 <%end -%>
-<% if !@subcategory.nil? && is_full_member? -%>
-<p>Are you an expert in <%= @subcategory.name%>? <%= link_to "Apply to become a resident expert", signup_path(:professional => "true", :mt => "resident_expert" )%></p>
-<% end -%>
+<%= render :partial => "users/apply_expert", :locals => {:subcategory => @subcategory} %>
 <h1>Search results<%=  describe_search(@region, @district, @category, @subcategory) %></h1>
 <% unless @subcategory.nil? || @subcategory.resident_expert_id.nil? %>
-  <p id="bam-meet-expert">Meet our resident expert:</p>
-  <p><%=render :partial => "users/user", :locals => {:user => @subcategory.resident_expert }  %></p>
+  <h3 id="bam-meet-expert">Meet our resident expert:</h3>
+  <p><%=render :partial => "users/resident_expert", :locals => {:user => @subcategory.resident_expert }  %></p>
 <%end -%>
 <% if @results.empty? -%>
   No results found <%=  describe_search(@region, @district, @category, @subcategory) %>.

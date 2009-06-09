@@ -173,6 +173,9 @@ class UsersController < ApplicationController
 
   def new
     @mt = params[:mt] || "free_listing"
+    if logged_in? && @mt == "resident_expert"
+      redirect_to new_expert_application_path(:subcategory_id => params[:subcategory_id])
+    end
     professional_str = params[:professional] || "false"
     professional = professional_str == "true"
     subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i

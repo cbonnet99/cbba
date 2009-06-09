@@ -9,11 +9,11 @@
   <% if @payment && @new_member -%>
     <li>Your membership has not been activated yet. You must <%= link_to "complete your payment", edit_payment_path(@payment) %> to activate it.</li>
   <%  else -%>
-    <li>You are a full member of BeAmazing since <%=current_user.member_since.to_date.to_s(:default)%>.</li>
+    <li>You are a full member of BeAmazing since <%=failsafe_to_date(current_user.member_since)%>.</li>
     <% if current_user.active? -%>
-      <li>Your membership is valid until <%= current_user.member_until.to_date %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.</li>
+      <li>Your membership is valid until <%= failsafe_to_date(current_user.member_until) %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.</li>
     <% else -%>
-      <li>Your membership has expired on <%= current_user.member_until.to_date %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.</li>
+      <li>Your membership has expired on <%= failsafe_to_date(current_user.member_until) %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.</li>
     <% end -%>
   <% end -%>
 <% end -%>
@@ -28,14 +28,14 @@
 	<li>Your application to become a resident expert in <%= app.expertise %> has been approved! To become a resident expert, please <%= link_to "complete your payment", edit_payment_path(app.payment) %></li>
 	<% end -%>
 <% end -%>
-<% if current_user.resident_expert? -%>
-  <li>You are a resident expert of BeAmazing since <%=current_user.resident_since.to_date.to_s(:default)%>.</li>
-  <% if current_user.active? -%>
-    <li>Your membership is valid until <%= current_user.member_until.to_date %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.</li>
-  <% else -%>
-    <li>Your membership has expired on <%= current_user.member_until.to_date %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.</li>
-  <% end -%>
-<% else %>
+<% if current_user.expertise_subcategory.blank? -%>
   <li>You can <%= link_to "apply to become a resident expert", new_expert_application_path%>.</li>
+<% else %>
+  <li>You are a resident expert of BeAmazing since <%=failsafe_to_date(current_user.resident_since)%>.</li>
+  <% if current_user.active? -%>
+    <li>Your resident expert membership is valid until <%= failsafe_to_date(current_user.member_until) %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.</li>
+  <% else -%>
+    <li>Your resident expert membership has expired on <%= failsafe_to_date(current_user.member_until) %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.</li>
+  <% end -%>
 <% end -%>
 </ul>

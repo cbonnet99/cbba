@@ -8,9 +8,7 @@
   <p>If you want to make more use of the Internet, reach more people and make a bigger difference, then you've come to the right place - we help 1000's of people find services like yours... <%= link_to 'LEARN MORE!', signup_intro_path %></p>
 </div>
 <%end -%>
-<% if is_full_member? -%>
-<p>Are you an expert in <%= @subcategory.name%>? <%= link_to "Apply to become a resident expert", signup_path(:professional => "true", :mt => "resident_expert" )%></p>
-<% end -%>
+<%= render :partial => "users/apply_expert", :locals => {:subcategory => @subcategory} %>
   <% @regions.each do |r| -%>
       <% users = User.find_all_by_region_and_subcategories(r, @subcategory) -%>
     <% unless users.empty? -%>

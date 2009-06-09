@@ -1,5 +1,11 @@
 module ApplicationHelper
 
+  def failsafe_to_date(date)
+    unless date.nil?
+      date.to_date
+    end
+  end
+
 	def undasherize(s)
     unless s.nil?
       s.gsub(/-/, ' ').capitalize

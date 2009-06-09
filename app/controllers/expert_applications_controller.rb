@@ -1,6 +1,11 @@
 class ExpertApplicationsController < ApplicationController
   def new
-    @expert_application = ExpertApplication.new(:subcategory_id => current_user.main_expertise_id)
+    if params[:subcategory_id].blank?
+      subcat = current_user.main_expertise_id
+    else
+      subcat = params[:subcategory_id]
+    end
+    @expert_application = ExpertApplication.new(:subcategory_id => subcat)
     get_subcategories
   end
 
