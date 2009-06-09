@@ -83,6 +83,15 @@ class User < ActiveRecord::Base
 
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
+  WEBSITE_PREFIX = "http://"
+  
+  def clean_website
+    if website.starts_with?(WEBSITE_PREFIX)
+      website
+    else
+      "#{WEBSITE_PREFIX}#{website}"
+    end
+  end
 
   def make_resident_expert!(subcategory)
     self.roles << Role.find_by_name("resident_expert")

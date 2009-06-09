@@ -52,6 +52,7 @@ norma:
   gift_vouchers_count:       2
   latitude:                  123
   longitude:                 20
+  website:                   http://www.google.com
 amcloughlin:
   first_name:                Aaron
   last_name:                 McLoughlin

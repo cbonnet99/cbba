@@ -4,6 +4,11 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_clean_website
+    assert_equal "http://www.google.com", users(:norma).clean_website
+    assert_equal "http://www.google.com", users(:cyrille).clean_website
+  end
+  
   def test_make_resident_expert
     rmoore = users(:rmoore)
     kinesiology = subcategories(:kinesiology)
