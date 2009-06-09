@@ -309,6 +309,23 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal aromatherapy.name, sgardiner.main_expertise
   end
 
+  def test_update_tabs
+    norma = users(:norma)
+    yoga = subcategories(:yoga)
+		post :update, {:id => "123", :user => {:subcategory1_id => yoga.id, :subcategory2_id => nil }}, {:user_id => norma.id }
+    assert_equal 0, assigns(:user).errors.size
+    norma.reload
+    
+    assert_equal 1, norma.tabs.size
+    assert_equal yoga.name, norma.tabs[0].title
+    
+
+    #IMPORTANT: do not reload as the reload does not go through the after_find callback...
+    # sgardiner = User.find_by_email(sgardiner.email)
+    # assert_equal aromatherapy.id, sgardiner.subcategory1_id
+    # assert_equal aromatherapy.name, sgardiner.main_expertise
+  end
+
 	def test_update_mobile2
     rmoore = users(:rmoore)
 

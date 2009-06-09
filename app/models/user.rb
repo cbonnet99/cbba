@@ -519,19 +519,22 @@ class User < ActiveRecord::Base
       unless free_listing?
         old_tabs = Hash.new
         self.tabs.each {|t| old_tabs[t.title] = t.content}
-        new_tabs = Hash.new
+        new_tabs = []
+        new_tabs_content = []
         [subcategory1_id, subcategory2_id, subcategory3_id].each do |id|
-          unless id.nil?
+          unless id.blank?
             s = Subcategory.find(id)
             if old_tabs.keys.include?(s.name)
-              new_tabs[s.name] = old_tabs[s.name]
+              new_tabs << s.name
+              new_tabs_content << old_tabs[s.name]
             else
-              new_tabs[s.name] = s.name
+              new_tabs << s.name
+              new_tabs_content << s.name
             end
-            self.tabs.delete_all
-            new_tabs.each {|k,v| self.tabs.create(:title => k, :content => v)}
           end
         end
+        self.tabs.delete_all
+        new_tabs.each_with_index {|s, i| self.tabs.create(:title => s, :content => new_tabs_content[i], :position => i )}
       end
     end
   end
@@ -610,6 +613,9 @@ class User < ActiveRecord::Base
       else
         self.membership_type = "free_listing"
       end
+      if resident_expert?
+        self.membership_type = "resident_expert"
+      end
     end
     case membership_type
     when "full_member"
@@ -619,6 +625,8 @@ class User < ActiveRecord::Base
         self.member_until = 1.year.from_now
         self.add_role("full_member")
       end
+    when "resident_expert"
+      self.free_listing=false
     else
       self.free_listing=true
       unless has_role?("free_listing")
