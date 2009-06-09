@@ -140,8 +140,7 @@
 <% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
     <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_path, :class => "newsletterBtn button" %>
 <% end -%>
-    <div class="advert"><a href="http://beta.beamazing.co.nz/business-coaching/wellington-region/cyrille-bonnet"><img src="/images/advertSample.jpg" width="151" height="302" alt="advert" /></a><a id="prev-advert" class="nav-left" href="#"><span>&lt;Prev</span></a><a id="next-advert" class="nav-right" href="#"><span>Next&gt;,</span></a></div>
-    <div class="columnBottom">&nbsp;</div>
+    <div class="advert"><div class="ad-banner"><a href="http://www.elevatecoaching.co.nz"><%= image_tag "banner-ad-sav.gif"%></a></div></div>
   </div>
   <!--Sidebar2 Ends -->
   <hr class="hide noprint"/>
