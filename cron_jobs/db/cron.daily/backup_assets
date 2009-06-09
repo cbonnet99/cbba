@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo -u tar cvfz /usr/local/cft/deploy/capistrano/shared/assets /var/backups/assets-`date +'%Y-%m-%d'`
