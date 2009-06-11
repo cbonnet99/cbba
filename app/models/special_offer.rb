@@ -19,7 +19,7 @@ class SpecialOffer < ActiveRecord::Base
   TEXT_BOTTOM2 = "We make having a choice about your wellbeing easy!"
 
 	def self.count_published_special_offers
-	  SpecialOffer.find_by_state("published")
+	  SpecialOffer.find_all_by_state("published").size
   end
 
   def generate_pdf
