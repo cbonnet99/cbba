@@ -198,8 +198,8 @@ resident_expert_user:
   professional:              true
   free_listing:              false
   phone:                     (06)3086130
-  member_since:              <%= 1.year.ago.to_s :db %>
-  member_until:              <%= 99.years.from_now.to_s :db %>
+  resident_since:              <%= 1.year.ago.to_s :db %>
+  resident_until:              <%= 1.year.from_now.to_s :db %>
   slug:                      resident
 applying_resident_expert:
   first_name:                Joe

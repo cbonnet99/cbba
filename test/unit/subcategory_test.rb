@@ -8,7 +8,7 @@ class SubcategoryTest < ActiveSupport::TestCase
   end
 
   def test_with_resident_expert
-    assert_equal 1, Subcategory.with_resident_expert.size
+    assert_equal 2, Subcategory.with_resident_expert.size
   end
 
   def test_from_param

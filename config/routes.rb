@@ -30,7 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"
   map.resources :expert_applications
 
-  map.customerror '/notfound', :controller => "search", :action => "notfound"
+  map.customerror '/customerror', :controller => "search", :action => "customerror"
   map.notfound '/notfound', :controller => "search", :action => "notfound"
   map.whyjoin '/whyjoin', :controller => "search", :action => "whyjoin"
   map.about '/about', :controller => "search", :action => "about"  
@@ -79,6 +79,8 @@ ActionController::Routing::Routes.draw do |map|
   map.user_articles '/users/articles', :controller => 'users', :action => "articles"
   map.user_stats '/users/stats', :controller => 'users', :action => "stats"
   map.user_renew_membership '/users/renew_membership', :controller => 'users', :action => "renew_membership"
+  map.user_renew_resident '/users/renew_resident', :controller => 'users', :action => "renew_resident"
+  map.user_pay_resident '/users/pay_resident', :controller => 'users', :action => "pay_resident"
   map.upgrade_to_full_membership '/users/upgrade_to_full_membership', :controller => 'users', :action => "upgrade_to_full_membership"
   map.user_howtos '/users/howtos', :controller => 'users', :action => "howtos"
   map.user_edit_pwd '/users/edit_password', :controller => 'users', :action => "edit_password"

@@ -48,13 +48,38 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to new_expert_application_path
 	end
 
+  def test_membership_free_listing
+    rmoore = users(:rmoore)
+    get :membership, {}, {:user_id => rmoore.id }
+    assert_response :success
+    assert_nil assigns(:payment)
+    assert_match %r{You have a free membership}, @response.body
+  end
+
   def test_membership_full
-    cyrille = users(:cyrille)
-    get :membership, {}, {:user_id => cyrille.id }
+    sgardiner = users(:sgardiner)
+    get :membership, {}, {:user_id => sgardiner.id }
     assert_response :success
     assert_nil assigns(:payment)
     assert_match %r{You are a full member of BeAmazing since}, @response.body
     assert_match %r{Your membership is valid until}, @response.body
+  end
+
+  def test_membership_resident_expert
+    resident_expert_user = users(:resident_expert_user)
+    get :membership, {}, {:user_id => resident_expert_user.id }
+    assert_response :success
+    # assert_not_nil assigns(:payment)
+    assert_no_match %r{You have applied to become a resident expert}, @response.body
+    assert_match %r{You are a resident expert}, @response.body
+  end
+
+  def test_membership_applying_resident_expert
+    applying_resident_expert = users(:applying_resident_expert)
+    get :membership, {}, {:user_id => applying_resident_expert.id }
+    assert_response :success
+    assert_match %r{You have applied to become a resident expert}, @response.body
+    assert_no_match %r{You are a resident expert}, @response.body
   end
 
   def test_membership_new_pending

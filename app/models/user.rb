@@ -96,6 +96,8 @@ class User < ActiveRecord::Base
   def make_resident_expert!(subcategory)
     self.roles << Role.find_by_name("resident_expert")
     self.expertise_subcategory = subcategory
+    self.resident_since = Time.now
+    self.resident_until = 1.year.from_now
     self.save!
     subcategory.resident_expert = self
     subcategory.save!

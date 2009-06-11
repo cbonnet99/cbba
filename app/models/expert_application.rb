@@ -18,7 +18,7 @@ class ExpertApplication < ActiveRecord::Base
   aasm_state :rejected
   aasm_state :timed_out
 
-  named_scope :approved_without_payment, :conditions => "status='approved' and payment_id is null"
+  named_scope :approved_without_payment, :include => :payment, :conditions => "expert_applications.status='approved' and (payment_id is null or payments.status='pending')"
   named_scope :pending, :conditions => "status='pending'"
 
   aasm_event :approve do

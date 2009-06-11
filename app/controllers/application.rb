@@ -11,7 +11,6 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :card_number, :card_verification
   
   layout :find_layout
-  alias_method :rescue_action_locally, :rescue_action_in_public
 
 
 	#  before_filter :tags
@@ -24,7 +23,7 @@ class ApplicationController < ActionController::Base
     case status_code
       when :not_found
         render_404
-      when 500
+      when :internal_server_error
         render_500
       else
         super
@@ -48,7 +47,7 @@ class ApplicationController < ActionController::Base
         logger.error("Error 500 for request: #{request.inspect}")
         redirect_to customerror_path 
       end
-      type.all  { render :nothing => true, :status => 404 } 
+      type.all  { render :nothing => true, :status => 500 } 
     end
     true  # so we can do "render_404 and return"
   end

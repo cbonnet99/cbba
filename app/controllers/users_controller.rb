@@ -51,6 +51,22 @@ class UsersController < ApplicationController
     redirect_to edit_payment_path(@payment)
   end
 
+  def pay_resident
+    # #unless there is already a pending payment
+    @payment = current_user.payments.pending.resident.first
+    @payment = current_user.payments.create!(Payment::TYPES[:resident_expert]) if @payment.nil?
+    flash[:notice] = "Please complete the payment below to complete your resident expert membership"
+    redirect_to edit_payment_path(@payment)
+  end
+
+  def renew_resident
+    # #unless there is already a pending payment
+    @payment = current_user.payments.pending.resident_renewals.first
+    @payment = current_user.payments.create!(Payment::TYPES[:renew_resident_expert]) if @payment.nil?
+    flash[:notice] = "Please complete the payment below to renew your resident expert membership"
+    redirect_to edit_payment_path(@payment)
+  end
+
   def index
     page = params[:page] || 1
     @full_members = User.paginated_full_members(page)

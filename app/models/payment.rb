@@ -10,7 +10,7 @@ class Payment < ActiveRecord::Base
     :resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership", :amount => 35000, :discount => 34900 },
     :renew_resident_expert => {:payment_type => "resident_expert_renewal", :title => "12 month resident expert membership renewal", :amount => 69900, :discount => 0 }
   }
-  REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal", :resident_expert => "thank_you_resident_expert"}
+  REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal", :resident_expert => "thank_you_resident_expert", :renew_resident_expert => "thank_you_resident_expert"}
 
   GST = 1250  
   
@@ -40,6 +40,8 @@ class Payment < ActiveRecord::Base
 
   named_scope :pending, :conditions => "status ='pending'"
   named_scope :renewals, :conditions => "payment_type = 'renewal'"
+  named_scope :resident, :conditions => "payment_type = 'resident_expert'"
+  named_scope :resident_renewals, :conditions => "payment_type = 'resident_expert_renewal'"
   
   def create_invoice
     #create invoice internally

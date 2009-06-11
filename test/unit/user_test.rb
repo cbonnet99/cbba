@@ -15,6 +15,8 @@ class UserTest < ActiveSupport::TestCase
     rmoore.make_resident_expert!(kinesiology)
     assert rmoore.resident_expert?
     assert_not_nil rmoore.expertise_subcategory
+    assert_not_nil rmoore.resident_since
+    assert_not_nil rmoore.resident_until
   end
 
   def test_find_article_for_user
