@@ -468,6 +468,9 @@ class User < ActiveRecord::Base
       when Tab::SPECIAL_OFFERS:
         virtual_tab = VirtualTab.new(Tab::SPECIAL_OFFERS, "Special Offers", "special_offers/index", "special_offers/nav" )
         return virtual_tab
+      when Tab::GIFT_VOUCHERS:
+        virtual_tab = VirtualTab.new(Tab::GIFT_VOUCHERS, "Gift Vouchers", "gift_vouchers/index", "gift_vouchers/nav" )
+        return virtual_tab
       else
         tabs.find_by_slug(tab_slug) || tabs.first
       end

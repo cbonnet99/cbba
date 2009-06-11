@@ -124,7 +124,7 @@ class UsersController < ApplicationController
         log_user_event UserEvent::VISIT_PROFILE, "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
       end
       @selected_tab = @user.select_tab(params[:selected_tab_id])
-      if !@selected_tab.nil?
+      unless @selected_tab.nil?
         if @selected_tab.slug == Tab::ARTICLES
           if @user == current_user
             @articles = Article.all_articles(current_user)
@@ -139,6 +139,13 @@ class UsersController < ApplicationController
             @special_offers = SpecialOffer.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
           end
         end
+        if @selected_tab.slug == Tab::GIFT_VOUCHERS
+          if @user == current_user
+            @gift_vouchers = GiftVoucher.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+          else
+            @gift_vouchers = GiftVoucher.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
+          end
+        end
       end
 
     end
@@ -151,6 +158,7 @@ class UsersController < ApplicationController
 	end
 
 	def gift_vouchers
+    logger.debug "========= calling gift vouchers on user"
 		@gift_vouchers = GiftVoucher.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
 	end
 

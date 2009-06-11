@@ -163,6 +163,15 @@ class UsersControllerTest < ActionController::TestCase
 		assert ActionMailer::Base.deliveries.size > 0
 	end
   
+  def test_show_gift_vouchers
+    auckland = regions(:auckland)
+    coaches = categories(:coaches)
+    sgardiner = users(:sgardiner)
+
+    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "gift_vouchers" }
+    assert_not_nil assigns(:gift_vouchers)
+  end
+
   def test_show
     old_size = UserEvent.all.size
     rmoore = users(:rmoore)
