@@ -1,4 +1,5 @@
 .DS_Store
 *.log
 public/assets/*
+public/special-offers
 vendor/plugins/query_trace
