@@ -172,6 +172,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:gift_vouchers)
   end
 
+  def test_show_articles
+    auckland = regions(:auckland)
+    coaches = categories(:coaches)
+    cyrille = users(:cyrille)
+
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "articles" }
+    assert_not_nil assigns(:all_articles)
+    #it shows both articles and how tos
+    assert_equal 2, assigns(:all_articles).size
+  end
+
   def test_show
     old_size = UserEvent.all.size
     rmoore = users(:rmoore)
@@ -281,9 +292,9 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
 
     get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => Tab::ARTICLES, }, {:user_id => cyrille.id }
-    assert !assigns(:articles).blank?
-    assert assigns(:articles).include?(improve)
-    assert assigns(:articles).include?(money)
+    assert !assigns(:all_articles).blank?
+    assert assigns(:all_articles).include?(improve)
+    assert assigns(:all_articles).include?(money)
   end
   
   def test_show_how_to_for_anonymous_users
@@ -295,10 +306,10 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
     
     get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => Tab::ARTICLES, }, { }
-    assert !assigns(:articles).blank?
-    assert assigns(:articles).include?(money)
-    assert !assigns(:articles).include?(improve)
-    assert assigns(:articles).index(money) < assigns(:articles).index(long)
+    assert !assigns(:all_articles).blank?
+    assert assigns(:all_articles).include?(money)
+    assert !assigns(:all_articles).include?(improve)
+    assert assigns(:all_articles).index(money) < assigns(:all_articles).index(long)
   end
 
 	def test_update_password

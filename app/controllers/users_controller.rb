@@ -127,9 +127,9 @@ class UsersController < ApplicationController
       unless @selected_tab.nil?
         if @selected_tab.slug == Tab::ARTICLES
           if @user == current_user
-            @articles = Article.all_articles(current_user)
+            @all_articles = Article.all_articles(current_user)
           else
-            @articles = Article.all_published_articles(@user)
+            @all_articles = Article.all_published_articles(@user)
           end
         end
         if @selected_tab.slug == Tab::SPECIAL_OFFERS
