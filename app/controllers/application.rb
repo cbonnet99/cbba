@@ -11,12 +11,47 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :card_number, :card_verification
   
   layout :find_layout
+  alias_method :rescue_action_locally, :rescue_action_in_public
+
 
 	#  before_filter :tags
   before_filter :current_category, :categories, :counters, :resident_experts, :except => :change_category
 
 	protected
 	exception_data :additional_data
+
+  def render_optional_error_file(status_code)
+    case status_code
+      when :not_found
+        render_404
+      when 500
+        render_500
+      else
+        super
+    end
+  end
+
+  def render_404
+    respond_to do |type| 
+      type.html do
+        logger.warn("Error 404 for request: #{request.inspect}")
+        redirect_to notfound_path 
+      end
+      type.all  { render :nothing => true, :status => 404 } 
+    end
+    true  # so we can do "render_404 and return"
+  end
+
+  def render_500
+    respond_to do |type| 
+      type.html do
+        logger.error("Error 500 for request: #{request.inspect}")
+        redirect_to customerror_path 
+      end
+      type.all  { render :nothing => true, :status => 404 } 
+    end
+    true  # so we can do "render_404 and return"
+  end
 
 	def additional_data
 		{ :user => current_user}

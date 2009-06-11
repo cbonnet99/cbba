@@ -140,7 +140,10 @@
 <% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
     <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_path, :class => "newsletterBtn button" %>
 <% end -%>
-    <div class="advert"><div class="ad-banner"><a href="http://www.elevatecoaching.co.nz"><%= image_tag "banner-ad-sav.gif"%></a></div></div>
+    <div id="ad-banners" class="advert">
+		<div class="ad-banner"><a href="http://www.elevatecoaching.co.nz"><%= image_tag "banner-ad-sav.gif"%></a></div>
+		<div class="ad-banner"><a href="http://www.eurekacoaching.co.nz"><%= image_tag "banner-ad-norma.jpg"%></a></div>
+	</div>
   </div>
   <!--Sidebar2 Ends -->
   <hr class="hide noprint"/>

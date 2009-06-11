@@ -4,6 +4,13 @@ class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
 
+  def test_more_about_free_listing
+    get :more_about_free_listing
+    assert_response :success
+    #just to check that the HTML is valid
+    assert_select "div"
+  end
+
   def test_stats
     get :stats, {}, {:user_id => users(:cyrille).id }
   end
