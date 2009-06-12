@@ -1,10 +1,12 @@
+<% if own_profile?(@user) -%>
 <p><%= link_to "Create a new special offer", new_special_offer_path %></p>
+<% end -%>
 <% if @special_offers.blank? -%>
   No special offers
 <%else -%>
   <ul id="your-special-offers" class="simple">
   <% for special_offer in @special_offers %>
-    <%= render :partial => "special_offers/special_offer",  :locals => {:special_offer => special_offer }   %>
+    <%= render :partial => "special_offers/special_offer",  :locals => {:special_offer => special_offer, :hide_state => !own_profile?(@user) }   %>
   <% end %>
   </ul>
 <% end -%>

@@ -19,7 +19,7 @@ free_session:
     author: norma
 free_massage_norma:
     title: Free massage
-    state: draft
+    state: published
     slug: free-massage
     author: norma
   

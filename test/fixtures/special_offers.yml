@@ -46,3 +46,12 @@ free_trial:
     </ul>
   author: cyrille
   state: published
+norma:
+    title: Offer one
+    slug: offer_one
+    description: MyText
+    how_to_book: MyText
+    terms: MyText
+    author: norma
+    state: published
+

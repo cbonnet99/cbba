@@ -166,10 +166,45 @@ class UsersControllerTest < ActionController::TestCase
   def test_show_gift_vouchers
     auckland = regions(:auckland)
     coaches = categories(:coaches)
-    sgardiner = users(:sgardiner)
+    norma = users(:norma)
 
-    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "gift_vouchers" }
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "gift_vouchers" }
     assert_not_nil assigns(:gift_vouchers)
+    assert_select "a", {:text => "Create a new gift voucher", :count => 0 }
+    assert_select "span", {:text => "published", :count => 0} 
+  end
+
+  def test_show_gift_vouchers_own_profile
+    auckland = regions(:auckland)
+    coaches = categories(:coaches)
+    norma = users(:norma)
+
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "gift_vouchers" }, {:user_id => norma.id, }
+    assert_not_nil assigns(:gift_vouchers)
+    assert_select "a", {:text => "Create a new gift voucher", :count => 1}
+    assert_select "span", {:text => "published", :count => 1} 
+  end
+
+  def test_show_special_offers
+    auckland = regions(:auckland)
+    coaches = categories(:coaches)
+    norma = users(:norma)
+
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "special_offers" }
+    assert_not_nil assigns(:special_offers)
+    assert_select "a", {:text => "Create a new special offer", :count => 0 }
+    assert_select "span", {:text => "published", :count => 0} 
+  end
+
+  def test_show_special_offers_own_profile
+    auckland = regions(:auckland)
+    coaches = categories(:coaches)
+    norma = users(:norma)
+
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "special_offers" }, {:user_id => norma.id, }
+    assert_not_nil assigns(:special_offers)
+    assert_select "a", {:text => "Create a new special offer", :count => 1}
+    assert_select "span", {:text => "published", :count => 1} 
   end
 
   def test_show_articles

@@ -4,6 +4,6 @@ class GiftVoucherTest < ActiveSupport::TestCase
   fixtures :all
   
   def test_count_published_gift_vouchers
-    assert_equal 1, GiftVoucher.count_published_gift_vouchers
+    assert_equal 2, GiftVoucher.count_published_gift_vouchers
   end
 end
