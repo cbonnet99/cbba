@@ -1,3 +1,10 @@
-<%= render :partial => "users/user_nav", :locals => {:selected => "gift_vouchers" }  %>
-<%= title "Your gift vouchers" %>
-<%= render :partial => "gift_vouchers/index"  %>
+<%= title "Gift vouchers" %>
+<% if @gift_vouchers.blank? -%>
+  No gift vouchers
+<%else -%>
+  <ul id="your-gift-vouchers" class="simple">
+  <% for gift_voucher in @gift_vouchers %>
+    <%= render :partial => "gift_vouchers/gift_voucher",  :locals => {:gift_voucher => gift_voucher, :hide_state => true }   %>
+  <% end %>
+  </ul>
+<% end -%>

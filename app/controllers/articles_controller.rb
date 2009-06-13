@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
   
-  before_filter :login_required, :only => [:new, :create, :destroy, :publish]
+  before_filter :login_required, :except => [:index, :show]
 	after_filter :store_location, :only => [:show]
 
 	def unpublish
@@ -31,8 +31,6 @@ class ArticlesController < ApplicationController
     
     @all_articles = @articles.concat(@how_tos)
     
-    
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @all_articles }
@@ -108,7 +106,7 @@ class ArticlesController < ApplicationController
   # PUT /articles/1.xml
   def update
     @article = Article.find(params[:id])
-        get_subcategories
+    get_subcategories
 
     respond_to do |format|
       if @article.update_attributes(params[:article])

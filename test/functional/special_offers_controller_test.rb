@@ -2,10 +2,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SpecialOffersControllerTest < ActionController::TestCase
 
-  def test_index_public
-    get :index_public
-  end
-
   def test_limit_special_offers_for_full_members
     sgardiner = users(:sgardiner)
 
@@ -90,6 +86,18 @@ class SpecialOffersControllerTest < ActionController::TestCase
   end
   
   def test_show
+    cyrille = users(:cyrille)
+    get :show, {:id => special_offers(:free_trial).slug, :selected_user => cyrille.slug }
+    assert_template 'show'
+  end
+  
+  def test_show_draft
+    cyrille = users(:cyrille)
+    get :show, {:id => special_offers(:one).slug, :selected_user => cyrille.slug }
+    assert_template ''
+  end
+  
+  def test_show_draft_logged_in
     cyrille = users(:cyrille)
     get :show, {:id => special_offers(:one).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }
     assert_template 'show'

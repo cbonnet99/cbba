@@ -1,0 +1,12 @@
+<%= render :partial => "users/user_nav", :locals => {:selected => "special_offers" }  %>
+<%= title "Your special offers"  %>
+<p><%= link_to "Create new special_offer", new_special_offer_path %></p>
+<% if @special_offers.empty? -%>
+  No special offers
+<% else -%>
+  <ul class="simple" id="your-special-offers">
+  <% @special_offers.each do |v| -%>
+    <li class="<%=cycle('odd', 'even')%>"<%= render :partial => "special_offers/special_offer", :locals => {:special_offer => v } %></li>
+  <% end -%>
+  </ul>
+<%end -%>

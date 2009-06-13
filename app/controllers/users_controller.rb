@@ -152,19 +152,19 @@ class UsersController < ApplicationController
   end
 
 	def articles
-    logger.debug "========= calling articles on user"
-		get_districts_and_subcategories
-		@articles = Article.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+		@articles = current_user.articles
 	end
 
 	def gift_vouchers
-    logger.debug "========= calling gift vouchers on user"
-		@gift_vouchers = GiftVoucher.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+		@gift_vouchers = current_user.gift_vouchers
+	end
+
+	def special_offers
+		@special_offers = current_user.special_offers
 	end
 
 	def howtos
-		get_districts_and_subcategories
-		@howtos = HowTo.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+		@howtos = current_user.how_tos
 	end
 
 	def edit

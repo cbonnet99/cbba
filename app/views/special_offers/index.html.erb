@@ -1,3 +1,10 @@
-<%= render :partial => "users/user_nav", :locals => {:selected => "special_offers" }  %>
-<%= title "Your special offers" %>
-<%= render :partial => "special_offers/index"  %>
+<%= title "Special offers" %>
+<% if @special_offers.blank? -%>
+  No special offers
+<%else -%>
+  <ul id="your-special-offers" class="simple">
+  <% for special_offer in @special_offers %>
+    <%= render :partial => "special_offers/special_offer",  :locals => {:special_offer => special_offer, :hide_state => true }   %>
+  <% end %>
+  </ul>
+<% end -%>

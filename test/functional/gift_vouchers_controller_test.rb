@@ -2,11 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class GiftVouchersControllerTest < ActionController::TestCase
   fixtures :all
-  
-  def test_index_public
-    get :index_public
-  end
-  
+    
   def test_create_errors
     post :create, {:gift_voucher => {}, :save_an_publish => "Save & Publish"  }, {:user_id => users(:cyrille).id, }
     assert_not_nil assigns(:gift_voucher)

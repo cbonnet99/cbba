@@ -95,12 +95,13 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_get_edit
 		cyrille = users(:cyrille)
-    get :edit, {:id => articles(:yoga).id}, {:user_id => cyrille.id }
+    get :edit, {:id => articles(:yoga).id, :selected_user => cyrille.slug}, {:user_id => cyrille.id }
     assert_response :success
   end
 
   def test_should_update_article
-    put :update, :id => articles(:yoga).id, :article => { }
+		cyrille = users(:cyrille)
+    put :update, {:id => articles(:yoga).id, :article => { }}, {:user_id => cyrille.id }
     assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug)
     assert_not_nil assigns(:subcategories)
   end

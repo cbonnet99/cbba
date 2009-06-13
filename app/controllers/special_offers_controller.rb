@@ -2,10 +2,10 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 require 'pdf/writer'
 class SpecialOffersController < ApplicationController
 
-  before_filter :login_required, :except => [:index_public]
+  before_filter :login_required, :except => [:index, :show]
 	after_filter :store_location, :only => [:index, :show]
 
-  def index_public
+  def index
     @special_offers = SpecialOffer.published
     log_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
   end
@@ -33,26 +33,22 @@ class SpecialOffersController < ApplicationController
 			flash[:error] = "You can not unpublish this special offer"
       redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
 	end
-
-  def index
-    @special_offers = current_user.special_offers.all
-  end
   
   def show
     get_selected_user
     if @selected_user.nil?
-      flash[:error]="Sorry, this gift voucher could not be found"
+      flash.now[:error]="Sorry, this special offer could not be found"
       if params[:index_public] == "true"
-        redirect_to special_offers_index_public_path
+        redirect_to special_offers_path
       else
         redirect_to user_special_offers_path
       end
     else
       @special_offer = @selected_user.find_special_offer_for_user(params[:id], current_user)
       if @special_offer.nil?
-        flash[:error]="Sorry, this special offer could not be found"
+        flash.now[:error]="Sorry, this special offer could not be found"
         if params[:index_public] == "true"
-          redirect_to special_offers_index_public_path
+          redirect_to special_offers_path
         else
           redirect_to user_special_offers_path
         end        

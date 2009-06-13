@@ -1,5 +1,5 @@
 class GiftVouchersController < ApplicationController
-  def index_public
+  def index
     @gift_vouchers = GiftVoucher.published
     log_user_event UserEvent::SELECT_COUNTER, "", "Gift vouchers"
   end
@@ -28,23 +28,19 @@ class GiftVouchersController < ApplicationController
       redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
 	end
 
-  def index
-    @gift_vouchers = current_user.gift_vouchers
-  end
-
   def show
     get_selected_user
     if @selected_user.nil?
-      flash[:error]="Sorry, this gift voucher could not be found"
+      flash.now[:error]="Sorry, this gift voucher could not be found"
       if params[:index_public] == "true"
-        redirect_to gift_vouchers_index_public_path
+        redirect_to gift_vouchers_path
       else
         redirect_to user_gift_vouchers_path
       end
     else
       @gift_voucher = @selected_user.find_gift_voucher_for_user(params[:id], current_user)
       if @gift_voucher.nil?
-        flash[:error]="Sorry, this gift voucher could not be found"
+        flash.now[:error]="Sorry, this gift voucher could not be found"
         if params[:index_public] == "true"
           redirect_to gift_vouchers_index_public_path
         else

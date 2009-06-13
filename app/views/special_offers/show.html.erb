@@ -1,7 +1,7 @@
 <% if params[:index_public] == "true" -%>
-<%= link_to "Back to special offers", :controller => "special_offers", :action => "index_public"  %>
+<%= link_to "Back to special offers", special_offers_path  %>
 <% else -%>
-<%= link_to "Back to your special offers", special_offers_path %>
+<%= link_to "Back to your special offers", user_special_offers_path %>
 <% end -%>
 <%= title @special_offer.title %>
 <% unless params[:index_public] -%>
@@ -20,7 +20,7 @@
 
   <p><a href="<%=@special_offer.filename%>">Download special offer</a></p>
 <% if params[:index_public] == "true" -%>
-<%= link_to "Back to special offers", :controller => "special_offers", :action => "index_public"  %>
+<%= link_to "Back to special offers", special_offers_path  %>
 <% else -%>
-<%= link_to "Back to your special offers", special_offers_path %>
+<%= link_to "Back to your special offers", user_special_offers_path %>
 <% end -%>
