@@ -97,8 +97,10 @@ class User < ActiveRecord::Base
     if !subcategory.resident_expert.nil?
       logger.error("Trying to make user: #{self.full_name} resident expert on #{subcategory.name}, but there is already an expert for this subcategory: #{subcategory.resident_expert.full_name}")
     else
-      self.free_listing = false
       self.add_role("resident_expert")
+      self.add_role("full_member")
+      #remove free listing role as it will make a user appear twice
+      self.free_listing = false
       self.remove_role("free_listing")
       self.expertise_subcategory = subcategory
       self.resident_since = Time.now
@@ -775,7 +777,7 @@ class User < ActiveRecord::Base
   # Check if a user has a role.
   def has_role?(role)
     list ||= self.roles.map(&:name)
-    list.include?(role.to_s) || list.include?('admin')
+    list.include?(role.to_s)
   end
   
   protected

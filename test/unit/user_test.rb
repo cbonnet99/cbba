@@ -9,9 +9,10 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "http://www.google.com", users(:cyrille).clean_website
   end
   
-  def test_make_resident_expert
+  def test_make_resident_expert_from_free_listing
     rmoore = users(:rmoore)
     free_listing_role = roles(:free_listing_role)
+    full_member_role = roles(:full_member_role)
     assert rmoore.roles.include?(free_listing_role)
     assert rmoore.free_listing?
     kinesiology = subcategories(:kinesiology)
@@ -21,7 +22,22 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil rmoore.resident_since
     assert_not_nil rmoore.resident_until
     assert !rmoore.free_listing?
+    # IMPORTANT: if the user keeps the free listing role, it would appear twice in the search results
     assert !rmoore.roles.include?(free_listing_role)
+    assert rmoore.roles.include?(full_member_role)
+  end
+
+  def test_make_resident_expert_from_full_member
+    norma = users(:norma)
+    full_member_role = roles(:full_member_role)
+    assert norma.roles.include?(full_member_role)
+    kinesiology = subcategories(:kinesiology)
+    norma.make_resident_expert!(kinesiology)
+    assert norma.resident_expert?
+    assert_not_nil norma.expertise_subcategory
+    assert_not_nil norma.resident_since
+    assert_not_nil norma.resident_until
+    assert norma.roles.include?(full_member_role)
   end
 
   def test_find_article_for_user
@@ -129,6 +145,10 @@ class UserTest < ActiveSupport::TestCase
 
   def test_invoices
     assert_equal 1, users(:cyrille).invoices.size
+  end
+
+  def test_role_description
+    assert_equal "full member", users(:sgardiner).role_description
   end
 
   def test_css_class_role_description

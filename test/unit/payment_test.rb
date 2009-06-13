@@ -57,6 +57,9 @@ class PaymentTest < ActiveSupport::TestCase
     applying_resident_expert.reload
     assert_equal Time.now.to_date, applying_resident_expert.resident_since.to_date
     assert_equal 1.year.from_now.to_date, applying_resident_expert.resident_until.to_date
+    #make sure that member dates are aligned
+    assert_equal Time.now.to_date, applying_resident_expert.member_since.to_date
+    assert_equal 1.year.from_now.to_date, applying_resident_expert.member_until.to_date
     #an email should have been sent
     assert_equal 1, ActionMailer::Base.deliveries.size
     applying_resident_expert.reload

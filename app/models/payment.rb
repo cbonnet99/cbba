@@ -146,9 +146,12 @@ class Payment < ActiveRecord::Base
     end
     if payment_type == "resident_expert" || payment_type == "resident_expert_renewal"
       user.resident_since = Time.now if user.resident_since.nil?
+      user.member_since = Time.now if user.member_since.nil?
       if user.resident_until.nil?
+        user.member_until = 1.year.from_now
         user.resident_until = 1.year.from_now
       else
+        user.member_until += 1.year
         user.resident_until += 1.year
       end
       if !user.resident_expert?
