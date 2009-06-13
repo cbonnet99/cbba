@@ -94,13 +94,19 @@ class User < ActiveRecord::Base
   end
 
   def make_resident_expert!(subcategory)
-    self.roles << Role.find_by_name("resident_expert")
-    self.expertise_subcategory = subcategory
-    self.resident_since = Time.now
-    self.resident_until = 1.year.from_now
-    self.save!
-    subcategory.resident_expert = self
-    subcategory.save!
+    if !subcategory.resident_expert.nil?
+      logger.error("User: #{self.full_name} has paid to become resident expert on #{subcategory.name}, but there is already an expert: #{subcategory.resident_expert.full_name}")
+    else
+      self.free_listing = false
+      self.add_role("resident_expert")
+      self.remove_role("free_listing")
+      self.expertise_subcategory = subcategory
+      self.resident_since = Time.now
+      self.resident_until = 1.year.from_now
+      self.save!
+      subcategory.resident_expert = self
+      subcategory.save!
+    end
   end
 
   def find_how_to_for_user(slug, user=nil)
@@ -430,31 +436,31 @@ class User < ActiveRecord::Base
   end
 
   def self.paginated_full_members(page, limit=$full_members_per_page)
-    User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false", :order => "published_at desc", :limit => limit, :page => page )
+    User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "published_at desc", :limit => limit, :page => page )
   end
 
   def self.newest_full_members
-    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
+    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
   end
 
   def self.published_resident_experts
-    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false", :order => "first_name, last_name")
+    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "first_name, last_name")
   end
 
   def self.count_published_resident_experts
-    User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false")
+    User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false and users.state='active'")
   end
 
   def self.published_full_members
-    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false", :order => "first_name, last_name")
+    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "first_name, last_name")
   end
 
   def self.count_published_full_members
-    User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false")
+    User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active'")
   end
 
   def self.count_newest_full_members
-    User.count(:include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false")
+    User.count(:include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active'")
   end
 
   def select_tab(tab_slug)

@@ -5,7 +5,6 @@ cyrille_profile:
   state: published
   published_at: <%= 2.days.ago.to_s :db %>
 
-
 norma_profile:
   user: norma
   state: published
@@ -22,3 +21,8 @@ sgardiner_profile:
 rmoore_profile:
   user: rmoore
   state: draft
+
+suspended_user1_profile:
+    user: suspended_user1
+    state: published
+    published_at: <%= 2.days.ago.to_s :db %>

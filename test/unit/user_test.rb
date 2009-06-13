@@ -11,12 +11,17 @@ class UserTest < ActiveSupport::TestCase
   
   def test_make_resident_expert
     rmoore = users(:rmoore)
+    free_listing_role = roles(:free_listing_role)
+    assert rmoore.roles.include?(free_listing_role)
+    assert rmoore.free_listing?
     kinesiology = subcategories(:kinesiology)
     rmoore.make_resident_expert!(kinesiology)
     assert rmoore.resident_expert?
     assert_not_nil rmoore.expertise_subcategory
     assert_not_nil rmoore.resident_since
     assert_not_nil rmoore.resident_until
+    assert !rmoore.free_listing?
+    assert !rmoore.roles.include?(free_listing_role)
   end
 
   def test_find_article_for_user
@@ -258,7 +263,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_sentence_to_review
     cyrille = users(:cyrille)
-    assert_equal "5 items to review", cyrille.sentence_to_review
+    assert_equal "6 items to review", cyrille.sentence_to_review
   end
 
   def test_roles
@@ -363,16 +368,22 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal 3, results.size
 	end
 
-  	def test_search_results_category
-  		practitioners = categories(:practitioners)
-  		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-      results = User.search_results(practitioners.id, nil, nil, canterbury_christchurch_city.id, 1)
-  #    puts "========= results:"
-  #    results.each do |r|
-  #      puts r.name
-  #    end
-  		assert_equal 3, results.size
-  	end
+	def test_search_results_category_with_district
+		practitioners = categories(:practitioners)
+		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
+    results = User.search_results(practitioners.id, nil, nil, canterbury_christchurch_city.id, 1)
+   # puts "========= results:"
+   # results.each do |r|
+   #   puts r.name
+   # end
+		assert_equal 3, results.size
+	end
+	
+	def test_search_results_subcategory
+		hypnotherapy = subcategories(:hypnotherapy)
+    results = User.search_results(nil, hypnotherapy.id, nil, nil, 1)
+		assert_equal 5, results.size
+	end
 
     	def test_search_results_category_coaching
         coaches = categories(:coaches)

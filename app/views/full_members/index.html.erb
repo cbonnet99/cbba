@@ -1,4 +1,4 @@
-\<%= title "Full members" %>
+<%= title "Full members" %>
 <% @members.each do |e| -%>
   <div class="homepage-small-user user-rollover"><%= render :partial => "users/user_small", :locals => {:user => e }  %></div>
 <% end -%>

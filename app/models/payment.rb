@@ -152,14 +152,7 @@ class Payment < ActiveRecord::Base
         user.resident_until += 1.year
       end
       if !user.resident_expert?
-        user.free_listing = false
-        user.add_role("resident_expert")
-        subcat = expert_application.subcategory
-        if !subcat.resident_expert.nil?
-          logger.error("User: #{user.full_name} has paid to become resident expert on #{subcat.name}, but there is already an expert: #{subcat.resident_expert.full_name}")
-        else
-          subcat.update_attribute(:resident_expert_id, user.id)
-        end
+        user.make_resident_expert!(expert_application.subcategory)
       end
     end
     user.save!
