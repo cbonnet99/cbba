@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
 
   def make_resident_expert!(subcategory)
     if !subcategory.resident_expert.nil?
-      logger.error("User: #{self.full_name} has paid to become resident expert on #{subcategory.name}, but there is already an expert: #{subcategory.resident_expert.full_name}")
+      logger.error("Trying to make user: #{self.full_name} resident expert on #{subcategory.name}, but there is already an expert for this subcategory: #{subcategory.resident_expert.full_name}")
     else
       self.free_listing = false
       self.add_role("resident_expert")
