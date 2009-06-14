@@ -48,7 +48,11 @@ class ArticlesController < ApplicationController
       @article = @selected_user.find_article_for_user(params[:id], current_user)
       if @article.nil?
         flash[:error]="Sorry, this article could not be found"
-        redirect_to user_articles_path
+        if @selected_user == current_user
+          redirect_to user_articles_path
+        else
+          redirect_to articles_path
+        end
       end      
     end
   end

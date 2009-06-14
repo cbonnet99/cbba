@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticlesControllerTest < ActionController::TestCase
+  include ApplicationHelper
+  
 	fixtures :all
 	
 	def test_unpublish
@@ -91,6 +93,22 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:article)
+  end
+
+  def test_should_show_article_draft_anonymous
+    cyrille = users(:cyrille)
+    get :show, {:id => articles(:yoga).slug, :selected_user => cyrille.slug }
+    assert_redirected_to articles_path
+    assert_not_nil assigns(:selected_user)
+    assert_nil assigns(:article)
+  end
+
+  def test_should_show_own_article_draft
+      cyrille = users(:cyrille)
+      get :show, {:id => articles(:yoga).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }
+      assert_response :success
+      assert_not_nil assigns(:selected_user)
+      assert_not_nil assigns(:article)
   end
 
   def test_should_get_edit
