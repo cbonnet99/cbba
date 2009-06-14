@@ -106,8 +106,12 @@ class SpecialOffersController < ApplicationController
   
   def destroy
     @special_offer = current_user.special_offers.find_by_slug(params[:id])
-    @special_offer.destroy
-    flash[:notice] = "Successfully destroyed special offer."
+    if current_user.author?(@special_offer)
+      @special_offer.destroy
+      flash[:notice] = "Your special offer was deleted"
+    else
+      flash[:error] = "You cannot delete this special offer"
+    end    
     redirect_to special_offers_url
   end
 end

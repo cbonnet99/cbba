@@ -107,7 +107,7 @@ class HowTosController < ApplicationController
 
   def destroy
     @how_to = current_user.how_tos.find(params[:id])
-    if current_user.author?(@how_to) && @how_to.draft?
+    if current_user.author?(@how_to)
       @how_to.destroy
       flash[:notice] = "Your 'how to' article was deleted"
     else

@@ -128,7 +128,7 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1.xml
   def destroy
     @article = Article.find(params[:id])
-    if current_user.author?(@article) && @article.draft?
+    if current_user.author?(@article)
       @article.destroy
       flash[:notice] = "The article was deleted"
     else

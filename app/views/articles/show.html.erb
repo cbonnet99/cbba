@@ -5,9 +5,7 @@
 <div class="publication-author">by <%= author_link(@article.author) %></div>
 <div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
-  <%if @article.draft? -%>
-      <%= link_to 'Delete', article_path(@article), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "button"  %>
-  <%end -%>
+      <%= link_to 'Delete', article_path(@article), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
 <%= link_to 'Edit', edit_article_path(@article), :class => "anchor-button" %>
 <% end -%></div>
 <div class="cleaner"></div>

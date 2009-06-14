@@ -98,8 +98,12 @@ class GiftVouchersController < ApplicationController
 
   def destroy
     @gift_voucher = current_user.gift_vouchers.find_by_slug(params[:id])
-    @gift_voucher.destroy
-    flash[:notice] = "Successfully destroyed gift voucher."
+    if current_user.author?(@gift_voucher)
+      @gift_voucher.destroy
+      flash[:notice] = "Your gift voucher was deleted"
+    else
+      flash[:error] = "You cannot delete this gift voucher"
+    end
     redirect_to gift_vouchers_url
   end
 end
