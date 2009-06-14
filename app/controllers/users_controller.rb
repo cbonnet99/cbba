@@ -10,10 +10,12 @@ class UsersController < ApplicationController
     if @user.blank?
       flash[:error] = "This user does not exist."
       logger.error("Attempt to redirect to website for slug #{params[:slug]} (user doesn't exist)")
+      redirect_to root_path
     else
       if @user.website.blank?
         flash[:error] = "This user does not have a Web site."
         logger.error("Attempt to redirect to website for user #{@user.email}(ID: #{@user.id})")
+        redirect_to root_path
       else
         log_user_event UserEvent::REDIRECT_WEBSITE, "Redirected to #{@user.website}", {}, {:visited_user_id => @user.id }
         logger.debug("+++++++++++++++ redirecting to #{@user.website}")

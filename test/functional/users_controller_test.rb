@@ -35,6 +35,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal UserEvent::REDIRECT_WEBSITE, last_event.event_type
   end
 
+  def test_redirect_website_unknown_user
+    cyrille = users(:cyrille)
+    post :redirect_website, :slug => "bla"
+    assert_redirected_to root_path
+  end
+
   def test_create_resident_expert
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
