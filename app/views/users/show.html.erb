@@ -6,6 +6,7 @@
 		  <%= render :partial => "users/user_nav", :locals => {:selected => "profile" } %>
 		<% end -%>
 	    <div id="profile-publish-information" class="publication-actions">
+		  <% if @user.user_profile.draft? %><div id="bam-warning-profile-draft">Your profile is not public yet. To make it public, click on Publish -></div><%end%>
 	      <%= render :partial => "reviewer/publication_actions", :locals => {:item => @user.user_profile, :class_name => "user_profile" }   %>
 	    </div>
 		<% if own_profile?(@user) || @user.user_profile.published? -%>

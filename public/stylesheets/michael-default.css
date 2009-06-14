@@ -1,3 +1,9 @@
+#bam-warning-profile-draft {
+	float: left;
+	color: red;
+	font-size: 13px;
+	vertical-align: middle;
+}
 div.user-description h4.title-user-paying {
 	font-weight: bold;
 }
