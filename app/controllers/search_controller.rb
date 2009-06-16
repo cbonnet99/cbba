@@ -2,6 +2,13 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class SearchController < ApplicationController
 
+  def contact
+    @norma = User.find_by_email("norma@eurekacoaching.co.nz")
+    @sav = User.find_by_email("sav@elevatecoaching.co.nz")
+    @cyrille = User.find_by_email("cbonnet99@gmail.com")
+    @megan = User.find_by_email("megan@beamazing.co.nz")
+  end
+
   def test_layout
     render :layout => "naked", :action => "test_layout"  
   end

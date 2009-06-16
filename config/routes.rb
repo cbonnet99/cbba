@@ -28,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"
   map.resources :expert_applications
 
+  map.contact '/contact', :controller => "search", :action => "contact"
   map.customerror '/customerror', :controller => "search", :action => "customerror"
   map.notfound '/notfound', :controller => "search", :action => "notfound"
   map.whyjoin '/whyjoin', :controller => "search", :action => "whyjoin"
