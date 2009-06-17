@@ -88,7 +88,9 @@ class UsersController < ApplicationController
       @user.errors.full_messages.each do |m|
         logger.error("* #{m}")
       end
-      flash[:error]="Error while uploading your photo. Our administrator has been notified. Please try again later. Our sincere apologies for the inconvenience."
+      error_msg = @user.errors.full_messages.join(". ")
+      
+      flash[:error]="Error while uploading your photo. #{error_msg}"
     end
 		redirect_to expanded_user_path(@user)
   end

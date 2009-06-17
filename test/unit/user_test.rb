@@ -15,8 +15,10 @@ class UserTest < ActiveSupport::TestCase
     full_member_role = roles(:full_member_role)
     assert rmoore.roles.include?(free_listing_role)
     assert rmoore.free_listing?
+    assert rmoore.tabs.size == 0
     kinesiology = subcategories(:kinesiology)
     rmoore.make_resident_expert!(kinesiology)
+    rmoore.reload
     assert rmoore.resident_expert?
     assert_not_nil rmoore.expertise_subcategory
     assert_not_nil rmoore.resident_since
@@ -25,6 +27,8 @@ class UserTest < ActiveSupport::TestCase
     # IMPORTANT: if the user keeps the free listing role, it would appear twice in the search results
     assert !rmoore.roles.include?(free_listing_role)
     assert rmoore.roles.include?(full_member_role)
+    puts "======== rmoore.tabs: #{rmoore.tabs.inspect}"
+    assert rmoore.tabs.size > 0
   end
 
   def test_make_resident_expert_from_full_member

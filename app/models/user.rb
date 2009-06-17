@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email, :case_sensitive => false
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
   validates_attachment_size :photo, :less_than => 3.megabytes
-  validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/png', 'image/gif']
+  validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif']
   # Relationships
   has_many :messages
   has_many :roles_users
@@ -537,27 +537,25 @@ class User < ActiveRecord::Base
   end
 
   def update_tabs
-    if subcategories.map(&:id) != [subcategory1_id, subcategory2_id, subcategory3_id]
-      unless free_listing?
-        old_tabs = Hash.new
-        self.tabs.each {|t| old_tabs[t.title] = t.content}
-        new_tabs = []
-        new_tabs_content = []
-        [subcategory1_id, subcategory2_id, subcategory3_id].each do |id|
-          unless id.blank?
-            s = Subcategory.find(id)
-            if old_tabs.keys.include?(s.name)
-              new_tabs << s.name
-              new_tabs_content << old_tabs[s.name]
-            else
-              new_tabs << s.name
-              new_tabs_content << s.name
-            end
+    if !free_listing? && subcategories.map(&:id) != [subcategory1_id, subcategory2_id, subcategory3_id]
+      old_tabs = Hash.new
+      self.tabs.each {|t| old_tabs[t.title] = t.content}
+      new_tabs = []
+      new_tabs_content = []
+      [subcategory1_id, subcategory2_id, subcategory3_id].each do |id|
+        unless id.blank?
+          s = Subcategory.find(id)
+          if old_tabs.keys.include?(s.name)
+            new_tabs << s.name
+            new_tabs_content << old_tabs[s.name]
+          else
+            new_tabs << s.name
+            new_tabs_content << s.name
           end
         end
-        self.tabs.delete_all
-        new_tabs.each_with_index {|s, i| self.tabs.create(:title => s, :content => new_tabs_content[i], :position => i )}
       end
+      self.tabs.delete_all
+      new_tabs.each_with_index {|s, i| self.tabs.create(:title => s, :content => new_tabs_content[i], :position => i )}
     end
   end
 
