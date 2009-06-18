@@ -8,7 +8,7 @@ class HowTo < ActiveRecord::Base
 	has_many :subcategories, :through => :how_tos_subcategories
 	has_many :how_tos_categories
 	has_many :categories, :through => :how_tos_categories
-
+  
 	MAX_LENGTH_SLUG = 50
   
   validates_presence_of :title, :summary

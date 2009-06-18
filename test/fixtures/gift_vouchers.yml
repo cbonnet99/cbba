@@ -6,6 +6,7 @@ free_massage:
   state: published
   slug: free-massage
   author: cyrille
+  published_at: <%= 2.days.ago.to_s :db %>
 free_massage_draft:
     title: Free massage draft
     description: 1 paid, 1 free
@@ -22,4 +23,5 @@ free_massage_norma:
     state: published
     slug: free-massage
     author: norma
+    published_at: <%= 2.days.ago.to_s :db %>
   

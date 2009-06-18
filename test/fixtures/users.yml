@@ -49,7 +49,10 @@ norma:
   member_since:              <%= 17.months.ago.to_s :db %>
   member_until:              <%= 1.week.from_now.to_s :db %>
   slug:                      norma-stein2-amazing-biz
-  gift_vouchers_count:       2
+  special_offers_count:            1
+  gift_vouchers_count:            2
+  published_special_offers_count:  1
+  published_gift_vouchers_count:  1
   latitude:                  123
   longitude:                 20
   website:                   http://www.google.com

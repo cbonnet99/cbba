@@ -27,7 +27,6 @@ class UserTest < ActiveSupport::TestCase
     # IMPORTANT: if the user keeps the free listing role, it would appear twice in the search results
     assert !rmoore.roles.include?(free_listing_role)
     assert rmoore.roles.include?(full_member_role)
-    puts "======== rmoore.tabs: #{rmoore.tabs.inspect}"
     assert rmoore.tabs.size > 0
   end
 

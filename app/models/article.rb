@@ -11,6 +11,8 @@ class Article < ActiveRecord::Base
 	has_many :subcategories, :through => :articles_subcategories
 	has_many :articles_categories
 	has_many :categories, :through => :articles_categories
+
+  alias_attribute :body_or_lead, :lead
   
   validates_presence_of :title, :lead, :author
   validates_length_of :title, :maximum => 255
@@ -21,6 +23,14 @@ class Article < ActiveRecord::Base
 	after_create :create_slug
 
 	MAX_LENGTH_SLUG = 20
+
+  def body_or_lead
+    if lead.blank?
+      body
+    else
+      lead
+    end
+  end
 
   def validate
     if subcategory1_id.blank?

@@ -6,8 +6,7 @@ end
 class Tab < ActiveRecord::Base
 
   ARTICLES = "articles"
-  SPECIAL_OFFERS = "special_offers"
-  GIFT_VOUCHERS = "gift_vouchers"
+  OFFERS = "offers"
   
   after_create :create_slug
 
@@ -24,7 +23,7 @@ class Tab < ActiveRecord::Base
   end
 
   def validate
-    if title.downcase == ARTICLES
+    if title.downcase == ARTICLES || title.downcase == OFFERS
       errors.add(:title, "^#{title} is a reserved title")
     end
   end

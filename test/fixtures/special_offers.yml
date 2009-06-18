@@ -46,6 +46,7 @@ free_trial:
     </ul>
   author: cyrille
   state: published
+  published_at: <%= 5.days.ago.to_s :db %>
 norma:
     title: Offer one
     slug: offer_one
@@ -54,4 +55,5 @@ norma:
     terms: MyText
     author: norma
     state: published
+    published_at: <%= 7.days.ago.to_s :db %>
 

@@ -1,2 +1,2 @@
-<h4><%=link_to how_to.title, how_tos_show_path(how_to.author.slug, how_to.slug) %></h4>
-<p><%= white_list how_to.summary %></p>
+<h4><%=link_to how_to.title, how_tos_show_path(how_to.author.slug, how_to.slug) %> by <%= author_link(how_to.author) %></h4>
+<p><%= truncate(white_list(how_to.summary), :length => 30, :omission => "..."+link_to("Read more", how_tos_show_path(how_to.author.slug, how_to.slug))) %></p>

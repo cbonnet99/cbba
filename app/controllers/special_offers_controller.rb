@@ -7,7 +7,9 @@ class SpecialOffersController < ApplicationController
 
   def index
     @special_offers = SpecialOffer.published
-    log_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
+    @gift_vouchers = GiftVoucher.published
+    @all_offers = @special_offers.concat(@gift_vouchers)
+    log_user_event UserEvent::SELECT_COUNTER, "", "Offers"
   end
 
 	def publish

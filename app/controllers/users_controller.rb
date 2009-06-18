@@ -119,6 +119,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by_slug(params[:name])
+    @own_profile = (@user == current_user)
     if @user.nil? || !@user.full_member?
       flash[:notice] = "Sorry, we could not find this user"
       redirect_to root_url
@@ -136,18 +137,11 @@ class UsersController < ApplicationController
             @all_articles = Article.all_published_articles(@user)
           end
         end
-        if @selected_tab.slug == Tab::SPECIAL_OFFERS
+        if @selected_tab.slug == Tab::OFFERS
           if @user == current_user
-            @special_offers = SpecialOffer.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
+            @all_offers = SpecialOffer.all_offers(current_user)
           else
-            @special_offers = SpecialOffer.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
-          end
-        end
-        if @selected_tab.slug == Tab::GIFT_VOUCHERS
-          if @user == current_user
-            @gift_vouchers = GiftVoucher.find_all_by_author_id(current_user.id, :order => "state, updated_at desc")
-          else
-            @gift_vouchers = GiftVoucher.find_all_by_author_id_and_state(@user.id, "published", :order => "published_at desc")
+            @all_offers = SpecialOffer.all_published_offers(@user)
           end
         end
       end

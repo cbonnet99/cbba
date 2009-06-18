@@ -1,12 +1,14 @@
-<% if own_profile?(@user) -%>
-<p><%= link_to "Create a new special offer", new_special_offer_path %></p>
-<% end -%>
-<% if @special_offers.blank? -%>
-  No special offers
+<% if @all_offers.blank? -%>
+  No offers
 <%else -%>
   <ul id="your-special-offers" class="simple">
-  <% for special_offer in @special_offers %>
-    <%= render :partial => "special_offers/special_offer",  :locals => {:special_offer => special_offer, :hide_state => !own_profile?(@user) }   %>
-  <% end %>
+  <% for offer in @all_offers %>
+	<% if offer.class.to_s == "SpecialOffer"-%>
+    <%= render :partial => "special_offers/special_offer",  :locals => {:special_offer => offer, :hide_state => !@own_profile }   %>
+	<%else -%>
+    <%= render :partial => "gift_vouchers/gift_voucher",  :locals => {:gift_voucher => offer, :hide_state => !@own_profile }   %>
+	<%end -%>
+  <% end -%>
   </ul>
 <% end -%>
+

@@ -1,2 +1,3 @@
 <% hide_state = nil if local_assigns[:hide_state].nil? -%>
-<li class="<%= cycle('odd','even')%>"><%=link_to gift_voucher.title, gift_vouchers_show_path(gift_voucher.author, gift_voucher.slug, :index_public => !hide_state.nil?) %><% unless hide_state%> (<span class="<%=gift_voucher.workflow_css_class%>"><%=gift_voucher.state%></span>)<%end%><% if !hide_state.nil?%> by <%= author_link(gift_voucher.author) %><%end%></li>
+<p><%=link_to gift_voucher.title, gift_vouchers_show_path(gift_voucher.author, gift_voucher.slug, :index_public => !hide_state.nil?) %><% unless hide_state%> (<span class="<%=gift_voucher.workflow_css_class%>"><%=gift_voucher.state%></span>)<%end%><% if !hide_state.nil?%> by <%= author_link(gift_voucher.author) %><%end%></p>
+<p><%=truncate(white_list(gift_voucher.description))%></p>

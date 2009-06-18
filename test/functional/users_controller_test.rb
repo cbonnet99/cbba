@@ -169,36 +169,13 @@ class UsersControllerTest < ActionController::TestCase
 		assert ActionMailer::Base.deliveries.size > 0
 	end
   
-  def test_show_gift_vouchers
-    auckland = regions(:auckland)
-    coaches = categories(:coaches)
-    norma = users(:norma)
-
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "gift_vouchers" }
-    assert_not_nil assigns(:gift_vouchers)
-    assert_select "a", {:text => "Create a new gift voucher", :count => 0 }
-    assert_select "span", {:text => "published", :count => 0} 
-  end
-
-  def test_show_gift_vouchers_own_profile
-    auckland = regions(:auckland)
-    coaches = categories(:coaches)
-    norma = users(:norma)
-
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "gift_vouchers" }, {:user_id => norma.id, }
-    assert_not_nil assigns(:gift_vouchers)
-    assert_select "a", {:text => "Create a new gift voucher", :count => 1}
-    assert_select "span", {:text => "published", :count => 1} 
-  end
-
   def test_show_special_offers
     auckland = regions(:auckland)
     coaches = categories(:coaches)
     norma = users(:norma)
 
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "special_offers" }
-    assert_not_nil assigns(:special_offers)
-    assert_select "a", {:text => "Create a new special offer", :count => 0 }
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "offers" }
+    assert_not_nil assigns(:all_offers)
     assert_select "span", {:text => "published", :count => 0} 
   end
 
@@ -207,10 +184,9 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
     norma = users(:norma)
 
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "special_offers" }, {:user_id => norma.id, }
-    assert_not_nil assigns(:special_offers)
-    assert_select "a", {:text => "Create a new special offer", :count => 1}
-    assert_select "span", {:text => "published", :count => 1} 
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "offers" }, {:user_id => norma.id, }
+    assert_not_nil assigns(:all_offers)
+    assert_select "span", {:text => "published", :count => 2} 
   end
 
   def test_show_articles
@@ -257,7 +233,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "input[value=Unpublish]"
     #counts both articles and 'how to' articles
     assert_select "a", :text => "4 articles"
-    assert_select "a", :text => "2 special offers"
+    assert_select "a", :text => "4 offers"
   end
 
   def test_show_not_own_profile
@@ -268,14 +244,14 @@ class UsersControllerTest < ActionController::TestCase
     get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => norma.id }
     assert_response :success
     # #Cyrille's profile is already published: Unpublish button should be shown
-#    puts @response.body
+   # puts @response.body
     assert_select "input[value=Publish]", :count => 0
     assert_select "input[value=Unpublish]", :count => 0
     #only one published article
     assert_select "a", :text => "1 article"
     
-    #only one published special offer
-    assert_select "a", :text => "1 special offer"
+    #only one published special offer and one published gift voucher
+    assert_select "a", :text => "2 offers"
   end
 
   def test_show_number_published_articles
@@ -285,7 +261,7 @@ class UsersControllerTest < ActionController::TestCase
     get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}
     assert_response :success
     assert_select "a", :text => "1 article"
-    assert_select "a", :text => "1 special offer"
+    assert_select "a", :text => "2 offers"
   end
 
   def test_show_always_show_articles_when_own_profile
@@ -294,8 +270,9 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
     get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => norma.id }
     assert_response :success
+    # puts @response.body
     assert_select "a", :text => "0 articles"
-    assert_select "a", :text => "0 special offers"
+    assert_select "a", :text => "3 offers"
   end
 
   def test_show_hide_articles_when_0
@@ -305,7 +282,7 @@ class UsersControllerTest < ActionController::TestCase
     get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug}
     assert_response :success
     assert_select "a", :text => "0 articles", :count => 0
-    assert_select "a", :text => "0 special offers", :count => 0
+    assert_select "a", :text => "0 offers", :count => 0
   end
 
   def test_show_free_listing

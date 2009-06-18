@@ -287,17 +287,9 @@ class User < ActiveRecord::Base
 
   def special_offers_count_for_user(current_user)
     if current_user == self
-      return special_offers_count
+      return special_offers_count + gift_vouchers_count
     else
-      return published_special_offers_count
-    end
-  end
-
-  def gift_vouchers_count_for_user(current_user)
-    if current_user == self
-      return gift_vouchers_count
-    else
-      return published_gift_vouchers_count
+      return published_special_offers_count + published_gift_vouchers_count
     end
   end
 
@@ -473,11 +465,8 @@ class User < ActiveRecord::Base
       when Tab::ARTICLES:
         virtual_tab = VirtualTab.new(Tab::ARTICLES, "Articles", "articles/index", "articles/nav" )
         return virtual_tab
-      when Tab::SPECIAL_OFFERS:
-        virtual_tab = VirtualTab.new(Tab::SPECIAL_OFFERS, "Special Offers", "special_offers/index", "special_offers/nav" )
-        return virtual_tab
-      when Tab::GIFT_VOUCHERS:
-        virtual_tab = VirtualTab.new(Tab::GIFT_VOUCHERS, "Gift Vouchers", "gift_vouchers/index", "gift_vouchers/nav" )
+      when Tab::OFFERS:
+        virtual_tab = VirtualTab.new(Tab::OFFERS, "Offers", "special_offers/index", "special_offers/nav" )
         return virtual_tab
       else
         tabs.find_by_slug(tab_slug) || tabs.first

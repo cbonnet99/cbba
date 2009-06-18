@@ -3,8 +3,7 @@
       <li class="tab<%if @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= expanded_user_tabs_path(@user, t.slug) %>"><%=t.title%></a></li>
     <% end -%>
 <%unless @user.no_articles_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="<%=pluralize(@user.articles_count_for_user(current_user), "article")%>" href="<%= expanded_user_tabs_path(@user, Tab::ARTICLES) %>"><%=pluralize(@user.articles_count_for_user(current_user), "article")%></a></li><%end%>
-<%unless @user.no_special_offers_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::SPECIAL_OFFERS%> selected-tab<%end%>"><a alt="<%=pluralize(@user.special_offers_count_for_user(current_user), "special offer")%>" href="<%= expanded_user_tabs_path(@user, Tab::SPECIAL_OFFERS) %>"><%=pluralize(@user.special_offers_count_for_user(current_user), "special offer")%></a></li><%end%>
-<%unless @user.no_gift_vouchers_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::GIFT_VOUCHERS%> selected-tab<%end%>"><a alt="<%=pluralize(@user.gift_vouchers_count_for_user(current_user), "gift voucher")%>" href="<%= expanded_user_tabs_path(@user, Tab::GIFT_VOUCHERS) %>"><%=pluralize(@user.gift_vouchers_count_for_user(current_user), "gift voucher")%></a></li><%end%>
+<%unless @user.no_special_offers_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::OFFERS%> selected-tab<%end%>"><a alt="<%=pluralize(@user.special_offers_count_for_user(current_user), "special offer")%>" href="<%= expanded_user_tabs_path(@user, Tab::OFFERS) %>"><%=pluralize(@user.special_offers_count_for_user(current_user), "offer")%></a></li><%end%>
   </ul>
 </div>
 <div id="profile-tab-content">

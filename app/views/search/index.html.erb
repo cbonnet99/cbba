@@ -32,7 +32,7 @@
 
 <div class="section"> 
 <% unless @newest_articles.empty? -%>
-<h3>News Articles</h3>
+<h3>New Articles</h3>
 <% @newest_articles.each do |a| -%>
   <div class="homepage-article <%= cycle('col1', 'col2')%>">
   <% if a.class.to_s == "HowTo" -%>
