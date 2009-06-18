@@ -41,19 +41,19 @@ class SearchController < ApplicationController
         logger.debug("====== in search, @subcategory: #{@subcategory.inspect}")
         @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
         log_user_event UserEvent::SEARCH, "", "what: #{@what}, where: #{@where},category: :#{@category.try(:name)}, subcategory: :#{@subcategory.try(:name)}, region :#{@region.try(:name)}, district: :#{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size}
-        latitude = Region::DEFAULT_NZ_LATITUDE
-        longitude = Region::DEFAULT_NZ_LONGITUDE
-        zoom = 5
-        unless @region.blank?
-          latitude = @region.latitude.to_f
-          longitude = @region.longitude.to_f
-          zoom = 7
-        end
-        unless @district.blank?
-          latitude = @district.latitude.to_f
-          longitude = @district.longitude.to_f
-          zoom = 11
-        end
+        # latitude = Region::DEFAULT_NZ_LATITUDE
+        # longitude = Region::DEFAULT_NZ_LONGITUDE
+        # zoom = 5
+        # unless @region.blank?
+        #   latitude = @region.latitude.to_f
+        #   longitude = @region.longitude.to_f
+        #   zoom = 7
+        # end
+        # unless @district.blank?
+        #   latitude = @district.latitude.to_f
+        #   longitude = @district.longitude.to_f
+        #   zoom = 11
+        # end
         unless @subcategory.blank?
           @articles = Article.find_all_by_subcategories(@subcategory)
         end
@@ -61,10 +61,10 @@ class SearchController < ApplicationController
           @articles = Article.find_all_by_subcategories(*@category.subcategories)
         end
         
-        @map = GMap.new("map_div_id")
-        @map.control_init(:large_map => true, :map_type => true)
-        @map.center_zoom_init([latitude,longitude], zoom)
-        User.map_geocoded(@map, @results)
+        # @map = GMap.new("map_div_id")
+        # @map.control_init(:large_map => true, :map_type => true)
+        # @map.center_zoom_init([latitude,longitude], zoom)
+        # User.map_geocoded(@map, @results)
       end
 
 #      if @what.blank?

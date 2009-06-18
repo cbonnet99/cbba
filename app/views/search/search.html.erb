@@ -1,4 +1,3 @@
-<%  content_for(:head, GMap.header(:host => request.host))%>
 <% unless logged_in? || @subcategory.nil? -%>
 <div id="bam-invite-join">
   <p>Do you offer <%=@subcategory.name%>? GREAT! We warmly invite you to <%= link_to 'join beamazing.co.nz', signup_intro_path %>!</p>
@@ -22,15 +21,5 @@
   <% end -%>
 </ul>
 <%= will_paginate @results, :params => {:where => params[:where], :what => params[:what] , :category_id => params[:category_id]}  %>
-  </div>
-  <div id="bam-search-map">
-    <%= @map.to_html %>
-    <%= @map.div(:width => 275, :height => 350) %>
-    <% unless @articles.blank? || @subcategory.blank? -%>
-      <h3>Articles on <%=@subcategory.name%></h3>
-      <% @articles.each do |a| -%>
-              <%= render :partial => "articles/article", :locals => {:article => a }   %>
-      <% end -%>
-    <% end -%>
   </div>
 <% end -%>
