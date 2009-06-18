@@ -1,3 +1,10 @@
+div.user-photo {
+	float: left;
+}
+ div.bam-user-details {
+	float: left;
+	width: 50%;
+}
 #bam-warning-profile-draft {
 	float: left;
 	color: red;
