@@ -1,5 +1,7 @@
-<% if is_author?(@article) -%>
-<%= link_to 'Back to your articles', user_articles_path %>
+<% if params[:index_public] == "true" -%>
+	<%= link_to 'Back to articles', articles_path %>
+<% else -%>
+	<%= link_to 'Back to your articles', user_articles_path %>
 <% end -%>
 <h1><%=h @article.title %></h1>
 <div class="publication-author">by <%= author_link(@article.author) %></div>

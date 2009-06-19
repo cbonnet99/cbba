@@ -3,9 +3,9 @@
 <% else -%>
   <% for article in @all_articles -%>
       <% if article.class.to_s == "HowTo" -%>
-        <%= render :partial => "how_tos/how_to",  :locals => {:how_to => article }   %>
+        <%= render :partial => "how_tos/how_to",  :locals => {:how_to => article, :hide_state => !@own_profile }   %>
       <%else -%>
-        <%= render :partial => "articles/article",  :locals => {:article => article }   %>
+        <%= render :partial => "articles/article",  :locals => {:article => article, :hide_state => !@own_profile }   %>
       <%end -%>
   <% end -%>
 <% end -%>
