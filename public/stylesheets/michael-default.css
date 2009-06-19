@@ -1,9 +1,9 @@
 div.user-photo {
 	float: left;
+	width: 55px;
 }
  div.bam-user-details {
 	float: left;
-	width: 50%;
 }
 #bam-warning-profile-draft {
 	float: left;
