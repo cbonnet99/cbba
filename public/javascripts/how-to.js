@@ -1,3 +1,12 @@
+var setLastTextArea = function() {
+	var lastTextAreaId = 0;
+    $(".step-text-area").each(function(intIndex){
+		lastTextAreaId = "step-text-area"+intIndex;
+		$(this).attr("id", lastTextAreaId);
+    });
+	tinyMCE.execCommand('mceAddControl', false, lastTextAreaId);
+};
+
 var resetStepNumbers = function() {
     $(".step-title-number").each(function(intIndex){
         $(this).html(intIndex+1);

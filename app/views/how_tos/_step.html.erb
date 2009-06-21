@@ -3,5 +3,5 @@
         <label><span class="step-title"><span class="step-title-label"><%= step.label.capitalize %></span>  <span class="step-title-number"><%=step.position%></span></span>(<%= link_to_function "remove", "$(this).parent().parent().parent().remove();resetStepLabels();resetStepNumbers();" %>)</label>
       </li>
     <li><%= step_form.label :title, "Title<span class='mandatoryStar'>*</span>:"%><%= step_form.text_field :title %></li>
-    <li><%= step_form.label :body, "Body<span class='mandatoryStar'>*</span>:"%><%= step_form.text_area :body, :cols => "35" %></li>
+    <li><%= step_form.label :body, "Body<span class='mandatoryStar'>*</span>:"%><%= step_form.text_area :body, :cols => "35", :class => "step-text-area" %></li>
   <% end %>

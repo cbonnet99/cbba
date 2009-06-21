@@ -1,6 +1,6 @@
 <% use_tinymce -%>
 <% javascript 'how-to' %>
- <ol>
+ <ol id="steps">
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
         <%= f.label :title, "Title (max. 255 characters):<span class='mandatoryStar'>*</span>" %>
@@ -22,7 +22,9 @@
         <div class="right-label"><%= f.label :step_label_tip, 'Tip'%></div>
       </li>
         <%= render :partial => 'step', :collection => @how_to.how_to_steps %>
-    <li id="after_steps">
+</ol>
+<ol>
+    <li>
       <div class="left-input"></div>
       <div class="right-label"><%= add_step_link @how_to.step_label %></div>
     </li>
