@@ -6,7 +6,7 @@ module HowTosHelper
 
   def add_step_link(step_label)
     link_to_function "Add new <span class='step-title-label'>#{step_label}</span>" do |page|
-      page.insert_html :bottom, :steps, :partial => 'step', :object => HowToStep.new
+      page.insert_html :top, :after_steps, :partial => 'step', :object => HowToStep.new
       page << "resetStepLabels();"
       page << "resetStepNumbers();"
     end

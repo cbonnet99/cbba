@@ -21,10 +21,8 @@
         <div class="left-input"><%= f.radio_button :step_label, "tip" %></div>
         <div class="right-label"><%= f.label :step_label_tip, 'Tip'%></div>
       </li>
-      <div id="steps">
         <%= render :partial => 'step', :collection => @how_to.how_to_steps %>
-      </div>
-    <li>
+    <li id="after_steps">
       <div class="left-input"></div>
       <div class="right-label"><%= add_step_link @how_to.step_label %></div>
     </li>
