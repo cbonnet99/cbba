@@ -1,7 +1,8 @@
 class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
-
+  include ActionController::UrlWriter
+  
   def thank_you_direct_debit(user, payment)
     setup_email(user)
 		@subject << "Your direct debit details for BeAmazing"
@@ -23,6 +24,12 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
 		@subject << subject
 		@body[:body] = body
+		@body[:user] = user
+		if user.full_member?
+		  @body[:profile_url] = expanded_user_path(user)
+	  else
+	    @body[:profile_url] = ""
+    end
     @content_type = 'text/html'
   end
 

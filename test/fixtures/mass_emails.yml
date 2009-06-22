@@ -16,6 +16,11 @@ test_transformed:
   subject: Testing transformed body
   body: This is 10% my friend
 
+test_transformed_profile:
+  subject: Testing transformed body
+  body:  |+
+    This is my profile: %USER_PROFILE_URL%
+    
 unknown_attributes:
   subject: Test unknown attributes
   body: |+

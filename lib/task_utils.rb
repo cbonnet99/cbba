@@ -39,7 +39,6 @@ class TaskUtils
   
   def self.send_reminder_on_expiring_memberships
     User.paying.each do |u|
-      puts "===== User #{u.email}"
       if u.resident_expert?
         time_until = u.resident_until
       else
@@ -49,7 +48,6 @@ class TaskUtils
           next
         end
       end
-      puts "===== User #{u.email}, time_until: #{time_until}"
       if !time_until.nil?
         if time_until < 3.weeks.ago || time_until > 3.weeks.from_now
           #forget it
@@ -91,9 +89,7 @@ class TaskUtils
   end
  end
   def self.suspend_full_members_when_membership_expired
-    puts "#{User.paying.size}"
     User.paying.each do |u|
-      puts "========== User: #{u.email}"
       if u.resident_expert?
         time_until = u.resident_until
       else
@@ -103,7 +99,6 @@ class TaskUtils
           next
         end
       end
-      puts "========== User: #{u.email}, time_until: #{time_until}"
       if !time_until.nil? && time_until < Time.now && u.active?
         puts "Suspending #{u.email}"
         u.suspend!

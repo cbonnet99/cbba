@@ -9,4 +9,5 @@
 <% else -%>
  | <%= link_to "Copy", action_mass_emails_path(:id => @mass_email.id, :action => "copy" ) %>
 <% end -%>
-<%= @mass_email.body %>
+<br/>
+<%= @mass_email.body.gsub(/\n/, "<br/>") %>

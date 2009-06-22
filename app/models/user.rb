@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   include ContactSystem
 	include SubcategoriesSystem
   include Sluggable
-	
+  
   has_attached_file :photo, :styles => { :medium => "90x100>", :thumbnail => "50x55>" },
    :url  => "/assets/profiles/:id/:style/:basename.:extension",
    :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
@@ -84,6 +84,10 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
+  
+  def user_profile_path
+    help.expanded_user_path(self)
+  end
   
   def member_since_launch_date?
     if resident_expert?

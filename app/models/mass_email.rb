@@ -90,8 +90,14 @@ class MassEmail < ActiveRecord::Base
         user.update_attributes(:password => r_pass, :confirm_password => r_pass)
         r_pass
       else
-        if (s[0].chr == "%") && (s[s.length-1].chr == "%") && user.respond_to?(s[1..s.length-2].to_sym)
-          user.send(s[1..s.length-2].to_sym)
+        if (s[0].chr == "%") && (s[s.length-1].chr == "%")
+          if user.respond_to?(s[1..s.length-2].to_sym)
+            user.send(s[1..s.length-2].to_sym)
+          else
+            if s[1..s.length-2] == "USER_PROFILE_URL"
+              "USER_PROFILE_URL"
+            end
+          end
         end
       end
     end

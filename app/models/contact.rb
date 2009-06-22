@@ -13,5 +13,9 @@ class Contact < ActiveRecord::Base
   validates_length_of :email, :within => 6..100 #r@a.wk
   
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
+
+  def full_member?
+    false
+  end
   
 end
