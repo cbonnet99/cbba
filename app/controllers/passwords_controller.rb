@@ -14,7 +14,6 @@ class PasswordsController < ApplicationController
       flash[:notice] = "A link to change your password has been sent to #{@password.email}."
       redirect_to :action => :new
     else
-      puts "===== HERE?"
       render :action => :new
     end
   end
