@@ -77,7 +77,7 @@ class MassEmail < ActiveRecord::Base
     #    end
     #    return errors
     errors =[]
-    self.body.scan(/%[a-zA-Z_]+%/) {|s| errors << s[1..s.length-2] if !user.attribute_names.include?(s[1..s.length-2])}
+    self.body.scan(/%[a-zA-Z_]+%/) {|s| errors << s[1..s.length-2] if !user.attribute_names.include?(s[1..s.length-2]) && s[1..s.length-2]!= "password" && s[1..s.length-2]!="USER_PROFILE_URL"}
     return errors
   end
   
