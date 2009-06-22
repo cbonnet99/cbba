@@ -82,8 +82,7 @@ class MassEmail < ActiveRecord::Base
   end
   
   def transformed_body(user)
-    arr = []
-    self.body.gsub(/\\n/, "<br/>").gsub(/%[a-zA-Z_]+%/) do |s|
+    self.body.gsub(/\n/, "<br/>").gsub(/%[a-zA-Z_]+%/) do |s|
       if s == "%password%"
         #reset password
         r_pass = User.generate_random_password
