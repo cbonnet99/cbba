@@ -84,14 +84,14 @@ class PaymentTest < ActiveSupport::TestCase
 
   def test_purchase_renew
     cyrille = users(:cyrille)
-    old_member_since = cyrille.member_since
-    old_member_until = cyrille.member_until
-    payment = cyrille.payments.create!(Payment::TYPES[:renew_full_member])
+    old_resident_since = cyrille.resident_since
+    old_resident_until = cyrille.resident_until
+    payment = cyrille.payments.create!(Payment::TYPES[:renew_resident_expert])
     payment.update_attributes(:card_number => "1", :card_expires_on => Time.now)
     payment.purchase
     cyrille.reload
-    assert_equal old_member_since, cyrille.member_since
-    assert_equal old_member_until+1.year, cyrille.member_until
+    assert_equal old_resident_since, cyrille.resident_since
+    assert_equal old_resident_until+1.year, cyrille.resident_until
   end
 
 end

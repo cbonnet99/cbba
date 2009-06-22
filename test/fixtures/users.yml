@@ -16,8 +16,8 @@ cyrille:
   professional:              true
   free_listing:              false
   phone:                     (06)3086130
-  member_since:              <%= 6.months.ago.to_s :db %>
-  member_until:              <%= 6.months.from_now.to_s :db %>
+  resident_since:              <%= 6.months.ago.to_s :db %>
+  resident_until:              <%= 6.months.from_now.to_s :db %>
   slug:                      cyrille-bonnet-bioboy-inc
   website:                   www.google.com
   articles_count:            2

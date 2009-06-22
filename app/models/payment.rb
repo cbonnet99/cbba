@@ -7,8 +7,8 @@ class Payment < ActiveRecord::Base
   DEFAULT_TYPE = "full_member"
   TYPES = {:full_member => {:payment_type => "new", :title => "12 month membership", :amount => 9900, :discount => 10000  },
     :renew_full_member => {:payment_type => "renewal", :title => "12 month membership renewal", :amount => 19900, :discount => 0 },
-    :resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership", :amount => 35000, :discount => 34900 },
-    :renew_resident_expert => {:payment_type => "resident_expert_renewal", :title => "12 month resident expert membership renewal", :amount => 69900, :discount => 0 }
+    :resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership", :amount => 49900, :discount => 49900 },
+    :renew_resident_expert => {:payment_type => "resident_expert_renewal", :title => "12 month resident expert membership renewal", :amount => 99800, :discount => 0 }
   }
   REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal", :resident_expert => "thank_you_resident_expert", :renew_resident_expert => "thank_you_resident_expert"}
 
@@ -148,12 +148,16 @@ class Payment < ActiveRecord::Base
       user.resident_since = Time.now if user.resident_since.nil?
       user.member_since = Time.now if user.member_since.nil?
       if user.resident_until.nil?
-        user.member_until = 1.year.from_now
         user.resident_until = 1.year.from_now
       else
-        user.member_until += 1.year
         user.resident_until += 1.year
       end
+      if user.member_until.nil?
+        user.member_until = 1.year.from_now
+      else
+        user.member_until += 1.year
+      end
+      
       if !user.resident_expert?
         user.make_resident_expert!(expert_application.subcategory)
       end

@@ -1,0 +1,8 @@
+Dear <%= @user.first_name %>,
+<br/>
+<p>Just to let you know that your membership expired <%= @time_description %> ago. Your profile was removed from the site.</p>
+<br/>
+<p>The site isn’t the same without you so we wanted to give you a last chance to renew your membership with us. To renew it for only $998+gst please click the link below:</p>
+<%= @url %>
+<br/>
+<%= render :partial => "signature"  %>

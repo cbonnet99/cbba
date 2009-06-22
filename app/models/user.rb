@@ -85,6 +85,16 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
   
+  def member_since_launch_date?
+    if resident_expert?
+      !resident_since.nil? && resident_since > $launch_date
+    else
+      if full_member?
+        !member_since.nil? && member_since > $launch_date
+      end
+    end
+  end
+  
   def clean_website
     if website.starts_with?(WEBSITE_PREFIX)
       website

@@ -64,6 +64,13 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
 
+  def residence_expired_today(user)
+    setup_email(user)
+		@subject << "Your residence has expired"
+		@body[:url] = user_renew_resident_url(:user => user)
+    @content_type = 'text/html'
+  end
+
   def past_membership_expiration(user, time_description)
     setup_email(user)
 		@subject << "Your membership has expired #{time_description} ago"
@@ -72,11 +79,27 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
 
+  def past_residence_expiration(user, time_description)
+    setup_email(user)
+		@subject << "Your membership has expired #{time_description} ago"
+		@body[:time_description] = time_description
+		@body[:url] = user_renew_resident_url(:user => user)
+    @content_type = 'text/html'
+  end
+
   def coming_membership_expiration(user, time_description)
     setup_email(user)
 		@subject << "Your membership will expire in #{time_description}"
 		@body[:time_description] = time_description
 		@body[:url] = user_renew_membership_url(:user => user)
+    @content_type = 'text/html'
+  end
+
+  def coming_residence_expiration(user, time_description)
+    setup_email(user)
+		@subject << "Your membership will expire in #{time_description}"
+		@body[:time_description] = time_description
+		@body[:url] = user_renew_resident_url(:user => user)
     @content_type = 'text/html'
   end
 

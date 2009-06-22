@@ -38,22 +38,50 @@ class TaskUtils
   end
   
   def self.send_reminder_on_expiring_memberships
-    User.full_members.each do |u|
-      if !u.member_until.nil?
-        if u.member_until < 3.weeks.ago || u.member_until > 3.weeks.from_now
-          #forget it
+    User.paying.each do |u|
+      puts "===== User #{u.email}"
+      if u.resident_expert?
+        time_until = u.resident_until
+      else
+        if u.full_member?
+          time_until = u.member_until
         else
-          if u.member_until < 2.weeks.ago
-              UserMailer.deliver_past_membership_expiration(u, "2 weeks") unless past_membership_reminder_email_sent_in_last_week?(u)
-          else
-            if u.member_until < 1.week.ago
-                UserMailer.deliver_past_membership_expiration(u, "1 week") unless past_membership_reminder_email_sent_in_last_week?(u)
-            else
-              if u.member_until < 1.week.from_now
-                UserMailer.deliver_coming_membership_expiration(u, "1 week") unless future_membership_reminder_email_sent_in_last_week?(u)
+          next
+        end
+      end
+      puts "===== User #{u.email}, time_until: #{time_until}"
+      if !time_until.nil?
+        if time_until < 3.weeks.ago || time_until > 3.weeks.from_now
+          #forget it
+          next
+        else
+          if time_until < 2.weeks.ago
+              if u.resident_expert?
+                UserMailer.deliver_past_residence_expiration(u, "2 weeks") unless past_membership_reminder_email_sent_in_last_week?(u)
               else
-                if u.member_until < 2.weeks.from_now
-                  UserMailer.deliver_coming_membership_expiration(u, "2 weeks") unless future_membership_reminder_email_sent_in_last_week?(u)
+                UserMailer.deliver_past_membership_expiration(u, "2 weeks") unless past_membership_reminder_email_sent_in_last_week?(u)
+              end
+          else
+            if time_until < 1.week.ago
+              if u.resident_expert?
+                UserMailer.deliver_past_residence_expiration(u, "1 week") unless past_membership_reminder_email_sent_in_last_week?(u)
+              else
+                UserMailer.deliver_past_membership_expiration(u, "1 week") unless past_membership_reminder_email_sent_in_last_week?(u)
+              end
+            else
+              if time_until < 1.week.from_now
+                if u.resident_expert?
+                  UserMailer.deliver_coming_residence_expiration(u, "1 week") unless future_membership_reminder_email_sent_in_last_week?(u)
+                else
+                  UserMailer.deliver_coming_membership_expiration(u, "1 week") unless future_membership_reminder_email_sent_in_last_week?(u)
+                end
+              else
+                if time_until < 2.weeks.from_now
+                  if u.resident_expert?
+                    UserMailer.deliver_coming_residence_expiration(u, "2 weeks") unless future_membership_reminder_email_sent_in_last_week?(u)
+                  else
+                    UserMailer.deliver_coming_membership_expiration(u, "2 weeks") unless future_membership_reminder_email_sent_in_last_week?(u)
+                  end
                 end
               end
             end
@@ -63,12 +91,28 @@ class TaskUtils
   end
  end
   def self.suspend_full_members_when_membership_expired
-    User.all.each do |u|
-      if !u.member_until.nil? && u.member_until < Time.now && u.active?
+    puts "#{User.paying.size}"
+    User.paying.each do |u|
+      puts "========== User: #{u.email}"
+      if u.resident_expert?
+        time_until = u.resident_until
+      else
+        if u.full_member?
+          time_until = u.member_until
+        else
+          next
+        end
+      end
+      puts "========== User: #{u.email}, time_until: #{time_until}"
+      if !time_until.nil? && time_until < Time.now && u.active?
         puts "Suspending #{u.email}"
         u.suspend!
         #send an email
-        UserMailer.deliver_membership_expired_today(u)
+        if u.resident_expert?
+          UserMailer.deliver_residence_expired_today(u)
+        else
+          UserMailer.deliver_membership_expired_today(u)
+        end
       end
     end
   end

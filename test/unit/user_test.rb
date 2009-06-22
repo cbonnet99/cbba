@@ -3,6 +3,21 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
+  
+  def test_launch_date
+    norma = users(:norma)
+    norma.member_since = Time.parse("Jun 1 2008")
+    norma.save!
+    assert !norma.member_since_launch_date?
+    
+    norma.member_since = Time.parse("Jul 2 2009")
+    norma.save!
+    assert norma.member_since_launch_date?    
+  end
+
+  def test_paying
+    assert User.paying.size > 2
+  end
 
   def test_clean_website
     assert_equal "http://www.google.com", users(:norma).clean_website

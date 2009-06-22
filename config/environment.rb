@@ -106,6 +106,8 @@ $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last
   {:email => "julie@thatblindwoman.co.nz", :first_name => "Julie", :last_name => "Woods", :region => "Otago", :district => "Dunedin", :category => "Coaches", :subcategory => "Life Coaching" },
   {:email => "norma@eurekacoaching.co.nz", :first_name => "Norma", :last_name => "Stein", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business Coaching"}]
 
+$launch_date = Time.parse("Jul 1 2009")
+
 $number_articles_on_homepage = 3
 $number_full_members_on_homepage = 3
 $max_number_tabs = 6
