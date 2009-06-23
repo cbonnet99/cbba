@@ -3,6 +3,7 @@ class Admin::ReviewerController < AdminApplicationController
 		@articles = Article.reviewable
 		@how_tos = HowTo.reviewable
 		@special_offers = SpecialOffer.reviewable
+		@gift_vouchers = GiftVoucher.reviewable
 		@user_profiles = UserProfile.reviewable
   end
 

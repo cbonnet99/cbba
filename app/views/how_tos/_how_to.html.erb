@@ -1,4 +1,5 @@
 <% hide_state = nil if local_assigns[:hide_state].nil? -%>
-<p><%=link_to how_to.title, how_tos_show_path(how_to.author.slug, how_to.slug, :index_public => !hide_state.nil?) %>
+<% review = nil if local_assigns[:review].nil? -%>
+<p><%=link_to how_to.title, how_tos_show_path(how_to.author.slug, how_to.slug, :index_public => !hide_state.nil?, :review => review) %>
 <% unless hide_state%> (<span class="<%=how_to.workflow_css_class%>"><%=how_to.state%></span>)<%end%><% if !hide_state.nil?%> by <%= author_link(how_to.author) %><%end%></p>
 <p><%=white_list how_to.summary %></p>

@@ -1,4 +1,5 @@
 <% hide_state = nil if local_assigns[:hide_state].nil? -%>
-<p><%=link_to article.title, articles_show_path(article.author.slug, article.slug, :index_public => !hide_state.nil?) %>
+<% review = nil if local_assigns[:review].nil? -%>
+<p><%=link_to article.title, articles_show_path(article.author.slug, article.slug, :index_public => !hide_state.nil?, :review => review ) %>
 <% unless hide_state%> (<span class="<%=article.workflow_css_class%>"><%=article.state%></span>)<%end%><% if !hide_state.nil?%> by <%= author_link(article.author) %><%end%></p>
 <%= white_list article.lead %>

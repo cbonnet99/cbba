@@ -87,12 +87,19 @@ class ArticlesControllerTest < ActionController::TestCase
 
   end
 
-  def test_should_show_article
+  def test_should_show_article_review
     cyrille = users(:cyrille)
-    get :show, {:id => articles(:long).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }
+    rmoore = users(:rmoore)
+    #jogging is a published article that hasn't been approved yet
+    get :show, {:id => articles(:jogging).slug, :selected_user => rmoore.slug, :review => "true"  }, {:user_id => cyrille.id }
+    assert flash[:error].blank?, "flash[:error] is #{flash[:error]}"
     assert_response :success
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:article)
+    #cyrille is a reviewer
+    assert_select "input[value=Approve]"
+    assert_select "a", {:text => "Back to your articles", :count => 0  }
+    assert_select "a", {:text => "Back to review list", :count => 1  }
   end
 
   def test_should_show_article_draft_anonymous

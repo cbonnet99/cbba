@@ -2,7 +2,10 @@
 <%= title 'Stuff to review' %>
   <% form_tag '/reviewer/reject' do -%>
         <%= hidden_field_tag "article_id", params[:article_id] %>
+        <%= hidden_field_tag "how_to_id", params[:how_to_id] %>
+        <%= hidden_field_tag "special_offer_id", params[:special_offer_id] %>
+        <%= hidden_field_tag "gift_voucher_id", params[:gift_voucher_id] %>
         <%= hidden_field_tag "user_profile_id", params[:user_profile_id] %>
-        <label for="reason_reject">Reason(it will be sent to the author of the article):</label><%= text_area_tag "reason_reject", :cols => "35" %>
+        <label for="reason_reject">Reason(it will be sent to the author of the article):</label><%= text_area_tag "reason_reject", nil, :cols => 35, :rows => 10  %>
         <%= submit_tag "Reject" %>
   <%end -%>

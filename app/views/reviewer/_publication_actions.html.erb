@@ -10,7 +10,7 @@
   <%end -%>
   </div>
 <%end-%>
-<% if item.reviewable? && is_reviewer? -%>
+<% if item.reviewable? && is_admin? -%>
   <div id="reviewer-actions">
   <% form_tag '/reviewer/approve' do -%>
         <%= hidden_field_tag "#{class_name}_id", item.id  %>

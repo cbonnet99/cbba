@@ -1,7 +1,11 @@
-<% if params[:index_public] == "true" -%>
-	<%= link_to "Back to articles", articles_path %>
-<% else -%>
-	<%= link_to "Back to your 'how to' articles", user_howtos_path %>
+<% if params[:review] == "true" -%>
+	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
+<%else -%>
+	<% if params[:index_public] == "true" -%>
+		<%= link_to "Back to articles", articles_path %>
+	<% else -%>
+		<%= link_to "Back to your 'how to' articles", user_howtos_path %>
+	<%end -%>
 <% end -%>
 <%= title @how_to.title %>
 <div class="publication-author">by <%= author_link(@how_to.author) %></div>

@@ -37,12 +37,12 @@ module ApplicationHelper
     end
   end
 
-  def link_to_profile(user)
+  def link_to_profile(user, review=false)
     if user.free_listing?
       ""
     else
       if user.user_profile.published?
-        link_to "View full profile", user_path_with_context(user)
+        link_to "View full profile", user_path_with_context(user, review)
       else
        "Full profile coming soon"
       end
@@ -99,8 +99,8 @@ module ApplicationHelper
 
 
   #when the context needs to be recorded (ie when a user profile has been clicked from a particular listing or from an article)
-  def user_path_with_context(user)
-    options = {}
+  def user_path_with_context(user, review=false)
+    options = {:review => review }
     unless @article.nil?
       options[:article_id] = @article.id
     end

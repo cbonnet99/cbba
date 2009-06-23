@@ -4,7 +4,7 @@
 <h3>Articles</h3>
   <ul class="simple" id="reviewable-articles">
   <% @articles.each do |a| -%>
-    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "articles/article", :locals => {:article => a } %></li>
+    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "articles/article", :locals => {:article => a, :review => "true"  } %></li>
   <% end -%>
   </ul>
 <% end -%>
@@ -12,7 +12,7 @@
 <h3>'How to' articles</h3>
   <ul class="simple" id="reviewable-how-tos">
   <% @how_tos.each do |a| -%>
-    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "how_tos/how_to", :locals => {:how_to => a } %></li>
+    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "how_tos/how_to", :locals => {:how_to => a, :review => "true" } %></li>
   <% end -%>
   </ul>
 <% end -%>
@@ -20,7 +20,15 @@
 <h3>Special offers</h3>
   <ul class="simple" id="reviewable-special-offers">
   <% @special_offers.each do |a| -%>
-    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "special_offers/special_offer", :locals => {:special_offer => a } %></li>
+    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "special_offers/special_offer", :locals => {:special_offer => a, :review => "true" } %></li>
+  <% end -%>
+  </ul>
+<% end -%>
+<% unless @gift_vouchers.blank? -%>
+<h3>Gift vouchers</h3>
+  <ul class="simple" id="reviewable-gift-vouchers">
+  <% @gift_vouchers.each do |a| -%>
+    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "gift_vouchers/gift_voucher", :locals => {:gift_voucher => a, :review => "true" } %></li>
   <% end -%>
   </ul>
 <% end -%>
@@ -28,7 +36,7 @@
 <h3>User profiles</h3>
   <ul class="simple" id="reviewable-user-profiles">
   <% @user_profiles.each do |p| -%>
-    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => p.user, :custom_msg => "Review profile for"  } %></li>
+    <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => p.user, :custom_msg => "Review profile for", :review => "true"  } %></li>
   <% end -%>
   </ul>
 <% end -%>

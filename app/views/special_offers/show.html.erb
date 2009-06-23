@@ -1,7 +1,11 @@
-<% if params[:index_public] == "true" -%>
-<%= link_to "Back to special offers", special_offers_path  %>
-<% else -%>
-<%= link_to "Back to your special offers", user_special_offers_path %>
+<% if params[:review] == "true" -%>
+	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
+<%else -%>
+	<% if params[:index_public] == "true" -%>
+		<%= link_to "Back to special offers", special_offers_path  %>
+	<% else -%>
+		<%= link_to "Back to your special offers", user_special_offers_path %>
+	<%end -%>
 <% end -%>
 <%= title @special_offer.title %>
 <div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>

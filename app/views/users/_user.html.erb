@@ -1,3 +1,4 @@
+<% review = nil if local_assigns[:review].nil? -%>
 <div class="user-description">
   <h4 class="<%=user.css_class_role_description%>"><%if !user.free_listing? && user.new_user?%><%= image_tag "new.gif"%><%end%><%= render :partial => "users/user_star", :locals => {:user => user } %><%= user.name %>, <%=  user.expertise %>, <%=  user.region_name %></h4>
 <%if user.photo.exists? && user.user_profile.published?%><div class="user-photo"><%= image_tag user.photo.url(:thumbnail) %></div><%end%>
@@ -12,7 +13,7 @@
   <% end -%>
   </div>
 <div class="cleaner"></div>
-<div class="bam-user-links" <%if user.free_listing?%>style="display: none"<%end%>>  <%=link_to_message(user)%><% unless user.free_listing?%>  | <%end%><%= link_to_profile(user) %>
+<div class="bam-user-links" <%if user.free_listing?%>style="display: none"<%end%>>  <%=link_to_message(user)%><% unless user.free_listing?%>  | <%end%><%= link_to_profile(user, review=="true") %>
   </div>
 </div>
 <div class="cleaner"></div>

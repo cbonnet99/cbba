@@ -1,7 +1,11 @@
-<% if params[:index_public] == "true" -%>
-<%= link_to "Back to gift vouchers", gift_vouchers_path %>
-<% else -%>
-<%= link_to "Back to your gift vouchers", user_gift_vouchers_path %>
+<% if params[:review] == "true" -%>
+	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
+<%else -%>
+	<% if params[:index_public] == "true" -%>
+		<%= link_to "Back to gift vouchers", gift_vouchers_path %>
+	<% else -%>
+		<%= link_to "Back to your gift vouchers", user_gift_vouchers_path %>
+	<% end -%>
 <% end -%>
 <%= title @gift_voucher.title %>
 <div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
