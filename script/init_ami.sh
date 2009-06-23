@@ -1,6 +1,7 @@
 #!/bin/sh
 sudo cp /usr/local/cft/deploy/apache_modrails.conf /usr/local/cft/deploy/apache_modrails.conf.SAV
 sudo cp /usr/local/cft/deploy/rails/apache/apache_modrails.conf /usr/local/cft/deploy/apache_modrails.conf
+sudo cp /usr/local/cft/deploy/rails/ssl/* /usr/local/cft/deploy/
 
 sudo cp /usr/local/cft/deploy/rails/apache/.htaccess /usr/local/cft/deploy/rails/.htaccess
 
