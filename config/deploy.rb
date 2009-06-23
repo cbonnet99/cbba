@@ -164,6 +164,8 @@ namespace(:deploy) do
   task :run_init_ami do
     run "#{sudo} chmod +x #{current_path}/script/init_*.sh"
     run "#{sudo} ln -s /etc/apache2/mods-available/expires.load /etc/apache2/mods-enabled/expires.load"
+    run "#{sudo} ln -s /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabled/ssl.load"
+    run "#{sudo} ln -s /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-enabled/ssl.conf"
     run "#{sudo}  ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/headers.load"
     run "#{sudo} #{current_path}/script/init_ami.sh"
     run "#{sudo} #{current_path}/script/init_ami_postgres.sh"
