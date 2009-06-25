@@ -3,6 +3,22 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
+
+  def test_find_article
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    norma = users(:norma)
+    jogging = articles(:jogging)
+    
+    #cyrille is admin
+    assert_equal jogging, cyrille.find_article(jogging.id)
+    #rmoore is the author
+    assert_equal jogging, rmoore.find_article(jogging.id)
+    #norma shouldn't be able to access the article
+    assert_raise ActiveRecord::RecordNotFound do
+      norma.find_article(jogging.id)
+    end
+  end
   
   def test_launch_date
     norma = users(:norma)
@@ -59,17 +75,23 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_find_article_for_user
-    long = articles(:long)
+    jogging_draft = articles(:jogging_draft)
     yoga = articles(:yoga)
     cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
     norma = users(:norma)
     assert_equal yoga, cyrille.find_article_for_user(yoga.slug, cyrille)
     assert_nil cyrille.find_article_for_user(yoga.slug, norma)
     assert_nil cyrille.find_article_for_user(yoga.slug, nil)
 
-    assert_equal long, cyrille.find_article_for_user(long.slug, cyrille)
-    assert_equal long, cyrille.find_article_for_user(long.slug, norma)
-    assert_equal long, cyrille.find_article_for_user(long.slug, nil)
+    #Roger Moore is the other
+    assert_equal jogging_draft, rmoore.find_article_for_user(jogging_draft.slug, rmoore)
+    
+    #but Cyrille is admin so he can see Roger Moore's draft articles
+    assert_equal jogging_draft, rmoore.find_article_for_user(jogging_draft.slug, cyrille)
+
+    assert_nil rmoore.find_article_for_user(jogging_draft.slug, norma)
+    assert_nil rmoore.find_article_for_user(jogging_draft.slug, nil)
   end
 
   def test_find_how_to_for_user
@@ -77,9 +99,11 @@ class UserTest < ActiveSupport::TestCase
     improve = how_tos(:improve)
     cyrille = users(:cyrille)
     norma = users(:norma)
+    rmoore = users(:rmoore)
     assert_equal improve, cyrille.find_how_to_for_user(improve.slug, cyrille)
     assert_nil cyrille.find_how_to_for_user(improve.slug, norma)
-    assert_nil cyrille.find_how_to_for_user(improve.slug, nil)
+    assert_nil rmoore.find_how_to_for_user(improve.slug, norma)
+    assert_nil rmoore.find_how_to_for_user(improve.slug, nil)
 
     assert_equal money, cyrille.find_how_to_for_user(money.slug, cyrille)
     assert_equal money, cyrille.find_how_to_for_user(money.slug, norma)
@@ -90,10 +114,11 @@ class UserTest < ActiveSupport::TestCase
     one = special_offers(:one)
     free_trial = special_offers(:free_trial)
     cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
     norma = users(:norma)
     assert_equal one, cyrille.find_special_offer_for_user(one.slug, cyrille)
-    assert_nil cyrille.find_special_offer_for_user(one.slug, norma)
-    assert_nil cyrille.find_special_offer_for_user(one.slug, nil)
+    assert_nil rmoore.find_special_offer_for_user(one.slug, norma)
+    assert_nil rmoore.find_special_offer_for_user(one.slug, nil)
 
     assert_equal free_trial, cyrille.find_special_offer_for_user(free_trial.slug, cyrille)
     assert_equal free_trial, cyrille.find_special_offer_for_user(free_trial.slug, norma)
@@ -105,9 +130,10 @@ class UserTest < ActiveSupport::TestCase
     free_massage_draft = gift_vouchers(:free_massage_draft)
     cyrille = users(:cyrille)
     norma = users(:norma)
+    rmoore = users(:rmoore)
     assert_equal free_massage_draft, cyrille.find_gift_voucher_for_user(free_massage_draft.slug, cyrille)
-    assert_nil cyrille.find_gift_voucher_for_user(free_massage_draft.slug, norma)
-    assert_nil cyrille.find_gift_voucher_for_user(free_massage_draft.slug, nil)
+    assert_nil rmoore.find_gift_voucher_for_user(free_massage_draft.slug, norma)
+    assert_nil rmoore.find_gift_voucher_for_user(free_massage_draft.slug, nil)
 
     assert_equal free_massage, cyrille.find_gift_voucher_for_user(free_massage.slug, cyrille)
     assert_equal free_massage, cyrille.find_gift_voucher_for_user(free_massage.slug, norma)

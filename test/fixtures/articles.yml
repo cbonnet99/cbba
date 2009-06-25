@@ -23,3 +23,10 @@ jogging:
   author: rmoore
   state: published
   published_at: <%= 2.days.ago.to_s :db %>
+jogging_draft:
+    title: Jogging is good for you draft
+    lead: Jogging is good for you draft
+    body: This is a test
+    slug: jogging-is-good-for-you-draft
+    author: rmoore
+    state: draft

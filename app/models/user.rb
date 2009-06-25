@@ -125,37 +125,71 @@ class User < ActiveRecord::Base
     end
   end
 
-  def find_how_to_for_user(slug, user=nil)
-    if user == self
-      self.how_tos.find_by_slug(slug)
+  def method_missing(method_id, *arguments)
+    if method_id.to_s =~ /find_([_a-zA-Z]*)/
+      plural_objs_sym = $1.pluralize.to_sym
+      if self.respond_to?(plural_objs_sym)
+        id = arguments[0]
+        if self.admin?
+          Object.const_get($1.classify).find(id)
+        else
+          self.send(plural_objs_sym).find(id)
+        end
+      else    
+        if method_id.to_s =~ /find_([_a-zA-Z]*)_for_user/
+          plural_objs_sym = $1.pluralize.to_sym
+          if self.respond_to?(plural_objs_sym)
+            slug = arguments[0]
+            current_user = arguments[1]
+            if current_user == self
+              self.send(plural_objs_sym).find_by_slug(slug)
+            else
+              if !current_user.nil? && current_user.admin?
+                Object.const_get($1.classify).find_by_author_id_and_slug(self.id, slug)
+              else
+                self.send(plural_objs_sym).find_by_state_and_slug("published", slug)
+              end
+            end
+          end
+        end
+      end
     else
-      self.how_tos.find_by_state_and_slug("published", slug)
+      super
     end
   end
 
-  def find_article_for_user(slug, user=nil)
-    if user == self
-      self.articles.find_by_slug(slug)
-    else
-      self.articles.find_by_state_and_slug("published", slug)
-    end
-  end
 
-  def find_gift_voucher_for_user(slug, user=nil)
-    if user == self
-      self.gift_vouchers.find_by_slug(slug)
-    else
-      self.gift_vouchers.find_by_state_and_slug("published", slug)
-    end
-  end
-
-  def find_special_offer_for_user(slug, user=nil)
-    if user == self
-      self.special_offers.find_by_slug(slug)
-    else
-      self.special_offers.find_by_state_and_slug("published", slug)
-    end
-  end
+  # def find_how_to_for_user(slug, user=nil)
+  #   if user == self || self.admin?
+  #     self.how_tos.find_by_slug(slug)
+  #   else
+  #     self.how_tos.find_by_state_and_slug("published", slug)
+  #   end
+  # end
+  # 
+  # def find_article_for_user(slug, user=nil)
+  #   if user == self || self.admin?
+  #     self.articles.find_by_slug(slug)
+  #   else
+  #     self.articles.find_by_state_and_slug("published", slug)
+  #   end
+  # end
+  # 
+  # def find_gift_voucher_for_user(slug, user=nil)
+  #   if user == self || self.admin?
+  #     self.gift_vouchers.find_by_slug(slug)
+  #   else
+  #     self.gift_vouchers.find_by_state_and_slug("published", slug)
+  #   end
+  # end
+  # 
+  # def find_special_offer_for_user(slug, user=nil)
+  #   if user == self || self.admin?
+  #     self.special_offers.find_by_slug(slug)
+  #   else
+  #     self.special_offers.find_by_state_and_slug("published", slug)
+  #   end
+  # end
 
   def last_30days_redirect_website
     UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])

@@ -5,6 +5,8 @@ class ArticlesController < ApplicationController
 
 	def unpublish
     @article = current_user.articles.find(params[:id])
+    # @article = current_user.find_article(params[:id])
+    
 		@article.remove!
 		flash[:notice] = "Article is no longer published"
     redirect_back_or_default root_url
