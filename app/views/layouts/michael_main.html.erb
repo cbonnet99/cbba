@@ -107,7 +107,7 @@
     </ul>
     <ul>
 		<% @counters.each do |c| -%>
-	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/#{c.controller_name}", :action => "index"} %></li>
+	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :index_public => true, } %></li>
 	    <%  end -%>
     </ul>
 	<div id="bam-meet-experts"><h3><%= link_to "Resident experts", :controller => "resident_experts", :action => "index"  %></h3>

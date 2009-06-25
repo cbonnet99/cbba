@@ -1,7 +1,7 @@
 development: &non_production_settings
   site_host: localhost:3000
   site_name: Be Amazing(development)
-  admin_email: admin@beamazing.co.nz
+  admin_email: cbonnet99@gmail.com
   rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
   norma: norma2@eurekacoaching.co.nz
   sav: cbonnet99@yahoo.fr
@@ -14,7 +14,7 @@ test:
 production:
   site_host: beta.beamazing.co.nz
   site_name: Be Amazing
-  admin_email: cbonnet99@gmail.com
+  admin_email: admin@beamazing.co.nz
   rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
   norma: norma@eurekacoaching.co.nz
   sav: sav@elevatecoaching.co.nz

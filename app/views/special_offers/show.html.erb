@@ -2,7 +2,7 @@
 	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
 <%else -%>
 	<% if params[:index_public] == "true" -%>
-		<%= link_to "Back to special offers", special_offers_path  %>
+		<%= link_to "Back to special offers", special_offers_path(:index_public => true)   %>
 	<% else -%>
 		<%= link_to "Back to your special offers", user_special_offers_path %>
 	<%end -%>
