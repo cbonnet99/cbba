@@ -5,10 +5,11 @@ namespace :bam do
     File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
       subcategories = Subcategory.find(:all, :order =>:name)
       subcategories.concat(Category.find(:all, :order =>:name))
+      subcategories.concat(User.full_members.published)
       out << "var sbg=new Array(#{subcategories.size});"
-      subcategories.each_with_index do |subcategory, index|
-        # puts "Adding #{subcategory.name}"
-        out << "sbg[#{index}]='#{subcategory.name}';"
+      subcategories.each_with_index do |stuff, index|
+        # puts "Adding #{stuff.name}"
+        out << "sbg[#{index}]='#{stuff.name}';"
       end
     end
     File.open("#{RAILS_ROOT}/public/javascripts/regions.js", 'w') do |out|

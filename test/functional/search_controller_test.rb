@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SearchControllerTest < ActionController::TestCase
   fixtures :all
+	include ApplicationHelper
 
   def test_count_show_more_details
     old_count = UserEvent.free_users_show_details.size
@@ -34,6 +35,14 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:newest_articles).index(money) < assigns(:newest_articles).index(jogging)
   end
 
+  def test_search_full_member_name
+    cyrille = users(:cyrille)
+		get :search, :where => "", :what => cyrille.name
+		first_name, last_name = cyrille.name.split(" ")
+    assert_not_nil assigns(:selected_user)
+		assert_redirected_to expanded_user_path(cyrille, :where => "", :what => first_name.capitalize << " " << last_name.capitalize  )
+  end
+  
   def test_search_lowercase
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)

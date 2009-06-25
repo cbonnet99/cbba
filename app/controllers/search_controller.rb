@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class SearchController < ApplicationController
+  include ApplicationHelper
 
   def contact
     @norma = User.find_by_email(APP_CONFIG[:norma])
@@ -25,7 +26,7 @@ class SearchController < ApplicationController
 
   def search    
 		@what = help.undasherize(params[:what])
-		@where =help. undasherize(params[:where])
+		@where = help. undasherize(params[:where])
 		begin
       if @what.blank? && @where.blank?
           logger.debug("======== EMPTY params in search")
@@ -54,11 +55,14 @@ class SearchController < ApplicationController
         #   longitude = @district.longitude.to_f
         #   zoom = 11
         # end
-        unless @subcategory.blank?
-          @articles = Article.find_all_by_subcategories(@subcategory)
-        end
-        unless @category.blank?
-          @articles = Article.find_all_by_subcategories(*@category.subcategories)
+        
+        @articles = Article.find_all_by_subcategories(@subcategory) unless @subcategory.blank?        
+        @articles = Article.find_all_by_subcategories(*@category.subcategories) unless @category.blank?
+        
+        if @results.blank?
+          first_name, last_name = @what.split(" ").map(&:capitalize)
+          @selected_user = User.full_members.published.active.find_by_first_name_and_last_name(first_name, last_name)
+          redirect_to expanded_user_path(@selected_user, :what => first_name << " " << last_name, :where => @where) unless @selected_user.nil?
         end
         
         # @map = GMap.new("map_div_id")

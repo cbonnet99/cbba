@@ -54,7 +54,8 @@ class User < ActiveRecord::Base
 
   # #named scopes
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
-  named_scope :active, :conditions => "state='active'"
+  named_scope :wants_professional_newsletter, :conditions => "receive_professional_newsletter is true"
+  named_scope :active, :conditions => "users.state='active'"
   named_scope :free_users, :conditions => "free_listing is true"
   named_scope :paying, :conditions => "free_listing is false"
   named_scope :full_members, :include => "roles", :conditions => "roles.name='full_member'"
@@ -65,6 +66,7 @@ class User < ActiveRecord::Base
   named_scope :resident_experts, :include => ["roles", "expertise_subcategory"], :conditions => "roles.name='resident_expert' AND subcategories.id is not null"
   named_scope :new_users, :conditions => "new_user is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
+  named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
 
   
   # #around filters

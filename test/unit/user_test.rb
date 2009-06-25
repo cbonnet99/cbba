@@ -3,6 +3,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
+  
+  def test_published
+    assert_equal User.full_members.active.published.size, User.full_members.select{|fm| !fm.user_profile.nil? && fm.user_profile.published? && fm.active?}.size
+  end
 
   def test_find_article
     cyrille = users(:cyrille)
