@@ -3,7 +3,7 @@
 <% form_for @special_offer, :url => {:action => "update"}  do |f| %>
 <%= f.error_messages :header_message => "Please try again", :message => "Your special offer could not be saved"%>
 
-<%= render :partial => 'form', :locals => {:f => f} %>
+<%= render :partial => 'form', :locals => {:f => f, :subcategories_label => "Category this gift voucher is listed in:"} %>
 <div class="buttons">
   <label for=""></label>
   <%= submit_tag 'Update', :name => "update"  %>

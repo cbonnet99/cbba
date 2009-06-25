@@ -62,6 +62,8 @@ class SpecialOffersController < ApplicationController
     @special_offer = current_user.special_offers.new
     @special_offer.how_to_book = current_user.default_how_to_book
     @special_offer.terms = SpecialOffer::DEFAULT_TERMS
+    @special_offer.subcategory_id = current_user.subcategories.first.id unless current_user.subcategories.blank?
+		get_subcategories
   end
   
   def create
@@ -89,6 +91,7 @@ class SpecialOffersController < ApplicationController
   
   def edit
     @special_offer = current_user.special_offers.find_by_slug(params[:id])
+		get_subcategories
   end
   
   def update

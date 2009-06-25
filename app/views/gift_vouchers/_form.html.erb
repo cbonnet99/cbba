@@ -9,4 +9,10 @@
         <%= f.label :description, "Description<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :description, :cols => "35" %>
       </li>
+      <li>
+        <label><%=subcategories_label%></label>
+      </li>
+      <li>
+        <%= f.label :subcategory_id, 'Category:' %><%= f.select :subcategory_id, @subcategories, {:prompt => "- Please select -", :include_blank => true } %><br/>
+      </li>
 </ol>

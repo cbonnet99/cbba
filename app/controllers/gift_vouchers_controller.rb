@@ -52,6 +52,8 @@ class GiftVouchersController < ApplicationController
 
   def new
     @gift_voucher = current_user.gift_vouchers.new
+    @gift_voucher.subcategory_id = current_user.subcategories.first.id unless current_user.subcategories.blank?
+		get_subcategories
   end
 
   def create
@@ -72,6 +74,7 @@ class GiftVouchersController < ApplicationController
         end
         redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)
       else
+        get_subcategories
         render :action => 'new'
       end
     end
@@ -79,6 +82,7 @@ class GiftVouchersController < ApplicationController
 
   def edit
     @gift_voucher = current_user.gift_vouchers.find_by_slug(params[:id])
+		get_subcategories
   end
 
   def update

@@ -3,10 +3,10 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 class SearchController < ApplicationController
 
   def contact
-    @norma = User.find_by_email("norma@eurekacoaching.co.nz")
-    @sav = User.find_by_email("sav@elevatecoaching.co.nz")
-    @cyrille = User.find_by_email("cbonnet99@gmail.com")
-    @megan = User.find_by_email("megan@beamazing.co.nz")
+    @norma = User.find_by_email(APP_CONFIG[:norma])
+    @sav = User.find_by_email(APP_CONFIG[:sav])
+    @cyrille = User.find_by_email(APP_CONFIG[:cyrille])
+    @megan = User.find_by_email(APP_CONFIG[:megan])
   end
 
   def test_layout

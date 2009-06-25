@@ -28,6 +28,8 @@ class UsersController < ApplicationController
   def message
     @message = Message.new(params[:message])
     @user = User.find_by_free_listing_and_slug(false, params[:slug])
+    @title = "Send a message"
+    @title << " to #{@user.name}" if params[:hide_name] != "true"
   end
 
   def upgrade_to_full_membership

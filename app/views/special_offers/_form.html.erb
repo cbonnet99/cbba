@@ -17,4 +17,10 @@
         <%= f.label :terms, "Terms & Conditions<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :terms, :cols => "35" %>
       </li>
+      <li>
+        <label><%=subcategories_label%></label>
+      </li>
+      <li>
+        <%= f.label :subcategory_id, 'Category:' %><%= f.select :subcategory_id, @subcategories, {:prompt => "- Please select -", :include_blank => true } %><br/>
+      </li>
 </ol>

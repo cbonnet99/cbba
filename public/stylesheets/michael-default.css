@@ -1,3 +1,10 @@
+.workflow-draft {
+    color: #c00;
+}
+.workflow-published {
+    color: green;
+}
+
 div.user-photo {
 	float: left;
 	width: 55px;

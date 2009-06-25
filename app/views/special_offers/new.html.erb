@@ -5,7 +5,7 @@
 <% form_for @special_offer do |f| %>
     <%= f.error_messages :header_message => "Please try again", :message => "Your special offer could not be saved"%>
 
-	<%= render :partial => 'form', :locals => {:f => f} %>
+	<%= render :partial => 'form', :locals => {:f => f, :subcategories_label => "Please select the category you would like this special offer to be listed in:"} %>
 	
 <div class="buttons">
   <label for=""></label>

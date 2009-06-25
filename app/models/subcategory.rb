@@ -6,6 +6,8 @@ class Subcategory < ActiveRecord::Base
 	has_many :subcategories_users, :order => "position"
 	has_many :users, :through => :subcategories_users
 	has_many :articles
+	has_many :special_offers
+	has_many :gift_vouchers
   has_many :expert_applications
   belongs_to :resident_expert, :class_name => "User"
 

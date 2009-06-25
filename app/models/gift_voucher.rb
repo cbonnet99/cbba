@@ -2,6 +2,7 @@ class GiftVoucher < ActiveRecord::Base
   include Workflowable
 
   belongs_to :author, :class_name => "User", :counter_cache => true
+  belongs_to :subcategory
   
   after_create :create_slug
 
