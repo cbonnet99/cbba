@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
   WEBSITE_PREFIX = "http://"
   
   def self.find_all_by_name(my_name)
-    User.find_by_sql(["select * from users where first_name || ' ' || last_name = ?", my_name])
+    User.find_by_sql(["select * from users where lower(first_name) || ' ' || lower(last_name) = lower(?)", my_name])
   end
   
   def user_profile_path
@@ -790,12 +790,12 @@ class User < ActiveRecord::Base
           # #combining name and business name must produce a unique string so that
           # we can slug it
       if business_name.blank?
-            duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(first_name) = lower(?) and lower(last_name) = lower(?) and lower(email) <> lower(?) and (business_name is null or business_name = '')", first_name, last_name, email])
+            duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(first_name) || ' ' || lower(last_name) = lower(?) and lower(email) <> lower(?) and (business_name is null or business_name = '')", name, email])
             if duplicate_users_count > 0
               errors.add(:first_name, "^There is already a user with the same name (#{first_name} #{last_name}). Please enter a business name to differentiate yourself or change your name (by adding a middle name, for instance)")
             end
           else
-            duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(business_name) = lower(?) and lower(first_name) = lower(?) and lower(last_name) = lower(?) and lower(email) <> lower(?)", business_name, first_name, last_name, email])
+            duplicate_users_count = User.count_by_sql(["select count(u.*) as count from users u where lower(first_name) || ' ' || lower(last_name) || ' - ' || lower(business_name) = lower(?) and lower(email) <> lower(?)", full_name, email])
             if duplicate_users_count > 0
               errors.add(:business_name, "^There is already a user with the same name (#{first_name} #{last_name}) and business name (#{business_name})")
             end
