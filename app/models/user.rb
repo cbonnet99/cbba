@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_attached_file :photo, :styles => { :medium => "90x100>", :thumbnail => "50x55>" },
    :url  => "/assets/profiles/:id/:style/:basename.:extension",
    :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
-                           
+
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
   validates_presence_of :email, :first_name, :last_name
@@ -779,6 +779,12 @@ class User < ActiveRecord::Base
   end
 
 	def validate
+	  if first_name.include?(" ")
+	    errors.add(:first_name, "can't contain any spaces")
+    end
+	  if last_name.include?(" ")
+	    errors.add(:last_name, "can't contain any spaces")
+    end
     if professional?
           if subcategory1_id.blank? && !self.admin?
             errors.add(:subcategory1_id, "^You must select your main expertise")
