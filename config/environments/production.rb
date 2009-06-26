@@ -2,6 +2,10 @@
 
 #Specify an asset host
 ActionController::Base.asset_host = "assets.beamazing.co.nz"
+config.action_controller.asset_host = AssetHostingWithMinimumSsl.new(
+  "http://assets.beamazing.co.nz", # will serve non-SSL assetts on http://assets[1-4].example.com
+  "https://beta.beamazing.co.nz"  # will serve SSL assets on https://assets1.example.com
+)
 
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
