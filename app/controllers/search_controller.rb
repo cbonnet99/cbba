@@ -61,8 +61,15 @@ class SearchController < ApplicationController
         
         if @results.blank?
           first_name, last_name = @what.split(" ").map(&:capitalize)
-          @selected_user = User.full_members.published.active.find_by_first_name_and_last_name(first_name, last_name)
-          redirect_to expanded_user_path(@selected_user, :what => first_name << " " << last_name, :where => @where) unless @selected_user.nil?
+          @users = User.full_members.published.active.find_all_by_name("#{first_name} #{last_name}")
+          unless @users.blank?
+            if @users.size == 1
+              @selected_user = @users.first
+              redirect_to expanded_user_path(@selected_user, :what => first_name << " " << last_name, :where => @where) unless @selected_user.nil?
+            else
+              @results = @users
+            end
+          end
         end
         
         # @map = GMap.new("map_div_id")

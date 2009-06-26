@@ -87,6 +87,10 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
   
+  def self.find_all_by_name(my_name)
+    User.find_by_sql(["select * from users where first_name || ' ' || last_name = ?", my_name])
+  end
+  
   def user_profile_path
     help.expanded_user_path(self)
   end
