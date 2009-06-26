@@ -302,12 +302,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "Bookings can be made by phone or email:<br/>(06)3086130<br/>cbonnet99@yahoo.fr", cyrille.default_how_to_book
   end
   
-  def test_validate_name
-    user = User.new(:first_name => "Cedric A.", :last_name => "Sunier")
-    assert !user.valid?
-    assert !user.errors[:first_name].blank?    
-  end
-
   def test_validate
     user = User.new(:professional => true, :subcategory1_id => ""  )
     assert !user.valid?

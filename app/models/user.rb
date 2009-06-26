@@ -779,12 +779,6 @@ class User < ActiveRecord::Base
   end
 
 	def validate
-	  if first_name.include?(" ")
-	    errors.add(:first_name, "can't contain any spaces")
-    end
-	  if last_name.include?(" ")
-	    errors.add(:last_name, "can't contain any spaces")
-    end
     if professional?
           if subcategory1_id.blank? && !self.admin?
             errors.add(:subcategory1_id, "^You must select your main expertise")
