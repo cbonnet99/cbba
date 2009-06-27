@@ -23,6 +23,7 @@
 #  set :deploy_via,  :copy
 #  set :copy_strategy, :export
 
+set :application, "be_amazing"
 set :scm_username,  "cbonnet99@gmail.com"
 #set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
 set :deploy_via, :remote_cache
