@@ -62,6 +62,8 @@ after 'deploy:update_code', 'deploy:symlink_shared'
 
 #after "deploy:symlink", "deploy:elastic_server_symlink"
 
+after "deploy:symlink", "deploy:update_crontab"
+
 # NOTE: This deployment script relies on calling Elastic Server rubberbands
 # which control the server (mongrel, etc) that lives in /etc/cft.d/mods-enabled
 #
@@ -100,6 +102,11 @@ namespace(:rails_server) do
 end
 
 namespace(:deploy) do
+  desc "Update the crontab file"
+  task :update_crontab, :roles => :db do
+    run "cd #{release_path} && whenever --update-crontab #{application}"
+  end
+  
   desc "Copy all cron jobs"
   task :cron do
     if (ENV['RAILS_ENV'] || '').downcase == 'production'
@@ -204,7 +211,7 @@ namespace(:deploy) do
       run_init_packages
       update_code
       web.disable
-      cron
+      # cron
       symlink
       elastic_server_symlink
       run_init_ami
@@ -222,7 +229,7 @@ namespace(:deploy) do
     transaction do
       update_code
       web.disable
-      cron
+      # cron
       symlink
       elastic_server_symlink
 #      run_init_ami
