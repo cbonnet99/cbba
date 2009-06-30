@@ -17,6 +17,7 @@ test_transformed:
   body: This is 10% my friend
 
 test_password:
+  email_type: Normal
   subject: Testing transformed body
   body: |+
     This is your new password: %password%

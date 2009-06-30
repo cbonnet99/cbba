@@ -174,7 +174,7 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
     norma = users(:norma)
 
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "offers" }
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => "offers" }
     assert_not_nil assigns(:all_offers)
     assert_select "span", {:text => "published", :count => 0} 
   end
@@ -184,7 +184,7 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
     norma = users(:norma)
 
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "offers" }, {:user_id => norma.id, }
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => "offers" }, {:user_id => norma.id, }
     assert_not_nil assigns(:all_offers)
     assert_select "span", {:text => "published", :count => 2} 
   end
@@ -194,7 +194,7 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
     cyrille = users(:cyrille)
 
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => "articles" }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => "articles" }
     assert_not_nil assigns(:all_articles)
     #it shows both articles and how tos
     assert_equal 2, assigns(:all_articles).size
@@ -207,10 +207,10 @@ class UsersControllerTest < ActionController::TestCase
     auckland = regions(:auckland)
     coaches = categories(:coaches)
 
-    get :show, {:name => rmoore.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => rmoore.id }
+    get :show, {:name => rmoore.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => rmoore.id }
     # #visits to own profile should not be recorded
     assert_equal old_size, UserEvent.all.size
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => rmoore.id }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => rmoore.id }
     assert_equal old_size+1, UserEvent.all.size
   end
 
@@ -218,7 +218,7 @@ class UsersControllerTest < ActionController::TestCase
     sgardiner = users(:sgardiner)
     auckland = regions(:auckland)
     coaches = categories(:coaches)
-    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaches.slug  }, {:user_id => sgardiner.id }
+    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug  }, {:user_id => sgardiner.id }
     assert_select "input[value=Publish]"
   end
 
@@ -226,7 +226,7 @@ class UsersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     wellington = regions(:wellington)
     practitioners = categories(:practitioners)
-    get :show, {:name => cyrille.slug, :region => wellington.slug, :main_expertise => practitioners.slug}, {:user_id => cyrille.id }
+    get :show, {:name => cyrille.slug, :region => wellington.slug, :main_expertise_slug => practitioners.slug}, {:user_id => cyrille.id }
     assert_response :success
     # #Cyrille's profile is already published: Unpublish button should be shown
     assert_select "input[value=Publish]", :count => 0
@@ -241,7 +241,7 @@ class UsersControllerTest < ActionController::TestCase
     norma = users(:norma)
     auckland = regions(:auckland)
     coaches = categories(:coaches)
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => norma.id }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => norma.id }
     assert_response :success
     # #Cyrille's profile is already published: Unpublish button should be shown
    # puts @response.body
@@ -258,7 +258,7 @@ class UsersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
     coaches = categories(:coaches)
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug}
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}
     assert_response :success
     assert_select "a", :text => "1 article"
     assert_select "a", :text => "2 offers"
@@ -268,7 +268,7 @@ class UsersControllerTest < ActionController::TestCase
     norma = users(:norma)
     auckland = regions(:auckland)
     coaches = categories(:coaches)
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => norma.id }
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => norma.id }
     assert_response :success
     # puts @response.body
     assert_select "a", :text => "0 articles"
@@ -279,7 +279,7 @@ class UsersControllerTest < ActionController::TestCase
     norma = users(:norma)
     auckland = regions(:auckland)
     coaches = categories(:coaches)
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise => coaches.slug}
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}
     assert_response :success
     assert_select "a", :text => "0 articles", :count => 0
     assert_select "a", :text => "0 offers", :count => 0
@@ -297,7 +297,7 @@ class UsersControllerTest < ActionController::TestCase
     auckland = regions(:auckland)
     coaches = categories(:coaches)
 
-    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise => coaches.slug}, {:user_id => cyrille.id }
+    get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => cyrille.id }
 #    puts "============= #{@response.body}"
     assert @response.body =~ /Profile coming soon/
   end
@@ -309,7 +309,7 @@ class UsersControllerTest < ActionController::TestCase
     auckland = regions(:auckland)
     coaches = categories(:coaches)
 
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => Tab::ARTICLES, }, {:user_id => cyrille.id }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => Tab::ARTICLES, }, {:user_id => cyrille.id }
     assert !assigns(:all_articles).blank?
     assert assigns(:all_articles).include?(improve)
     assert assigns(:all_articles).include?(money)
@@ -323,7 +323,7 @@ class UsersControllerTest < ActionController::TestCase
     auckland = regions(:auckland)
     coaches = categories(:coaches)
     
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise => coaches.slug, :selected_tab_id => Tab::ARTICLES, }, { }
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => Tab::ARTICLES, }, { }
     assert !assigns(:all_articles).blank?
     assert assigns(:all_articles).include?(money)
     assert !assigns(:all_articles).include?(improve)
@@ -378,7 +378,7 @@ class UsersControllerTest < ActionController::TestCase
     sgardiner = users(:sgardiner)
     hypnotherapy = subcategories(:hypnotherapy)
     aromatherapy = subcategories(:aromatherapy)
-    assert_equal hypnotherapy.name, sgardiner.main_expertise
+    assert_equal hypnotherapy.name, sgardiner.main_expertise_name
 		post :update, {:id => "123", :user => {:subcategory1_id => aromatherapy.id, :subcategory2_id => hypnotherapy.id}}, {:user_id => sgardiner.id }
     assert_equal 0, assigns(:user).errors.size
     sgardiner.subcategories_users.reload
@@ -386,7 +386,7 @@ class UsersControllerTest < ActionController::TestCase
     #IMPORTANT: do not reload as the reload does not go through the after_find callback...
     sgardiner = User.find_by_email(sgardiner.email)
     assert_equal aromatherapy.id, sgardiner.subcategory1_id
-    assert_equal aromatherapy.name, sgardiner.main_expertise
+    assert_equal aromatherapy.name, sgardiner.main_expertise_name
   end
 
   def test_update_tabs

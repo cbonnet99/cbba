@@ -1,10 +1,10 @@
-<%if item.draft? && is_author?(item) && current_user.active? -%>
+<%if item.draft? && (is_author?(item) || is_admin?) && current_user.active? -%>
   <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/publish" do -%>
       <%= submit_tag "Publish", :class => "button"  %>
   <%end -%>
   </div>
 <%end-%>
-<%if item.published? && is_author?(item) && current_user.active? -%>
+<%if item.published? && (is_author?(item) || is_admin?) && current_user.active? -%>
   <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/unpublish" do -%>
       <%= submit_tag "Unpublish", :class => "button"  %>
   <%end -%>

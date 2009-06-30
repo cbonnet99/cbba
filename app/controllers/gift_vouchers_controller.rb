@@ -5,7 +5,7 @@ class GiftVouchersController < ApplicationController
   end
 
 	def publish
-    @gift_voucher = current_user.gift_vouchers.find(params[:id])
+    @gift_voucher = current_user.find_gift_voucher(params[:id])
     if @gift_voucher.publish!
       flash[:notice] = "Gift voucher successfully published"
     else
@@ -18,7 +18,7 @@ class GiftVouchersController < ApplicationController
 	end
 
 	def unpublish
-    @gift_voucher = current_user.gift_vouchers.find(params[:id])
+    @gift_voucher = current_user.find_gift_voucher(params[:id])
 		@gift_voucher.remove!
 		flash[:notice] = "Gift voucher is no longer published"
     redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug)

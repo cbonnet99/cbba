@@ -3,6 +3,12 @@ require File.dirname(__FILE__) + '/../test_helper'
 class MassEmailTest < ActiveSupport::TestCase
   fixtures :all
 
+  def test_deliver
+    test_password = mass_emails(:test_password)
+    test_password.recipients_full_members = true
+    test_password.deliver
+  end
+
   def test_unknown_attributes
     assert_equal ["bla"], mass_emails(:unknown_attributes).unknown_attributes(users(:cyrille))
   end

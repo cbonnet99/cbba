@@ -37,30 +37,42 @@ class MassEmail < ActiveRecord::Base
 
   def deliver
     if sent_at.nil?
-      if email_type =~ /newsletter/
+      if email_type == "Public newsletter"
         users_obj = User.wants_newsletter
         contact_obj = Contact.wants_newsletter
       else
-        users_obj = User
-        contact_obj = Contact
-      end
-      if recipients_general_public
-        contact_obj.all.each do |u|
-          UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+        if email_type == "Business newsletter"
+          users_obj = User.wants_professional_newsletter
+          contact_obj = Contact.wants_professional_newsletter
+        else        
+          users_obj = User
+          contact_obj = Contact
         end
+      end
+      all_users = []
+      if recipients_general_public
+        all_users.concat(contact_obj.all)
       end
       if recipients_full_members
-        users_obj.full_members.each do |u|
-          UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
-        end
+        all_users.concat(users_obj.full_members)
       end
       if recipients_resident_experts
-        users_obj.resident_experts.each do |u|
-          UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
-        end
+        all_users.concat(users_obj.resident_experts)
       end
       if recipients_free_users
-        users_obj.free_users.each do |u|
+        all_users.concat(users_obj.free_users)
+      end
+      all_users.each do |u|
+        if u.is_a?(User)
+          if u.valid?
+            puts "Sending email to user #{u.name_with_email}"
+            UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+          else
+            puts "Cannot send an email to user #{u.name_with_email} because this user is not valid. Errors are: #{u.errors.map{|k,v| "#{k}: #{v}"}.to_sentence}"
+          end
+        else
+          #contact
+          puts "Sending email to contact #{u.name}"
           UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
         end
       end

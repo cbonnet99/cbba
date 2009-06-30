@@ -38,9 +38,8 @@ class SearchControllerTest < ActionController::TestCase
   def test_search_full_member_name
     cyrille = users(:cyrille)
 		get :search, :where => "", :what => cyrille.name
-		first_name, last_name = cyrille.name.split(" ")
     assert_not_nil assigns(:selected_user)
-		assert_redirected_to expanded_user_path(cyrille, :where => "", :what => first_name.capitalize << " " << last_name.capitalize  )
+		assert_redirected_to expanded_user_path(cyrille, :where => "", :what => cyrille.name  )
   end
   
   def test_search_lowercase
@@ -108,7 +107,7 @@ class SearchControllerTest < ActionController::TestCase
 #    norma.user_profile.publish!
 		get :simple_search, :where => canterbury_christchurch_city.id, :what => hypnotherapy.id
 		assert_response :success
-    assert @response.body =~ /Full profile coming soon/
+    assert @response.body =~ /Profile coming soon/
 #		puts "========== #{assigns(:results).inspect}"
 		assert_equal 3, assigns(:results).size
 		#full members should be listed first

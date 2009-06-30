@@ -191,7 +191,7 @@ class UsersController < ApplicationController
 		if @user.update_attributes(params[:user])
       redirect_to expanded_user_path(@user)
       @user.region_name(:reload)
-      @user.main_expertise(:reload)
+      @user.main_expertise_name(:reload)
       flash[:notice] = "Your details have been updated"
     else
 			get_districts_and_subcategories

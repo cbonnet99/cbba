@@ -47,7 +47,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.subcategory_region '/category/:category_slug/:subcategory_slug/:region_slug', :controller => "subcategories", :action => "region"
 	map.subcategory '/category/:category_slug/:subcategory_slug', :controller => "subcategories", :action => "show"
   map.user_slug_action '/user/:slug/:action', :controller => "users"
-  map.full_user '/:main_expertise/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_|-]+/, :main_expertise => /[a-z|A-Z|_|-]+/}
+  map.full_user '/:main_expertise_slug/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_|-]+/, :main_expertise_slug => /[a-z|A-Z|_|-]+/}
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
   map.payment_action_with_id '/payments/:id/:action', :controller => "payments", :requirements => {:action => /edit|edit_debit|thank_you|thank_you_direct_debit|thank_you_renewal|thank_you_resident_expert/}
   map.resources :payments
@@ -71,7 +71,7 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
   map.update_after_forgetting '/update_after_forgetting', :controller => 'passwords', :action => 'update_after_forgetting'
-  map.user_tabs '/:main_expertise/:region/:name/:selected_tab_id', :controller => 'users', :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
+  map.user_tabs '/:main_expertise_slug/:region/:name/:selected_tab_id', :controller => 'users', :action => "show", :requirements => {:region => /[a-z|A-Z|_| |-]+/}
   map.user_thank_you_resident_application '/users/thank_you_resident_application', :controller => 'users', :action => "thank_you_resident_application"
   map.user_special_offers '/users/special_offers', :controller => 'users', :action => "special_offers"
   map.user_gift_vouchers '/users/gift_vouchers', :controller => 'users', :action => "gift_vouchers"

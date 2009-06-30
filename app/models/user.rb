@@ -70,8 +70,8 @@ class User < ActiveRecord::Base
 
   
   # #around filters
-	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_geocodes
-	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :update_geocodes
+	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_geocodes, :trim_stuff
+	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :update_geocodes, :trim_stuff
 
   after_create :create_profile, :add_tabs
   before_update :update_tabs
@@ -86,6 +86,26 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
+
+  def key_expertise_name(current_subcategory=nil)
+    if current_subcategory.nil?
+      self.main_expertise_name
+    else
+      current_subcategory.try(:name)
+    end
+  end
+  
+  def other_expertise_names(current_subcategory=self.main_expertise)
+    res = subcategories.dup
+    res.reject{|s| s==current_subcategory}.map(&:name)
+  end
+  
+  def trim_stuff
+    self.first_name = self.first_name.try(:strip)
+    self.last_name = self.last_name.try(:strip)
+    self.email = self.email.try(:strip)
+    self.business_name = self.business_name.try(:strip)
+  end
   
   def self.find_all_by_name(my_name)
     User.find_by_sql(["select * from users where lower(first_name) || ' ' || lower(last_name) = lower(?)", my_name])
@@ -241,6 +261,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def css_role_description
+    role_description.gsub(/ /, "_")
+  end
+
   def role_description
     if resident_expert?
       "resident expert"
@@ -313,7 +337,7 @@ class User < ActiveRecord::Base
     else
       res = "<div class='bam-gmarker-text'>"
     end
-    res << [full_name, main_expertise, address1, suburb, district.name].reject{|o| o.blank?}.join("<br/>")
+    res << [full_name, main_expertise_name, address1, suburb, district.name].reject{|o| o.blank?}.join("<br/>")
     res << "<br/>"
     res << [phone, mobile].reject{|o| o.blank? || o == "()"}.join("<br/>")
     res << "</div><div class='cleaner'></div>"
@@ -454,12 +478,20 @@ class User < ActiveRecord::Base
 
   def main_expertise
     if subcategories.blank?
+      nil
+    else
+      subcategories.first
+    end
+  end
+
+  def main_expertise_name
+    if subcategories.blank?
       ""
     else
       subcategories.first.name
     end
   end
-  memoize :main_expertise
+  memoize :main_expertise_name
 
   def main_expertise_slug
     if subcategories.blank?
@@ -480,7 +512,7 @@ class User < ActiveRecord::Base
   memoize :region_name
 
   def author?(stuff)
-    (self == stuff.author || self.admin?)
+    self == stuff.author
   end
 
   def self.paginated_full_members(page, limit=$full_members_per_page)

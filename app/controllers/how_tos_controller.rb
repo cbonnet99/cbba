@@ -4,7 +4,7 @@ class HowTosController < ApplicationController
 	after_filter :store_location, :only => [:show]
 
 	def unpublish
-    @how_to = current_user.how_tos.find(params[:id])
+    @how_to = current_user.find_how_to(params[:id])
 		@how_to.remove!
 		flash[:notice] = "How to article is no longer published"
     redirect_back_or_default how_tos_show_path(@how_to.author.slug, @how_to.slug)
@@ -15,7 +15,7 @@ class HowTosController < ApplicationController
 	end
 
 	def publish
-    @how_to = current_user.how_tos.find(params[:id])
+    @how_to = current_user.find_how_to(params[:id])
 		@how_to.publish!
 		flash[:notice] = "How to article successfully published"
     redirect_back_or_default how_tos_show_path(@how_to.author.slug, @how_to.slug)

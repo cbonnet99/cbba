@@ -25,8 +25,8 @@ class SearchController < ApplicationController
   end
 
   def search    
-		@what = help.undasherize(params[:what])
-		@where = help. undasherize(params[:where])
+		@what = params[:what].gsub(/\+/, " ")
+		@where = params[:where].gsub(/\+/, " ")
 		begin
       if @what.blank? && @where.blank?
           logger.debug("======== EMPTY params in search")
@@ -60,12 +60,11 @@ class SearchController < ApplicationController
         @articles = Article.find_all_by_subcategories(*@category.subcategories) unless @category.blank?
         
         if @results.blank?
-          first_name, last_name = @what.split(" ").map(&:capitalize)
-          @users = User.full_members.published.active.find_all_by_name("#{first_name} #{last_name}")
+          @users = User.full_members.published.active.find_all_by_name(@what)
           unless @users.blank?
             if @users.size == 1
               @selected_user = @users.first
-              redirect_to expanded_user_path(@selected_user, :what => first_name << " " << last_name, :where => @where) unless @selected_user.nil?
+              redirect_to expanded_user_path(@selected_user, :what => @what, :where => @where) unless @selected_user.nil?
             else
               @results = @users
             end

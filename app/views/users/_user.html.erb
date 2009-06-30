@@ -1,19 +1,19 @@
 <% review = nil if local_assigns[:review].nil? -%>
 <div class="user-description">
-  <h4 class="<%=user.css_class_role_description%>"><%if !user.free_listing? && user.new_user?%><%= image_tag "new.gif", :alt => "New member" %><%end%><%= render :partial => "users/user_star", :locals => {:user => user } %><%= user.name %>, <%=  user.expertise %>, <%=  user.region_name %></h4>
+<%= link_to_profile(user, review=="true") %>
+<%if user.free_listing?%><h4><%else%><h3><%end%><%= user.name %> - <%= user.key_expertise_name(@subcategory)%><%if user.free_listing?%></h4><%else%></h3><%end%><%unless user.free_listing?%><h4 class="<%=user.css_role_description%>"><%= user.role_description %></h4><%end%>
 <%if user.photo.exists? && user.user_profile.published?%><div class="user-photo"><%= image_tag user.photo.url(:thumbnail) %></div><%end%>
   <%if user.free_listing?%><a class="bam-show-more-details" id="bam-show-more-details-<%=user.id%>" href="#">Show more details</a><%end%>
   <div class="bam-user-details" <%if user.free_listing?%>style="display: none"<%end%>>
-  <p><%= user.business_name %></p>
-  <%unless phone_blank?(user.phone) -%>
-  <p>ph: <%= user.phone %></p>
-  <% end -%>
-  <%unless phone_blank?(user.mobile) -%>
-  <p>m: <%= user.mobile %></p>
-  <% end -%>
-  </div>
-<div class="cleaner"></div>
-<div class="bam-user-links" <%if user.free_listing?%>style="display: none"<%end%>>  <%=link_to_message(user)%><% unless user.free_listing?%>  | <%end%><%= link_to_profile(user, review=="true") %>
+	<%unless user.other_expertise_names(@subcategory).blank? %><p>Also offers: <%=  user.other_expertise_names(@subcategory).to_sentence %></p><%end%>
+	<p><%=  user.business_name %><%unless user.business_name.blank?%>, <%end%><%=  user.region_name %></p>
+        <ul id="contact-details">
+        	<%unless user.phone.nil? || user.phone == "()"%><li class="phone"><span class="hide">phone:</span> <%=user.phone%></li><%end%>
+          <%unless user.mobile.nil? || user.mobile == "()"%><li class="fax"><span class="hide">mobile:</span> <%= user.mobile%></li><%end%>
+          <%unless user.free_listing?%><li class="email"><span class="hide">email:</span><a href="#"><%=link_to_message(user)%></a></li><%end -%>
+          <%unless user.website.blank? %><li class="web"><span class="hide">website:</span> <a href="#"><%= link_to user.website, :controller => "/users", :action => "redirect_website",  :slug =>user.slug%></a></li><%end%>
+      </ul>
   </div>
 </div>
+<div id="user-description-close"></div>
 <div class="cleaner"></div>

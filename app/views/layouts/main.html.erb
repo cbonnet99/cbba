@@ -38,12 +38,12 @@
             <% form_tag search_path(:what => "", :where => "" ), :id => "bam-search-form" do  -%>
               <div id="what-wrapper" class="search-wrapper">
                 <label for="what">What: </label>
-                <input class="text" type="text" id="what" name="what" value="<%=undasherize(params[:what])%>" />
+                <input class="text" type="text" id="what" name="what" value="<%=params[:what]%>" />
                 <p>Examples: yoga, acupuncture, life coaching, etc.</p>
               </div>
               <div id="where-wrapper" class="search-wrapper">
                 <label for="where">Where: </label>
-                <input class="text" type="text" id="where" name="where" value="<%=undasherize(params[:where])%>"  />
+                <input class="text" type="text" id="where" name="where" value="<%=params[:where]%>"  />
                 <p>Examples: wellington city, canterbury, auckland city, etc.</p>
               </div>
               <div id="search-submit-wrapper" class="search-wrapper">
@@ -63,7 +63,7 @@
       <div class="column" id="left"><div class="column-in">
           <ul class="simple left-items" id="categories">
             <% @categories.each do |c| -%>
-              <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(dasherize(c.name))%>"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
+              <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(c.name)%>"><%=c.name%> <span class="users-counter"><%=c.users_counter%></span></a></li>
             <%end -%>
           </ul>
 		<ul class="simple left-items">

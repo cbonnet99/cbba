@@ -4,9 +4,24 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_expertises
+    norma = users(:norma)
+    aromatherapy = subcategories(:aromatherapy)
+    hypnotherapy = subcategories(:hypnotherapy)
+    assert_equal hypnotherapy.name, norma.key_expertise_name
+    assert_equal aromatherapy.name, norma.key_expertise_name(aromatherapy)
+    assert_equal [aromatherapy.name], norma.other_expertise_names
+    assert_equal [hypnotherapy.name], norma.other_expertise_names(aromatherapy)    
+  end
+
   def test_find_all_by_name
     cyrille = users(:cyrille)
     assert_equal [cyrille], User.find_all_by_name(cyrille.name)
+  end
+  
+  def test_find_all_by_name_with_middle_names
+    norma = users(:norma)
+    assert_equal [norma], User.find_all_by_name(norma.name)
   end
   
   def test_published
@@ -503,7 +518,7 @@ class UserTest < ActiveSupport::TestCase
 		yoga = subcategories(:yoga)
 
 		old_count = User.count
-		new_user = User.new(:first_name => "Joe", :last_name => "Test", :business_name => "Test",
+		new_user = User.new(:first_name => "Joe", :last_name => "Test", :business_name => "   Test",
 			:address1 => "1, Main St", :suburb => "Newtown", :district_id => wellington_wellington_city.id,
 			:region_id => wellington.id, :phone => "04-28392173", :mobile => "", :email => "joe@test.com",
 			:subcategory1_id => hypnotherapy.id, :subcategory2_id => yoga.id, :subcategory3_id => nil,

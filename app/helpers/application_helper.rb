@@ -42,9 +42,9 @@ module ApplicationHelper
       ""
     else
       if user.user_profile.published?
-        link_to "View full profile", user_path_with_context(user, review)
+        link_to "View full profile", user_path_with_context(user, review), {:id => "link-full-profile-content", :class => "button"}
       else
-       "Full profile coming soon"
+       "<div id='link-profile-coming-soon-content', class='button'>Profile coming soon</div>"
       end
     end
   end
@@ -114,7 +114,7 @@ module ApplicationHelper
   end
 
   def expanded_user_path(user, options={})
-    options.merge!(:main_expertise => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
+    options.merge!(:main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
     full_user_url(options)
   end
 
@@ -122,7 +122,7 @@ module ApplicationHelper
     if tab.blank?
       tab = Tab::ARTICLES
     end
-    options.merge!(:main_expertise => user.main_expertise_slug, :region => user.region.slug,
+    options.merge!(:main_expertise_slug => user.main_expertise_slug, :region => user.region.slug,
       :name => user.slug, :selected_tab_id => tab )
     user_tabs_path(options)
   end

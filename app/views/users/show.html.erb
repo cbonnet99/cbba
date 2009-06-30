@@ -13,7 +13,7 @@
              <div id="profile-photo"><%= medium_image(@user)%><br/><% if own_profile?(@user) -%><%if @user.photo.exists?%><%= link_to_remote "Change your picture", :update => "upload-photo", :url => user_new_photo_path %><%else%><%= link_to_remote "Upload your picture here", :update => "upload-photo", :url => user_new_photo_path %><%end%><%end%><div id="upload-photo"></div></div>
 			<%= link_to "Ask me a question", user_slug_action_path(:slug => @user.slug, :action => "message"), {:id => "profile-ask-question-content", :class => "button"}%>
 	      <%= title @user.full_name, :h3 %>
-	      <h4><%= @user.role_description %></h4>
+	      <h4 class="<%=@user.css_role_description%>"><%= @user.role_description %></h4>
 	      <% unless @user.subcategories.blank?%><p>Expertise: <span class="business"><%= @user.expertise %></span></p><% end %>
 		  <%unless @user.city.blank?%>  <p>Location: <span class="location"><%=@user.city%>, <%unless @user.region.nil?%><%=@user.region.name%><%end%></span></p>
 	      <%end%>

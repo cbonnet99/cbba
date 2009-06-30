@@ -110,12 +110,14 @@ address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font
 h1, h2 { color:#000; font-size:24px;font-weight:bold; }
 h3 {color:#20ACCD; font-size:18px; margin:0 0 10px 0; padding:20px 0 0; }
 	.section h3 {background:#fff;  border-bottom:1px solid #EFEDED; }
+	div.user-description h3 {padding:0 0 6px;}
 	#profile-header h3 {border-bottom:2px solid #f2f2f2; color:#cc0000; margin:0 0 8px 102px;padding:0 0 6px;}
 	h3.bam-region-name  {background:#cbe5eb;font-size:14px;font-weight:bold; margin:20px 0 0 0;padding:0 0 0 10px;} 
 		h3.bam-region-name  a {color:#000; font-weight:bold; }
 			h3.bam-region-name  a:hover {color:#cc0000;  }
 h4 { font-size:14px; line-height:19px; padding:8px 0 4px; }
-	#profile-header h4 {background:#00a0c6;color:#fff;float:right;font-size:12px;padding:0 6px;}
+#profile-header h4.resident_expert, div.user-description h4.resident_expert {background:#FFD700;;color:black;float:right;font-size:12px;padding:0 6px;}
+#profile-header h4.full_member, div.user-description h4.full_member {background:silver;color:black;float:right;font-size:12px;padding:0 6px;}
 	.user-description h4 {padding:8px 0 0;}
 .section h4 a { text-decoration:none; }
 .section .homepage-article h4 a { text-decoration:underline; }
@@ -140,7 +142,7 @@ li { font-size: 12px; /*margin: 5px 10px; */}
 	#profile-tab-content li {list-style:disc;}
 li a { font-size:12px; }
 li li { font-size: 12px; }
-	#profile-header li {color:#000; display:inline; float:left; font-size:11px; line-height:20px;padding:0 18px 0 24px;}
+	#profile-header li, div.bam-user-details li {color:#000; display:inline; float:left; font-size:11px; line-height:20px;padding:0 18px 0 24px;}
 	#profile-header li a {color:#000;font-size:11px;}
 		#profile-header li a:hover {color:#cc0000;}
 		li.phone {background:url(../images/iconPhone.gif) no-repeat;}
@@ -213,7 +215,7 @@ ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { bac
 	#profile-ask-question-content:hover {color:#ccc;}
 .business {color:#00a0c6;}
 .location {color:#000;}
-	.user-description {border-bottom:1px solid #efeded;padding:0 0 10px;}
+	.user-description {overflow:auto;width:100%;border-bottom:1px solid #efeded;padding:0 0 10px;}
 		.even {/*background:#f5f5f5;*/}
 		#contentMain .publication-actions {background:#d5d2ca url(../images/inputBg.png) repeat-x; height:30px;margin:0 0 10px 0;overflow:hidden;padding:4px 0 4px;}
 		#contentMain .publication-actions input.button {background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:30px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;color:#333333;cursor:pointer;font-size:11px;margin-right:2px;overflow:visible;width:auto;}

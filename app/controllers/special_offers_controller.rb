@@ -20,7 +20,7 @@ class SpecialOffersController < ApplicationController
   end
 
 	def publish
-    @special_offer = current_user.special_offers.find(params[:id])
+    @special_offer = current_user.find_special_offer(params[:id])
     if @special_offer.publish!
       flash[:notice] = "Special offer successfully published"
     else
@@ -33,7 +33,7 @@ class SpecialOffersController < ApplicationController
 	end
 
 	def unpublish
-    @special_offer = current_user.special_offers.find(params[:id])
+    @special_offer = current_user.find_special_offer(params[:id])
 		@special_offer.remove!
 		flash[:notice] = "Special offer is no longer published"
     redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)

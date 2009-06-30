@@ -4,8 +4,8 @@ class ArticlesController < ApplicationController
 	after_filter :store_location, :only => [:show]
 
 	def unpublish
-    @article = current_user.articles.find(params[:id])
-    # @article = current_user.find_article(params[:id])
+    # @article = current_user.articles.find(params[:id])
+    @article = current_user.find_article(params[:id])
     
 		@article.remove!
 		flash[:notice] = "Article is no longer published"
@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
 	end
 
 	def publish
-    @article = current_user.articles.find(params[:id])
+    @article = current_user.find_article(params[:id])
 		@article.publish!
 		flash[:notice] = "Article successfully published"
     redirect_back_or_default root_url

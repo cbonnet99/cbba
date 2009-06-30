@@ -7,10 +7,10 @@ $(document).ready(function(){
     $("form#bam-search-form").submit(function() {
         var action = "/search";
         if ($("input#what").val() != "") {
-            action = action + "/what/" + $("input#what").val().replace(/ /, '-');
+            action = action + "/what/" + $("input#what").val().replace(/ /, '+');
         }
         if ($("input#where").val() != "") {
-            action = action + "/where/" + $("input#where").val().replace(/ /, '-');
+            action = action + "/where/" + $("input#where").val().replace(/ /, '+');
         }
         this.action = action;
         this.submit();
