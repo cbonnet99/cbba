@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include ApplicationHelper
   
   before_filter :full_member_required, :only => [:articles]
-  before_filter :login_required, :only => [:edit, :update, :publish, :new_photo, :create_photo, :publish, :articles, :renew_membership]
+  before_filter :login_required, :except => [:index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert]
 #	after_filter :store_location, :only => [:articles, :show]
 
   def redirect_website
