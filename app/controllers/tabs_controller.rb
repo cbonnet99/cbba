@@ -59,8 +59,6 @@ class TabsController < ApplicationController
   def update
     @selected_tab = current_user.tabs.find_by_slug(params[:id])
     @user = current_user
-    unless params[:tab]["title"].nil?
-    end
     if @selected_tab.update_attributes(params[:tab])
       @selected_tab.update_attribute(:slug, @selected_tab.title.parameterize)
       redirect_to expanded_user_tabs_path(current_user, @selected_tab.slug)
