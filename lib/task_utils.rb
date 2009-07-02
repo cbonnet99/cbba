@@ -2,6 +2,37 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.generate_autocomplete
+    TaskUtils.generate_autocomplete_subcategories
+    TaskUtils.generate_autocomplete_regions    
+  end
+  
+  def self.generate_autocomplete_subcategories
+    File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
+      subcategories = Subcategory.find(:all, :order =>:name)
+      subcategories.concat(Category.find(:all, :order =>:name))
+      subcategories.concat(User.full_members.published)
+      out << "var sbg=new Array(#{subcategories.size});"
+      subcategories.each_with_index do |stuff, index|
+        # puts "Adding #{stuff.name}"
+        out << "sbg[#{index}]='#{stuff.name}';"
+      end
+    end
+  end
+
+  def self.generate_autocomplete_regions
+    File.open("#{RAILS_ROOT}/public/javascripts/regions.js", 'w') do |out|
+      regions = Region.find(:all, :order => "name" )
+      districts = District.find(:all, :order => "name" )
+      locations = regions + districts
+      out << "var lts = new Array(#{locations.size});"
+      locations.each_with_index do |location, index|
+        # puts "Adding #{location.name}"
+        out << "lts[#{index}]='#{location.name}';"
+      end
+    end    
+  end
+  
   def self.reset_slugs
     Category.all.each do |c|
       c.save!

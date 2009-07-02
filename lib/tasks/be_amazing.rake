@@ -2,26 +2,7 @@ namespace :bam do
 
   desc "Generates cat/subcat autocomplete JS files (in production, run also: rake asset:packager:build_all)"
   task :generate_autocomplete_js => :environment do
-    File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
-      subcategories = Subcategory.find(:all, :order =>:name)
-      subcategories.concat(Category.find(:all, :order =>:name))
-      subcategories.concat(User.full_members.published)
-      out << "var sbg=new Array(#{subcategories.size});"
-      subcategories.each_with_index do |stuff, index|
-        # puts "Adding #{stuff.name}"
-        out << "sbg[#{index}]='#{stuff.name}';"
-      end
-    end
-    File.open("#{RAILS_ROOT}/public/javascripts/regions.js", 'w') do |out|
-      regions = Region.find(:all, :order => "name" )
-      districts = District.find(:all, :order => "name" )
-      locations = regions + districts
-      out << "var lts = new Array(#{locations.size});"
-      locations.each_with_index do |location, index|
-        # puts "Adding #{location.name}"
-        out << "lts[#{index}]='#{location.name}';"
-      end
-    end
+    TaskUtils.generate_autocomplete
   end
   
   

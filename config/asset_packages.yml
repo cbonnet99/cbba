@@ -5,7 +5,6 @@ javascripts:
   - jquery.cycle.min
   - jquery.autocomplete.pack
   - application
-  - subcategories
   - regions
 stylesheets: 
 - base:
