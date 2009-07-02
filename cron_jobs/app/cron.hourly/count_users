@@ -1,4 +1,0 @@
-#!/bin/sh
-
-ruby /usr/local/cft/deploy/capistrano/current/script/runner -e production TaskUtils.count_users
-ruby /usr/local/cft/deploy/capistrano/current/script/runner -e production TaskUtils.update_counters

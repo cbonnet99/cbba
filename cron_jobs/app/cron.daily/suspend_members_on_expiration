@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ruby /usr/local/cft/deploy/capistrano/current/script/runner -e production TaskUtils.suspend_full_members_when_membership_expired

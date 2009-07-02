@@ -1,4 +1,0 @@
-#!/bin/sh
-
-find /var/backups/postgres* -type f -mtime +14 | xargs rm -Rf
-find /var/backups/assets-* -type f -mtime +14 | xargs rm -Rf

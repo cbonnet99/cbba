@@ -31,7 +31,7 @@ every 1.day, :at => "3am"  do
   command "sudo -u postgres pg_dump -d be_amazing_production > /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql"
   command "cp /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql /var/backups"
   command "rm -f /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql"
-  command "/home/cftuser/s3sync.rb -r /var/backups/ backups.beamazing.co.nz:/"
+  command "/home/cftuser/s3sync/s3sync.rb -r /var/backups/ backups.beamazing.co.nz:/"
 end
 
 every 1.hour do

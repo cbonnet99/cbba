@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ruby /usr/local/cft/deploy/capistrano/current/script/runner -e production TaskUtils.send_reminder_on_expiring_memberships

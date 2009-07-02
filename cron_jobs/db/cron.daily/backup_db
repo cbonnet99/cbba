@@ -1,4 +1,0 @@
-#!/bin/sh
-sudo -u postgres pg_dump -d be_amazing_production > /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql
-cp /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql /var/backups
-rm -f /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql

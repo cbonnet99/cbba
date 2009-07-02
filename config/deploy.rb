@@ -105,47 +105,9 @@ end
 namespace(:deploy) do
   desc "Update the crontab file"
   task :update_crontab, :roles => :db do
-    run "cd #{release_path} && whenever --update-crontab #{application}"
+    run "cd #{release_path} && whenever --write-crontab #{application}"
   end
   
-  desc "Copy all cron jobs"
-  task :cron do
-    if (ENV['RAILS_ENV'] || '').downcase == 'production'
-	    cron_app
-	    cron_db
-    else
-	    puts "*** No cron jobs deployed as it is not a production environment"
-    end
-  end
-
-  desc "Copy cron jobs for application servers"
-  task :cron_app, :roles => :app do
-    Dir.foreach("cron_jobs/app") do |dir|
-	    if ![".", ".."].include?(dir)
-        Dir.foreach("cron_jobs/app/"+dir) do |file|
-          if ![".", ".."].include?(file)
-            run "#{sudo} cp #{current_path}/cron_jobs/app/#{dir}/#{file} /etc/#{dir}/#{file}"
-            run "#{sudo} chmod 0755 /etc/#{dir}/#{file}"
-          end
-        end
-	    end
-    end
-  end
-
-  desc "Copy cron jobs for database servers"
-  task :cron_db, :roles => :db do
-    Dir.foreach("cron_jobs/db") do |dir|
-	    if ![".", ".."].include?(dir)
-        Dir.foreach("cron_jobs/db/"+dir) do |file|
-          if ![".", ".."].include?(file)
-            run "#{sudo} cp #{current_path}/cron_jobs/db/#{dir}/#{file} /etc/#{dir}/#{file}"
-            run "#{sudo} chmod 0755 /etc/#{dir}/#{file}"
-          end
-        end
-	    end
-    end
-  end
-
   desc "Restart the Rails server."
   task :restart, :roles => :app do
     rails_server.restart
@@ -212,7 +174,6 @@ namespace(:deploy) do
       run_init_packages
       update_code
       web.disable
-      # cron
       symlink
       elastic_server_symlink
       run_init_ami
@@ -230,7 +191,6 @@ namespace(:deploy) do
     transaction do
       update_code
       web.disable
-      # cron
       symlink
       elastic_server_symlink
 #      run_init_ami

@@ -1,2 +1,0 @@
-#!/bin/sh
-sudo /home/cftuser/s3sync.rb -r --exclude="\.bak$" /var/backups/ backups.beamazing.co.nz:/
