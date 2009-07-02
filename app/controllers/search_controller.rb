@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class SearchController < ApplicationController
-  include ApplicationHelper
 
   def contact
     @norma = User.find_by_email(APP_CONFIG[:norma])
@@ -25,8 +24,6 @@ class SearchController < ApplicationController
   end
 
   def search    
-		@what = params[:what].gsub(/\+/, " ")
-		@where = params[:where].gsub(/\+/, " ")
 		begin
       if @what.blank? && @where.blank?
           logger.debug("======== EMPTY params in search")

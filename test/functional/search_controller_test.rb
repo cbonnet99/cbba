@@ -37,7 +37,7 @@ class SearchControllerTest < ActionController::TestCase
 
   def test_search_full_member_name
     cyrille = users(:cyrille)
-		get :search, :where => "", :what => cyrille.name
+		get :search, :where => nil, :what => CGI::escape(cyrille.name)
     assert_not_nil assigns(:selected_user)
 		assert_redirected_to expanded_user_path(cyrille, :where => "", :what => cyrille.name  )
   end

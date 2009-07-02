@@ -78,7 +78,7 @@
   <!--Header Ends -->
   <!--Search Bar Starts -->
   <a name="search" href="#search" class="skip-dest"></a>
-  <% form_tag search_path(:what => @what||"", :where => @where||"" ), :id => "bam-search-form" do  -%>
+  <% form_tag search_path(:what => "", :where => "" ), :id => "bam-search-form" do  -%>
     <div id="what-wrapper" class="search-wrapper">
       <label for="what">What, Who: </label>
       <input class="text" type="text" id="what" name="what" value="<%=@what%>" />

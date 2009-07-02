@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include RoleRequirementSystem
   include SslRequirement
+  include ApplicationHelper  
 
   helper :all # include all helpers, all the time
   protect_from_forgery
@@ -15,10 +16,15 @@ class ApplicationController < ActionController::Base
 
 
 	#  before_filter :tags
-  before_filter :current_category, :categories, :counters, :resident_experts, :except => :change_category
+  before_filter :current_category, :search_terms, :categories, :counters, :resident_experts, :except => :change_category
 
 	protected
 	exception_data :additional_data
+
+  def search_terms
+		@what = url_decode(params[:what])
+		@where = url_decode(params[:where])    
+  end
 
   def render_optional_error_file(status_code)
     case status_code
