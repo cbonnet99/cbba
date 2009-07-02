@@ -62,7 +62,7 @@ module Whenever
       command = ['crontab']
       command << "-u #{@options[:user]}" if @options[:user]
       command << tmp_cron_file
-puts "==== command: #{command.inspect}"
+
       if system(command.join(' '))
         action = 'written' if @options[:write]
         action = 'updated' if @options[:update]
