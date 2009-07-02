@@ -35,6 +35,7 @@ every 1.day, :at => "3am"  do
 end
 
 every 1.hour do
+  runner "TaskUtils.generate_autocomplete_subcategories"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"
   runner "TaskUtils.process_paid_xero_invoices"
