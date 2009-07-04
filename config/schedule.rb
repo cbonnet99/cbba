@@ -22,16 +22,14 @@
 every 1.day, :at => "3am"  do
   runner "TaskUtils.mark_down_old_users"
   runner "TaskUtils.send_reminder_on_expiring_memberships"
-  command "find /var/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
-  command "find /var/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
+  command "find /home/cftuser/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
+  command "find /home/cftuser/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
   runner "TaskUtils.suspend_full_members_when_membership_expired"
-  command "tar cvfz /usr/local/cft/deploy/capistrano/shared/assets /var/backups/assets-`date +'%Y-%m-%d'`"
-  command "sudo -u postgres pg_dump -d be_amazing_production > /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql"
-  command "cp /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql /var/backups"
-  command "rm -f /var/lib/postgresql/postgres-backup-`date +'%Y-%m-%d'`.sql"
-  command "/home/cftuser/s3sync/s3sync.rb -r /var/backups/ backups.beamazing.co.nz:/"
+  command "tar cvfz /home/cftuser/backups/assets-`date +'%Y-%m-%d'` /usr/local/cft/deploy/capistrano/shared/assets"
+  command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +'%Y-%m-%d'`.sql"
+  command "/home/cftuser/s3sync/s3sync.rb -r /home/cftuser/backups/ backups.beamazing.co.nz:/"
 end
 
 every 1.hour do
