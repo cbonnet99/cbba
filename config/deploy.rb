@@ -105,7 +105,7 @@ end
 namespace(:deploy) do
   desc "Update the crontab file"
   task :update_crontab, :roles => :db do
-    run "cd #{release_path} && whenever --write-crontab #{application}"
+    run "cd #{release_path} && whenever -u root --write-crontab #{application}"
   end
   
   desc "Restart the Rails server."
