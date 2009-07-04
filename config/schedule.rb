@@ -27,7 +27,7 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
   runner "TaskUtils.suspend_full_members_when_membership_expired"
-  command "tar cvfz /home/cftuser/backups/assets-`date +'%Y-%m-%d'` /usr/local/cft/deploy/capistrano/shared/assets"
+  command "tar cvfz /home/cftuser/backups/assets-`date +'%Y-%m-%d'`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets"
   command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +'%Y-%m-%d'`.sql"
   command "/home/cftuser/s3sync/s3sync.rb -r /home/cftuser/backups/ backups.beamazing.co.nz:/"
 end
