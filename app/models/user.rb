@@ -25,32 +25,32 @@ class User < ActiveRecord::Base
   validates_attachment_size :photo, :less_than => 3.megabytes
   validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif']
   # Relationships
-  has_many :messages
-  has_many :roles_users
+  has_many :messages, :dependent => :delete_all 
+  has_many :roles_users, :dependent => :delete_all
   has_many :roles, :through => :roles_users, :uniq => true 
   belongs_to :region
   belongs_to :district
-  has_many :articles, :foreign_key => :author_id
-  has_many :how_tos, :foreign_key => :author_id
-  has_many :approved_articles, :class_name => "articles"
-  has_many :rejected_articles, :class_name => "articles"
-	has_many :subcategories_users, :order => "expertise_position"
+  has_many :articles, :foreign_key => :author_id, :dependent => :delete_all
+  has_many :how_tos, :foreign_key => :author_id, :dependent => :delete_all
+  has_many :approved_articles, :class_name => "articles", :dependent => :delete_all
+  has_many :rejected_articles, :class_name => "articles", :dependent => :delete_all
+	has_many :subcategories_users, :order => "expertise_position", :dependent => :delete_all
 	has_many :subcategories, :through => :subcategories_users, :include => :subcategories_users, :order => "subcategories_users.expertise_position"
-	has_many :categories_users
+	has_many :categories_users, :dependent => :delete_all
 	has_many :categories, :through => :categories_users
-  has_many :tabs, :order => "position"
-  has_one :user_profile
-  has_many :payments
-  has_many :user_emails
-  has_many :user_events
-  has_many :profile_visits, :class_name => "UserEvent", :foreign_key => :visited_user_id
-  has_many :special_offers, :foreign_key => :author_id
-  has_many :expert_applications
-  has_many :gift_vouchers, :foreign_key => :author_id
-  has_one :expertise_subcategory, :class_name => "Subcategory",  :foreign_key => :resident_expert_id
-  has_many :recommendations
-  has_many :recommended_by_recommendations, :class_name => "Recommendation" , :foreign_key => :recommended_user_id 
-  has_many :recommended_by, :class_name => "User" , :through => :recommended_by_recommendations, :source => :user  
+  has_many :tabs, :order => "position", :dependent => :delete_all
+  has_one :user_profile, :dependent => :delete
+  has_many :payments, :dependent => :delete_all
+  has_many :user_emails, :dependent => :delete_all
+  has_many :user_events, :dependent => :delete_all
+  has_many :profile_visits, :class_name => "UserEvent", :foreign_key => :visited_user_id, :dependent => :delete_all
+  has_many :special_offers, :foreign_key => :author_id, :dependent => :delete_all
+  has_many :expert_applications, :dependent => :delete_all
+  has_many :gift_vouchers, :foreign_key => :author_id, :dependent => :delete_all
+  has_one :expertise_subcategory, :class_name => "Subcategory",  :foreign_key => :resident_expert_id, :dependent => :delete
+  has_many :recommendations, :dependent => :delete_all
+  has_many :recommended_by_recommendations, :class_name => "Recommendation", :foreign_key => :recommended_user_id , :dependent => :delete_all
+  has_many :recommended_by, :class_name => "User" , :through => :recommended_by_recommendations, :source => :user
 
   # #named scopes
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
