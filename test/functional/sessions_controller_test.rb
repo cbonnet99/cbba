@@ -33,7 +33,16 @@ class SessionsControllerTest < ActionController::TestCase
     pending_user = users(:pending_user)
     pending_user_payment = payments(:pending_user_payment)
     post :create, :email => pending_user.email, :password => "monkey"
-    assert_redirected_to edit_payment_path(pending_user_payment)
+    assert_not_nil assigns(:payment)
+    assert_equal pending_user_payment, assigns(:payment)
+    assert_redirected_to edit_payment_path(assigns(:payment))
+    assert_equal "You need to complete your payment", flash[:warning]
+  end
+  def test_create_pending_without_payment
+    suspended_user2 = users(:suspended_user2)
+    post :create, :email => suspended_user2.email, :password => "monkey"
+    assert_not_nil assigns(:payment)
+    assert_redirected_to edit_payment_path(assigns(:payment))
     assert_equal "You need to complete your payment", flash[:warning]
   end
 end

@@ -25,13 +25,9 @@ class SessionsController < ApplicationController
             redirect_back_or_default expanded_user_path(current_user)
           end
         else
-          payment = current_user.payments.pending.find(:first, :order => "created_at desc" )
-          if payment.nil?
-            logger.error("No pending payment found for pending user: #{user.email}")
-          else
-            flash[:warning] = "You need to complete your payment"
-            redirect_back_or_default edit_payment_path(payment)
-          end
+          @payment = current_user.find_current_payment
+          flash[:warning] = "You need to complete your payment"
+          redirect_back_or_default edit_payment_path(@payment)
         end
       else
         log_user_event(UserEvent::LOGIN, "", "Success")

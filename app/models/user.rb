@@ -87,6 +87,22 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
 
+  def find_current_payment
+    self.payments.pending.find(:first, :order => "created_at desc" ) || self.payments.create!(Payment::TYPES["renew_#{self.highest_role}".to_sym])
+  end
+
+  def highest_role
+    if resident_expert?
+      "resident_expert"
+    else
+      if full_member?
+        "full_member"
+      else
+        "free_listing"
+      end
+    end
+  end
+
   def key_expertise_name(current_subcategory=nil)
     if current_subcategory.nil?
       self.main_expertise_name
