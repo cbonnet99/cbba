@@ -4,6 +4,15 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
   fixtures :all
 
 
+  def test_copy
+    test_email = mass_emails(:test_email)
+    post :copy, {:id => test_email.id}, {:user_id => users(:cyrille).id }
+    assert_response :success
+    assert_not_nil assigns(:new_mass_email)
+    assert_equal test_email.subject, assigns(:new_mass_email).subject
+    assert_equal test_email.body, assigns(:new_mass_email).body
+  end
+
   def test_create
     post :create, {:mass_email => {:subject => "Test", :body => "This is cool", :email_type => "Business newsletter"  }}, {:user_id => users(:cyrille).id }
     assert_equal "Successfully created email.", flash[:notice]
@@ -23,7 +32,7 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     assert test_email.recipients_full_members
     assert_not_nil test_email.sent_at
 
-    assert_equal User.full_members.size, ActionMailer::Base.deliveries.size
+    assert_equal User.active.full_members.size, ActionMailer::Base.deliveries.size
   end
 
   def test_update2
@@ -39,7 +48,7 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     assert test_email.recipients_free_users
     assert_not_nil test_email.sent_at
 
-    assert_equal User.full_members.size+User.free_users.size, ActionMailer::Base.deliveries.size
+    assert_equal User.active.full_members.size+User.free_users.size, ActionMailer::Base.deliveries.size
   end
 
   def test_update3
@@ -55,7 +64,7 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     assert simple.recipients_general_public
     assert_not_nil simple.sent_at
 
-    assert_equal User.full_members.size+Contact.all.size, ActionMailer::Base.deliveries.size
+    assert_equal User.active.full_members.size+Contact.all.size, ActionMailer::Base.deliveries.size
   end
 
   def test_index

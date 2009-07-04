@@ -2,6 +2,11 @@ class Admin::MassEmailsController < ApplicationController
 
   before_filter :mass_email, :except => [:new, :create, :index]
 
+  def copy
+    @new_mass_email = MassEmail.create!(:subject => @mass_email.subject, :body => @mass_email.body,
+    :creator => current_user, :email_type => @mass_email.email_type)
+  end
+
   def index
     @mass_emails = MassEmail.find(:all, :order => "updated_at desc" )
   end
@@ -17,6 +22,7 @@ class Admin::MassEmailsController < ApplicationController
 
   def create
     @mass_email = MassEmail.new(params[:mass_email])
+    @mass_email.creator = current_user
     if @mass_email.save
       flash[:notice] = "Successfully created email."
       redirect_to @mass_email
@@ -30,7 +36,7 @@ class Admin::MassEmailsController < ApplicationController
       if @mass_email.no_recipients?
         flash[:notice] = "Successfully updated email."
       else
-#        call_rake :send_mass_email, :mass_email_id => @mass_email.id
+       # call_rake :send_mass_email, :mass_email_id => @mass_email.id
         @mass_email.deliver
         flash[:notice] = "Sending emails."
       end

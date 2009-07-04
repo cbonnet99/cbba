@@ -25,7 +25,7 @@ class UserMailer < ActionMailer::Base
 		@subject << subject
 		@body[:body] = body
 		@body[:user] = user
-		if user.full_member?
+		if user.full_member? && !user.main_expertise_slug.blank?
 		  @body[:profile_url] = expanded_user_path(user)
 	  else
 	    @body[:profile_url] = ""

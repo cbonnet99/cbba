@@ -1,6 +1,7 @@
 class MassEmail < ActiveRecord::Base
 
   belongs_to :test_sent_to, :class_name => "User"
+  belongs_to :creator, :class_name => "User"
 
   before_create :check_newsletter
 
@@ -38,14 +39,14 @@ class MassEmail < ActiveRecord::Base
   def deliver
     if sent_at.nil?
       if email_type == "Public newsletter"
-        users_obj = User.wants_newsletter
+        users_obj = User.active.wants_newsletter
         contact_obj = Contact.wants_newsletter
       else
         if email_type == "Business newsletter"
-          users_obj = User.wants_professional_newsletter
+          users_obj = User.active.wants_professional_newsletter
           contact_obj = Contact.wants_professional_newsletter
         else        
-          users_obj = User
+          users_obj = User.active
           contact_obj = Contact
         end
       end
@@ -67,13 +68,15 @@ class MassEmail < ActiveRecord::Base
           if u.valid?
             puts "Sending email to user #{u.name_with_email}"
             UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+            self.update_attribute(:sent_to, "#{self.sent_to}<br/>#{u.name_with_email}")
           else
             puts "Cannot send an email to user #{u.name_with_email} because this user is not valid. Errors are: #{u.errors.map{|k,v| "#{k}: #{v}"}.to_sentence}"
           end
         else
           #contact
-          puts "Sending email to contact #{u.name}"
+          puts "Sending email to contact #{u.email}"
           UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+          self.update_attribute(:sent_to, "#{self.sent_to}<br/>#{u.email}")
         end
       end
       self.update_attribute(:sent_at, Time.now)
