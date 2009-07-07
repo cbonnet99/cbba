@@ -355,6 +355,15 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal "(09)111111", rmoore.phone
 	end
 
+	def test_update_email
+    rmoore = users(:rmoore)
+		post :update, {:id => "123", :user => {:email  => "my_new_address@test.com" }}, {:user_id => rmoore.id }
+    #    puts assigns(:user).errors.inspect
+		assert_equal "Your details have been updated", flash[:notice]
+    rmoore.reload
+		assert_equal "my_new_address@test.com", rmoore.email
+	end
+
 	def test_update_mobile
 		cyrille = users(:cyrille)
     TaskUtils.rotate_user_positions_in_subcategories
