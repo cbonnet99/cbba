@@ -17,5 +17,8 @@
 <div class="cleaner"></div>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @article} %>
 <hr/>
-<%= white_list @article.lead %>
-<%= white_list @article.body %>
+<p>
+<%= white_list @article.lead.gsub(/\n/, "<br/>") %>
+<br/>
+<%= white_list @article.body.gsub(/\n/, "<br/>") %>
+</p>
