@@ -17,8 +17,12 @@ div.user-photo {
 	float: left;
 	width: 55px;
 }
+div.bam-user-details-icons {
+	float: left;
+}
  div.bam-user-details {
 	float: left;
+	width: 80%;
 }
 #bam-warning-profile-draft {
 	float: left;

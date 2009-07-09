@@ -7,6 +7,9 @@
   <div class="bam-user-details" <%if user.free_listing?%>style="display: none"<%end%>>
 	<%unless user.other_expertise_names(@subcategory).blank? %><p>Also offers: <%=  user.other_expertise_names(@subcategory).to_sentence %></p><%end%>
 	<p><%=  user.business_name %><%unless user.business_name.blank?%>, <%end%><%=  user.region_name %></p>
+	</div>
+	<div class="cleaner"></div>
+  <div class="bam-user-details-icons" <%if user.free_listing?%>style="display: none"<%end%>>
         <ul id="contact-details">
         	<%unless user.phone.nil? || user.phone == "()"%><li class="phone"><span class="hide">phone:</span> <%=user.phone%></li><%end%>
           <%unless user.mobile.nil? || user.mobile == "()"%><li class="fax"><span class="hide">mobile:</span> <%= user.mobile%></li><%end%>
