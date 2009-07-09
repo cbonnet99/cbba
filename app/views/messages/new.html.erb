@@ -1,4 +1,3 @@
-<% use_tinymce -%>
 <%= title "Send a message to #{@user.name}"  %>
 <% form_for @message do |f| %>
 	<% unless logged_in? -%>
