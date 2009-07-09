@@ -362,7 +362,7 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
       :region_id => canterbury.id, :email => "joe@test.com",
       :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
-      :password => "blablabla", :password_confirmation => "blablabla" )
+      :password => "blablabla", :password_confirmation => "blablabla", :accept_terms => true  )
       user.register!
       user.activate
       assert_equal 1, user.roles.find_all_by_name("full_member").size

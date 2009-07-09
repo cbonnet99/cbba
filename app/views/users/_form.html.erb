@@ -81,11 +81,11 @@
       </li>
       <li>
         <%= f.label :phone_prefix, 'Phone' %>
-        <%= f.select :phone_prefix, ["", "03", "04", "06", "07", "09"] %><%= f.text_field :phone_suffix, :size => 10 %>
+        <%= f.select :phone_prefix, ["", "03", "04", "06", "07", "09"] %><%= f.text_field :phone_suffix, :size => 10, :maxlength => 10 %>
       </li>
       <li>
         <%= f.label :mobile_prefix, 'Mobile' %>
-        <%= f.select :mobile_prefix, ["", "021", "027", "029"] %><%= f.text_field :mobile_suffix, :size => 10 %>
+        <%= f.select :mobile_prefix, ["", "021", "027", "029"] %><%= f.text_field :mobile_suffix, :size => 10, :maxlength => 10 %>
       </li>
       <li>
         <label>Please select your main expertise and (optionally) 2 other categories you would like to be listed in:</label>

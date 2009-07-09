@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
 
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
+  validates_length_of :phone, :maximum => 14
+  validates_length_of :mobile, :maximum => 14
   validates_presence_of :email, :first_name, :last_name
   validates_presence_of :district, :message => "^Your area can't be blank", :if => Proc.new { |user| !user.admin? }
   validates_length_of :email, :within => 6..100 #r@a.wk
@@ -71,8 +73,9 @@ class User < ActiveRecord::Base
 
   
   # #around filters
-	before_create :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :create_geocodes, :trim_stuff
-	before_update :assemble_phone_numbers, :get_region_from_district, :get_membership_type, :update_geocodes, :trim_stuff
+	before_validation :assemble_phone_numbers, :trim_stuff
+  before_create :create_geocodes, :get_region_from_district, :get_membership_type
+  before_update :update_geocodes, :get_region_from_district, :get_membership_type
 
   after_create :create_profile, :add_tabs
   before_update :update_tabs
