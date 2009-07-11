@@ -19,13 +19,11 @@ div.user-photo {
 }
 div.bam-user-details-icons {
 	float: left;
-	min-width: 400px;
 	width: 100%;
 }
  div.bam-user-details {
 	float: left;
 	width: 80%;
-	min-width: 400px;
 }
 #bam-warning-profile-draft {
 	float: left;
