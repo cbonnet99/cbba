@@ -142,7 +142,7 @@ li { font-size: 12px; /*margin: 5px 10px; */}
 	#profile-tab-content li {list-style:disc;}
 li a { font-size:12px; }
 li li { font-size: 12px; }
-	#profile-header li, div.bam-user-details-icons li {color:#000; display:inline; float:left; font-size:11px; line-height:20px;padding:0 18px 0 24px;}
+	#profile-header li, #contentMain div.bam-user-details-icons ul li {color:#000; display:inline; float:left; font-size:11px; line-height:20px;padding:0 18px 0 24px;}
 	#profile-header li a {color:#000;font-size:11px;}
 		#profile-header li a:hover {color:#cc0000;}
 		li.phone {background:url(../images/iconPhone.gif) no-repeat;}
