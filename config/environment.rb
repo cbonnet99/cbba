@@ -96,6 +96,7 @@ Rails::Initializer.run do |config|
 end
 
 WhiteListHelper.tags -= %w(h1 tt output samp kbd var sub sup dfn cite big small address dt dd abbr acronym blockquote del ins fieldset legend)
+WhiteListHelper.attributes -= %w(style)
 
 ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
   :default => '%e %B %Y'
