@@ -1,5 +1,20 @@
 module ApplicationHelper
 
+  def first_sentence(text)
+    if text.index("<p")
+      index = text.index(/\<\/p\>/)
+      offset = 4
+    else
+      index = text.index(/\\n|\<br\/\>|\<br\>/)
+      offset = -1
+    end
+    if index.nil?
+      text
+    else
+      text[0..index+offset]
+    end
+  end
+
   def url_decode(str)
     if str.nil?
       ""

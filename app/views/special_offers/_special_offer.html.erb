@@ -4,4 +4,4 @@
 <% unless special_offer.subcategory.nil? -%>
 <p><%= special_offer.subcategory.name%></p>
 <% end -%>
-<p><%=truncate(white_list(special_offer.description))%></p>
+<p><%=first_sentence(white_list(special_offer.description))%></p>

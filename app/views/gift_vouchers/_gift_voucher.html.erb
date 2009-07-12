@@ -4,4 +4,4 @@
 <% unless gift_voucher.subcategory.nil? -%>
 <p><%= gift_voucher.subcategory.name%></p>
 <% end -%>
-<p><%=truncate(white_list(gift_voucher.description))%></p>
+<p><%=first_sentence(white_list(gift_voucher.description))%></p>
