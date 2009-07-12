@@ -12,5 +12,5 @@ theme_advanced_resizing : true,
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 template_external_list_url : "example_template_list.js",
 use_native_selects : true,
-theme_advanced_blockformats : "p,h1,h2,h3"
+theme_advanced_blockformats : "p,h2,h3,h4"
 });
