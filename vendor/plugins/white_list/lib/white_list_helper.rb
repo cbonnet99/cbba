@@ -54,6 +54,7 @@ module WhiteListHelper
   def white_list(html, options = {}, &block)
     return html if html.blank? || !html.include?('<')
     attrs   = Set.new(options[:attributes]).merge(white_listed_attributes)
+    attrs.delete("style")
     tags    = Set.new(options[:tags]      ).merge(white_listed_tags)
     block ||= lambda { |node, bad| white_listed_bad_tags.include?(bad) ? nil : node.to_s.gsub(/</, '&lt;') }
     returning [] do |new_text|
