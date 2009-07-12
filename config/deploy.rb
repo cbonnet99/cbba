@@ -137,6 +137,7 @@ namespace(:deploy) do
     run "#{sudo} ln -s /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabled/ssl.load"
     run "#{sudo} ln -s /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-enabled/ssl.conf"
     run "#{sudo}  ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/headers.load"
+    run "#{sudo}  ln -sf ../usr/share/zoneinfo/Pacific/Auckland /etc/localtime"
     run "#{sudo} #{current_path}/script/init_ami.sh"
     run "#{sudo} #{current_path}/script/init_ami_postgres.sh"
     run "#{sudo} #{current_path}/script/init_assets.sh"
