@@ -36,7 +36,7 @@ config.after_initialize do
   ActiveMerchant::Billing::Base.mode = :production
   ::GATEWAY = ActiveMerchant::Billing::PaymentExpressGateway.new(
     :login => "BeAmazing",
-    :password => "rockstar1"
+    :password => "1081fc38"
   )
 end
 
