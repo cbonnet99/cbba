@@ -4,6 +4,11 @@ class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
 
+  def test_intro
+    get :intro
+    assert_response :success
+  end
+
   def test_message
     get :message, :slug => users(:cyrille).slug 
     assert_response :success
