@@ -185,6 +185,7 @@ namespace(:deploy) do
 
     restart
     web.enable
+    cleanup
   end
 
   desc "Deploy will throw up the maintenance.html page and run migrations then it restarts and enables the site again."
@@ -201,6 +202,7 @@ namespace(:deploy) do
 
     restart
     web.enable
+    cleanup
   end
 
   desc "Creates a symlink in order for proper deployment on Elastic Server"
