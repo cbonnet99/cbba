@@ -28,7 +28,8 @@ $(document).ready(function(){
 
     $('a.bam-show-more-details').click(function() {
         $(this).hide()
-        .next('div.bam-user-details').fadeIn();
+        .next('div.bam-user-details').fadeIn()
+		.next().next('div.bam-user-details-icons').fadeIn();
         $.get("/search/"+$(this).attr("id")+"/count_show_more_details");
         return false;
     });
