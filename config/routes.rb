@@ -22,6 +22,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :gift_vouchers
   
   map.special_offers_show '/special-offers/:selected_user/:id', :controller => "special_offers", :action => "show"
+  map.special_offers_show_format '/special-offers/:selected_user/:id.:format', :controller => "special_offers", :action => "show"
   # map.special_offers_action '/special-offers/:selected_user/:id/:action', :controller => "special_offers"
   map.resources :special_offers
   
