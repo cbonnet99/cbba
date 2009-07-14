@@ -53,7 +53,7 @@ class SpecialOffersController < ApplicationController
         redirect_to user_special_offers_path
       end
     else
-      respond_to |format| do
+      respond_to do |format|
         format.html do
           @special_offer = @selected_user.find_special_offer_for_user(params[:id], current_user)
           if @special_offer.nil?
