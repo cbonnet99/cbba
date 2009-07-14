@@ -66,7 +66,7 @@ class SpecialOffersController < ApplicationController
           format.html do
           end
           format.pdf do
-            send_file "#{RAILS_ROOT}/public#{@special_offer.pdf_filename}", :type => "application/pdf" 
+            send_file "#{RAILS_ROOT}/public#{@special_offer.pdf_filename}", :type => "application/pdf", :disposition => "attachment; filename=#{@special_offer.slug}.pdf" 
           end
         end
       end
