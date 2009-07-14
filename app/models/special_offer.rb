@@ -11,7 +11,7 @@ class SpecialOffer < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your special offers" 
   DEFAULT_TERMS = "<ul><li>Subject to availability at time of application</li><li>Bookings must be made in advance</li><li>Limited to one offer per person</li><li>Not to be used in conjunction with any other offer</li></ul>"
   PDF_SUFFIX_ABSOLUTE = File.dirname(__FILE__) + "/../../public"
-  PDF_SUFFIX_RELATIVE = "/special-offers"
+  PDF_SUFFIX_RELATIVE = "/assets/special-offers"
   MAX_PUBLISHED = {:full_member => 1, :resident_expert => 3 }
 
   PDF_TEXT_FONT = "Helvetica"
