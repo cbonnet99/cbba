@@ -53,20 +53,21 @@ class SpecialOffersController < ApplicationController
         redirect_to user_special_offers_path
       end
     else
-      respond_to do |format|
-        format.html do
-          @special_offer = @selected_user.find_special_offer_for_user(params[:id], current_user)
-          if @special_offer.nil?
-            flash.now[:error]="Sorry, this special offer could not be found"
-            if params[:index_public] == "true"
-              redirect_to special_offers_path
-            else
-              redirect_to user_special_offers_path
-            end        
-          end      
-        end
-        format.pdf do
-          send_file "#{RAILS_ROOT}/public#{@special_offer.pdf_filename}", :type => "application/pdf" 
+      @special_offer = @selected_user.find_special_offer_for_user(params[:id], current_user)
+      if @special_offer.nil?
+        flash.now[:error]="Sorry, this special offer could not be found"
+        if params[:index_public] == "true"
+          redirect_to special_offers_path
+        else
+          redirect_to user_special_offers_path
+        end        
+      else
+        respond_to do |format|
+          format.html do
+          end
+          format.pdf do
+            send_file "#{RAILS_ROOT}/public#{@special_offer.pdf_filename}", :type => "application/pdf" 
+          end
         end
       end
     end
