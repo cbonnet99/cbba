@@ -12,7 +12,7 @@ test:
   <<: *non_production_settings
   
 production:
-  site_host: beta.beamazing.co.nz
+  site_host: www.beamazing.co.nz
   site_name: Be Amazing
   admin_email: admin@beamazing.co.nz
   rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake

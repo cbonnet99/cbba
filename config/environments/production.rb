@@ -4,7 +4,7 @@
 ActionController::Base.asset_host = "assets.beamazing.co.nz"
 config.action_controller.asset_host = AssetHostingWithMinimumSsl.new(
   "http://assets.beamazing.co.nz", # will serve non-SSL assetts on http://assets[1-4].example.com
-  "https://beta.beamazing.co.nz"  # will serve SSL assets on https://assets1.example.com
+  "https://www.beamazing.co.nz"  # will serve SSL assets on https://assets1.example.com
 )
 
 # The production environment is meant for finished, "live" apps.
@@ -30,7 +30,7 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
  config.action_mailer.raise_delivery_errors = true
  config.action_mailer.delivery_method = :smtp
-$hostname = "beta.beamazing.co.nz"
+$hostname = "www.beamazing.co.nz"
 
 config.after_initialize do
   ActiveMerchant::Billing::Base.mode = :production
