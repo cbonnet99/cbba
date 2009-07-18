@@ -1,11 +1,11 @@
 # Settings specified here will take precedence over those in config/environment.rb
 
 #Specify an asset host
-ActionController::Base.asset_host = "www.beamazing.co.nz"
-# config.action_controller.asset_host = AssetHostingWithMinimumSsl.new(
-#   "http://assets.beamazing.co.nz", # will serve non-SSL assetts on http://assets[1-4].example.com
-#   "https://www.beamazing.co.nz"  # will serve SSL assets on https://assets1.example.com
-# )
+ActionController::Base.asset_host = "assets.beamazing.co.nz"
+config.action_controller.asset_host = AssetHostingWithMinimumSsl.new(
+  "http://assets.beamazing.co.nz", # will serve non-SSL assets on http://assets
+  "https://www.beamazing.co.nz"  # will serve SSL assets on https://www
+)
 
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
