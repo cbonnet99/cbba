@@ -35,8 +35,6 @@ class User < ActiveRecord::Base
   belongs_to :district
   has_many :articles, :foreign_key => :author_id, :dependent => :delete_all
   has_many :how_tos, :foreign_key => :author_id, :dependent => :delete_all
-  has_many :approved_articles, :class_name => "articles", :dependent => :delete_all
-  has_many :rejected_articles, :class_name => "articles", :dependent => :delete_all
 	has_many :subcategories_users, :order => "expertise_position", :dependent => :delete_all
 	has_many :subcategories, :through => :subcategories_users, :include => :subcategories_users, :order => "subcategories_users.expertise_position"
 	has_many :categories_users, :dependent => :delete_all

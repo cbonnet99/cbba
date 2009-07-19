@@ -3,8 +3,6 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 class Article < ActiveRecord::Base
 	include SubcategoriesSystem
   include Workflowable
-  
-  acts_as_taggable
 	
   belongs_to :author, :class_name => "User", :counter_cache => true
 	has_many :articles_subcategories

@@ -4,6 +4,13 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_destroy
+    cyrille = users(:cyrille)
+    old_email = cyrille.email
+    cyrille.destroy
+    assert_nil User.find_by_email(old_email)
+  end
+
   def test_expertises
     norma = users(:norma)
     aromatherapy = subcategories(:aromatherapy)
