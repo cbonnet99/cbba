@@ -95,9 +95,8 @@ Rails::Initializer.run do |config|
   #   }
 
     config.action_mailer.smtp_settings = {
-    :enable_starttls_auto => true,
-    :address  => "kiwiwebhost.sarcoma.net.nz",
-    :port  => 465,
+    :address  => "mail.beamazing.co.nz",
+    :port  => 25,
     :domain  => "beamazing.co.nz",
     :authentication  => :login,
     :user_name  => "sav+beamazing.co.nz",
