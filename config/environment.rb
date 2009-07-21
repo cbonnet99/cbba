@@ -86,11 +86,11 @@ Rails::Initializer.run do |config|
 
   config.action_mailer.smtp_settings = {
       :tls => true,
-      :address => "mail.beamazing.co.nz",
+      :address => "smtp.gmail.com",
       :port => "587",
       :domain => "beamazing.co.nz",
-      :authentication => :login,
-      :user_name => "sav+beamazing.co.nz",
+      :authentication => :plain,
+      :user_name => "beamazing2009@gmail.com",
       :password => "urban74" 
     }
 
