@@ -41,7 +41,7 @@ config.after_initialize do
 end
 
 $xero_gateway = XeroGateway::Gateway.new(
-  :customer_key => "ZDYWYWY1ODG1ZTG0NGQ5ZTKYNGZMYM",
+  :customer_key => "MTNJYTNLMGYXY2NMNGI5YZLKN2VKMT",
   :api_key => "MDCYODC0ZMNJOTBJNDI1NZG0N2I0MZ",
   :xero_url => "https://network.xero.com/api.xro/1.0"
   )
