@@ -85,13 +85,23 @@ Rails::Initializer.run do |config|
   config.active_record.observers = :user_observer
 
   config.action_mailer.smtp_settings = {
-		:address  => "mail.beamazing.co.nz",
-		:port  => 25,
-		:domain  => "beamazing.co.nz",
-		:authentication  => :login,
-		:user_name  => "sav+beamazing.co.nz",
-		:password  => "urban74"
-	}
+      :tls => true,
+      :address => "mail.beamazing.co.nz",
+      :port => "587",
+      :domain => "beamazing.co.nz",
+      :authentication => :plain,
+      :user_name => "sav+beamazing.co.nz",
+      :password => "urban74" 
+    }
+
+  #   config.action_mailer.smtp_settings = {
+  #   :address  => "mail.beamazing.co.nz",
+  #   :port  => 25,
+  #   :domain  => "beamazing.co.nz",
+  #   :authentication  => :login,
+  #   :user_name  => "sav+beamazing.co.nz",
+  #   :password  => "urban74"
+  # }
 
 end
 
