@@ -4,7 +4,7 @@ class InvoicesController < ApplicationController
   
   def show
       @invoice = Invoice.find(params[:id])
-      if !current_user.has_role?("Admin") && !current_user.invoices.include?(@invoice)
+      if !current_user.admin? && !current_user.invoices.include?(@invoice)
         flash[:error] = "You cannot access this invoice"
       else
         send_data(@invoice.pdf, :type => 'application/pdf', :filename => @invoice.filename, :disposition => 'inline')
