@@ -85,11 +85,11 @@ Rails::Initializer.run do |config|
   config.active_record.observers = :user_observer
 
   config.action_mailer.smtp_settings = {
-		:address  => "smtp2.vodafone.net.nz",
+		:address  => "mail.beamazing.co.nz",
 		:port  => 25,
 		:domain  => "beamazing.co.nz",
 		:authentication  => :login,
-		:user_name  => "oosav@vodafone.net.nz",
+		:user_name  => "sav+beamazing.co.nz",
 		:password  => "urban74"
 	}
 
