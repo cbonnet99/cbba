@@ -99,7 +99,7 @@ Rails::Initializer.run do |config|
     :address  => "kiwiwebhost.sarcoma.net.nz",
     :port  => 465,
     :domain  => "beamazing.co.nz",
-    :authentication  => :plain,
+    :authentication  => :login,
     :user_name  => "sav+beamazing.co.nz",
     :password  => "urban74"
   }
