@@ -89,7 +89,7 @@ Rails::Initializer.run do |config|
       :address => "mail.beamazing.co.nz",
       :port => "587",
       :domain => "beamazing.co.nz",
-      :authentication => :plain,
+      :authentication => :login,
       :user_name => "sav+beamazing.co.nz",
       :password => "urban74" 
     }
