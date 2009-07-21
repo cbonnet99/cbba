@@ -4,6 +4,7 @@
 <table id="payments">
   <tr>
     <th>Status</th>
+    <th>User</th>
     <th>Title</th>
     <th>Amount</th>
     <th>Date</th>
@@ -13,6 +14,7 @@
 <% for payment in @payments %>
   <tr class="<%=cycle('odd', 'even')%>">
     <td><span class="<%=payment.status%>"><%=h payment.status.capitalize %></span></td>
+    <td><%=h payment.user.name_with_email %></td>
     <td><%=h payment.title %></td>
     <td><%=h amount_view(payment.amount.to_s) %></td>
     <td><%=h payment.created_at %></td>
