@@ -487,6 +487,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal wellington, new_user.region
     assert new_user.active?
 	end
+	
   def test_create_full_membership
 		old_size = User.all.size
 		district = districts(:wellington_wellington_city)
@@ -508,6 +509,7 @@ class UsersControllerTest < ActionController::TestCase
     # #1 tab for hypnotherapy
     assert_equal 1, new_user.tabs.size
 	end
+	
   def test_create_full_membership_with_error
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",

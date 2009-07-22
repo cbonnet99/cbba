@@ -22,4 +22,5 @@ class UserEvent < ActiveRecord::Base
   REDIRECT_WEBSITE = "Redirected to website"
   VERIFY_CATPCHA = "Verify captcha"
   LOGIN = "Login"
+  ADMIN_LOGIN = "Admin login"
 end

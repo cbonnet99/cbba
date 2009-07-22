@@ -134,7 +134,9 @@ class Payment < ActiveRecord::Base
     if payment_type == "new" || payment_type == "renewal"
       user.member_since = Time.now if user.member_since.nil?
       if user.member_until.nil?
-        user.member_until = 1.year.from_now
+        user.member_until = 14.months.from_now
+        #Cyrille: changed 20 July 2009 for limited time offer        
+        # user.member_until = 1.year.from_now
       else
         user.member_until += 1.year
       end

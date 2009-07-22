@@ -108,19 +108,19 @@ div.user-description h4.title-user-paying {
 #contentMain form div.right-label label {
     text-align: left;
 }
-table#payments{
+table.admin{
     border: black solid;
     padding: 4px;
     border-collapse: collapse;
     border: 1px solid #333;
 }
 
-table#payments th, table#payments td{
+table.admin th, table.admin td{
     padding: 0.5em;
     border: 1px dotted #666;
 }
 
-table#payments tr.odd  {
+table.admin tr.odd  {
     background: #b3c4d4;
 }
 
