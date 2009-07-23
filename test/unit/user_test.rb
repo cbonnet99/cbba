@@ -21,14 +21,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [hypnotherapy.name], norma.other_expertise_names(aromatherapy)    
   end
 
-  def test_find_all_by_name
+  def test_find_paying_member_by_name
     cyrille = users(:cyrille)
-    assert_equal [cyrille], User.find_all_by_name(cyrille.name)
+    assert_equal cyrille, User.find_paying_member_by_name(cyrille.name)
+    assert_equal nil, User.find_paying_member_by_name("Bla blabla")
   end
   
-  def test_find_all_by_name_with_middle_names
+  def test_find_paying_member_by_name_with_middle_names
     norma = users(:norma)
-    assert_equal [norma], User.find_all_by_name(norma.name)
+    assert_equal norma, User.find_paying_member_by_name(norma.name)
   end
   
   def test_published

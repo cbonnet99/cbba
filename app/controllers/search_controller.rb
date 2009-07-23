@@ -57,14 +57,9 @@ class SearchController < ApplicationController
         @articles = Article.find_all_by_subcategories(*@category.subcategories) unless @category.blank?
         
         if @results.blank?
-          @users = User.full_members.published.active.find_all_by_name(@what)
-          unless @users.blank?
-            if @users.size == 1
-              @selected_user = @users.first
+          @selected_user = User.find_paying_member_by_name(@what)
+          unless @selected_user.nil?
               redirect_to expanded_user_path(@selected_user, :what => @what, :where => @where) unless @selected_user.nil?
-            else
-              @results = @users
-            end
           end
         end
         

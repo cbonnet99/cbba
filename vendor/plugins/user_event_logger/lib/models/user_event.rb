@@ -10,7 +10,6 @@ class UserEvent < ActiveRecord::Base
 	named_scope :login, :conditions => ["event_type='Login'"]
 	named_scope :free_users_show_details, :conditions => ["event_type='Free user show details'"]
 	named_scope :for_session, lambda { |session| {:conditions => ["session = ?", session] }}
-  named_scope :search, :conditions => "event_type='Fuzzy search'"
   named_scope :no_results, :conditions => "results_found=0"
   
   MSG_SENT = "Message sent"

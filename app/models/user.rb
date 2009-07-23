@@ -125,8 +125,8 @@ class User < ActiveRecord::Base
     self.business_name = self.business_name.try(:strip)
   end
   
-  def self.find_all_by_name(my_name)
-    User.find_by_sql(["select * from users where lower(first_name) || ' ' || lower(last_name) = lower(?)", my_name])
+  def self.find_paying_member_by_name(my_name)
+    User.find_by_sql(["select * from users where free_listing is false AND lower(first_name) || ' ' || lower(last_name) = lower(?)", my_name]).first
   end
   
   def user_profile_path
