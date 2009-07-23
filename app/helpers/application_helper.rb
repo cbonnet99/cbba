@@ -106,11 +106,11 @@ module ApplicationHelper
     @content_for_tinymce = ""
     content_for :tinymce do
       #had to specify a non-asset path to prevent caching bug: see http://blog.p.latyp.us/2008/04/tinymce-and-using-rails-asset-hosts.html
-      javascript_include_tag "/javascripts/tiny_mce/tiny_mce"
+      javascript_include_tag "http://#{APP_CONFIG[:site_host]}/javascripts/tiny_mce/tiny_mce"
     end
     @content_for_tinymce_init = ""
     content_for :tinymce_init do
-      javascript_include_tag "/javascripts/mce_editor"
+      javascript_include_tag "http://#{APP_CONFIG[:site_host]}/javascripts/mce_editor"
     end
   end
 
