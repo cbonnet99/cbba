@@ -30,11 +30,13 @@ every 1.day, :at => "3am"  do
   command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets"
   command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql"
 end
-  every 1.day, :at => "4am"  do
-  command "/home/cftuser/s3sync/s3sync.rb -r /home/cftuser/backups/ backups.beamazing.co.nz:/"
-end
+# every 1.day, :at => "4am"  do
+#   command "/home/cftuser/s3sync/s3sync.rb --debug -r /home/cftuser/backups/ backups.beamazing.co.nz:/"
+# end
 
 every 1.hour do
+  command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%H-00.sql"
+  command "/home/cftuser/s3sync/s3sync.rb --debug -r /home/cftuser/backups/ backups.beamazing.co.nz:/"
   runner "TaskUtils.generate_autocomplete_subcategories"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"

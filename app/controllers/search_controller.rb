@@ -136,10 +136,10 @@ class SearchController < ApplicationController
   end
 
 	def index
-    @map = GMap.new("map_div_id")
-    @map.control_init(:large_map => false, :map_type => true)
-    @map.center_zoom_init([Region::DEFAULT_NZ_LATITUDE,Region::DEFAULT_NZ_LONGITUDE], 4)
-    User.map_geocoded(@map)
+    # @map = GMap.new("map_div_id")
+    # @map.control_init(:large_map => false, :map_type => true)
+    # @map.center_zoom_init([Region::DEFAULT_NZ_LATITUDE,Region::DEFAULT_NZ_LONGITUDE], 4)
+    # User.map_geocoded(@map)
     
     @newest_articles = Article.all_newest_articles
     @total_straight_articles = Article.count(:all, :conditions => "state='published'")

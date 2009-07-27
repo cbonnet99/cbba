@@ -46,7 +46,7 @@ set :deploy_to_ip,  "75.101.132.186"
 set :user,          "cftuser"
 set :runner,        "cftuser" # required for cap 2.3
 #set :password,      "cftuser"  #
-set :password,  "wwu5Airemo"
+set :password,  "mavslr55"
 #set :password,  lambda { CLI.password_prompt "Target Password (user: #{user}): "}
 
 # DO NOT MODIFY BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING
