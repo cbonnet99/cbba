@@ -24,4 +24,15 @@ class Admin::UsersController < AdminApplicationController
     end
   end
   
+  def destroy
+    @user = User.find(params[:id])
+    if @user.nil?
+      flash[:error]="User not found"
+    else
+      @user.destroy
+      flash[:notice]="User deleted"
+    end
+    redirect_to :controller => "admin/users", :action => "search"  
+  end
+  
 end
