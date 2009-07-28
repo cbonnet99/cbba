@@ -1,5 +1,5 @@
 <% javascript 'user-profile' %>
-
+<% page_title("#{@user.full_name} - #{@user.expertise} - #{@user.location}")%>
 	  <!--Profile Starts -->
       <div id="profile-header">
 		<% if own_profile?(@user) -%>
@@ -15,7 +15,7 @@
 	      <%= title @user.full_name, :h3 %>
 	      <h4 class="<%=@user.css_role_description%>"><%= @user.role_description %></h4>
 	      <% unless @user.subcategories.blank?%><p>Expertise: <span class="business"><%= @user.expertise %></span></p><% end %>
-		  <%unless @user.city.blank?%>  <p>Location: <span class="location"><%=@user.city%>, <%unless @user.region.nil?%><%=@user.region.name%><%end%></span></p>
+		  <%unless @user.city.blank?%>  <p>Location: <span class="location"><%=@user.location%></span></p>
 	      <%end%>
 	      <% unless @user.member_since.blank?%><p>Member since: <%= @user.member_since.to_s(:short) %></p><% end %>
           <ul>
