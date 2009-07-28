@@ -4,6 +4,11 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_location
+    resident_expert_user = users(:resident_expert_user)
+    assert_equal "Wellington City, Wellington Region", resident_expert_user.location
+  end
+    
   def test_destroy
     cyrille = users(:cyrille)
     old_email = cyrille.email

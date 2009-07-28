@@ -90,7 +90,15 @@ class User < ActiveRecord::Base
   WEBSITE_PREFIX = "http://"
 
   def location
-    res = city
+    if city.blank?
+      if district.nil?
+        res = ""
+      else
+        res = district.name
+      end
+    else
+      res = city
+    end
     res << ", #{region.name}" unless region.nil?
     res
   end
