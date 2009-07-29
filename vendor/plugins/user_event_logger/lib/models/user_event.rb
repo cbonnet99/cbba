@@ -22,4 +22,5 @@ class UserEvent < ActiveRecord::Base
   VERIFY_CATPCHA = "Verify captcha"
   LOGIN = "Login"
   ADMIN_LOGIN = "Admin login"
+  USER_DELETED = "User deleted"
 end

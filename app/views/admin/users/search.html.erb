@@ -23,7 +23,7 @@
 			<td><%= u.roles.map(&:name).map(&:humanize).join(", ")%></td>
 			<td><%= u.state%></td>
 			<td><%= link_to "Login as #{u.first_name}", :controller => "admin/users", :action => "login", :id => u.id %><br/>
-				<%= link_to "Delete", :controller => "admin/users", :action => "destroy", :id => u.id, :confirm => 'Are you sure?' %></td>
+				<%= link_to "Delete", adminuser_path(u.id, :search_term => params[:search_term]), :confirm => 'Are you sure?', :method => :delete %></td>
 		</tr>
 	<%end -%>
 	</tbody>

@@ -29,10 +29,11 @@ class Admin::UsersController < AdminApplicationController
     if @user.nil?
       flash[:error]="User not found"
     else
+      log_user_event UserEvent::USER_DELETED, "", "Admin #{current_user} deleted user #{@user.full_name}"
       @user.destroy
       flash[:notice]="User deleted"
     end
-    redirect_to :controller => "admin/users", :action => "search"  
+    redirect_to :controller => "admin/users", :action => "search", :search_term => params[:search_term]   
   end
   
 end

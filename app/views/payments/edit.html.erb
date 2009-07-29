@@ -35,12 +35,14 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
         <%= f.text_field :city %>
       </li>
       <li>
+      <li>When you sign up for a full membership, we'll donate $10 to a charity of your choice. Please select which charity you'd like us to donate to:</li>
 		<% Charity.all.each do |charity| -%>
-        <div class="left-input"><label for="payment_charity_id_<%=charity.id%>"><%=charity.name%></label></div>
-        <div class="right-label"><%= f.radio_button :charity_id, charity.id %></div>
-		<div class="cleaner"></div>
+	  	<li>
+        	<div class="left-input"><label for="payment_charity_id_<%=charity.id%>"><%=charity.name%></label></div>
+        	<div class="right-label"><%= f.radio_button :charity_id, charity.id %></div>
+			<div class="cleaner"></div>
+    	</li>
 		<% end -%>
-      </li>
       <li>
         <%= f.label :card_type %>
         <%= f.select :card_type, [["Visa", "visa"], ["MasterCard", "master"], ["American Express", "american_express"]] %>
@@ -50,7 +52,7 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
         <%= f.text_field :card_number %>
       </li>
       <li>
-        <%= f.label :card_verification, "Card Verification Value (CVV)<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :card_verification, "Card Verification Value (CVV)<span class='mandatoryStar'>*</span><br/><span style='font-size: 10px;'>[These are the last three digits of the number on the back of your credit card]</span>" %>
         <%= f.text_field :card_verification %>
       </li>
       <li>
