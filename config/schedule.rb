@@ -36,8 +36,8 @@ end
 # end
 
 every 1.hour do
-  command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%H-00.sql"
-  command "/usr/local/cft/deploy/rails/script/s3synch"
+  command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%H-00.sql`"
+  command "/usr/local/cft/deploy/rails/script/s3sync"
   runner "TaskUtils.generate_autocomplete_subcategories"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"
