@@ -1,9 +1,27 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  user_id: 1
-  email_type: MyString
+mass_email1:
+  user: cyrille
+  email_type: mass_email
+  mass_email: test_email
+  subject: Hello
+  body: blabla
+  
+standard_mail:
+    user: norma
+    email_type: membership_expired_today
 
-two:
-  user_id: 1
-  email_type: MyString
+mass_email_sent:
+    user: cyrille
+    email_type: mass_email
+    mass_email: test_email
+    subject: Hello
+    body: blabla
+    sent_at: <%=Time.now%>
+    
+mass_email_with_contact:
+  contact: joe
+  email_type: mass_email
+  mass_email: test_email
+  subject: Hello
+  body: blabla

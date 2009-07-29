@@ -154,9 +154,9 @@ class UserMailer < ActionMailer::Base
     @subject = "[#{APP_CONFIG[:site_name]}] "
     @sent_on = Time.now
     @body[:user] = user
-    #record that an email was sent
-    if user.is_a?(User)
-      UserEmail.create(:user => user, :email_type => caller_method_name )
+    #record that an email was sent (except for mass emails)
+    if user.is_a?(User) && caller_method_name != "mass_email"
+      UserEmail.create(:user => user, :email_type => caller_method_name, :sent_at => Time.now)
     end
   end
   def caller_method_name

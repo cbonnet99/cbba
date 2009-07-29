@@ -67,7 +67,9 @@ class MassEmail < ActiveRecord::Base
         if u.is_a?(User)
           if u.valid?
             puts "Sending email to user #{u.name_with_email}"
-            UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+            # UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+            UserEmail.create(:user => u, :email_type => "mass_email", :subject => self.subject, :body => self.transformed_body(u),
+              :mass_email_id => self.id )
             self.update_attribute(:sent_to, "#{self.sent_to}<br/>#{u.name_with_email}")
           else
             puts "Cannot send an email to user #{u.name_with_email} because this user is not valid. Errors are: #{u.errors.map{|k,v| "#{k}: #{v}"}.to_sentence}"
@@ -75,7 +77,9 @@ class MassEmail < ActiveRecord::Base
         else
           #contact
           puts "Sending email to contact #{u.email}"
-          UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+          # UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
+          UserEmail.create(:contact => u, :email_type => "mass_email", :subject => self.subject, :body => self.transformed_body(u),
+            :mass_email_id => self.id )
           self.update_attribute(:sent_to, "#{self.sent_to}<br/>#{u.email}")
         end
       end

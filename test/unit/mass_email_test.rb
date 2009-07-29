@@ -4,14 +4,12 @@ class MassEmailTest < ActiveSupport::TestCase
   fixtures :all
 
   def test_deliver
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
+    old_size = UserEmail.all.size
     
     test_password = mass_emails(:test_password)
     test_password.recipients_full_members = true
     test_password.deliver
-    assert_equal User.active.full_members.size, ActionMailer::Base.deliveries.size
+    assert_equal old_size+User.active.full_members.size, UserEmail.all.size
     assert_equal "<br/>#{User.active.full_members.map(&:name_with_email).join('<br/>')}", test_password.sent_to
   end
 
