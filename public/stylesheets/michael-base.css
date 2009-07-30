@@ -109,7 +109,7 @@ a.newsletterBtn span { padding:46px 0 0 34px; }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color:#222; }
 address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:400; }
 h1, h2 { color:#000; font-size:24px;font-weight:bold; }
-h3 {color:#20ACCD; font-size:18px; margin:0 0 10px 0; padding:20px 0 0; }
+h3 {color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0; }
 	.section h3 {background:#fff;  border-bottom:1px solid #EFEDED; }
 	div.user-description h3 {padding:0 0 6px;}
 	#profile-header h3 {border-bottom:2px solid #f2f2f2; color:#cc0000; margin:0 0 8px 102px;padding:0 0 6px;}

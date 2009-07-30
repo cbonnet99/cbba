@@ -13,7 +13,6 @@
   <% if own_profile?(@user)  && !@selected_tab.nil? && @selected_tab.virtual? -%>
     <div id="profile-tabs-nav"><%= render(:partial => @selected_tab.nav) %></div>
   <% end -%>
-  <p>
     <% unless @selected_tab.nil? -%>
   <% if !@selected_tab.nil? && @selected_tab.virtual? -%>
           <%= render :partial => @selected_tab.partial %>
@@ -21,8 +20,7 @@
         <% if params[:action]=="edit" || params[:action]=="update" -%>
           <%= render(:partial => "tabs/form") %>
         <% else -%>
-          <%= white_list @selected_tab.content.gsub(/\n/, "<br/>") %>
+          <%= white_list @selected_tab.content %>
         <% end -%>
       <% end -%>
     <% end -%>
-    </p>
