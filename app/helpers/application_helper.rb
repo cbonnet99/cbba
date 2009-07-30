@@ -110,7 +110,7 @@ module ApplicationHelper
     end
     @content_for_tinymce_init = ""
     content_for :tinymce_init do
-      javascript_include_tag "http://#{APP_CONFIG[:site_host]}/javascripts/mce_editor"
+      javascript_include_tag "http://#{APP_CONFIG[:site_host]}/javascripts/mce_editor1"
     end
   end
 
