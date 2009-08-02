@@ -1,2 +1,1 @@
-<h4><%=link_to article.title, articles_show_path(article.author.slug, article.slug) %> by <%= author_link(article.author) %></h4>
-<p><%= truncate(white_list(article.lead), :length => 30, :omission => "..."+link_to("Read more", articles_show_path(article.author.slug, article.slug))) %></p>
+<h4><%=link_to article.title, articles_show_path(article.author.slug, article.slug, :index_public => true) %><br/>by <%= author_link(article.author) %></h4>
