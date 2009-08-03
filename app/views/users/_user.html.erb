@@ -14,7 +14,7 @@
         	<%unless user.phone.nil? || user.phone == "()"%><li class="phone"><span class="hide">phone:</span> <%=user.phone%></li><%end%>
           <%unless user.mobile.nil? || user.mobile == "()"%><li class="fax"><span class="hide">mobile:</span> <%= user.mobile%></li><%end%>
           <%unless user.free_listing?%><li class="email"><span class="hide">email:</span><a href="#"><%=link_to_message(user)%></a></li><%end -%>
-          <%unless user.website.blank? %><li class="web"><span class="hide">website:</span> <a href="#"><%= link_to "Website", :controller => "/users", :action => "redirect_website",  :slug =>user.slug%></a></li><%end%>
+          <%if !user.free_listing? && !user.website.blank? %><li class="web"><span class="hide">website:</span> <a href="#"><%= link_to "Website", :controller => "/users", :action => "redirect_website",  :slug =>user.slug%></a></li><%end%>
       </ul>
   </div>
 </div>
