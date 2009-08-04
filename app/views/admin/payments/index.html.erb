@@ -3,6 +3,7 @@
 
 <table class="admin">
   <tr>
+    <th>Type</th>
     <th>Status</th>
     <th>User</th>
     <th>Title</th>
@@ -13,6 +14,7 @@
   </tr>
 <% for payment in @payments %>
   <tr class="<%=cycle('odd', 'even')%>">
+	<td><% if payment.debit?%>Direct debit<%else%>Credit card<%end%></td>
     <td><span class="<%=payment.status%>"><%=h payment.status.capitalize %></span></td>
     <td><%=h payment.user.name_with_email unless payment.user.nil? %></td>
     <td><%=h payment.title %></td>
