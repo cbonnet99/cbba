@@ -1,4 +1,5 @@
 <%= title "Resident experts" %>
+<p>Meet our team of Resident Experts; top professionals in their field with heaps of knowledge, experience and enthusiasm. These Experts are constantly writing material for Be Amazing to help us provide you with a wide range of information about health, well being and development.</p>
 <% @experts.each do |e| -%>
   <div class="homepage-small-user user-rollover"><%= render :partial => "resident_experts/expert_small", :locals => {:user => e }  %></div>
 <% end -%>
