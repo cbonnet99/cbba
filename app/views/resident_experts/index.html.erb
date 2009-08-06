@@ -3,3 +3,4 @@
 <% @experts.each do |e| -%>
   <div class="homepage-small-user user-rollover"><%= render :partial => "resident_experts/expert_small", :locals => {:user => e }  %></div>
 <% end -%>
+<p>Want to become a Resident Expert? <%= link_to "Click here for more information", more_about_resident_expert_path %></p>
