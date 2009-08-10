@@ -1,0 +1,25 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "search_results" }  %>
+<%= title "Search results"%>
+<h3>Latest search:</h3>
+<table class="admin">
+  <tr>
+    <th>What</th>
+    <th>Where</th>
+    <th>Category</th>
+    <th>Subcategory</th>
+    <th>Region</th>
+    <th>City</th>
+    <th>Results found</th>
+  </tr>
+<%@latest_search.each do |s| -%>
+<tr class="<%=cycle('odd', 'even')%>">
+	<td><%= s.extra_data.scan(/what:(.*?),/)%></td>
+	<td><%= s.extra_data.scan(/where:(.*?),/)%></td>
+	<td><%= s.extra_data.scan(/category:(.*?),/)%></td>
+	<td><%= s.extra_data.scan(/subcategory:(.*?),/)%></td>
+	<td><%= s.extra_data.scan(/region:(.*?),/)%></td>
+	<td><%= s.extra_data.scan(/district:(.*?),/)%></td>
+	<td><%= s.extra_data.scan(/found (.*?) results/)%></td>
+</tr>
+<%end-%>
+</table>

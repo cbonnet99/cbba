@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :search_results, :path_prefix => "/admin", :controller => "admin/search_results"
+  map.action_search_results '/admin/search_results/:id/:action', :controller => "admin/search_results"
   map.resources :mass_emails, :path_prefix => "/admin", :controller => "admin/mass_emails"
   map.action_mass_emails '/admin/mass_emails/:id/:action', :controller => "admin/mass_emails"
   map.action_users '/admin/users/:action', :controller => "admin/users"

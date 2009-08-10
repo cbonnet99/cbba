@@ -2,4 +2,5 @@
 <%if selected=="emails"%><span class="user-tab-selected">Emails</span><%else%><%= link_to "Emails", mass_emails_path %><%end%> |
 <%if selected=="payments"%><span class="user-tab-selected">Payments</span><%else%><%= link_to "Payments", :controller => "admin/payments", :action => "index"   %><%end%> |
 <%if selected=="expert_applications"%><span class="user-tab-selected">Expert applications</span><%else%><%= link_to "Expert_applications", expert_applications_action_path(:action => "index")%><%end%> |
-<%if selected=="reviews"%><span class="user-tab-selected"><%=current_user.sentence_to_review%></span><%else%><%= link_to current_user.sentence_to_review, reviewer_path(:action => "index")%><%end%>
+<%if selected=="reviews"%><span class="user-tab-selected"><%=current_user.sentence_to_review%></span><%else%><%= link_to current_user.sentence_to_review, reviewer_path(:action => "index")%><%end%> |
+<%if selected=="search_results"%><span class="user-tab-selected">Search results</span><%else%><%= link_to "Search results", action_search_results_path(:action => "index")%><%end%>
