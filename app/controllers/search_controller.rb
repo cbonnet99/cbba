@@ -38,7 +38,7 @@ class SearchController < ApplicationController
         logger.debug("====== in search, @category: #{@category.inspect}")
         logger.debug("====== in search, @subcategory: #{@subcategory.inspect}")
         @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
-        log_user_event UserEvent::SEARCH, "", "what: #{@what}, where: #{@where},category: #{@category.try(:name)}, subcategory: #{@subcategory.try(:name)}, region: #{@region.try(:name)}, district: #{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size, :what => @what, :where => @where}
+        log_user_event UserEvent::SEARCH, "", "what: #{@what}, where: #{@where}, category: #{@category.try(:name)}, subcategory: #{@subcategory.try(:name)}, region: #{@region.try(:name)}, district: #{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size, :what => @what, :where => @where}
         # latitude = Region::DEFAULT_NZ_LATITUDE
         # longitude = Region::DEFAULT_NZ_LONGITUDE
         # zoom = 5

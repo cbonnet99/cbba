@@ -15,8 +15,8 @@
 <tr class="<%=cycle('odd', 'even')%>">
 	<td><%= s.extra_data.scan(/what:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/where:(.*?),/)%></td>
-	<td><%= s.extra_data.scan(/category:(.*?),/)%></td>
-	<td><%= s.extra_data.scan(/subcategory:(.*?),/)%></td>
+	<td><%= s.extra_data.scan(/, category:(.*?),/)%></td>
+	<td><%= s.extra_data.scan(/, subcategory:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/region:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/district:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/found (.*?) results/)%></td>
