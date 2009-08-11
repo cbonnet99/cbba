@@ -749,9 +749,7 @@ class User < ActiveRecord::Base
       self.free_listing=false
       unless full_member?
         self.member_since = Time.now.utc
-        self.member_until = 14.months.from_now
-        #Cyrille: changed 20 July 2009 for limited time offer
-        # self.member_until = 1.year.from_now
+        self.member_until = 1.year.from_now
         self.add_role("full_member")
       end
     when "resident_expert"

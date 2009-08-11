@@ -77,9 +77,7 @@ class PaymentTest < ActiveSupport::TestCase
     payment.purchase
     pending_user.reload
     assert_equal Time.now.to_date, pending_user.member_since.to_date
-    assert_equal 14.months.from_now.to_date, pending_user.member_until.to_date
-    #Cyrille: changed 20 July 2009 for limited time offer        
-    # assert_equal 1.year.from_now.to_date, pending_user.member_until.to_date
+    assert_equal 1.year.from_now.to_date, pending_user.member_until.to_date
     #an email should have been sent
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
