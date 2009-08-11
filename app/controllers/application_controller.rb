@@ -84,12 +84,18 @@ class ApplicationController < ActionController::Base
   end
 
   def resident_experts
-    @resident_experts = User.published_resident_experts
+    Rails.cache.fetch("resident_experts", :expires_in => 30.minutes) do
+      @resident_experts = User.published_resident_experts
+    end
   end
 
 	def get_districts_and_subcategories
-    get_districts
-		get_subcategories
+	  Rails.cache.fetch("districts", :expires_in => 30.minutes) do
+      get_districts
+    end
+    Rails.cache.fetch("subcategories", :expires_in => 30.minutes) do
+		  get_subcategories
+	  end
 	end
   
   def admin_required
