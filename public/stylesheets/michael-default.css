@@ -8,8 +8,8 @@ div#close-meet-expert{border-bottom:2px solid #c00;}
 #contentMain ul#search-results, #contentMain ul#contact-details{
 	margin:0;
 }
-#link-full-profile-content{background:url(../images/btnRed.gif) no-repeat; height:30px;float:right; line-height:29px; text-align:center; width:124px;}
-#link-profile-coming-soon-content {color:#ccc;background:url(../images/btnRed.gif) no-repeat; height:30px;float:right; line-height:29px; text-align:center; width:124px;}
+#link-full-profile-content{background:url(../images/btnRed.gif) no-repeat; padding-right: 10px;height:30px;float:left; line-height:29px; text-align:center; width:124px;}
+#link-profile-coming-soon-content {color:#ccc;background:url(../images/btnRed.gif) no-repeat; padding-right: 10px; height:30px;float:left; line-height:29px; text-align:center; width:124px;}
 #link-full-profile-content:hover, #link-profile-coming-soon-content:hover {color:#ccc;}
 .workflow-draft {
     color: #c00;

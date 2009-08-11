@@ -111,7 +111,8 @@ address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font
 h1, h2 { color:#000; font-size:24px;font-weight:bold; }
 h3 {color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0; }
 	.section h3 {background:#fff;  border-bottom:1px solid #EFEDED; }
-	div.user-description h3 {padding:0 0 6px;}
+	div.user-description h3 {padding:0 0 2px; margin: 0 0 2px;}
+	div.bam-user-details p {padding: 0 0 5px;}
 	#profile-header h3 {border-bottom:2px solid #f2f2f2; color:#cc0000; margin:0 0 8px 102px;padding:0 0 6px;}
 	h3.bam-region-name  {background:#cbe5eb;font-size:14px;font-weight:bold; margin:20px 0 0 0;padding:0 0 0 10px;} 
 		h3.bam-region-name  a {color:#000; font-weight:bold; }
@@ -216,7 +217,7 @@ ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { bac
 	#profile-ask-question-content:hover {color:#ccc;}
 .business {color:#00a0c6;}
 .location {color:#000;}
-	.user-description {overflow:auto;width:100%;border-bottom:1px solid #efeded;padding:0 0 10px;}
+	.user-description {overflow:auto;width:100%;border-bottom:2px solid grey;padding:5px 0 10px;}
 		.even {/*background:#f5f5f5;*/}
 		#contentMain .publication-actions {background:#d5d2ca url(../images/inputBg.png) repeat-x; height:30px;margin:0 0 10px 0;overflow:hidden;padding:4px 0 4px;}
 		#contentMain .publication-actions input.button {background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:30px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;color:#333333;cursor:pointer;font-size:11px;margin-right:2px;overflow:visible;width:auto;}

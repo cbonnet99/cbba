@@ -1,8 +1,8 @@
 <% review = nil if local_assigns[:review].nil? -%>
 <div class="user-description">
-<%= link_to_profile(user, review=="true") %>
-<%if user.free_listing?%><h4><%else%><h3><%end%><%= user.name %> - <%= user.key_expertise_name(@subcategory)%><%if user.free_listing?%></h4><%else%></h3><%end%><%unless user.free_listing?%><h4 class="<%=user.css_role_description%>"><%= user.role_description %></h4><%end%>
+<%unless user.free_listing?%><h4 class="<%=user.css_role_description%>"><%= user.role_description %></h4><%end%>
 <%if user.photo.exists? && user.user_profile.published?%><div class="user-photo"><%= image_tag user.photo.url(:thumbnail) %></div><%end%>
+<%if user.free_listing?%><h4><%else%><h3><%end%><%= user.name %> - <%= user.key_expertise_name(@subcategory)%><%if user.free_listing?%></h4><%else%></h3><%end%>
   <%if user.free_listing?%><a class="bam-show-more-details" id="bam-show-more-details-<%=user.id%>" href="#">Show more details</a><%end%>
   <div class="bam-user-details" <%if user.free_listing?%>style="display: none"<%end%>>
 	<%unless user.other_expertise_names(@subcategory).blank? %><p>Also offers: <%=  user.other_expertise_names(@subcategory).to_sentence %></p><%end%>
@@ -10,6 +10,7 @@
 	</div>
 	<div class="cleaner"></div>
   <div class="bam-user-details-icons" <%if user.free_listing?%>style="display: none"<%end%>>
+	<%= link_to_profile(user, review=="true") %>
         <ul id="contact-details">
         	<%unless user.phone.nil? || user.phone == "()"%><li class="phone"><span class="hide">phone:</span> <%=user.phone%></li><%end%>
           <%unless user.mobile.nil? || user.mobile == "()"%><li class="fax"><span class="hide">mobile:</span> <%= user.mobile%></li><%end%>
