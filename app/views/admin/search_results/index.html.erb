@@ -1,6 +1,7 @@
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "search_results" }  %>
 <%= title "Search results"%>
-<h3>Latest search:</h3>
+<h3>Using search:</h3>
+<%= will_paginate @search_results%>
 <table class="admin">
   <tr>
     <th>What</th>
@@ -11,7 +12,7 @@
     <th>City</th>
     <th>Results found</th>
   </tr>
-<%@latest_search.each do |s| -%>
+<%@search_results.each do |s| -%>
 <tr class="<%=cycle('odd', 'even')%>">
 	<td><%= s.extra_data.scan(/what:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/where:(.*?),/)%></td>
@@ -23,3 +24,4 @@
 </tr>
 <%end-%>
 </table>
+<%= will_paginate @search_results%>

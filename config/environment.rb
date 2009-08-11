@@ -33,6 +33,7 @@ Rails::Initializer.run do |config|
   # with "rake gems:install" on new installations. config.gem "bj" config.gem
   # "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
+  config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem 'javan-whenever', :lib => false, :source => 'http://gems.github.com'
   config.gem "transaction-simple", :lib => "transaction/simple", :version => "1.4.0"
   config.gem "color", :version => "1.4.0"

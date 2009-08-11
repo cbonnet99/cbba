@@ -11,7 +11,6 @@ class UserEvent < ActiveRecord::Base
 	named_scope :free_users_show_details, :conditions => ["event_type='Free user show details'"]
 	named_scope :for_session, lambda { |session| {:conditions => ["session = ?", session] }}
   named_scope :no_results, :conditions => "results_found=0"
-  named_scope :latest_search, :conditions => "event_type='Search'", :limit => 20, :order => "logged_at desc"  
   
   MSG_SENT = "Message sent"
   FREE_USER_DETAILS = "Free user show details"
@@ -24,4 +23,8 @@ class UserEvent < ActiveRecord::Base
   LOGIN = "Login"
   ADMIN_LOGIN = "Admin login"
   USER_DELETED = "User deleted"
+  
+  def self.per_page
+    20
+  end
 end
