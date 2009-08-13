@@ -26,6 +26,10 @@ class Article < ActiveRecord::Base
     end
   end
 
+  def self.count_published
+    Article.count(:all, :conditions => "state = 'published'")
+  end
+
   def self.all_articles(user)
     straight_articles = Article.find_all_by_author_id(user.id, :order => "state, updated_at desc")
     how_to_articles = HowTo.find_all_by_author_id(user.id, :order => "state, updated_at desc")

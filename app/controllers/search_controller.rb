@@ -140,24 +140,12 @@ class SearchController < ApplicationController
     # @map.control_init(:large_map => false, :map_type => true)
     # @map.center_zoom_init([Region::DEFAULT_NZ_LATITUDE,Region::DEFAULT_NZ_LONGITUDE], 4)
     # User.map_geocoded(@map)
-    Rails.cache.fetch("all_newest_articles", :expires_in => 30.minutes) do
-      @newest_articles = Article.all_newest_articles
-    end
-    Rails.cache.fetch("total_straight_articles", :expires_in => 30.minutes) do    
-      @total_straight_articles = Article.count(:all, :conditions => "state='published'")
-    end
-    Rails.cache.fetch("total_howto_articles", :expires_in => 30.minutes) do
-      @total_howto_articles = HowTo.count(:all, :conditions => "state='published'")
-    end
-    Rails.cache.fetch("total_articles", :expires_in => 30.minutes) do
-      @total_articles = @total_straight_articles+@total_howto_articles
-    end
-    Rails.cache.fetch("newest_full_members", :expires_in => 30.minutes) do
-      @newest_full_members = User.newest_full_members
-    end
-    Rails.cache.fetch("total_full_members", :expires_in => 30.minutes) do
-      @total_full_members = User.count_newest_full_members
-    end
+    @newest_articles = Article.all_newest_articles
+    @total_straight_articles = Article.count_published
+    @total_howto_articles = HowTo.count_published
+    @total_articles = @total_straight_articles+@total_howto_articles
+    @newest_full_members = User.newest_full_members
+    @total_full_members = User.count_newest_full_members
 	end
 
 	def simple_search

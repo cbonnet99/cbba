@@ -556,7 +556,7 @@ class User < ActiveRecord::Base
   end
 
   def self.published_resident_experts
-    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "first_name, last_name")
+    User.find(:all, :include => ["user_profile", "roles", "subcategories"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "first_name, last_name")
   end
 
   def self.count_published_resident_experts

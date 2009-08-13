@@ -21,6 +21,10 @@ class HowTo < ActiveRecord::Base
 	before_update :update_slug
   after_update :save_steps
 
+  def self.count_published
+    HowTo.count(:all, :conditions => "state = 'published'")
+  end
+
   def validate
     if subcategory1_id.blank?
       errors.add(:subcategory1_id, "^You must select at least one category")
