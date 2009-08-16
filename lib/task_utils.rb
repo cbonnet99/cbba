@@ -39,12 +39,16 @@ class TaskUtils
     end
   end
 
+  def self.extract_numbers_from_reference(ref)
+    ref.gsub(/[ -\.]/, "").split(/inv/i)
+  end
+
   def self.process_paid_xero_invoices
     run = Time.now
     response = $xero_gateway.get_invoices(Task.last_run(Task::XERO_INVOICES))
     response.invoices.each do |invoice|
       if invoice.invoice_status == "PAID"
-        user_id, invoice_number = invoice.reference.split("-INV-")
+        user_id, invoice_number = extract_numbers_from_reference(invoice.reference)
         payment = Payment.find_by_invoice_number_and_user_id("INV-#{invoice_number}", user_id)
         if payment.nil?
           Rails.logger.error("Payment not found for Xero invoice reference: #{invoice.reference} (user_id: #{user_id}, invoice number: #{invoice_number})")

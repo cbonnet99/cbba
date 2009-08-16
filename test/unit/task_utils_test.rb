@@ -3,6 +3,11 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_extract_numbers_from_reference
+    assert_equal ["123", "234"], TaskUtils.extract_numbers_from_reference("123-INV-234")
+    assert_equal ["123", "234"], TaskUtils.extract_numbers_from_reference("123 inv.234")
+  end
+
   def test_imports
 		ImportUtils.import_roles
 		ImportUtils.import_districts
