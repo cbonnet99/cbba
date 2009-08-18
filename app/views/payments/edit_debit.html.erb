@@ -9,14 +9,11 @@ You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
 Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
 <div class="cleaner"></div>
 <hr/>
-<%= render :partial => "payment_nav", :locals => {:selected => "debit" } %>
 <p>To pay by direct debit, please send your payment to our bank account:<br/>
 <br/>
 BeAmazing Ltd<br/>
 Kiwibank 38-9008-0791899-00</p>
 
-<p>In your payment, please put the following reference: <%= @payment.code%></p>
-<% form_tag '/payments/thank_you_direct_debit' do -%>
-      <%= hidden_field_tag "id", @payment.id %>
-      <%= submit_tag "Choose direct debit", :class => "button" %>
-<%end -%>
+<p>In your payment, please put the following reference: <span id="direct-debit-code"><%= @payment.code%></span></p>
+<p>Once your payment is received, your account will be automatically approved and you will receive an email with an invoice. If you do not receive an email 24 hours after your payment has been made, please <a href='mailto:admin@beamazing.co.nz?subject=<%= CGI::escape("My payment reference #{@payment.code}")%>'>contact us</a>.</p> 
+<p><%= link_to "I've changed my mind, I want to pay by credit card", :controller => "payments", :action => "edit", :id => @payment.id%></p>

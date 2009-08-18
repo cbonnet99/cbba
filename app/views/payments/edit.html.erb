@@ -9,7 +9,6 @@ You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
 Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
 <div class="cleaner"></div>
 <hr/>
-<%= render :partial => "payment_nav", :locals => {:selected => "credit" } %>
   <ol>
     <% form_for @payment do |f| %>
       <%= f.error_messages :header_message => "Please try again", :message => "Your payment could not be processed"%>
@@ -59,12 +58,14 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
         <%= f.label :card_expires_on %>
         <%= f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true %>
       </li>
-      <div class="buttons">
-        <label for=""></label>
-        <%= submit_tag 'Process payment' %>
-      </div>
     <% end %>
   </ol>
+	<div class="clear"></div>
+	<p class="register-actions">
+  <%= link_to "I've changed my mind, I want to pay by direct debit", :controller => "payments", :action => "edit_debit", :id => @payment.id%>
+  <%= submit_tag 'Process my payment', :class => "button submit" %>
+  <%= link_to "I'll pay later", root_path, :class => "anchor-button cancel" %>
+</p>
 <div id="payment-processor">Payments processed by <a href="http://www.paymentexpress.com/about/about_paymentexpress/privacy_policy.html">
 <img src="/images/paymentexpress.png" alt="Payment Processor" width="118" height="21" />
 </a></div>

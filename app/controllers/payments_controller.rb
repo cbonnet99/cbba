@@ -17,6 +17,7 @@ class PaymentsController < ApplicationController
 
   # GET /payments/1/edit
   def edit
+    @payment.update_attribute(:payment_type, "credit_card")
     @payment.first_name = current_user.first_name
     @payment.last_name = current_user.last_name
     @payment.address1 = current_user.address1
@@ -28,6 +29,7 @@ class PaymentsController < ApplicationController
   end
 
   def edit_debit
+    @payment.update_attribute(:payment_type, "direct_debit")
     unless @payment.pending?
       flash[:error] = "This payment is not pending"
       redirect_back_or_default root_url

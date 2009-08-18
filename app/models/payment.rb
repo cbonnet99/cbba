@@ -112,7 +112,7 @@ class Payment < ActiveRecord::Base
   end
 
   def validate_card
-    unless credit_card.valid?
+    unless payment_type == "direct_debit" || credit_card.valid?
       credit_card.errors.full_messages.each do |message|
         errors.add_to_base message
       end

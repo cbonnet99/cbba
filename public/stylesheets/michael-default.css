@@ -1,3 +1,8 @@
+#direct-debit-code{font-weight: bold;color:black;}
+#contentMain .register-actions input.button {background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:30px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;color:#333333;cursor:pointer;font-size:11px;margin-right:2px;overflow:visible;width:auto;}
+#contentMain .register-actions input.submit:hover {background:#090; }
+#contentMain .register-actions a.anchor-button {float:right;text-decoration: none; background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:26px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;border-width:2px; color:#333333;cursor:pointer;display:block; font-size:11px; line-height:30px;margin-right:2px;overflow:visible;width:auto;}
+#contentMain .register-actions a.cancel:hover{background:#CC0000;color:#fff;}
 #articles-homepage h3{color:black;}
 #articles-homepage h4 {color:#20ACCD;}
 #articles-homepage h4 a {color:#20ACCD;}
@@ -134,6 +139,7 @@ em.money{
     font-weight: bold;
 }
 #payment-processor{
+	clear: both;
     text-align: center;
     font-size: x-small;
 }

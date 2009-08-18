@@ -225,7 +225,13 @@ class UsersController < ApplicationController
            flash[:notice] = "You can now complete your payment"
           session[:user_id] = @user.id
           @payment = @user.payments.create!(Payment::TYPES[:full_member])
-          redirect_to edit_payment_path(@payment)
+          if params[:commit] == "Pay by direct debit"
+            @payment.payment_type = "direct_debit"
+            redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
+          else
+            @payment.payment_type = "credit_card"
+            redirect_to edit_payment_path(@payment)
+          end
         when "resident_expert":
            @user.activate!
           session[:user_id] = @user.id
@@ -239,7 +245,8 @@ class UsersController < ApplicationController
       else
         get_districts_and_subcategories
         flash.now[:error]  = "There were some errors in your signup information."
-        render :action => 'new'
+        @mt = @user.membership_type
+        render :action => 'new', :subcategory1_id => params[:user]["subcatgory1_id"] 
       end
     else
       flash[:error] = "There was a problem with the words you entered, please try again"

@@ -52,6 +52,18 @@
     <%= f.hidden_field :membership_type%>
     <ol>
       <li>
+        <label>Please select your main expertise and (optionally) 2 other categories you would like to be listed in:</label>
+      </li>
+      <li>
+        <%= f.label :subcategory1_id, 'You main expertise<span class="mandatoryStar">*</span>:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
+      <li>
+        <%= f.label :subcategory2_id, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
+      <li>
+        <%= f.label :subcategory3_id, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
+      <li>
         <%= f.label :business_name, "Business name" %>
         <%= f.text_field :business_name  %>
       </li>
@@ -87,21 +99,12 @@
         <%= f.label :mobile_prefix, 'Mobile' %>
         <%= f.select :mobile_prefix, ["", "021", "027", "029"] %><%= f.text_field :mobile_suffix, :size => 10, :maxlength => 10 %>
       </li>
-      <li>
-        <label>Please select your main expertise and (optionally) 2 other categories you would like to be listed in:</label>
-      </li>
-      <li>
-        <%= f.label :subcategory1_id, 'You main expertise<span class="mandatoryStar">*</span>:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
-      </li>
-      <li>
-        <%= f.label :subcategory2_id, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
-      </li>
-      <li>
-        <%= f.label :subcategory3_id, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
-      </li>
-      <div class="buttons">
-        <label for=""></label>
-        <%= submit_tag membership_button_msg(@mt, sign_up) %>
-      </div>
     </ol>
   </fieldset>
+  <p class="register-actions">
+    <%= submit_tag membership_button_msg(@mt, sign_up), :class => "button submit" %>
+	<% if @mt == "full_member" -%>
+    <%= submit_tag "Pay by direct debit", :class => "button submit"  %>
+	<% end -%>
+	<%= link_to "Cancel", root_path, :class => "anchor-button cancel" %>
+  </p>

@@ -56,6 +56,7 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:payment)
     assert_equal 19900, assigns(:payment).amount
   end
+  
   def test_update_payment_on_full_membership_upgrade
     rmoore = users(:rmoore)
     heart_children = charities(:heart_children)
