@@ -41,6 +41,7 @@ class ArticlesController < ApplicationController
     @how_tos = HowTo.published
     
     @all_articles = @articles.concat(@how_tos)
+    @all_articles = @all_articles.sort_by(&:published_at).reverse
     
     respond_to do |format|
       format.html # index.html.erb
