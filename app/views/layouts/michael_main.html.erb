@@ -146,9 +146,7 @@
 		<div class="ad-banner"><a href="http://www.eurekacoaching.co.nz"><%= image_tag "banner-ad-norma.jpg"%></a></div>
 		<div class="ad-banner"><a href="http://www.thatblindwoman.co.nz"><%= image_tag "banner-ad-julie.jpg"%></a></div>
 	</div>
-	<div id="share">
-<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#publisher=f32c812b-c46f-468e-b550-cc14a44b191e&amp;type=website&amp;buttonText=ShareThisPage&amp;post_services=facebook%2Cmyspace%2Cdigg%2Cdelicious%2Cybuzz%2Ctwitter%2Cstumbleupon%2Creddit%2Ctechnorati%2Cblogger%2Cwordpress%2Clinkedin%2Ctypepad%2Cgoogle_bmarks%2Cwindows_live%2Cfark%2Cbus_exchange%2Cmixx%2Cpropeller%2Cnewsvine&amp;headerbg=%23cc0000&amp;headerTitle=Share%20this%20page%20with%20others"></script>
-	</div>
+	<div id="share"><%= render :partial => "search/share_link" %></div>
 	<div id="networks">
 		<h3>Join us on:</h3>
 		<%= link_to image_tag("linked-in.jpg"),  "http://www.linkedin.com/groups?gid=2097679&trk=hb_side_g"%>

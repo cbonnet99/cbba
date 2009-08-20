@@ -7,13 +7,17 @@
 		<%= link_to "Back to your 'how to' articles", user_howtos_path %>
 	<%end -%>
 <% end -%>
-<%= title @how_to.title %>
-<div class="publication-author">by <%= author_link(@how_to.author) %></div>
-<div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @how_to, :class_name => "how_to" }   %>
+<div class='cleaner'></div>
+<div class="heading-photo"><%= thumbnail_image(@article.author) %></div>
+<div class="heading-title">
+	<%= title @how_to.title %>
+	<div class="publication-author">by <%= author_link(@how_to.author) %></div>
+</div>
+<%if (is_author?(@how_to) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @how_to, :class_name => "how_to" }   %>
 <% if is_author?(@how_to) -%>
       <%= link_to 'Delete', how_to_path(@how_to), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
 <%= link_to 'Edit', edit_how_to_path(@how_to), :class => "anchor-button" %>
-<% end -%></div>
+<% end -%></div><%end%>
 <div class="cleaner"></div>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @how_to} %>
 <hr/>
@@ -24,3 +28,4 @@
   <p><%= s.body %></p></li>
 <% end -%>
 </ul>
+<% if @how_to.author.active? %><span id="meet-author"><%= link_to "Meet #{@how_to.author.name}", user_path_with_context(@how_to.author)%></span> | <%end%><span class="share-link"><%= render :partial => "search/share_link" %></span>

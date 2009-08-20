@@ -1,3 +1,7 @@
+#meet-author{font-size:12px;}
+.heading-title, .heading-photo{float:left;}
+.heading-photo{padding:5px;}
+.publication-author{font-size:12px;}
 #direct-debit-code{font-weight: bold;color:black;}
 #contentMain .register-actions input.button {background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:30px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;color:#333333;cursor:pointer;font-size:11px;margin-right:2px;overflow:visible;width:auto;}
 #contentMain .register-actions input.submit:hover {background:#090; }
