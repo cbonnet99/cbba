@@ -25,6 +25,10 @@ class HowTo < ActiveRecord::Base
     HowTo.count(:all, :conditions => "state = 'published'")
   end
 
+	def self.find_all_by_subcategories(*subcategories)
+		HowTo.find_by_sql(["select ht.* from how_tos ht, how_tos_subcategories htsub where ht.state = 'published' and ht.id = htsub.how_to_id and htsub.subcategory_id in (?)", subcategories])
+	end
+
   def validate
     if subcategory1_id.blank?
       errors.add(:subcategory1_id, "^You must select at least one category")

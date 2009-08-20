@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.articles_for_subcategory '/articles/subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_subcategory" 
   map.resources :search_results, :path_prefix => "/admin", :controller => "admin/search_results"
   map.action_search_results '/admin/search_results/:id/:action', :controller => "admin/search_results"
   map.resources :mass_emails, :path_prefix => "/admin", :controller => "admin/mass_emails"

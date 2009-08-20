@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def link_articles_subcategories(article)
+    article.subcategories.map{|s| link_to s.name, articles_for_subcategory_path(s.slug)}.to_sentence
+  end
+
   def first_sentence(text)
     unless text.nil?
       if text.index("<p")

@@ -1,7 +1,16 @@
 class ArticlesController < ApplicationController
   
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :login_required, :except => [:index, :show, :index_for_subcategory]
 	after_filter :store_location, :only => [:show]
+
+  def index_for_subcategory
+    @subcategory = Subcategory.find_by_slug(params[:subcategory_slug])
+    @subcategory = Subcategory.first if @subcategory.nil?
+    @articles = Article.find_all_by_subcategories(@subcategory)
+    @how_tos = HowTo.find_all_by_subcategories(@subcategory)
+    @all_articles = @articles.concat(@how_tos)
+    @all_articles = @all_articles.sort_by(&:published_at).reverse
+  end
 
 	def unpublish
     # @article = current_user.articles.find(params[:id])

@@ -48,6 +48,12 @@ class ArticlesControllerTest < ActionController::TestCase
 		assert_select "select#article_subcategory1_id > option[value=#{yoga_sub.id}][selected=selected]"
 	end
 
+  def test_should_get_index_for_subcategory
+    get :index_for_subcategory, :subcategory_slug => subcategories(:yoga).slug 
+    assert_response :success
+    assert_not_nil assigns(:articles)
+  end
+  
   def test_should_get_index
     get :index
     assert_response :success
