@@ -2,9 +2,9 @@
 <%= title "Your membership" %>
 <ul>
 <% if current_user.free_listing? -%>
-  <li>You have a free membership to BeAmazing. You can <%= link_to "upgrade to full membership", upgrade_to_full_membership_path %> at any time.</li>
-  <li><%= link_to "Learn more about full membership", more_about_full_membership_path %></li>
-  <li><%= link_to "Compare", compare_memberships_path %></li>
+  <li>You have a free membership to BeAmazing.</li>
+  <li><%= link_to "Upgrade to full membership", upgrade_to_full_membership_path %> at any time (<%=link_to "tell me more", more_about_full_membership_path %>).</li>
+  <li><%= link_to "Compare memberships", compare_memberships_path %></li>
 <% else -%>
   <% if current_user.expertise_subcategory.blank? -%>
 	  <% if @payment && @new_member -%>
@@ -12,7 +12,7 @@
 	  <%  else -%>
 	    <li>You are a full member of BeAmazing since <%=failsafe_to_date(current_user.member_since)%>.</li>
 	    <% if current_user.active? -%>
-	      <li>Your membership is valid until <%= failsafe_to_date(current_user.member_until) %>. You can <%=  link_to "renew your membership for another year", user_renew_membership_path %> at any time.</li>
+	      <li>Your membership is valid until <%= failsafe_to_date(current_user.member_until) %>. <%=  link_to "Renew your membership for another year", user_renew_membership_path %> at any time.</li>
 	    <% else -%>
 	      <li>Your membership has expired on <%= failsafe_to_date(current_user.member_until) %>. You have to <%=  link_to "renew your membership for another year", user_renew_membership_path %>.</li>
 	    <% end -%>
@@ -20,7 +20,7 @@
   <% else -%>
 	  <li>You are a resident expert of BeAmazing since <%=failsafe_to_date(current_user.resident_since)%>.</li>
 	  <% if current_user.active? -%>
-	    <li>Your resident expert membership is valid until <%= failsafe_to_date(current_user.resident_until) %>. You can <%=  link_to "renew your membership for another year", user_renew_resident_path %> at any time.</li>
+	    <li>Your resident expert membership is valid until <%= failsafe_to_date(current_user.resident_until) %>. <%=  link_to "Renew your membership for another year", user_renew_resident_path %> at any time.</li>
 	  <% else -%>
 	    <li>Your resident expert membership has expired on <%= failsafe_to_date(current_user.resident_until) %>. You have to <%=  link_to "renew your membership for another year", user_renew_resident_path %>.</li>
 	  <% end -%>
@@ -37,6 +37,6 @@
 	<% end -%>
 <% end -%>
 <% if current_user.expertise_subcategory.blank? -%>
-  <li>You can <%= link_to "apply to become a resident expert", new_expert_application_path%>.</li>
+  <li><%= link_to "Apply to become a resident expert", new_expert_application_path%> (<%= link_to "tell me more", more_about_resident_expert_path%>).</li>
 <% end -%>
 </ul>

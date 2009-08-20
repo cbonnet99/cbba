@@ -1,3 +1,3 @@
-<% if !subcategory.nil? && is_full_member? && subcategory.resident_expert.nil? -%>
-<p>Are you an expert in <%= subcategory.name%>? <%= link_to "Apply to become a resident expert", signup_path(:professional => "true", :mt => "resident_expert", :subcategory_id => subcategory.id  )%></p>
+<% if !subcategory.nil? && subcategory.resident_expert.nil? -%>
+<p>Are you an expert in <%= subcategory.name%>? <%= link_to "Apply to become a resident expert", signup_path(:professional => "true", :mt => "resident_expert", :subcategory_id => subcategory.id  )%> (<%= link_to "tell me more", more_about_resident_expert_path%>)</p>
 <% end -%>
