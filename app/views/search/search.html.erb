@@ -7,7 +7,7 @@
 <%= render :partial => "users/apply_expert", :locals => {:subcategory => @subcategory} %>
 <h1>Search results<%=  describe_search(@region, @district, @category, @subcategory) %></h1>
 <% unless @subcategory.nil? || @subcategory.resident_expert_id.nil? %>
-  <div id="bam-meet-expert"><h3>Meet our resident expert:</h3>
+  <div id="bam-meet-expert"><h3 id="resident-title">Meet our resident expert:</h3>
   <%=render :partial => "users/user", :locals => {:user => @subcategory.resident_expert }  %>
 </div>
 <%end -%>

@@ -15,7 +15,7 @@ h4.article-title{padding:8px 0 0 0;}
 h2.bonus-offer{color:red;}
 p.bonus-offer em{font-weight: bold;}
 #bam-meet-expert { background:#f3f8f9 url(../images/boxBtmBg.gif) repeat-y; border-bottom:solid 2px grey; overflow:hidden; margin: 0 0 5px 0; padding: 0 0 5px 0;}
-#bam-meet-expert h3 { background:#f3f8f9 url(../images/boxBgTop.gif) no-repeat; color:#333; border:none; font-size:16px; font-weight:normal; height:33px; line-height:35px; margin:0; padding:0 9px; }
+#bam-meet-expert h3#resident-title { background:#f3f8f9 url(../images/boxBgTop.gif) no-repeat; color:#333; border:none; font-size:16px; font-weight:normal; height:33px; line-height:35px; margin:0; padding:0 9px; }
 #bam-meet-expert .user-description{padding: 0 0 0 9px; border-bottom: none;}
 #bam-meet-expert div.user-description h4.resident_expert {background:#FFD700;color:black;float:right;font-size:12px;padding:0 15px;}
 #bam-meet-expert .user-description h3 {color: #20ACCD;}
