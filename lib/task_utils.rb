@@ -7,21 +7,21 @@ class TaskUtils
       real_published_articles_count = u.articles.published.size
       real_published_how_tos_count = u.how_tos.published.size
       if u.published_articles_count != real_published_articles_count
-        puts "For user #{u.full_name}, changed published_articles_count from: #{u.published_articles_count} to: #{real_published_articles_count}"
+        Rails.logger.error "For user #{u.full_name}, changed published_articles_count from: #{u.published_articles_count} to: #{real_published_articles_count}"
         u.update_attribute(:published_articles_count, real_published_articles_count)
       end
       if u.published_how_tos_count != real_published_how_tos_count
-        puts "For user #{u.full_name}, changed published_how_tos_count from: #{u.published_how_tos_count} to: #{real_published_how_tos_count}"
+        Rails.logger.error "For user #{u.full_name}, changed published_how_tos_count from: #{u.published_how_tos_count} to: #{real_published_how_tos_count}"
         u.update_attribute(:published_how_tos_count, real_published_how_tos_count)
       end
       real_published_gift_vouchers_count = u.gift_vouchers.published.size
       real_published_special_offers_count = u.special_offers.published.size
       if u.published_gift_vouchers_count != real_published_gift_vouchers_count
-        puts "For user #{u.full_name}, changed published_gift_vouchers_count from: #{u.published_gift_vouchers_count} to: #{real_published_gift_vouchers_count}"
+        Rails.logger.error "For user #{u.full_name}, changed published_gift_vouchers_count from: #{u.published_gift_vouchers_count} to: #{real_published_gift_vouchers_count}"
         u.update_attribute(:published_gift_vouchers_count, real_published_gift_vouchers_count)
       end
       if u.published_special_offers_count != real_published_special_offers_count
-        puts "For user #{u.full_name}, changed published_special_offers_count from: #{u.published_special_offers_count} to: #{real_published_special_offers_count}"
+        Rails.logger.error "For user #{u.full_name}, changed published_special_offers_count from: #{u.published_special_offers_count} to: #{real_published_special_offers_count}"
         u.update_attribute(:published_special_offers_count, real_published_special_offers_count)
       end
     end
