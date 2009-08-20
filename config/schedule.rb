@@ -19,6 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
+every 1.week do
+  rake "bam:count_published_items"
+end
+
 every 1.day, :at => "3am"  do
   runner "TaskUtils.mark_down_old_users"
   runner "TaskUtils.send_reminder_on_expiring_memberships"
