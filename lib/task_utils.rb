@@ -7,10 +7,10 @@ class TaskUtils
       real_published_articles_count = u.articles.published.size
       real_published_how_tos_count = u.how_tos.published.size
       if u.published_articles_count != real_published_articles_count
-        puts "For user #{u.full_name}, published_articles_count: #{published_articles_count} and real_published_articles_count: #{real_published_articles_count}"
+        puts "For user #{u.full_name}, published_articles_count: #{u.published_articles_count} and real_published_articles_count: #{real_published_articles_count}"
       end
       if u.published_how_tos_count != real_published_how_tos_count
-        puts "For user #{u.full_name}, published_how_tos_count: #{published_how_tos_count} and real_published_how_tos_count: #{real_published_how_tos_count}"
+        puts "For user #{u.full_name}, published_how_tos_count: #{u.published_how_tos_count} and real_published_how_tos_count: #{real_published_how_tos_count}"
       end
     end
   end
