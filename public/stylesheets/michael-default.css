@@ -1,3 +1,5 @@
+h4.article-title{padding:8px 0 0 0;}
+.article-subcategories{font-size:10px;}
 #meet-author{font-size:12px;}
 .heading-title, .heading-photo{float:left;}
 .heading-photo{padding:5px;}
@@ -8,8 +10,8 @@
 #contentMain .register-actions a.anchor-button {float:right;text-decoration: none; background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:26px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;border-width:2px; color:#333333;cursor:pointer;display:block; font-size:11px; line-height:30px;margin-right:2px;overflow:visible;width:auto;}
 #contentMain .register-actions a.cancel:hover{background:#CC0000;color:#fff;}
 #articles-homepage h3{color:black;}
-#articles-homepage h4 {color:#20ACCD;}
-#articles-homepage h4 a {color:#20ACCD;}
+#articles-homepage h4, h4.article-title {color:#20ACCD;}
+#articles-homepage h4 a, h4.article-title a {color:#20ACCD;}
 h2.bonus-offer{color:red;}
 p.bonus-offer em{font-weight: bold;}
 #bam-meet-expert { background:#f3f8f9 url(../images/boxBtmBg.gif) repeat-y; border-bottom:solid 2px grey; overflow:hidden; margin: 0 0 5px 0; padding: 0 0 5px 0;}
