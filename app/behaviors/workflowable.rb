@@ -21,10 +21,10 @@ module Workflowable
     end
 
     base.send :aasm_event, :reject do
-      transitions :from => :published, :to => :draft
+      transitions :from => :published, :to => :draft, :on_transition => :decrement_published_count
     end
 
-    base.send :after_destroy, :decrement_count
+    base.send :after_destroy, :decrement_published_count
 
   end
   module WorkflowClassMethods
@@ -67,7 +67,7 @@ module Workflowable
       "workflow-#{self.state}"
     end
 
-    def decrement_count
+    def decrement_published_count
       unless self.class.to_s == "UserProfile"
         sym = "published_#{self.class.to_s.tableize}_count".to_sym
         self.author.update_attribute(sym, self.author.send(sym)-1)

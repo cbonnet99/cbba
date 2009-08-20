@@ -142,7 +142,22 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_difference('Article.count', -1) do
       delete :destroy, {:id => articles(:yoga).id}, {:user_id => cyrille.id }
     end
-
+    assert_redirected_to user_articles_path
+  end
+  def test_should_destroy_draft_article
+		cyrille = users(:cyrille)
+		old_size = cyrille.articles_count
+    delete :destroy, {:id => articles(:yoga).id}, {:user_id => cyrille.id }
+    cyrille.reload
+    assert_equal old_size-1, cyrille.articles_count
+    assert_redirected_to user_articles_path
+  end
+  def test_should_destroy_published_article
+		cyrille = users(:cyrille)
+		old_size = cyrille.published_articles_count
+    delete :destroy, {:id => articles(:long).id}, {:user_id => cyrille.id }
+    cyrille.reload
+    assert_equal old_size-1, cyrille.published_articles_count
     assert_redirected_to user_articles_path
   end
 end

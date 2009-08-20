@@ -15,14 +15,17 @@ class Admin::ReviewerControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
 
 		old_size = Article.draft.size
+		old_pub_size = cyrille.published_articles_count
 		post :reject, {:article_id => long.id, :reason_reject => "Don't like it"   }, {:user_id => cyrille.id }
 		assert_redirected_to reviewer_path(:action => "index")
 		long.reload
+		cyrille.reload
 		assert_not_nil long.rejected_at
 		assert_not_nil long.rejected_by_id
 		assert_equal "Don't like it", long.reason_reject
 		assert_equal old_size+1, Article.draft.size
     assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_equal old_pub_size-1, cyrille.published_articles_count
   end
   def test_reject_user_profile
 		cyrille = users(:cyrille)
