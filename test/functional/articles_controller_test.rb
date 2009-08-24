@@ -4,6 +4,12 @@ class ArticlesControllerTest < ActionController::TestCase
   include ApplicationHelper
   
 	fixtures :all
+
+  def test_index_rss
+    get :index, :format => "rss"
+    assert_response :success 
+  end
+    
 	
 	def test_unpublish
 		long = articles(:long)
