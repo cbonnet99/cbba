@@ -33,6 +33,7 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.suspend_full_members_when_membership_expired"
   command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql"
   command "/usr/local/cft/deploy/rails/script/delete-old-sessions"
+  command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets > /home/cftuser/tar.log 2>&1"
 end
 # every 1.day, :at => "4am"  do
 #   command "/home/cftuser/s3sync/s3sync.rb --debug -r /home/cftuser/backups/ backups.beamazing.co.nz:/"
@@ -49,5 +50,4 @@ end
 
 every 5.minutes do
   runner "UserEmail.check_and_send_mass_emails"
-  command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets > /home/cftuser/tar.log 2>&1"
 end
