@@ -49,5 +49,5 @@ end
 
 every 5.minutes do
   runner "UserEmail.check_and_send_mass_emails"
-  command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets > /home/cftuser/tar.log / 2>&1"
+  command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets > /home/cftuser/tar.log 2>&1"
 end
