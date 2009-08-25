@@ -31,7 +31,6 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
   runner "TaskUtils.suspend_full_members_when_membership_expired"
-  command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets"
   command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql"
   command "/usr/local/cft/deploy/rails/script/delete-old-sessions"
 end
@@ -50,4 +49,5 @@ end
 
 every 5.minutes do
   runner "UserEmail.check_and_send_mass_emails"
+  command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets > /home/cftuser/tar.log / 2>&1"
 end
