@@ -1,7 +1,5 @@
 <% hide_state = nil if local_assigns[:hide_state].nil? -%>
 <% review = nil if local_assigns[:review].nil? -%>
-<p><%=link_to special_offer.title, special_offers_show_path(special_offer.author, special_offer.slug, :index_public => !hide_state.nil?, :review => review) %><% unless hide_state%>(<span class="<%=special_offer.workflow_css_class%>"><%=special_offer.state%></span>)<%end%><% if !hide_state.nil?%> by <%= author_link(special_offer.author) %><%end%></p>
-<% unless special_offer.subcategory.nil? -%>
-<p><%= special_offer.subcategory.name%></p>
-<% end -%>
+<h4 class="article-title"><%=link_to special_offer.title, special_offers_show_path(special_offer.author, special_offer.slug, :index_public => !hide_state.nil?, :review => review) %><% unless hide_state%>(<span class="<%=special_offer.workflow_css_class%>"><%=special_offer.state%></span>)<%end%></h4>
+<% if !hide_state.nil?%><div class="by-author">by <%= author_link(special_offer.author) %></div><%end%><%unless special_offer.subcategory.nil? %><div class="article-subcategories">[<%= link_to special_offer.subcategory.name, special_offers_for_subcategory_path(special_offer.subcategory.slug)%>]</div><%end%>
 <p><%=first_sentence(white_list(special_offer.description))%></p>

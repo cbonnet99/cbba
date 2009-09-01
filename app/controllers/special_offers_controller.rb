@@ -2,8 +2,14 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 require 'pdf/writer'
 class SpecialOffersController < ApplicationController
 
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :login_required, :except => [:index, :index_for_subcategory, :show]
 	after_filter :store_location, :only => [:index, :show]
+
+  def index_for_subcategory
+    @subcategory = Subcategory.find_by_slug(params[:subcategory_slug])
+    @subcategory = Subcategory.first if @subcategory.nil?
+    @special_offers = SpecialOffer.find_all_by_state_and_subcategory_id('published', @subcategory.id)
+  end
 
   def index
     @special_offers = SpecialOffer.published

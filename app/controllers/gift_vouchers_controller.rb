@@ -4,7 +4,6 @@ class GiftVouchersController < ApplicationController
     @subcategory = Subcategory.find_by_slug(params[:subcategory_slug])
     @subcategory = Subcategory.first if @subcategory.nil?
     @gift_vouchers = GiftVoucher.find_all_by_state_and_subcategory_id('published', @subcategory.id)
-    log_user_event UserEvent::SELECT_COUNTER, "", "Gift vouchers"
   end
   
   def index

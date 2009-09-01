@@ -6,6 +6,7 @@ one:
   terms: MyText
   author: cyrille
   state: draft
+  subcategory: yoga
 
 free_trial:
   title: FREE Trial Session Plus $150 Off A Full 12 Session Coaching Series
@@ -47,6 +48,7 @@ free_trial:
   author: cyrille
   state: published
   published_at: <%= 5.days.ago.to_s :db %>
+  subcategory: yoga
 norma:
     title: Offer one
     slug: offer_one
