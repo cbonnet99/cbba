@@ -5,12 +5,14 @@ free_massage:
   description: 1 paid, 1 free
   state: published
   slug: free-massage
+  subcategory: therapeutic_massage
   author: cyrille
   published_at: <%= 2.days.ago.to_s :db %>
 free_massage_draft:
     title: Free massage draft
     description: 1 paid, 1 free
     state: draft
+    subcategory: therapeutic_massage
     slug: free-massage-draft
     author: cyrille
 free_session:

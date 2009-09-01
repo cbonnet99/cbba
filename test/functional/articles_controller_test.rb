@@ -5,6 +5,15 @@ class ArticlesControllerTest < ActionController::TestCase
   
 	fixtures :all
 
+  def test_index_for_subcategory
+    yoga = subcategories(:yoga)
+    article_yoga = articles(:yoga)
+    long = articles(:long)
+    get :index_for_subcategory, :subcategory_slug  => yoga.slug
+    assert assigns(:articles).include?(long), "Published article should be included in index_for_subcategory"
+    assert !assigns(:articles).include?(article_yoga), "Draft article should not be included in index_for_subcategory"
+  end
+
   def test_index_rss
     get :index, :format => "rss"
     assert_response :success 

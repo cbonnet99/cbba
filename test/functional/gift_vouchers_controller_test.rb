@@ -3,6 +3,15 @@ require File.dirname(__FILE__) + '/../test_helper'
 class GiftVouchersControllerTest < ActionController::TestCase
   fixtures :all
     
+  def test_index_for_subcategory
+    therapeutic_massage = subcategories(:therapeutic_massage)
+    free_massage = gift_vouchers(:free_massage)
+    free_massage_draft = gift_vouchers(:free_massage_draft)
+    get :index_for_subcategory, :subcategory_slug  => therapeutic_massage.slug
+    assert !assigns(:gift_vouchers).include?(free_massage_draft), "Draft article should not be included in index_for_subcategory"
+    assert assigns(:gift_vouchers).include?(free_massage), "Published article should be included in index_for_subcategory"
+  end    
+    
   def test_create_errors
     post :create, {:gift_voucher => {}, :save_an_publish => "Save & Publish"  }, {:user_id => users(:cyrille).id, }
     assert_not_nil assigns(:gift_voucher)

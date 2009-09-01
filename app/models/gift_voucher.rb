@@ -26,5 +26,5 @@ class GiftVoucher < ActiveRecord::Base
 	def self.count_published_gift_vouchers
 	  GiftVoucher.find_all_by_state("published").size
   end
-	
+		
 end
