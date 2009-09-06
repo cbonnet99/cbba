@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 	include SubcategoriesSystem
   include Sluggable
   
-  has_attached_file :photo, :styles => { :medium => "90x100>", :thumbnail => "50x55>" },
+  has_attached_file :photo, :styles => { :medium => "150x220>", :thumbnail => "100x150>" },
    :convert_options => { :all => "-quality 100"},
    :url  => "/assets/profiles/:id/:style/:basename.:extension",
    :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
