@@ -1,0 +1,4 @@
+#!/bin/bash
+/usr/bin/s3fs backups.beamazing.co.nz -o accessKeyId=09M23471K1QC4FPBN9R2 -o secretAccessKey=vMIWZ6w/0b8PAdQIj2nZMjJ9aijbgX1mdpWe/fRI /mnt/s3
+/usr/bin/rsync -avz --delete /home/cftuser/backups /mnt/s3
+/bin/umount /mnt/s3
