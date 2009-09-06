@@ -1,5 +1,5 @@
 <% form_for :user, @user, :url => user_create_photo_path, :html => { :multipart => true } do |form| %>
-        <%= form.label :photo, "Your picture or logo should be 90 pixels wide. If wider, it will be automatically resized to 90 pixels", :id => "profile-photo-label" %><br/>
+        <%= form.label :photo, "For better results, your picture or logo should be more tall than wide. We recommend, if you can, 150x220 pixels.", :id => "profile-photo-label" %><br/>
       <%= form.file_field :photo, :size => "15"  %><br/>
     <%= submit_tag "Add photo"  %>
   <% end %>
