@@ -1,4 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
+  map.action_id_newsletters '/admin/newsletters/:id/:action', :controller => "admin/newsletters"
+  map.resources :newsletters, :path_prefix => "/admin", :controller => "admin/newsletters"
+
   map.articles_for_subcategory '/articles/subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_subcategory" 
   map.gift_vouchers_for_subcategory '/gift_vouchers/subcategory/:subcategory_slug', :controller => "gift_vouchers", :action => "index_for_subcategory"
   map.special_offers_for_subcategory '/special_offers/subcategory/:subcategory_slug', :controller => "special_offers", :action => "index_for_subcategory"

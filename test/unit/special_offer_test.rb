@@ -6,4 +6,8 @@ class SpecialOfferTest < ActiveSupport::TestCase
   def test_count_published_special_offers
     assert_equal 2, SpecialOffer.count_published_special_offers
   end
+  
+  def test_latest
+    assert !SpecialOffer.latest.blank?
+  end
 end

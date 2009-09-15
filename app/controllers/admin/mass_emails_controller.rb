@@ -1,4 +1,4 @@
-class Admin::MassEmailsController < ApplicationController
+class Admin::MassEmailsController < AdminApplicationController
 
   before_filter :mass_email, :except => [:new, :create, :index]
 

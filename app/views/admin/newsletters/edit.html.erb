@@ -1,0 +1,11 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "newsletters" }  %>
+<%= title "Edit newsletter"%>
+<% form_for(@newsletter) do |f| -%>
+  <%= f.error_messages :header_message => "Please try again", :message => "Your newsletter could not be saved" %>
+  <%= render :partial => "form", :locals => {:f => f }   %>
+  <div class="buttons">
+    <label for=""></label>
+    <%= submit_tag 'Save', :name => "save"  %>
+    <%= submit_tag 'Cancel', :name => "cancel"  %>
+  </div>
+<% end -%>

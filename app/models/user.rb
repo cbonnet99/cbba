@@ -33,8 +33,10 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :roles_users, :uniq => true 
   belongs_to :region
   belongs_to :district
-  has_many :articles, :foreign_key => :author_id, :dependent => :delete_all
-  has_many :how_tos, :foreign_key => :author_id, :dependent => :delete_all
+  has_many :authored_newsletters, :foreign_key => :author_id, :class_name => "Newsletter"
+  has_many :published_newsletters, :foreign_key => :publisher_id, :class_name => "Newsletter" 
+  has_many :articles, :foreign_key => :author_id
+  has_many :how_tos, :foreign_key => :author_id
 	has_many :subcategories_users, :order => "expertise_position", :dependent => :delete_all
 	has_many :subcategories, :through => :subcategories_users, :include => :subcategories_users, :order => "subcategories_users.expertise_position"
 	has_many :categories_users, :dependent => :delete_all
@@ -45,9 +47,9 @@ class User < ActiveRecord::Base
   has_many :user_emails, :dependent => :delete_all
   has_many :user_events, :dependent => :delete_all
   has_many :profile_visits, :class_name => "UserEvent", :foreign_key => :visited_user_id, :dependent => :delete_all
-  has_many :special_offers, :foreign_key => :author_id, :dependent => :delete_all
+  has_many :special_offers, :foreign_key => :author_id
   has_many :expert_applications, :dependent => :delete_all
-  has_many :gift_vouchers, :foreign_key => :author_id, :dependent => :delete_all
+  has_many :gift_vouchers, :foreign_key => :author_id
   has_one :expertise_subcategory, :class_name => "Subcategory",  :foreign_key => :resident_expert_id, :dependent => :delete
   has_many :recommendations, :dependent => :delete_all
   has_many :recommended_by_recommendations, :class_name => "Recommendation", :foreign_key => :recommended_user_id , :dependent => :delete_all

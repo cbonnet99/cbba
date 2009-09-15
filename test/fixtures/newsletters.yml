@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+may_published:
+  title: May newsletter
+  state: published
+  publisher: cyrille
+  author: cyrille
+  main_article: This is the main article
+  competition: And our great competition
+  bam_news: Here are some news
+  upcoming_events: Coming soon
+  quotation_quiz: Quiz
+  
+june_draft:
+  title: June newsletter
+  state: draft
+  author: cyrille
+  main_article: This is the main article
+  competition: And our great competition
+  bam_news: Here are some news
+  upcoming_events: Coming soon
+  quotation_quiz: Quiz
+ 
