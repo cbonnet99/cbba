@@ -16,7 +16,7 @@
 <% unless @newest_full_members.empty? -%>
 <!--New Full Members Starts -->
 <div class="box">
-  <h3>New Well-being Providers</h3>
+  <h3>Featured Well-being Providers</h3>
   <div id="homepage-full-members">
     <% @newest_full_members.each do |u| -%>
       <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
@@ -32,7 +32,7 @@
 
 <div id="articles-homepage" class="section"> 
 <% unless @newest_articles.empty? -%>
-<h3>Latest Articles</h3>
+<h3>Featured Articles</h3>
 <div class="rss"><%= link_to image_tag('rss_icon.png'), articles_url(:format => :rss)%></div>
 <% @newest_articles.each do |a| -%>
   <div class="homepage-article <%= cycle('col1', 'col2')%>">
