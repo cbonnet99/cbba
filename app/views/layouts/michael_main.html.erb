@@ -149,9 +149,10 @@
 	<div id="share"><%= render :partial => "search/share_link" %></div>
 	<div id="networks">
 		<h3>Join us on:</h3>
-		<%= link_to image_tag("linked-in.jpg"),  "http://www.linkedin.com/groups?gid=2097679&trk=hb_side_g"%>
-		<%= link_to image_tag("twitter.jpg"),  "https://twitter.com/Beamazingltd"%>
-		<%= link_to image_tag("facebook.jpg"),  "http://www.facebook.com/group.php?gid=105413506506"%>
+		<div id="network-images"><%= link_to image_tag("linked-in.png"),  "http://www.linkedin.com/groups?gid=2097679&trk=hb_side_g", :alt => "Linked in" %>
+		<%= link_to image_tag("twitter.png"),  "https://twitter.com/Beamazingltd", :alt => "Twitter" %>
+		<%= link_to image_tag("facebook.png"),  "http://www.facebook.com/group.php?gid=105413506506", :alt => "Facebook" %>
+		</div>
 	 </div>
   </div>
   <!--Sidebar2 Ends -->

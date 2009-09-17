@@ -364,7 +364,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_sentence_to_review
     cyrille = users(:cyrille)
-    assert_equal "6 items to review", cyrille.sentence_to_review
+    assert_equal "7 items to review", cyrille.sentence_to_review
   end
 
   def test_roles

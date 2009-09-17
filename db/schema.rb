@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090915101317) do
+ActiveRecord::Schema.define(:version => 20090917101721) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20090915101317) do
     t.datetime "approved_at"
     t.integer  "approved_by_id"
     t.string   "lead",            :limit => 500
+    t.integer  "feature_rank"
   end
 
   create_table "articles_categories", :force => true do |t|
@@ -170,6 +171,7 @@ ActiveRecord::Schema.define(:version => 20090915101317) do
     t.integer  "author_id"
     t.string   "state",                          :default => "draft"
     t.string   "slug"
+    t.integer  "feature_rank"
   end
 
   create_table "how_tos_categories", :force => true do |t|
@@ -507,6 +509,7 @@ ActiveRecord::Schema.define(:version => 20090915101317) do
     t.integer  "gift_vouchers_count",                            :default => 0
     t.integer  "published_gift_vouchers_count",                  :default => 0
     t.boolean  "receive_professional_newsletter",                :default => true
+    t.integer  "feature_rank"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

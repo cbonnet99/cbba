@@ -15,6 +15,7 @@ long:
   approved_by: norma
   approved_at: <%= 2.days.ago.to_s :db %>
   published_at: <%= 2.days.ago.to_s :db %>
+  feature_rank: 0
 jogging:
   title: Jogging is good for you
   lead: Jogging is good for you
@@ -22,7 +23,8 @@ jogging:
   slug: jogging-is-good-for-you
   author: rmoore
   state: published
-  published_at: <%= 2.days.ago.to_s :db %>
+  published_at: <%= 3.days.ago.to_s :db %>
+  feature_rank: 1
 jogging_draft:
     title: Jogging is good for you draft
     lead: Jogging is good for you draft
@@ -30,3 +32,11 @@ jogging_draft:
     slug: jogging-is-good-for-you-draft
     author: rmoore
     state: draft
+bla:
+    title: Bla
+    lead: Bla
+    body: Bla
+    slug: bla
+    author: amcloughlin
+    state: published
+    published_at: <%= 2.day.ago.to_s :db %>

@@ -31,18 +31,19 @@
 <!--News Starts -->
 
 <div id="articles-homepage" class="section"> 
-<% unless @newest_articles.empty? -%>
 <h3>Featured Articles</h3>
 <div class="rss"><%= link_to image_tag('rss_icon.png'), articles_url(:format => :rss)%></div>
+<div class="homepage-article col2">
+<div id="twtr-profile-widget"></div><script src="http://widgets.twimg.com/j/1/widget.js"></script> <link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet"> <script> new TWTR.Widget({  profile: true,  id: 'twtr-profile-widget',  loop: true,  width: 250,  height: 300,  theme: {    shell: {      background: '#327bfa',      color: '#ffffff'    },    tweets: {      background: '#ffffff',      color: '#444444',      links: '#1985b5'    }  } }).render().setProfile('Beamazingltd').start(); </script>
+</div>    
 <% @newest_articles.each do |a| -%>
-  <div class="homepage-article <%= cycle('col1', 'col2')%>">
+  <div class="homepage-article col1">
   <% if a.class.to_s == "HowTo" -%>
     <%= render :partial => "how_tos/how_to_homepage", :locals => {:how_to => a }  %>
   <% else -%>
     <%= render :partial => "articles/article_homepage", :locals => {:article => a }  %>
   <% end -%>
   </div>
-<% end -%>
 <% end -%>
 <!--News Ends -->
   <% if @total_articles > $number_articles_on_homepage -%>

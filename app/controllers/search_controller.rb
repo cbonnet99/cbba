@@ -140,11 +140,11 @@ class SearchController < ApplicationController
     # @map.control_init(:large_map => false, :map_type => true)
     # @map.center_zoom_init([Region::DEFAULT_NZ_LATITUDE,Region::DEFAULT_NZ_LONGITUDE], 4)
     # User.map_geocoded(@map)
-    @newest_articles = Article.all_newest_articles
+    @newest_articles = Article.all_featured_articles
     @total_straight_articles = Article.count_published
     @total_howto_articles = HowTo.count_published
     @total_articles = @total_straight_articles+@total_howto_articles
-    @newest_full_members = User.newest_full_members
+    @newest_full_members = User.featured_full_members
     @total_full_members = User.count_newest_full_members
 	end
 

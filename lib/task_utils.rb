@@ -2,6 +2,33 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.rotate_feature_ranks
+    articles = Article.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
+    howtos = HowTo.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
+    ranked_articles = articles + howtos
+    ranked_articles = ranked_articles.sort_by(&:feature_rank)
+    all_articles = ranked_articles
+    
+    articles_no_rank = Article.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc")
+    howtos_no_rank = HowTo.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc")
+    if !articles_no_rank.blank? || !howtos_no_rank.blank?
+      all_articles_no_rank = articles_no_rank + howtos_no_rank
+      all_articles_no_rank = all_articles_no_rank.sort_by(&:published_at)
+      all_articles_no_rank.reverse!
+      all_articles = all_articles_no_rank + ranked_articles
+    end
+    total_size = all_articles.size
+    all_articles.each_with_index do |a, i|
+      if i == total_size-1
+        #put the last article in first place
+        a.update_attribute(:feature_rank, 0)
+      else
+        #move down all the others
+        a.update_attribute(:feature_rank, i+1)        
+      end
+    end
+  end
+
   def self.update_individual_counters
     User.full_members.each do |u|
       real_published_articles_count = u.articles.published.size

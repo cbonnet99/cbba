@@ -1,3 +1,6 @@
+#networks h3{padding: 0 0 0 0;}
+.column #networks h3, #networks #network-images{margin: 8px;}
+#share{margin: 8px;}
 #contentMain ul.simple{margin: 0 0 0 0;}
 h4.article-title{padding:8px 0 0 0;}
 .article-subcategories{font-size:10px;}

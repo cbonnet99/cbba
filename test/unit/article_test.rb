@@ -2,13 +2,25 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
 
+  def test_all_featured_articles
+    money = how_tos(:money)
+    articles = Article.all_featured_articles
+    assert_equal articles[0], money
+    assert_equal articles[1], articles(:bla)
+    last_article = articles.last
+    TaskUtils.rotate_feature_ranks
+    money.reload
+    articles = Article.all_featured_articles
+    assert_equal last_article, articles[0], "The last article should now be first"
+  end
+
   def test_publish
     yoga = articles(:yoga)
     yoga.publish!
   end
 
 	def test_count_reviewable
-		assert_equal 1, Article.count_reviewable
+		assert_equal 2, Article.count_reviewable
 	end
 
 	def test_find_all_by_subcategories
