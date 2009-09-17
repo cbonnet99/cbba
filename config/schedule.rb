@@ -24,6 +24,7 @@ every 1.week do
 end
 
 every 1.day, :at => "3am"  do
+  runner "TaskUtils.rotate_feature_ranks"
   runner "TaskUtils.mark_down_old_users"
   runner "TaskUtils.send_reminder_on_expiring_memberships"
   command "find /home/cftuser/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
