@@ -62,16 +62,16 @@ class Article < ActiveRecord::Base
   def self.all_featured_articles
     articles_no_rank = Article.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc", :limit => $number_articles_on_homepage )
     howtos_no_rank = HowTo.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc", :limit => $number_articles_on_homepage )
-    all_articles_no_rank = articles_no_rank + howtos_no_rank
-    all_articles_no_rank = all_articles_no_rank.sort_by(&:published_at)
-    all_articles_no_rank.reverse!
+    all_articles = articles_no_rank + howtos_no_rank
+    all_articles = all_articles.sort_by(&:published_at)
+    all_articles.reverse!
     if articles_no_rank.size + howtos_no_rank.size < $number_articles_on_homepage
       articles = Article.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank", :limit => $number_articles_on_homepage )
       howtos = HowTo.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank", :limit => $number_articles_on_homepage )
       ranked_articles = articles + howtos
       ranked_articles = ranked_articles.sort_by(&:feature_rank)
+      all_articles += ranked_articles
     end
-    all_articles = all_articles_no_rank + ranked_articles
     return all_articles[0..$number_articles_on_homepage-1]
   end
 
