@@ -36,13 +36,13 @@ every 1.day, :at => "3am"  do
   command "/usr/local/cft/deploy/rails/script/delete-old-sessions"
   command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets > /home/cftuser/tar.log 2>&1"
 end
-# every 1.day, :at => "4am"  do
-#   command "/home/cftuser/s3sync/s3sync.rb --debug -r /home/cftuser/backups/ backups.beamazing.co.nz:/"
-# end
+every 1.day, :at => "4am"  do
+  command "/usr/local/cft/deploy/rails/script/s3sync"
+end
 
 every 1.hour do
   # command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%H-00.sql`"
-  command "/usr/local/cft/deploy/rails/script/s3sync"
+  # command "/usr/local/cft/deploy/rails/script/s3sync"
   runner "TaskUtils.generate_autocomplete_subcategories"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"
