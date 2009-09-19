@@ -3,6 +3,17 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_rotate_feature_ranks
+    cyrille = users(:cyrille)
+    TaskUtils.rotate_feature_ranks
+    cyrille.reload
+    rank = cyrille.feature_rank
+    assert_not_nil rank
+    TaskUtils.rotate_feature_ranks
+    cyrille.reload
+    assert cyrille.feature_rank != rank, "Feature should have changed"
+  end
+
   def test_extract_numbers_from_reference
     assert_equal ["123", "234"], TaskUtils.extract_numbers_from_reference("123-INV-234")
     assert_equal ["123", "234"], TaskUtils.extract_numbers_from_reference("123 inv.234")

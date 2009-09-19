@@ -558,7 +558,11 @@ class User < ActiveRecord::Base
   end
 
   def self.featured_full_members
-    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
+    users = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is null", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
+    if users.size < $number_full_members_on_homepage
+      users += User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is not null", :order => "feature_rank", :limit => $number_full_members_on_homepage  )
+    end
+    return users
   end
 
   def self.published_resident_experts

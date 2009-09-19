@@ -27,6 +27,20 @@ class TaskUtils
         a.update_attribute(:feature_rank, i+1)        
       end
     end
+    
+    users_no_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is null", :order => "published_at desc", :limit => $number_full_members_on_homepage  ) || []
+    users_with_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is not null", :order => "feature_rank", :limit => $number_full_members_on_homepage  ) || []
+    all_users = users_no_rank + users_with_rank
+    total_size = all_users.size
+    all_users.each_with_index do |u, i|
+      if i == total_size-1
+        #put the last user in first place
+        u.update_attribute(:feature_rank, 0)
+      else
+        #move down all the others
+        u.update_attribute(:feature_rank, i+1)        
+      end      
+    end
   end
 
   def self.update_individual_counters
