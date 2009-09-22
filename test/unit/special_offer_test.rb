@@ -10,4 +10,8 @@ class SpecialOfferTest < ActiveSupport::TestCase
   def test_latest
     assert !SpecialOffer.latest.blank?
   end
+  
+  def test_last_2_months
+    assert_equal 2, SpecialOffer.published.last_2_months.size
+  end
 end

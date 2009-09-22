@@ -27,6 +27,7 @@ module Workflowable
     base.send :after_destroy, :decrement_published_count
 
     base.send :named_scope, :latest, :conditions => ["published_at > ?", 1.month.ago] 
+    base.send :named_scope, :last_2_months, :conditions => ["published_at > ?", 2.months.ago]
 
 
   end

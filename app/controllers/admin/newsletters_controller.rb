@@ -1,9 +1,13 @@
 class Admin::NewslettersController < AdminApplicationController
 
-  before_filter :get_newsletter, :only => [:publish, :retract, :edit, :update, :delete, :show]
+  before_filter :get_newsletter, :only => [:publish, :retract, :edit, :update, :destroy, :show]
   before_filter :get_latest_items, :only => [:edit, :new]
 
-  def delete
+  def edit
+    @special_offers = SpecialOffer.published.last_2_months
+  end
+
+  def destroy
     @newsletter.destroy
     flash[:notice] = "Newsletter deleted"
     redirect_to newsletters_path    
@@ -24,6 +28,7 @@ class Admin::NewslettersController < AdminApplicationController
   
   def new
     @newsletter = Newsletter.new
+    @special_offers = SpecialOffer.published.last_2_months
   end
   
   def update

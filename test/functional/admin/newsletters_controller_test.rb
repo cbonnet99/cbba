@@ -1,6 +1,43 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
 class Admin::NewslettersControllerTest < ActionController::TestCase
+  
+  def test_new
+    get :new, {}, {:user_id => users(:cyrille).id }
+    assert_response :success
+    assert_equal 2, assigns(:special_offers).size
+    assert_select "input[id=newsletter_special_offers_attributes_id]", :count => 2 
+    assert_select "input[id=newsletter_special_offers_attributes_id][checked=checked]", :count => 2 
+  end
+
+  def test_create
+    free_trial = special_offers(:free_trial)
+    post :create, {:newsletter => {:title => "bla", :special_offers_attributes => {:id => free_trial.id } } }, {:user_id => users(:cyrille).id }
+    assert_redirected_to newsletters_path
+    assert_not_nil assigns(:newsletter)
+    assert assigns(:newsletter).errors.blank?
+    assert_equal [free_trial], assigns(:newsletter).special_offers
+  end
+  
+  def test_edit
+    get :edit, {:id => newsletters(:may_published).id }, {:user_id => users(:cyrille).id }
+    assert_response :success
+    assert_equal 2, assigns(:special_offers).size
+    assert_select "input[id=newsletter_special_offers_attributes_id]", :count => 2 
+    assert_select "input[id=newsletter_special_offers_attributes_id][checked=checked]", :count => 1
+  end
+  
+  def test_update
+    free_trial = special_offers(:free_trial)
+    may_published = newsletters(:may_published)
+    post :update, {:id => may_published.id, :newsletter => {:title => "bla", :special_offers_attributes => {:id => free_trial.id } } }, {:user_id => users(:cyrille).id }
+    assert_redirected_to newsletters_path
+    may_published.reload
+    assert assigns(:newsletter).errors.blank?
+    assert_equal [free_trial], may_published.special_offers
+    assert_equal "bla", may_published.title
+  end
+  
   def test_index
     get :index, {}, {:user_id => users(:cyrille).id }
     assert_response :success
@@ -12,11 +49,11 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:newsletter)
   end
   
-  def test_delete
+  def test_destroy
     june_draft = newsletters(:june_draft)
     cyrille = users(:cyrille)
     newsletters_count = Newsletter.count
-    post :delete, {:id => june_draft.id }, {:user_id => cyrille.id }
+    post :destroy, {:id => june_draft.id }, {:user_id => cyrille.id }
     assert_redirected_to newsletters_path
     assert_equal "Newsletter deleted", flash[:notice]
     assert_equal newsletters_count-1, Newsletter.count

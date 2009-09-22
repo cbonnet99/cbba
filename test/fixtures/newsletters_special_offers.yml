@@ -1,9 +1,5 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  newsletter_id: 1
-  special_offer_id: 1
-
-two:
-  newsletter_id: 1
-  special_offer_id: 1
+may_free_trial:
+  newsletter: may_published
+  special_offer: free_trial

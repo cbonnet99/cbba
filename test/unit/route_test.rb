@@ -2,8 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class RoutingTest < ActionController::TestCase
   def test_routes
-    assert_recognizes({:controller => 'admin/newsletters', :action => "delete", :id => "3" }, :path => "/admin/newsletters/3/delete")
-    assert_recognizes({:controller => 'admin/newsletters', :action => "show", :id => "3" }, :path => "/admin/newsletters/3/show")
+    assert_recognizes({:controller => 'admin/newsletters', :action => "create"}, :path => "/admin/newsletters", :method => "post")
+    assert_recognizes({:controller => 'admin/newsletters', :action => "destroy", :id => "3" }, :path => "/admin/newsletters/3", :method => "delete" )
+    assert_recognizes({:controller => 'admin/newsletters', :action => "new"}, :path => "/admin/newsletters/new")
+    assert_recognizes({:controller => 'admin/newsletters', :action => "show", :id => "3" }, :path => "/admin/newsletters/3")
     assert_recognizes({:controller => 'admin/newsletters', :action => "publish", :id => "3" }, :path => "/admin/newsletters/3/publish")
     assert_recognizes({:controller => 'admin/newsletters', :action => "index" }, :path => "/admin/newsletters")
     assert_recognizes({:controller => 'articles', :action => "index_for_subcategory", :subcategory_slug => "yoga"   }, :path => "/articles/subcategory/yoga")

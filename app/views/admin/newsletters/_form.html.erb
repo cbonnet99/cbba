@@ -10,8 +10,13 @@
     </li>
     <li>
       <%= f.label :special_offers, "Special offers:" %>
-      <%= f.text_area :main_article, :cols => "35" %>
     </li>
+	  <% @special_offers.each_with_index do |offer, i| -%>		
+      <li>
+        <div class="left-input"><%= check_box_tag( "newsletter[special_offers_attributes][id]",offer.id, @newsletter.selected_offer?(offer, i)) %></div>
+        <div class="right-label"><%= offer.title%></div>
+      </li>
+	  <% end -%>
     <li>
       <%= f.label :competition, "Competition:" %>
       <%= f.text_area :competition, :cols => "35" %>

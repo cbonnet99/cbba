@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.action_id_newsletters '/admin/newsletters/:id/:action', :controller => "admin/newsletters"
+  map.action_id_newsletters '/admin/newsletters/:id/:action', :controller => "admin/newsletters", :requirements => {:action => /publish|retract/}
   map.resources :newsletters, :path_prefix => "/admin", :controller => "admin/newsletters"
 
   map.articles_for_subcategory '/articles/subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_subcategory" 
