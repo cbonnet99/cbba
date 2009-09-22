@@ -12,6 +12,6 @@ class SpecialOfferTest < ActiveSupport::TestCase
   end
   
   def test_last_2_months
-    assert_equal 2, SpecialOffer.published.last_2_months.size
+    assert_equal 2, SpecialOffer.published_in_last_2_months.size
   end
 end

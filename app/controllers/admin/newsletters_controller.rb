@@ -4,7 +4,7 @@ class Admin::NewslettersController < AdminApplicationController
   before_filter :get_latest_items, :only => [:edit, :new]
 
   def edit
-    @special_offers = SpecialOffer.published.last_2_months
+    @special_offers = SpecialOffer.published_in_last_2_months(@newsletter.created_at)
   end
 
   def destroy
@@ -28,7 +28,7 @@ class Admin::NewslettersController < AdminApplicationController
   
   def new
     @newsletter = Newsletter.new
-    @special_offers = SpecialOffer.published.last_2_months
+    @special_offers = SpecialOffer.published_in_last_2_months
   end
   
   def update
