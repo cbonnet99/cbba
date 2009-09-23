@@ -115,7 +115,7 @@ namespace(:deploy) do
 
   desc "Symlink shared configs and folders on each release."
   task :symlink_shared do
-    if Dir["#{shared_path}/assets"].nil?
+    if Dir["#{shared_path}/assets"].blank?
       run "mkdir #{shared_path}/assets"
     end
     run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
