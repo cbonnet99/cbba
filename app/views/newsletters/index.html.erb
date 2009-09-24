@@ -1,0 +1,7 @@
+<%= title "Newsletters"%>
+<% @newsletters.each do |n| -%>
+	<h3><%= n.title%></h3>
+	<p><%=link_to "View this newsletter", newsletter_show_path(n.id)%></p>
+	<p><%= n.published_at.try(:to_date)%></p>
+	
+<% end -%>

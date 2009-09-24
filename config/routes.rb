@@ -1,4 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
+  map.newsletter_index '/newsletters', :controller => "newsletters", :action => "index" 
+  map.newsletter_show '/newsletters/:id', :controller => "newsletters", :action => "show"
+  
   map.action_id_newsletters '/admin/newsletters/:id/:action', :controller => "admin/newsletters", :requirements => {:action => /publish|retract/}
   map.resources :newsletters, :path_prefix => "/admin", :controller => "admin/newsletters"
 
