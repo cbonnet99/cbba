@@ -62,6 +62,20 @@ module Workflowable
     #      end
     #    end
 
+    def label(no_link=false)
+      #self.method(self.path_method.to_sym).call(self)
+      if no_link
+        res = "#{self.title}<br/>"
+      else
+        res = "<a href=\"\">#{self.title}</a><br/>"
+      end
+      sub = ""
+      sub << "#{self.subcategory.name} - " if self.respond_to?(:subcategory) && !self.subcategory.nil?
+      sub << "offered by #{self.author.name}" if self.respond_to?(:author) && !self.author.nil?
+      res << sub[0..0].upcase
+      res << sub[1..sub.length]
+    end
+
     def exceeds_max_published?
       !self.author.respond_to?("max_published_#{self.class.to_s.tableize}") || (self.author.respond_to?("max_published_#{self.class.to_s.tableize}") && self.class.to_s != "UserProfile" && self.author.send("#{self.class.to_s.tableize}".to_sym).published.size < self.author.send("max_published_#{self.class.to_s.tableize}"))
     end

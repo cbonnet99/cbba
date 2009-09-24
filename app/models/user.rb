@@ -54,6 +54,8 @@ class User < ActiveRecord::Base
   has_many :recommendations, :dependent => :delete_all
   has_many :recommended_by_recommendations, :class_name => "Recommendation", :foreign_key => :recommended_user_id , :dependent => :delete_all
   has_many :recommended_by, :class_name => "User" , :through => :recommended_by_recommendations, :source => :user
+  has_many :newsletters_users
+  has_many :newsletters, :through => :newsletters_users 
 
   # #named scopes
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
@@ -90,6 +92,20 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
+
+  def label(no_link=false)
+    #{full_user_url(self)}
+    if no_link
+      "#{self.full_name}<br/>#{self.expertise}"
+    else
+      "<a href=\"\">#{self.full_name}</a><br/>#{self.expertise}"
+    end
+    
+  end
+
+  def self.published_in_last_2_months(start=Time.now)
+    self.find(:all, :include => "user_profile", :conditions => ["user_profiles.published_at BETWEEN ? AND ?", start.advance(:months => -2), Time.now])    
+  end
 
   def location
     if city.blank?

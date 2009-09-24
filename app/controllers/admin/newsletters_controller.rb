@@ -5,6 +5,9 @@ class Admin::NewslettersController < AdminApplicationController
 
   def edit
     @special_offers = SpecialOffer.published_in_last_2_months(@newsletter.created_at)
+    @articles = Article.published_in_last_2_months(@newsletter.created_at)
+    @gift_vouchers = GiftVoucher.published_in_last_2_months(@newsletter.created_at)
+    @users = User.published_in_last_2_months(@newsletter.created_at)
   end
 
   def destroy
@@ -29,11 +32,14 @@ class Admin::NewslettersController < AdminApplicationController
   def new
     @newsletter = Newsletter.new
     @special_offers = SpecialOffer.published_in_last_2_months
+    @articles = Article.published_in_last_2_months
+    @gift_vouchers = GiftVoucher.published_in_last_2_months
+    @users = User.published_in_last_2_months
   end
   
   def update
     if params["cancel"]
-      flash[:notice]="Newsletter cancelled"
+      flash[:notice]="Newsletter update cancelled"
       redirect_back_or_default newsletters_path
     else
       @newsletter.update_attributes(params[:newsletter])
@@ -49,7 +55,7 @@ class Admin::NewslettersController < AdminApplicationController
   
   def create
     if params["cancel"]
-      flash[:notice]="Newsletter cancelled"
+      flash[:notice]="Newsletter creation cancelled"
       redirect_back_or_default newsletters_path
     else  
       @newsletter = Newsletter.new(params[:newsletter])

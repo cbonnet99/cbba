@@ -1,8 +1,17 @@
+<% use_tinymce -%>
 <ol>
-	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
+	<li><span class='mandatoryStar'>*</span>=mandatory field</li>
     <li>
       <%= f.label :title, "Title (max. 255 characters):<span class='mandatoryStar'>*</span>" %>
       <%= f.text_field :title %>
+    </li>
+    <li>
+      <%= f.label :custom1_title, "Custom 1 title (max. 255 characters):" %>
+      <%= f.text_field :custom1_title %>
+    </li>
+    <li>
+      <%= f.label :custom1_body, "Custom1 body:" %>
+      <%= f.text_area :custom1_body, :cols => "35" %>
     </li>
     <li>
       <%= f.label :main_article, "Main article:" %>
@@ -10,15 +19,62 @@
     </li>
     <li>
       <%= f.label :special_offers, "Special offers:" %>
-    </li>
-	  <% @special_offers.each_with_index do |offer, i| -%>		
-      <li>
-        <div class="left-input"><%= check_box_tag( "newsletter[special_offers_attributes][id]",offer.id, @newsletter.selected_offer?(offer, i)) %></div>
-        <div class="right-label"><%= offer.title%></div>
-      </li>
-	  <% end -%>
+  	</li>
+	 <% @special_offers.each_with_index do |offer, i| -%>		
     <li>
+      <div class="left-input"><%= check_box_tag( "newsletter[special_offers_attributes][id#{i}]",offer.id, @newsletter.selected_offer?(offer, i), :class => "special_offer_checkbox" ) %></div>
+      <div class="right-label"><label for="newsletter_special_offers_attributes_id<%=i%>"><%= offer.label(true)%></label></div>
+    </li>
+	<% end -%>
+  	<li>
       <%= f.label :competition, "Competition:" %>
       <%= f.text_area :competition, :cols => "35" %>
+    </li>
+  	<li>
+      <%= f.label :bam_news, "BAM News:" %>
+      <%= f.text_area :bam_news, :cols => "35" %>
+    </li>
+    <li>
+      <%= f.label :gift_vouchers, "Gift vouchers:" %>
+  	</li>
+	 <% @gift_vouchers.each_with_index do |gv, i| -%>		
+    <li>
+      <div class="left-input"><%= check_box_tag( "newsletter[gift_vouchers_attributes][id#{i}]",gv.id, @newsletter.selected_gift_voucher?(gv, i)) %></div>
+      <div class="right-label"><label for="newsletter_gift_vouchers_attributes_id<%=i%>"><%= gv.label(true)%></label></div>
+    </li>
+	<% end -%>
+    <li>
+      <%= f.label :users, "In the spotlight:" %>
+  	</li>
+	 <% @users.each_with_index do |u, i| -%>		
+    <li>
+      <div class="left-input"><%= check_box_tag( "newsletter[users_attributes][id#{i}]",u.id, @newsletter.selected_user?(u, i)) %></div>
+      <div class="right-label"><label for="newsletter_users_attributes_id<%=i%>"><%= u.label(true)%></label></div>
+    </li>
+	<% end -%>
+    <li>
+      <%= f.label :articles, "Past month's articles:" %>
+  	</li>
+	 <% @articles.each_with_index do |a, i| -%>		
+    <li>
+      <div class="left-input"><%= check_box_tag( "newsletter[articles_attributes][id#{i}]",a.id, @newsletter.selected_article?(a, i)) %></div>
+      <div class="right-label"><label for="newsletter_articles_attributes_id<%=i%>"><%= a.label(true)%></label></div>
+    </li>
+	<% end -%>
+  	<li>
+      <%= f.label :upcoming_events, "Upcoming events:" %>
+      <%= f.text_area :upcoming_events, :cols => "35" %>
+    </li>
+  	<li>
+      <%= f.label :quotation_quiz, "Quotation quiz:" %>
+      <%= f.text_area :quotation_quiz, :cols => "35" %>
+    </li>
+    <li>
+      <%= f.label :custom2_title, "Custom 2 title (max. 255 characters):" %>
+      <%= f.text_field :custom2_title %>
+    </li>
+    <li>
+      <%= f.label :custom2_body, "Custom2 body:" %>
+      <%= f.text_area :custom2_body, :cols => "35" %>
     </li>
 </ol>

@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  gift_voucher_id: 1
+  newsletter_id: 1
+
+two:
+  gift_voucher_id: 1
+  newsletter_id: 1

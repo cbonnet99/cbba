@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090917101721) do
+ActiveRecord::Schema.define(:version => 20090924024849) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(:version => 20090917101721) do
 
   add_index "articles_categories", ["article_id"], :name => "index_articles_categories_on_article_id"
   add_index "articles_categories", ["category_id"], :name => "index_articles_categories_on_category_id"
+
+  create_table "articles_newsletters", :force => true do |t|
+    t.integer  "article_id"
+    t.integer  "newsletter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "articles_subcategories", :force => true do |t|
     t.datetime "created_at"
@@ -144,6 +151,13 @@ ActiveRecord::Schema.define(:version => 20090917101721) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "subcategory_id"
+  end
+
+  create_table "gift_vouchers_newsletters", :force => true do |t|
+    t.integer  "gift_voucher_id"
+    t.integer  "newsletter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "how_to_steps", :force => true do |t|
@@ -250,11 +264,22 @@ ActiveRecord::Schema.define(:version => 20090917101721) do
     t.datetime "published_at"
     t.integer  "publisher_id"
     t.integer  "author_id"
+    t.string   "custom1_title"
+    t.text     "custom1_body"
+    t.string   "custom2_title"
+    t.text     "custom2_body"
   end
 
   create_table "newsletters_special_offers", :force => true do |t|
     t.integer  "newsletter_id"
     t.integer  "special_offer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "newsletters_users", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "newsletter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

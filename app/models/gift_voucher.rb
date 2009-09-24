@@ -3,6 +3,8 @@ class GiftVoucher < ActiveRecord::Base
 
   belongs_to :author, :class_name => "User", :counter_cache => true
   belongs_to :subcategory
+  has_many :gift_vouchers_newsletters
+  has_many :newsletters, :through => :gift_vouchers_newsletters 
   
   after_create :create_slug
 

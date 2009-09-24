@@ -9,6 +9,8 @@ class Article < ActiveRecord::Base
 	has_many :subcategories, :through => :articles_subcategories
 	has_many :articles_categories
 	has_many :categories, :through => :articles_categories
+  has_many :articles_newsletters
+  has_many :newsletters, :through => :articles_newsletters 
 
   validates_presence_of :title, :lead, :author
   validates_length_of :title, :maximum => 255

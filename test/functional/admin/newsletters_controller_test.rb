@@ -6,8 +6,8 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     get :new, {}, {:user_id => users(:cyrille).id }
     assert_response :success
     assert_equal 2, assigns(:special_offers).size
-    assert_select "input[id=newsletter_special_offers_attributes_id]", :count => 2 
-    assert_select "input[id=newsletter_special_offers_attributes_id][checked=checked]", :count => 2 
+    assert_select "input[class=special_offer_checkbox]", :count => 2 
+    assert_select "input[class=special_offer_checkbox][checked=checked]", :count => 2 
   end
 
   def test_create
@@ -23,8 +23,8 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     get :edit, {:id => newsletters(:may_published).id }, {:user_id => users(:cyrille).id }
     assert_response :success
     assert_equal 2, assigns(:special_offers).size
-    assert_select "input[id=newsletter_special_offers_attributes_id]", :count => 2 
-    assert_select "input[id=newsletter_special_offers_attributes_id][checked=checked]", :count => 1
+    assert_select "input[class=special_offer_checkbox]", :count => 2
+    assert_select "input[class=special_offer_checkbox][checked=checked]", :count => 1
   end
   
   def test_update
