@@ -11,8 +11,12 @@ class Admin::NewslettersController < AdminApplicationController
   end
 
   def destroy
-    @newsletter.destroy
-    flash[:notice] = "Newsletter deleted"
+    if @newsletter.published?
+      flash[:error] = "Newsletter is published, you must unpublish it before deleting it"
+    else
+      @newsletter.destroy
+      flash[:notice] = "Newsletter deleted"
+    end
     redirect_to newsletters_path    
   end
   

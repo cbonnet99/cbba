@@ -15,7 +15,7 @@
 	<td><%= newsletter.title%></td>
 	<td><%= newsletter.author.try(:name)%></td>
     <td><span class="<%=newsletter.state%>"><%=h newsletter.state.capitalize %></span></td>
-	<td><%= newsletter_action(newsletter)%> | <%=link_to "Edit", edit_newsletter_path(newsletter)%> | <%=link_to "Delete", newsletter_path(newsletter.id, :method => "delete") %> | <%=link_to "Preview", :controller => "admin/newsletters", :action => "show", :id => newsletter.id  %></td>
+	<td><%= newsletter_action(newsletter)%> | <%=link_to "Edit", edit_newsletter_path(newsletter)%> <% if newsletter.draft?%>| <%=link_to "Delete", newsletter_path(newsletter.id, :method => "delete") %><%end%> | <%=link_to "Preview", :controller => "admin/newsletters", :action => "show", :id => newsletter.id  %></td>
     <td><%= newsletter.published_at %></td>
     <td><%= newsletter.publisher.try(:name) %></td>
   </tr>

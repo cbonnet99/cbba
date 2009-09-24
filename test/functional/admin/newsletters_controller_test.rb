@@ -59,6 +59,16 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     assert_equal newsletters_count-1, Newsletter.count
   end
   
+  def test_destroy_published
+    may_published = newsletters(:may_published)
+    cyrille = users(:cyrille)
+    newsletters_count = Newsletter.count
+    post :destroy, {:id => may_published.id }, {:user_id => cyrille.id }
+    assert_redirected_to newsletters_path
+    assert_equal "Newsletter is published, you must unpublish it before deleting it", flash[:error]
+    assert_equal newsletters_count, Newsletter.count
+  end
+  
   def test_publish
     june_draft = newsletters(:june_draft)
     cyrille = users(:cyrille)
