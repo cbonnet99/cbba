@@ -18,6 +18,7 @@ class Admin::MassEmailsController < AdminApplicationController
   def new
     @mass_email = MassEmail.new
     @email_types = MassEmail::TYPES
+    @newsletters = Newsletter.find(:all, :conditions => ["state='published'"], :order => "published_at desc").collect{|n| [n.title, n.id]} 
   end
 
   def create

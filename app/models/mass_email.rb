@@ -2,12 +2,13 @@ class MassEmail < ActiveRecord::Base
 
   belongs_to :test_sent_to, :class_name => "User"
   belongs_to :creator, :class_name => "User"
-
-  before_create :check_newsletter
+  belongs_to :newsletter
+  
+  # before_create :check_newsletter
 
   validates_presence_of :subject, :body
 
-  TYPES = ["Normal", "Business newsletter", "Public newsletter"]
+  TYPES = ["Normal", "Newsletter"]
 
   RECIPIENTS = {:resident_experts => "Resident experts", :full_members => "Full members",
     :free_users => "Free users", :general_public => "General public"}
@@ -16,18 +17,18 @@ class MassEmail < ActiveRecord::Base
     !recipients_full_members? && !recipients_resident_experts? && !recipients_free_users? && !recipients_general_public?
   end
 
-  def check_newsletter
-    if email_type == "Business newsletter"
-      self.recipients_full_members = true
-      self.recipients_resident_experts = true
-    end
-    if email_type == "Public newsletter"
-      self.recipients_full_members = true
-      self.recipients_resident_experts = true
-      self.general_public = true
-      self.free_users = true
-    end
-  end
+  # def check_newsletter
+  #   if email_type == "Business newsletter"
+  #     self.recipients_full_members = true
+  #     self.recipients_resident_experts = true
+  #   end
+  #   if email_type == "Public newsletter"
+  #     self.recipients_full_members = true
+  #     self.recipients_resident_experts = true
+  #     self.general_public = true
+  #     self.free_users = true
+  #   end
+  # end
 
   def deliver_test(user)
     UserMailer.deliver_mass_email(user, self.subject, self.transformed_body(user))

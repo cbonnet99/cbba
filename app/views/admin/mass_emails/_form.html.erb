@@ -1,4 +1,5 @@
 <% use_tinymce -%>
+<% javascript 'mass-emails'%>
 <% form_for @mass_email do |f| %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your email could not be saved"%>
   <p>You can use the following expressions in your emails:</p>
@@ -13,7 +14,11 @@
   <ol>
       <li>
         <%= f.label :subject, "Type<span class='mandatoryStar'>*</span>" %>
-        <%= f.select :email_type, @email_types %>
+        <%= f.select :email_type, @email_types  %>
+      </li>
+      <li id="newsletters_list" style="display: none;">
+        <%= f.label :newsletter, "Newsletter<span class='mandatoryStar'>*</span>" %>
+        <%= f.select :newsletter, @newsletters %>
       </li>
       <li>
         <%= f.label :subject, "Subject<span class='mandatoryStar'>*</span>" %>

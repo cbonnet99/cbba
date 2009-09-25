@@ -10,6 +10,7 @@ class Newsletter < ActiveRecord::Base
   has_many :users, :through => :newsletters_users
   has_many :articles, :through => :articles_newsletters
   has_many :gift_vouchers, :through => :gift_vouchers_newsletters
+  has_many :mass_emails
   
   aasm_column :state
   aasm_initial_state :draft
