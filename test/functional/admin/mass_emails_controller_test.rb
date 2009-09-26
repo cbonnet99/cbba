@@ -24,7 +24,7 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     old_size = UserEmail.all.size
     
     test_email = mass_emails(:test_email)
-    post :update, {:id => test_email.id, :mass_email => {:recipients_full_members => true }  }, {:user_id => users(:cyrille).id }
+    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:recipients_full_members => true }  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     test_email.reload
     assert test_email.recipients_full_members
@@ -37,7 +37,7 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     old_size = UserEmail.all.size
     
     test_email = mass_emails(:test_email)
-    post :update, {:id => test_email.id, :mass_email => {:recipients_full_members => true, :recipients_free_users => true }  }, {:user_id => users(:cyrille).id }
+    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:recipients_full_members => true, :recipients_free_users => true }  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     test_email.reload
     assert test_email.recipients_full_members
@@ -51,7 +51,7 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     old_size = UserEmail.all.size
     
     simple = mass_emails(:simple)
-    post :update, {:id => simple.id, :mass_email => {:recipients_full_members => true, :recipients_general_public => true }  }, {:user_id => users(:cyrille).id }
+    post :update, {:send => "Send", :id => simple.id, :mass_email => {:recipients_full_members => true, :recipients_general_public => true }  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     simple.reload
     assert simple.recipients_full_members

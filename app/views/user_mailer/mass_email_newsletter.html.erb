@@ -1,2 +1,17 @@
-You can also <%= link_to "view this newsletter online", newsletter_show_path(@newsletter.id) %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css" media="screen">
+		body {color:#555;}
+		h2 { color:#000; font-size:24px;font-weight:bold; }
+		h3 {color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0; }
+    </style>
+</head>
+<body><p>You can also <%= link_to "view this newsletter online", newsletter_show_path(@newsletter.id) %></p>
+<h2><%= @newsletter.title%></h2>
 <%= render :partial => "admin/newsletters/show_body", :locals => {:newsletter => @newsletter }  %>
+</body>
+</html>

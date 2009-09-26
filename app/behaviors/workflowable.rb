@@ -52,18 +52,8 @@ module Workflowable
     end
   end
   module WorkflowInstanceMethods
-
-    #    def path_to_item(item=self)
-    #      if respond_to?(:custom_path)
-    #        custom_path(item)
-    #      else
-    #        method = self.method((self.class.to_s.tableize.singularize+"_path").to_sym)
-    #        method.call(item)
-    #      end
-    #    end
-
+    
     def label(url="")
-      puts "======= url: #{url}"
       if url.blank?
         res = "#{self.title}<br/>"
       else
