@@ -23,7 +23,7 @@
 	 <% @special_offers.each_with_index do |offer, i| -%>		
     <li>
       <div class="left-input"><%= check_box_tag( "newsletter[special_offers_attributes][id#{i}]",offer.id, @newsletter.selected_offer?(offer, i), :class => "special_offer_checkbox" ) %></div>
-      <div class="right-label"><label for="newsletter_special_offers_attributes_id<%=i%>"><%= offer.label(true)%></label></div>
+      <div class="right-label"><label for="newsletter_special_offers_attributes_id<%=i%>"><%= offer.label%></label></div>
     </li>
 	<% end -%>
   	<li>
@@ -40,7 +40,7 @@
 	 <% @gift_vouchers.each_with_index do |gv, i| -%>		
     <li>
       <div class="left-input"><%= check_box_tag( "newsletter[gift_vouchers_attributes][id#{i}]",gv.id, @newsletter.selected_gift_voucher?(gv, i)) %></div>
-      <div class="right-label"><label for="newsletter_gift_vouchers_attributes_id<%=i%>"><%= gv.label(true)%></label></div>
+      <div class="right-label"><label for="newsletter_gift_vouchers_attributes_id<%=i%>"><%= gv.label%></label></div>
     </li>
 	<% end -%>
     <li>
@@ -49,7 +49,7 @@
 	 <% @users.each_with_index do |u, i| -%>		
     <li>
       <div class="left-input"><%= check_box_tag( "newsletter[users_attributes][id#{i}]",u.id, @newsletter.selected_user?(u, i)) %></div>
-      <div class="right-label"><label for="newsletter_users_attributes_id<%=i%>"><%= u.label(true)%></label></div>
+      <div class="right-label"><label for="newsletter_users_attributes_id<%=i%>"><%= u.label%></label></div>
     </li>
 	<% end -%>
     <li>
@@ -58,7 +58,7 @@
 	 <% @articles.each_with_index do |a, i| -%>		
     <li>
       <div class="left-input"><%= check_box_tag( "newsletter[articles_attributes][id#{i}]",a.id, @newsletter.selected_article?(a, i)) %></div>
-      <div class="right-label"><label for="newsletter_articles_attributes_id<%=i%>"><%= a.label(true)%></label></div>
+      <div class="right-label"><label for="newsletter_articles_attributes_id<%=i%>"><%= a.label%></label></div>
     </li>
 	<% end -%>
   	<li>

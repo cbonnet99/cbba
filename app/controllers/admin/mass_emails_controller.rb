@@ -28,6 +28,8 @@ class Admin::MassEmailsController < AdminApplicationController
       flash[:notice] = "Successfully created email."
       redirect_to @mass_email
     else
+      @email_types = MassEmail::TYPES
+      @newsletters = Newsletter.find(:all, :conditions => ["state='published'"], :order => "published_at desc").collect{|n| [n.title, n.id]} 
       render :action => 'new'
     end
   end
@@ -37,9 +39,12 @@ class Admin::MassEmailsController < AdminApplicationController
       if @mass_email.no_recipients?
         flash[:notice] = "Successfully updated email."
       else
-       # call_rake :send_mass_email, :mass_email_id => @mass_email.id
-        @mass_email.deliver
-        flash[:notice] = "Sending emails."
+        if params["send"]
+          @mass_email.deliver
+          flash[:notice] = "Sending emails."
+        else
+          flash[:error]="There was an error, please contact administrator (your email cannot be sent)"
+        end
       end
       redirect_to @mass_email
     else
@@ -54,8 +59,12 @@ class Admin::MassEmailsController < AdminApplicationController
   def send_test
     errors = @mass_email.unknown_attributes(current_user)
     if errors.blank?
-      @mass_email.deliver_test(current_user)
-      flash[:notice] = "The test email was sent"
+      res = @mass_email.deliver_test(current_user)
+      if res.blank?    
+        flash[:notice] = "The test email was sent"
+      else
+        flash[:warning] = res
+      end
     else
       flash[:error] = "The fields: #{errors.to_sentence} could not be found"
     end

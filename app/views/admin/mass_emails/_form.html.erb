@@ -13,18 +13,18 @@
   </ul>
   <ol>
       <li>
-        <%= f.label :subject, "Type<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :email_type, "Type<span class='mandatoryStar'>*</span>" %>
         <%= f.select :email_type, @email_types  %>
       </li>
-      <li id="newsletters_list" style="display: none;">
-        <%= f.label :newsletter, "Newsletter<span class='mandatoryStar'>*</span>" %>
-        <%= f.select :newsletter, @newsletters %>
+      <li id="newsletters_list">
+        <%= f.label :newsletter_id, "Newsletter<span class='mandatoryStar'>*</span>" %>
+        <%= f.select :newsletter_id, @newsletters %>
       </li>
       <li>
         <%= f.label :subject, "Subject<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :subject %>
       </li>
-      <li>
+      <li id="mass_email_body_wrapper">
         <%= f.label :body, "Body<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :body, :cols => "35" %>
       </li>

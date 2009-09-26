@@ -62,12 +62,12 @@ module Workflowable
     #      end
     #    end
 
-    def label(no_link=false)
-      #self.method(self.path_method.to_sym).call(self)
-      if no_link
+    def label(url="")
+      puts "======= url: #{url}"
+      if url.blank?
         res = "#{self.title}<br/>"
       else
-        res = "<a href=\"\">#{self.title}</a><br/>"
+        res = "<a href=\"#{url}\">#{self.title}</a><br/>"
       end
       sub = ""
       sub << "#{self.subcategory.name} - " if self.respond_to?(:subcategory) && !self.subcategory.nil?

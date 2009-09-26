@@ -4,52 +4,70 @@ class MassEmail < ActiveRecord::Base
   belongs_to :creator, :class_name => "User"
   belongs_to :newsletter
   
-  # before_create :check_newsletter
+  before_create :check_newsletter
 
-  validates_presence_of :subject, :body
+  validates_presence_of :subject 
+  validates_presence_of :body, :if => Proc.new {|email| email.email_type == 'Normal'}
+  validates_presence_of :newsletter, :if => Proc.new {|email| email.email_type == 'Newsletter'}
 
-  TYPES = ["Normal", "Newsletter"]
+  TYPES = ["Normal", "Public newsletter", "Business newsletter"]
 
   RECIPIENTS = {:resident_experts => "Resident experts", :full_members => "Full members",
     :free_users => "Free users", :general_public => "General public"}
+
+  def newsletter?
+    email_type == "Public newsletter" || email_type == "Business newsletter"
+  end
 
   def no_recipients?
     !recipients_full_members? && !recipients_resident_experts? && !recipients_free_users? && !recipients_general_public?
   end
 
-  # def check_newsletter
-  #   if email_type == "Business newsletter"
-  #     self.recipients_full_members = true
-  #     self.recipients_resident_experts = true
-  #   end
-  #   if email_type == "Public newsletter"
-  #     self.recipients_full_members = true
-  #     self.recipients_resident_experts = true
-  #     self.general_public = true
-  #     self.free_users = true
-  #   end
-  # end
+  def check_newsletter
+    if email_type == "Business newsletter"
+      self.recipients_full_members = true
+      self.recipients_resident_experts = true
+    end
+    if email_type == "Public newsletter"
+      self.recipients_full_members = true
+      self.recipients_resident_experts = true
+      self.general_public = true
+      self.free_users = true
+    end
+  end
 
   def deliver_test(user)
-    UserMailer.deliver_mass_email(user, self.subject, self.transformed_body(user))
+    res = ""
+    if newsletter?
+      unless newsletter.published?
+        res = "Selected newsletter is not published"
+      end
+      UserMailer.deliver_mass_email_newsletter(user, self.subject, self.newsletter)
+    else
+      UserMailer.deliver_mass_email(user, self.subject, self.transformed_body(user))
+    end
     self.test_sent_at = Time.now
     self.test_sent_to = user
     self.save
+    return res
   end
 
   def deliver
     if sent_at.nil?
-      if email_type == "Public newsletter"
+      if !newsletter.nil? && !newsletter.published?
+        newsletter.publish!
+      end
+      
+      case email_type
+      when "Public newsletter":
         users_obj = User.active.wants_newsletter
         contact_obj = Contact.wants_newsletter
-      else
-        if email_type == "Business newsletter"
+      when "Business newsletter":
           users_obj = User.active.wants_professional_newsletter
           contact_obj = Contact.wants_professional_newsletter
-        else        
-          users_obj = User.active
-          contact_obj = Contact
-        end
+      else        
+        users_obj = User.active
+        contact_obj = Contact
       end
       all_users = []
       if recipients_general_public
@@ -68,9 +86,13 @@ class MassEmail < ActiveRecord::Base
         if u.is_a?(User)
           if u.valid?
             puts "Sending email to user #{u.name_with_email}"
-            # UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
-            UserEmail.create(:user => u, :email_type => "mass_email", :subject => self.subject, :body => self.transformed_body(u),
-              :mass_email_id => self.id )
+            if newsletter?
+              UserEmail.create(:user => u, :email_type => "mass_email", :subject => self.subject, :body => nil,
+                :mass_email_id => self.id, :newsletter => self.newsletter)                
+            else
+              UserEmail.create(:user => u, :email_type => "mass_email", :subject => self.subject, :body => self.transformed_body(u),
+                :mass_email_id => self.id, :newsletter => nil)
+            end
             self.update_attribute(:sent_to, "#{self.sent_to}<br/>#{u.name_with_email}")
           else
             puts "Cannot send an email to user #{u.name_with_email} because this user is not valid. Errors are: #{u.errors.map{|k,v| "#{k}: #{v}"}.to_sentence}"
@@ -78,9 +100,13 @@ class MassEmail < ActiveRecord::Base
         else
           #contact
           puts "Sending email to contact #{u.email}"
-          # UserMailer.deliver_mass_email(u, self.subject, self.transformed_body(u))
-          UserEmail.create(:contact => u, :email_type => "mass_email", :subject => self.subject, :body => self.transformed_body(u),
-            :mass_email_id => self.id )
+          if newsletter?
+            UserEmail.create(:contact => u, :email_type => "mass_email", :subject => self.subject, :body => nil,
+              :mass_email_id => self.id, :newsletter => self.newsletter)                
+          else
+            UserEmail.create(:contact => u, :email_type => "mass_email", :subject => self.subject, :body => self.transformed_body(u),
+              :mass_email_id => self.id, :newsletter => nil)
+          end
           self.update_attribute(:sent_to, "#{self.sent_to}<br/>#{u.email}")
         end
       end

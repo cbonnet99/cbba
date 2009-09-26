@@ -19,6 +19,7 @@ class UserMailer < ActionMailer::Base
 		@body[:preferred_contact] = message.preferred_contact
     @content_type = 'text/html'
   end
+  
   def mass_email(user, subject, body)
     setup_email(user)
 		@subject << subject
@@ -32,6 +33,14 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
 
+  def mass_email_newsletter(user, subject, newsletter)
+    setup_email(user)
+		@subject << subject
+		@body[:newsletter] = newsletter
+		@body[:user] = user
+    @content_type = 'text/html'    
+  end
+  
   def approve_expert(user, expert_application)
     setup_email(user)
 		@subject << "Your expert application has been approved"

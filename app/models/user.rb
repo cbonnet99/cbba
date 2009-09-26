@@ -93,12 +93,11 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
 
-  def label(no_link=false)
-    #{full_user_url(self)}
-    if no_link
+  def label(url="")
+    if url.blank?
       "#{self.full_name}<br/>#{self.expertise}"
     else
-      "<a href=\"\">#{self.full_name}</a><br/>#{self.expertise}"
+      "<a href=\"#{url}\">#{self.full_name}</a><br/>#{self.expertise}"
     end
     
   end

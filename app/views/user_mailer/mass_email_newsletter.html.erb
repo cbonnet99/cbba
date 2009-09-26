@@ -1,0 +1,2 @@
+You can also <%= link_to "view this newsletter online", newsletter_show_path(@newsletter.id) %>
+<%= render :partial => "admin/newsletters/show_body", :locals => {:newsletter => @newsletter }  %>

@@ -2,9 +2,9 @@
 <%= title "Email: #{mass_email.subject}" %>
 <% if mass_email.sent_at.nil? -%>
 <%= link_to "Edit", edit_mass_email_path(mass_email)%>
- | <%= link_to "Send test email", action_mass_emails_path(:id => mass_email.id, :action => "send_test")%>
+ | <%= link_to "Send test email to yourself", action_mass_emails_path(:id => mass_email.id, :action => "send_test")%>
 <% unless mass_email.test_sent_at.nil? -%>
- | <%= link_to "Send mass email", action_mass_emails_path(:id => mass_email.id, :action => "select_email_recipients") %>
+ | <%= link_to "Select recipients to send mass email", action_mass_emails_path(:id => mass_email.id, :action => "select_email_recipients") %>
 <% end -%>
 <% else -%>
  <%= link_to "Copy", action_mass_emails_path(:id => mass_email.id, :action => "copy" ) %>
