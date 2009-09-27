@@ -40,7 +40,7 @@
 <h3>In the spotlight</h3>
 <ul>
 <% newsletter.users.each do |u| -%>
-	<li><%= u.label(expanded_user_path(u))%></li>
+	<li><%= u.label(full_user_url(:main_expertise_slug => u.main_expertise_slug, :region => u.region.slug, :name => u.slug))%></li>
 <% end -%>
 </ul>
 <% end -%>

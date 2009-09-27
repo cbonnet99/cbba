@@ -34,3 +34,7 @@ unknown_attributes:
 
     This email is a test with 20%. Your company %business_name% is now on beamazing. Your email is:
     %bla%
+email_public_newsletter:
+  email_type: Public newsletter
+  subject: May newsletter
+  newsletter: may_published

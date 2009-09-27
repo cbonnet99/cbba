@@ -1,9 +1,5 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  user_id: 1
-  newsletter_id: 1
-
-two:
-  user_id: 1
-  newsletter_id: 1
+may_published_norma:
+  user: norma
+  newsletter: may_published

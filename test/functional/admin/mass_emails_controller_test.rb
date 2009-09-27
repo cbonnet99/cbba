@@ -34,6 +34,20 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     assert assigns(:mass_email).recipients_free_users?
   end
 
+  def test_update_newsletter
+    old_size = UserEmail.all.size
+    
+    email_public_newsletter = mass_emails(:email_public_newsletter)
+    post :update, {:send => "Send", :id => email_public_newsletter.id, :mass_email => {:recipients_full_members => true }  }, {:user_id => users(:cyrille).id }
+    assert_redirected_to :action => "show"
+    email_public_newsletter.reload
+    assert email_public_newsletter.recipients_full_members
+    assert_not_nil email_public_newsletter.sent_at
+
+    assert_equal old_size+User.active.full_members.size, UserEmail.all.size
+    UserEmail.check_and_send_mass_emails
+  end
+
   def test_update
     old_size = UserEmail.all.size
     
