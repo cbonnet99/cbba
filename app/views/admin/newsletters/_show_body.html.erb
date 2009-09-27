@@ -12,7 +12,7 @@
 <h3>Special offers</h3>
 <ul>
 <% newsletter.special_offers.each do |offer| -%>
-	<li><%= offer.label(special_offers_show_path(offer.author, offer.slug, :index_public => true))%></li>
+	<li><%= offer.label(special_offers_show_url(offer.author, offer.slug, :index_public => true))%></li>
 <% end -%>
 </ul>
 <% end -%>
@@ -31,7 +31,7 @@
 <h3>Gift vouchers</h3>
 <ul>
 <% newsletter.gift_vouchers.each do |gv| -%>
-	<li><%= gv.label(gift_vouchers_show_path(gv.author, gv.slug, :index_public => true))%></li>
+	<li><%= gv.label(gift_vouchers_show_url(gv.author, gv.slug, :index_public => true))%></li>
 <% end -%>
 </ul>
 <% end -%>
@@ -49,7 +49,7 @@
 <h3>Past month's articles</h3>
 <ul>
 <% newsletter.articles.each do |a| -%>
-	<li><%= a.label(articles_show_path(a.author.slug, a.slug, :index_public =>true))%></li>
+	<li><%= a.label(articles_show_url(a.author.slug, a.slug, :index_public =>true))%></li>
 <% end -%>
 </ul>
 <% end -%>
