@@ -31,8 +31,8 @@ class MassEmail < ActiveRecord::Base
     if email_type == "Public newsletter"
       self.recipients_full_members = true
       self.recipients_resident_experts = true
-      self.general_public = true
-      self.free_users = true
+      self.recipients_general_public = true
+      self.recipients_free_users = true
     end
   end
 

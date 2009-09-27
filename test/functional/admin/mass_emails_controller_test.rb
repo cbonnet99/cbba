@@ -14,10 +14,24 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
   end
 
   def test_create
+    post :create, {:mass_email => {:subject => "Test", :body => "This is cool", :email_type => "Normal"  }}, {:user_id => users(:cyrille).id }
+    assert_equal "Successfully created email.", flash[:notice]
+  end
+
+  def test_create_biz
     post :create, {:mass_email => {:subject => "Test", :body => "This is cool", :email_type => "Business newsletter"  }}, {:user_id => users(:cyrille).id }
     assert_equal "Successfully created email.", flash[:notice]
-    assert assigns(:mass_email).recipients_full_members
-    assert assigns(:mass_email).recipients_resident_experts
+    assert assigns(:mass_email).recipients_full_members?
+    assert assigns(:mass_email).recipients_resident_experts?
+  end
+
+  def test_create_public_newsletter
+    post :create, {:mass_email => {:subject => "Test", :newsletter_id => newsletters(:may_published), :email_type => "Public newsletter"  }}, {:user_id => users(:cyrille).id }
+    assert_equal "Successfully created email.", flash[:notice]
+    assert assigns(:mass_email).recipients_full_members?
+    assert assigns(:mass_email).recipients_resident_experts?
+    assert assigns(:mass_email).recipients_general_public?
+    assert assigns(:mass_email).recipients_free_users?
   end
 
   def test_update

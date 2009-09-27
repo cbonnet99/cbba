@@ -2,6 +2,7 @@
 <% javascript 'mass-emails'%>
 <% form_for @mass_email do |f| %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your email could not be saved"%>
+  <div id="body_expressions">
   <p>You can use the following expressions in your emails:</p>
   <ul>
     <li>%first_name%</li>
@@ -11,6 +12,7 @@
     <li>%USER_PROFILE_URL%</li>
     <li>%password% (<em style="color: red">Warning:</em> if you use this, the password will be reset)</li>
   </ul>
+  </div>
   <ol>
       <li>
         <%= f.label :email_type, "Type<span class='mandatoryStar'>*</span>" %>
