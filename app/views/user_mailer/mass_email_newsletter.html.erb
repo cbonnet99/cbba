@@ -9,7 +9,7 @@
 		h3 {color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0; }
     </style>
 </head>
-<body><p>You can also <%= link_to "view this newsletter online", newsletter_show_path(@newsletter.id) %></p>
+<body><p>You can also <%= link_to "view this newsletter online", admin_newsletter_path(@newsletter.id) %></p>
 <h2><%= @newsletter.title%></h2>
 <%= render :partial => "admin/newsletters/show_body", :locals => {:newsletter => @newsletter }  %>
 </body>
