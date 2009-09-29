@@ -3,8 +3,12 @@
 heart_children:
   name: Heart Children of New Zealand
 
-guide_dogs:
-  name: Guide Dog Services
+hospice_nz:
+  name: Hospice New Zealand
 
 te_araroa:
     name: Te Araroa - The Walkway
+    
+no_choice:
+    name: Don't mind
+    default_choice: true

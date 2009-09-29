@@ -1,0 +1,8 @@
+<li>When you sign up for a full membership, we'll donate $10 to a charity of your choice. Please select which charity you'd like us to donate to:<span class='mandatoryStar'>*</span></li>
+	<% Charity.all.each do |charity| -%>
+	<li>
+  	<div class="left-input"><label for="payment_charity_id_<%=charity.id%>"><%=charity.name%></label></div>
+  	<div class="right-label"><%= f.radio_button :charity_id, charity.default_choice? ? nil : charity.id  %></div>
+		<div class="cleaner"></div>
+	</li>
+	<% end -%>

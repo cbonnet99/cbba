@@ -1,0 +1,15 @@
+<%= title "Select a charity to pay by direct debit for your #{@payment.title.downcase}" %>
+<p>
+	<ol>
+	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
+<% form_for @payment do |f| -%>
+<%= render :partial => "charities", :locals => {:f  => f} %>
+	<li class="register-actions">
+  <%= submit_tag 'Next >', :class => "button submit" %>
+</li>
+<% end -%>
+  </ol>
+<p>
+	<div class="clear"></div>
+<p><%= link_to "I've changed my mind, I want to pay by credit card", :controller => "payments", :action => "edit", :id => @payment.id%></p>
+

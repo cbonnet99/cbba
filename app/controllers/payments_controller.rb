@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   before_filter :login_required
-  before_filter :get_payment, :only => [:edit, :edit_debit, :thank_you_direct_debit, :update] 
+  before_filter :get_payment, :only => [:edit, :edit_debit, :edit_debit_charities, :thank_you_direct_debit, :update] 
   ssl_required :edit, :update
   
   def thank_you_direct_debit
@@ -35,20 +35,40 @@ class PaymentsController < ApplicationController
       redirect_back_or_default root_url
     end
   end
+  
+  def edit_debit_charities
+    @payment.update_attribute(:payment_type, "direct_debit")
+    if @payment.pending?
+      unless @payment.charity.blank?
+        redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
+      end
+    else
+      flash[:error] = "This payment is not pending"
+      redirect_back_or_default root_url
+    end
+  end
 
   # PUT /payments/1
   # PUT /payments/1.xml
   def update
     params[:payment].merge!(:ip_address => request.remote_ip)
     if @payment.update_attributes(params[:payment])
-      if @payment.purchase
-        render :action => Payment::REDIRECT_PAGES[@payment.payment_type.to_sym]
+      if @payment.payment_type == "direct_debit"
+        redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
       else
-        logger.debug "======= #{@payment.errors.inspect}"
-        render :action => 'edit'
+        if @payment.purchase
+          render :action => Payment::REDIRECT_PAGES[@payment.payment_type.to_sym]
+        else
+          logger.debug "======= #{@payment.errors.inspect}"
+          render :action => 'edit'
+        end
       end
     else
-      render :action => 'edit'
+      if @payment.payment_type == "direct_debit"
+        render :action => 'edit_debit_charities'
+      else
+        render :action => 'edit'
+      end
     end
   end
   

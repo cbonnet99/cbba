@@ -853,6 +853,7 @@ module ActionView
         end
 
         def radio_button_checked?(value, checked_value)
+          puts "========= in radio_button_checked, value: #{value}, checked_value: #{checked_value}"
           value.to_s == checked_value.to_s
         end
       end
