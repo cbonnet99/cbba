@@ -4,6 +4,7 @@
 <%= will_paginate @search_results%>
 <table class="admin">
   <tr>
+    <th>Date</th>
     <th>What</th>
     <th>Where</th>
     <th>Category</th>
@@ -14,6 +15,7 @@
   </tr>
 <%@search_results.each do |s| -%>
 <tr class="<%=cycle('odd', 'even')%>">
+	<td><%= time_ago_in_words(s.logged_at)%> ago</td>
 	<td><%= s.extra_data.scan(/what:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/where:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/, category:(.*?),/)%></td>
