@@ -17,7 +17,7 @@ class PaymentsController < ApplicationController
 
   # GET /payments/1/edit
   def edit
-    @payment.update_attribute(:payment_type, "credit_card")
+    @payment.update_attribute(:payment_card_type, "credit_card")
     @payment.first_name = current_user.first_name
     @payment.last_name = current_user.last_name
     @payment.address1 = current_user.address1
@@ -29,7 +29,7 @@ class PaymentsController < ApplicationController
   end
 
   def edit_debit
-    @payment.update_attribute(:payment_type, "direct_debit")
+    @payment.update_attribute(:payment_card_type, "direct_debit")
     unless @payment.pending?
       flash[:error] = "This payment is not pending"
       redirect_back_or_default root_url
@@ -37,7 +37,7 @@ class PaymentsController < ApplicationController
   end
   
   def edit_debit_charities
-    @payment.update_attribute(:payment_type, "direct_debit")
+    @payment.update_attribute(:payment_card_type, "direct_debit")
     if @payment.pending?
       unless @payment.charity.blank?
         redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
@@ -53,7 +53,7 @@ class PaymentsController < ApplicationController
   def update
     params[:payment].merge!(:ip_address => request.remote_ip)
     if @payment.update_attributes(params[:payment])
-      if @payment.payment_type == "direct_debit"
+      if @payment.payment_card_type == "direct_debit"
         redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
       else
         if @payment.purchase
@@ -64,7 +64,7 @@ class PaymentsController < ApplicationController
         end
       end
     else
-      if @payment.payment_type == "direct_debit"
+      if @payment.payment_card_type == "direct_debit"
         render :action => 'edit_debit_charities'
       else
         render :action => 'edit'
