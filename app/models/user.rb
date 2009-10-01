@@ -93,6 +93,31 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
 
+  def roles_description
+    if admin?
+      res = "Admin, "
+    else
+      res = ""
+    end
+    if resident_expert?
+      res << "Resident expert for #{expertise_subcategory.name}"
+    else
+      if full_member?
+        res << "Full member"
+      end
+    end
+  end
+
+  def bam_dates
+    if resident_expert?
+      "Since: #{resident_since.try(:to_date)}, renewal date: #{resident_until.try(:to_date)}"
+    else
+      if full_member?
+        "Since: #{member_since.try(:to_date)}, renewal date: #{member_until.try(:to_date)}"
+      end
+    end
+  end
+
   def can_add_link?
     admin?
   end

@@ -4,6 +4,14 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_roles_description
+    assert_equal "Admin, Resident expert for Hypnotherapy", users(:cyrille).roles_description
+  end
+
+  def test_bam_dates
+    assert_equal "Since: #{6.months.ago.to_date}, renewal date: #{6.months.from_now.to_date}", users(:cyrille).bam_dates
+  end
+
   def test_location
     resident_expert_user = users(:resident_expert_user)
     assert_equal "Wellington City, Wellington Region", resident_expert_user.location
