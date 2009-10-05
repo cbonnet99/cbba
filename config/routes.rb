@@ -2,6 +2,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :newsletters
   map.resources :newsletters, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/newsletters", :member => {:publish => [:get, :post], :retract => [:get, :post] }
 
+  map.resources :users, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/users", :member => {:login => [:get, :post]}, :collection => {:search => [:get, :post]}
+  
   map.articles_for_subcategory '/articles/subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_subcategory" 
   map.gift_vouchers_for_subcategory '/gift_vouchers/subcategory/:subcategory_slug', :controller => "gift_vouchers", :action => "index_for_subcategory"
   map.special_offers_for_subcategory '/special_offers/subcategory/:subcategory_slug', :controller => "special_offers", :action => "index_for_subcategory"
@@ -9,9 +11,6 @@ ActionController::Routing::Routes.draw do |map|
   map.action_search_results '/admin/search_results/:id/:action', :controller => "admin/search_results"
   map.resources :mass_emails, :path_prefix => "/admin", :controller => "admin/mass_emails"
   map.action_mass_emails '/admin/mass_emails/:id/:action', :controller => "admin/mass_emails"
-  map.action_users '/admin/users/:action', :controller => "admin/users"
-  map.resources :adminusers, :path_prefix => "/admin", :controller => "admin/users"
-  map.action_id_users '/admin/users/:id/:action', :controller => "admin/users"
   map.resources :messages
   map.resources :full_members
   map.resources :resident_experts

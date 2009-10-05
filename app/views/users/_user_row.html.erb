@@ -1,5 +1,6 @@
 <td><%= u.name_with_email%></td>
 <td><%= u.roles_description%><% unless u.free_listing?%><br/><%=u.bam_dates%><%end%></td>
 <td><%= u.state%></td>
-<td><%= link_to "Login as #{u.first_name}", :controller => "admin/users", :action => "login", :id => u.id %><br/>
-	<%= link_to "Delete", adminuser_path(u.id, :search_term => params[:search_term]), :confirm => 'Are you sure?', :method => :delete %></td>
+<td><%= link_to "Edit", edit_admin_user_path(u) %><br/>
+	<%= link_to "Login as #{u.first_name}", login_admin_user_path(u) %><br/>
+	<%= link_to "Delete", admin_user_path(u, :search_term => params[:search_term]), :method => "delete", :confirm => 'Are you sure?', :method => :delete %></td>

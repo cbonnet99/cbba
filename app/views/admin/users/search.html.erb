@@ -18,7 +18,7 @@
 	  </tr>
 
 	<%@users.each do |u| -%>
-  		<tr class="<%=cycle('odd', 'even')%>">
+  		<tr class="<%=cycle('odd', 'even')%>" id="user_<%=u.id%>">
 			<%= render :partial => "users/user_row", :locals => {:u => u } %>
 		</tr>
 	<%end -%>

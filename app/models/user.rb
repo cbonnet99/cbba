@@ -85,13 +85,96 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
   # submitting a crafted form that bypasses activation anything else you want
   # your user to change should be added here.
-  attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application, :website, :accept_terms
-	attr_accessor :membership_type, :resident_expert_application, :accept_terms
+  # attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application, :website, :accept_terms
+  attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status
+	attr_accessor :membership_type, :resident_expert_application, :accept_terms, :admin, :main_role
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
+  
+  def expertise_subcategory_id
+    expertise_subcategory.try(:id)
+  end
+  
+  def check_and_update_attributes(user_hash)
+    self.main_role = user_hash[:main_role]
+    self.admin = user_hash[:admin]
+    if user_hash[:main_role] == "Full member"
+      self.member_since = Date::civil(user_hash['member_since(1i)'].to_i,
+       user_hash['member_since(2i)'].to_i, 
+      user_hash['member_since(3i)'].to_i)
+      self.member_until = Date::civil(user_hash['member_until(1i)'].to_i,
+       user_hash['member_until(2i)'].to_i, 
+      user_hash['member_until(3i)'].to_i)
+    end
+    if user_hash[:main_role] == "Resident expert"
+      #TO DO: make_resident_expert, test if it is already an expert...
+      self.resident_since = Date::civil(user_hash['resident_since(1i)'].to_i,
+       user_hash['resident_since(2i)'].to_i, 
+      user_hash['resident_since(3i)'].to_i)
+      self.resident_until = Date::civil(user_hash['resident_until(1i)'].to_i,
+       user_hash['resident_until(2i)'].to_i, 
+      user_hash['resident_until(3i)'].to_i)
+      subcategory = Subcategory.find(user_hash[:expertise_subcategory_id])
+      if subcategory.nil?
+        self.errors.add(:expertise_subcategory_id, "doesn't exist")
+        return false
+      else
+        if !subcategory.resident_expert.nil? && subcategory.resident_expert != self
+          self.errors.add(:expertise_subcategory_id, "has already a resident expert: #{subcategory.resident_expert.full_name}")
+          return false
+        else
+          self.expertise_subcategory = subcategory
+        end
+      end
+    end
+    self.save
+  end
+
+  def admin
+    admin?
+  end
+  
+  def admin=(bool)
+    if bool && !self.admin?
+      self.add_role("admin")
+    end
+    if !bool && self.admin
+      self.remove_role("admin")
+    end
+  end
+  
+  def main_role
+    if resident_expert?
+      "Resident expert"
+    else
+      if full_member?
+        "Full member"
+      else
+        "Free listing"
+      end
+    end
+  end
+
+  def main_role=(new_role)
+    if new_role == "Free listing" && !self.free_listing?
+      self.free_listing = true
+      self.remove_role("full_member")
+      self.remove_role("resident_expert")
+    end
+    if new_role == "Full member" && !self.full_member?
+      self.free_listing = false
+      self.add_role("full_member")
+      self.remove_role("resident_expert")
+    end
+    if new_role == "Resident expert" && !self.resident_expert?
+      self.free_listing = false
+      self.remove_role("full_member")
+      self.add_role("resident_expert")
+    end
+  end
 
   def roles_description
     if admin?

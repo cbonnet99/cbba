@@ -1,0 +1,46 @@
+<% javascript 'edit-admin-user'%>
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "users" }  %>
+<%= title "Edit user #{@selected_user.name}"%>
+<% form_for [:admin, @selected_user] do |f| -%>
+	<%= f.error_messages :header_message => "Please try again", :message => "Your update could not be completed" %>
+	<ol>
+		<li>
+			<%= f.label :admin, "Admin"%>
+			<%=f.check_box :admin %>
+		</li>
+		<li>
+			<%= f.label :main_role, "Main role: "%>
+			<%=f.select :main_role, ["Free listing", "Full member", "Resident expert"]%>
+		</li>
+		<div id="subcategory-resident-expert"<%unless @selected_user.resident_expert?%> style="display: none"<%end%>>
+		<li>
+			<%= f.label :expertise_subcategory_id, "Resident expert in: "%>
+			<%=f.select :expertise_subcategory_id, @subcategories%>
+		</li>
+		</div>
+		<div id="dates-resident-expert"<%unless @selected_user.resident_expert?%> style="display: none"<%end%>>
+		<li>
+			<%= f.label :resident_since, "Resident expert since:"%>
+			<%= f.date_select :resident_since%>
+		</li>
+		<li>
+			<%= f.label :resident_until, "Resident expert until:"%>
+			<%= f.date_select :resident_until%>
+		</li>
+		</div>
+		<div id="dates-full-member"<%if @selected_user.resident_expert?%> style="display: none"<%end%>>
+		<li>
+			<%= f.label :member_since, "Full member since:"%>
+			<%= f.date_select :member_since%>
+		</li>
+		<li>
+			<%= f.label :member_until, "Full member until:"%>
+			<%= f.date_select :member_until%>
+		</li>		
+		</div>
+	    <div class="buttons">
+	      <label for=""></label>
+			<%= submit_tag "Submit" %>
+		</div>
+	</ol>
+<%end -%>

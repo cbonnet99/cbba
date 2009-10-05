@@ -2941,7 +2941,6 @@ module ActiveRecord #:nodoc:
           end
 
         removed_attributes = attributes.keys - safe_attributes.keys
-
         if removed_attributes.any?
           log_protected_attribute_removal(removed_attributes)
         end
