@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091006090045) do
+ActiveRecord::Schema.define(:version => 20091006095814) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -475,6 +475,7 @@ ActiveRecord::Schema.define(:version => 20091006090045) do
     t.string   "what"
     t.string   "where"
     t.string   "browser"
+    t.string   "session"
   end
 
   create_table "user_profiles", :force => true do |t|
