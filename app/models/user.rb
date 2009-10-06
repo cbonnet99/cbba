@@ -77,10 +77,9 @@ class User < ActiveRecord::Base
   # #around filters
 	before_validation :assemble_phone_numbers, :trim_stuff
   before_create :create_geocodes, :get_region_from_district, :get_membership_type
-  before_update :update_geocodes, :get_region_from_district, :get_membership_type
+  before_update :update_geocodes, :get_region_from_district, :get_membership_type, :update_tabs
 
   after_create :create_profile, :add_tabs
-  before_update :update_tabs
 
   # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
   # submitting a crafted form that bypasses activation anything else you want

@@ -1,0 +1,17 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "user_activities" }  %>
+<%= title "User activities"%>
+<table class="admin">
+  <tr>
+    <th>User</th>
+    <th>Logged in</th>
+    <th>IP address</th>
+  </tr>
+<%@activities.each do |s| -%>
+<tr class="<%=cycle('odd', 'even')%>">
+	<td><% if s.user.nil?%>Anonymous<%else%><%= s.user.name%><%end%></td>
+	<td><%= time_ago_in_words(s.logged_at)%> ago</td>
+	<td><%= s.remote_ip %></td>
+</tr>
+<%end-%>
+</table>
+<%= will_paginate @activities%>

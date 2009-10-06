@@ -38,89 +38,23 @@ class SearchController < ApplicationController
         logger.debug("====== in search, @category: #{@category.inspect}")
         logger.debug("====== in search, @subcategory: #{@subcategory.inspect}")
         @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
-        log_user_event UserEvent::SEARCH, "", "what: #{@what}, where: #{@where}, category: #{@category.try(:name)}, subcategory: #{@subcategory.try(:name)}, region: #{@region.try(:name)}, district: #{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => @results.size, :what => @what, :where => @where}
-        # latitude = Region::DEFAULT_NZ_LATITUDE
-        # longitude = Region::DEFAULT_NZ_LONGITUDE
-        # zoom = 5
-        # unless @region.blank?
-        #   latitude = @region.latitude.to_f
-        #   longitude = @region.longitude.to_f
-        #   zoom = 7
-        # end
-        # unless @district.blank?
-        #   latitude = @district.latitude.to_f
-        #   longitude = @district.longitude.to_f
-        #   zoom = 11
-        # end
+        if @results.blank?
+          @selected_user = User.find_paying_member_by_name(@what)
+          results_size = 1 unless @selected_user.nil?
+        else
+          results_size = @results.size
+        end
+        log_user_event UserEvent::SEARCH, "", "what: #{@what}, where: #{@where}, category: #{@category.try(:name)}, subcategory: #{@subcategory.try(:name)}, region: #{@region.try(:name)}, district: #{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => results_size, :what => @what, :where => @where}
         
         @articles = Article.find_all_by_subcategories(@subcategory) unless @subcategory.blank?        
         @articles = Article.find_all_by_subcategories(*@category.subcategories) unless @category.blank?
         
-        if @results.blank?
-          @selected_user = User.find_paying_member_by_name(@what)
-          unless @selected_user.nil?
-              redirect_to expanded_user_path(@selected_user, :what => @what, :where => @where) unless @selected_user.nil?
-          end
+        if @results.blank? && !@selected_user.nil?
+            redirect_to expanded_user_path(@selected_user, :what => @what, :where => @where) unless @selected_user.nil?
         end
         
-        # @map = GMap.new("map_div_id")
-        # @map.control_init(:large_map => true, :map_type => true)
-        # @map.center_zoom_init([latitude,longitude], zoom)
-        # User.map_geocoded(@map, @results)
       end
 
-#      if @what.blank?
-#        if @where.blank?
-#          logger.debug("======== EMPTY params in search")
-#          flash[:error] = "Please enter something in What or Where"
-#          redirect_back_or_default root_url
-#        else
-#          # #this is a location search
-#            @region = Region.find_by_name(@where)
-#            if @region.nil?
-#              @district = District.find_by_name(@where)
-#              if @district.nil?
-#                #TODO: full-text-search
-#              else
-#                @results = User.search_results(nil, nil, nil, @district.id, params[:page])
-#                log_user_event "Fuzzy search with empty subcategory", "district: :#{@district.name}, found #{@results.size} results", {:district_id => @district.id, :results_found => @results.size}
-#              end
-#            else
-#                @results = User.search_results(nil, nil, @region.id, nil, params[:page])
-#                log_user_event "Fuzzy search with empty subcategory", "region #{@region.name}, found #{@results.size} results", {:region_id => @region.id, :results_found => @results.size}
-#            end
-#        end
-#      else
-#        @subcategory = Subcategory.find_by_name(@what)
-#        if @subcategory.nil?
-#          @category = Category.find_by_name(@what)
-#          if @category.nil?
-#            #can't find a category or subcategory by this name
-#            #TODO: suggest close names?
-#            @results = []
-#          else
-#            @results = User.search_results(@category.id, nil, nil, @district.id, params[:page])
-#          end
-#        else
-#          if @where.blank?
-#            # #show all results for the whole country
-#          else
-#            @region = Region.find_by_name(@where)
-#            if @region.nil?
-#              @district = District.find_by_name(@where)
-#              if @district.nil?
-#                #TODO: full-text-search
-#              else
-#                @results = User.search_results(nil, @subcategory.id, nil, @district.id, params[:page])
-#                log_user_event "Fuzzy search with subcategory", "subcategory: #{@subcategory.name}, district: :#{@district.name}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :district_id => @district.id, :results_found => @results.size}
-#              end
-#            else
-#              @results = User.search_results(nil, @subcategory.id, @region.id, nil, params[:page])
-#              log_user_event "Fuzzy search with subcategory", "subcategory: #{@subcategory.name}, region #{@region.name}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :region_id => @region.id, :results_found => @results.size}
-#            end
-#          end
-#        end
-#      end
 		rescue ActiveRecord::RecordNotFound
 			@results = []
 			logger.error("ActiveRecord::RecordNotFound in search, parameters: #{params.inspect}")
@@ -136,10 +70,6 @@ class SearchController < ApplicationController
   end
 
 	def index
-    # @map = GMap.new("map_div_id")
-    # @map.control_init(:large_map => false, :map_type => true)
-    # @map.center_zoom_init([Region::DEFAULT_NZ_LATITUDE,Region::DEFAULT_NZ_LONGITUDE], 4)
-    # User.map_geocoded(@map)
     @newest_articles = Article.all_featured_articles
     @total_straight_articles = Article.count_published
     @total_howto_articles = HowTo.count_published

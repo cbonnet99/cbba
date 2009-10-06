@@ -198,7 +198,7 @@ class ImportUtils
 						:region_id => region.id, :phone_prefix => phone_array[0], :phone_suffix => phone_array[1], :mobile_prefix => mobile_array[0], :mobile_suffix => mobile_array[1], :email => email,
 						:free_listing => (role == free_listing), :professional => true,
 						:password => "blablabla", :password_confirmation => "blablabla",
-            :subcategory1_id => subcategory1_id, :category_id => category1_id,
+            :subcategory1_id => subcategory1_id,
             :subcategory2_id => subcategory2_id,
             :subcategory3_id => subcategory3_id,
 						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing",
