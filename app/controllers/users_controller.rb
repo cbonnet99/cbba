@@ -18,7 +18,7 @@ class UsersController < ApplicationController
         logger.error("Attempt to redirect to website for user #{@user.email}(ID: #{@user.id})")
         redirect_to root_path
       else
-        log_user_event UserEvent::REDIRECT_WEBSITE, "Redirected to #{@user.website}", {}, {:visited_user_id => @user.id }
+        log_bam_user_event UserEvent::REDIRECT_WEBSITE, "Redirected to #{@user.website}", {}, {:visited_user_id => @user.id }
         logger.debug("+++++++++++++++ redirecting to #{@user.website}")
         headers["Status"] = "301 Moved Permanently"
         redirect_to "#{@user.clean_website}"
@@ -129,7 +129,7 @@ class UsersController < ApplicationController
     else
       # #we don't want to count the visits to our own profile
       unless @user == current_user
-        log_user_event UserEvent::VISIT_PROFILE, "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
+        log_bam_user_event UserEvent::VISIT_PROFILE, "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
       end
       @selected_tab = @user.select_tab(params[:selected_tab_id])
       unless @selected_tab.nil?

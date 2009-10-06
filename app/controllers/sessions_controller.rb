@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
       handle_remember_cookie! new_cookie_flag
       if current_user.full_member?
         if current_user.active?
-          log_user_event(UserEvent::LOGIN, "", "Success")
+          log_bam_user_event(UserEvent::LOGIN, "", "Success")
           flash[:notice] = "Logged in successfully"
           if current_user.admin?
             redirect_back_or_default reviewer_path(:action => "index" )
@@ -30,12 +30,12 @@ class SessionsController < ApplicationController
           redirect_back_or_default edit_payment_path(@payment)
         end
       else
-        log_user_event(UserEvent::LOGIN, "", "Success")
+        log_bam_user_event(UserEvent::LOGIN, "", "Success")
         flash[:notice] = "Logged in successfully"
         redirect_back_or_default user_edit_path
       end
     else
-      log_user_event(UserEvent::LOGIN, "", "Failure")
+      log_bam_user_event(UserEvent::LOGIN, "", "Failure")
       note_failed_signin
       @email       = params[:email]
       @remember_me = params[:remember_me]

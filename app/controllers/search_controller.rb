@@ -19,7 +19,7 @@ class SearchController < ApplicationController
     user = User.find(id)
     logger.debug("==== in count_show_more_details, user: #{user}")
     unless user.nil?
-      log_user_event UserEvent::FREE_USER_DETAILS, "", "User: #{user.email} (#{user.id})", {:visited_user_id => user.id }
+      log_bam_user_event UserEvent::FREE_USER_DETAILS, "", "User: #{user.email} (#{user.id})", {:visited_user_id => user.id }
     end
   end
 
@@ -44,7 +44,7 @@ class SearchController < ApplicationController
         else
           results_size = @results.size
         end
-        log_user_event UserEvent::SEARCH, "", "what: #{@what}, where: #{@where}, category: #{@category.try(:name)}, subcategory: #{@subcategory.try(:name)}, region: #{@region.try(:name)}, district: #{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => results_size, :what => @what, :where => @where}
+        log_bam_user_event UserEvent::SEARCH, "", "what: #{@what}, where: #{@where}, category: #{@category.try(:name)}, subcategory: #{@subcategory.try(:name)}, region: #{@region.try(:name)}, district: #{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => results_size, :what => @what, :where => @where}
         
         @articles = Article.find_all_by_subcategories(@subcategory) unless @subcategory.blank?        
         @articles = Article.find_all_by_subcategories(*@category.subcategories) unless @category.blank?
@@ -81,7 +81,7 @@ class SearchController < ApplicationController
 	def simple_search
 		@what = params[:what]
 		@where = params[:where]
-    log_user_event "Search raw", "", "what: #{@what}, where: #{@where}"
+    log_bam_user_event "Search raw", "", "what: #{@what}, where: #{@where}"
 		begin
       # when user selects a whole region params[:where] is of form: r-342342
 			if params[:where].starts_with?("r-")
@@ -95,11 +95,11 @@ class SearchController < ApplicationController
 			if params[:what].blank?
 				@category = Category.find(params[:category_id])
 				@results = User.search_results(@category.id, nil, @region_id, @district_id, params[:page])
-        log_user_event "Search with no subcategory", "category: #{@category.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:category_id => @category.id, :region_id => @region_id, :district_id => @district_id, :results_found => @results.size }
+        log_bam_user_event "Search with no subcategory", "category: #{@category.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:category_id => @category.id, :region_id => @region_id, :district_id => @district_id, :results_found => @results.size }
 			else
 				@subcategory = Subcategory.find(params[:what])
 				@results = User.search_results(nil, @subcategory.id, @region_id, @district_id, params[:page])
-        log_user_event "Search with subcategory", "subcategory: #{@subcategory.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :region_id => @region_id, :district_id => @district_id, :results_found => @results.size}
+        log_bam_user_event "Search with subcategory", "subcategory: #{@subcategory.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :region_id => @region_id, :district_id => @district_id, :results_found => @results.size}
 			end
 		rescue ActiveRecord::RecordNotFound
 			@results = []

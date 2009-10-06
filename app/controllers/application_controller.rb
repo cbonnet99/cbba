@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
   def verify_human
     if session[:verify_human_count].blank? || session[:verify_human_count] > 10
       my_test = verify_recaptcha
-      log_user_event UserEvent::VERIFY_CATPCHA, "", my_test ? "Success" : "Failure"
+      log_bam_user_event UserEvent::VERIFY_CATPCHA, "", my_test ? "Success" : "Failure"
       if my_test
         session[:verify_human_count] = 1
       else

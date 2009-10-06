@@ -1,34 +1,34 @@
 cyrille_profile1:
     visited_user: cyrille
     event_type: <%=UserEvent::VISIT_PROFILE%>
-    logged_at: <%= Time.now.advance(:days => -15 )%>    
+    logged_at: <%= Time.now.utc.advance(:days => -15 )%>    
 cyrille_profile2:
     visited_user: cyrille
     event_type: <%=UserEvent::VISIT_PROFILE%>
-    logged_at: <%= Time.now.advance(:months => -6 )%>
+    logged_at: <%= Time.now.utc.advance(:months => -6 )%>
 cyrille_msg1:
     visited_user: cyrille
     event_type: <%=UserEvent::MSG_SENT%>
-    logged_at: <%= Time.now.advance(:months => -6 )%>
+    logged_at: <%= Time.now.utc.advance(:months => -6 )%>
 cyrille_msg2:
     visited_user: cyrille
     event_type: <%=UserEvent::MSG_SENT%>
-    logged_at: <%= Time.now.advance(:days => -28 )%>
+    logged_at: <%= Time.now.utc.advance(:days => -28 )%>
 cyrille_website1:
     visited_user: cyrille
     event_type: <%=UserEvent::REDIRECT_WEBSITE%>
-    logged_at: <%= Time.now.advance(:months => -6 )%>
+    logged_at: <%= Time.now.utc.advance(:months => -6 )%>
 cyrille_website2:
     visited_user: cyrille
     event_type: <%=UserEvent::REDIRECT_WEBSITE%>
-    logged_at: <%= Time.now.advance(:days => -20 )%>
+    logged_at: <%= Time.now.utc.advance(:days => -20 )%>
 norma_login1:
     user: norma
     event_type: <%=UserEvent::LOGIN%>
-    logged_at: <%= Time.now.advance(:hours => -2 )%>
+    logged_at: <%= Time.now.utc.advance(:hours => -2 )%>
     remote_ip: 192.168.0.1
 norma_msg3:
     user: norma
     event_type: <%=UserEvent::MSG_SENT%>
-    logged_at: <%= Time.now.advance(:hours => -1 )%>
+    logged_at: <%= Time.now.utc.advance(:hours => -1 )%>
     remote_ip: 192.168.0.1

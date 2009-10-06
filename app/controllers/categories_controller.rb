@@ -24,6 +24,6 @@ class CategoriesController < ApplicationController
   end
 
 	def show
-    log_user_event UserEvent::SELECT_CATEGORY, "", @category.name, {:category_id => @category.id }		
+    log_bam_user_event UserEvent::SELECT_CATEGORY, "", @category.name, {:category_id => @category.id }		
 	end
 end

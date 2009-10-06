@@ -16,12 +16,12 @@ class SpecialOffersController < ApplicationController
     if params[:index_public] == "true"
       @special_only = true
       @all_offers = @special_offers
-      log_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
+      log_bam_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
     else
       @special_only = false
       @gift_vouchers = GiftVoucher.published
       @all_offers = @special_offers.concat(@gift_vouchers)
-      log_user_event UserEvent::SELECT_COUNTER, "", "Offers"
+      log_bam_user_event UserEvent::SELECT_COUNTER, "", "Offers"
     end
   end
 

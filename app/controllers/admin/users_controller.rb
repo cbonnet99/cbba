@@ -30,7 +30,7 @@ class Admin::UsersController < AdminApplicationController
     else
       logout_keeping_session!
       self.current_user = @selected_user
-      log_user_event(UserEvent::ADMIN_LOGIN, "", "Success")
+      log_bam_user_event(UserEvent::ADMIN_LOGIN, "", "Success")
       flash[:notice]="Logged in successfully"
       if @selected_user.full_member?
         redirect_to expanded_user_path(current_user)
@@ -44,7 +44,7 @@ class Admin::UsersController < AdminApplicationController
     if @selected_user.nil?
       flash[:error]="User not found"
     else
-      log_user_event UserEvent::USER_DELETED, "", "Admin #{current_user} deleted user #{@selected_user.full_name}"
+      log_bam_user_event UserEvent::USER_DELETED, "", "Admin #{current_user} deleted user #{@selected_user.full_name}"
       @selected_user.destroy
       flash[:notice]="User deleted"
     end
