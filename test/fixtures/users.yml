@@ -56,6 +56,8 @@ norma:
   latitude:                  123
   longitude:                 20
   website:                   http://www.google.com
+  receive_newsletter:       true
+  unsubscribe_token:        282e6165f5d5dd716717755d0f733f5b38fe035a
 amcloughlin:
   first_name:                Aaron
   last_name:                 McLoughlin

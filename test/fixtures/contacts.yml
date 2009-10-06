@@ -5,7 +5,7 @@ joe:
   last_name: Public
   region: canterbury
   district: christchurch
-
+  unsubscribe_token: 282e6165f5d5dd716717755d0f733f5b38fe035a
 sarah:
   email: sarah@gmail.com
   receive_newsletter: false

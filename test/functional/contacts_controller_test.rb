@@ -14,4 +14,25 @@ class ContactsControllerTest < ActionController::TestCase
 #    puts assigns(:contact).errors.inspect
     assert_equal 0, assigns(:contact).errors.size
   end
+  
+  def test_unsubscribe
+    joe = contacts(:joe)
+    assert joe.receive_newsletter?
+    get :unsubscribe, :token => joe.unsubscribe_token, :id => joe.id
+    assert_response :success
+    assert_template 'unsubscribe_success'
+    joe.reload
+    assert !joe.receive_newsletter?
+  end
+  
+  def test_unsubscribe_failure
+    joe = contacts(:joe)
+    assert joe.receive_newsletter?
+    get :unsubscribe, :token => "bla", :id => joe.id
+    assert_response :success
+    assert_template 'unsubscribe_failure'
+    joe.reload
+    assert joe.receive_newsletter?
+  end
+  
 end

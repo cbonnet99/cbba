@@ -4,6 +4,14 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_renew_token
+    norma = users(:norma)
+    old_token = norma.unsubscribe_token
+    norma.renew_token
+    norma.reload
+    assert_not_equal old_token, norma.unsubscribe_token, "Token should have been renewed"
+  end
+
   def test_roles_description
     assert_equal "Admin, Resident expert for Hypnotherapy", users(:cyrille).roles_description
   end

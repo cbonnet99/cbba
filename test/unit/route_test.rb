@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class RoutingTest < ActionController::TestCase
   def test_routes
+    assert_routing({:path => "user/cyrille-bonnet/unsubscribe" }, { :controller => "users", :action => "unsubscribe", :slug => "cyrille-bonnet"})
     assert_routing({:path => "admin/newsletters/123", :method => :delete }, { :controller => "admin/newsletters", :action => "destroy", :id => "123"})
     assert_recognizes({:controller => 'newsletters', :action => "show", :id => "123" }, :path => "/newsletters/123")
     assert_recognizes({:controller => 'newsletters', :action => "index"}, :path => "/newsletters")

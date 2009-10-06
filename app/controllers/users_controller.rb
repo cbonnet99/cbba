@@ -2,9 +2,20 @@ class UsersController < ApplicationController
   include ApplicationHelper
   
   before_filter :full_member_required, :only => [:articles]
-  before_filter :login_required, :except => [:intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
+  before_filter :login_required, :except => [:unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
 
+  def unsubscribe
+    @selected_user = User.find_by_slug_and_unsubscribe_token(params[:slug], params[:token])
+    if @selected_user
+      @selected_user.update_attribute(:receive_newsletter, false)
+      render :action => "unsubscribe_success"
+    else
+      logger.error("Unsubscribe failure for user slug: #{params[:slug]}")
+      render :action => "unsubscribe_failure"      
+    end
+         
+  end
 
   def redirect_website
     @user = User.find_by_slug(params[:slug])

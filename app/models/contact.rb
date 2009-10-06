@@ -14,6 +14,10 @@ class Contact < ActiveRecord::Base
   
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
 
+  def renew_token
+    self.update_attribute(:unsubscribe_token, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))
+  end
+  
   def full_member?
     false
   end

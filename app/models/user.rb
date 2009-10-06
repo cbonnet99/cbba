@@ -92,6 +92,10 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
+
+  def renew_token
+    self.update_attribute(:unsubscribe_token, Digest::SHA1.hexdigest("#{salt}#{Time.now}#{id}"))
+  end
   
   def expertise_subcategory_id
     expertise_subcategory.try(:id)

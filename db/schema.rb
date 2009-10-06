@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091006095814) do
+ActiveRecord::Schema.define(:version => 20091006185727) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(:version => 20091006095814) do
     t.integer  "district_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "unsubscribe_token"
   end
 
   create_table "counters", :force => true do |t|
@@ -541,6 +542,7 @@ ActiveRecord::Schema.define(:version => 20091006095814) do
     t.integer  "published_gift_vouchers_count",                  :default => 0
     t.boolean  "receive_professional_newsletter",                :default => true
     t.integer  "feature_rank"
+    t.string   "unsubscribe_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

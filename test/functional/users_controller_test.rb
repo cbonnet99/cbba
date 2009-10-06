@@ -4,6 +4,26 @@ class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
 
+  def test_unsubscribe
+    norma = users(:norma)
+    assert norma.receive_newsletter?
+    get :unsubscribe, :token => norma.unsubscribe_token, :slug => norma.slug 
+    assert_response :success
+    assert_template 'unsubscribe_success'
+    norma.reload
+    assert !norma.receive_newsletter?
+  end
+
+  def test_unsubscribe_failure
+    norma = users(:norma)
+    assert norma.receive_newsletter?
+    get :unsubscribe, :token => "bla", :slug => norma.slug 
+    assert_response :success
+    assert_template 'unsubscribe_failure'
+    norma.reload
+    assert norma.receive_newsletter?
+  end
+
   def test_intro
     get :intro
     assert_response :success

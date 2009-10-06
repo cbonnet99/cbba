@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :resident_experts
   map.resources :invoices
   map.resources :orders
-  map.resources :contacts
+  map.resources :contacts, :member => {:unsubscribe => [:get, :post]}
   map.resources :subcategories
   map.resources :categories
   map.how_tos_show '/how-tos/:selected_user/:id', :controller => "how_tos", :action => "show"

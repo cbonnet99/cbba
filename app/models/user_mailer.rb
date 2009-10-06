@@ -35,6 +35,12 @@ class UserMailer < ActionMailer::Base
 
   def mass_email_newsletter(user, subject, newsletter)
     setup_email(user)
+    @body[:token] = user.renew_token
+    if user.is_a?(User)
+      @body[:url] = user_slug_action_url(:action => "unsubscribe", :slug => user.slug,  :unsubscribe_token => @token )
+    else
+      @body[:url] = contacts_url(:action => "unsubscribe", :id => user.id,  :unsubscribe_token => @token )
+    end
 		@subject << subject
 		@body[:newsletter] = newsletter
 		@body[:user] = user

@@ -21,4 +21,17 @@ class ContactsController < ApplicationController
       render :action => "new"
     end
   end
+  
+  def unsubscribe
+    @contact = Contact.find_by_id_and_unsubscribe_token(params[:id], params[:token])
+    if @contact
+      @contact.update_attribute(:receive_newsletter, false)
+      render :action => "unsubscribe_success"
+    else
+      logger.error("Unsubscribe failure for contact ID: #{params[:id]}")
+      render :action => "unsubscribe_failure"      
+    end
+         
+  end
+  
 end
