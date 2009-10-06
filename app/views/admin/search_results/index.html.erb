@@ -5,6 +5,7 @@
 <table class="admin">
   <tr>
     <th>Date</th>
+    <th>User</th>
     <th>What</th>
     <th>Where</th>
     <th>Category</th>
@@ -16,6 +17,7 @@
 <%@search_results.each do |s| -%>
 <tr class="<%=cycle('odd', 'even')%>">
 	<td><%= time_ago_in_words(s.logged_at)%> ago</td>
+	<td><% if s.user.nil?%>Anonymous<%else%><%= s.user.name%></td>
 	<td><%= s.extra_data.scan(/what:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/where:(.*?),/)%></td>
 	<td><%= s.extra_data.scan(/, category:(.*?),/)%></td>
