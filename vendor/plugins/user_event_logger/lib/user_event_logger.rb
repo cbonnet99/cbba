@@ -4,6 +4,7 @@ module UserEventLogger
       
       event = UserEvent.create(:source_url => request.path,
        :destination_url => destination_url,
+       :browser => request.env["HTTP_USER_AGENT"], 
        :remote_ip => request.remote_ip,
        :logged_at => Time.now,
        :extra_data => extra_data,
