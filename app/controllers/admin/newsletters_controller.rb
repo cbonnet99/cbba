@@ -4,10 +4,10 @@ class Admin::NewslettersController < AdminApplicationController
   before_filter :get_latest_items, :only => [:edit, :new]
 
   def edit
-    @special_offers = SpecialOffer.published_in_last_2_months(@newsletter.created_at)
-    @articles = Article.published_in_last_2_months(@newsletter.created_at)
-    @gift_vouchers = GiftVoucher.published_in_last_2_months(@newsletter.created_at)
-    @users = User.published_in_last_2_months(@newsletter.created_at)
+    @special_offers = SpecialOffer.currently_selected_and_last_10_published(@newsletter)
+    @articles = Article.currently_selected_and_last_10_published(@newsletter)
+    @gift_vouchers = GiftVoucher.currently_selected_and_last_10_published(@newsletter)
+    @users = User.currently_selected_and_last_10_published(@newsletter)
   end
 
   def destroy

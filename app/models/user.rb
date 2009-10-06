@@ -93,6 +93,11 @@ class User < ActiveRecord::Base
   SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
 
+  def self.currently_selected_and_last_10_published(newsletter)
+    newsletter.users + self.find(:all, :include => "user_profile", :conditions => "user_profiles.published_at is not null",  :order => "published_at desc", :limit => 10)
+  end
+  
+
   def renew_token
     self.update_attribute(:unsubscribe_token, Digest::SHA1.hexdigest("#{salt}#{Time.now}#{id}"))
   end

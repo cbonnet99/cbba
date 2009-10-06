@@ -31,6 +31,17 @@ module Workflowable
   end
   module WorkflowClassMethods
         
+    def currently_selected_and_last_10_published(newsletter)
+      res = Set.new
+      newsletter.send(self.to_s.tableize.to_sym).each do |i|
+        res << i
+      end
+      self.find(:all, :conditions => "published_at is not null",  :order => "published_at desc", :limit => 10).each do |i|
+        res << i
+      end
+      res
+    end
+    
     def published_in_last_2_months(start=Time.now)
       self.find(:all, :conditions => ["published_at BETWEEN ? AND ?", start.advance(:months => -2), Time.now])
     end
