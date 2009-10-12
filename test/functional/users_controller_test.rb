@@ -330,6 +330,7 @@ class UsersControllerTest < ActionController::TestCase
     get :show, {:name => sgardiner.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => cyrille.id }
 #    puts "============= #{@response.body}"
     assert @response.body =~ /Profile coming soon/
+    assert_no_match %r{To make it public, click on Publish}, @response.body
   end
 
   def test_show_how_to
