@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
   
   def check_and_update_attributes(user_hash)
     self.main_role = user_hash[:main_role]
-    self.admin = user_hash[:admin]
+    self.admin = user_hash[:admin] == "1"
     if user_hash[:main_role] == "Full member"
       self.member_since = Date::civil(user_hash['member_since(1i)'].to_i,
        user_hash['member_since(2i)'].to_i, 

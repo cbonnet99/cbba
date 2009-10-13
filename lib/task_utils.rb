@@ -28,8 +28,8 @@ class TaskUtils
       end
     end
     
-    users_no_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is null", :order => "published_at desc", :limit => $number_full_members_on_homepage  ) || []
-    users_with_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is not null", :order => "feature_rank", :limit => $number_full_members_on_homepage  ) || []
+    users_no_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is null", :order => "published_at desc") || []
+    users_with_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is not null", :order => "feature_rank") || []
     all_users = users_no_rank + users_with_rank
     total_size = all_users.size
     all_users.each_with_index do |u, i|

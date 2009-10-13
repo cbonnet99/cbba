@@ -6,9 +6,11 @@ class TaskUtilsTest < ActiveSupport::TestCase
   def test_rotate_feature_ranks
     cyrille = users(:cyrille)
     TaskUtils.rotate_feature_ranks
+    User.published.active.full_members.each do |u|
+      assert_not_nil u.feature_rank, "Feature should not be nil for user #{u.name}"
+    end
     cyrille.reload
     rank = cyrille.feature_rank
-    assert_not_nil rank
     TaskUtils.rotate_feature_ranks
     cyrille.reload
     assert cyrille.feature_rank != rank, "Feature should have changed"
