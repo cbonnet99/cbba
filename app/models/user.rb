@@ -307,7 +307,16 @@ class User < ActiveRecord::Base
       logger.error("Trying to make user: #{self.full_name} resident expert on #{subcategory.name}, but there is already an expert for this subcategory: #{subcategory.resident_expert.full_name}")
     else
       self.add_role("resident_expert")
-      self.add_role("full_member")
+      unless self.has_role?("full_member")
+        self.add_role("full_member")
+        unless self.user_profile.nil?
+          #reset publication information
+          self.user_profile.published_at = nil
+          self.user_profile.approved_at = nil
+          self.user_profile.approved_by_id = nil
+          self.user_profile.save!
+        end
+      end
       #remove free listing role as it will make a user appear twice
       self.free_listing = false
       self.remove_role("free_listing")

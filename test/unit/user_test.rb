@@ -95,6 +95,15 @@ class UserTest < ActiveSupport::TestCase
   
   def test_make_resident_expert_from_free_listing
     rmoore = users(:rmoore)
+    
+    #the profile should not be published
+    #but we want to make sure that publication
+    #information is reset...
+    rmoore.user_profile.published_at = Time.now
+    rmoore.user_profile.approved_at = Time.now
+    rmoore.user_profile.approved_by_id = users(:cyrille).id
+    rmoore.user_profile.save!
+    
     free_listing_role = roles(:free_listing_role)
     full_member_role = roles(:full_member_role)
     assert rmoore.roles.include?(free_listing_role)
@@ -112,6 +121,9 @@ class UserTest < ActiveSupport::TestCase
     assert !rmoore.roles.include?(free_listing_role)
     assert rmoore.roles.include?(full_member_role)
     assert rmoore.tabs.size > 0
+    assert_nil rmoore.user_profile.published_at, "Publication info should have been reset"
+    assert_nil rmoore.user_profile.approved_at, "Publication info should have been reset"
+    assert_nil rmoore.user_profile.approved_by_id, "Publication info should have been reset"
   end
 
   def test_make_resident_expert_from_full_member
@@ -125,6 +137,9 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil norma.resident_since
     assert_not_nil norma.resident_until
     assert norma.roles.include?(full_member_role)
+    assert_not_nil norma.user_profile.published_at, "Publication info should not have been reset as the user was already a full member"
+    assert_not_nil norma.user_profile.approved_at, "Publication info should not have been reset as the user was already a full member"
+    assert_not_nil norma.user_profile.approved_by_id, "Publication info not should have been reset as the user was already a full member"
   end
 
   def test_find_article_for_user
@@ -380,7 +395,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_sentence_to_review
     cyrille = users(:cyrille)
-    assert_equal "7 items to review", cyrille.sentence_to_review
+    assert_equal "6 items to review", cyrille.sentence_to_review
   end
 
   def test_roles

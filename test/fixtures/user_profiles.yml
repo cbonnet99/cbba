@@ -9,6 +9,8 @@ norma_profile:
   user: norma
   state: published
   published_at: <%= 4.days.ago.to_s :db %>
+  approved_at: <%= 4.days.ago.to_s :db %>
+  approved_by: cyrille
 
 amcloughlin_profile:
   user: amcloughlin
