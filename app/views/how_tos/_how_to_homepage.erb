@@ -1,1 +1,1 @@
-<h4 class="article-title"><%=link_to how_to.title, articles_show_path(how_to.author.slug, how_to.slug, :index_public => true) %></h4><div class="by-author">by <%= author_link(how_to.author) %></div><div class="article-subcategories">[<%= link_articles_subcategories(how_to)%>]</div>
+<h4 class="article-title"><%=link_to how_to.title, how_tos_show_path(how_to.author.slug, how_to.slug, :index_public => true) %></h4><div class="by-author">by <%= author_link(how_to.author) %></div><div class="article-subcategories">[<%= link_articles_subcategories(how_to)%>]</div>
