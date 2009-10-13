@@ -72,6 +72,13 @@ class PaymentTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries = []
 
     pending_user = users(:pending_user)
+    
+    #testing that the publication info is reset...
+    pending_user.user_profile.published_at = Time.now
+    pending_user.user_profile.approved_at = Time.now
+    pending_user.user_profile.approved_by_id = users(:cyrille).id
+    pending_user.user_profile.save!
+    
     payment = pending_user.payments.create!(Payment::TYPES[:full_member])
     payment.update_attributes(:card_number => "1", :card_expires_on => Time.now)
     payment.purchase
@@ -80,6 +87,9 @@ class PaymentTest < ActiveSupport::TestCase
     assert_equal 1.year.from_now.to_date, pending_user.member_until.to_date
     #an email should have been sent
     assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_nil pending_user.user_profile.published_at, "Publication info should have been reset"
+    assert_nil pending_user.user_profile.approved_at, "Publication info should have been reset"
+    assert_nil pending_user.user_profile.approved_by_id, "Publication info should have been reset"
   end
 
   def test_purchase_renew

@@ -143,6 +143,15 @@ class Payment < ActiveRecord::Base
         user.free_listing = false
         user.add_role("full_member")
       end
+      if payment_type == "new"
+        #reset publication information
+        unless user.user_profile.nil?
+          user.user_profile.published_at = nil
+          user.user_profile.approved_at = nil
+          user.user_profile.approved_by_id = nil
+          user.user_profile.save!          
+        end
+      end
     end
     if payment_type == "resident_expert" || payment_type == "resident_expert_renewal"
       user.resident_since = Time.now if user.resident_since.nil?
