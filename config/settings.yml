@@ -20,4 +20,13 @@ production:
   sav: sav@elevatecoaching.co.nz
   cyrille: cbonnet99@gmail.com
   megan: megan@beamazing.co.nz
+staging:
+    site_host: staging.beamazing.co.nz
+    site_name: Be Amazing [STAGING]
+    admin_email: admin@beamazing.co.nz
+    rake: /usr/local/bin/rake
+    norma: norma@eurekacoaching.co.nz
+    sav: sav@elevatecoaching.co.nz
+    cyrille: cbonnet99@gmail.com
+    megan: megan@beamazing.co.nz
   
