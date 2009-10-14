@@ -15,3 +15,8 @@ production:
     database: be_amazing_production
     username: postgres
     password: test0user
+staging:
+    adapter: postgresql
+    database: be_amazing_staging
+    username: bam_user
+    password: test0user
