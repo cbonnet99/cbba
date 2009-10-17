@@ -1,0 +1,1 @@
+delete from user_events WHERE logged_at < now() - interval '1 year';

@@ -26,4 +26,17 @@
 	  </Directory>
 	</VirtualHost>
 </IfModule>
+<IfModule mod_expires.c>
+# Turn on Expires and set default to 0
+ExpiresActive On
+ExpiresDefault A0
 
+# Set up caching on media files for 1 year
+<FilesMatch "\.(gif|jpe?g|png|swf|css|js|JS|CSS|GIF|JPE?G|PNG|SWF)$">
+ExpiresDefault "access plus 1 year"
+Header append Cache-Control "public"
+</FilesMatch>
+</IfModule>
+<IfModule mod_deflate.c>
+          AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript
+</IfModule>

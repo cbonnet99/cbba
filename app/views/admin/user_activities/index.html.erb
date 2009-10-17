@@ -3,7 +3,8 @@
 <table class="admin">
   <tr>
     <th>User</th>
-    <th>Event type</th>
+    <th>Type</th>
+    <th>Extra data</th>
     <th>Logged</th>
     <th>Details</th>
   </tr>
@@ -12,6 +13,7 @@
 <tr class="<%=cycle('odd', 'even')%>">
 	<td><%= s.user_name %></td>
 	<td><%= s.event_type %></td>
+	<td><%= s.extra_data %></td>
 	<td><%= time_ago_in_words(s.logged_at)%> ago</td>
 	<td><%unless s.user.nil?-%><%= link_to "View all activities for #{s.user.name}", user_activity_admin_path(:id  => s.user_id)%><%end%></td>
 </tr>

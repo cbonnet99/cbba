@@ -1,2 +1,0 @@
-#!/bin/sh
-psql -U postgres -d beamazing_production < /usr/local/cft/deploy/rails/script/delete-old-sessions.sql

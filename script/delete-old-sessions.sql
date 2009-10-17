@@ -1,1 +1,0 @@
-DELETE FROM sessions WHERE updated_at < now() - interval '12 hours'
