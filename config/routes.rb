@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|  
   
   map.user_activities_admin '/admin/user_activities', :controller => "admin/user_activities", :action => "index"  
+  map.user_activity_admin '/admin/user_activity/:id', :controller => "admin/user_activities", :action => "show"  
   map.resources :newsletters
   map.resources :newsletters, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/newsletters", :member => {:publish => [:get, :post], :retract => [:get, :post] }
 

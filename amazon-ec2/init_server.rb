@@ -15,13 +15,13 @@
 
 
   puts "Starting instance"
-  response = ec2.run_instances(:image_id => "ami-01729468", :key_name => "cyrille-keypair", :group_id => ["bam_security"] )
+  response = ec2.run_instances(:image_id => "ami-c0f615a9", :key_name => "cyrille-keypair", :group_id => ["bam_security"] )
   
   
   instance_id = response.instancesSet.item[0].instanceId
   puts "Started instance #{instance_id}"
   puts "Associating IP address"
-  ec2.associate_address(:instance_id => instance_id, :public_ip => "174.129.6.162")
-  puts "Associated IP address 174.129.6.162 to your instance"
+  ec2.associate_address(:instance_id => instance_id, :public_ip => "174.129.33.107")
+  puts "Associated IP address to your instance"
   
   

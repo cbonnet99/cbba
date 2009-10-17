@@ -1,0 +1,22 @@
+development:
+  adapter: postgresql
+  database: be_amazing_development
+  username: postgres
+  password: test0user
+  
+test:
+  adapter: postgresql
+  database: be_amazing_test
+  username: postgres
+  password: test0user
+
+production:
+    adapter: postgresql
+    database: be_amazing_production
+    username: postgres
+    password: test0user
+staging:
+    adapter: postgresql
+    database: be_amazing_staging
+    username: bam_user
+    password: test0user

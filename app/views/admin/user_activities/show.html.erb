@@ -1,19 +1,17 @@
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "user_activities" }  %>
-<%= title "Last activity"%>
+<%= title "User activities for #{@user.name}"%>
 <table class="admin">
   <tr>
-    <th>User</th>
-    <th>Event type</th>
     <th>Logged</th>
-    <th>Details</th>
+    <th>Type</th>
+    <th>Extra data</th>
   </tr>
 <%= will_paginate @activities%>
 <%@activities.each do |s| -%>
 <tr class="<%=cycle('odd', 'even')%>">
-	<td><%= s.user_name %></td>
-	<td><%= s.event_type %></td>
 	<td><%= time_ago_in_words(s.logged_at)%> ago</td>
-	<td><%unless s.user.nil?-%><%= link_to "View all activities for #{s.user.name}", user_activity_admin_path(:id  => s.user_id)%><%end%></td>
+	<td><%= s.event_type %></td>
+	<td><%= s.extra_data %></td>
 </tr>
 <%end-%>
 </table>

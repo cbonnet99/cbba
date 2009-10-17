@@ -1,3 +1,6 @@
+require 'capistrano/ext/multistage'
+require 'deprec'
+
 # Elastic Server Deployment Script
 # Author: Yan Pritzker, CohesiveFT <yan.pritzker@cohesiveft.com>
 # Revision: 1.1
@@ -34,6 +37,18 @@ set :repository, "git@github.com:cbonnet99/cbba.git"
 set :branch, "master"
 ssh_options[:forward_agent] = true
 
+
+# =============================================================================
+# DEPREC OPTIONS
+# =============================================================================
+set :ruby_vm_type,      :ree        # :ree, :mri
+set :web_server_type,   :apache     # :apache, :nginx
+set :app_server_type,   :passenger  # :passenger, :mongrel
+set :db_server_type,    :postgresql      # :mysql, :postgresql, :sqlite
+
+#set :packages_for_project, %w(build-essential libxml2-dev git-core ruby1.8-dev rubygems1.8 sun-java6-jre zip) # list of packages to be installed
+set :gems_for_project, %w(SyslogLogger postgres libxml-ruby) # list of gems to be installed
+
 #set :repository, "."
 #set :scm, :none
 #set :deploy_via, :copy
@@ -41,22 +56,11 @@ ssh_options[:forward_agent] = true
 # This script is designed to prompt you for the ip of your Elastic Server.
 # You can hardcode it by changing the :deploy_to_ip variable.
 
-set :deploy_to_ip,  "75.101.132.186"
-#set :deploy_to_ip,  lambda { HighLine.new.ask "Elastic Server IP: "}
-set :user,          "cftuser"
-set :runner,        "cftuser" # required for cap 2.3
-#set :password,      "cftuser"  #
-set :password,  "mavslr55"
 #set :password,  lambda { CLI.password_prompt "Target Password (user: #{user}): "}
 
 # DO NOT MODIFY BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING
 
-set :deploy_to, "/usr/local/cft/deploy/capistrano"
-set :elastic_server_deploy_target, "/usr/local/cft/deploy/rails"
 
-role :app, deploy_to_ip
-role :web, deploy_to_ip
-role :db, deploy_to_ip, :primary => true
 
 before "deploy:init", "deploy:setup"
 after 'deploy:update_code', 'deploy:symlink_shared'
@@ -77,11 +81,11 @@ namespace(:bam) do
     run "cd #{release_path} && rake bam:import_users RAILS_ENV=production"    
   end
      
-  desc "Regenerates JS files after a new subcategory or location has been added"
-  task :regenerates_js, :roles => :app do
-    run "cd #{release_path} && rake bam:generate_autocomplete_js RAILS_ENV=production"    
-    run "cd #{release_path} && rake asset:packager:build_all RAILS_ENV=production"    
-  end
+  # desc "Regenerates JS files after a new subcategory or location has been added"
+  # task :regenerates_js, :roles => :app do
+  #   run "cd #{release_path} && rake bam:generate_autocomplete_js RAILS_ENV=production"
+  #   run "cd #{release_path} && rake asset:packager:build_all RAILS_ENV=production"    
+  # end
   
 end
 
@@ -105,7 +109,9 @@ end
 namespace(:deploy) do
   desc "Update the crontab file"
   task :update_crontab, :roles => :db do
-    run "cd #{release_path} && whenever --write-crontab #{application}"
+    if rails_env == "production"
+      run "cd #{release_path} && whenever --write-crontab #{application}"
+    end
   end
   
   desc "Restart the Rails server."
@@ -160,8 +166,8 @@ namespace(:deploy) do
   end
 
   task :after_update_code, :roles => [:app] do
-    run "cd #{release_path} && rake bam:generate_autocomplete_js RAILS_ENV=production"
-    run "cd #{release_path} && rake asset:packager:build_all RAILS_ENV=production"
+    run "cd #{release_path} && rake bam:generate_autocomplete_js RAILS_ENV=#{rails_env}"
+    run "cd #{release_path} && rake asset:packager:build_all RAILS_ENV=#{rails_env}"
   end
 
   desc "Installs gems necessary for BAM"
@@ -194,7 +200,7 @@ namespace(:deploy) do
       update_code
       web.disable
       symlink
-      elastic_server_symlink
+      # elastic_server_symlink
 #      run_init_ami
       migrate
 #      load_data

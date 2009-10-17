@@ -17,6 +17,7 @@ class PaymentsController < ApplicationController
 
   # GET /payments/1/edit
   def edit
+    log_bam_user_event(UserEvent::STARTED_PAYMENT, "", "Credit card")
     @payment.update_attribute(:payment_card_type, "credit_card")
     @payment.first_name = current_user.first_name
     @payment.last_name = current_user.last_name
@@ -29,6 +30,7 @@ class PaymentsController < ApplicationController
   end
 
   def edit_debit
+    log_bam_user_event(UserEvent::STARTED_PAYMENT, "", "Direct debit")
     @payment.update_attribute(:payment_card_type, "direct_debit")
     unless @payment.pending?
       flash[:error] = "This payment is not pending"
@@ -57,8 +59,10 @@ class PaymentsController < ApplicationController
         redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
       else
         if @payment.purchase
+          log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.payment_type}")
           render :action => Payment::REDIRECT_PAGES[@payment.payment_type.to_sym]
         else
+          log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@payment.errors.full_messages.to_sentence}")
           logger.debug "======= #{@payment.errors.inspect}"
           render :action => 'edit'
         end

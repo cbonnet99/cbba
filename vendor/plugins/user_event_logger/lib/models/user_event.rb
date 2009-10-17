@@ -23,6 +23,19 @@ class UserEvent < ActiveRecord::Base
   LOGIN = "Login"
   ADMIN_LOGIN = "Admin login"
   USER_DELETED = "User deleted"
+  STARTED_PAYMENT = "Started payment"
+  PAYMENT_SUCCESS = "Payment successful"
+  PAYMENT_FAILURE = "Payment failed"
+  
+  def user_name
+    if user.nil?
+      res = "Anonymous"
+      res << " (#{session[0..6]})" unless session.nil?
+    else
+      res = user.name
+    end
+    res
+  end
   
   def self.per_page
     20

@@ -1,0 +1,29 @@
+# Don't cause the server to break if Passenger module not loaded
+<IfModule passenger_module>
+	<VirtualHost *:80>
+	  ServerName staging.beamazing.co.nz
+        ServerAlias assets0.beamazing.co.nz
+        ServerAlias assets1.beamazing.co.nz
+        ServerAlias assets2.beamazing.co.nz
+        ServerAlias assets3.beamazing.co.nz
+
+	  DocumentRoot "/var/rails/be_amazing/current/public"
+	  CustomLog /var/log/apache2/be_amazing-access.log combined
+	  ErrorLog /var/log/apache2/be_amazing-error.log
+	  
+	  RailsEnv production
+	  # RailsAllowModRewrite off
+	  #
+	  # Check for maintenance file and redirect all requests
+	  RewriteEngine On
+	  RewriteCond %{REQUEST_URI} !\.(css|jpg|png|gif)$
+	  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+	  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+      RewriteRule ^.*$ /system/maintenance.html [L]
+	  <Directory "/var/rails/be_amazing/current/public">
+	    Order allow,deny
+	    Allow from all
+	  </Directory>
+	</VirtualHost>
+</IfModule>
+

@@ -1,7 +1,9 @@
 module ApplicationHelper
 
   def log_bam_user_event(name, destination_url = nil, extra_data = nil, options = {})
-    log_user_event(name, destination_url, extra_data, options.merge(:browser => request.env["HTTP_USER_AGENT"], :session => session.session_id ))
+    unless request.env["HTTP_USER_AGENT"] =~ /bot/
+      log_user_event(name, destination_url, extra_data, options.merge(:browser => request.env["HTTP_USER_AGENT"], :session => session.session_id ))
+    end
   end
 
   def link_articles_subcategories(article)

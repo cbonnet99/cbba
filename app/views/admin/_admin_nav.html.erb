@@ -1,5 +1,5 @@
 <%if selected=="users"%><span class="user-tab-selected">Users</span><%else%><%= link_to "Users", search_admin_users_path%><%end%> |
-<%if selected=="user_activities"%><span class="user-tab-selected">User Activities</span><%else%><%= link_to "User activities", user_activities_admin_path %><%end%> |
+<%if selected=="user_activities"%><span class="user-tab-selected">Last Activity</span><%else%><%= link_to "Last activity", user_activities_admin_path %><%end%> |
 <%if selected=="emails"%><span class="user-tab-selected">Emails</span><%else%><%= link_to "Emails", mass_emails_path %><%end%> |
 <%if selected=="payments"%><span class="user-tab-selected">Payments</span><%else%><%= link_to "Payments", :controller => "admin/payments", :action => "index", :id => ""    %><%end%> |
 <%if selected=="expert_applications"%><span class="user-tab-selected">Expert applications</span><%else%><%= link_to "Expert_applications", expert_applications_action_path(:action => "index")%><%end%> |
