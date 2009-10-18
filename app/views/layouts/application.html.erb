@@ -17,7 +17,7 @@
 			<div id="header">
 				<ul>
 					<% if logged_in? %>
-					<li><%= link_to 'Logout', logout_path %></li>
+					<li><%= link_to 'Logout', logout_url(:host => APP_CONFIG[:site_host]) %></li>
 					<% else %>
 					<li><%= link_to 'Login', login_path %></li>
 					<li><%= link_to 'Signup', signup_path %></li>
