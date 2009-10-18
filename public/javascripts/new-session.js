@@ -1,3 +1,3 @@
 $(document).ready(function(){
-    $("input:text:first").focus();
+    $("input#email").focus();
 });
