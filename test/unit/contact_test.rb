@@ -1,8 +1,25 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class ContactTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  fixtures :all
+  
+  def test_create
+    new_contact = Contact.create(:email => "test@test.com")
+    assert new_contact.errors.blank?, "Contacts should be able to create an account very quickly with minimal information: just their email address"
+    assert !new_contact.crypted_password.blank?, "Contacts should be assigned a password automatically if they didn't provide one"
+  end
+  
+  def test_authenticate
+    joe = contacts(:joe)
+    assert_equal joe, Contact.authenticate(joe.email, "monkey")
+  end
+  
+  def test_unique
+    double = Contact.new(:email => contacts(:joe).email )
+    assert !double.valid?
+  end
+  def test_unique_users
+    double = Contact.new(:email => users(:cyrille).email )
+    assert !double.valid?
   end
 end

@@ -1,5 +1,8 @@
 class Contact < ActiveRecord::Base
   include Authentication
+  include Authentication::ByPassword
+  include Authentication::ByCookieToken
+  include Authorization::AasmRoles
   include ContactSystem
 
   belongs_to :region
@@ -13,6 +16,20 @@ class Contact < ActiveRecord::Base
   validates_length_of :email, :within => 6..100 #r@a.wk
   
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
+
+  before_validation :generate_pwd_if_blank
+  
+  def generate_pwd_if_blank
+    if self.password.blank? && self.password_confirmation.blank?
+      self.password = self.password_confirmation = self.class.generate_random_password
+    end
+  end
+  
+  def validate
+    unless Contact.find_by_email(self.email).blank? && User.find_by_email(self.email).blank?
+      errors.add(:email ,"is already in use. Please select a different one or select 'Password forgotten'.")
+    end
+  end
 
   def renew_token
     self.update_attribute(:unsubscribe_token, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))

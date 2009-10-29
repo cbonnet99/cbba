@@ -89,8 +89,6 @@ class User < ActiveRecord::Base
 	attr_accessor :membership_type, :resident_expert_application, :accept_terms, :admin, :main_role
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
-  SPECIAL_CHARACTERS = ["!", "@", "#", "$", "%", "~", "^", "&", "*"]
-  SPECIAL_CHARACTERS_REGEX = User::SPECIAL_CHARACTERS.inject("") {|res, s| res << s}
   WEBSITE_PREFIX = "http://"
 
   def self.currently_selected_and_last_10_published(newsletter)
@@ -417,10 +415,6 @@ class User < ActiveRecord::Base
 
   def last_12months_profile_visits
     UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
-  end
-
-  def self.generate_random_password
-    "#{SPECIAL_CHARACTERS.rand}#{PasswordGenerator.generate(5).capitalize}#{rand(9)}#{rand(9)}"
   end
   
   def geocoded?
@@ -1036,18 +1030,6 @@ class User < ActiveRecord::Base
           end
     end
 	end
-
-  # Authenticates a user by their login name and unencrypted password.  Returns
-  # the user or nil.
-  #
-  # uff.  this is really an authorization, not authentication routine. We really
-  # need a Dispatch Chain here or something. This will also let us return a
-  # human error message.
-  #
-  def self.authenticate(email, password)
-    u = find :first, :conditions => { :email => email } # need to get the salt
-    u && u.authenticated?(password) ? u : nil
-  end
   
   # Check if a user has a role.
   def has_role?(role)

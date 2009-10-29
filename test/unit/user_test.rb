@@ -4,6 +4,11 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_generate_random_password
+    rp = User.generate_random_password
+    assert_not_nil rp
+  end
+
   def test_renew_token
     norma = users(:norma)
     old_token = norma.unsubscribe_token
