@@ -1,0 +1,61 @@
+server {
+        listen   80;
+        server_name  staging.beamazing.co.nz assets0.beamazing.co.nz assets1.beamazing.co.nz assets2.beamazing.co.nz assets3.beamazing.co.nz;
+
+
+        access_log  /var/log/nginx/localhost.access.log;
+
+		location ~ ^/(images|javascripts|stylesheets|assets)/  {
+			root /var/rails/be_amazing/current/public;
+			expires max;
+			break;
+		}
+
+        location / {
+                proxy_pass http://staging.beamazing.co.nz:6081;
+                proxy_set_header   Host             $host;
+                proxy_set_header   X-Real-IP        $remote_addr;
+                proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
+
+
+        #error_page  404  /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+                root   /var/www/nginx-default;
+        }
+}
+server {
+        listen   80;
+        server_name  logged-staging.beamazing.co.nz;
+
+        access_log  /var/log/nginx/localhost.access.log;
+
+        location / {
+                proxy_pass http://logged-staging.beamazing.co.nz:8080;
+        }
+}
+# HTTPS server
+#
+#server {
+#listen   443;
+#server_name  localhost;
+
+#ssl  on;
+#ssl_certificate  cert.pem;
+#ssl_certificate_key  cert.key;
+
+#ssl_session_timeout  5m;
+
+#ssl_protocols  SSLv2 SSLv3 TLSv1;
+#ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+#ssl_prefer_server_ciphers   on;
+
+#location / {
+#root   html;
+#index  index.html index.htm;
+#}
+#}

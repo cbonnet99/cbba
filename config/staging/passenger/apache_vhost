@@ -1,31 +1,3 @@
-# Don't cause the server to break if Passenger module not loaded
-<IfModule passenger_module>
-	<VirtualHost *:80>
-	  ServerName staging.beamazing.co.nz
-        ServerAlias assets0.beamazing.co.nz
-        ServerAlias assets1.beamazing.co.nz
-        ServerAlias assets2.beamazing.co.nz
-        ServerAlias assets3.beamazing.co.nz
-
-	  DocumentRoot "/var/rails/be_amazing/current/public"
-	  CustomLog /var/log/apache2/be_amazing-access.log combined
-	  ErrorLog /var/log/apache2/be_amazing-error.log
-	  
-	  RailsEnv production
-	  # RailsAllowModRewrite off
-	  #
-	  # Check for maintenance file and redirect all requests
-	  RewriteEngine On
-	  RewriteCond %{REQUEST_URI} !\.(css|jpg|png|gif)$
-	  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
-	  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
-      RewriteRule ^.*$ /system/maintenance.html [L]
-	  <Directory "/var/rails/be_amazing/current/public">
-	    Order allow,deny
-	    Allow from all
-	  </Directory>
-	</VirtualHost>
-</IfModule>
 <IfModule mod_expires.c>
 # Turn on Expires and set default to 0
 ExpiresActive On
@@ -37,6 +9,59 @@ ExpiresDefault "access plus 1 year"
 Header append Cache-Control "public"
 </FilesMatch>
 </IfModule>
-<IfModule mod_deflate.c>
-          AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript
+<IfModule mod_headers.c>
+        Header always unset ETag
+        Header always unset Server      
+        Header always unset X-Runtime
+        Header always unset X-Powered-By
+        Header set CyrilleTest "HERE"   
 </IfModule>
+<IfModule passenger_module>
+   <VirtualHost *:8080>
+          ServerName logged-staging.beamazing.co.nz
+
+          DocumentRoot "/var/rails/be_amazing/current/public"
+          CustomLog /var/log/apache2/be_amazing-access.log combined
+          ErrorLog /var/log/apache2/be_amazing-error.log
+          Header set Cyrille "This is LOGGED-STAGING" 
+          RailsEnv staging
+          # RailsAllowModRewrite off
+          #
+          # Check for maintenance file and redirect all requests
+          RewriteEngine On
+          RewriteCond %{REQUEST_URI} !\.(css|jpg|png|gif)$
+          RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+          RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+      RewriteRule ^.*$ /system/maintenance.html [L]
+          <Directory "/var/rails/be_amazing/current/public">
+            Order allow,deny
+            Allow from all
+			          </Directory>
+			   </VirtualHost>
+			   <VirtualHost *:8080>
+			        ServerName staging.beamazing.co.nz
+			        Header set Cyrille "This is STAGING"
+			        #Header always unset Set-Cookie 
+			        <IfModule mod_expires.c>
+			          Header always set Cache-Control "public" 
+			          ExpiresByType text/html A300
+			        </IfModule>
+			          DocumentRoot "/var/rails/be_amazing/current/public"
+			          CustomLog /var/log/apache2/be_amazing-access.log combined
+			          ErrorLog /var/log/apache2/be_amazing-error.log
+
+			          RailsEnv staging
+			          # RailsAllowModRewrite off
+			          #
+			          # Check for maintenance file and redirect all requests
+			          RewriteEngine On
+			          RewriteCond %{REQUEST_URI} !\.(css|jpg|png|gif)$
+			          RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+			          RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+			          RewriteRule ^.*$ /system/maintenance.html [L]
+			          <Directory "/var/rails/be_amazing/current/public">
+			            Order allow,deny
+			            Allow from all
+			          </Directory>
+			        </VirtualHost>
+			</IfModule>
