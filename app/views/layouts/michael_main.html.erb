@@ -59,7 +59,7 @@
 		<%else%>
 		 <li><%= link_to "Your profile", current_user.full_member? ? expanded_user_path(current_user) : user_edit_path %></li>
 		<%end%>
-		<li><%= link_to 'Logout', logout_url(:host => APP_CONFIG[:site_host]) %></li>
+		<li><%= link_to 'Logout', logout_url %></li>
     <%else -%>
 	  <li><%= link_to 'FREE Newsletter', signup_newsletter_path %></li>
       <li><%= link_to 'Login', new_session_url(:host => APP_CONFIG[:logged_site_host]) %></li>
