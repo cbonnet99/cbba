@@ -1,6 +1,6 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "articles" }  %>
 <%= title "Your articles"  %>
-<p><%= link_to "Create new article", new_article_path %></p>
+<p><%= link_to "Write a new article", new_article_path %></p>
 <% if @articles.empty? -%>
   No articles
 <% else -%>

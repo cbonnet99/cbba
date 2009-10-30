@@ -8,11 +8,17 @@
 	<%end -%>
 <% end -%>
 <%= title @special_offer.title %>
-<%if (is_author?(@special_offer) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>
-<% if is_author?(@special_offer) -%>
-        <%= link_to 'Delete', special_offer_path(@special_offer.slug), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
-<%= link_to 'Edit', edit_special_offer_path(@special_offer.slug), :class => "anchor-button" %>
-<% end -%></div><%end%>
+<%if (is_author?(@special_offer) || is_admin?) -%>
+<div class="publication-actions">
+	<%= render :partial => "reviewer/publication_actions", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>
+	<% if is_author?(@special_offer) -%>
+	<div>
+		<%= link_to 'Delete', special_offer_path(@special_offer.slug), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
+		<%= link_to 'Edit', edit_special_offer_path(@special_offer.slug), :class => "anchor-button" %>
+	</div>
+	<% end -%>
+</div>
+<%end%>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @special_offer} %>
 <hr/>
   <h3>Description</h3>

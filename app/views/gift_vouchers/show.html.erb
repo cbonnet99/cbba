@@ -10,9 +10,10 @@
 <%= title @gift_voucher.title %>
 <%if (is_author?(@gift_voucher) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
 <% if is_author?(@gift_voucher) -%>
-        <%= link_to 'Delete', gift_voucher_path(@gift_voucher.slug), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
+<div>
+<%= link_to 'Delete', gift_voucher_path(@gift_voucher.slug), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
 <%= link_to 'Edit', edit_gift_voucher_path(@gift_voucher.slug), :class => "anchor-button" %>
-<% end -%></div><%end%>
+</div><% end -%></div><%end%>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @gift_voucher} %>
 <hr/>
   <h3>Description</h3>

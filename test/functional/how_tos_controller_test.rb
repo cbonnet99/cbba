@@ -91,6 +91,8 @@ class HowTosControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:how_to)
+    assert_select "input[value=Unpublish]", nil, "Author can publish this how to"
+    assert_select "a", :text => "Delete"
   end
 
 end
