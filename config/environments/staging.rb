@@ -1,9 +1,9 @@
 # Settings specified here will take precedence over those in config/environment.rb
 
 #Specify an asset host
-ActionController::Base.asset_host = "assets%d.beamazing.co.nz"
+ActionController::Base.asset_host = "staging-assets%d.beamazing.co.nz"
 config.action_controller.asset_host = AssetHostingWithMinimumSsl.new(
-  "http://assets%d.beamazing.co.nz", # will serve non-SSL assets on http://assets
+  "http://staging-assets%d.beamazing.co.nz", # will serve non-SSL assets on http://assets
   "http://staging.beamazing.co.nz"  # will serve SSL assets on https://www
 )
 
