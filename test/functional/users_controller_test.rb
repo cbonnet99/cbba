@@ -165,18 +165,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_articles_full_member
-    cyrille = users(:cyrille)
-    get :articles, {}, {:user_id => cyrille.id }
-    assert_response :success
-  end
-
-  def test_articles_full_member2
-    amcloughlin = users(:amcloughlin)
-    get :articles, {}, {:user_id => amcloughlin.id }
-    assert_response :unauthorized
-  end
-
   def test_new_photo
     cyrille = users(:cyrille)
     get :new_photo, {}, {:user_id => cyrille.id }

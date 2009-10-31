@@ -1,12 +1,4 @@
-<% if @context == "profile" -%>
-<%= render :partial => "users/user_nav", :locals => {:selected => "" } %>
-<%end -%>
-<% if @context == "review" -%>
-	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
-<%end -%>
-<% if @context == "homepage" -%>
-	<%= link_to "Back to articles", articles_path %>
-<%end -%>
+<%= render :partial => "articles/back_links" %>
 <div class='cleaner'></div>
 <div class="heading-photo"><%= thumbnail_image(@how_to.author) %></div>
 <div class="heading-title">

@@ -163,20 +163,12 @@ class UsersController < ApplicationController
     end
   end
 
-	def articles
-		@articles = current_user.articles
-	end
-
 	def gift_vouchers
 		@gift_vouchers = current_user.gift_vouchers
 	end
 
 	def special_offers
 		@special_offers = current_user.special_offers
-	end
-
-	def howtos
-		@howtos = current_user.how_tos
 	end
 
 	def edit

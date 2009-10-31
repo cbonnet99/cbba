@@ -4,6 +4,6 @@
 <% if @context == "review" -%>
 	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
 <% end -%>
-<% if @context == "homepage" -%>
+<% if @context == "homepage" || @context.blank? -%>
 	<%= link_to 'Back to articles', articles_path %>
 <% end -%>

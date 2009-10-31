@@ -1,5 +1,4 @@
-<%= render :partial => "users/user_nav", :locals => {:selected => "" }  %>
-<%= link_to 'Back to your articles', user_articles_path %>
+<%= render :partial => "back_links" %>
 <%= title "New article"  %>
 <% form_for(@article) do |f| %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your article could not be saved" %>

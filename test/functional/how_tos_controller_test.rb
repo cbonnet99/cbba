@@ -109,7 +109,7 @@ class HowTosControllerTest < ActionController::TestCase
   def test_show_anonymous_draft
     cyrille = users(:cyrille)
     get :show, {:id => how_tos(:improve).slug, :selected_user => cyrille.slug  }
-    assert_redirected_to how_tos_path
+    assert_redirected_to articles_path
     assert_not_nil assigns(:selected_user)
     assert_nil assigns(:how_to)
   end

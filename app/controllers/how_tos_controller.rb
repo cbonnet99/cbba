@@ -30,16 +30,12 @@ class HowTosController < ApplicationController
     get_selected_user
     if @selected_user.nil?
       flash[:error]="Sorry, this 'how to' article could not be found"
-      redirect_to user_howtos_path
+      redirect_with_context(articles_url)
     else
       @how_to = @selected_user.find_how_to_for_user(params[:id], current_user)
       if @how_to.nil?
         flash[:error]="Sorry, this 'how to' article could not be found"
-        if @selected_user == current_user
-          redirect_to user_howtos_path        
-        else
-          redirect_to how_tos_path        
-        end
+        redirect_with_context(articles_url)
       end      
     end
   end

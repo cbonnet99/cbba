@@ -39,9 +39,9 @@
 <% @newest_articles.each do |a| -%>
   <div class="homepage-article col1">
   <% if a.class.to_s == "HowTo" -%>
-    <%= render :partial => "how_tos/how_to_homepage", :locals => {:how_to => a }  %>
+    <%= render :partial => "how_tos/how_to", :locals => {:how_to => a }  %>
   <% else -%>
-    <%= render :partial => "articles/article_homepage", :locals => {:article => a }  %>
+    <%= render :partial => "articles/article", :locals => {:article => a }  %>
   <% end -%>
   </div>
 <% end -%>
