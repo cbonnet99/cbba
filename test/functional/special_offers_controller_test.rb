@@ -26,7 +26,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
       :how_to_book => "Book here", :terms => "Terms here", :author => sgardiner)
     post :publish, {:id => new_offer2.id }, {:user_id => sgardiner.id }
     assert_equal "You can only have 1 special offer published at any time", flash[:error]
-    assert_redirected_to special_offers_show_path(new_offer2.author.slug, new_offer2.slug)
+    assert_redirected_to special_offers_url
   end
 
   def test_limit_special_offers_for_resident_expert
@@ -40,7 +40,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
 
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
     assert_equal "You can only have 3 special offers published at any time", flash[:error]
-    assert_redirected_to special_offers_show_path(one.author.slug, one.slug)
+    assert_redirected_to special_offers_url
   end
 
   def test_publish
@@ -48,8 +48,8 @@ class SpecialOffersControllerTest < ActionController::TestCase
     one = special_offers(:one)
     old_published_count = cyrille.published_special_offers_count
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
-    assert_equal "Special offer successfully published", flash[:notice]
-    assert_redirected_to special_offers_show_path(one.author.slug, one.slug)
+    assert_equal "\"#{one.title}\" successfully published", flash[:notice]
+    assert_redirected_to special_offers_url
     cyrille.reload
     assert_equal old_published_count+1, cyrille.published_special_offers_count
   end
@@ -59,7 +59,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
     free_trial = special_offers(:free_trial)
     old_published_count = cyrille.published_special_offers_count
     post :unpublish, {:id => free_trial.id }, {:user_id => cyrille.id }
-    assert_redirected_to special_offers_show_path(free_trial.author.slug, free_trial.slug)
+    assert_redirected_to special_offers_url
     cyrille.reload
     assert_equal old_published_count-1, cyrille.published_special_offers_count
   end

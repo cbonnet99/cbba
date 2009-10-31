@@ -1,6 +1,5 @@
-<%= render :partial => "users/user_nav", :locals => {:selected => "special_offers" }  %>
+<%= render :partial => "users/user_nav", :locals => {:selected => "" } %>
 <%= title "Create a new special offer" %>
-<%= link_to "Back to your special offers", special_offers_path %>
 
 <% form_for @special_offer do |f| %>
     <%= f.error_messages :header_message => "Please try again", :message => "Your special offer could not be saved"%>

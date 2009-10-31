@@ -1,5 +1,5 @@
+<%= render :partial => "back_links" %>
 <%= title "Edit special offer" %>
-<%= link_to "Back to your special offers", special_offers_path %>
 <% form_for @special_offer, :url => {:action => "update"}  do |f| %>
 <%= f.error_messages :header_message => "Please try again", :message => "Your special offer could not be saved"%>
 

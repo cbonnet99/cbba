@@ -1,20 +1,12 @@
-<% if params[:review] == "true" -%>
-	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
-<%else -%>
-	<% if params[:index_public] == "true" -%>
-		<%= link_to "Back to special offers", special_offers_path(:index_public => true)   %>
-	<% else -%>
-		<%= link_to "Back to your special offers", user_special_offers_path %>
-	<%end -%>
-<% end -%>
+<%= render :partial => "back_links" %>
 <%= title @special_offer.title %>
 <%if (is_author?(@special_offer) || is_admin?) -%>
 <div class="publication-actions">
 	<%= render :partial => "reviewer/publication_actions", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>
 	<% if is_author?(@special_offer) -%>
 	<div>
-		<%= link_to 'Delete', special_offer_path(@special_offer.slug), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
-		<%= link_to 'Edit', edit_special_offer_path(@special_offer.slug), :class => "anchor-button" %>
+		<%= link_to 'Delete', special_offer_path(@special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
+		<%= link_to 'Edit', edit_special_offer_path(@special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id), :class => "anchor-button" %>
 	</div>
 	<% end -%>
 </div>

@@ -1,3 +1,2 @@
-To manage your special offers, go to <%= link_to "Your special offers", user_special_offers_path %><br/>
-To manage your gift vouchers, go to <%= link_to "Your gift vouchers", user_gift_vouchers_path %>
-<hr/>
+<%= link_to "Create new special offer", new_special_offer_path(:selected_tab_id => "offers", :context => "profile")%> | 
+<%= link_to "Create new gift voucher", new_gift_voucher_path(:selected_tab_id => "offers", :context => "profile")%> <hr/>

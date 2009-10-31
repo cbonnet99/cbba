@@ -1,0 +1,9 @@
+<% if @context == "profile" -%>
+<%= render :partial => "users/user_nav", :locals => {:selected => "" } %>
+<%end -%>
+<% if @context == "review" -%>
+	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
+<% end -%>
+<% if @context == "homepage" || @context.blank? -%>
+	<%= link_to 'Back to gift vouchers', gift_vouchers_path %>
+<% end -%>

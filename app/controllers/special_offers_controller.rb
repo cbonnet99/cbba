@@ -3,6 +3,7 @@ require 'pdf/writer'
 class SpecialOffersController < ApplicationController
 
   before_filter :login_required, :except => [:index, :index_for_subcategory, :show]
+  before_filter :get_context, :except => :index 
 	after_filter :store_location, :only => [:index, :show]
 
   def index_for_subcategory
@@ -12,61 +13,47 @@ class SpecialOffersController < ApplicationController
   end
 
   def index
+    @context = "homepage"
     @special_offers = SpecialOffer.published
-    if params[:index_public] == "true"
-      @special_only = true
-      @all_offers = @special_offers
-      log_bam_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
-    else
-      @special_only = false
-      @gift_vouchers = GiftVoucher.published
-      @all_offers = @special_offers.concat(@gift_vouchers)
-      log_bam_user_event UserEvent::SELECT_COUNTER, "", "Offers"
-    end
+    @special_only = true
+    @all_offers = @special_offers
+    log_bam_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
   end
 
 	def publish
     @special_offer = current_user.find_special_offer(params[:id])
     if @special_offer.publish!
-      flash[:notice] = "Special offer successfully published"
+      flash[:notice] = "\"#{@special_offer.title}\" successfully published"
     else
       flash[:error] = "You can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time"      
     end
-    redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
+    redirect_with_context(special_offers_url)
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not publish this special offer"
-      redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
+      redirect_with_context(special_offers_url)
 	end
 
 	def unpublish
     @special_offer = current_user.find_special_offer(params[:id])
 		@special_offer.remove!
-		flash[:notice] = "Special offer is no longer published"
-    redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
+		flash[:notice] = "\"#{@special_offer.title}\" is no longer published"
+    redirect_with_context(special_offers_url)
 
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not unpublish this special offer"
-      redirect_back_or_default special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
+      redirect_with_context(special_offers_url)
 	end
   
   def show
     get_selected_user
     if @selected_user.nil?
       flash.now[:error]="Sorry, this special offer could not be found"
-      if params[:index_public] == "true"
-        redirect_to special_offers_path
-      else
-        redirect_to user_special_offers_path
-      end
+      redirect_with_context(special_offers_url)
     else
       @special_offer = @selected_user.find_special_offer_for_user(params[:id], current_user)
       if @special_offer.nil?
         flash.now[:error]="Sorry, this special offer could not be found"
-        if params[:index_public] == "true"
-          redirect_to special_offers_path
-        else
-          redirect_to user_special_offers_path
-        end        
+        redirect_with_context(special_offers_url)
       else
         respond_to do |format|
           format.html do
@@ -95,15 +82,15 @@ class SpecialOffersController < ApplicationController
       @special_offer = current_user.special_offers.new(params[:special_offer])
       if @special_offer.save
         if params["save_as_draft"]
-          flash[:notice] = 'Your draft special offer was successfully saved.'
+          flash[:notice] = "\"#{@special_offer.title}\" was successfully saved as a draft."
         else
           if @special_offer.publish!
-            flash[:notice] = 'Your special offer was successfully saved and published.'
+            flash[:notice] = "\"#{@special_offer.title}\" was successfully saved and published."
           else
-            flash[:error] = "Your special offer was saved as draft (you can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time)"
+            flash[:error] = "\"#{@special_offer.title}\" was saved as a draft (you can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time)"
           end
         end
-        redirect_to special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
+        redirect_to special_offers_show_path(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)
       else
         render :action => 'new'
       end
@@ -122,8 +109,8 @@ class SpecialOffersController < ApplicationController
     else
       @special_offer = current_user.special_offers.find_by_slug(params[:id])
       if @special_offer.update_attributes(params[:special_offer])
-        flash[:notice] = "Successfully updated special offer."
-        redirect_to special_offers_show_path(@special_offer.author.slug, @special_offer.slug)
+        flash[:notice] = "\"#{@special_offer.title}\" successfully updated."
+        redirect_to special_offers_show_path(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)
       else
         render :action => 'edit'
       end
@@ -132,12 +119,13 @@ class SpecialOffersController < ApplicationController
   
   def destroy
     @special_offer = current_user.special_offers.find_by_slug(params[:id])
+    @title = @special_offer.title
     if current_user.author?(@special_offer)
       @special_offer.destroy
-      flash[:notice] = "Your special offer was deleted"
+      flash[:notice] = "\"#{@title}\" was deleted"
     else
       flash[:error] = "You cannot delete this special offer"
-    end    
-    redirect_to special_offers_url
+    end
+    redirect_with_context(special_offers_url)
   end
 end

@@ -71,7 +71,7 @@ class HowTosController < ApplicationController
       respond_to do |format|
         if @how_to.save
           if params["save_as_draft"]
-            flash[:notice] = "\"#{@how_to.title}\" article was successfully saved in draft."
+            flash[:notice] = "\"#{@how_to.title}\" article was successfully saved as a draft."
           else
             @how_to.publish!
             flash[:notice] = "\"#{@how_to.title}\" was successfully saved and published."
@@ -92,7 +92,7 @@ class HowTosController < ApplicationController
 
     respond_to do |format|
       if @how_to.update_attributes(params[:how_to])
-        flash[:notice] = "\"#{@how_to.title}\" was successfully updated."
+        flash[:notice] = "\"#{@how_to.title}\" successfully updated."
         format.html { redirect_to(how_tos_show_path(@how_to.author.slug, @how_to.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
         format.xml  { head :ok }
       else

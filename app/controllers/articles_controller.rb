@@ -102,7 +102,7 @@ class ArticlesController < ApplicationController
       respond_to do |format|
         if @article.save
           if params["save_as_draft"]
-            flash[:notice] = "\"#{@article.title}\" was successfully saved in draft."
+            flash[:notice] = "\"#{@article.title}\" was successfully saved as a draft."
           else
             @article.publish!
             flash[:notice] = "\"#{@article.title}\" was successfully saved and published."
@@ -125,7 +125,7 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.update_attributes(params[:article])
-        flash[:notice] = "\"#{@article.title}\" was successfully updated."
+        flash[:notice] = "\"#{@article.title}\" successfully updated."
         format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
         format.xml  { head :ok }
       else

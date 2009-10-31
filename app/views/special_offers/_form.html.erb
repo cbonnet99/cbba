@@ -4,6 +4,8 @@
       <li>
         <%= f.label :title, "Title<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :title %>
+		<%= hidden_field_tag :context, @context%>
+		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
       </li>
       <li>
         <%= f.label :description, "Description<span class='mandatoryStar'>*</span>" %>
