@@ -1,4 +1,7 @@
 class Admin::ReviewerController < AdminApplicationController
+  
+  before_filter :set_context
+  
   def index
 		@articles = Article.reviewable
 		@how_tos = HowTo.reviewable
@@ -58,4 +61,8 @@ class Admin::ReviewerController < AdminApplicationController
 
 	end
 
+private
+  def set_context
+    @context = "review"
+  end
 end

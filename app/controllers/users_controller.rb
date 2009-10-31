@@ -133,7 +133,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by_slug(params[:name])
-    @own_profile = (@user == current_user)
+    @context = "profile"
     if @user.nil? || !@user.full_member?
       flash[:notice] = "Sorry, we could not find this user"
       redirect_to root_url

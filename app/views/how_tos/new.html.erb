@@ -1,6 +1,5 @@
-<%= render :partial => "users/user_nav", :locals => {:selected => "howtos" }  %>
-<%= title "Create a new howto article"  %>
-<%= link_to "Back to your 'how to' articles", user_howtos_path %>
+<%= render :partial => "users/user_nav", :locals => {:selected => "" } %>
+<%= title "New 'how to' article"  %>
 <% form_for(@how_to) do |f| %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your 'how to' article could not be saved" %>
 

@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class HowTosControllerTest < ActionController::TestCase
+  include ApplicationHelper
 	fixtures :all
 
   def test_destroy
@@ -23,14 +24,14 @@ class HowTosControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     old_size = cyrille.how_tos.size
     old_count = cyrille.how_tos_count
-    post :create, { :how_to =>
+    post :create, {:context => "profile", :selected_tab_id => "articles", :how_to =>
        {:step_label => "step", :title =>"Title here", :summary => "Summary now", :subcategory1_id => subcategories(:yoga).id,
         :new_step_attributes => [
           {:title =>"1st step", "body"=>"blabla"}]}}, {:user_id => cyrille.id }
     assert_not_nil assigns(:how_to)
     assert assigns(:how_to).errors.blank?
-    assert_equal flash[:notice], "Your 'how to' article was successfully saved and published."
-    assert_redirected_to how_tos_show_path(cyrille.slug, "title-here")
+    assert_equal flash[:notice], "\"Title here\" was successfully saved and published."
+    assert_redirected_to how_tos_show_path(cyrille.slug, "title-here", :context => "profile", :selected_tab_id => "articles")
     cyrille.reload
     assert_equal old_size+1, cyrille.how_tos.size
     assert_equal old_count+1, cyrille.how_tos_count
@@ -59,8 +60,8 @@ class HowTosControllerTest < ActionController::TestCase
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
-		post :publish, {:id => improve.id }, {:user_id => cyrille.id}
-		assert_redirected_to how_tos_show_path(improve.author.slug, improve.slug)
+		post :publish, {:context => "profile", :selected_tab_id => "articles", :id => improve.id }, {:user_id => cyrille.id}
+		assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
 		improve.reload
 		assert_not_nil improve.published_at
 
@@ -76,8 +77,8 @@ class HowTosControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
     old_size = cyrille.published_how_tos_count
 
-		post :unpublish, {:id => money.id }, {:user_id => cyrille.id}
-		assert_redirected_to how_tos_show_path(money.author.slug, money.slug)
+		post :unpublish, {:context => "profile", :selected_tab_id => "articles", :id => money.id }, {:user_id => cyrille.id}
+		assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
 		money.reload
 		assert_nil money.published_at
 
@@ -87,12 +88,39 @@ class HowTosControllerTest < ActionController::TestCase
 
   def test_show
     cyrille = users(:cyrille)
-    get :show, {:id => how_tos(:money).slug, :selected_user => cyrille.slug  }, {:user_id => cyrille.id }
+    get :show, {:context => "profile", :selected_tab_id => "articles",  :id => how_tos(:money).slug, :selected_user => cyrille.slug  }, {:user_id => cyrille.id }
     assert_response :success
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:how_to)
-    assert_select "input[value=Unpublish]", nil, "Author can publish this how to"
+    assert_select "input[value=Unpublish]", nil, "Author should be able to unpublish this how to"
     assert_select "a", :text => "Delete"
+    assert_select "a", {:text => "Profile", :count => 1  }
+  end
+
+  def test_show_review
+    cyrille = users(:cyrille)
+    get :show, {:context => "review", :id => how_tos(:improve).slug, :selected_user => cyrille.slug  }, {:user_id => cyrille.id }
+    assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:how_to)
+    assert_select "a", {:text => "Back to review list", :count => 1  }
+  end
+
+  def test_show_anonymous_draft
+    cyrille = users(:cyrille)
+    get :show, {:id => how_tos(:improve).slug, :selected_user => cyrille.slug  }
+    assert_redirected_to how_tos_path
+    assert_not_nil assigns(:selected_user)
+    assert_nil assigns(:how_to)
+  end
+
+  def test_show_anonymous_published
+    cyrille = users(:cyrille)
+    get :show, {:context => "homepage", :id => how_tos(:money).slug, :selected_user => cyrille.slug  }
+    assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:how_to)
+    assert_select "a", {:text => "Back to articles", :count => 1  }
   end
 
 end

@@ -1,6 +1,6 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "gift_vouchers" }  %>
 <%= title "Your gift vouchers"  %>
-<p><%= link_to "Create new gift voucher", new_gift_voucher_path %></p>
+<p><%= link_to "New gift voucher", new_gift_voucher_path %></p>
 <% if @gift_vouchers.empty? -%>
   No gift vouchers
 <% else -%>

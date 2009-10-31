@@ -2,12 +2,16 @@
 	  <% if item.is_a?(UserProfile) && item.user == current_user && item.draft? %><div id="bam-warning-profile-draft">Your profile is not public yet. To make it public, click on Publish -></div><%end%>
 <%if item.draft? && (is_author?(item) || is_admin?) && current_user.active? -%>
   <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/publish" do -%>
+		<%= hidden_field_tag :context, @context%>
+		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
       <%= submit_tag "Publish", :class => "button"  %>
   <%end -%>
   </div>
 <%end-%>
 <%if item.published? && (is_author?(item) || is_admin?) && current_user.active? -%>
   <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/unpublish" do -%>
+		<%= hidden_field_tag :context, @context%>
+		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
       <%= submit_tag "Unpublish", :class => "button"  %>
   <%end -%>
   </div>
@@ -16,10 +20,14 @@
   <div id="reviewer-actions">
   <% form_tag '/reviewer/approve' do -%>
         <%= hidden_field_tag "#{class_name}_id", item.id  %>
+		<%= hidden_field_tag :context, @context%>
+		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
         <%= submit_tag "Approve", :class => "button approve" %>
   <%end -%>
   <% form_tag '/reviewer/edit_reject_reason' do -%>
         <%= hidden_field_tag "#{class_name}_id", item.id %>
+		<%= hidden_field_tag :context, @context%>
+		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
         <%= submit_tag "Reject", :class => "button" %>
   <%end -%>
   </div>

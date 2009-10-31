@@ -214,9 +214,9 @@ class UsersControllerTest < ActionController::TestCase
     coaches = categories(:coaches)
     norma = users(:norma)
 
-    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => "offers" }, {:user_id => norma.id, }
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => "offers"}, {:user_id => norma.id}
     assert_not_nil assigns(:all_offers)
-    assert_select "span", {:text => "published", :count => 2} 
+    # assert_select "span", {:text => "published", :count => 2} 
   end
 
   def test_show_articles
@@ -228,6 +228,20 @@ class UsersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:all_articles)
     #it shows both articles and how tos
     assert_equal 2, assigns(:all_articles).size
+    assert_select "div.by-author", {:count => 0}, "Author should not be shown as the articles are shown in the profile"
+  end
+
+  def test_show_own_articles
+    auckland = regions(:auckland)
+    coaches = categories(:coaches)
+    cyrille = users(:cyrille)
+
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => "articles" }, {:user_id => cyrille.id}
+    assert_not_nil assigns(:all_articles)
+    #it shows both articles and how tos
+    assert_equal 4, assigns(:all_articles).size
+    assert_select "div.by-author", {:count => 0}, "Author should not be shown, as it is the current user"
+    assert_select "span.workflow-draft", {:count => 2}, "Article state should be shown"
   end
 
   def test_show

@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   
   before_filter :login_required, :except => [:index, :show, :index_for_subcategory]
+  before_filter :get_context, :except => :index 
 	after_filter :store_location, :only => [:show]
 
   def index_for_subcategory
@@ -17,26 +18,27 @@ class ArticlesController < ApplicationController
     @article = current_user.find_article(params[:id])
     
 		@article.remove!
-		flash[:notice] = "Article is no longer published"
-    redirect_back_or_default root_url
+		flash[:notice] = "\"#{@article.title}\" is no longer published"
+    redirect_with_context(articles_url)
 
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not unpublish this article"
-      redirect_back_or_default root_url
+      redirect_with_context(articles_url)
 	end
 
 	def publish
     @article = current_user.find_article(params[:id])
 		@article.publish!
-		flash[:notice] = "Article successfully published"
-    redirect_back_or_default root_url
-
+		flash[:notice] = "\"#{@article.title}\" successfully published"
+    redirect_with_context(articles_url)
+    
 		rescue ActiveRecord::RecordNotFound => e
 			flash[:error] = "You can not publish this article"
-      redirect_back_or_default root_url
+      redirect_with_context(articles_url)
 	end
   
   def index
+    @context = "homepage"
     @articles = Article.published
     @how_tos = HowTo.published
     
@@ -96,7 +98,7 @@ class ArticlesController < ApplicationController
   def create
     if params["cancel"]
       flash[:notice]="Article cancelled"
-      redirect_back_or_default user_articles_path
+      redirect_to expanded_user_path(current_user, :selected_tab_id => @selected_tab_id)
     else  
       @article = Article.new(params[:article])
       @article.author_id = @current_user.id
@@ -104,12 +106,12 @@ class ArticlesController < ApplicationController
       respond_to do |format|
         if @article.save
           if params["save_as_draft"]
-            flash[:notice] = 'Your draft article was successfully saved.'
+            flash[:notice] = "\"#{@article.title}\" was successfully saved in draft."
           else
             @article.publish!
-            flash[:notice] = 'Your article was successfully saved and published.'
+            flash[:notice] = "\"#{@article.title}\" was successfully saved and published."
           end
-          format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug)) }
+          format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
           format.xml  { render :xml => @article, :status => :created, :location => @article }
         else
           format.html { render :action => "new" }
@@ -127,8 +129,8 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.update_attributes(params[:article])
-        flash[:notice] = 'Article was successfully updated.'
-        format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug)) }
+        flash[:notice] = "\"#{@article.title}\" was successfully updated."
+        format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -141,12 +143,13 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1.xml
   def destroy
     @article = Article.find(params[:id])
+    @title = @article.title
     if current_user.author?(@article)
       @article.destroy
-      flash[:notice] = "The article was deleted"
+      flash[:notice] = "\"#{@title}\" was deleted"
     else
       flash[:error] = "You cannot delete this article"
     end
-    redirect_to(user_articles_path)
+    redirect_with_context(articles_url)
   end
 end

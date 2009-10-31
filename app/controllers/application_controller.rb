@@ -21,6 +21,24 @@ class ApplicationController < ActionController::Base
 	protected
 	exception_data :additional_data
 
+  def redirect_with_context(default_url)
+    if @context == "profile"
+      redirect_to expanded_user_path(current_user, :selected_tab_id => @selected_tab_id)
+    else
+      if @context == "review"
+        redirect_to reviewer_path(:action => "index")
+      else
+        #default
+        redirect_to default_url
+      end
+    end
+  end
+  
+  def get_context
+    @context = params[:context]
+    @selected_tab_id = params[:selected_tab_id]
+  end
+
   def search_terms
 		@what = url_decode(params[:what])
 		@where = url_decode(params[:where])    

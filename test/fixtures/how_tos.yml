@@ -6,6 +6,7 @@ improve:
   summary: Become a better person
   step_label: Step
   author: cyrille
+  state: draft
 money:
   title: Make money
   slug: make-money

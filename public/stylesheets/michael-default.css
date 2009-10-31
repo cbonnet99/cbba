@@ -1,3 +1,5 @@
+.stuff-actions, .stuff-actions a {font-size: x-small; color: grey;}
+.user-profile-menu {font-weight: bold; font-size: large;}
 #networks h3{padding: 0 0 0 0;}
 .column #networks h3, #networks #network-images{margin: 8px;}
 #share{margin: 8px;}
@@ -6,6 +8,7 @@ h4.article-title{padding:8px 0 0 0;}
 .article-subcategories{font-size:10px;}
 #meet-author{font-size:12px;}
 .heading-title, .heading-photo{float:left;}
+.heading-title {width: 85%;}
 .heading-photo{padding:5px;}
 .publication-author{font-size:12px;}
 #direct-debit-code{font-weight: bold;color:black;}
@@ -30,10 +33,8 @@ p.bonus-offer em{font-weight: bold;}
 #link-profile-coming-soon-content {color:#ccc;background:url(../images/btnRed.gif) no-repeat; padding-right: 10px; height:30px;float:left; line-height:29px; text-align:center; width:124px;}
 #link-full-profile-content:hover, #link-profile-coming-soon-content:hover {color:#ccc;}
 .workflow-draft {
+	font-style: italic;
     color: #c00;
-}
-.workflow-published {
-    color: green;
 }
 
 div.user-photo {

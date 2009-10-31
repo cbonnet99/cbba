@@ -1,13 +1,5 @@
+<%= render :partial => "back_links" %>
 <% page_title("#{@article.title} by #{@article.author.name}")%>
-<% if params[:review] == "true" -%>
-	<%= link_to 'Back to review list', reviewer_path(:action => "index") %>
-<%else -%>
-	<% if params[:index_public] == "true" -%>
-		<%= link_to 'Back to articles', articles_path %>
-	<% else -%>
-		<%= link_to 'Back to your articles', user_articles_path %>
-	<% end -%>
-<% end -%>
 <div class='cleaner'></div>
 <div class="heading-photo"><%= thumbnail_image(@article.author) %></div>
 <div class="heading-title">
@@ -17,8 +9,8 @@
 <%if (is_author?(@article) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
 <div>
-      <%= link_to 'Delete', article_path(@article), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
-<%= link_to 'Edit', edit_article_path(@article), :class => "anchor-button" %>
+      <%= link_to 'Delete', article_path(@article, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
+<%= link_to 'Edit', edit_article_path(@article, :context => @context, :selected_tab_id => @selected_tab_id), :class => "anchor-button" %>
 </div><% end -%></div><% end -%>
 <div class="cleaner"></div>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @article} %>

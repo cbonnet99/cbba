@@ -1,4 +1,4 @@
-<%= render :partial => "users/user_nav", :locals => {:selected => "articles" }  %>
+<%= render :partial => "users/user_nav", :locals => {:selected => "" }  %>
 <%= link_to 'Back to your articles', user_articles_path %>
 <%= title "New article"  %>
 <% form_for(@article) do |f| %>

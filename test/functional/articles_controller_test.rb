@@ -24,8 +24,8 @@ class ArticlesControllerTest < ActionController::TestCase
 		long = articles(:long)
 		cyrille = users(:cyrille)
     old_published_count = cyrille.published_articles_count
-		post :unpublish, {:id => long.id }, {:user_id => cyrille.id}
-		assert_redirected_to root_url
+		post :unpublish, {:context => "profile", :selected_tab_id => "articles", :id => long.id }, {:user_id => cyrille.id}
+		assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
 		long.reload
     assert long.draft?
 		assert_nil long.published_at
@@ -42,8 +42,8 @@ class ArticlesControllerTest < ActionController::TestCase
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
-		post :publish, {:id => yoga.id }, {:user_id => cyrille.id}
-		assert_redirected_to root_url
+		post :publish, {:context => "profile", :selected_tab_id => "articles", :id => yoga.id }, {:user_id => cyrille.id}
+		assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
 		yoga.reload
 		assert_not_nil yoga.published_at
 
@@ -87,8 +87,8 @@ class ArticlesControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
 		yoga = subcategories(:yoga)
     old_count = cyrille.articles_count
-    post :create, {:article => { :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
-    assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug)
+    post :create, {:context => "profile", :selected_tab_id => "articles",  :article => { :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
+    assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
 		assert_equal yoga.id, assigns(:article).subcategory1_id
     assert_not_nil assigns(:subcategories)
     cyrille.reload
@@ -112,7 +112,7 @@ class ArticlesControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     rmoore = users(:rmoore)
     #jogging is a published article that hasn't been approved yet
-    get :show, {:id => articles(:jogging).slug, :selected_user => rmoore.slug, :review => "true"  }, {:user_id => cyrille.id }
+    get :show, {:id => articles(:jogging).slug, :selected_user => rmoore.slug, :context => "review"  }, {:user_id => cyrille.id }
     assert flash[:error].blank?, "flash[:error] is #{flash[:error]}"
     assert_response :success
     assert_not_nil assigns(:selected_user)
@@ -131,12 +131,22 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_nil assigns(:article)
   end
 
+  def test_should_show_article_published_anonymous
+    cyrille = users(:cyrille)
+    get :show, {:context => "homepage", :id => articles(:long).slug, :selected_user => cyrille.slug }
+    assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:article)
+    assert_select "a", {:text => "Back to articles", :count => 1  }
+  end
+
   def test_should_show_own_article_draft
       cyrille = users(:cyrille)
-      get :show, {:id => articles(:yoga).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }
+      get :show, {:context => "profile", :selected_tab_id => "articles",  :id => articles(:yoga).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }
       assert_response :success
       assert_not_nil assigns(:selected_user)
       assert_not_nil assigns(:article)
+      assert_select "a", {:text => "Profile", :count => 1  }
   end
 
   def test_should_get_edit
@@ -147,32 +157,32 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_update_article
 		cyrille = users(:cyrille)
-    put :update, {:id => articles(:yoga).id, :article => { }}, {:user_id => cyrille.id }
-    assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug)
+    put :update, {:context => "profile", :selected_tab_id => "articles",  :id => articles(:yoga).id, :article => { }}, {:user_id => cyrille.id }
+    assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
     assert_not_nil assigns(:subcategories)
   end
 
   def test_should_destroy_article
 		cyrille = users(:cyrille)
     assert_difference('Article.count', -1) do
-      delete :destroy, {:id => articles(:yoga).id}, {:user_id => cyrille.id }
+      delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:yoga).id}, {:user_id => cyrille.id }
     end
-    assert_redirected_to user_articles_path
+    assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
   end
   def test_should_destroy_draft_article
 		cyrille = users(:cyrille)
 		old_size = cyrille.articles_count
-    delete :destroy, {:id => articles(:yoga).id}, {:user_id => cyrille.id }
+    delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:yoga).id}, {:user_id => cyrille.id }
     cyrille.reload
     assert_equal old_size-1, cyrille.articles_count
-    assert_redirected_to user_articles_path
+    assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
   end
   def test_should_destroy_published_article
 		cyrille = users(:cyrille)
 		old_size = cyrille.published_articles_count
-    delete :destroy, {:id => articles(:long).id}, {:user_id => cyrille.id }
+    delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:long).id}, {:user_id => cyrille.id }
     cyrille.reload
     assert_equal old_size-1, cyrille.published_articles_count
-    assert_redirected_to user_articles_path
+    assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
   end
 end

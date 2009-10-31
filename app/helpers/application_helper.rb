@@ -1,5 +1,20 @@
 module ApplicationHelper
 
+  def str_to_bool(str)
+    if str.is_a?(TrueClass) || str.is_a?(FalseClass)
+      return str
+    end
+    if str.blank?
+      return false
+    else
+      if str.downcase == "true"
+        return true
+      else
+        return false
+      end
+    end
+  end
+
   def log_bam_user_event(name, destination_url = nil, extra_data = nil, options = {})
     unless request.env["HTTP_USER_AGENT"] =~ /bot/
       log_user_event(name, destination_url, extra_data, options.merge(:browser => request.env["HTTP_USER_AGENT"], :session => session.session_id ))
@@ -156,7 +171,11 @@ module ApplicationHelper
 
   def expanded_user_path(user, options={})
     options.merge!(:main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
-    full_user_url(options)
+    if options.include?(:selected_tab_id) && !options[:selected_tab_id].blank?
+      user_tabs_url(options)
+    else
+      full_user_url(options)
+    end
   end
 
   def expanded_user_tabs_path(user, tab, options={})
