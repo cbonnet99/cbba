@@ -1,1 +1,0 @@
-<h4 class="article-title"><%=link_to article.title, articles_show_path(article.author.slug, article.slug, :index_public => true) %></h4><div class="by-author">by <%= author_link(article.author) %></div><div class="article-subcategories">[<%= link_articles_subcategories(article)%>]</div>
