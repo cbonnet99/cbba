@@ -9,7 +9,7 @@
       </li>
       <li>
         <%= f.label :lead, "Lead (max. 500 characters):<span class='mandatoryStar'>*</span>" %>
-        <%= f.text_area :lead, :cols => "35" %>
+        <%= f.text_area :lead, :cols => "35", :class => "noHTMLEditor"  %>
       </li>
       <li>
         <%= f.label :body, "Body:" %>

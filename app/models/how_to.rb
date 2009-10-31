@@ -18,8 +18,13 @@ class HowTo < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your 'how to' articles" 
 
 	after_create :create_slug
-	before_update :update_slug
+	before_update :update_slug, :remove_html_from_summary
+	before_create :remove_html_from_summary
   after_update :save_steps
+
+  def remove_html_from_summary
+    self.summary = self.summary.gsub(/<\/?[^>]*>/,"")
+  end
 
   def self.count_published
     HowTo.count(:all, :conditions => "state = 'published'")

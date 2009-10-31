@@ -10,7 +10,7 @@
       </li>
       <li>
         <%= f.label :summary, "Summary (max. 500 characters):<span class='mandatoryStar'>*</span>" %>
-        <%= f.text_area :summary, :cols => "35"  %>
+        <%= f.text_area :summary, :cols => "35", :class => "noHTMLEditor"  %>
       </li>
       <li>
         <label>Please select if your article will be a series of steps or tips:</label>

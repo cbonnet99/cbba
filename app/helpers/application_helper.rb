@@ -136,11 +136,11 @@ module ApplicationHelper
     @content_for_tinymce_init = ""
     if current_user.admin?
       content_for :tinymce_init do
-        javascript_include_tag "http://#{APP_CONFIG[:logged_site_host]}/javascripts/mce_editor_admin"
+        javascript_include_tag "http://#{APP_CONFIG[:logged_site_host]}/javascripts/mce_editor_admin1"
       end
     else
       content_for :tinymce_init do
-        javascript_include_tag "http://#{APP_CONFIG[:logged_site_host]}/javascripts/mce_editor1"
+        javascript_include_tag "http://#{APP_CONFIG[:logged_site_host]}/javascripts/mce_editor2"
       end
     end
   end

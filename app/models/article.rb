@@ -19,8 +19,14 @@ class Article < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your articles" 
 
 	after_create :create_slug
+	before_create :remove_html_from_lead
+	before_update :remove_html_from_lead
 
 	MAX_LENGTH_SLUG = 20
+
+  def remove_html_from_lead
+    self.lead = self.lead.gsub(/<\/?[^>]*>/,"")
+  end
 
   def validate
     if subcategory1_id.blank?
