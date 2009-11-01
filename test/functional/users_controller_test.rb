@@ -365,9 +365,16 @@ class UsersControllerTest < ActionController::TestCase
 
 	def test_update_password
 		cyrille = users(:cyrille)
-		post :update_password, {:user => {:password => "bleblete", :password_confirmation => "bleblete"  }}, {:user_id => cyrille.id }
+		post :update_password, {:user => {:old_password => "monkey", :password => "bleblete", :password_confirmation => "bleblete"  }}, {:user_id => cyrille.id }
 		assert_equal "Your password has been updated", flash[:notice]
 		assert_not_nil User.authenticate(cyrille.email, "bleblete")
+	end
+
+	def test_update_password_wrong_old_password
+		cyrille = users(:cyrille)
+		post :update_password, {:user => {:old_password => "blabla", :password => "bleblete", :password_confirmation => "bleblete"  }}, {:user_id => cyrille.id }
+		assert_equal "Sorry, your password could not be changed", flash[:error]
+		assert_nil User.authenticate(cyrille.email, "bleblete")
 	end
 
 	def test_update_phone

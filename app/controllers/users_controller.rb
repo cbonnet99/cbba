@@ -179,11 +179,16 @@ class UsersController < ApplicationController
 	end
 
 	def update_password
-		if current_user.update_attributes(params[:user])
-      redirect_to expanded_user_path(current_user)
-      flash[:notice] = "Your password has been updated"
+	  if User.authenticate(current_user.email, params[:user]["old_password"])
+  		if current_user.update_attributes(params[:user])
+        redirect_to expanded_user_path(current_user)
+        flash[:notice] = "Your password has been updated"
+      else
+        flash.now[:error]  = "There were some errors in your password details."
+        render :action => 'edit_password'
+      end
     else
-      flash.now[:error]  = "There were some errors in your password details."
+      flash.now[:error]  = "Sorry, your password could not be changed"
       render :action => 'edit_password'
     end
 	end

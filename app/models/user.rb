@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
   # your user to change should be added here.
   # attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application, :website, :accept_terms
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status
-	attr_accessor :membership_type, :resident_expert_application, :accept_terms, :admin, :main_role
+	attr_accessor :membership_type, :resident_expert_application, :accept_terms, :admin, :main_role, :old_password
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
