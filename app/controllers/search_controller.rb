@@ -10,10 +10,6 @@ class SearchController < ApplicationController
     @megan = User.find_by_email(APP_CONFIG[:megan])
   end
 
-  def test_layout
-    render :layout => "naked", :action => "test_layout"  
-  end
-
   def count_show_more_details
     id = params[:id].split("-").last
     logger.debug("==== in count_show_more_details, id: #{id}")
