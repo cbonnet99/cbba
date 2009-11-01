@@ -12,7 +12,7 @@
 <h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Special offers</h3>
 <ul>
 <% newsletter.special_offers.each do |offer| -%>
-	<li><%= offer.label(special_offers_show_url(offer.author, offer.slug, :index_public => true))%></li>
+	<li><%= offer.label(special_offers_show_url(offer.author, offer.slug, :context => "homepage"))%></li>
 <% end -%>
 </ul>
 <% end -%>
@@ -31,7 +31,7 @@
 <h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Gift vouchers</h3>
 <ul>
 <% newsletter.gift_vouchers.each do |gv| -%>
-	<li><%= gv.label(gift_vouchers_show_url(gv.author, gv.slug, :index_public => true))%></li>
+	<li><%= gv.label(gift_vouchers_show_url(gv.author, gv.slug, :context => "homepage"))%></li>
 <% end -%>
 </ul>
 <% end -%>

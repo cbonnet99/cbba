@@ -17,8 +17,3 @@
   <%=white_list @special_offer.description %>
 
   <p><a href="<%=@special_offer.filename%>">Download special offer</a></p>
-<% if params[:index_public] == "true" -%>
-<%= link_to "Back to special offers", special_offers_path  %>
-<% else -%>
-<%= link_to "Back to your special offers", user_special_offers_path %>
-<% end -%>

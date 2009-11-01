@@ -4,9 +4,9 @@
   <ul id="your-special-offers" class="simple">
   <% for offer in @all_offers %>
 	<% if offer.class.to_s == "SpecialOffer"-%>
-    <%= render :partial => "special_offers/special_offer",  :locals => {:special_offer => offer, :hide_state => !@own_profile }   %>
+    <%= render :partial => "special_offers/special_offer",  :locals => {:special_offer => offer }   %>
 	<%else -%>
-    <%= render :partial => "gift_vouchers/gift_voucher",  :locals => {:gift_voucher => offer, :hide_state => !@own_profile }   %>
+    <%= render :partial => "gift_vouchers/gift_voucher",  :locals => {:gift_voucher => offer }   %>
 	<%end -%>
   <% end -%>
   </ul>
