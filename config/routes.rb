@@ -30,13 +30,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :regions
 
   map.gift_vouchers_show '/gift-vouchers/:selected_user/:id', :controller => "gift_vouchers", :action => "show" 
-  # map.gift_vouchers_action '/gift-vouchers/:selected_user/:id/:action', :controller => "gift_vouchers"
-  map.resources :gift_vouchers
+  map.resources :gift_vouchers, :member => {:publish => [:get, :post], :unpublish => [:get, :post] }
   
   map.special_offers_show '/special-offers/:selected_user/:id', :controller => "special_offers", :action => "show"
   map.special_offers_show_format '/special-offers/:selected_user/:id.:format', :controller => "special_offers", :action => "show"
-  # map.special_offers_action '/special-offers/:selected_user/:id/:action', :controller => "special_offers"
-  map.resources :special_offers
+  map.resources :special_offers, :member => {:publish => [:get, :post], :unpublish => [:get, :post] }
   
   map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"
   map.resources :expert_applications
