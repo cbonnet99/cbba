@@ -6,7 +6,7 @@
 		<%if special_offer.published? -%>
 			<%= link_to "Unpublish", {:controller => "/special_offers", :action => "unpublish", :id => special_offer.id, :context => @context, :selected_tab_id => "offers"}, :method => "post" %>
 		<%else-%>
-		<%= link_to "Publish", {:controller => "/special_offers", :action => "publish", :id => special_offer.id, :context => @context, :selected_tab_id => "offers"}, :method => "post" %>
+		<%= link_to "Publish", {:controller => "/special_offers", :action => "publish", :id => special_offer.id, :context => @context, :selected_tab_id => "offers"}, :method => "post", :class => "main-action"  %>
 		<%end-%>
 	<%end-%>
 	<% if is_author?(special_offer)-%>

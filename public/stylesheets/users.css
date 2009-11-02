@@ -1,17 +1,22 @@
 /*********** show **********/
-.stuff-actions a.main-action{font-weight: bold;}
-a.button-icon{
-background:url(../images/button.gif);
-display:inline;
+.stuff-actions a.main-action{
+border-style: solid;
+border-width : 1px;
+text-decoration : none;
+padding : 4px;
+font-weight: bold;
+background-color: #d9d9d9;
+border-color : grey;}
+.stuff-actions a.main-action:hover{background-color: grey;color:#c00;}
+a.add-button{
+border-style: solid;
+border-width : 1px;
+border-color: black;
+text-decoration : none;
+font-weight: bold;
+padding: 4px 4px 4px 18px;
+background: #d9d9d9 url(../images/add.gif) no-repeat 4px 2px;
+border-color : lightgrey;}
+a.add-button:hover{background-color: grey;}
+span.add-button-label{padding: 4px;}
 
-color:#555555;
-font-weight:bold;
-height:30px;
-line-height:29px;
-margin-bottom:14px;
-text-decoration:none;
-width:191px;
-}
-a:hover.button-icon{
-color:#0066CC;
-}

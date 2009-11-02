@@ -6,7 +6,7 @@
 		<%if gift_voucher.published? -%>
 			<%= link_to "Unpublish", {:controller => "/gift_vouchers", :action => "unpublish", :id => gift_voucher.id, :context => @context, :selected_tab_id => "offers"}, :method => "post" %>
 		<%else-%>
-		<%= link_to "Publish", {:controller => "/gift_vouchers", :action => "publish", :id => gift_voucher.id, :context => @context, :selected_tab_id => "offers"}, :method => "post" %>
+		<%= link_to "Publish", {:controller => "/gift_vouchers", :action => "publish", :id => gift_voucher.id, :context => @context, :selected_tab_id => "offers"}, :method => "post", :class => "main-action" %>
 		<%end-%>
 	<%end-%>
 	<% if is_author?(gift_voucher)-%>

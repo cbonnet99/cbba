@@ -209,8 +209,8 @@ min-height:214px;
 padding:0 10px 10px;}
 ul#profile-tabs { float:left; height:24px; margin:0; padding:20px 0 0 0; width:564px;}
 ul#profile-tabs li {float:left; padding:0; }
-ul#profile-tabs li.tab a {background-color:#edecec; border:1px solid #edecec; color:#020202; cursor:pointer; font-size:11px; font-weight:normal;height:24px; line-height:20px; margin:0 2px 0 0; padding:8px 10px 7px; position:relative; top:-1px; text-decoration:none;}
-	ul#profile-tabs li.tab a:hover {background-color:#ccc;border-bottom:1px solid #edecec;}
+ul#profile-tabs li.tab a {background-color:#d9d9d9; border:1px solid #edecec; color:#020202; cursor:pointer; font-size:11px; font-weight:normal;height:24px; line-height:20px; margin:0 2px 0 0; padding:8px 10px 7px; position:relative; top:-1px; text-decoration:none;}
+	ul#profile-tabs li.tab a:hover {background-color:grey;border-bottom:1px solid #edecec;}
 ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { background-color:#FFFFFF; border-bottom:2px solid #fff;  }
 #profile-photo {float:left; margin:0 10px 0 0;}
 #profile-ask-question-content  {background:url(../images/btnRed.gif) no-repeat; height:30px;float:right; line-height:29px; text-align:center; width:124px;}
