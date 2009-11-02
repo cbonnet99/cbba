@@ -10,7 +10,15 @@ development: &non_production_settings
   megan: norma2@eurekacoaching.co.nz
   
 test:
-  <<: *non_production_settings
+    site_host: test.host
+    logged_site_host: test.host
+    site_name: Be Amazing(test)
+    admin_email: cbonnet99@gmail.com
+    rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
+    norma: norma2@eurekacoaching.co.nz
+    sav: cbonnet99@yahoo.fr
+    cyrille: cbonnet99@yahoo.fr
+    megan: norma2@eurekacoaching.co.nz
   
 production:
   site_host: www.beamazing.co.nz

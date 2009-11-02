@@ -10,7 +10,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     actual_mail = UserMailer.create_stuff_to_review(cyrille.user_profile, cyrille)
 
-    @expected.subject = '[Be Amazing(development)] Review needed'
+    @expected.subject = '[Be Amazing(test)] Review needed'
     @expected.body    = read_fixture('stuff_to_review')
 
     @expected.from = APP_CONFIG[:admin_email]

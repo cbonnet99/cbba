@@ -1,0 +1,17 @@
+/*********** show **********/
+.stuff-actions a.main-action{font-weight: bold;}
+a.button-icon{
+background:url(../images/button.gif);
+display:inline;
+
+color:#555555;
+font-weight:bold;
+height:30px;
+line-height:29px;
+margin-bottom:14px;
+text-decoration:none;
+width:191px;
+}
+a:hover.button-icon{
+color:#0066CC;
+}

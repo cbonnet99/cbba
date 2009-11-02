@@ -23,11 +23,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :subcategories
   map.resources :categories
   map.how_tos_show '/how-tos/:selected_user/:id', :controller => "how_tos", :action => "show"
-  map.how_tos_action '/how-tos/:selected_user/:id/:action', :controller => "how_tos"
-  map.resources :how_tos
+  map.resources :how_tos, :member => {:publish => [:get, :post], :unpublish => [:get, :post] }
   map.articles_show '/amazing-articles/:selected_user/:id', :controller => "articles", :action => "show"
-  map.articles_action '/bam-articles/:selected_user/:id/:action', :controller => "articles"
-  map.resources :articles
+  # map.articles_action '/bam-articles/:selected_user/:id/:action', :controller => "articles"
+  map.resources :articles, :member => {:publish => [:get, :post], :unpublish => [:get, :post] }
   map.resources :regions
 
   map.gift_vouchers_show '/gift-vouchers/:selected_user/:id', :controller => "gift_vouchers", :action => "show" 

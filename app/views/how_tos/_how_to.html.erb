@@ -1,5 +1,21 @@
 <h4 class="article-title"><%=link_to how_to.title, how_tos_show_path(how_to.author.slug, how_to.slug, :context => @context, :selected_tab_id => "articles") %>
-<% if @context == "profile" && is_author?(how_to)%> <span class="stuff-actions">[<span class="<%=how_to.workflow_css_class%>"><%=how_to.state%></span><%if is_author?(how_to)%> | <%= link_to 'Edit', edit_how_to_path(how_to, :selected_tab_id => "articles", :context => @context)%> | <%= link_to 'Delete', how_to_path(how_to, :selected_tab_id => "articles", :context => @context), :method => "delete", :confirm => "Are you sure? This action can not be undone"%><%end%>]</span><%end%></h4>
-<% unless @context == "profile"%><div class="by-author"> by <%= author_link(how_to.author) %></div><%end%>
+<% if @context == "profile" && is_author?(how_to) -%>
+ 	<span class="stuff-actions">[<span class="<%=how_to.workflow_css_class%>"><%=how_to.state%></span>
+	<% if (is_author?(how_to) || is_admin?) && current_user.active? -%>
+	 | 
+		<%if how_to.published? -%>
+			<%= link_to "Unpublish", {:controller => "/how_tos", :action => "unpublish", :id => how_to.id, :context => @context, :selected_tab_id => "articles"}, :method => "post" %>
+		<%else-%>
+		<%= link_to "Publish", {:controller => "/how_tos", :action => "publish", :id => how_to.id, :context => @context, :selected_tab_id => "articles"}, :method => "post" %>
+		<%end-%>
+	<%end-%>
+	<%if is_author?(how_to) -%>
+	 | <%= link_to 'Edit', edit_how_to_path(how_to, :selected_tab_id => "articles", :context => @context)%> | <%= link_to 'Delete', how_to_path(how_to, :selected_tab_id => "articles", :context => @context), :method => "delete", :confirm => "Are you sure? This action can not be undone"%>
+	<%end -%>]</span>
+<%end -%>
+</h4>
+<% unless @context == "profile" -%>
+	<div class="by-author"> by <%= author_link(how_to.author) %></div>
+<%end -%>
 <div class="article-subcategories">[<%= link_articles_subcategories(how_to)%>]</div>
 <%=white_list how_to.summary %>
