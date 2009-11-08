@@ -12,8 +12,8 @@ stylesheets:
   - base
   - jquery.autocomplete
 - base_michael:
-  - users
   - base
   - michael-default
   - michael-base
   - jquery.autocomplete
+  - users

@@ -213,7 +213,8 @@ ul#profile-tabs li.tab a {background-color:#d9d9d9; border:1px solid #edecec; co
 	ul#profile-tabs li.tab a:hover {background-color:grey;border-bottom:1px solid #edecec;}
 ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { background-color:#FFFFFF; border-bottom:2px solid #fff;  }
 #profile-photo {float:left; margin:0 10px 0 0;}
-#profile-ask-question-content  {background:url(../images/btnRed.gif) no-repeat; height:30px;float:right; line-height:29px; text-align:center; width:124px;}
+.profile-calling-action-area{float:right;}
+#profile-ask-question-content  {background:url(../images/btnRed.gif) no-repeat; height:30px; line-height:29px; text-align:center; width:124px;}
 	#profile-ask-question-content:hover {color:#ccc;}
 .business {color:#00a0c6;}
 .location {color:#000;}

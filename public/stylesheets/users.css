@@ -1,22 +1,10 @@
 /*********** show **********/
-.stuff-actions a.main-action{
-border-style: solid;
-border-width : 1px;
-text-decoration : none;
-padding : 4px;
-font-weight: bold;
-background-color: #d9d9d9;
-border-color : grey;}
+.stuff-actions a.main-action{border-style: solid;border-width : 1px;text-decoration : none;padding : 4px;font-weight: bold;background-color: #d9d9d9;border-color : grey;}
 .stuff-actions a.main-action:hover{background-color: grey;color:#c00;}
-a.add-button{
-border-style: solid;
-border-width : 1px;
-border-color: black;
-text-decoration : none;
-font-weight: bold;
-padding: 4px 4px 4px 18px;
-background: #d9d9d9 url(../images/add.gif) no-repeat 4px 2px;
-border-color : lightgrey;}
+a.add-button{border-style: solid;border-width : 1px;border-color: black;text-decoration : none;font-weight: bold;padding: 4px 4px 4px 18px;background: #d9d9d9 url(../images/add.gif) no-repeat 4px 2px;border-color : lightgrey;}
 a.add-button:hover{background-color: grey;}
 span.add-button-label{padding: 4px;}
-
+#contentMain ul#new-content-menu{float:left;margin: 0;padding: 0;position:absolute;visibility:hidden;}
+#contentMain ul#new-content-menu li{margin: 0;padding: 0;clear: left;text-align:right;list-style: none;/*visibility: hidden;*/border-top: 1px solid white;}
+#contentMain ul#new-content-menu li a{display: block;border: 1px solid lightgrey;background-color: #D9D9D9;padding: 3px 12px ;text-decoration: none;color: #20ACCD;font-weight:bold;white-space: nowrap;width:auto;}
+#contentMain ul#new-content-menu li a:hover{	background: grey}

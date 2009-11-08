@@ -8,7 +8,19 @@
 	      <div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @user.user_profile, :class_name => "user_profile" }   %></div>
 		<% if own_profile?(@user) || @user.user_profile.published? -%>
              <div id="profile-photo"><%= medium_image(@user)%><br/><% if own_profile?(@user) -%><%if @user.photo.exists?%><%= link_to_remote "Change your picture", :update => "upload-photo", :url => user_new_photo_path %><%else%><%= link_to_remote "Upload your picture here", :update => "upload-photo", :url => user_new_photo_path %><%end%><%end%><div id="upload-photo"></div></div>
-			<%= link_to "Ask me a question", user_slug_action_path(:slug => @user.slug, :action => "message"), {:id => "profile-ask-question-content", :class => "button"}%>
+			<%if own_profile?(@user) -%>
+			<div id="create-new-content" class="profile-calling-action-area"><%= link_to "Create NEW...", "#", {:id => "profile-ask-question-content", :class => "button"}%>
+			<ul id="new-content-menu">
+				<li><%= link_to "New article", new_article_path(:selected_tab_id => "articles", :context => "profile")%></li>
+				<li><%= link_to "New 'how to' article", new_how_to_path(:selected_tab_id => "articles", :context => "profile")%></li>
+				<li><%= link_to "New special offer", new_special_offer_path(:selected_tab_id => "offers", :context => "profile")%></li>
+				<li><%= link_to "New gift voucher", new_gift_voucher_path(:selected_tab_id => "offers", :context => "profile")%></li>
+			</ul>
+			</div>
+			<%else -%>
+			<div class="profile-calling-action-area"><%= link_to "Ask me a question", user_slug_action_path(:slug => @user.slug, :action => "message"), {:id => "profile-ask-question-content", :class => "button"}%>
+			</div>
+			<%end -%>
 	      <%= title @user.full_name, :h3 %>
 	      <h4 class="<%=@user.css_role_description%>"><%= @user.role_description %></h4>
 	      <% unless @user.subcategories.blank?%><p>Expertise: <span class="business"><%= @user.expertise %></span></p><% end %>
