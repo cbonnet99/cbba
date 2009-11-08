@@ -61,7 +61,7 @@
 		<%end%>
 		<li><%= link_to 'Logout', logout_url %></li>
     <%else -%>
-	  <li><%= link_to 'FREE Newsletter', signup_newsletter_path %></li>
+	  <li><%= link_to 'FREE Newsletter', signup_newsletter_url(:host => APP_CONFIF[:logged_site_host]) %></li>
       <li><%= link_to 'Login', new_session_url(:host => APP_CONFIG[:logged_site_host]) %></li>
 	  <li><%= link_to 'Join us', signup_intro_path %></li>
     <% end -%>
@@ -139,7 +139,7 @@
   <div id="sidebar2" class="column">
     <div class="columnTop">&nbsp;</div>
 <% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
-    <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_path, :class => "newsletterBtn button" %>
+    <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_url(:host => APP_CONFIF[:logged_site_host]), :class => "newsletterBtn button" %>
 <% end -%>
     <div id="ad-banners" class="advert">
 		<div class="ad-banner"><a target="_blank" href="http://www.elevatecoaching.co.nz"><%= image_tag "banner-ad-sav.gif"%></a></div>
