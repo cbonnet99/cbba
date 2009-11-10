@@ -25,7 +25,7 @@ class ArticlesControllerTest < ActionController::TestCase
 		cyrille = users(:cyrille)
     old_published_count = cyrille.published_articles_count
 		post :unpublish, {:context => "profile", :selected_tab_id => "articles", :id => long.id }, {:user_id => cyrille.id}
-		assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
+		assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
 		long.reload
     assert long.draft?
 		assert_nil long.published_at
@@ -43,7 +43,7 @@ class ArticlesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
 
 		post :publish, {:context => "profile", :selected_tab_id => "articles", :id => yoga.id }, {:user_id => cyrille.id}
-		assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
+		assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
 		yoga.reload
 		assert_not_nil yoga.published_at
 
@@ -88,7 +88,7 @@ class ArticlesControllerTest < ActionController::TestCase
 		yoga = subcategories(:yoga)
     old_count = cyrille.articles_count
     post :create, {:context => "profile", :selected_tab_id => "articles",  :article => { :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
-    assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
+    assert_redirected_to articles_show_url(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
 		assert_equal yoga.id, assigns(:article).subcategory1_id
     assert_not_nil assigns(:subcategories)
     cyrille.reload
@@ -126,7 +126,7 @@ class ArticlesControllerTest < ActionController::TestCase
   def test_should_show_article_draft_anonymous
     cyrille = users(:cyrille)
     get :show, {:id => articles(:yoga).slug, :selected_user => cyrille.slug }
-    assert_redirected_to articles_path
+    assert_redirected_to articles_url
     assert_not_nil assigns(:selected_user)
     assert_nil assigns(:article)
   end
@@ -158,7 +158,7 @@ class ArticlesControllerTest < ActionController::TestCase
   def test_should_update_article
 		cyrille = users(:cyrille)
     put :update, {:context => "profile", :selected_tab_id => "articles",  :id => articles(:yoga).id, :article => { }}, {:user_id => cyrille.id }
-    assert_redirected_to articles_show_path(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
+    assert_redirected_to articles_show_url(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
     assert_not_nil assigns(:subcategories)
   end
 
@@ -167,7 +167,7 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_difference('Article.count', -1) do
       delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:yoga).id}, {:user_id => cyrille.id }
     end
-    assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
+    assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
   end
   def test_should_destroy_draft_article
 		cyrille = users(:cyrille)
@@ -175,7 +175,7 @@ class ArticlesControllerTest < ActionController::TestCase
     delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:yoga).id}, {:user_id => cyrille.id }
     cyrille.reload
     assert_equal old_size-1, cyrille.articles_count
-    assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
+    assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
   end
   def test_should_destroy_published_article
 		cyrille = users(:cyrille)
@@ -183,6 +183,6 @@ class ArticlesControllerTest < ActionController::TestCase
     delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:long).id}, {:user_id => cyrille.id }
     cyrille.reload
     assert_equal old_size-1, cyrille.published_articles_count
-    assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
+    assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
   end
 end

@@ -43,8 +43,8 @@
 <!--Public Navigation Starts -->
   <ul id="navPublic">
     <li><%= link_to "Home", root_url%></li>
-    <li><%= link_to 'About Us', about_path  %></li>
-    <li><%= link_to 'Contact Us', contact_path  %></li>
+    <li><%= link_to 'About Us', about_url  %></li>
+    <li><%= link_to 'Contact Us', contact_url  %></li>
   </ul>
   <!--Public Navigation Ends -->
   <!--Member Navigation Starts -->
@@ -52,18 +52,18 @@
     <% if logged_in? -%>
       <li><%=current_user.name_with_email%></li>
       <% if is_admin? -%>
-        <li><%= link_to "Admin interface", reviewer_path(:action => "index" ) %></li>
+        <li><%= link_to "Admin interface", reviewer_url(:action => "index" ) %></li>
       <% end -%>
 		<% if  current_user.region.nil? || current_user.main_expertise_slug.blank?%>
 		 <li>No profile</li>
 		<%else%>
-		 <li><%= link_to "Your profile", current_user.full_member? ? expanded_user_path(current_user) : user_edit_path %></li>
+		 <li><%= link_to "Your profile", current_user.full_member? ? expanded_user_url(current_user) : user_edit_url %></li>
 		<%end%>
 		<li><%= link_to 'Logout', logout_url %></li>
     <%else -%>
 	  <li><%= link_to 'FREE Newsletter', signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
       <li><%= link_to 'Login', new_session_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
-	  <li><%= link_to 'Join us', signup_intro_path %></li>
+	  <li><%= link_to 'Join us', signup_intro_url %></li>
     <% end -%>
   </ul>
   <!--Member Navigation Ends -->
@@ -78,7 +78,7 @@
   <!--Header Ends -->
   <!--Search Bar Starts -->
   <a name="search" href="#search" class="skip-dest"></a>
-  <% form_tag search_path(:what => "", :where => "" ), :id => "bam-search-form" do  -%>
+  <% form_tag search_url(:what => "", :where => "" ), :id => "bam-search-form" do  -%>
     <div id="what-wrapper" class="search-wrapper">
       <label for="what">What, Who: </label>
       <input class="text" type="text" id="what" name="what" value="<%=@what%>" />
@@ -119,7 +119,7 @@
           <a id="next-expert" class="nav-right" href="#"><span>Next&gt;</span></a>
       </div>
 	</div>
-	<%= link_to "<span>Add FREE Listing</span>", signup_path(:professional => "true", :mt => "free_listing" ), :class => "addListing button" %>
+	<%= link_to "<span>Add FREE Listing</span>", signup_url(:professional => "true", :mt => "free_listing" ), :class => "addListing button" %>
     <div class="columnBottom">&nbsp;</div>
   </div>
   <!--Sidebar1 Ends -->
@@ -161,7 +161,7 @@
     <p class="floatLeft">&copy; Be Amazing Ltd</p>
 	<p class="floatRight">
 	<% if logged_in? -%>
-    <%= link_to "Terms &amp; Conditions", terms_path %> | <%= link_to "Disclaimer", disclaimer_path %> | <%end -%>
+    <%= link_to "Terms &amp; Conditions", terms_url %> | <%= link_to "Disclaimer", disclaimer_url %> | <%end -%>
 	design :: <a href="http://www.catchgraphics.com/">catch graphics</a></p>
   </div>
   <!--Footer Starts -->

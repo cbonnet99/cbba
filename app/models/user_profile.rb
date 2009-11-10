@@ -19,6 +19,6 @@ class UserProfile < ActiveRecord::Base
   end
 
   def path_method
-    "expanded_user_path"
+    "expanded_user_url"
   end
 end

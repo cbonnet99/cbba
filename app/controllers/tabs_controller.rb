@@ -38,7 +38,7 @@ class TabsController < ApplicationController
     else
 #      flash[:notice] = "Tab added successfully"
     end
-    redirect_to action_tab_with_id_path(@tab.slug, :action => "edit" )
+    redirect_to action_tab_with_id_url(@tab.slug, :action => "edit" )
   end
 
   def destroy
@@ -47,7 +47,7 @@ class TabsController < ApplicationController
     unless tab_to_destroy_id.nil?
       current_user.remove_tab(tab_to_destroy_id)
     end
-    redirect_to expanded_user_tabs_path(current_user, selected_tab_id)
+    redirect_to expanded_user_tabs_url(current_user, selected_tab_id)
   end
 
   def edit
@@ -61,7 +61,7 @@ class TabsController < ApplicationController
     @user = current_user
     if @selected_tab.update_attributes(params[:tab])
       @selected_tab.update_attribute(:slug, @selected_tab.title.parameterize)
-      redirect_to expanded_user_tabs_path(current_user, @selected_tab.slug)
+      redirect_to expanded_user_tabs_url(current_user, @selected_tab.slug)
       flash[:notice] = "Your details have been updated"
     else
       flash.now[:error]  = "There were some errors in your details."

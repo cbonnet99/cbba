@@ -1,7 +1,7 @@
 <% javascript 'new-user' %>
 <%= title membership_description(@mt)  %>
 <% if @mt == "resident_expert" && !logged_in? -%>
-  <p class="important">If you already have an account with BeAmazing, please <%= link_to "login", new_session_path(:return_to => new_expert_application_path) %>.</p>
+  <p class="important">If you already have an account with BeAmazing, please <%= link_to "login", new_session_url(:return_to => new_expert_application_url) %>.</p>
 <%end -%>
 <% form_for @user do |f| %>
     <%= render :partial => "users/verify_human" %>

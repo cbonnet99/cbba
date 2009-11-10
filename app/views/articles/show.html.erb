@@ -9,8 +9,8 @@
 <%if (is_author?(@article) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
 <div>
-      <%= link_to 'Delete', article_path(@article, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
-<%= link_to 'Edit', edit_article_path(@article, :context => @context, :selected_tab_id => @selected_tab_id), :class => "anchor-button" %>
+      <%= link_to 'Delete', article_url(@article, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
+<%= link_to 'Edit', edit_article_url(@article, :context => @context, :selected_tab_id => @selected_tab_id), :class => "anchor-button" %>
 </div><% end -%></div><% end -%>
 <div class="cleaner"></div>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @article} %>
@@ -20,4 +20,4 @@
 <br/>
 <%= white_list @article.body %>
 </p>
-<% if @article.author.active? %><span id="meet-author"><%= link_to "Meet #{@article.author.name}", user_path_with_context(@article.author)%></span> | <%end%><span class="share-link"><%= render :partial => "search/share_link" %></span>
+<% if @article.author.active? %><span id="meet-author"><%= link_to "Meet #{@article.author.name}", user_url_with_context(@article.author)%></span> | <%end%><span class="share-link"><%= render :partial => "search/share_link" %></span>

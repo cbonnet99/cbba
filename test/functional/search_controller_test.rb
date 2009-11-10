@@ -39,7 +39,7 @@ class SearchControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
 		get :search, :where => nil, :what => CGI::escape(cyrille.name)
     assert_not_nil assigns(:selected_user)
-		assert_redirected_to expanded_user_path(cyrille, :where => "", :what => cyrille.name  )
+		assert_redirected_to expanded_user_url(cyrille, :where => "", :what => cyrille.name  )
   end
   
   def test_search_lowercase

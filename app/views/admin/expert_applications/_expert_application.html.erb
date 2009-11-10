@@ -1,4 +1,4 @@
-<%= link_to "#{expert_application.user.name} applying for #{expert_application.subcategory.name}", expert_applications_action_with_id_path(expert_application, :action => "show") %>
+<%= link_to "#{expert_application.user.name} applying for #{expert_application.subcategory.name}", expert_applications_action_with_id_url(expert_application, :action => "show") %>
 <% if !expert_application.subcategory.resident_expert.nil? -%>
   <div class="important">This modality already has a resident expert: <%= expert_application.subcategory.resident_expert.name_with_email %></div>
 <% end -%>

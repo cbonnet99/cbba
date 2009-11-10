@@ -77,7 +77,7 @@ class SpecialOffersController < ApplicationController
   def create
     if params["cancel"]
       flash[:notice]="Special offer cancelled"
-      redirect_back_or_default user_special_offers_path
+      redirect_back_or_default user_special_offers_url
     else  
       @special_offer = current_user.special_offers.new(params[:special_offer])
       if @special_offer.save
@@ -90,7 +90,7 @@ class SpecialOffersController < ApplicationController
             flash[:error] = "\"#{@special_offer.title}\" was saved as a draft (you can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time)"
           end
         end
-        redirect_to special_offers_show_path(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)
+        redirect_to special_offers_show_url(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)
       else
         render :action => 'new'
       end
@@ -105,12 +105,12 @@ class SpecialOffersController < ApplicationController
   def update
     if params["cancel"]
       flash[:notice]="Special offer cancelled"
-      redirect_back_or_default user_special_offers_path
+      redirect_back_or_default user_special_offers_url
     else
       @special_offer = current_user.special_offers.find_by_slug(params[:id])
       if @special_offer.update_attributes(params[:special_offer])
         flash[:notice] = "\"#{@special_offer.title}\" successfully updated."
-        redirect_to special_offers_show_path(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)
+        redirect_to special_offers_show_url(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)
       else
         render :action => 'edit'
       end

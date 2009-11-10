@@ -68,7 +68,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_redirect_website_unknown_user
     cyrille = users(:cyrille)
     post :redirect_website, :slug => "bla"
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   def test_create_resident_expert
@@ -81,7 +81,7 @@ class UsersControllerTest < ActionController::TestCase
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
       :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "resident_expert", :subcategory1_id => hypnotherapy.id   }
-    assert_redirected_to new_expert_application_path
+    assert_redirected_to new_expert_application_url
 	end
 
   def test_membership_free_listing
@@ -140,14 +140,14 @@ class UsersControllerTest < ActionController::TestCase
     post :renew_membership, {}, {:user_id => cyrille.id }
     assert_not_nil assigns(:payment)
     assert_equal 19900, assigns(:payment).amount
-    assert_redirected_to edit_payment_path(assigns(:payment))
+    assert_redirected_to edit_payment_url(assigns(:payment))
     cyrille.reload
     assert_equal old_payments_size+1, cyrille.payments.size
     
     #the 2nd time, now payment should be created
     post :renew_membership, {}, {:user_id => cyrille.id }
     assert_not_nil assigns(:payment)
-    assert_redirected_to edit_payment_path(assigns(:payment))
+    assert_redirected_to edit_payment_url(assigns(:payment))
     cyrille.reload
     assert_equal old_payments_size+1, cyrille.payments.size
 
@@ -380,7 +380,7 @@ class UsersControllerTest < ActionController::TestCase
 	def test_update_phone
 		cyrille = users(:cyrille)
 		post :update, {:id => "123", :user => {:phone_prefix => "06", :phone_suffix => "999999" }}, {:user_id => cyrille.id }
-		assert_redirected_to expanded_user_path(cyrille)
+		assert_redirected_to expanded_user_url(cyrille)
 		assert_equal "Your details have been updated", flash[:notice]
     cyrille.reload
 		assert_equal "(06)999999", cyrille.phone
@@ -506,7 +506,7 @@ class UsersControllerTest < ActionController::TestCase
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
       :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "free_listing",
       :accept_terms => "1", :subcategory1_id => hypnotherapy.id }
-    assert_redirected_to user_membership_path
+    assert_redirected_to user_membership_url
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
@@ -527,7 +527,7 @@ class UsersControllerTest < ActionController::TestCase
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
       :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_not_nil assigns(:payment)
-    assert_redirected_to edit_payment_path(assigns(:payment))
+    assert_redirected_to edit_payment_url(assigns(:payment))
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size

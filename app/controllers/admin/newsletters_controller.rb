@@ -17,20 +17,20 @@ class Admin::NewslettersController < AdminApplicationController
       @newsletter.destroy
       flash[:notice] = "Newsletter deleted"
     end
-    redirect_to admin_newsletters_path    
+    redirect_to admin_newsletters_url  
   end
   
   def publish
     @newsletter.current_publisher = @current_user
     @newsletter.publish!
     flash[:notice] = "Newsletter published"
-    redirect_to admin_newsletters_path
+    redirect_to admin_newsletters_url
   end
   
   def retract
     @newsletter.retract!
     flash[:notice] = "Newsletter unpublished"
-    redirect_to admin_newsletters_path
+    redirect_to admin_newsletters_url
   end
   
   def new
@@ -44,12 +44,12 @@ class Admin::NewslettersController < AdminApplicationController
   def update
     if params["cancel"]
       flash[:notice]="Newsletter update cancelled"
-      redirect_back_or_default newsletters_path
+      redirect_back_or_default newsletters_url
     else
       @newsletter.update_attributes(params[:newsletter])
       if @newsletter.save
         flash[:notice] = "Newsletter saved"
-        redirect_to admin_newsletters_path
+        redirect_to admin_newsletters_url
       else
         flash[:error] = "There were some errors saving this newsletter"
         render :action => "edit" 
@@ -60,13 +60,13 @@ class Admin::NewslettersController < AdminApplicationController
   def create
     if params["cancel"]
       flash[:notice]="Newsletter creation cancelled"
-      redirect_back_or_default admin_newsletters_path
+      redirect_back_or_default admin_newsletters_url
     else  
       @newsletter = Newsletter.new(params[:newsletter])
       @newsletter.author_id = @current_user.id
       if @newsletter.save
         flash[:notice] = "Newsletter saved"
-        redirect_to admin_newsletters_path
+        redirect_to admin_newsletters_url
       else
         flash[:error] = "There were some errors saving this newsletter"
         render :action => "new" 

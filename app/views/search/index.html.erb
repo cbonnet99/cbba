@@ -6,7 +6,7 @@
     <li>Find <%= link_to "Well-being Providers", :controller => "full_members", :action => "index"%></li>
     <li>Connect with <%= link_to "Resident Experts", :controller => "resident_experts", :action => "index"%></li>
     <li>Search our <%= link_to "Articles", :controller => "articles", :action => "index"%></li>
-    <li>Find <%= link_to "Courses &amp; Events", category_path(:category_slug => "courses")%></li>
+    <li>Find <%= link_to "Courses &amp; Events", category_url(:category_slug => "courses")%></li>
   </ul>
   <p class="video"><span class="video-embed"><object type="application/x-shockwave-flash" style="width:218px; height:160px;" data="http://www.youtube.com/v/X69keOjs2Dg">
 <param name="movie" value="http://www.youtube.com/v/X69keOjs2Dg" />
@@ -47,6 +47,6 @@
 <% end -%>
 <!--News Ends -->
   <% if @total_articles > $number_articles_on_homepage -%>
-    <p><%= link_to "View more articles &raquo;", articles_path %></p>
+    <p><%= link_to "View more articles &raquo;", articles_url %></p>
   <% end -%>
 </div>

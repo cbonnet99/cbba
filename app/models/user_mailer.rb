@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
 		@subject << "Your direct debit details for BeAmazing"
 		@body[:payment] = payment
-		@body[:credit_card_url] = payment_action_with_id_path(:action => "edit", :id => payment.id)
+		@body[:credit_card_url] = payment_action_with_id_url(:action => "edit", :id => payment.id)
   end
 
   def message(message)
@@ -26,7 +26,7 @@ class UserMailer < ActionMailer::Base
 		@body[:body] = body
 		@body[:user] = user
 		if user.full_member? && !user.main_expertise_slug.blank?
-		  @body[:profile_url] = expanded_user_path(user)
+		  @body[:profile_url] = expanded_user_url(user)
 	  else
 	    @body[:profile_url] = ""
     end

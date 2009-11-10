@@ -78,7 +78,7 @@ class GiftVouchersControllerTest < ActionController::TestCase
     old_count = cyrille.gift_vouchers_count
     old_size = cyrille.gift_vouchers.size
     post :create, {:context => "profile", :selected_tab_id => "offers",  :gift_voucher => {:title => "Title", :description => "Description"} }, {:user_id => cyrille.id }
-    assert_redirected_to gift_vouchers_show_path(assigns(:gift_voucher).author.slug, assigns(:gift_voucher).slug, :context => "profile", :selected_tab_id => "offers")
+    assert_redirected_to gift_vouchers_show_url(assigns(:gift_voucher).author.slug, assigns(:gift_voucher).slug, :context => "profile", :selected_tab_id => "offers")
     new_gift = assigns(:gift_voucher)
     assert_not_nil new_gift
     assert new_gift.errors.blank?, "Errors found in new_gift: #{new_gift.errors.inspect}"

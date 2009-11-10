@@ -3,12 +3,12 @@
 <%if (is_author?(@gift_voucher) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
 <% if is_author?(@gift_voucher) -%>
 <div>
-<%= link_to 'Delete', gift_voucher_path(@gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
-<%= link_to 'Edit', edit_gift_voucher_path(@gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id), :class => "anchor-button" %>
+<%= link_to 'Delete', gift_voucher_url(@gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
+<%= link_to 'Edit', edit_gift_voucher_url(@gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id), :class => "anchor-button" %>
 </div><% end -%></div><%end%>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @gift_voucher} %>
 <hr/>
   <h3>Description</h3>
   <%=white_list @gift_voucher.description %>
   <h3>To order</h3>
-  <p>Please <%= link_to "email #{@gift_voucher.author.name}", user_slug_action_path(:slug => @gift_voucher.author.slug, :action => "message", :message => {:subject => "Voucher: #{@gift_voucher.title}"}  )%> . Vouchers can be sent to you or direct to the recipient.</p>
+  <p>Please <%= link_to "email #{@gift_voucher.author.name}", user_slug_action_url(:slug => @gift_voucher.author.slug, :action => "message", :message => {:subject => "Voucher: #{@gift_voucher.title}"}  )%> . Vouchers can be sent to you or direct to the recipient.</p>

@@ -22,7 +22,7 @@ module ApplicationHelper
   end
 
   def link_articles_subcategories(article)
-    article.subcategories.map{|s| link_to s.name, articles_for_subcategory_path(s.slug)}.to_sentence
+    article.subcategories.map{|s| link_to s.name, articles_for_subcategory_url(s.slug)}.to_sentence
   end
 
   def first_sentence(text)
@@ -92,7 +92,7 @@ module ApplicationHelper
       ""
     else
       if user.user_profile.published?
-        link_to "View full profile", user_path_with_context(user, review), {:id => "link-full-profile-content", :class => "button"}
+        link_to "View full profile", user_url_with_context(user, review), {:id => "link-full-profile-content", :class => "button"}
       else
        "<div id='link-profile-coming-soon-content', class='button'>Profile coming soon</div>"
       end
@@ -103,7 +103,7 @@ module ApplicationHelper
     if user.free_listing?
       ""
     else
-      link_to "Send message", user_slug_action_path(:slug => user.slug, :action => "message")
+      link_to "Send message", user_slug_action_url(:slug => user.slug, :action => "message")
     end
   end
 
@@ -121,7 +121,7 @@ module ApplicationHelper
 
   def author_link(user)
     if user.active?
-      link_to user.name, user_path_with_context(user)
+      link_to user.name, user_url_with_context(user)
     else
       user.name
     end
@@ -145,8 +145,8 @@ module ApplicationHelper
     end
   end
 
-  def user_profile_path(user_profile)
-    user_path(user_profile.user)
+  def user_profile_url(user_profile)
+    user_url(user_profile.user)
   end
 
   def blank_phone_number?(number_as_string)
@@ -155,7 +155,7 @@ module ApplicationHelper
 
 
   #when the context needs to be recorded (ie when a user profile has been clicked from a particular listing or from an article)
-  def user_path_with_context(user, review=false)
+  def user_url_with_context(user, review=false)
     options = {:review => review }
     unless @article.nil?
       options[:article_id] = @article.id
@@ -166,10 +166,10 @@ module ApplicationHelper
     unless @subcategory.nil?
       options[:subcategory_id] = @subcategory.id
     end
-    expanded_user_path(user, options)
+    expanded_user_url(user, options)
   end
 
-  def expanded_user_path(user, options={})
+  def expanded_user_url(user, options={})
     options.merge!(:main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
     if options.include?(:selected_tab_id) && !options[:selected_tab_id].blank?
       user_tabs_url(options)
@@ -178,13 +178,13 @@ module ApplicationHelper
     end
   end
 
-  def expanded_user_tabs_path(user, tab, options={})
+  def expanded_user_tabs_url(user, tab, options={})
     if tab.blank?
       tab = Tab::ARTICLES
     end
     options.merge!(:main_expertise_slug => user.main_expertise_slug, :region => user.region.slug,
       :name => user.slug, :selected_tab_id => tab )
-    user_tabs_path(options)
+    user_tabs_url(options)
   end
 
   def convert_amount(amount_integer)

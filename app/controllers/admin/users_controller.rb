@@ -8,7 +8,7 @@ class Admin::UsersController < AdminApplicationController
   def update
     if @selected_user.check_and_update_attributes(params[:user])
       flash[:notice] = "User updated"
-      redirect_to search_admin_users_path(:search_term => params[:search_term])
+      redirect_to search_admin_users_url(:search_term => params[:search_term])
     else
       get_subcategories
       flash.now[:error] = "Error while updating your user"
@@ -33,9 +33,9 @@ class Admin::UsersController < AdminApplicationController
       log_bam_user_event(UserEvent::ADMIN_LOGIN, "", "Success")
       flash[:notice]="Logged in successfully"
       if @selected_user.full_member?
-        redirect_to expanded_user_path(current_user)
+        redirect_to expanded_user_url(current_user)
       else
-        redirect_to user_edit_path
+        redirect_to user_edit_url
       end
     end
   end
@@ -48,7 +48,7 @@ class Admin::UsersController < AdminApplicationController
       @selected_user.destroy
       flash[:notice]="User deleted"
     end
-    redirect_to search_admin_users_path(:search_term => params[:search_term])
+    redirect_to search_admin_users_url(:search_term => params[:search_term])
   end
   
 end

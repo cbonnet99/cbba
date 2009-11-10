@@ -31,7 +31,7 @@ class HowTosControllerTest < ActionController::TestCase
     assert_not_nil assigns(:how_to)
     assert assigns(:how_to).errors.blank?
     assert_equal flash[:notice], "\"Title here\" was successfully saved and published."
-    assert_redirected_to how_tos_show_path(cyrille.slug, "title-here", :context => "profile", :selected_tab_id => "articles")
+    assert_redirected_to how_tos_show_url(cyrille.slug, "title-here", :context => "profile", :selected_tab_id => "articles")
     cyrille.reload
     assert_equal old_size+1, cyrille.how_tos.size
     assert_equal old_count+1, cyrille.how_tos_count
@@ -61,7 +61,7 @@ class HowTosControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
 
 		post :publish, {:context => "profile", :selected_tab_id => "articles", :id => improve.id }, {:user_id => cyrille.id}
-		assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
+		assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
 		improve.reload
 		assert_not_nil improve.published_at
 
@@ -78,7 +78,7 @@ class HowTosControllerTest < ActionController::TestCase
     old_size = cyrille.published_how_tos_count
 
 		post :unpublish, {:context => "profile", :selected_tab_id => "articles", :id => money.id }, {:user_id => cyrille.id}
-		assert_redirected_to expanded_user_path(cyrille, :selected_tab_id => "articles")
+		assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
 		money.reload
 		assert_nil money.published_at
 
@@ -109,7 +109,7 @@ class HowTosControllerTest < ActionController::TestCase
   def test_show_anonymous_draft
     cyrille = users(:cyrille)
     get :show, {:id => how_tos(:improve).slug, :selected_user => cyrille.slug  }
-    assert_redirected_to articles_path
+    assert_redirected_to articles_url
     assert_not_nil assigns(:selected_user)
     assert_nil assigns(:how_to)
   end

@@ -94,7 +94,7 @@ class ArticlesController < ApplicationController
   def create
     if params["cancel"]
       flash[:notice]="Article cancelled"
-      redirect_to expanded_user_path(current_user, :selected_tab_id => @selected_tab_id)
+      redirect_to expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)
     else  
       @article = Article.new(params[:article])
       @article.author_id = @current_user.id
@@ -107,7 +107,7 @@ class ArticlesController < ApplicationController
             @article.publish!
             flash[:notice] = "\"#{@article.title}\" was successfully saved and published."
           end
-          format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
+          format.html { redirect_to(articles_show_url(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
           format.xml  { render :xml => @article, :status => :created, :location => @article }
         else
           format.html { render :action => "new" }
@@ -126,7 +126,7 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       if @article.update_attributes(params[:article])
         flash[:notice] = "\"#{@article.title}\" successfully updated."
-        format.html { redirect_to(articles_show_path(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
+        format.html { redirect_to(articles_show_url(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

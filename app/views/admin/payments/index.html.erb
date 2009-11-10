@@ -21,7 +21,7 @@
     <td><%=h amount_view(payment.amount.to_s) %></td>
     <td><%=h payment.created_at %></td>
     <td><% if payment.pending?%><%=link_to "Mark as paid", :controller => "admin/payments", :action => "mark_as_paid", :id => payment.id %><%else%>None<%end%></td>
-    <td><% unless payment.invoice.nil?%><%= link_to payment.invoice.filename, invoice_path(payment.invoice)%><%end%></td>
+    <td><% unless payment.invoice.nil?%><%= link_to payment.invoice.filename, invoice_url(payment.invoice)%><%end%></td>
   </tr>
 <% end %>
 </table>

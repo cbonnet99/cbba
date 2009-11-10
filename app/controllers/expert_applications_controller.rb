@@ -14,7 +14,7 @@ class ExpertApplicationsController < ApplicationController
     @expert_application.user_id = current_user.id
     if @expert_application.save
       flash[:notice] = "Thank you, we will contact you soon"
-      redirect_to thank_you_expert_applications_path
+      redirect_to thank_you_expert_applications_url
     else
       flash[:error] = "Your application could not be processed"
       get_subcategories

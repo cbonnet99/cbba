@@ -4,8 +4,8 @@
 <% end -%>
 <% unless logged_in? -%>
 <div id="bam-invite-join">
-  <p>Do you offer <%=@subcategory.name%>? GREAT! We warmly invite you to <%= link_to 'join beamazing.co.nz', signup_intro_path %>!</p>
-  <p>If you want to make more use of the Internet, reach more people and make a bigger difference, then you've come to the right place - we help 1000's of people find services like yours... <%= link_to 'LEARN MORE!', signup_intro_path %></p>
+  <p>Do you offer <%=@subcategory.name%>? GREAT! We warmly invite you to <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
+  <p>If you want to make more use of the Internet, reach more people and make a bigger difference, then you've come to the right place - we help 1000's of people find services like yours... <%= link_to 'LEARN MORE!', signup_intro_url %></p>
 </div>
 <%end -%>
 <%= render :partial => "users/apply_expert", :locals => {:subcategory => @subcategory} %>

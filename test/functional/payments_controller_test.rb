@@ -16,7 +16,7 @@ class PaymentsControllerTest < ActionController::TestCase
   def test_should_get_index
     cyrille = users(:cyrille)
     get :index
-    assert_redirected_to new_session_path
+    assert_redirected_to new_session_url
     get :index, {}, {:user_id => cyrille.id }
     assert_response :success
     assert_not_nil assigns(:payments)

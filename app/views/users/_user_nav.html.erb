@@ -1,7 +1,7 @@
-<% if current_user.full_member? -%><%if selected=="profile"%><span class="user-profile-menu user-tab-selected">Profile</span><%else%><span class="user-profile-menu"><%= link_to "Profile", expanded_user_path(current_user, :selected_tab_id => @selected_tab_id)%></span><%end%> |
+<% if current_user.full_member? -%><%if selected=="profile"%><span class="user-profile-menu user-tab-selected">Profile</span><%else%><span class="user-profile-menu"><%= link_to "Profile", expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)%></span><%end%> |
 	<%if selected=="details"%><span class="user-tab-selected">Edit details</span><%else%><%= link_to "Edit details", :controller => "users", :action => "edit"%><%end%> |
 		<%if selected=="pwd"%><span class="user-tab-selected">Change password</span><%else%><%= link_to "Change password", :controller => "users", :action => "edit_password"%><%end%> |
 <%if selected=="stats"%><span class="user-tab-selected">Statistics</span><%else%><%= link_to "Statistics", :controller => "users", :action => "stats"%><%end%> |
 <%if selected=="membership"%><span class="user-tab-selected">Membership</span><%else%><%= link_to "Membership", :controller => "users", :action => "membership"%><%end%> |
-<%if selected=="payments"%><span class="user-tab-selected">Payments</span><%else%><%= link_to "Payments", payments_path%><%end%>
+<%if selected=="payments"%><span class="user-tab-selected">Payments</span><%else%><%= link_to "Payments", payments_url%><%end%>
 <% end -%>

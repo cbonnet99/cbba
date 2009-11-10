@@ -1,9 +1,9 @@
 <div class="publication-info">
 <% if !item.approved_at.nil? && (is_reviewer? || is_author?(item)) -%>
-<div class="approval-date">Approved: <%= item.approved_at %> by <%=link_to item.approved_by.name, expanded_user_path(item.approved_by)%></div>
+<div class="approval-date">Approved: <%= item.approved_at %> by <%=link_to item.approved_by.name, expanded_user_url(item.approved_by)%></div>
 <%  end -%>
 <% if !item.rejected_at.nil? && (is_reviewer? || is_author?(item)) -%>
-<div class="rejection-date">Rejected: <%= item.rejected_at %> by <%=link_to item.rejected_by.name, expanded_user_path(item.rejected_by)%>(Reason: <%=item.reason_reject%>)</div>
+<div class="rejection-date">Rejected: <%= item.rejected_at %> by <%=link_to item.rejected_by.name, expanded_user_url(item.rejected_by)%>(Reason: <%=item.reason_reject%>)</div>
 <%end-%>
 <%unless item.published_at.nil?-%>
 <div class="publication-date">Published: <%= item.published_at.to_date %></div>

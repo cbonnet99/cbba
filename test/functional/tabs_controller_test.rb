@@ -9,7 +9,7 @@ class TabsControllerTest < ActionController::TestCase
     old_size = cyrille.tabs.size
     post :create, { }, {:user_id => cyrille.id }
     assert_not_nil assigns(:tab)
-    assert_redirected_to action_tab_with_id_path(assigns(:tab).slug, :action => "edit" )
+    assert_redirected_to action_tab_with_id_url(assigns(:tab).slug, :action => "edit" )
     cyrille.reload
     assert_equal old_size+1, cyrille.tabs.size
   end
@@ -51,7 +51,7 @@ class TabsControllerTest < ActionController::TestCase
     old_size = Tab.all.size
     post :destroy, {:id => cyrille_test.slug}, {:user_id => cyrille.id }
     assert_equal old_size-1, Tab.all.size
-    assert_redirected_to expanded_user_tabs_path(cyrille, nil)
+    assert_redirected_to expanded_user_tabs_url(cyrille, nil)
   end
 
 end

@@ -278,8 +278,8 @@ class User < ActiveRecord::Base
     User.find_by_sql(["select * from users where free_listing is false AND lower(first_name) || ' ' || lower(last_name) = lower(?)", my_name]).first
   end
   
-  def user_profile_path
-    help.expanded_user_path(self)
+  def user_profile_url
+    help.expanded_user_url(self)
   end
   
   def member_since_launch_date?

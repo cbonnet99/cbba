@@ -63,7 +63,7 @@ class GiftVouchersController < ApplicationController
   def create
     if params["cancel"]
       flash[:notice]="Gift voucher cancelled"
-      redirect_to user_gift_vouchers_path
+      redirect_to user_gift_vouchers_url
     else  
       @gift_voucher = current_user.gift_vouchers.new(params[:gift_voucher])
       if @gift_voucher.save
@@ -76,7 +76,7 @@ class GiftVouchersController < ApplicationController
             flash[:error] = "\"#{@gift_voucher.title}\" was saved as a draft (you can only have #{help.pluralize(current_user.max_published_gift_vouchers, "gift voucher")} published at any time)"
           end
         end
-        redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id)
+        redirect_to gift_vouchers_show_url(@gift_voucher.author.slug, @gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id)
       else
         get_subcategories
         render :action => 'new'
@@ -92,12 +92,12 @@ class GiftVouchersController < ApplicationController
   def update
     if params["cancel"]
       flash[:notice]="Gift voucher cancelled"
-      redirect_to user_gift_vouchers_path
+      redirect_to user_gift_vouchers_url
     else
       @gift_voucher = current_user.gift_vouchers.find_by_slug(params[:id])
       if @gift_voucher.update_attributes(params[:gift_voucher])
         flash[:notice] = "\"#{@gift_voucher.title}\" successfully updated."
-        redirect_to gift_vouchers_show_path(@gift_voucher.author.slug, @gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id)
+        redirect_to gift_vouchers_show_url(@gift_voucher.author.slug, @gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id)
       else
         render :action => 'edit'
       end

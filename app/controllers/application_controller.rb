@@ -23,10 +23,10 @@ class ApplicationController < ActionController::Base
 
   def redirect_with_context(default_url)
     if @context == "profile"
-      redirect_to expanded_user_path(current_user, :selected_tab_id => @selected_tab_id)
+      redirect_to expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)
     else
       if @context == "review"
-        redirect_to reviewer_path(:action => "index")
+        redirect_to reviewer_url(:action => "index")
       else
         #default
         redirect_to default_url
@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     respond_to do |type| 
       type.html do
         logger.warn("Error 404 for request: #{request.inspect}")
-        redirect_to notfound_path 
+        redirect_to notfound_url
       end
       type.all  { render :nothing => true, :status => 404 } 
     end
@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
     respond_to do |type| 
       type.html do
         logger.error("Error 500 for request: #{request.inspect}")
-        redirect_to customerror_path 
+        redirect_to customerror_url
       end
       type.all  { render :nothing => true, :status => 500 } 
     end

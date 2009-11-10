@@ -1,5 +1,5 @@
 <% if own_profile?(@user) -%>
-<p><%= link_to "Create a new gift voucher", new_gift_voucher_path %></p>
+<p><%= link_to "Create a new gift voucher", new_gift_voucher_url %></p>
 <% end -%>
 <% if @gift_vouchers.blank? -%>
   No gift vouchers

@@ -13,7 +13,7 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
   def test_create
     free_trial = special_offers(:free_trial)
     post :create, {:newsletter => {:title => "bla", :special_offers_attributes => {:id => free_trial.id } } }, {:user_id => users(:cyrille).id }
-    assert_redirected_to admin_newsletters_path
+    assert_redirected_to admin_newsletters_url
     assert_not_nil assigns(:newsletter)
     assert assigns(:newsletter).errors.blank?
     assert_equal [free_trial], assigns(:newsletter).special_offers
@@ -31,7 +31,7 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     free_trial = special_offers(:free_trial)
     may_published = newsletters(:may_published)
     post :update, {:id => may_published.id, :newsletter => {:title => "bla", :special_offers_attributes => {:id => free_trial.id } } }, {:user_id => users(:cyrille).id }
-    assert_redirected_to admin_newsletters_path
+    assert_redirected_to admin_newsletters_url
     may_published.reload
     assert assigns(:newsletter).errors.blank?
     assert_equal [free_trial], may_published.special_offers
@@ -54,7 +54,7 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     newsletters_count = Newsletter.count
     post :destroy, {:id => june_draft.id }, {:user_id => cyrille.id }
-    assert_redirected_to admin_newsletters_path
+    assert_redirected_to admin_newsletters_url
     assert_equal "Newsletter deleted", flash[:notice]
     assert_equal newsletters_count-1, Newsletter.count
   end
@@ -64,7 +64,7 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     newsletters_count = Newsletter.count
     post :destroy, {:id => may_published.id }, {:user_id => cyrille.id }
-    assert_redirected_to admin_newsletters_path
+    assert_redirected_to admin_newsletters_url
     assert_equal "Newsletter is published, you must unpublish it before deleting it", flash[:error]
     assert_equal newsletters_count, Newsletter.count
   end
@@ -73,7 +73,7 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     june_draft = newsletters(:june_draft)
     cyrille = users(:cyrille)
     post :publish, {:id => june_draft.id }, {:user_id => cyrille.id }
-    assert_redirected_to admin_newsletters_path
+    assert_redirected_to admin_newsletters_url
     assert_equal "Newsletter published", flash[:notice]
     june_draft.reload
     assert_equal cyrille, june_draft.publisher
@@ -84,7 +84,7 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     may_published = newsletters(:may_published)
     cyrille = users(:cyrille)
     post :retract, {:id => may_published.id }, {:user_id => cyrille.id }
-    assert_redirected_to admin_newsletters_path
+    assert_redirected_to admin_newsletters_url
     may_published.reload
     assert_equal "Newsletter unpublished", flash[:notice]
     assert_nil may_published.publisher

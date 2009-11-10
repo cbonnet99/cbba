@@ -1,8 +1,8 @@
-<% form_tag session_path do %>
+<% form_tag session_url do %>
   <%= label_tag 'email', 'Email:' %>
 <%= text_field_tag 'email', @email, :size => 10 %>
 <%= label_tag 'password', 'Password:' %>
 <%= password_field_tag 'password', nil, :size => 10 %>
 <%= submit_tag 'Login' %><br/>
-<%= link_to 'Forgot your password?', forgot_password_path %>
+<%= link_to 'Forgot your password?', forgot_password_url %>
 <% end -%>

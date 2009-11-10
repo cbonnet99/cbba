@@ -16,7 +16,7 @@
 	<td><%unless s.visited_user.nil?%>Visited user: <%= s.visited_user.name %><%end%><%if !s.visited_user.nil? && !s.extra_data.blank?%><br/><%end%>
 		<%unless s.extra_data.blank?%><%= s.extra_data %><%end%></td>
 	<td><%= time_ago_in_words(s.logged_at)%> ago</td>
-	<td><%unless s.user.nil?-%><%= link_to "View all activities for #{s.user.name}", user_activity_admin_path(:id  => s.user_id)%><%end%></td>
+	<td><%unless s.user.nil?-%><%= link_to "View all activities for #{s.user.name}", user_activity_admin_url(:id  => s.user_id)%><%end%></td>
 </tr>
 <%end-%>
 </table>

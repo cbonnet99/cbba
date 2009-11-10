@@ -1,3 +1,3 @@
 var promowidgetdata = Array(<% @experts.each do |e| -%>
-{title: '<%=e.name%>', image:'<%if e.photo.exists? && e.user_profile.published?%><%= image_tag e.photo.url(:thumbnail) %><%else%><%= image_tag "nophoto.gif" %><%end%>', link:'<%=expanded_user_path(e)%>', newwin:false, description:'<%= e.description%>'}<%unless e==@experts.last%>,<%end%>
+{title: '<%=e.name%>', image:'<%if e.photo.exists? && e.user_profile.published?%><%= image_tag e.photo.url(:thumbnail) %><%else%><%= image_tag "nophoto.gif" %><%end%>', link:'<%=expanded_user_url(e)%>', newwin:false, description:'<%= e.description%>'}<%unless e==@experts.last%>,<%end%>
 <%end -%>);

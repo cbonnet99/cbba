@@ -47,7 +47,7 @@ class SearchController < ApplicationController
         @articles = Article.find_all_by_subcategories(*@category.subcategories) unless @category.blank?
         
         if @results.blank? && !@selected_user.nil?
-            redirect_to expanded_user_path(@selected_user, :what => @what, :where => @where) unless @selected_user.nil?
+            redirect_to expanded_user_url(@selected_user, :what => @what, :where => @where) unless @selected_user.nil?
         end
         
       end

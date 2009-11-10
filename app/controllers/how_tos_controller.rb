@@ -63,7 +63,7 @@ class HowTosController < ApplicationController
   def create
     if params["cancel"]
       flash[:notice]="'How to' article cancelled"
-      redirect_to expanded_user_path(current_user, :selected_tab_id => @selected_tab_id)
+      redirect_to expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)
     else  
       @how_to = HowTo.new(params[:how_to])
       @how_to.author_id = @current_user.id
@@ -76,7 +76,7 @@ class HowTosController < ApplicationController
             @how_to.publish!
             flash[:notice] = "\"#{@how_to.title}\" was successfully saved and published."
           end
-          format.html { redirect_to(how_tos_show_path(@how_to.author.slug, @how_to.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
+          format.html { redirect_to(how_tos_show_url(@how_to.author.slug, @how_to.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
           format.xml  { render :xml => @how_to, :status => :created, :location => @how_to }
         else
           format.html { render :action => "new" }
@@ -93,7 +93,7 @@ class HowTosController < ApplicationController
     respond_to do |format|
       if @how_to.update_attributes(params[:how_to])
         flash[:notice] = "\"#{@how_to.title}\" successfully updated."
-        format.html { redirect_to(how_tos_show_path(@how_to.author.slug, @how_to.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
+        format.html { redirect_to(how_tos_show_url(@how_to.author.slug, @how_to.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -112,10 +112,10 @@ class HowTosController < ApplicationController
       flash[:error] = "You cannot delete this 'how to' article"
     end
     if @context == "profile"
-      redirect_to expanded_user_path(current_user, :selected_tab_id => @selected_tab_id)
+      redirect_to expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)
     else
       if @context == "review"
-        redirect_to reviewer_path(:action => "index")
+        redirect_to reviewer_url(:action => "index")
       else
         #homepage context is the default
         redirect_to articles_url

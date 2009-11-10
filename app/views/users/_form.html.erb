@@ -21,7 +21,7 @@
         <%= f.password_field :password_confirmation %>
       </li>
       <li>
-        <%= f.label :accept_terms, "I accept BeAmazing #{link_to("Terms &amp; Conditions", terms_path)}:<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :accept_terms, "I accept BeAmazing #{link_to("Terms &amp; Conditions", terms_url)}:<span class='mandatoryStar'>*</span>" %>
         <%= f.check_box :accept_terms %>
       </li>
       <%end -%>
@@ -106,5 +106,5 @@
 	<% if @mt == "full_member" -%>
     <%= submit_tag "Pay by direct debit", :class => "button submit"  %>
 	<% end -%>
-	<%= link_to "Cancel", root_path, :class => "anchor-button cancel" %>
+	<%= link_to "Cancel", root_url, :class => "anchor-button cancel" %>
   </p>

@@ -23,8 +23,8 @@ module UsersHelper
   # You need to do all access control at the controller level.
   #
   # Example:
-  # <%= if_authorized?(:index,   User)  do link_to('List all users', users_path) end %> |
-  # <%= if_authorized?(:edit,    @user) do link_to('Edit this user', edit_user_path) end %> |
+  # <%= if_authorized?(:index,   User)  do link_to('List all users', users_url) end %> |
+  # <%= if_authorized?(:edit,    @user) do link_to('Edit this user', edit_user_url) end %> |
   # <%= if_authorized?(:destroy, @user) do link_to 'Destroy', @user, :confirm => 'Are you sure?', :method => :delete end %> 
   #
   #
@@ -66,7 +66,7 @@ module UsersHelper
     content_text      = options.delete(:content_text)
     content_text    ||= user.send(options.delete(:content_method))
     options[:title] ||= user.send(options.delete(:title_method))
-    link_to h(content_text), expanded_user_path(user), options
+    link_to h(content_text), expanded_user_url(user), options
   end
 
   #
@@ -88,7 +88,7 @@ module UsersHelper
     if tag = options.delete(:tag)
       content_tag tag, h(content_text), options
     else
-      link_to h(content_text), login_path, options
+      link_to h(content_text), login_url, options
     end
   end
 

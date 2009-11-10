@@ -1,5 +1,5 @@
 <h4 class="article-title">
-	<%=link_to article.title, articles_show_path(article.author.slug, article.slug, :context => @context, :selected_tab_id => "articles") %>
+	<%=link_to article.title, articles_show_url(article.author.slug, article.slug, :context => @context, :selected_tab_id => "articles") %>
 	<% if (@context == "profile" && is_author?(article)) || (is_admin? && @context == "review") -%>
 	 <span class="stuff-actions">[<span class="<%=article.workflow_css_class%>"><%=article.state%></span>
 		<% if (is_author?(article) || is_admin?) && current_user.active? -%>
@@ -11,7 +11,7 @@
 			<%end-%>
 		<%end-%>
 		<% if is_author?(article)-%>
-		 	| <%= link_to 'Edit', edit_article_path(article, :selected_tab_id => "articles", :context => @context) %> | <%= link_to 'Delete', article_path(article, :selected_tab_id => "articles", :context => @context), :method => "delete", :confirm => "Are you sure? This action can not be undone"%>
+		 	| <%= link_to 'Edit', edit_article_url(article, :selected_tab_id => "articles", :context => @context) %> | <%= link_to 'Delete', article_url(article, :selected_tab_id => "articles", :context => @context), :method => "delete", :confirm => "Are you sure? This action can not be undone"%>
 		<%end-%>
 		]</span>
 	<%end-%>

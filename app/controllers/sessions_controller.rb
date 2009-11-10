@@ -22,17 +22,17 @@ class SessionsController < ApplicationController
           if current_user.admin?
             redirect_back_or_default reviewer_url(:action => "index")
           else
-            redirect_back_or_default expanded_user_path(current_user, {:protocol => APP_CONFIG[:logged_site_protocol]})
+            redirect_back_or_default expanded_user_url(current_user)
           end
         else
           @payment = current_user.find_current_payment
           flash.now[:warning] = "You need to complete your payment"
-          redirect_back_or_default edit_payment_path(@payment)
+          redirect_back_or_default edit_payment_url(@payment)
         end
       else
         log_bam_user_event(UserEvent::LOGIN, "", "Success")
         flash.now[:notice] = "Logged in successfully"
-        redirect_back_or_default user_edit_path
+        redirect_back_or_default user_edit_url
       end
     else
       log_bam_user_event(UserEvent::LOGIN, "", "Failure")

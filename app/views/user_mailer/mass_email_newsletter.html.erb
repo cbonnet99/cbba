@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
-<body style="color:#555;"><p>You can also <%= link_to "view this newsletter online", admin_newsletter_path(@newsletter.id) %></p>
+<body style="color:#555;"><p>You can also <%= link_to "view this newsletter online", admin_newsletter_url(@newsletter.id) %></p>
 <h2 style="color:#000; font-size:24px;font-weight:bold;"><%= @newsletter.title%></h2>
 <%= render :partial => "admin/newsletters/show_body", :locals => {:newsletter => @newsletter }  %>
 <p>Join us on:

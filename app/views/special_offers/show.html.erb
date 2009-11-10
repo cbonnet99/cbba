@@ -5,8 +5,8 @@
 	<%= render :partial => "reviewer/publication_actions", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>
 	<% if is_author?(@special_offer) -%>
 	<div>
-		<%= link_to 'Delete', special_offer_path(@special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
-		<%= link_to 'Edit', edit_special_offer_path(@special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id), :class => "anchor-button" %>
+		<%= link_to 'Delete', special_offer_url(@special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>
+		<%= link_to 'Edit', edit_special_offer_url(@special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id), :class => "anchor-button" %>
 	</div>
 	<% end -%>
 </div>

@@ -82,7 +82,7 @@ module Workflowable
     end
 
     def path_method
-      self.class.to_s.tableize.singularize+"_path"
+      self.class.to_s.tableize.singularize+"_url"
     end
 
     def workflow_css_class

@@ -23,7 +23,7 @@ class PasswordsController < ApplicationController
       @user = Password.find(:first, :conditions => ['reset_code = ? and expiration_date > ?', params[:reset_code], Time.now]).user
     rescue
       flash[:notice] = 'The change password URL you visited is either invalid or expired.'
-      redirect_to new_password_path
+      redirect_to new_password_url
     end    
   end
 
@@ -32,7 +32,7 @@ class PasswordsController < ApplicationController
     
     if @user.update_attributes(params[:user])
       flash[:notice] = 'Password was successfully updated.'
-      redirect_to login_path
+      redirect_to login_url
     else
       flash[:notice] = 'EPIC FAIL!'
       redirect_to :action => :reset, :reset_code => params[:reset_code]

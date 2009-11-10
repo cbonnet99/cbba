@@ -15,7 +15,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     rmoore = users(:rmoore)
     old_size = User.all.size
     post :destroy, {:id => rmoore.slug }, {:user_id => cyrille.id}
-    assert_redirected_to search_admin_users_path
+    assert_redirected_to search_admin_users_url
     assert_equal old_size-1, User.all.size
   end
   
@@ -37,7 +37,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
           "member_until(2i)" => "11", "member_until(3i)" => "1" }  }, {:user_id => cyrille.id}
     assert_not_nil assigns(:selected_user)
     assert assigns(:selected_user).errors.blank?, "Errors: #{assigns(:selected_user).errors.full_messages.to_sentence}"
-    assert_redirected_to search_admin_users_path
+    assert_redirected_to search_admin_users_url
     norma.reload
     assert norma.free_listing?
     assert !norma.admin?, "Norma should not be admin"
@@ -56,7 +56,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     post :update, {:id => rmoore.slug, :user => {:admin => 0, :main_role => "Full member", "member_since(1i)" => "2008",
        "member_since(2i)" => "10", "member_since(3i)" => "30", "member_until(1i)" => "2009",
           "member_until(2i)" => "11", "member_until(3i)" => "1" }  }, {:user_id => cyrille.id}
-    assert_redirected_to search_admin_users_path
+    assert_redirected_to search_admin_users_url
     rmoore.reload
     assert !rmoore.free_listing?
     assert !rmoore.admin?
@@ -80,7 +80,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
           "member_until(2i)" => "11", "member_until(3i)" => "1", "resident_since(1i)" => "2008",
              "resident_since(2i)" => "10", "resident_since(3i)" => "30", "resident_until(1i)" => "2009",
                 "resident_until(2i)" => "11", "resident_until(3i)" => "1" }  }, {:user_id => cyrille.id}
-    assert_redirected_to search_admin_users_path
+    assert_redirected_to search_admin_users_url
     rmoore.reload
     assert !rmoore.free_listing?
     assert !rmoore.admin?
@@ -100,7 +100,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
           "member_until(2i)" => "11", "member_until(3i)" => "1", "resident_since(1i)" => "2008",
              "resident_since(2i)" => "10", "resident_since(3i)" => "30", "resident_until(1i)" => "2009",
                 "resident_until(2i)" => "11", "resident_until(3i)" => "1" }  }, {:user_id => cyrille.id}
-    assert_redirected_to search_admin_users_path
+    assert_redirected_to search_admin_users_url
     rmoore.reload
     assert !rmoore.free_listing?
     assert rmoore.admin?

@@ -22,12 +22,12 @@ class UsersController < ApplicationController
     if @user.blank?
       flash[:error] = "This user does not exist."
       logger.error("Attempt to redirect to website for slug #{params[:slug]} (user doesn't exist)")
-      redirect_to root_path
+      redirect_to root_url
     else
       if @user.website.blank?
         flash[:error] = "This user does not have a Web site."
         logger.error("Attempt to redirect to website for user #{@user.email}(ID: #{@user.id})")
-        redirect_to root_path
+        redirect_to root_url
       else
         log_bam_user_event UserEvent::REDIRECT_WEBSITE, "Redirected to #{@user.website}", {}, {:visited_user_id => @user.id }
         logger.debug("+++++++++++++++ redirecting to #{@user.website}")
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
     @payment = current_user.payments.pending.renewals.first
     @payment = current_user.payments.create!(Payment::TYPES[:full_member]) if @payment.nil?
     flash[:notice] = "Please complete the payment below to upgrade your membership"
-    redirect_to edit_payment_path(@payment)
+    redirect_to edit_payment_url(@payment)
   end
 
   def membership
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
     @payment = current_user.payments.pending.renewals.first
     @payment = current_user.payments.create!(Payment::TYPES[:renew_full_member]) if @payment.nil?
     flash[:notice] = "Please complete the payment below to renew your membership"
-    redirect_to edit_payment_path(@payment)
+    redirect_to edit_payment_url(@payment)
   end
 
   def pay_resident
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
     @payment = current_user.payments.pending.resident.first
     @payment = current_user.payments.create!(Payment::TYPES[:resident_expert]) if @payment.nil?
     flash[:notice] = "Please complete the payment below to complete your resident expert membership"
-    redirect_to edit_payment_path(@payment)
+    redirect_to edit_payment_url(@payment)
   end
 
   def renew_resident
@@ -80,7 +80,7 @@ class UsersController < ApplicationController
     @payment = current_user.payments.pending.resident_renewals.first
     @payment = current_user.payments.create!(Payment::TYPES[:renew_resident_expert]) if @payment.nil?
     flash[:notice] = "Please complete the payment below to renew your resident expert membership"
-    redirect_to edit_payment_path(@payment)
+    redirect_to edit_payment_url(@payment)
   end
 
   def index
@@ -106,17 +106,17 @@ class UsersController < ApplicationController
       
       flash[:error]="Error while uploading your photo. #{error_msg}"
     end
-		redirect_to expanded_user_path(@user)
+		redirect_to expanded_user_url(@user)
   end
 
 	def publish
     if current_user.user_profile.draft?
       current_user.user_profile.publish!
       flash[:notice] = "Your profile was successfully published"
-      redirect_to expanded_user_path(current_user)
+      redirect_to expanded_user_url(current_user)
     else
       flash[:error] = "Your profile is already published"
-      redirect_to expanded_user_path(current_user)
+      redirect_to expanded_user_url(current_user)
     end
 	end
 
@@ -124,10 +124,10 @@ class UsersController < ApplicationController
     if current_user.user_profile.published?
       current_user.user_profile.remove!
       flash[:notice] = "Your profile is no longer published"
-      redirect_to expanded_user_path(current_user)
+      redirect_to expanded_user_url(current_user)
     else
       flash[:error] = "Your profile is not published"
-      redirect_to expanded_user_path(current_user)
+      redirect_to expanded_user_url(current_user)
     end
 	end
 
@@ -181,7 +181,7 @@ class UsersController < ApplicationController
 	def update_password
 	  if User.authenticate(current_user.email, params[:user]["old_password"])
   		if current_user.update_attributes(params[:user])
-        redirect_to expanded_user_path(current_user)
+        redirect_to expanded_user_url(current_user)
         flash[:notice] = "Your password has been updated"
       else
         flash.now[:error]  = "There were some errors in your password details."
@@ -198,7 +198,7 @@ class UsersController < ApplicationController
     params[:user].delete("password")
     params[:user].delete("password_confirmation")
 		if @user.update_attributes(params[:user])
-      redirect_to expanded_user_path(@user)
+      redirect_to expanded_user_url(@user)
       @user.region_name(:reload)
       @user.main_expertise_name(:reload)
       flash[:notice] = "Your details have been updated"
@@ -212,7 +212,7 @@ class UsersController < ApplicationController
   def new
     @mt = params[:mt] || "free_listing"
     if logged_in? && @mt == "resident_expert"
-      redirect_to new_expert_application_path(:subcategory_id => params[:subcategory_id])
+      redirect_to new_expert_application_url(:subcategory_id => params[:subcategory_id])
     end
     professional_str = params[:professional] || "false"
     professional = professional_str == "true"
@@ -238,17 +238,17 @@ class UsersController < ApplicationController
             redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
           else
             @payment.payment_type = "credit_card"
-            redirect_to edit_payment_path(@payment)
+            redirect_to edit_payment_url(@payment)
           end
         when "resident_expert":
            @user.activate!
           session[:user_id] = @user.id
-          redirect_to new_expert_application_path
+          redirect_to new_expert_application_url
         else
           @user.activate!
           session[:user_id] = @user.id
           flash[:notice] = "Welcome to BeAmazing!"
-          redirect_to user_membership_path
+          redirect_to user_membership_url
         end
       else
         get_districts_and_subcategories
@@ -273,10 +273,10 @@ class UsersController < ApplicationController
       redirect_to  login_url
     when params[:activation_code].blank?
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
-      redirect_to expanded_user_path(@user)
+      redirect_to expanded_user_url(@user)
     else 
       flash[:error]  = "We couldn't find a user with that activation code -- check your email? Or maybe you've already activated -- try signing in."
-      redirect_to expanded_user_path(@user)
+      redirect_to expanded_user_url(@user)
     end
   end
 end

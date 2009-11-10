@@ -1,4 +1,4 @@
-<h4 class="article-title"><%=link_to gift_voucher.title, gift_vouchers_show_path(gift_voucher.author, gift_voucher.slug, :context => @context, :selected_tab_id => "offers") %>
+<h4 class="article-title"><%=link_to gift_voucher.title, gift_vouchers_show_url(gift_voucher.author, gift_voucher.slug, :context => @context, :selected_tab_id => "offers") %>
 <% if @context == "profile" && is_author?(gift_voucher)-%>
  	<span class="stuff-actions">[<span class="<%=gift_voucher.workflow_css_class%>"><%=gift_voucher.state%></span>
 	<% if (is_author?(gift_voucher) || is_admin?) && current_user.active? -%>
@@ -10,7 +10,7 @@
 		<%end-%>
 	<%end-%>
 	<% if is_author?(gift_voucher)-%>
-	 	| <%= link_to 'Edit', edit_gift_voucher_path(gift_voucher.slug, :context => @context, :selected_tab_id => "offers")%> | <%= link_to 'Delete', gift_voucher_path(gift_voucher.slug, :context => @context, :selected_tab_id => "offers"), :method => "delete", :confirm => "Are you sure? This action can not be undone"%>
+	 	| <%= link_to 'Edit', edit_gift_voucher_url(gift_voucher.slug, :context => @context, :selected_tab_id => "offers")%> | <%= link_to 'Delete', gift_voucher_url(gift_voucher.slug, :context => @context, :selected_tab_id => "offers"), :method => "delete", :confirm => "Are you sure? This action can not be undone"%>
 	<%end%>
 	]</span>
 <%end-%>
@@ -19,6 +19,6 @@
 	<div class="by-author">by <%= author_link(gift_voucher.author) %></div>
 <%end-%>
 <%unless gift_voucher.subcategory.nil? -%>
-	<div class="article-subcategories">[<%= link_to gift_voucher.subcategory.name, gift_vouchers_for_subcategory_path(gift_voucher.subcategory.slug)%>]</div>
+	<div class="article-subcategories">[<%= link_to gift_voucher.subcategory.name, gift_vouchers_for_subcategory_url(gift_voucher.subcategory.slug)%>]</div>
 <%end-%>
 <p><%=first_sentence(white_list(gift_voucher.description))%></p>
