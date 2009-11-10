@@ -20,9 +20,9 @@ class SessionsController < ApplicationController
           log_bam_user_event(UserEvent::LOGIN, "", "Success")
           flash[:notice] = "Logged in successfully"
           if current_user.admin?
-            redirect_back_or_default reviewer_url(:action => "index")
+            redirect_back_or_default reviewer_url(:protocol => APP_CONFIG[:logged_site_protocol], :action => "index")
           else
-            redirect_back_or_default expanded_user_url(current_user)
+            redirect_back_or_default expanded_user_url(:protocol => APP_CONFIG[:logged_site_protocol], current_user)
           end
         else
           @payment = current_user.find_current_payment
