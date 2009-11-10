@@ -80,6 +80,7 @@ module AuthenticatedSystem
     # We can return to this location by calling #redirect_back_or_default.
     def store_location
       session[:return_to] = request.request_uri
+      session[:protocol_return_to] = request.protocol
     end
 
     # Redirect to the URI stored by the most recent store_location call or
@@ -87,8 +88,9 @@ module AuthenticatedSystem
     #   after_filter :store_location, :only => [:index, :new, :show, :edit]
     # for any controller you want to be bounce-backable.
     def redirect_back_or_default(default)
-      redirect_to(session[:return_to] || default)
+      redirect_to("#{session[:protocol_return_to]}#{session[:return_to]}" || default)
       session[:return_to] = nil
+      session[:protocol_return_to] = nil
     end
 
     # Inclusion hook to make #current_user and #logged_in?
@@ -138,6 +140,7 @@ module AuthenticatedSystem
       kill_remember_cookie!     # Kill client-side auth cookie
       session[:user_id] = nil   # keeps the session but kill our variable
       session[:return_to] = nil #Cyrille (3 June 2009): don't want to keep that on logout
+      session[:protocol_return_to] = nil
       # explicitly kill any other session variables you set
     end
 

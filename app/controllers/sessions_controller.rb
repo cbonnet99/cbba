@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
           log_bam_user_event(UserEvent::LOGIN, "", "Success")
           flash[:notice] = "Logged in successfully"
           if current_user.admin?
-            redirect_back_or_default reviewer_url(:action => "index" )
+            redirect_back_or_default reviewer_url(:action => "index")
           else
             redirect_back_or_default expanded_user_url(current_user)
           end
