@@ -1,5 +1,5 @@
 class Admin::ReviewerController < AdminApplicationController
-  
+  ssl_required :all
   before_filter :set_context
   
   def index
