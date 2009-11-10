@@ -18,20 +18,20 @@ class SessionsController < ApplicationController
       if current_user.full_member?
         if current_user.active?
           log_bam_user_event(UserEvent::LOGIN, "", "Success")
-          flash[:notice] = "Logged in successfully"
+          flash.now[:notice] = "Logged in successfully"
           if current_user.admin?
-            redirect_back_or_default reviewer_url(:protocol => APP_CONFIG[:logged_site_protocol], :action => "index")
+            redirect_back_or_default reviewer_url(:action => "index", :protocol => APP_CONFIG[:logged_site_protocol])
           else
             redirect_back_or_default expanded_user_path(current_user, :protocol => APP_CONFIG[:logged_site_protocol])
           end
         else
           @payment = current_user.find_current_payment
-          flash[:warning] = "You need to complete your payment"
+          flash.now[:warning] = "You need to complete your payment"
           redirect_back_or_default edit_payment_path(@payment)
         end
       else
         log_bam_user_event(UserEvent::LOGIN, "", "Success")
-        flash[:notice] = "Logged in successfully"
+        flash.now[:notice] = "Logged in successfully"
         redirect_back_or_default user_edit_path
       end
     else
@@ -45,7 +45,7 @@ class SessionsController < ApplicationController
 
   def destroy
     logout_killing_session!
-    flash[:notice] = "You have been logged out."
+    flash.now[:notice] = "You have been logged out."
     redirect_to root_url(:protocol => APP_CONFIG[:site_protocol])
   end
 
