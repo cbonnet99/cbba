@@ -1,6 +1,7 @@
 development: &non_production_settings
   site_host: localhost:3000
-  logged_site_host: localhost:3000
+  site_protocol: http
+  logged_site_protocol: http
   site_name: Be Amazing(development)
   admin_email: cbonnet99@gmail.com
   rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
@@ -11,7 +12,8 @@ development: &non_production_settings
   
 test:
     site_host: test.host
-    logged_site_host: test.host
+    site_protocol: http
+    logged_site_protocol: http
     site_name: Be Amazing(test)
     admin_email: cbonnet99@gmail.com
     rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
@@ -22,7 +24,8 @@ test:
   
 production:
   site_host: www.beamazing.co.nz
-  logged_site_host: logged.beamazing.co.nz
+  site_protocol: http
+  logged_site_protocol: https
   site_name: Be Amazing
   admin_email: admin@beamazing.co.nz
   rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
@@ -32,7 +35,8 @@ production:
   megan: megan@beamazing.co.nz
 staging:
     site_host: staging.beamazing.co.nz
-    logged_site_host: logged-staging.beamazing.co.nz
+    site_protocol: http
+    logged_site_protocol: http
     site_name: Be Amazing [STAGING]
     admin_email: admin@beamazing.co.nz
     rake: /usr/local/bin/rake

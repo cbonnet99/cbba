@@ -4,21 +4,21 @@
 
 <h2>General Enquiries</h2>
 <ul>
-    <li><%= link_to "Enquire about advertising", user_slug_action_url(:host => APP_CONFIG[:logged_site_host], :slug => @sav.slug, :action => "message", :hide_name => true ) %></li>
-    <li><%= link_to "Report a fault", user_slug_action_url(:host => APP_CONFIG[:logged_site_host],, :slug => @cyrille.slug, :action => "message", :hide_name => true) %></li>
-    <li><%= link_to "Give us your ideas for the site", user_slug_action_url(:host => APP_CONFIG[:logged_site_host], :slug => @sav.slug, :action => "message", :hide_name => true) %></li>
-    <li><%= link_to "What can we improve?", user_slug_action_url(:host => APP_CONFIG[:logged_site_host], :slug => @megan.slug, :action => "message", :hide_name => true) %></li>
+    <li><%= link_to "Enquire about advertising", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @sav.slug, :action => "message", :hide_name => true ) %></li>
+    <li><%= link_to "Report a fault", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @cyrille.slug, :action => "message", :hide_name => true) %></li>
+    <li><%= link_to "Give us your ideas for the site", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @sav.slug, :action => "message", :hide_name => true) %></li>
+    <li><%= link_to "What can we improve?", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @megan.slug, :action => "message", :hide_name => true) %></li>
 </ul>
 <h2>For Members</h2>
 <ul>
-    <li><%= link_to "Ask about your payments (Credit Card or Direct Debit Issues)", user_slug_action_url(:host => APP_CONFIG[:logged_site_host], :slug => @sav.slug, :action => "message", :hide_name => true) %></li>
-    <li><%= link_to "Report a fault", user_slug_action_url(:host => APP_CONFIG[:logged_site_host], :slug => @cyrille.slug, :action => "message", :hide_name => true) %></li>
-    <li><%= link_to "Give us your ideas for the site", user_slug_action_url(:host => APP_CONFIG[:logged_site_host], :slug => @sav.slug, :action => "message", :hide_name => true) %></li>
-    <li><%= link_to "What can we improve?", user_slug_action_url(:host => APP_CONFIG[:logged_site_host], :slug => @megan.slug, :action => "message", :hide_name => true) %></li>
+    <li><%= link_to "Ask about your payments (Credit Card or Direct Debit Issues)", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @sav.slug, :action => "message", :hide_name => true) %></li>
+    <li><%= link_to "Report a fault", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @cyrille.slug, :action => "message", :hide_name => true) %></li>
+    <li><%= link_to "Give us your ideas for the site", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @sav.slug, :action => "message", :hide_name => true) %></li>
+    <li><%= link_to "What can we improve?", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @megan.slug, :action => "message", :hide_name => true) %></li>
 </ul>
 <h2>Other Links</h2>
 <ul>
-    <li><%= link_to "Become a member", signup_url(:host => APP_CONFIG[:logged_site_host], :professional => "true", :mt => "full_member" ) %></li>
+    <li><%= link_to "Become a member", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" ) %></li>
     <li>Meet out <%= link_to "Full Members", :controller => "full_members", :action => "index"%>   &amp; <%= link_to "Resident Experts", :controller => "resident_experts", :action => "index"%></li>
-    <li><%= link_to "Sign-up for our public newsletter", signup_newsletter_url(:host => APP_CONFIG[:logged_site_host])%></li>
+    <li><%= link_to "Sign-up for our public newsletter", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol])%></li>
 </ul>

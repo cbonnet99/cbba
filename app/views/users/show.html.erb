@@ -18,7 +18,7 @@
 			</ul>
 			</div>
 			<%else -%>
-			<div class="profile-calling-action-area"><%= link_to "Ask me a question", user_slug_action_url(:host => APP_CONFIG[:logged_site_host], :slug => @user.slug, :action => "message"), {:id => "profile-ask-question-content", :class => "button"}%>
+			<div class="profile-calling-action-area"><%= link_to "Ask me a question", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @user.slug, :action => "message"), {:id => "profile-ask-question-content", :class => "button"}%>
 			</div>
 			<%end -%>
 	      <%= title @user.full_name, :h3 %>
