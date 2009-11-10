@@ -9,7 +9,12 @@ class AdminApplicationController < SecureApplicationController
     system "#{APP_CONFIG[:rake]} #{task} #{args.join(' ')} --trace 2>&1 >> #{Rails.root}/log/rake.log &"
   end
   
+  
   protected
+  
+  def ssl_required?
+    true
+  end
   
   def get_selected_user
     @selected_user = User.find_by_slug(params[:id])

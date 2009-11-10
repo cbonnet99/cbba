@@ -1,5 +1,4 @@
 class Admin::ReviewerController < AdminApplicationController
-  ssl_required :index, :reject, :approve, :get_item
   before_filter :set_context
   
   def index
