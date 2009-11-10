@@ -1,0 +1,64 @@
+<IfModule mod_expires.c>
+# Turn on Expires and set default to 0
+ExpiresActive On
+ExpiresDefault A0
+
+# Set up caching on media files for 1 year
+<FilesMatch "\.(gif|jpe?g|png|swf|css|js|JS|CSS|GIF|JPE?G|PNG|SWF)$">
+ExpiresDefault "access plus 1 year"
+Header append Cache-Control "public"
+</FilesMatch>
+</IfModule>
+<IfModule mod_headers.c>
+        Header always unset ETag
+        Header always unset Server      
+        Header always unset X-Runtime
+        Header always unset X-Powered-By
+</IfModule>
+<IfModule passenger_module>
+   <VirtualHost *:8080>
+          ServerName logged.beamazing.co.nz
+
+          DocumentRoot "/var/rails/be_amazing/current/public"
+          CustomLog /var/log/apache2/be_amazing-access.log combined
+          ErrorLog /var/log/apache2/be_amazing-error.log
+          RailsEnv production
+          # RailsAllowModRewrite off
+          #
+          # Check for maintenance file and redirect all requests
+          RewriteEngine On
+          RewriteCond %{REQUEST_URI} !\.(css|jpg|png|gif)$
+          RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+          RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+      RewriteRule ^.*$ /system/maintenance.html [L]
+          <Directory "/var/rails/be_amazing/current/public">
+            Order allow,deny
+            Allow from all
+          </Directory>
+   </VirtualHost>
+   <VirtualHost *:8080>
+        ServerName www.beamazing.co.nz
+        ServerAlias beamazing.co.nz     
+        <IfModule mod_expires.c>
+          Header always set Cache-Control "public" 
+          ExpiresByType text/html A300
+        </IfModule>
+          DocumentRoot "/var/rails/be_amazing/current/public"
+          CustomLog /var/log/apache2/be_amazing-access.log combined
+          ErrorLog /var/log/apache2/be_amazing-error.log
+
+          RailsEnv production
+          # RailsAllowModRewrite off
+          #
+          # Check for maintenance file and redirect all requests
+          RewriteEngine On
+          RewriteCond %{REQUEST_URI} !\.(css|jpg|png|gif)$
+          RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+          RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+          RewriteRule ^.*$ /system/maintenance.html [L]
+          <Directory "/var/rails/be_amazing/current/public">
+            Order allow,deny
+            Allow from all
+          </Directory>
+        </VirtualHost>
+</IfModule>
