@@ -103,7 +103,7 @@ module ApplicationHelper
     if user.free_listing?
       ""
     else
-      link_to "Send message", user_slug_action_url(:slug => user.slug, :action => "message")
+      link_to "Send message", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => user.slug, :action => "message")
     end
   end
 
