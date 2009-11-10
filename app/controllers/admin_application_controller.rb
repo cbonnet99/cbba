@@ -1,4 +1,5 @@
 class AdminApplicationController < SecureApplicationController
+  ssl_required :all
   before_filter :admin_required
 
   def call_rake(task, options = {})

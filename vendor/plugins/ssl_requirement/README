@@ -14,7 +14,7 @@ Example:
   end
 
   class AccountController < ApplicationController
-    ssl_required :signup, :payment
+    ssl_required :all
     ssl_allowed :index
     
     def signup
