@@ -1,6 +1,5 @@
 class AdminApplicationController < SecureApplicationController
   
-  ssl_required :all
   before_filter :admin_required
 
   def call_rake(task, options = {})
@@ -11,11 +10,7 @@ class AdminApplicationController < SecureApplicationController
   
   
   protected
-  
-  def ssl_required?
-    true
-  end
-  
+    
   def get_selected_user
     @selected_user = User.find_by_slug(params[:id])
   end

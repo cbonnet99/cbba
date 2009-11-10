@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   include ExceptionNotifiable
   include AuthenticatedSystem
   include RoleRequirementSystem
-  include SslRequirement
   include ApplicationHelper  
 
   helper :all # include all helpers, all the time

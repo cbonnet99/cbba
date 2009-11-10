@@ -1,7 +1,6 @@
 class PaymentsController < ApplicationController
   before_filter :login_required
   before_filter :get_payment, :only => [:edit, :edit_debit, :edit_debit_charities, :thank_you_direct_debit, :update] 
-  ssl_required :edit, :update
   
   def thank_you_direct_debit
     UserMailer.deliver_thank_you_direct_debit(current_user, @payment)
