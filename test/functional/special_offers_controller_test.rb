@@ -93,10 +93,11 @@ class SpecialOffersControllerTest < ActionController::TestCase
     assert_template 'index'
   end
   
-  def test_show
+  def test_show_profile
     cyrille = users(:cyrille)
-    get :show, {:id => special_offers(:free_trial).slug, :selected_user => cyrille.slug }
+    get :show, {:id => special_offers(:free_trial).slug, :selected_user => cyrille.slug, :context => "profile"}
     assert_template 'show'
+    assert_select "a[href$=offers]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
   end
   
   def test_show_pdf

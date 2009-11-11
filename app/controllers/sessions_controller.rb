@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       if current_user.full_member?
         if current_user.active?
           log_bam_user_event(UserEvent::LOGIN, "", "Success")
-          flash.now[:notice] = "Logged in successfully"
+          flash[:notice] = "Logged in successfully"
           if current_user.admin?
             redirect_back_or_default reviewer_url(:action => "index")
           else
@@ -26,12 +26,12 @@ class SessionsController < ApplicationController
           end
         else
           @payment = current_user.find_current_payment
-          flash.now[:warning] = "You need to complete your payment"
+          flash[:warning] = "You need to complete your payment"
           redirect_back_or_default edit_payment_url(@payment)
         end
       else
         log_bam_user_event(UserEvent::LOGIN, "", "Success")
-        flash.now[:notice] = "Logged in successfully"
+        flash[:notice] = "Logged in successfully"
         redirect_back_or_default user_edit_url
       end
     else
@@ -45,14 +45,14 @@ class SessionsController < ApplicationController
 
   def destroy
     logout_killing_session!
-    flash.now[:notice] = "You have been logged out."
+    flash[:notice] = "You have been logged out."
     redirect_to root_url(:protocol => APP_CONFIG[:site_protocol])
   end
 
   protected
 
   def note_failed_signin
-    flash.now[:warning] = "Couldn't log you in as '#{params[:email]}'"
+    flash[:warning] = "Couldn't log you in as '#{params[:email]}'"
     logger.warn "Failed login for '#{params[:email]}' from #{request.remote_ip} at #{Time.now.utc}"
   end
 end

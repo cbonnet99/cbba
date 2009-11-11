@@ -140,6 +140,15 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_select "a", {:text => "Back to articles", :count => 1  }
   end
 
+  def test_should_show_article_profile
+    cyrille = users(:cyrille)
+    get :show, {:context => "profile", :id => articles(:long).slug, :selected_user => cyrille.slug }
+    assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:article)
+    assert_select "a[href$=articles]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
+  end
+
   def test_should_show_own_article_draft
       cyrille = users(:cyrille)
       get :show, {:context => "profile", :selected_tab_id => "articles",  :id => articles(:yoga).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }

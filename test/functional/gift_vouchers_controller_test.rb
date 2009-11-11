@@ -110,6 +110,15 @@ class GiftVouchersControllerTest < ActionController::TestCase
     assert_template 'show'
   end
   
+  def test_show_profile
+    cyrille = users(:cyrille)
+    get :show, {:context  => "profile", :selected_tab_id => "offers", :id => gift_vouchers(:free_massage).slug, :selected_user => cyrille.slug }
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:gift_voucher)
+    assert_template 'show'
+    assert_select "a[href$=offers]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
+  end
+  
   def test_new
     get :new, {}, {:user_id => users(:cyrille).id }
     assert_template 'new'

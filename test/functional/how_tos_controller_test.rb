@@ -97,6 +97,17 @@ class HowTosControllerTest < ActionController::TestCase
     assert_select "a", {:text => "Profile", :count => 1  }
   end
 
+  def test_show_profile
+    cyrille = users(:cyrille)
+    money = how_tos(:money)
+    get :show, {:context => "profile", :selected_tab_id => "articles",  :id => money.slug, :selected_user => cyrille.slug  }
+    assert_response :success
+    # puts @response.body
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:how_to)
+    assert_select "a[href$=articles]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
+  end
+
   def test_show_review
     cyrille = users(:cyrille)
     get :show, {:context => "review", :id => how_tos(:improve).slug, :selected_user => cyrille.slug  }, {:user_id => cyrille.id }

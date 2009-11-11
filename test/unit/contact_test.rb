@@ -2,6 +2,12 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ContactTest < ActiveSupport::TestCase
   fixtures :all
+
+  def test_authenticate
+    joe = contacts(:joe)
+    assert_not_nil Contact.authenticate(joe.email, "monkey")
+    assert_nil Contact.authenticate(joe.email, "blabla")
+  end
   
   def test_create
     new_contact = Contact.create(:email => "test@test.com")

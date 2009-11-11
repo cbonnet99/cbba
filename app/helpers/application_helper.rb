@@ -87,12 +87,18 @@ module ApplicationHelper
     end
   end
 
-  def link_to_profile(user, review=false)
+  def back_link_to_profile(user, selected_tab_id="")
+    if user.full_member? && user.user_profile.published?
+      link_to "Back to #{user.name}'s profile", expanded_user_url(user, :selected_tab_id => selected_tab_id )
+    end
+  end
+
+  def link_to_profile(user)
     if user.free_listing?
       ""
     else
       if user.user_profile.published?
-        link_to "View full profile", user_url_with_context(user, review), {:id => "link-full-profile-content", :class => "button"}
+        link_to "View full profile", expanded_user_url(user), {:id => "link-full-profile-content", :class => "button"}
       else
        "<div id='link-profile-coming-soon-content', class='button'>Profile coming soon</div>"
       end
@@ -155,8 +161,8 @@ module ApplicationHelper
 
 
   #when the context needs to be recorded (ie when a user profile has been clicked from a particular listing or from an article)
-  def user_url_with_context(user, review=false)
-    options = {:review => review }
+  def user_url_with_context(user)
+    options = {}
     unless @article.nil?
       options[:article_id] = @article.id
     end

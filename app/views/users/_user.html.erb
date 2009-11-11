@@ -10,7 +10,7 @@
 	</div>
 	<div class="cleaner"></div>
   <div class="bam-user-details-icons" <%if user.free_listing?%>style="display: none"<%end%>>
-	<%= link_to_profile(user, review=="true") %>
+	<%= link_to_profile(user) %>
         <ul id="contact-details">
         	<%unless user.phone.nil? || user.phone == "()"%><li class="phone"><span class="hide">phone:</span> <%=user.phone%></li><%end%>
           <%unless user.mobile.nil? || user.mobile == "()"%><li class="fax"><span class="hide">mobile:</span> <%= user.mobile%></li><%end%>

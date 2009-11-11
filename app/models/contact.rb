@@ -19,6 +19,20 @@ class Contact < ActiveRecord::Base
 
   before_validation :generate_pwd_if_blank
   
+  def self.authenticate(email, password)
+    u = User.find_in_state(:first, :active, :conditions => {:email => email})
+    if u && u.authenticated?(password)
+      return u
+    else
+      c = Contact.find_in_state(:first, :active, :conditions => {:email => email})
+      if c && c.authenticated?(password)
+        return c
+      else
+        return nil
+      end
+    end
+  end
+  
   def generate_pwd_if_blank
     if self.password.blank? && self.password_confirmation.blank?
       self.password = self.password_confirmation = self.class.generate_random_password

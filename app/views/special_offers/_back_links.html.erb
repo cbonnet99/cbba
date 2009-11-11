@@ -1,5 +1,9 @@
 <% if @context == "profile" -%>
+<% if logged_in? -%>
 <%= render :partial => "users/user_nav", :locals => {:selected => "" } %>
+<%else -%>
+<%= back_link_to_profile(@selected_user, "offers") %>
+<%end -%>
 <%end -%>
 <% if @context == "review" -%>
 	<%= link_to 'Back to review list', reviewer_url(:action => "index") %>
