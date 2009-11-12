@@ -35,6 +35,10 @@ rmoore_hypnotherapy:
     user: rmoore
     subcategory: hypnotherapy
     expertise_position: 1
+rmoore_yoga:
+    user: rmoore
+    subcategory: yoga
+    expertise_position: 2
 norma_hypnotherapy:
     user: norma
     subcategory: hypnotherapy

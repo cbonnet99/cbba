@@ -471,7 +471,7 @@ class UserTest < ActiveSupport::TestCase
 		res = User.find_all_by_region_and_subcategories(canterbury, hypnotherapy)
 		assert_equal 4, res.size
 		res = User.find_all_by_region_and_subcategories(canterbury, hypnotherapy, yoga)
-		assert_equal 4, res.size
+		assert_equal 5, res.size
 	end
 
 	def test_all_find_by_subcategories
@@ -480,7 +480,7 @@ class UserTest < ActiveSupport::TestCase
 		res = User.find_all_by_subcategories(hypnotherapy)
 		assert_equal 5, res.size
 		res = User.find_all_by_subcategories(hypnotherapy, yoga)
-		assert_equal 5, res.size
+		assert_equal 6, res.size
 	end
 
 	def test_count_all_by_subcategories
@@ -489,7 +489,7 @@ class UserTest < ActiveSupport::TestCase
 		res = User.count_all_by_subcategories(hypnotherapy)
 		assert_equal 5, res
 		res = User.count_all_by_subcategories(hypnotherapy, yoga)
-		assert_equal 5, res
+		assert_equal 6, res
 	end
 
 	def test_has_role
@@ -541,10 +541,11 @@ class UserTest < ActiveSupport::TestCase
 	def test_subs
 		rmoore = users(:rmoore)
 		hypnotherapy = subcategories(:hypnotherapy)
+		yoga = subcategories(:yoga)
     practitioners = categories(:practitioners)
-		assert_equal [hypnotherapy], rmoore.subcategories
+		assert_equal [hypnotherapy, yoga], rmoore.subcategories
 		test_user = User.find_by_email(rmoore.email)
-		assert_equal [hypnotherapy], test_user.subcategories
+		assert_equal [hypnotherapy, yoga], test_user.subcategories
     assert_equal [practitioners], test_user.categories
 	end
 

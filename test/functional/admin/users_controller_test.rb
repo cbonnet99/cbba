@@ -66,6 +66,8 @@ class Admin::UsersControllerTest < ActionController::TestCase
     assert_equal Time.zone.parse('2009-11-1'), rmoore.member_until
     assert_equal old_resident_since, rmoore.resident_since
     assert_equal old_resident_until, rmoore.resident_until
+    puts "======= rmoore.subcategories.size: #{rmoore.subcategories.size}"
+    assert_equal rmoore.subcategories.size, rmoore.tabs.size, "User has #{rmoore.subcategories.size} modalities, so it should have that many tabs"
   end
   
   def test_update_free_to_resident_expert
