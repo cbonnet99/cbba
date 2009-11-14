@@ -18,6 +18,7 @@ class SessionsController < ApplicationController
       if current_user.full_member?
         if current_user.active?
           log_bam_user_event(UserEvent::LOGIN, "", "Success")
+          current_user.update_attribute(:last_logged_at, Time.now)
           flash[:notice] = "Logged in successfully"
           if current_user.admin?
             redirect_back_or_default reviewer_url(:action => "index")

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091031102146) do
+ActiveRecord::Schema.define(:version => 20091112084103) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -431,6 +431,7 @@ ActiveRecord::Schema.define(:version => 20091031102146) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "slug"
+    t.boolean  "visible",    :default => true
   end
 
   add_index "tabs", ["user_id"], :name => "index_tabs_on_user_id"
@@ -550,6 +551,7 @@ ActiveRecord::Schema.define(:version => 20091031102146) do
     t.boolean  "receive_professional_newsletter",                :default => true
     t.integer  "feature_rank"
     t.string   "unsubscribe_token"
+    t.datetime "last_logged_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

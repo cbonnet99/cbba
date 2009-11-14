@@ -40,3 +40,14 @@ bla:
     author: amcloughlin
     state: published
     published_at: <%= 2.day.ago.to_s :db %>
+rejected:
+    title: Rejected article
+    lead: Bla
+    body: Bla
+    slug: bla
+    author: amcloughlin
+    state: draft
+    published_at: <%= 2.day.ago.to_s :db %>
+    rejected_at: <%= 1.day.ago.to_s :db %>
+    reason_reject: Did not like it
+    rejected_by: cyrille

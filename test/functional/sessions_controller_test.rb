@@ -15,11 +15,16 @@ class SessionsControllerTest < ActionController::TestCase
   end
   def test_create
     norma = users(:norma)
+    start_call = Time.now
     post :create, :email => norma.email, :password => "monkey"
+    end_call = Time.now
     assert_redirected_to expanded_user_url(norma)
     assert_equal "Logged in successfully", flash[:notice]
     norma.reload
     assert !norma.free_listing?
+    assert_not_nil norma.last_logged_at
+    assert start_call <= norma.last_logged_at
+    assert norma.last_logged_at <= end_call
   end
   def test_create_free_listing
     rmoore = users(:rmoore)

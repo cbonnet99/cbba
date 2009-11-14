@@ -6,6 +6,7 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     get :new, {}, {:user_id => users(:cyrille).id }
     assert_response :success
     assert_equal 2, assigns(:special_offers).size
+    assert !assigns(:articles).include?(articles(:rejected))
     assert_select "input[class=special_offer_checkbox]", :count => 2 
     assert_select "input[class=special_offer_checkbox][checked=checked]", :count => 2 
   end

@@ -1,4 +1,5 @@
 cyrille:
+  last_logged_at:            <%= 16.days.ago.to_s :db  %>
   first_name:                Cyrille
   last_name:                 Bonnet
   business_name:             Bioboy Inc
