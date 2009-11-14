@@ -28,14 +28,15 @@ class HowTosController < ApplicationController
 
   def show
     get_selected_user
+    @selected_tab_id = "articles"
     if @selected_user.nil?
       flash[:error]="Sorry, this 'how to' article could not be found"
-      redirect_with_context(articles_url)
+      redirect_with_context(articles_url, nil)
     else
       @how_to = @selected_user.find_how_to_for_user(params[:id], current_user)
       if @how_to.nil?
         flash[:error]="Sorry, this 'how to' article could not be found"
-        redirect_with_context(articles_url)
+        redirect_with_context(articles_url, @selected_user)
       end      
     end
   end

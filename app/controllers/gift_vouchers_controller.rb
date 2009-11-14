@@ -42,14 +42,15 @@ class GiftVouchersController < ApplicationController
 
   def show
     get_selected_user
+    @selected_tab_id = "offers"
     if @selected_user.nil?
-      flash.now[:error]="Sorry, this gift voucher could not be found"
-      redirect_with_context(gift_vouchers_url)
+      flash[:error]="Sorry, this gift voucher could not be found"
+      redirect_with_context(gift_vouchers_url, nil)
     else
       @gift_voucher = @selected_user.find_gift_voucher_for_user(params[:id], current_user)
       if @gift_voucher.nil?
-        flash.now[:error]="Sorry, this gift voucher could not be found"
-        redirect_with_context(gift_vouchers_url)
+        flash[:error]="Sorry, this gift voucher could not be found"
+        redirect_with_context(gift_vouchers_url, @selected_user)
       end      
     end
   end

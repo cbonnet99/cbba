@@ -140,6 +140,38 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_select "a", {:text => "Back to articles", :count => 1  }
   end
 
+  def test_should_show_article_incorrect_article_id
+    cyrille = users(:cyrille)
+    get :show, {:context => "profile", :id => "blalbla", :selected_user => cyrille.slug }
+    assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
+    assert_not_nil assigns(:selected_user)
+    assert_nil assigns(:article)
+  end
+
+  def test_should_show_article_incorrect_article_id_logged_in
+    cyrille = users(:cyrille)
+    get :show, {:context => "profile", :id => "blalbla", :selected_user => cyrille.slug }, {:user_id => users(:norma).id }
+    assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
+    assert_not_nil assigns(:selected_user)
+    assert_nil assigns(:article)
+  end
+
+  def test_should_show_article_incorrect_author
+    cyrille = users(:cyrille)
+    get :show, {:context => "profile", :id => articles(:long).slug, :selected_user => "mlmlmlm" }
+    assert_redirected_to articles_url
+    assert_nil assigns(:selected_user)
+    assert_nil assigns(:article)
+  end
+
+  def test_should_show_article_incorrect_author_logged_in
+    cyrille = users(:cyrille)
+    get :show, {:context => "profile", :id => articles(:long).slug, :selected_user => "mlmlmlm" }, {:user_id => users(:norma).id }
+    assert_redirected_to articles_url
+    assert_nil assigns(:selected_user)
+    assert_nil assigns(:article)
+  end
+
   def test_should_show_article_profile
     cyrille = users(:cyrille)
     get :show, {:context => "profile", :id => articles(:long).slug, :selected_user => cyrille.slug }

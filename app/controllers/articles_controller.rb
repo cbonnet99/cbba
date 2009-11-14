@@ -56,14 +56,15 @@ class ArticlesController < ApplicationController
   # GET /articles/1.xml
   def show
     get_selected_user
+    @selected_tab_id = "articles"
     if @selected_user.nil?
       flash[:error]="Sorry, this article could not be found"
-      redirect_with_context(articles_url) 
+      redirect_with_context(articles_url, nil)
     else
       @article = @selected_user.find_article_for_user(params[:id], current_user)
       if @article.nil?
         flash[:error]="Sorry, this article could not be found"
-        redirect_with_context(articles_url) 
+        redirect_with_context(articles_url, @selected_user) 
       end      
     end
   end

@@ -20,9 +20,17 @@ class ApplicationController < ActionController::Base
 	protected
 	exception_data :additional_data
 
-  def redirect_with_context(default_url)
+  def redirect_with_context(default_url, visiting_user=current_user)
     if @context == "profile"
-      redirect_to expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)
+      if logged_in? && visiting_user == current_user
+        redirect_to expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)
+      else
+        if visiting_user.nil?
+          redirect_to default_url
+        else
+          redirect_to expanded_user_url(visiting_user, :selected_tab_id => @selected_tab_id)
+        end
+      end
     else
       if @context == "review"
         redirect_to reviewer_url(:action => "index")

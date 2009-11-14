@@ -46,14 +46,15 @@ class SpecialOffersController < ApplicationController
   
   def show
     get_selected_user
+    @selected_tab_id = "offers"
     if @selected_user.nil?
-      flash.now[:error]="Sorry, this special offer could not be found"
-      redirect_with_context(special_offers_url)
+      flash[:error]="Sorry, this special offer could not be found"
+      redirect_with_context(special_offers_url, nil)
     else
       @special_offer = @selected_user.find_special_offer_for_user(params[:id], current_user)
       if @special_offer.nil?
-        flash.now[:error]="Sorry, this special offer could not be found"
-        redirect_with_context(special_offers_url)
+        flash[:error]="Sorry, this special offer could not be found"
+        redirect_with_context(special_offers_url, @selected_user)
       else
         respond_to do |format|
           format.html do
