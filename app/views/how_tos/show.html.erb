@@ -5,7 +5,7 @@
 	<%= title @how_to.title %>
 	<div class="publication-author">by <%= author_link(@how_to.author) %></div>
 </div>
-<%if (is_author?(@how_to) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @how_to, :class_name => "how_to" }   %>
+<%if (is_author?(@how_to) || (is_admin? && !@how_to.approved?))%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @how_to, :class_name => "how_to" }   %>
 <% if is_author?(@how_to) -%>
 <div>
       <%= link_to 'Delete', how_to_url(@how_to, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>

@@ -121,6 +121,7 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_select "input[value=Approve]"
     assert_select "a", {:text => "Back to your articles", :count => 0  }
     assert_select "a", {:text => "Back to review list", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 1
   end
 
   def test_should_show_article_draft_anonymous
@@ -138,6 +139,19 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:article)
     assert_select "a", {:text => "Back to articles", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 0
+  end
+
+  def test_should_show_article_published_logged_in
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:context => "homepage", :id => articles(:jogging).slug, :selected_user => rmoore.slug }, {:user_id => cyrille.id }
+    assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:article)
+    assert_select "a", {:text => "Back to articles", :count => 1  }
+    #the article has not yet been approved
+    assert_select "div[class=publication-actions]", :count => 1
   end
 
   def test_should_show_article_incorrect_article_id
@@ -179,6 +193,7 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:article)
     assert_select "a[href$=articles]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 0
   end
 
   def test_should_show_own_article_draft
@@ -188,6 +203,7 @@ class ArticlesControllerTest < ActionController::TestCase
       assert_not_nil assigns(:selected_user)
       assert_not_nil assigns(:article)
       assert_select "a", {:text => "Profile", :count => 1  }
+      assert_select "div[class=publication-actions]", :count => 1
   end
 
   def test_should_get_edit

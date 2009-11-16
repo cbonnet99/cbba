@@ -1,6 +1,6 @@
 <%= render :partial => "back_links" %>
 <%= title @gift_voucher.title %>
-<%if (is_author?(@gift_voucher) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
+<%if (is_author?(@gift_voucher) || (is_admin? && !@gift_voucher.approved?))%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
 <% if is_author?(@gift_voucher) -%>
 <div>
 <%= link_to 'Delete', gift_voucher_url(@gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>

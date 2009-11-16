@@ -108,6 +108,7 @@ class GiftVouchersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:gift_voucher)
     assert_template 'show'
+    assert_select "div[class=publication-actions]", :count => 1
   end
   
   def test_show_profile
@@ -117,6 +118,37 @@ class GiftVouchersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:gift_voucher)
     assert_template 'show'
     assert_select "a[href$=offers]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 0
+  end
+  
+  def test_show_published_not_approved
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:selected_tab_id => "offers", :id => gift_vouchers(:published_not_approved).slug, :selected_user => rmoore.slug }, {:user_id => cyrille.id }
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:gift_voucher)
+    assert_template 'show'
+    assert_select "div[class=publication-actions]", :count => 1
+  end
+  
+  def test_show_published_and_approved
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:selected_tab_id => "offers", :id => gift_vouchers(:published_and_approved).slug, :selected_user => rmoore.slug }, {:user_id => cyrille.id }
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:gift_voucher)
+    assert_template 'show'
+    assert_select "div[class=publication-actions]", :count => 0
+  end
+  
+  def test_show_rejected
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:selected_tab_id => "offers", :id => gift_vouchers(:rejected).slug, :selected_user => rmoore.slug }, {:user_id => cyrille.id }
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:gift_voucher)
+    assert_template 'show'
+    assert_select "div[class=publication-actions]", :count => 1
   end
   
   def test_new

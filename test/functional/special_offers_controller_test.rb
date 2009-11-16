@@ -100,6 +100,30 @@ class SpecialOffersControllerTest < ActionController::TestCase
     assert_select "a[href$=offers]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
   end
   
+  def test_show_published_not_approved
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:id => special_offers(:published_not_approved).slug, :selected_user => rmoore.slug}, {:user_id => cyrille.id }
+    assert_template 'show'
+    assert_select "div[class=publication-actions]", :count => 1
+  end
+  
+  def test_show_published_and_approved
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:id => special_offers(:published_and_approved).slug, :selected_user => rmoore.slug}, {:user_id => cyrille.id }
+    assert_template 'show'
+    assert_select "div[class=publication-actions]", :count => 0
+  end
+  
+  def test_show_rejected
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:id => special_offers(:rejected).slug, :selected_user => rmoore.slug}, {:user_id => cyrille.id }
+    assert_template 'show'
+    assert_select "div[class=publication-actions]", :count => 1
+  end
+  
   def test_show_pdf
     cyrille = users(:cyrille)
     free_trial = special_offers(:free_trial)

@@ -59,3 +59,36 @@ norma:
     state: published
     published_at: <%= 7.days.ago.to_s :db %>
 
+published_not_approved:
+    title: Published not approved
+    slug: pub-not-app
+    description: MyText
+    how_to_book: MyText
+    terms: MyText
+    author: rmoore
+    state: published
+    published_at: <%= 7.days.ago.to_s :db %>
+published_and_approved:
+    title: Published and approved
+    slug: pub-and-app
+    description: MyText
+    how_to_book: MyText
+    terms: MyText
+    author: rmoore
+    state: published
+    published_at: <%= 7.days.ago.to_s :db %>
+    approved_at: <%= 7.days.ago.to_s :db %>
+    approved_by: cyrille
+rejected:
+    title: Published and rejected
+    slug: pub-and-rej
+    description: MyText
+    how_to_book: MyText
+    terms: MyText
+    author: rmoore
+    state: draft
+    published_at: <%= 7.days.ago.to_s :db %>
+    approved_at: <%= 7.days.ago.to_s :db %>
+    approved_by: cyrille
+    rejected_at: <%= 6.days.ago.to_s :db %>
+    rejected_by: cyrille

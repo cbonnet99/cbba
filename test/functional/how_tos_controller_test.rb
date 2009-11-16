@@ -95,6 +95,7 @@ class HowTosControllerTest < ActionController::TestCase
     assert_select "input[value=Unpublish]", nil, "Author should be able to unpublish this how to"
     assert_select "a", :text => "Delete"
     assert_select "a", {:text => "Profile", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 1
   end
 
   def test_show_profile
@@ -106,6 +107,7 @@ class HowTosControllerTest < ActionController::TestCase
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:how_to)
     assert_select "a[href$=articles]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 0
   end
 
   def test_show_review
@@ -115,6 +117,7 @@ class HowTosControllerTest < ActionController::TestCase
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:how_to)
     assert_select "a", {:text => "Back to review list", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 1
   end
 
   def test_show_anonymous_draft
@@ -132,6 +135,40 @@ class HowTosControllerTest < ActionController::TestCase
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:how_to)
     assert_select "a", {:text => "Back to articles", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 0
+  end
+
+  def test_show_logged_published_not_approved
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:context => "homepage", :id => how_tos(:published_not_approved).slug, :selected_user => rmoore.slug  }, {:user_id => cyrille.id }
+    assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:how_to)
+    assert_select "a", {:text => "Back to articles", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 1
+  end
+
+  def test_show_logged_published_and_approved
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:context => "homepage", :id => how_tos(:published_and_approved).slug, :selected_user => rmoore.slug  }, {:user_id => cyrille.id }
+    assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:how_to)
+    assert_select "a", {:text => "Back to articles", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 0
+  end
+
+  def test_show_logged_rejected
+    cyrille = users(:cyrille)
+    rmoore = users(:rmoore)
+    get :show, {:context => "homepage", :id => how_tos(:rejected).slug, :selected_user => rmoore.slug  }, {:user_id => cyrille.id }
+    assert_response :success
+    assert_not_nil assigns(:selected_user)
+    assert_not_nil assigns(:how_to)
+    assert_select "a", {:text => "Back to articles", :count => 1  }
+    assert_select "div[class=publication-actions]", :count => 1
   end
 
 end

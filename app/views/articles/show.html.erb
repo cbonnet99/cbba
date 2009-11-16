@@ -6,7 +6,7 @@
 	<%= title h(@article.title), :h1%>
 	<div class="publication-author">by <%= author_link(@article.author) %></div>
 </div>
-<%if (is_author?(@article) || is_admin?)%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @article, :class_name => "article" }   %>
+<%if (is_author?(@article) || (is_admin? && !@article.approved?))%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
 <div>
       <%= link_to 'Delete', article_url(@article, :context => @context, :selected_tab_id => @selected_tab_id), :method => "delete", :confirm => "Are you sure? This action can not be undone", :class => "anchor-button delete"  %>

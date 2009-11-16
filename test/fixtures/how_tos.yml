@@ -15,3 +15,33 @@ money:
   author: cyrille
   state: published
   published_at: <%= 1.day.ago.to_s :db %>
+published_not_approved:
+    title: Published not approved
+    slug: published-not-approved
+    summary: Get rich
+    step_label: Step
+    author: rmoore
+    state: published
+    published_at: <%= 1.day.ago.to_s :db %>
+published_and_approved:
+    title: Published and approved
+    slug: published-and-approved
+    summary: Get rich
+    step_label: Step
+    author: rmoore
+    state: published
+    published_at: <%= 1.day.ago.to_s :db %>
+    approved_at: <%= 1.day.ago.to_s :db %>
+    approved_by: cyrille
+rejected:
+    title: Published and rejected
+    slug: published-and-rejected
+    summary: Get rich
+    step_label: Step
+    author: rmoore
+    state: draft
+    published_at: <%= 2.days.ago.to_s :db %>
+    approved_at: <%= 2.days.ago.to_s :db %>
+    approved_by: cyrille
+    rejected_at: <%= 1.day.ago.to_s :db %>
+    rejected_by: cyrille

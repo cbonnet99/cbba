@@ -271,9 +271,8 @@ class UsersControllerTest < ActionController::TestCase
   def test_show_not_own_profile
     cyrille = users(:cyrille)
     norma = users(:norma)
-    auckland = regions(:auckland)
-    coaches = categories(:coaches)
-    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => norma.id }
+    assert cyrille.user_profile.published?
+    get :show, {:name => cyrille.slug, :region => cyrille.region.slug, :main_expertise_slug => cyrille.main_expertise.slug}, {:user_id => norma.id }
     assert_response :success
     # #Cyrille's profile is already published: Unpublish button should be shown
    # puts @response.body
@@ -281,6 +280,19 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "input[value=Unpublish]", :count => 0
     #only one published article
     assert_select "a", :text => "1 article"
+    
+    #only one published special offer and one published gift voucher
+    assert_select "a", :text => "2 offers"
+  end
+
+  def test_show_not_own_profile_admin
+    cyrille = users(:cyrille)
+    norma = users(:norma)
+    get :show, {:name => norma.slug, :region => norma.region.slug, :main_expertise_slug => norma.main_expertise.slug}, {:user_id => cyrille.id }
+    assert_response :success
+    assert_select "input[value=Publish]", :count => 0
+    assert_select "input[value=Unpublish]", :count => 0
+    assert_select "div[class=publication-actions]", :count => 0
     
     #only one published special offer and one published gift voucher
     assert_select "a", :text => "2 offers"

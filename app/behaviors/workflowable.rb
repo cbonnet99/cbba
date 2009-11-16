@@ -36,14 +36,14 @@ module Workflowable
       newsletter.send(self.to_s.tableize.to_sym).each do |i|
         res << i
       end
-      self.find(:all, :conditions => "state = 'published' AND published_at is not null",  :order => "published_at desc", :limit => 10).each do |i|
+      self.find(:all, :conditions => "state = 'published' AND published_at is not null AND rejected_at is null",  :order => "published_at desc", :limit => 10).each do |i|
         res << i
       end
       res
     end
     
     def published_in_last_2_months(start=Time.now)
-      self.find(:all, :conditions => ["state = 'published' AND published_at BETWEEN ? AND ?", start.advance(:months => -2), Time.now])
+      self.find(:all, :conditions => ["state = 'published' AND published_at BETWEEN ? AND ?  AND rejected_at is null", start.advance(:months => -2), Time.now])
     end
     
     def count_reviewable
@@ -53,7 +53,7 @@ module Workflowable
       self.find(:all, :conditions => "approved_by_id is null and state='published'")
     end
     def approved
-      self.find(:all, :conditions => "status='approved'")
+      self.find(:all, :conditions => "status='approved' AND rejected_at is null")
     end
     def rejected
       self.find(:all, :conditions => "status='rejected'")
@@ -118,6 +118,9 @@ module Workflowable
     def reviewable?
       state == "published" && approved_at.nil?
     end
-
+    
+    def approved?
+      state == "published" && !approved_at.nil? && (rejected_at.nil? || approved_at > rejected_at)
+    end
   end
 end

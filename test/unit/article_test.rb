@@ -5,13 +5,13 @@ class ArticleTest < ActiveSupport::TestCase
   def test_all_featured_articles
     money = how_tos(:money)
     articles = Article.all_featured_articles
-    assert_equal articles[0], money
-    assert_equal articles[1], articles(:bla)
-    last_article = articles.last
+    assert articles.size > 1
+    first_article = articles.first
+    # puts "articles BEFORE: #{articles.map(&:title).join(', ')}"
     TaskUtils.rotate_feature_ranks
-    money.reload
     articles = Article.all_featured_articles
-    assert_equal last_article, articles[0], "The last article should now be first"
+    # puts "articles AFTER: #{articles.map(&:title).join(', ')}"
+    assert_equal first_article, articles[1], "The first article should now be second"
   end
 
   def test_publish

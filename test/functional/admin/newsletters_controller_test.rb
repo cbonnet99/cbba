@@ -5,10 +5,10 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
   def test_new
     get :new, {}, {:user_id => users(:cyrille).id }
     assert_response :success
-    assert_equal 2, assigns(:special_offers).size
+    assert_equal 4, assigns(:special_offers).size
     assert !assigns(:articles).include?(articles(:rejected))
-    assert_select "input[class=special_offer_checkbox]", :count => 2 
-    assert_select "input[class=special_offer_checkbox][checked=checked]", :count => 2 
+    assert_select "input[class=special_offer_checkbox]", :count => 4 
+    assert_select "input[class=special_offer_checkbox][checked=checked]", :count => 3 
   end
 
   def test_create
@@ -23,8 +23,8 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
   def test_edit
     get :edit, {:id => newsletters(:may_published).id }, {:user_id => users(:cyrille).id }
     assert_response :success
-    assert_equal 2, assigns(:special_offers).size
-    assert_select "input[class=special_offer_checkbox]", :count => 2
+    assert_equal 4, assigns(:special_offers).size
+    assert_select "input[class=special_offer_checkbox]", :count => 4
     assert_select "input[class=special_offer_checkbox][checked=checked]", :count => 1
   end
   
