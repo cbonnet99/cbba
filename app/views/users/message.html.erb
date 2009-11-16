@@ -2,6 +2,6 @@
 <% form_for @message do |f| %>
 	<% unless logged_in? -%>
 		<%= render :partial => "users/verify_human" %>
-		<% end -%>
+	<% end -%>
   <%= render :partial => "messages/new", :locals => {:f => f, :user => @user  }  %>
 <% end %>

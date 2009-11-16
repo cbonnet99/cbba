@@ -38,10 +38,14 @@ class UsersController < ApplicationController
   end
 
   def message
-    @message = Message.new(params[:message])
-    @user = User.find_by_free_listing_and_slug(false, params[:slug])
-    @title = "Send a message"
-    @title << " to #{@user.name}" if params[:hide_name] != "true"
+    begin
+      @message = Message.new(params[:message])
+      @user = User.find_by_free_listing_and_slug(false, params[:slug])
+      @title = "Send a message"
+      @title << " to #{@user.name}" if params[:hide_name] != "true"
+    rescue ActionController::InvalidAuthenticityToken
+      #spammer probably, don't worry about it
+    end
   end
 
   def upgrade_to_full_membership

@@ -111,9 +111,11 @@ class SpecialOffersControllerTest < ActionController::TestCase
   def test_show_published_and_approved
     cyrille = users(:cyrille)
     rmoore = users(:rmoore)
-    get :show, {:id => special_offers(:published_and_approved).slug, :selected_user => rmoore.slug}, {:user_id => cyrille.id }
+    get :show, {:context => "profile", :id => special_offers(:published_and_approved).slug, :selected_user => rmoore.slug}, {:user_id => cyrille.id }
     assert_template 'show'
     assert_select "div[class=publication-actions]", :count => 0
+    #rmoore's profile is in draft: a link back to his profile should not be provided
+    assert_select "a[href$=offers]", {:text => "Back to #{rmoore.name}'s profile", :count => 0  }
   end
   
   def test_show_rejected

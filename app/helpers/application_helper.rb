@@ -126,7 +126,7 @@ module ApplicationHelper
   end
 
   def author_link(user)
-    if user.active?
+    if user.user_profile.published? && user.active?
       link_to user.name, user_url_with_context(user)
     else
       user.name
