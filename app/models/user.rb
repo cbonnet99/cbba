@@ -91,6 +91,23 @@ class User < ActiveRecord::Base
 
   WEBSITE_PREFIX = "http://"
 
+  def unedited_tabs_error_msg
+    if self.unedited_tabs.size == 1
+      "Please add content to tab #{unedited_tab.first.title} or delete this tab"
+    else
+      "Please add content to tabs #{unedited_tabs.map(&:title).to_sentence} or delete these tabs"
+    end
+  end
+
+  def unedited_tabs
+     unedited_tabs = []
+     tabs.each do |tab|
+       unedited_tabs << tab if tab.content =~ /delete this text/
+     end
+     unedited_tabs
+  end
+  
+
   def has_max_number_tabs?
     !tabs.blank? && tabs.size >= Tab::MAX_PER_USER
   end

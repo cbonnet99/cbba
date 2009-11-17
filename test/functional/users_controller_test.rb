@@ -187,6 +187,26 @@ class UsersControllerTest < ActionController::TestCase
 		assert ActionMailer::Base.deliveries.size > 0
 	end
   
+	def test_publish_with_unedited_tabs
+		cyrille = users(:cyrille)
+		cyrille.user_profile.remove!
+    cyrille.subcategory2_id = subcategories(:yoga).id
+    cyrille.subcategory3_id = subcategories(:yoga).id
+    cyrille.save!
+    cyrille.reload
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+		post :publish, {}, {:user_id => cyrille.id}
+    assert_redirected_to expanded_user_url(cyrille)
+		assert_equal "Please add content to tabs Hypnotherapy and Yoga or delete these tabs", flash[:error]
+		cyrille.user_profile.reload
+		assert_nil cyrille.user_profile.published_at
+
+		assert_equal 0, ActionMailer::Base.deliveries.size
+	end
+  
   def test_show_special_offers
     auckland = regions(:auckland)
     coaches = categories(:coaches)

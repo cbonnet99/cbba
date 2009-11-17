@@ -115,9 +115,14 @@ class UsersController < ApplicationController
 
 	def publish
     if current_user.user_profile.draft?
-      current_user.user_profile.publish!
-      flash[:notice] = "Your profile was successfully published"
-      redirect_to expanded_user_url(current_user)
+      if current_user.unedited_tabs.blank?
+        current_user.user_profile.publish!
+        flash[:notice] = "Your profile was successfully published"
+        redirect_to expanded_user_url(current_user)
+      else
+        flash[:error] = current_user.unedited_tabs_error_msg
+        redirect_to expanded_user_url(current_user)
+      end
     else
       flash[:error] = "Your profile is already published"
       redirect_to expanded_user_url(current_user)
