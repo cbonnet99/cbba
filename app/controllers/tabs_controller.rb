@@ -23,7 +23,6 @@ class TabsController < ApplicationController
   end
 
   def select
-    puts "======== calling select"
     @user = User.find_by_slug(params[:name])
     @selected_tab = @user.tabs.find_by_slug(params[:id])
   end
@@ -34,11 +33,11 @@ class TabsController < ApplicationController
     content = params[:content] || "Content here"
     @tab = current_user.add_tab(title, nil, content)
     if @tab.nil?
-      flash[:error] = "Error while adding this tab"
+      flash[:error] = "Sorry, you can only have #{Tab::MAX_PER_USER} tabs"
+      redirect_to expanded_user_url(current_user)
     else
-#      flash[:notice] = "Tab added successfully"
+      redirect_to action_tab_with_id_url(@tab.slug, :action => "edit" )
     end
-    redirect_to action_tab_with_id_url(@tab.slug, :action => "edit" )
   end
 
   def destroy
@@ -47,7 +46,7 @@ class TabsController < ApplicationController
     unless tab_to_destroy_id.nil?
       current_user.remove_tab(tab_to_destroy_id)
     end
-    redirect_to expanded_user_tabs_url(current_user, selected_tab_id)
+    redirect_to expanded_user_url(current_user)
   end
 
   def edit

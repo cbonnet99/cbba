@@ -184,13 +184,22 @@ module ApplicationHelper
     end
   end
 
-  def expanded_user_tabs_url(user, tab, options={})
-    if tab.blank?
-      tab = Tab::ARTICLES
+  def expanded_user_tabs_url(user, tab, action=nil, options={})
+    if action.nil?
+      if tab.blank?
+        tab = Tab::ARTICLES
+      else
+        options.merge!(:main_expertise_slug => user.main_expertise_slug, :region => user.region.slug,
+          :name => user.slug, :selected_tab_id => tab )
+        user_tabs_url(options)
+      end
+    else
+      if tab.blank?
+        action_tab_url(:action => action)
+      else
+        action_tab_with_id_url(tab, :action => action)
+      end
     end
-    options.merge!(:main_expertise_slug => user.main_expertise_slug, :region => user.region.slug,
-      :name => user.slug, :selected_tab_id => tab )
-    user_tabs_url(options)
   end
 
   def convert_amount(amount_integer)

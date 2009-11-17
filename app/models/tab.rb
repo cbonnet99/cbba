@@ -7,6 +7,7 @@ class Tab < ActiveRecord::Base
 
   ARTICLES = "articles"
   OFFERS = "offers"
+  MAX_PER_USER = 3
   
   after_create :create_slug
 

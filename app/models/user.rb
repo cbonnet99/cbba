@@ -91,6 +91,10 @@ class User < ActiveRecord::Base
 
   WEBSITE_PREFIX = "http://"
 
+  def has_max_number_tabs?
+    !tabs.blank? && tabs.size >= Tab::MAX_PER_USER
+  end
+  
   def self.currently_selected_and_last_10_published(newsletter)
     newsletter.users + self.find(:all, :include => "user_profile", :conditions => "user_profiles.published_at is not null",  :order => "published_at desc", :limit => 10)
   end
@@ -860,10 +864,14 @@ class User < ActiveRecord::Base
   end
 
   def add_tab(title, subcat, content=nil)
-    if subcat.nil?
-      Tab.create(:user_id => id, :title => title, :content => content)
+    if self.has_max_number_tabs?
+      return nil
     else
-      Tab.create(:user_id => id, :title => title, :content => subcat.default_tab_content(self) )
+      if subcat.nil?
+        Tab.create(:user_id => id, :title => title, :content => content)
+      else
+        Tab.create(:user_id => id, :title => title, :content => subcat.default_tab_content(self) )
+      end
     end
   end
 

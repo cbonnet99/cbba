@@ -1,2 +1,5 @@
-<%= link_to "Edit tab", action_tab_with_id_url(@selected_tab.slug, :action => "edit" ) %>
+<%= link_to "Edit tab", action_tab_with_id_url(@selected_tab.slug, :action => "edit" ), :class => "important"  %> |
+<%= link_to "Delete tab", action_tab_with_id_url(@selected_tab.slug, :action => "destroy" ) %> |
+<%= link_to "< Move left", action_tab_with_id_url(@selected_tab.slug, :action => "move_left" ) %> |
+<%= link_to "Move right >", action_tab_with_id_url(@selected_tab.slug, :action => "move_right" ) %>
 <hr/>

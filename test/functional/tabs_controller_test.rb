@@ -13,6 +13,16 @@ class TabsControllerTest < ActionController::TestCase
     cyrille.reload
     assert_equal old_size+1, cyrille.tabs.size
   end
+  
+  def test_create_too_many
+    cyrille = users(:cyrille)
+    cyrille.tabs.create(:title => "Test3", :content => "My content" )
+    cyrille.reload
+    cyrille.tabs.reload
+    post :create, { }, {:user_id => cyrille.id }
+    assert_nil assigns(:tab)
+    assert "Sorry, you can only have 3 tabs", flash[:error]
+  end
 
   def test_move
     cyrille = users(:cyrille)
@@ -51,7 +61,7 @@ class TabsControllerTest < ActionController::TestCase
     old_size = Tab.all.size
     post :destroy, {:id => cyrille_test.slug}, {:user_id => cyrille.id }
     assert_equal old_size-1, Tab.all.size
-    assert_redirected_to expanded_user_tabs_url(cyrille, nil)
+    assert_redirected_to expanded_user_url(cyrille)
   end
 
 end
