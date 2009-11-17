@@ -4,6 +4,29 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_create_tabs
+    cyrille = users(:cyrille)
+    old_size = cyrille.tabs.size
+    cyrille.subcategory2_id = subcategories(:yoga).id
+    cyrille.subcategory3_id = subcategories(:bach_flowers).id
+    cyrille.save!
+    cyrille.reload
+    assert_equal Tab::MAX_PER_USER, cyrille.tabs.size
+    assert_equal cyrille.subcategories[1].name, cyrille.tabs[1].title
+    assert_equal cyrille.subcategories[2].name, cyrille.tabs[2].title
+  end
+
+  def test_same_subcategories
+    cyrille = users(:cyrille)
+    old_size = cyrille.subcategories.size
+    cyrille.subcategory2_id = subcategories(:yoga).id
+    cyrille.subcategory3_id = subcategories(:yoga).id
+    cyrille.save!
+    cyrille.reload
+    assert_nil cyrille.subcategories[2], "Yoga should have been saved only once"
+  end
+
+
   def test_generate_random_password
     rp = User.generate_random_password
     assert_not_nil rp

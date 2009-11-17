@@ -601,43 +601,49 @@ class User < ActiveRecord::Base
     self.categories = []
     unless subcategory1_id.blank?
       sub1 = Subcategory.find(self.subcategory1_id)
-      self.subcategories << sub1
-      unless self.categories.include?(sub1.category)
-        self.categories << sub1.category
-      end
-      # #update expertise position
-      unless @old_positions.blank? || @old_positions[self.subcategory1_id].blank?
-        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
-        unless su.nil?
-          su.update_attribute(:position, @old_positions[self.subcategory1_id])
+      unless sub1.nil?
+        self.subcategories << sub1
+        unless self.categories.include?(sub1.category)
+          self.categories << sub1.category
+        end
+        # #update expertise position
+        unless @old_positions.blank? || @old_positions[self.subcategory1_id].blank?
+          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
+          unless su.nil?
+            su.update_attribute(:position, @old_positions[self.subcategory1_id])
+          end
         end
       end
     end
     unless subcategory2_id.blank?
       sub2 = Subcategory.find(self.subcategory2_id)
-      self.subcategories << sub2
-      unless self.categories.include?(sub2.category)
-        self.categories << sub2.category
-      end
-      # #update expertise position
-      unless @old_positions.blank? || @old_positions[self.subcategory2_id].blank?
-        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
-        unless su.nil?
-          su.update_attribute(:position, @old_positions[self.subcategory2_id])
+      unless sub2.nil? || self.subcategories.include?(sub2)
+        self.subcategories << sub2
+        unless self.categories.include?(sub2.category)
+          self.categories << sub2.category
+        end
+        # #update expertise position
+        unless @old_positions.blank? || @old_positions[self.subcategory2_id].blank?
+          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
+          unless su.nil?
+            su.update_attribute(:position, @old_positions[self.subcategory2_id])
+          end
         end
       end
     end
     unless subcategory3_id.blank?
       sub3 = Subcategory.find(self.subcategory3_id)
-      self.subcategories << sub3
-      unless self.categories.include?(sub3.category)      
-        self.categories << sub3.category
-      end
-      # #update expertise position
-      unless @old_positions.blank? || @old_positions[self.subcategory3_id].blank?
-        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)
-        unless su.nil?
-          su.update_attribute(:position, @old_positions[self.subcategory3_id])
+      unless sub3.nil? || self.subcategories.include?(sub3)
+        self.subcategories << sub3
+        unless self.categories.include?(sub3.category)      
+          self.categories << sub3.category
+        end
+        # #update expertise position
+        unless @old_positions.blank? || @old_positions[self.subcategory3_id].blank?
+          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)
+          unless su.nil?
+            su.update_attribute(:position, @old_positions[self.subcategory3_id])
+          end
         end
       end
     end
