@@ -786,7 +786,7 @@ class User < ActiveRecord::Base
   def add_tabs
     unless free_listing?
       subcategories.each do |s|
-        self.add_tab(s.name, s.name)
+        self.add_tab(s.name, s)
       end
     end
   end
@@ -805,7 +805,7 @@ class User < ActiveRecord::Base
             new_tabs_content << old_tabs[s.name]
           else
             new_tabs << s.name
-            new_tabs_content << s.name
+            new_tabs_content << s.default_tab_content(self)
           end
         end
       end
@@ -859,8 +859,12 @@ class User < ActiveRecord::Base
     subcategories.map(&:name).to_sentence
   end
 
-  def add_tab(title, content)
-    Tab.create(:user_id => id, :title => title, :content => content )
+  def add_tab(title, subcat, content=nil)
+    if subcat.nil?
+      Tab.create(:user_id => id, :title => title, :content => content)
+    else
+      Tab.create(:user_id => id, :title => title, :content => subcat.default_tab_content(self) )
+    end
   end
 
   def remove_tab(tab_slug)

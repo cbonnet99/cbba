@@ -420,10 +420,11 @@ class UserTest < ActiveSupport::TestCase
     
   def test_unique_tab_title
     cyrille = users(:cyrille)
+    yoga = subcategories(:yoga)
     old_size = Tab.all.size
-    cyrille.add_tab("Test", "Content")
+    cyrille.add_tab("Test", yoga)
     assert_equal old_size+1, Tab.all.size
-    cyrille.add_tab("Test", "Content")
+    cyrille.add_tab("Test", yoga)
     #no new tab created: the title of the 2nd tab is not unique
     assert_equal old_size+1, Tab.all.size
   end
@@ -445,6 +446,7 @@ class UserTest < ActiveSupport::TestCase
     user.reload
     assert_equal 1, user.tabs.size
     assert_equal "Hypnotherapy", user.tabs.first.title
+    assert user.tabs.first.content.size > 30, "Tab content should be long (as we now have a default content), but content is only: #{user.tabs.first.content}"
     user.update_attributes(:last_name => "Test2")
     user.reload
     assert_equal 1, user.tabs.size

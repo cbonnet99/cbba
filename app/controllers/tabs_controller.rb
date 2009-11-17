@@ -32,7 +32,7 @@ class TabsController < ApplicationController
     @count_tabs = current_user.tabs.size
     title = params[:title] || "Tab #{@count_tabs+1}"
     content = params[:content] || "Content here"
-    @tab = current_user.add_tab(title, content)
+    @tab = current_user.add_tab(title, nil, content)
     if @tab.nil?
       flash[:error] = "Error while adding this tab"
     else
