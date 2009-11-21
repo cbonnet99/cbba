@@ -15,7 +15,8 @@ class User < ActiveRecord::Base
    :convert_options => { :all => "-quality 100"},
    :url  => "/assets/profiles/:id/:style/:basename.:extension",
    :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
-
+   
+  #validation
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
   validates_length_of :phone, :maximum => 14
@@ -27,6 +28,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
   validates_attachment_size :photo, :less_than => 3.megabytes
   validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif']
+
   # Relationships
   has_many :messages, :dependent => :delete_all 
   has_many :roles_users, :dependent => :delete_all
@@ -77,23 +79,26 @@ class User < ActiveRecord::Base
   # #around filters
 	before_validation :assemble_phone_numbers, :trim_stuff
   before_create :create_geocodes, :get_region_from_district, :get_membership_type
-  before_update :update_geocodes, :get_region_from_district, :get_membership_type, :update_tabs
+  before_update :update_geocodes, :get_region_from_district, :get_membership_type
 
   after_create :create_profile, :add_tabs
 
-  # HACK HACK HACK -- how to do attr_accessible from here? prevents a user from
-  # submitting a crafted form that bypasses activation anything else you want
-  # your user to change should be added here.
-  # attr_accessible :email, :first_name, :last_name, :password, :password_confirmation, :receive_newsletter, :professional, :address1, :address2, :district_id, :region_id, :mobile, :mobile_prefix, :mobile_suffix, :phone, :phone_prefix, :phone_suffix, :subcategory1_id, :subcategory2_id, :subcategory3_id, :free_listing, :business_name, :suburb, :city, :membership_type, :photo, :latitude, :longitude, :resident_expert_application, :website, :accept_terms
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status
 	attr_accessor :membership_type, :resident_expert_application, :accept_terms, :admin, :main_role, :old_password
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
 
+  def remove_subcats(all_subcategories)
+    self.subcategories.each do |s|
+      all_subcategories.delete(s.name)
+    end
+    return all_subcategories
+  end
+
   def unedited_tabs_error_msg
     if self.unedited_tabs.size == 1
-      "Please add content to tab #{unedited_tab.first.title} or delete this tab"
+      "Please add content to tab #{unedited_tabs.first.title} or delete this tab"
     else
       "Please add content to tabs #{unedited_tabs.map(&:title).to_sentence} or delete these tabs"
     end
@@ -325,6 +330,10 @@ class User < ActiveRecord::Base
     if !subcategory.resident_expert.nil?
       logger.error("Trying to make user: #{self.full_name} resident expert on #{subcategory.name}, but there is already an expert for this subcategory: #{subcategory.resident_expert.full_name}")
     else
+      #remove free listing role as it will make a user appear twice
+      self.free_listing = false
+      self.remove_role("free_listing")
+      
       self.add_role("resident_expert")
       unless self.has_role?("full_member")
         self.add_role("full_member")
@@ -336,9 +345,6 @@ class User < ActiveRecord::Base
           self.user_profile.save!
         end
       end
-      #remove free listing role as it will make a user appear twice
-      self.free_listing = false
-      self.remove_role("free_listing")
       self.expertise_subcategory = subcategory
       self.resident_since = Time.now
       self.resident_until = 1.year.from_now
@@ -811,33 +817,8 @@ class User < ActiveRecord::Base
   end
 
   def add_tabs
-    unless free_listing?
-      subcategories.each do |s|
-        self.add_tab(s.name, s)
-      end
-    end
-  end
-
-  def update_tabs
-    if !free_listing? && subcategories.map(&:id) != [subcategory1_id, subcategory2_id, subcategory3_id]
-      old_tabs = Hash.new
-      self.tabs.each {|t| old_tabs[t.title] = t.content}
-      new_tabs = []
-      new_tabs_content = []
-      [subcategory1_id, subcategory2_id, subcategory3_id].each do |id|
-        unless id.blank?
-          s = Subcategory.find(id)
-          if old_tabs.keys.include?(s.name)
-            new_tabs << s.name
-            new_tabs_content << old_tabs[s.name]
-          else
-            new_tabs << s.name
-            new_tabs_content << s.default_tab_content(self)
-          end
-        end
-      end
-      self.tabs.delete_all
-      new_tabs.each_with_index {|s, i| self.tabs.create(:title => s, :content => new_tabs_content[i], :position => i )}
+    subcategories.each do |s|
+      self.add_tab(s)
     end
   end
 
@@ -886,15 +867,11 @@ class User < ActiveRecord::Base
     subcategories.map(&:name).to_sentence
   end
 
-  def add_tab(title, subcat, content=nil)
+  def add_tab(subcat)
     if self.has_max_number_tabs?
       return nil
     else
-      if subcat.nil?
-        Tab.create(:user_id => id, :title => title, :content => content)
-      else
-        Tab.create(:user_id => id, :title => title, :content => subcat.default_tab_content(self) )
-      end
+      Tab.create(:user_id => id, :title => subcat.name, :content => subcat.default_tab_content(self) )
     end
   end
 

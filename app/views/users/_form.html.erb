@@ -51,11 +51,12 @@
     <legend>Professional Details</legend>
     <%= f.hidden_field :membership_type%>
     <ol>
+	  <% if current_user.nil? -%>
       <li>
         <label>Please select your main expertise and (optionally) 2 other categories you would like to be listed in:</label>
       </li>
       <li>
-        <%= f.label :subcategory1_id, 'You main expertise<span class="mandatoryStar">*</span>:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+        <%= f.label :subcategory1_id, 'Your main expertise<span class="mandatoryStar">*</span>:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
       </li>
       <li>
         <%= f.label :subcategory2_id, 'Category2:' %><%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
@@ -63,6 +64,7 @@
       <li>
         <%= f.label :subcategory3_id, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
       </li>
+	  <%end -%>
       <li>
         <%= f.label :business_name, "Business name" %>
         <%= f.text_field :business_name  %>

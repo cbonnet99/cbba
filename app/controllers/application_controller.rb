@@ -195,6 +195,10 @@ class ApplicationController < ActionController::Base
 		@subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.id ]}
 	end
 
+	def get_subcategory_names
+		@subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.name ]}
+	end
+
 	def get_districts
 		@districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
 	end

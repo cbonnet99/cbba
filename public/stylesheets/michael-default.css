@@ -1,3 +1,7 @@
+#contentMain form textarea.hidden-text-area {display: none;}
+#contentMain #profile-tab-content form label.hidden-label {display: none;}
+#contentMain form input.hidden-input {display: none;}
+#profile-tabs-nav {margin-top:40px;}
 #profile-tabs-nav .important {font-size: large;}
 .stuff-actions, .stuff-actions a {font-size: x-small; color: grey;}
 .user-profile-menu {font-weight: bold; font-size: large;}

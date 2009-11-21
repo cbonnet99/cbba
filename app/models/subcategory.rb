@@ -11,7 +11,7 @@ class Subcategory < ActiveRecord::Base
   has_many :expert_applications
   belongs_to :resident_expert, :class_name => "User"
 
-  validates_uniqueness_of :name, :scope => [:category_id], :message => "must be unique in this category"
+  validates_uniqueness_of :name, :message => "must be unique"
 
   named_scope :with_resident_expert, :conditions => "resident_expert_id is not null"
 

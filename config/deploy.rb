@@ -69,12 +69,6 @@ after 'deploy:update_code', 'deploy:symlink_shared'
 
 after "deploy:symlink", "deploy:update_crontab"
 
-# NOTE: This deployment script relies on calling Elastic Server rubberbands
-# which control the server (mongrel, etc) that lives in /etc/cft.d/mods-enabled
-#
-# In a future version, the commands will be performed via webservice.
-#
-
 namespace(:bam) do
   desc "Import existing users"
   task :import_users, :roles => :app do

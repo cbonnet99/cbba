@@ -1,24 +1,65 @@
-cyrille_test:
-  title: My test
-  content: My content is here
-  position: 1
-  slug: my-test
-  user: cyrille
-cyrille_test2:
-  title: My test2
-  content: My content is here
-  position: 2
-  slug: my-test2
-  user: cyrille
-norma_hypnotherapy:
-    title: Hypnotherapy
-    content: This is why I am a good hypnotherapist
-    position: 1
+amcloughlin_hypnotherapy:
     slug: hypnotherapy
-    user: norma
-norma_aromatherapy:
-    title: Aromatherapy
-    content: And some custom content here...
+    user: amcloughlin
+    position: 1
+    title: Hypnotherapy
+cyrille_hypnotherapy:
+    slug: hypnotherapy
+    user: cyrille
+    position: 1
+    title: Hypnotherapy
+pending_user_hypnotherapy:
+    slug: hypnotherapy
+    user: pending_user
+    position: 1
+    title: Hypnotherapy
+suspended_user1_hypnotherapy:
+    slug: hypnotherapy
+    user: suspended_user1
+    position: 1
+    title: Hypnotherapy
+suspended_user2_hypnotherapy:
+    slug: hypnotherapy
+    user: suspended_user2
+    position: 1
+    title: Hypnotherapy
+sgardiner_hypnotherapy:
+    user: sgardiner
+    slug: hypnotherapy
+    position: 1
+    title: Hypnotherapy
+sgardiner_life_coaching:
+    slug: life-coaching
+    user: sgardiner
     position: 2
-    slug: aromatherapy
+    title: Life coaching
+sgardiner_business_coaching:
+    slug: business-coaching
+    user: sgardiner
+    position: 3
+    title: Business coaching
+rmoore_hypnotherapy:
+    user: rmoore
+    slug: hypnotherapy
+    position: 1
+    title: Hypnotherapy
+rmoore_yoga:
+    user: rmoore
+    slug: yoga
+    position: 2
+    title: Yoga
+norma_hypnotherapy:
     user: norma
+    slug: hypnotherapy
+    position: 2
+    title: Hypnotherapy
+norma_aromatherapy:
+    user: norma
+    slug: aromatherapy
+    position: 1
+    title: Aromatherapy
+applying_resident_expert_aromatherapy:
+    user: applying_resident_expert
+    slug: aromatherapy
+    title: Aromatherapy
+    position: 1

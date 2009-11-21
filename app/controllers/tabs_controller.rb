@@ -26,17 +26,38 @@ class TabsController < ApplicationController
     @user = User.find_by_slug(params[:name])
     @selected_tab = @user.tabs.find_by_slug(params[:id])
   end
-
+  
+  def new
+    get_subcategory_names
+    @subcategories = current_user.remove_subcats(@subcategories)
+    @tab = Tab.new(:user_id => current_user.id)
+    @user = current_user
+    render :template => "users/show"
+  end
+  
   def create
-    @count_tabs = current_user.tabs.size
-    title = params[:title] || "Tab #{@count_tabs+1}"
-    content = params[:content] || "Content here"
-    @tab = current_user.add_tab(title, nil, content)
-    if @tab.nil?
-      flash[:error] = "Sorry, you can only have #{Tab::MAX_PER_USER} tabs"
+    if params["cancel"]
+      flash[:notice]="Tab creation cancelled"
       redirect_to expanded_user_url(current_user)
     else
-      redirect_to action_tab_with_id_url(@tab.slug, :action => "edit" )
+      @count_tabs = current_user.tabs.size
+      title = params[:title]
+      content = params[:content]
+      if @count_tabs >= Tab::MAX_PER_USER
+        flash[:error] = "Sorry, you can only have #{Tab::MAX_PER_USER} tabs"
+        redirect_to expanded_user_url(current_user)
+      else
+        @tab = Tab.new(params[:tab])
+        @tab.user_id = current_user.id
+        if @tab.save
+          flash[:notice] = "Your tab was saved"
+          redirect_to expanded_user_tabs_url(current_user, @tab.slug)
+        else
+          get_subcategory_names
+          @subcategories = current_user.remove_subcats(@subcategories)
+          render :action  => "new"
+        end
+      end
     end
   end
 
@@ -46,27 +67,32 @@ class TabsController < ApplicationController
     unless tab_to_destroy_id.nil?
       current_user.remove_tab(tab_to_destroy_id)
     end
+    flash[:notice] = "Your tab was deleted"
     redirect_to expanded_user_url(current_user)
   end
 
   def edit
+    get_subcategory_names
     @selected_tab = current_user.tabs.find_by_slug(params[:id])
+    @selected_tab.old_title = @selected_tab.title
     @user = current_user
     render :template => "users/show"
   end
 
   def update
-    @selected_tab = current_user.tabs.find_by_slug(params[:id])
-    @user = current_user
-    if @selected_tab.update_attributes(params[:tab])
-      @selected_tab.update_attribute(:slug, @selected_tab.title.parameterize)
-      redirect_to expanded_user_tabs_url(current_user, @selected_tab.slug)
-      flash[:notice] = "Your details have been updated"
+    if params["cancel"]
+      flash[:notice]="Tab update cancelled"
+      redirect_to expanded_user_url(current_user)
     else
-      flash.now[:error]  = "There were some errors in your details."
-      render :template => "users/show"
+      @selected_tab = current_user.tabs.find_by_slug(params[:id])
+      @user = current_user
+      if @selected_tab.update_attributes(params[:tab])
+        redirect_to expanded_user_tabs_url(current_user, @selected_tab.slug)
+        flash[:notice] = "Your details have been updated"
+      else
+        flash.now[:error]  = "There were some errors in your details."
+        render :template => "users/show"
+      end
     end
-
   end
-
 end

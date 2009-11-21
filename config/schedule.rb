@@ -29,23 +29,22 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.rotate_feature_ranks"
   runner "TaskUtils.mark_down_old_users"
   runner "TaskUtils.send_reminder_on_expiring_memberships"
-  command "find /home/cftuser/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
-  command "find /home/cftuser/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
+  command "find /home/cyrille/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
+  command "find /home/cyrille/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
   runner "TaskUtils.suspend_full_members_when_membership_expired"
-  command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql"
+  command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql"
   command "psql -U postgres be_amazing_production < script/delete_old_user_events.sql"
-  command "/usr/local/cft/deploy/rails/script/delete-old-sessions"
-  command "tar cvfz /home/cftuser/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /usr/local/cft/deploy/capistrano/shared/assets > /home/cftuser/tar.log 2>&1"
+  command "tar cvfz /home/cyrille/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > /home/cyrille/tar.log 2>&1"
 end
 every 1.day, :at => "4am"  do
-  command "script/s3sync"
+  command "/var/rails/be_amazing/current/script/s3sync"
 end
 
 every 1.hour do
-  # command "pg_dump -U postgres -d be_amazing_production > /home/cftuser/backups/postgres-backup-`date +\\%H-00.sql`"
-  # command "/usr/local/cft/deploy/rails/script/s3sync"
+  # command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%H-00.sql`"
+  # command "/var/rails/be_amazing/current/script/s3sync"
   runner "TaskUtils.generate_autocomplete_subcategories"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"

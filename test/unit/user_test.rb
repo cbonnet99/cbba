@@ -4,16 +4,24 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
-  def test_create_tabs
+  # def test_create_tabs
+  #   cyrille = users(:cyrille)
+  #   old_size = cyrille.tabs.size
+  #   cyrille.subcategory2_id = subcategories(:yoga).id
+  #   cyrille.subcategory3_id = subcategories(:bach_flowers).id
+  #   cyrille.save!
+  #   cyrille.reload
+  #   assert_equal Tab::MAX_PER_USER, cyrille.tabs.size
+  #   assert_equal cyrille.subcategories[1].name, cyrille.tabs[1].title
+  #   assert_equal cyrille.subcategories[2].name, cyrille.tabs[2].title
+  # end
+
+  def test_remove_subcats
     cyrille = users(:cyrille)
-    old_size = cyrille.tabs.size
-    cyrille.subcategory2_id = subcategories(:yoga).id
-    cyrille.subcategory3_id = subcategories(:bach_flowers).id
-    cyrille.save!
-    cyrille.reload
-    assert_equal Tab::MAX_PER_USER, cyrille.tabs.size
-    assert_equal cyrille.subcategories[1].name, cyrille.tabs[1].title
-    assert_equal cyrille.subcategories[2].name, cyrille.tabs[2].title
+    old_subcats = Subcategory.all.map(&:name)
+    old_size = old_subcats.size
+    new_subcats = cyrille.remove_subcats(old_subcats)
+    assert_equal old_size-1, new_subcats.size
   end
 
   def test_same_subcategories
@@ -136,7 +144,6 @@ class UserTest < ActiveSupport::TestCase
     full_member_role = roles(:full_member_role)
     assert rmoore.roles.include?(free_listing_role)
     assert rmoore.free_listing?
-    assert rmoore.tabs.size == 0
     kinesiology = subcategories(:kinesiology)
     rmoore.make_resident_expert!(kinesiology)
     rmoore.reload
@@ -148,7 +155,6 @@ class UserTest < ActiveSupport::TestCase
     # IMPORTANT: if the user keeps the free listing role, it would appear twice in the search results
     assert !rmoore.roles.include?(free_listing_role)
     assert rmoore.roles.include?(full_member_role)
-    assert rmoore.tabs.size > 0
     assert_nil rmoore.user_profile.published_at, "Publication info should have been reset"
     assert_nil rmoore.user_profile.approved_at, "Publication info should have been reset"
     assert_nil rmoore.user_profile.approved_by_id, "Publication info should have been reset"
@@ -332,39 +338,39 @@ class UserTest < ActiveSupport::TestCase
     assert_equal full_members.size, User.full_members.size
   end
 
-  def test_tab_change_on_update
-    norma = users(:norma)
-    spiritual_healing = subcategories(:spiritual_healing)
-    old_subcategories = norma.subcategories
-    old_tabs = norma.tabs
-    old_first_tab = old_tabs[0]
-    old_second_tab = old_tabs[1]
-    
-    norma.save
-    norma.reload
-    assert_equal 2, norma.tabs.size
-    norma.subcategory1_id = old_subcategories[1].id
-    norma.subcategory2_id = old_subcategories[0].id
-    norma.save
-    norma.reload
-
-    assert_equal 2, norma.tabs.size
-    #tab titles should have been swapped
-    assert_equal old_subcategories[1].name, norma.tabs.first.title
-    assert_equal old_subcategories[0].name, norma.tabs[1].title
-    
-    #tab content should be the same
-    assert_equal old_first_tab.content, norma.tabs[1].content
-    assert_equal old_second_tab.content, norma.tabs[0].content    
-     
-    norma.subcategory1_id = spiritual_healing.id
-    norma.subcategory2_id = nil
-    norma.save
-    norma.reload
-    assert_equal 1, norma.tabs.size
-    assert_not_nil norma.tabs.first
-    assert_equal spiritual_healing.name, norma.tabs.first.title
-  end
+  # def test_tab_change_on_update
+  #   norma = users(:norma)
+  #   spiritual_healing = subcategories(:spiritual_healing)
+  #   old_subcategories = norma.subcategories
+  #   old_tabs = norma.tabs
+  #   old_first_tab = old_tabs[0]
+  #   old_second_tab = old_tabs[1]
+  #   
+  #   norma.save
+  #   norma.reload
+  #   assert_equal 2, norma.tabs.size
+  #   norma.subcategory1_id = old_subcategories[1].id
+  #   norma.subcategory2_id = old_subcategories[0].id
+  #   norma.save
+  #   norma.reload
+  # 
+  #   assert_equal 2, norma.tabs.size
+  #   #tab titles should have been swapped
+  #   assert_equal old_subcategories[1].name, norma.tabs.first.title
+  #   assert_equal old_subcategories[0].name, norma.tabs[1].title
+  #   
+  #   #tab content should be the same
+  #   assert_equal old_first_tab.content, norma.tabs[1].content
+  #   assert_equal old_second_tab.content, norma.tabs[0].content    
+  #    
+  #   norma.subcategory1_id = spiritual_healing.id
+  #   norma.subcategory2_id = nil
+  #   norma.save
+  #   norma.reload
+  #   assert_equal 1, norma.tabs.size
+  #   assert_not_nil norma.tabs.first
+  #   assert_equal spiritual_healing.name, norma.tabs.first.title
+  # end
 
   def test_location_change_on_update
     norma = users(:norma)
@@ -445,9 +451,9 @@ class UserTest < ActiveSupport::TestCase
     cyrille = users(:cyrille)
     yoga = subcategories(:yoga)
     old_size = Tab.all.size
-    cyrille.add_tab("Test", yoga)
+    cyrille.add_tab(yoga)
     assert_equal old_size+1, Tab.all.size
-    cyrille.add_tab("Test", yoga)
+    cyrille.add_tab(yoga)
     #no new tab created: the title of the 2nd tab is not unique
     assert_equal old_size+1, Tab.all.size
   end

@@ -1,14 +1,17 @@
-<% use_tinymce -%>
-<% form_for @selected_tab, :url => action_tab_with_id_url(@selected_tab.slug, :action => "update" )  do |f| -%>
-  <%= f.error_messages %>
+  <%= f.error_messages :header_message => "Please try again", :message => "Your tab could not be saved:" %>
     <ol>
+	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
-        <%= f.label :content, 'Content:' %>
+        <%= f.label :title, 'Modality<span class="mandatoryStar">*</span>:' %>
+        <%= f.select :title, @subcategories, {:prompt => "- Please select -", :include_blank => true} %>
+      </li>
+      <li>
+		<% if hide_content == true -%>
+        <%= f.label :content, 'Content:', :class => "hidden-label"  %>
+        <%= f.text_area :content, :cols => "35", :class => "hidden-text-area"  %>
+		<% else -%>
+        <%= f.label :content, 'Content:'  %>
         <%= f.text_area :content, :cols => "35" %>
+		<% end -%>
       </li>
     </ol>
-  <div class="buttons">
-    <label for=""></label>
-    <%= submit_tag 'Update' %>
-  </div>
-<% end -%>

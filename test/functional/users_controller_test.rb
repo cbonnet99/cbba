@@ -163,6 +163,13 @@ class UsersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     get :edit, {}, {:user_id => cyrille.id }
     assert_response :success
+    assert_select "select#user_subcategory1_id", :count => 0 
+  end
+
+  def test_new
+    get :new
+    assert_response :success
+    assert_select "select#user_subcategory1_id"
   end
 
   def test_new_photo
@@ -189,18 +196,15 @@ class UsersControllerTest < ActionController::TestCase
   
 	def test_publish_with_unedited_tabs
 		cyrille = users(:cyrille)
+		cyrille.tabs.first.update_attribute(:content, "delete this text")
 		cyrille.user_profile.remove!
-    cyrille.subcategory2_id = subcategories(:yoga).id
-    cyrille.subcategory3_id = subcategories(:yoga).id
-    cyrille.save!
-    cyrille.reload
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
 		post :publish, {}, {:user_id => cyrille.id}
     assert_redirected_to expanded_user_url(cyrille)
-		assert_equal "Please add content to tabs Hypnotherapy and Yoga or delete these tabs", flash[:error]
+		assert_equal "Please add content to tab #{cyrille.tabs.first.title} or delete this tab", flash[:error]
 		cyrille.user_profile.reload
 		assert_nil cyrille.user_profile.published_at
 
@@ -214,7 +218,7 @@ class UsersControllerTest < ActionController::TestCase
 
     get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => "offers" }
     assert_not_nil assigns(:all_offers)
-    assert_select "span", {:text => "published", :count => 0} 
+    assert_select "span", {:text => "published", :count => 0}
   end
 
   def test_show_special_offers_own_profile
@@ -468,23 +472,6 @@ class UsersControllerTest < ActionController::TestCase
     sgardiner = User.find_by_email(sgardiner.email)
     assert_equal aromatherapy.id, sgardiner.subcategory1_id
     assert_equal aromatherapy.name, sgardiner.main_expertise_name
-  end
-
-  def test_update_tabs
-    norma = users(:norma)
-    yoga = subcategories(:yoga)
-		post :update, {:id => "123", :user => {:subcategory1_id => yoga.id, :subcategory2_id => nil }}, {:user_id => norma.id }
-    assert_equal 0, assigns(:user).errors.size
-    norma.reload
-    
-    assert_equal 1, norma.tabs.size
-    assert_equal yoga.name, norma.tabs[0].title
-    
-
-    #IMPORTANT: do not reload as the reload does not go through the after_find callback...
-    # sgardiner = User.find_by_email(sgardiner.email)
-    # assert_equal aromatherapy.id, sgardiner.subcategory1_id
-    # assert_equal aromatherapy.name, sgardiner.main_expertise
   end
 
 	def test_update_mobile2

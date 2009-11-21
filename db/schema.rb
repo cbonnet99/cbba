@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091112084103) do
+ActiveRecord::Schema.define(:version => 20091121075235) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -431,7 +431,6 @@ ActiveRecord::Schema.define(:version => 20091112084103) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "slug"
-    t.boolean  "visible",    :default => true
   end
 
   add_index "tabs", ["user_id"], :name => "index_tabs_on_user_id"
