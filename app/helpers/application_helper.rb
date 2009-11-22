@@ -133,6 +133,14 @@ module ApplicationHelper
     end
   end
 
+  def preload_tinymce
+    @content_for_tinymce = ""
+    content_for :tinymce do
+      #had to specify a non-asset path to prevent caching bug: see http://blog.p.latyp.us/2008/04/tinymce-and-using-rails-asset-hosts.html
+      javascript_include_tag "https://#{APP_CONFIG[:site_host]}/javascripts/tiny_mce/tiny_mce"
+    end
+  end
+
   def use_tinymce
     @content_for_tinymce = ""
     content_for :tinymce do

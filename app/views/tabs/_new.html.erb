@@ -1,4 +1,4 @@
-<% use_tinymce -%>
+<% preload_tinymce -%>
 <% javascript "new-tab"%>
 <% form_for @tab, :url => action_tab_url(:action => "create" )  do |f| -%>
 	<%= render :partial => "form", :locals => {:f => f, :hide_content => true  }  %>
