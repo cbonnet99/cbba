@@ -6,10 +6,14 @@ class TabsControllerTest < ActionController::TestCase
   
   def test_create_too_many
     rmoore = users(:rmoore)
-    rmoore.tabs.create(:title => "Test3", :content => "My content" )
+    aromatherapy = subcategories(:aromatherapy)
+    astrology = subcategories(:astrology)
+    old_size = rmoore.subcategories.size
+    rmoore.tabs.create(:title => aromatherapy.name, :content => "My content" )
     rmoore.reload
+    assert_equal old_size+1, rmoore.subcategories.size
     rmoore.tabs.reload
-    post :create, { }, {:user_id => rmoore.id }
+    post :create, { :title => astrology.name, :content => "My content"}, {:user_id => rmoore.id }
     assert_nil assigns(:tab)
     assert "Sorry, you can only have 3 tabs", flash[:error]
   end

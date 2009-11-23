@@ -9,7 +9,7 @@ class Tab < ActiveRecord::Base
   OFFERS = "offers"
   MAX_PER_USER = 3
   
-  after_create :create_slug
+  after_create :create_slug, :create_link_to_subcategories
   after_update :update_subcategories
   before_save :change_slug
 
@@ -25,6 +25,13 @@ class Tab < ActiveRecord::Base
   
   def change_slug
     self.slug = self.title.parameterize
+  end
+  
+  def create_link_to_subcategories
+    new_subcategory = Subcategory.find_by_name(title)
+    if !new_subcategory.nil? && !user.subcategories.include?(new_subcategory)
+      user.subcategories << new_subcategory
+    end
   end
   
   def update_subcategories
