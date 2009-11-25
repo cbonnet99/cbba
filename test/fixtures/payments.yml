@@ -23,3 +23,11 @@ completed_expert:
   status: completed
   gst: 4375
   discount: 34900
+completed_new_cyrille:
+    user: cyrille
+    amount: 9999
+    invoice_number: 211111
+    status: completed
+    gst: 1250
+    charity: guide_dogs
+    

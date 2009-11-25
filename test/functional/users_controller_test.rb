@@ -537,50 +537,50 @@ class UsersControllerTest < ActionController::TestCase
     assert new_user.active?
 	end
 	
-  def test_create_full_membership
-		old_size = User.all.size
-		district = districts(:wellington_wellington_city)
-		wellington = regions(:wellington)
-    hypnotherapy = subcategories(:hypnotherapy)
-		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
-      :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-      :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
-    assert_not_nil assigns(:payment)
-    assert_redirected_to edit_payment_url(assigns(:payment))
-		assert_not_nil assigns(:user)
-    # # 	puts assigns(:user).errors.inspect
-		assert_equal 0, assigns(:user).errors.size
-		assert_equal old_size+1, User.all.size
-		new_user = User.find_by_email("cyrille@stuff.com")
-		assert_not_nil(new_user)
-		assert_equal "(027)8987987", new_user.mobile
-		assert_equal wellington, new_user.region
-    # #1 tab for hypnotherapy
-    assert_equal 1, new_user.tabs.size
-	end
+  #   def test_create_full_membership
+  #   old_size = User.all.size
+  #   district = districts(:wellington_wellington_city)
+  #   wellington = regions(:wellington)
+  #     hypnotherapy = subcategories(:hypnotherapy)
+  #   post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
+  #       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
+  #       :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
+  #     assert_not_nil assigns(:payment)
+  #     assert_redirected_to edit_payment_url(assigns(:payment))
+  #   assert_not_nil assigns(:user)
+  #     # #   puts assigns(:user).errors.inspect
+  #   assert_equal 0, assigns(:user).errors.size
+  #   assert_equal old_size+1, User.all.size
+  #   new_user = User.find_by_email("cyrille@stuff.com")
+  #   assert_not_nil(new_user)
+  #   assert_equal "(027)8987987", new_user.mobile
+  #   assert_equal wellington, new_user.region
+  #     # #1 tab for hypnotherapy
+  #     assert_equal 1, new_user.tabs.size
+  # end
 	
-  def test_create_full_membership_direct_debit
-		old_size = User.all.size
-		district = districts(:wellington_wellington_city)
-		wellington = regions(:wellington)
-    hypnotherapy = subcategories(:hypnotherapy)
-		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
-      :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-      :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   },
-      :commit => "Pay by direct debit" 
-    assert_not_nil assigns(:payment)
-    assert_redirected_to :controller => "payments", :action => "edit_debit",  :id => assigns(:payment).id
-		assert_not_nil assigns(:user)
-    # # 	puts assigns(:user).errors.inspect
-		assert_equal 0, assigns(:user).errors.size
-		assert_equal old_size+1, User.all.size
-		new_user = User.find_by_email("cyrille@stuff.com")
-		assert_not_nil(new_user)
-		assert_equal "(027)8987987", new_user.mobile
-		assert_equal wellington, new_user.region
-    # #1 tab for hypnotherapy
-    assert_equal 1, new_user.tabs.size
-	end
+  #   def test_create_full_membership_direct_debit
+  #   old_size = User.all.size
+  #   district = districts(:wellington_wellington_city)
+  #   wellington = regions(:wellington)
+  #     hypnotherapy = subcategories(:hypnotherapy)
+  #   post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
+  #       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
+  #       :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   },
+  #       :commit => "Pay by direct debit" 
+  #     assert_not_nil assigns(:payment)
+  #     assert_redirected_to :controller => "payments", :action => "edit_debit",  :id => assigns(:payment).id
+  #   assert_not_nil assigns(:user)
+  #     # #   puts assigns(:user).errors.inspect
+  #   assert_equal 0, assigns(:user).errors.size
+  #   assert_equal old_size+1, User.all.size
+  #   new_user = User.find_by_email("cyrille@stuff.com")
+  #   assert_not_nil(new_user)
+  #   assert_equal "(027)8987987", new_user.mobile
+  #   assert_equal wellington, new_user.region
+  #     # #1 tab for hypnotherapy
+  #     assert_equal 1, new_user.tabs.size
+  # end
 	
   def test_create_full_membership_with_error
     hypnotherapy = subcategories(:hypnotherapy)

@@ -58,7 +58,9 @@ class User < ActiveRecord::Base
   has_many :recommended_by, :class_name => "User" , :through => :recommended_by_recommendations, :source => :user
   has_many :newsletters_users
   has_many :newsletters, :through => :newsletters_users 
-
+  has_many :orders
+  has_many :paid_features
+  
   # #named scopes
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
   named_scope :wants_professional_newsletter, :conditions => "receive_professional_newsletter is true"
@@ -74,6 +76,8 @@ class User < ActiveRecord::Base
   named_scope :new_users, :conditions => "new_user is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
+  named_scope :with_expired_photo, :conditions => "paid_photo_until IS NOT NULL AND paid_photo_until < now()"
+  named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo_until IS NOT NULL AND paid_photo_until > now() AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
 
   
   # #around filters
@@ -88,6 +92,18 @@ class User < ActiveRecord::Base
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
+  
+  def has_paid_special_offers?
+    !paid_special_offers.nil? && paid_special_offers > 0
+  end
+
+  def has_paid_gift_vouchers?
+    !paid_gift_vouchers.nil? && paid_gift_vouchers > 0
+  end
+
+  def has_paid_features?
+    paid_photo? || paid_highlighted? || has_paid_special_offers? || has_paid_gift_vouchers?
+  end
 
   def remove_subcats(all_subcategories)
     self.subcategories.each do |s|

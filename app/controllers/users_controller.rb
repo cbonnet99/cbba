@@ -4,6 +4,11 @@ class UsersController < ApplicationController
   before_filter :full_member_required, :only => [:articles]
   before_filter :login_required, :except => [:unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
+
+  def promote
+    @order = current_user.orders.pending.first
+    @order = Order.new if @order.nil?
+  end
   
   def unsubscribe
     @selected_user = User.find_by_slug_and_unsubscribe_token(params[:slug], params[:token])
@@ -239,16 +244,9 @@ class UsersController < ApplicationController
       if success && @user.errors.empty?
         case @user.membership_type
         when "full_member":
-           flash[:notice] = "You can now complete your payment"
+           flash[:notice] = "User registered"
           session[:user_id] = @user.id
-          @payment = @user.payments.create!(Payment::TYPES[:full_member])
-          if params[:commit] == "Pay by direct debit"
-            @payment.payment_type = "direct_debit"
-            redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
-          else
-            @payment.payment_type = "credit_card"
-            redirect_to edit_payment_url(@payment)
-          end
+          redirect_to :controller => "users", :action => "promote"  
         when "resident_expert":
            @user.activate!
           session[:user_id] = @user.id

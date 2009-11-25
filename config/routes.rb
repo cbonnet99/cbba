@@ -103,6 +103,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_profile_action '/user_profiles/:id/:action', :controller => 'users'
   map.user_new_photo '/users/new_photo', :controller => 'users', :action => "new_photo"
   map.user_create_photo '/users/create_photo', :controller => 'users', :action => "create_photo"
+  map.user_promote '/users/promote', :controller => 'users', :action => "promote"
   
   map.resources :users
   map.resources :passwords

@@ -2,6 +2,20 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
   include ActionController::UrlWriter
+
+  def expired_feature(user, feature_name)
+    setup_email(user)
+		@subject << "your #{feature_name} has expired"
+		@body[:feature_name] = feature_name
+		@body[:url] = user_promote_url    
+  end
+
+  def expiring_feature(user, feature_name)
+    setup_email(user)
+		@subject << "your #{feature_name} will expire soon"
+		@body[:feature_name] = feature_name
+		@body[:url] = user_promote_url
+  end
   
   def thank_you_direct_debit(user, payment)
     setup_email(user)

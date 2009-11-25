@@ -30,18 +30,24 @@ class Payment < ActiveRecord::Base
   has_many :transactions, :class_name => "PaymentTransaction"
   has_one :expert_application
   belongs_to :charity
-
+  has_many :paid_features
+  belongs_to :order
+  
   attr_accessor :card_number, :card_verification
 
   validate_on_update :validate_card
 
-  before_create :compute_gst
+  before_create :compute_gst, :set_defaults
   after_create :create_invoice
 
   named_scope :pending, :conditions => "status ='pending'"
   named_scope :renewals, :conditions => "payment_type = 'renewal'"
   named_scope :resident, :conditions => "payment_type = 'resident_expert'"
   named_scope :resident_renewals, :conditions => "payment_type = 'resident_expert_renewal'"
+    
+  def set_defaults
+    self.discount = 0 if self.discount.nil?
+  end
   
   def create_invoice
     #create invoice internally
@@ -93,6 +99,28 @@ class Payment < ActiveRecord::Base
     transactions.create!(:action => "purchase", :amount => total, :response => response)
     if response.success?
       self.mark_as_paid!
+      unless self.order.nil?
+        self.order.mark_as_paid!
+      end
+      if !self.order.nil?
+        if self.order.photo?
+          self.user.paid_photo = true
+          self.user.paid_photo_until = (self.user.paid_photo_until || Time.now)+1.year
+        end
+        if self.order.highlighted?
+          self.user.paid_highlighted = true
+          self.user.paid_highlighted_until = (self.user.paid_highlighted_until || Time.now)+1.year
+        end
+        if !self.order.special_offers.nil? && self.order.special_offers > 0
+          self.user.paid_special_offers = (self.user.paid_special_offers || 0) + self.order.special_offers
+          self.user.paid_special_offers_next_date_check = self.user.paid_special_offers_next_date_check.nil? ? Time.now+1.year : self.user.paid_special_offers_next_date_check
+        end
+        if !self.order.gift_vouchers.nil? && self.order.gift_vouchers > 0
+          self.user.paid_gift_vouchers = (self.user.paid_gift_vouchers || 0) + self.order.gift_vouchers
+          self.user.paid_gift_vouchers_next_date_check = self.user.paid_gift_vouchers_next_date_check.nil? ? Time.now+1.year : self.user.paid_special_offers_next_date_check
+        end
+        self.user.save!
+      end
     end
     response.success?
   end

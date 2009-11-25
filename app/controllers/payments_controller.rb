@@ -58,8 +58,9 @@ class PaymentsController < ApplicationController
         redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
       else
         if @payment.purchase
-          log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.payment_type}")
-          render :action => Payment::REDIRECT_PAGES[@payment.payment_type.to_sym]
+          log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total)}")
+          flash[:notice] = "Thank you for your payment. Features are now activated"
+          redirect_to expanded_user_url(current_user)
         else
           log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@payment.errors.full_messages.to_sentence}")
           logger.debug "======= #{@payment.errors.inspect}"

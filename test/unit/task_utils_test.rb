@@ -3,6 +3,30 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_check_feature_expiration_expired_photo
+    user_expired_photo = Factory(:user, :paid_photo => true, :paid_photo_until => 1.month.ago )
+    assert user_expired_photo.paid_photo?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired photo"
+  end
+
+  def test_check_feature_expiration_expiring_photo
+    user_expired_photo = Factory(:user, :paid_photo => true, :paid_photo_until => 6.days.from_now )
+    assert user_expired_photo.paid_photo?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring photo"
+  end
+
   def test_rotate_feature_ranks
     cyrille = users(:cyrille)
     TaskUtils.rotate_feature_ranks

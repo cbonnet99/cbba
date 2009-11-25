@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091121075235) do
+ActiveRecord::Schema.define(:version => 20091123092027) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -294,6 +294,19 @@ ActiveRecord::Schema.define(:version => 20091121075235) do
     t.datetime "updated_at"
   end
 
+  create_table "orders", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "order_number"
+    t.boolean  "photo"
+    t.boolean  "highlighted"
+    t.integer  "special_offers"
+    t.integer  "gift_vouchers"
+    t.boolean  "whole_package"
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "passwords", :force => true do |t|
     t.integer  "user_id"
     t.string   "reset_code"
@@ -337,6 +350,7 @@ ActiveRecord::Schema.define(:version => 20091121075235) do
     t.boolean  "debit"
     t.integer  "charity_id"
     t.string   "payment_card_type"
+    t.integer  "order_id"
   end
 
   create_table "recommendations", :force => true do |t|
@@ -501,22 +515,22 @@ ActiveRecord::Schema.define(:version => 20091121075235) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "first_name",                      :limit => 100, :default => ""
-    t.string   "last_name",                       :limit => 100, :default => ""
-    t.string   "email",                           :limit => 100
-    t.string   "crypted_password",                :limit => 40
-    t.string   "salt",                            :limit => 40
-    t.string   "remember_token",                  :limit => 40
-    t.string   "activation_code",                 :limit => 40
-    t.string   "state",                                          :default => "passive"
+    t.string   "first_name",                          :limit => 100, :default => ""
+    t.string   "last_name",                           :limit => 100, :default => ""
+    t.string   "email",                               :limit => 100
+    t.string   "crypted_password",                    :limit => 40
+    t.string   "salt",                                :limit => 40
+    t.string   "remember_token",                      :limit => 40
+    t.string   "activation_code",                     :limit => 40
+    t.string   "state",                                              :default => "passive"
     t.datetime "remember_token_expires_at"
     t.datetime "activated_at"
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "region_id"
-    t.boolean  "receive_newsletter",                             :default => true
-    t.boolean  "professional",                                   :default => false
+    t.boolean  "receive_newsletter",                                 :default => true
+    t.boolean  "professional",                                       :default => false
     t.boolean  "free_listing"
     t.string   "business_name"
     t.string   "address1"
@@ -532,25 +546,33 @@ ActiveRecord::Schema.define(:version => 20091121075235) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.boolean  "new_user",                                       :default => true
-    t.integer  "articles_count",                                 :default => 0
-    t.integer  "how_tos_count",                                  :default => 0
-    t.integer  "special_offers_count",                           :default => 0
-    t.integer  "published_articles_count",                       :default => 0
-    t.integer  "published_how_tos_count",                        :default => 0
-    t.integer  "published_special_offers_count",                 :default => 0
+    t.boolean  "new_user",                                           :default => true
+    t.integer  "articles_count",                                     :default => 0
+    t.integer  "how_tos_count",                                      :default => 0
+    t.integer  "special_offers_count",                               :default => 0
+    t.integer  "published_articles_count",                           :default => 0
+    t.integer  "published_how_tos_count",                            :default => 0
+    t.integer  "published_special_offers_count",                     :default => 0
     t.string   "latitude"
     t.string   "longitude"
     t.datetime "resident_since"
     t.datetime "resident_until"
     t.string   "description"
     t.string   "website"
-    t.integer  "gift_vouchers_count",                            :default => 0
-    t.integer  "published_gift_vouchers_count",                  :default => 0
-    t.boolean  "receive_professional_newsletter",                :default => true
+    t.integer  "gift_vouchers_count",                                :default => 0
+    t.integer  "published_gift_vouchers_count",                      :default => 0
+    t.boolean  "receive_professional_newsletter",                    :default => true
     t.integer  "feature_rank"
     t.string   "unsubscribe_token"
     t.datetime "last_logged_at"
+    t.boolean  "paid_photo"
+    t.boolean  "paid_highlighted"
+    t.integer  "paid_special_offers"
+    t.integer  "paid_gift_vouchers"
+    t.date     "paid_photo_until"
+    t.date     "paid_highlighted_until"
+    t.date     "paid_gift_vouchers_next_date_check"
+    t.date     "paid_special_offers_next_date_check"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

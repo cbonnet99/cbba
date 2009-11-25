@@ -1,4 +1,4 @@
-<%= title "Pay by credit card for your #{@payment.title.downcase}" %>
+<%= title "Pay by credit card" %>
 <div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount)%></em><br/>
 <% unless @payment.discount == 0 -%>
 - Year one discount <em class="money"><%=amount_view(@payment.discount) %></em><br/>
@@ -33,7 +33,6 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
         <%= f.label :city %>
         <%= f.text_field :city %>
       </li>
-	  <%= render :partial => "charities", :locals => {:f  => f} %>
       <li>
         <%= f.label :card_type %>
         <%= f.select :card_type, [["Visa", "visa"], ["MasterCard", "master"], ["American Express", "american_express"]] %>
@@ -53,7 +52,6 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
   </ol>
 	<div class="clear"></div>
 	<p class="register-actions">
-  <%= link_to "I've changed my mind, I want to pay by direct debit", :controller => "payments", :action => "edit_debit_charities", :id => @payment.id%>
   <%= submit_tag 'Process my payment', :class => "button submit" %>
 </p>
 <% end -%>

@@ -43,7 +43,7 @@ Rails::Initializer.run do |config|
   config.gem "libxml-ruby", :lib => "libxml"
   config.gem "tlconnor-xero_gateway", :lib => "xero_gateway",  :source => "http://gems.github.com"
   config.gem "newrelic_rpm"
-  
+  config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com"
   # Only load the plugins named here, in the order given. By default, all
   # plugins in vendor/plugins are loaded in alphabetical order. :all can be used
   # as a placeholder for all plugins not explicitly named config.plugins = [

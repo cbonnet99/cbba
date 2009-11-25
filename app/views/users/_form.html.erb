@@ -105,8 +105,5 @@
   </fieldset>
   <p class="register-actions">
     <%= submit_tag membership_button_msg(@mt, sign_up), :class => "button submit" %>
-	<% if @mt == "full_member" -%>
-    <%= submit_tag "Pay by direct debit", :class => "button submit"  %>
-	<% end -%>
 	<%= link_to "Cancel", root_url, :class => "anchor-button cancel" %>
   </p>

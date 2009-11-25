@@ -2,6 +2,15 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.check_feature_expiration
+    User.with_expired_photo.each do |u|
+      UserMailer.deliver_expired_feature(u, "photo")
+    end
+    User.with_expiring_photo(7.days.from_now).each do |u|
+      UserMailer.deliver_expiring_feature(u, "photo")
+    end
+  end
+  
   def self.rotate_feature_ranks
     articles = Article.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
     howtos = HowTo.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")

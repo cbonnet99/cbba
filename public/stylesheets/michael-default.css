@@ -1,3 +1,5 @@
+#contentMain form label.wide-label {width: auto;}
+#contentMain form .help {font-size: smaller; margin-bottom: 5px;}
 #contentMain form textarea.hidden-text-area {display: none;}
 #contentMain #profile-tab-content form label.hidden-label {display: none;}
 #contentMain form input.hidden-input {display: none;}
