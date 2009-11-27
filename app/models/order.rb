@@ -14,6 +14,8 @@ class Order < ActiveRecord::Base
   aasm_event :mark_as_paid do
     transitions :from => :pending, :to => :paid
   end
+
+  named_scope :not_expired, :conditions => ["created_at > ?", 1.year.ago], :order => "created_at"  
   
   def update_amount
     if valid?

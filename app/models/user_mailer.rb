@@ -3,14 +3,18 @@ class UserMailer < ActionMailer::Base
   include ApplicationHelper
   include ActionController::UrlWriter
 
-  def expired_feature(user, feature_name)
+  def expired_feature(user, feature_name, feature_count=1)
     setup_email(user)
-		@subject << "your #{feature_name} has expired"
+    if feature_count == 1
+		  @subject << "your #{feature_name} has expired"
+	  else
+	    @subject << "your #{pluralize(feature_count, feature_name)} have expired"
+    end
 		@body[:feature_name] = feature_name
 		@body[:url] = user_promote_url    
   end
 
-  def expiring_feature(user, feature_name)
+  def expiring_feature(user, feature_name, feature_count=1)
     setup_email(user)
 		@subject << "your #{feature_name} will expire soon"
 		@body[:feature_name] = feature_name

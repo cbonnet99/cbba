@@ -9,6 +9,23 @@ class TaskUtils
     User.with_expiring_photo(7.days.from_now).each do |u|
       UserMailer.deliver_expiring_feature(u, "photo")
     end
+    User.with_expired_highlighted.each do |u|
+      UserMailer.deliver_expired_feature(u, "highlighted profile")
+    end
+    User.with_expiring_highlighted(7.days.from_now).each do |u|
+      UserMailer.deliver_expiring_feature(u, "highlighted profile")
+    end
+    User.with_expired_special_offers.each do |u|
+      feature_count = u.paid_special_offers - u.count_not_expired_special_offers
+      UserMailer.deliver_expired_feature(u, "special offer", feature_count)
+      if feature_count == u.paid_special_offers
+        u.update_attribute(:paid_special_offers_next_date_check, nil)
+      else
+        #move the next check date forward
+        next_order_to_expire = u.orders.not_expired.first
+        u.update_attribute(:paid_special_offers_next_date_check, next_order_to_expire.created_at+1.year)
+      end
+    end
   end
   
   def self.rotate_feature_ranks

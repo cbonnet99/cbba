@@ -3,6 +3,26 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_check_feature_expiration_special_offers
+    user_expired_special_offers = Factory(:user, :paid_special_offers => 3, :paid_special_offers_next_date_check => 1.month.ago )
+    order_secial_offers1 = Factory(:order, :special_offers => 1, :created_at => 13.months.ago, :user_id => user_expired_special_offers.id )
+    order_secial_offers2 = Factory(:order, :special_offers => 1, :created_at => 6.months.ago, :user_id => user_expired_special_offers.id )
+    order_secial_offers3 = Factory(:order, :special_offers => 1, :created_at => 3.months.ago, :user_id => user_expired_special_offers.id )
+    old_next_check = user_expired_special_offers.paid_special_offers_next_date_check
+    assert_equal 2, user_expired_special_offers.orders.not_expired.size
+    assert_equal 3, user_expired_special_offers.paid_special_offers
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired special offer"
+    user_expired_special_offers.reload
+    assert old_next_check < user_expired_special_offers.paid_special_offers_next_date_check, "The next date check should have moved forward, but old_next_check is #{old_next_check} and the new one is #{user_expired_special_offers.paid_special_offers_next_date_check}"
+    assert_equal 6.months.from_now.to_date, user_expired_special_offers.paid_special_offers_next_date_check
+  end
+
   def test_check_feature_expiration_expired_photo
     user_expired_photo = Factory(:user, :paid_photo => true, :paid_photo_until => 1.month.ago )
     assert user_expired_photo.paid_photo?
@@ -25,6 +45,30 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.check_feature_expiration
     
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring photo"
+  end
+
+  def test_check_feature_expiration_expired_highlighted
+    user_expired_photo = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 1.month.ago )
+    assert user_expired_photo.paid_highlighted?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired highlighted"
+  end
+
+  def test_check_feature_expiration_expiring_highlighted
+    user_expired_photo = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.from_now )
+    assert user_expired_photo.paid_highlighted?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring highlighted"
   end
 
   def test_rotate_feature_ranks

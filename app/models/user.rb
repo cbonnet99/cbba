@@ -78,6 +78,10 @@ class User < ActiveRecord::Base
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
   named_scope :with_expired_photo, :conditions => "paid_photo_until IS NOT NULL AND paid_photo_until < now()"
   named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo_until IS NOT NULL AND paid_photo_until > now() AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expired_highlighted, :conditions => "paid_highlighted_until IS NOT NULL AND paid_highlighted_until < now()"
+  named_scope :with_expiring_highlighted, lambda { |warning_period| { :conditions => "paid_highlighted_until IS NOT NULL AND paid_highlighted_until > now() AND paid_highlighted_until < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expired_special_offers, :conditions => "paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check < now()"
+  named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
 
   
   # #around filters
@@ -93,6 +97,12 @@ class User < ActiveRecord::Base
 
   WEBSITE_PREFIX = "http://"
   
+  def count_not_expired_special_offers
+    count = 0
+    orders.not_expired.each {|o| count += o.special_offers}
+    return count
+  end
+
   def has_paid_special_offers?
     !paid_special_offers.nil? && paid_special_offers > 0
   end
