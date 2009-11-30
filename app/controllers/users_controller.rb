@@ -244,7 +244,8 @@ class UsersController < ApplicationController
       if success && @user.errors.empty?
         case @user.membership_type
         when "full_member":
-           flash[:notice] = "Your user profile is now live"
+          @user.activate!
+          flash[:notice] = "Your user profile is now live"
           session[:user_id] = @user.id
           redirect_to :controller => "users", :action => "promote"  
         when "resident_expert":
