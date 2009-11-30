@@ -26,6 +26,26 @@ class TaskUtils
         u.update_attribute(:paid_special_offers_next_date_check, next_order_to_expire.created_at+1.year)
       end
     end
+    User.with_expiring_special_offers(7.days.from_now).each do |u|
+      feature_count = u.paid_special_offers - u.count_not_expiring_special_offers()
+      UserMailer.deliver_expiring_feature(u, "special offer", feature_count)
+    end
+    User.with_expired_gift_vouchers.each do |u|
+      feature_count = u.paid_gift_vouchers - u.count_not_expired_gift_vouchers
+      UserMailer.deliver_expired_feature(u, "gift voucher", feature_count)
+      if feature_count == u.paid_gift_vouchers
+        u.update_attribute(:paid_gift_vouchers_next_date_check, nil)
+      else
+        #move the next check date forward
+        next_order_to_expire = u.orders.not_expired.first
+        u.update_attribute(:paid_gift_vouchers_next_date_check, next_order_to_expire.created_at+1.year)
+      end
+    end
+    User.with_expiring_gift_vouchers(7.days.from_now).each do |u|
+      feature_count = u.paid_gift_vouchers - u.count_not_expiring_gift_vouchers()
+      UserMailer.deliver_expiring_feature(u, "gift voucher", feature_count)
+    end
+    
   end
   
   def self.rotate_feature_ranks

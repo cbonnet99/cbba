@@ -3,6 +3,45 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_check_feature_expiration_gift_vouchers
+    user_expired_gift_vouchers = Factory(:user, :paid_gift_vouchers => 3, :paid_gift_vouchers_next_date_check => 1.month.ago )
+    order_secial_offers1 = Factory(:order, :gift_vouchers => 1, :created_at => 13.months.ago, :user_id => user_expired_gift_vouchers.id )
+    order_secial_offers2 = Factory(:order, :gift_vouchers => 1, :created_at => 6.months.ago, :user_id => user_expired_gift_vouchers.id )
+    order_secial_offers3 = Factory(:order, :gift_vouchers => 1, :created_at => 3.months.ago, :user_id => user_expired_gift_vouchers.id )
+    old_next_check = user_expired_gift_vouchers.paid_gift_vouchers_next_date_check
+    assert_equal 2, user_expired_gift_vouchers.orders.not_expired.size
+    assert_equal 3, user_expired_gift_vouchers.paid_gift_vouchers
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired gift voucher"
+    user_expired_gift_vouchers.reload
+    assert old_next_check < user_expired_gift_vouchers.paid_gift_vouchers_next_date_check, "The next date check should have moved forward, but old_next_check is #{old_next_check} and the new one is #{user_expired_gift_vouchers.paid_gift_vouchers_next_date_check}"
+    assert_in_delta 6.months.from_now.to_time.to_f, user_expired_gift_vouchers.paid_gift_vouchers_next_date_check.to_time.to_f, 60*60*24*2, "More or less (two day leeway to account for leap years)"
+    email = ActionMailer::Base.deliveries.first
+    assert_not_nil email
+    assert_match /gift voucher/, email.subject
+  end
+
+  def test_check_feature_expiring_gift_vouchers
+    user_expired_gift_vouchers = Factory(:user, :paid_gift_vouchers => 3, :paid_gift_vouchers_next_date_check => 3.days.from_now )
+    order_secial_offers1 = Factory(:order, :gift_vouchers => 1, :created_at => 362.days.ago, :user_id => user_expired_gift_vouchers.id )
+    order_secial_offers2 = Factory(:order, :gift_vouchers => 1, :created_at => 6.months.ago, :user_id => user_expired_gift_vouchers.id )
+    order_secial_offers3 = Factory(:order, :gift_vouchers => 1, :created_at => 3.months.ago, :user_id => user_expired_gift_vouchers.id )
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring gift voucher"
+    email = ActionMailer::Base.deliveries.first
+    assert_not_nil email
+    assert_match /gift voucher/, email.subject
+  end
+
   def test_check_feature_expiration_special_offers
     user_expired_special_offers = Factory(:user, :paid_special_offers => 3, :paid_special_offers_next_date_check => 1.month.ago )
     order_secial_offers1 = Factory(:order, :special_offers => 1, :created_at => 13.months.ago, :user_id => user_expired_special_offers.id )
@@ -20,7 +59,26 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired special offer"
     user_expired_special_offers.reload
     assert old_next_check < user_expired_special_offers.paid_special_offers_next_date_check, "The next date check should have moved forward, but old_next_check is #{old_next_check} and the new one is #{user_expired_special_offers.paid_special_offers_next_date_check}"
-    assert_equal 6.months.from_now.to_date, user_expired_special_offers.paid_special_offers_next_date_check
+    assert_in_delta 6.months.from_now.to_time.to_f, user_expired_special_offers.paid_special_offers_next_date_check.to_time.to_f, 60*60*24*2, "More or less (two day leeway to account for leap years)"
+    email = ActionMailer::Base.deliveries.first
+    assert_not_nil email
+    assert_match /special offer/, email.subject
+  end
+
+  def test_check_feature_expiring_special_offers
+    user_expired_special_offers = Factory(:user, :paid_special_offers => 3, :paid_special_offers_next_date_check => 3.days.from_now )
+    order_secial_offers1 = Factory(:order, :special_offers => 1, :created_at => 362.days.ago, :user_id => user_expired_special_offers.id )
+    order_secial_offers2 = Factory(:order, :special_offers => 1, :created_at => 6.months.ago, :user_id => user_expired_special_offers.id )
+    order_secial_offers3 = Factory(:order, :special_offers => 1, :created_at => 3.months.ago, :user_id => user_expired_special_offers.id )
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring special offer"
+    email = ActionMailer::Base.deliveries.first
+    assert_not_nil email
+    assert_match /special offer/, email.subject
   end
 
   def test_check_feature_expiration_expired_photo

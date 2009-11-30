@@ -82,6 +82,8 @@ class User < ActiveRecord::Base
   named_scope :with_expiring_highlighted, lambda { |warning_period| { :conditions => "paid_highlighted_until IS NOT NULL AND paid_highlighted_until > now() AND paid_highlighted_until < '#{warning_period.to_s(:db)}'"}}
   named_scope :with_expired_special_offers, :conditions => "paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check < now()"
   named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expired_gift_vouchers, :conditions => "paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check < now()"
+  named_scope :with_expiring_gift_vouchers, lambda { |warning_period| { :conditions => "paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now() AND paid_gift_vouchers_next_date_check < '#{warning_period.to_s(:db)}'"}}
 
   
   # #around filters
@@ -96,10 +98,28 @@ class User < ActiveRecord::Base
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
+
+  def count_not_expiring_special_offers
+    count = 0
+    orders.not_expiring.each {|o| count += o.special_offers}
+    return count    
+  end
   
   def count_not_expired_special_offers
     count = 0
     orders.not_expired.each {|o| count += o.special_offers}
+    return count
+  end
+  
+  def count_not_expiring_gift_vouchers
+    count = 0
+    orders.not_expiring.each {|o| count += o.gift_vouchers}
+    return count    
+  end
+  
+  def count_not_expired_gift_vouchers
+    count = 0
+    orders.not_expired.each {|o| count += o.gift_vouchers}
     return count
   end
 

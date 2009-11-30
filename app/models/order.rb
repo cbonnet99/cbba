@@ -16,6 +16,7 @@ class Order < ActiveRecord::Base
   end
 
   named_scope :not_expired, :conditions => ["created_at > ?", 1.year.ago], :order => "created_at"  
+  named_scope :not_expiring, :conditions => ["created_at > ? and created_at < ?", 1.year.ago, 1.year.ago-7.days], :order => "created_at"  
   
   def update_amount
     if valid?

@@ -28,12 +28,11 @@ end
 every 1.day, :at => "3am"  do
   runner "TaskUtils.rotate_feature_ranks"
   runner "TaskUtils.mark_down_old_users"
-  runner "TaskUtils.send_reminder_on_expiring_memberships"
   command "find /home/cyrille/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
   command "find /home/cyrille/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
-  runner "TaskUtils.suspend_full_members_when_membership_expired"
+  runner "TaskUtils.check_feature_expiration"
   command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql"
   command "psql -U postgres be_amazing_production < script/delete_old_user_events.sql"
   command "tar cvfz /home/cyrille/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > /home/cyrille/tar.log 2>&1"
