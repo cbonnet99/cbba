@@ -1,5 +1,5 @@
 require 'capistrano/ext/multistage'
-require 'deprec'
+#require 'deprec'
 
 # Elastic Server Deployment Script
 # Author: Yan Pritzker, CohesiveFT <yan.pritzker@cohesiveft.com>
@@ -154,9 +154,9 @@ namespace(:deploy) do
   desc "Load test data"
   task :load_data do
     #Cyrille(7 Dev 2008): commented out for now as we use test data in staging
-#    unless ENV["RAILS_ENV"] == "production"
-    run("cd #{deploy_to}/current; /usr/bin/rake bam:load RAILS_ENV=production")
-#    end
+    unless ENV["RAILS_ENV"] == "production"
+      run("cd #{deploy_to}/current; /usr/bin/rake bam:load RAILS_ENV=staging")
+    end
   end
 
   task :after_update_code, :roles => [:app] do
@@ -172,13 +172,13 @@ namespace(:deploy) do
   desc "Initializes BAM site"
   task :init do
     transaction do
-      run_init_packages
+      # run_init_packages
       update_code
       web.disable
       symlink
-      elastic_server_symlink
-      run_init_ami
-      install_gems
+      # elastic_server_symlink
+      # run_init_ami
+      # install_gems
       migrate
       load_data
     end
