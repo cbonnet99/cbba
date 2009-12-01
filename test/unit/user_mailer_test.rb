@@ -27,11 +27,14 @@ class UserMailerTest < ActionMailer::TestCase
 
   end
   
-  def test_mass_email_newsletter
+  def test_mass_email_newsletter_user
+    cyrille = users(:cyrille)
+    actual_mail = UserMailer.create_mass_email_newsletter(cyrille, "Test", newsletters(:may_published))
+  end
+  
+  def test_mass_email_newsletter_contact
     joe = contacts(:joe)
-
     actual_mail = UserMailer.create_mass_email_newsletter(joe, "Test", newsletters(:may_published))
-
   end
   
 end

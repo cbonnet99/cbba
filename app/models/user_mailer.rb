@@ -57,7 +57,7 @@ class UserMailer < ActionMailer::Base
     if user.is_a?(User)
       @body[:url] = user_slug_action_url(:action => "unsubscribe", :slug => user.slug,  :unsubscribe_token => @token )
     else
-      @body[:url] = contacts_url(:action => "unsubscribe", :id => user.id,  :unsubscribe_token => @token )
+      @body[:url] = url_for(:controller => "contacts", :action => "unsubscribe", :id => user.id,  :unsubscribe_token => @token )
     end
 		@subject << subject
 		@body[:newsletter] = newsletter

@@ -169,7 +169,9 @@ class User < ActiveRecord::Base
   
 
   def renew_token
-    self.update_attribute(:unsubscribe_token, Digest::SHA1.hexdigest("#{salt}#{Time.now}#{id}"))
+    new_token = Digest::SHA1.hexdigest("#{salt}#{Time.now}#{id}")
+    self.update_attribute(:unsubscribe_token, new_token)
+    return new_token
   end
   
   def expertise_subcategory_id

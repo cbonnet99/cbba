@@ -46,7 +46,9 @@ class Contact < ActiveRecord::Base
   end
 
   def renew_token
-    self.update_attribute(:unsubscribe_token, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))
+    new_token = Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}")
+    self.update_attribute(:unsubscribe_token, new_token)
+    return new_token
   end
   
   def full_member?
