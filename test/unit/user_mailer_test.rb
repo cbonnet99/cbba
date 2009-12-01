@@ -26,4 +26,12 @@ class UserMailerTest < ActionMailer::TestCase
     actual_mail = UserMailer.create_coming_membership_expiration(cyrille, "2 weeks")
 
   end
+  
+  def test_mass_email_newsletter
+    joe = contacts(:joe)
+
+    actual_mail = UserMailer.create_mass_email_newsletter(joe, "Test", newsletters(:may_published))
+
+  end
+  
 end

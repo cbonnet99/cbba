@@ -180,7 +180,7 @@ namespace(:deploy) do
       # run_init_ami
       # install_gems
       migrate
-      load_data
+      # load_data
     end
 
     restart
