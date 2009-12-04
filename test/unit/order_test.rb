@@ -4,9 +4,9 @@ class OrderTest < ActiveSupport::TestCase
   fixtures :all
   def test_compute_amount
     order = Factory(:order, :photo => true, :highlighted => false,  :special_offers => "", :gift_vouchers => 2)
-    assert_equal 4500, order.compute_amount
+    assert_equal 6000, order.compute_amount
     order = Factory(:order, :photo => true, :highlighted => true,  :special_offers => 1, :gift_vouchers => 2)
-    assert_equal 11200, order.compute_amount
+    assert_equal 10500, order.compute_amount
     order = Factory(:order, :whole_package => true)
     assert_equal 7500, order.compute_amount
     order = Factory(:order, :whole_package => true, :photo => true, :highlighted => true,  :special_offers => 1, :gift_vouchers => 2)

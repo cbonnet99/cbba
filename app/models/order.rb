@@ -53,10 +53,10 @@ class Order < ActiveRecord::Base
     else
       amount = 0
       if photo?
-        amount += 1500
+        amount += 3000
       end
       if highlighted?
-        amount += 5200
+        amount += 3000
       end
       if !special_offers.nil?
         amount += 1500*special_offers

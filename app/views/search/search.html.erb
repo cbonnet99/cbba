@@ -1,10 +1,8 @@
 <% unless logged_in? || @subcategory.nil? -%>
 <div id="bam-invite-join">
-  <p>Do you offer <%=@subcategory.name%>? GREAT! We warmly invite you to <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
-  <p>If you want to make more use of the Internet, reach more people and make a bigger difference, then you've come to the right place - we help 1000's of people find services like yours... <%= link_to 'LEARN MORE!', signup_intro_url %></p>
+  <p>Do you offer <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
 </div>
 <%end -%>
-<%= render :partial => "users/apply_expert", :locals => {:subcategory => @subcategory} %>
 <h1>Search results<%=  describe_search(@region, @district, @category, @subcategory) %></h1>
 <% unless @subcategory.nil? || @subcategory.resident_expert_id.nil? %>
   <div id="bam-meet-expert"><h3 id="resident-title">Meet our resident expert:</h3>

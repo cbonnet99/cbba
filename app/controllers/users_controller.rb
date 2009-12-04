@@ -245,9 +245,8 @@ class UsersController < ApplicationController
         case @user.membership_type
         when "full_member":
           @user.activate!
-          flash[:notice] = "Your user profile is now live"
           session[:user_id] = @user.id
-          redirect_to :controller => "users", :action => "promote"  
+          redirect_to :controller => "users", :action => "welcome"  
         when "resident_expert":
            @user.activate!
           session[:user_id] = @user.id

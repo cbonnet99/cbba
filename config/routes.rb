@@ -104,6 +104,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_new_photo '/users/new_photo', :controller => 'users', :action => "new_photo"
   map.user_create_photo '/users/create_photo', :controller => 'users', :action => "create_photo"
   map.user_promote '/users/promote', :controller => 'users', :action => "promote"
+  map.user_welcome '/users/welcome', :controller => 'users', :action => "welcome"
   
   map.resources :users
   map.resources :passwords

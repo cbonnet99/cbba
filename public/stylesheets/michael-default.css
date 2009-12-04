@@ -1,3 +1,5 @@
+#contentMain ol#add-features-list li.help {margin-bottom: 15px;}
+#contentMain ol#add-features-list {margin: 0;padding: 0;}
 #contentMain form label.wide-label {width: auto;}
 #contentMain form .help {font-size: smaller; margin-bottom: 5px;}
 #contentMain form textarea.hidden-text-area {display: none;}
