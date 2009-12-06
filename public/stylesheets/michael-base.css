@@ -152,7 +152,7 @@ li li { font-size: 12px; }
 		li.email {background:url(../images/iconEmail.gif) no-repeat;}
 		li.web {background: url(../images/iconWebsite.gif) no-repeat;}
 	#contentMain ul.subcategories{margin:0;padding:0;}
-	#contentMain ul.subcategories li {padding:0 0 0 10px;}
+	#contentMain ul.subcategories li {padding:0 0 0 0}
 /* =Accessibility
    ----------------------------------------------------*/
 	.aural { font-size:small; left:-9999px; position:absolute; }

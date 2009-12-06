@@ -30,7 +30,14 @@ cyrille:
   published_gift_vouchers_count:  1
   description:               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac velit ac odio molestie aliquet. Vestibulum rutrum orci nec lectus. Phasellus eget leo vitae mauris vestibulum varius. Aenean nec velit ac diam vestibulum scelerisque. Nullam cras amet.
   paid_special_offers:      3
+  paid_special_offers_next_date_check:   <%= 6.months.from_now.to_s :db %>
   paid_gift_vouchers:      3
+  paid_gift_vouchers_next_date_check:   <%= 6.months.from_now.to_s :db %>
+  paid_photo:               true
+  paid_photo_until:         <%= 6.months.from_now.to_s :db %>
+  paid_highlighted:         true
+  paid_highlighted_until:         <%= 6.months.from_now.to_s :db %>
+  
 norma:
   first_name:                Norma V.
   last_name:                 Stein2

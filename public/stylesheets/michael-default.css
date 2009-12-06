@@ -1,3 +1,5 @@
+#contentMain .user-highlighted h3, #contentMain .user-highlighted p {font-weight: bold;}
+#contentMain .user-highlighted {margin: 3px; border: 1px solid #C00; background-color: #FEFDE3;}
 #contentMain ol#add-features-list li.help {margin-bottom: 15px;}
 #contentMain ol#add-features-list {margin: 0;padding: 0;}
 #contentMain form label.wide-label {width: auto;}
