@@ -3,7 +3,9 @@ class Order < ActiveRecord::Base
   belongs_to :user
   has_many :order_items
   has_one :payment
-
+  
+  before_create :check_whole_package
+  before_update :check_whole_package
   after_create :create_payment
   after_update :update_amount
   
@@ -17,6 +19,15 @@ class Order < ActiveRecord::Base
 
   named_scope :not_expired, :conditions => ["created_at > ?", 1.year.ago], :order => "created_at"  
   named_scope :not_expiring, :conditions => ["created_at > ? and created_at < ?", 1.year.ago, 1.year.ago-7.days], :order => "created_at"  
+  
+  def check_whole_package
+    if whole_package?
+      photo = true
+      highlighted = true
+      special_offers = 1
+      gift_vouchers = 1
+    end
+  end
   
   def update_amount
     if valid?
