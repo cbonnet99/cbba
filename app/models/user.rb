@@ -531,26 +531,6 @@ class User < ActiveRecord::Base
 
   end
 
-  def max_published_special_offers
-    if resident_expert?
-      return SpecialOffer::MAX_PUBLISHED[:resident_expert]
-    end
-    if full_member?
-      return SpecialOffer::MAX_PUBLISHED[:full_member]
-    end
-    return 0
-  end
-
-  def max_published_gift_vouchers
-    if resident_expert?
-      return GiftVoucher::MAX_PUBLISHED[:resident_expert]
-    end
-    if full_member?
-      return GiftVoucher::MAX_PUBLISHED[:full_member]
-    end
-    return 0
-  end
-
   def create_geocodes
     unless district.blank? || (!latitude.blank? && !longitude.blank?)
       locate_address
