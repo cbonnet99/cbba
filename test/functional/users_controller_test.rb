@@ -290,6 +290,7 @@ class UsersControllerTest < ActionController::TestCase
     #counts both articles and 'how to' articles
     assert_select "a", :text => "4 articles"
     assert_select "a", :text => "4 offers"
+    assert_select "a", :text => "Upload your picture here"
   end
 
   def test_show_not_own_profile
@@ -341,6 +342,7 @@ class UsersControllerTest < ActionController::TestCase
     # puts @response.body
     assert_select "a", :text => "0 articles"
     assert_select "a", :text => "3 offers"
+    assert_select "a", :text => "Upload your picture here", :count => 0 
   end
 
   def test_show_hide_articles_when_0
