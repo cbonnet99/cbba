@@ -27,7 +27,8 @@ end
 
 every 1.day, :at => "3am"  do
   runner "TaskUtils.rotate_feature_ranks"
-  runner "TaskUtils.mark_down_old_users"
+  runner "TaskUtils.mark_down_old_full_members"
+  runner "TaskUtils.mark_down_old_expert_applications"
   command "find /home/cyrille/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
   command "find /home/cyrille/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
   runner "TaskUtils.rotate_user_positions_in_subcategories"
