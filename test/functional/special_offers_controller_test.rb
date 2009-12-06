@@ -25,7 +25,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
     new_offer2 = SpecialOffer.create(:title => "Title2", :description => "Description",
       :how_to_book => "Book here", :terms => "Terms here", :author => sgardiner)
     post :publish, {:id => new_offer2.id }, {:user_id => sgardiner.id }
-    assert_equal "You can only have 1 special offer published at any time", flash[:error]
+    assert_equal "You have paid for 1 published special offer", flash[:error]
     assert_redirected_to special_offers_url
   end
 
@@ -39,7 +39,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
       :how_to_book => "Book here", :terms => "Terms here", :state => "published", :author => cyrille   )
 
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
-    assert_equal "You can only have 3 special offers published at any time", flash[:error]
+    assert_equal "You have paid for 3 published special offers", flash[:error]
     assert_redirected_to special_offers_url
   end
 

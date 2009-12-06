@@ -21,7 +21,7 @@ class GiftVouchersController < ApplicationController
     if @gift_voucher.publish!
       flash[:notice] = "\"#{@gift_voucher.title}\" successfully published"
     else
-      flash[:error] = "You can only have #{help.pluralize(current_user.max_published_gift_vouchers, "gift voucher")} published at any time"
+      flash[:error] = "You have paid for #{help.pluralize(current_user.paid_gift_vouchers, "published gift voucher")}"
     end
     redirect_with_context(gift_vouchers_url)
 		rescue ActiveRecord::RecordNotFound => e
@@ -74,7 +74,7 @@ class GiftVouchersController < ApplicationController
           if @gift_voucher.publish!
             flash[:notice] = "\"#{@gift_voucher.title}\" was successfully saved and published."
           else
-            flash[:error] = "\"#{@gift_voucher.title}\" was saved as a draft (you can only have #{help.pluralize(current_user.max_published_gift_vouchers, "gift voucher")} published at any time)"
+            flash[:error] = "\"#{@gift_voucher.title}\" was saved as a draft (you have paid for #{help.pluralize(current_user.paid_gift_vouchers, "published gift voucher")})"
           end
         end
         redirect_to gift_vouchers_show_url(@gift_voucher.author.slug, @gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id)

@@ -25,7 +25,7 @@ class SpecialOffersController < ApplicationController
     if @special_offer.publish!
       flash[:notice] = "\"#{@special_offer.title}\" successfully published"
     else
-      flash[:error] = "You can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time"      
+      flash[:error] = "You have paid for #{help.pluralize(current_user.paid_special_offers, "published special offer")}"
     end
     redirect_with_context(special_offers_url)
 		rescue ActiveRecord::RecordNotFound => e
@@ -88,7 +88,7 @@ class SpecialOffersController < ApplicationController
           if @special_offer.publish!
             flash[:notice] = "\"#{@special_offer.title}\" was successfully saved and published."
           else
-            flash[:error] = "\"#{@special_offer.title}\" was saved as a draft (you can only have #{help.pluralize(current_user.max_published_special_offers, "special offer")} published at any time)"
+            flash[:error] = "\"#{@special_offer.title}\" was saved as a draft (you have paid for #{help.pluralize(current_user.paid_special_offers, "published special offer")})"
           end
         end
         redirect_to special_offers_show_url(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)

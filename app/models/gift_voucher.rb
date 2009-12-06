@@ -11,8 +11,6 @@ class GiftVoucher < ActiveRecord::Base
   validates_presence_of :title, :description
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your gift vouchers" 
 
-  MAX_PUBLISHED = {:full_member => 1, :resident_expert => 3 }
-
   def to_param
     slug
   end

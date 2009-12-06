@@ -27,7 +27,7 @@ class GiftVouchersControllerTest < ActionController::TestCase
     new_gift2 = GiftVoucher.create(:title => "Title2", :description => "Description",
       :author => sgardiner)
     post :publish, {:id => new_gift2.id }, {:user_id => sgardiner.id }
-    assert_equal "You can only have 1 gift voucher published at any time", flash[:error]
+    assert_equal "You have paid for 1 published gift voucher", flash[:error]
     assert_redirected_to gift_vouchers_url
   end
 
@@ -44,7 +44,7 @@ class GiftVouchersControllerTest < ActionController::TestCase
         :author => cyrille   )
 
     post :publish, {:id => title4.id }, {:user_id => cyrille.id }
-    assert_equal "You can only have 3 gift vouchers published at any time", flash[:error]
+    assert_equal "You have paid for 3 published gift vouchers", flash[:error]
     assert_redirected_to gift_vouchers_url
   end
 

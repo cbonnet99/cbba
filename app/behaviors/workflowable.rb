@@ -13,7 +13,7 @@ module Workflowable
     base.send :aasm_state, :published, :enter => :email_reviewers_and_increment_count
 
     base.send :aasm_event, :publish do
-      transitions :from => :draft, :to => :published, :guard => Proc.new {|item| item.exceeds_max_published?}
+      transitions :from => :draft, :to => :published, :guard => Proc.new {|item| item.exceeds_paid_for?}
     end
 
     base.send :aasm_event, :remove do
@@ -77,8 +77,8 @@ module Workflowable
       res << sub[1..sub.length]
     end
 
-    def exceeds_max_published?
-      !self.author.respond_to?("max_published_#{self.class.to_s.tableize}") || (self.author.respond_to?("max_published_#{self.class.to_s.tableize}") && self.class.to_s != "UserProfile" && self.author.send("#{self.class.to_s.tableize}".to_sym).published.size < self.author.send("max_published_#{self.class.to_s.tableize}"))
+    def exceeds_paid_for?
+      !self.author.respond_to?("paid_#{self.class.to_s.tableize}") || (self.author.respond_to?("paid_#{self.class.to_s.tableize}") && self.class.to_s != "UserProfile" && self.author.send("#{self.class.to_s.tableize}".to_sym).published.size < self.author.send("paid_#{self.class.to_s.tableize}"))
     end
 
     def path_method
