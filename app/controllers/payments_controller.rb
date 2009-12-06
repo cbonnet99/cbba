@@ -52,26 +52,32 @@ class PaymentsController < ApplicationController
   # PUT /payments/1
   # PUT /payments/1.xml
   def update
-    params[:payment].merge!(:ip_address => request.remote_ip)
-    if @payment.update_attributes(params[:payment])
-      if @payment.payment_card_type == "direct_debit"
-        redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
-      else
-        if @payment.purchase
-          log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total)}")
-          flash[:notice] = "Thank you for your payment. Features are now activated"
-          redirect_to expanded_user_url(current_user)
+    if params["cancel"]
+      flash[:notice] = "Payment cancelled"
+      @payment.destroy
+      redirect_to expanded_user_url(current_user)
+    else
+      params[:payment].merge!(:ip_address => request.remote_ip)
+      if @payment.update_attributes(params[:payment])
+        if @payment.payment_card_type == "direct_debit"
+          redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
         else
-          log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@payment.errors.full_messages.to_sentence}")
-          logger.debug "======= #{@payment.errors.inspect}"
+          if @payment.purchase
+            log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total)}")
+            flash[:notice] = "Thank you for your payment. Features are now activated"
+            redirect_to expanded_user_url(current_user)
+          else
+            log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@payment.errors.full_messages.to_sentence}")
+            logger.debug "======= #{@payment.errors.inspect}"
+            render :action => 'edit'
+          end
+        end
+      else
+        if @payment.payment_card_type == "direct_debit"
+          render :action => 'edit_debit_charities'
+        else
           render :action => 'edit'
         end
-      end
-    else
-      if @payment.payment_card_type == "direct_debit"
-        render :action => 'edit_debit_charities'
-      else
-        render :action => 'edit'
       end
     end
   end

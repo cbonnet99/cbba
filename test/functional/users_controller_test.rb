@@ -546,7 +546,7 @@ class UsersControllerTest < ActionController::TestCase
         :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
         :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_nil assigns(:payment)
-    assert_redirected_to user_promote_url
+    assert_redirected_to user_welcome_url
     assert_not_nil assigns(:user)
     assert assigns(:user).full_member?
     assert_equal 0, assigns(:user).errors.size, "There were errors: #{assigns(:user).errors.inspect}"

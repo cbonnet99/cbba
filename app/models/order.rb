@@ -20,6 +20,10 @@ class Order < ActiveRecord::Base
   
   def update_amount
     if valid?
+      if payment.nil?
+        create_payment
+        self.reload
+      end
       payment.update_attribute(:amount, self.compute_amount)
     end
   end

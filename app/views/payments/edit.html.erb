@@ -52,7 +52,8 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
   </ol>
 	<div class="clear"></div>
 	<p class="register-actions">
-  <%= submit_tag 'Process my payment', :class => "button submit" %>
+  <%= submit_tag 'Process my payment', :class => "button submit", :name => "process"  %>
+  <%= submit_tag 'Cancel', :class => "button cancel", :name => "cancel"   %>
 </p>
 <% end -%>
 <div id="payment-processor">Payments processed by <a href="http://www.paymentexpress.com/about/about_paymentexpress/privacy_policy.html">
