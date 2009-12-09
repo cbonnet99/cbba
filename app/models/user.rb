@@ -517,7 +517,7 @@ class User < ActiveRecord::Base
       "resident expert"
     else
       if full_member?
-        "full member"
+        ""
       else
         if free_listing?
           "free listing"
@@ -786,7 +786,12 @@ class User < ActiveRecord::Base
 
   def select_tab(tab_slug)
     if tab_slug.nil?
-      tabs.first
+      if tabs.blank?
+        virtual_tab = VirtualTab.new(Tab::ARTICLES, "Articles", "articles/index", "articles/nav" )
+        return virtual_tab
+      else
+        tabs.first
+      end
     else
       case tab_slug
       when Tab::ARTICLES:

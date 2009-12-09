@@ -294,7 +294,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_role_description
-    assert_equal "full member", users(:sgardiner).role_description
+    assert_equal "", users(:sgardiner).role_description
   end
 
   def test_css_class_role_description
