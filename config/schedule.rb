@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :cron_log, "/var/log/cron_bam.log"
+set :output, "/var/log/cron_bam.log"
 
 every 1.week do
   rake "bam:count_published_items"
@@ -34,9 +34,9 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
   runner "TaskUtils.check_feature_expiration"
-  command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql"
+  command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
   command "psql -U postgres be_amazing_production < script/delete_old_user_events.sql"
-  command "tar cvfz /home/cyrille/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > /home/cyrille/tar.log 2>&1"
+  command "tar cvfz /home/cyrille/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > /home/cyrille/tar.log", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
 end
 every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/s3sync"
