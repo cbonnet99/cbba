@@ -1,5 +1,5 @@
-Message from <%=@sender.name%>:
-
-<%= @comment%>
-
+Message from <%=@sender.name%>:<br/>
+<br/>
+<%= @comment.gsub(/\\n/, "<br/>")%><br/>
+<br/>
 <%= render :partial => "signature"  %>
