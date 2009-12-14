@@ -131,6 +131,7 @@ class UsersController < ApplicationController
     if current_user.user_profile.draft?
       if current_user.unedited_tabs.blank?
         current_user.user_profile.publish!
+        UserMailer.deliver_congrats_published(current_user)
         flash[:notice] = "Your profile was successfully published"
         redirect_to expanded_user_url(current_user)
       else

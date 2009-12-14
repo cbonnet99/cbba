@@ -16,6 +16,10 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
 
+  def congrats_published(user)
+    setup_email(user)
+  end
+
   def expired_feature(user, feature_name, feature_count=1)
     setup_email(user)
     if feature_count == 1

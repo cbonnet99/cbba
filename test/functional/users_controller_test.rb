@@ -211,8 +211,9 @@ class UsersControllerTest < ActionController::TestCase
 		sgardiner.user_profile.reload
 		assert_not_nil sgardiner.user_profile.published_at
 
-    # #an email should be sent to reviewers
-		assert ActionMailer::Base.deliveries.size > 0
+		assert ActionMailer::Base.deliveries.size > 1, "an email should be sent to reviewers (in addition to the one to the user)"
+		assert_equal 1, ActionMailer::Base.deliveries.reject{|email| !email.to.include?(sgardiner.email)}.size, "an email should be sent to the user"
+		
 	end
   
 	def test_publish_with_unedited_tabs
