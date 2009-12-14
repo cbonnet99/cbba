@@ -277,19 +277,22 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "div.by-author", {:count => 0}, "Author should not be shown, as it is the current user"
     assert_select "span.workflow-draft", {:count => 2}, "Article state should be shown"
   end
-
+  
   def test_show
     old_size = UserEvent.all.size
     rmoore = users(:rmoore)
     cyrille = users(:cyrille)
     auckland = regions(:auckland)
     coaches = categories(:coaches)
-
+    
+    assert !rmoore.paid_photo?
+    
     get :show, {:name => rmoore.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => rmoore.id }
     # #visits to own profile should not be recorded
     assert_equal old_size, UserEvent.all.size
     get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => rmoore.id }
     assert_equal old_size+1, UserEvent.all.size
+    assert_select "img[src*=nophoto.gif]"
   end
 
   def test_show2

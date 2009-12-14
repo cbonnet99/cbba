@@ -7,6 +7,17 @@ Factory.define :district do |f|
   f.association :region
 end
 
+Factory.define :category do |c|
+  c.name "Coaches2"
+  c.slug "coaches2"
+end
+
+Factory.define :subcategory do |sc|
+  sc.name "Life coaching2"
+  sc.slug "coaching-life2"
+  sc.association :category
+end
+
 Factory.define :user do |f|
   f.sequence(:first_name) {|n| "User#{n}"}
   f.last_name "Name"
@@ -16,6 +27,12 @@ Factory.define :user do |f|
   f.password_confirmation { |u| u.password }
   f.sequence(:email) { |n| "foo#{n}@example.com" }
 end
+
+Factory.define :subcategories_user do |scu|
+  scu.association :user
+  scu.association :subcategory
+end
+
 
 Factory.define :order do |f|
   f.association :user

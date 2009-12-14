@@ -716,11 +716,7 @@ class User < ActiveRecord::Base
   memoize :main_expertise_id
 
   def main_expertise
-    if subcategories.blank?
-      nil
-    else
-      subcategories.first
-    end
+      subcategories.try(:first)
   end
 
   def main_expertise_name
