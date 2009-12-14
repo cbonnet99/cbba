@@ -270,20 +270,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal old_size+1, UserEvent.all.size
   end
 
-  def test_show_no_tabs
-    amcloughlin = users(:amcloughlin)
-    cyrille_hypnotherapy = tabs(:cyrille_hypnotherapy)
-    cyrille = users(:cyrille)
-    wellington = regions(:wellington)
-    practitioners = categories(:practitioners)
-        
-    cyrille.remove_tab(cyrille_hypnotherapy.slug)
-    
-    get :show, {:name => cyrille.slug, :region => wellington.slug, :main_expertise_slug => practitioners.slug}, {:user_id => amcloughlin.id }
-    assert_response :success
-    assert_not_nil assigns(:selected_tab)
-  end
-
   def test_show2
     sgardiner = users(:sgardiner)
     auckland = regions(:auckland)

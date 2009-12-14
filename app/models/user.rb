@@ -913,6 +913,14 @@ class User < ActiveRecord::Base
     unless tab.nil?
       tab.destroy
     end
+    #delete corresponding subcategory
+    sub = self.subcategories.find_by_name(tab_slug.split("-").map(&:capitalize).join(" "))
+    unless sub.nil?
+      su = self.subcategories_users.find_by_subcategory_id(sub.id)
+      unless su.nil?
+        su.destroy
+      end
+    end
   end
 
   def set_membership_type

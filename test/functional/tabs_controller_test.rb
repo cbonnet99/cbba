@@ -4,6 +4,14 @@ class TabsControllerTest < ActionController::TestCase
   include ApplicationHelper
   fixtures :all
   
+  def test_edit
+    sgardiner = users(:sgardiner)
+    sgardiner_hypnotherapy = tabs(:sgardiner_hypnotherapy)
+    get :edit, {:id => sgardiner_hypnotherapy.slug }, {:user_id => sgardiner.id }
+    assert_response :success
+    assert_select "input[name=tab[old_title]]"
+  end
+  
   def test_create_too_many
     rmoore = users(:rmoore)
     aromatherapy = subcategories(:aromatherapy)
@@ -43,6 +51,7 @@ class TabsControllerTest < ActionController::TestCase
   def test_update
     norma = users(:norma)
     norma_hypnotherapy = tabs(:norma_hypnotherapy)
+    hypnotherapy = subcategories(:hypnotherapy)
     yoga = subcategories(:yoga)
     assert !norma.subcategories.include?(yoga)
     old_title = norma_hypnotherapy.title
@@ -55,15 +64,35 @@ class TabsControllerTest < ActionController::TestCase
     assert norma.tabs.map(&:title).include?(yoga.name)
     norma.subcategories.reload
     assert norma.subcategories.include?(yoga), "Yoga should have been added to Norma's profile, as it was selected for a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"
+    assert !norma.subcategories.include?(hypnotherapy), "Hypnotherapy should have been removed from Norma's profile, as it was removed as a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"
+  end
+
+  def test_destroy_last_tab
+    cyrille = users(:cyrille)
+    cyrille_hypnotherapy = tabs(:cyrille_hypnotherapy)
+    assert_equal 1, cyrille.tabs.size
+    post :destroy, {:id => cyrille_hypnotherapy.slug}, {:user_id => cyrille.id }
+    assert_not_nil flash[:error]
+    assert_equal "You cannot delete your last tab", flash[:error]
+    cyrille.reload
+    assert_equal 1, cyrille.tabs.size, "The last tab should not be deleted"
+    assert_redirected_to expanded_user_url(cyrille)
   end
 
   def test_destroy
-    cyrille = users(:cyrille)
-    cyrille_hypnotherapy = tabs(:cyrille_hypnotherapy)
-    old_size = Tab.all.size
-    post :destroy, {:id => cyrille_hypnotherapy.slug}, {:user_id => cyrille.id }
-    assert_equal old_size-1, Tab.all.size
-    assert_redirected_to expanded_user_url(cyrille)
+    sgardiner = users(:sgardiner)
+    sgardiner_life_coaching = tabs(:sgardiner_life_coaching)
+    assert sgardiner.tabs.size > 1, "Should have more than 1 tab, otherwise it can't be deleted"
+    old_size = sgardiner.tabs.size
+    old_sub_size = sgardiner.subcategories.size
+    post :destroy, {:id => sgardiner_life_coaching.slug}, {:user_id => sgardiner.id }
+    assert_redirected_to expanded_user_url(sgardiner)
+    assert_nil flash[:error]
+    assert_not_nil flash[:notice]
+    assert_equal "Your tab was deleted", flash[:notice]
+    sgardiner.reload
+    assert_equal old_size-1, sgardiner.tabs.size, "One tab should have been deleted"
+    assert_equal old_sub_size-1, sgardiner.subcategories.size
   end
 
 end

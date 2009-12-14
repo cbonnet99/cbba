@@ -65,9 +65,13 @@ class TabsController < ApplicationController
     tab_to_destroy_id = params[:id]
     selected_tab_id = tab_to_destroy_id == params[:tab_id] ? nil : params[:tab_id]
     unless tab_to_destroy_id.nil?
-      current_user.remove_tab(tab_to_destroy_id)
+      if current_user.tabs.size == 1
+        flash[:error] = "You cannot delete your last tab"
+      else
+        flash[:notice] = "Your tab was deleted"
+        current_user.remove_tab(tab_to_destroy_id)
+      end
     end
-    flash[:notice] = "Your tab was deleted"
     redirect_to expanded_user_url(current_user)
   end
 

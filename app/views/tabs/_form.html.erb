@@ -4,6 +4,7 @@
       <li>
         <%= f.label :title, 'Modality<span class="mandatoryStar">*</span>:' %>
         <%= f.select :title, @subcategories, {:prompt => "- Please select -", :include_blank => true} %>
+		<%= f.hidden_field :old_title%>
       </li>
       <li id="tab-content-item">
 		<% if hide_content == true -%>
