@@ -1,0 +1,5 @@
+<%= render :partial => "users/user_nav", :locals => {:selected => "home" }  %>
+
+<%= title "How to write a GREAT profile!"%>
+<p>Your profile on Be Amazing is a powerful tool to promote your services, expertise and very importantly, what makes you different from other provider. This guide is our way of helping you make the most of this opportunity.</p> <p><strong>Here are a few tips and pointers to developing a profile that works!</strong></p> <ul> <li>Be succinct, long winded profiles and seldom read from end to end</li> <li>Use bullet points where you can to make your profile easier to scan</li> <li>Be generous; share success clients have had from your work</li> <li>Use &lsquo;Header 3&rsquo; on the HTML editor to make your headings stand out on the page</li> </ul> <p><strong>Headings you could use are (using Homeopathy as an example):</strong></p> <ul> <li>About Homeopathy</li> <li>The benefits of Homeopathy</li> <li>What you can expect from a session</li> <li>About (your name)</li> <li>My Training</li> <li>How to book</li> </ul>
+<p><%= link_to "Go to your profile now", expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)%></p>

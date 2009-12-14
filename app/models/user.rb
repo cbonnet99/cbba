@@ -101,7 +101,7 @@ class User < ActiveRecord::Base
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   
   def self.get_emails_from_string(email_string)
-    emails = email_string.split(" ")
+    emails = email_string.split(/[ |,]/)
     emails.reject{|e| !e.match(RE_EMAIL_OK)}
   end
 

@@ -1,0 +1,28 @@
+<%= render :partial => "users/user_nav", :locals => {:selected => "home" }  %>
+
+<%= title "Welcome back!"%>
+<p>Nice to have you back on the site, scroll down for essential links and news from the Be Amazing Team.</p> <h4><strong>Quick links:</strong></h4>
+<ul>
+	<li><%= link_to "Edit your profile", expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)%></li>
+	<li><%= link_to "Change your details (phone, email, etc.)", :controller => "users", :action => "edit"%></li>
+	<li><%= link_to "Add a new article", new_article_url(:selected_tab_id => "articles", :context => "profile")%></li>
+	<li><%= link_to "See your profile statistics", :controller => "users", :action => "stats"%></li>
+</ul>
+<h4><strong>Coaching guides to help you make the most of Be Amazing:</strong></h4>
+<ul>
+	<li><%= link_to "How to write a GREAT profile", user_guide_great_profile_url %></li>
+	<li>How to run a successful Special Offer<em> - Coming soon!</em></li>
+	<li>How to create a Gift Voucher people will want to buy<em> - Coming soon!</em></li>
+	<li>How to write an Article that people will read<em>&nbsp;- Coming soon!</em></li>
+	<li>What to think about when choosing a photo for your page<em>&nbsp;- Coming soon!</em></li>
+</ul>
+<h4><strong>Help Be Amazing GROW!</strong></h4>
+<p>We want to create an outstanding well-being resource for Kiwis and you can help...</p>
+<ul>
+	<li><%= link_to "Add articles and profile your expertise", new_article_url(:selected_tab_id => "articles", :context => "profile")%></li>
+	<li>Add a special Be Amazing membership graphic to your own website <em>- Coming soon!</em></li> 
+	<li>Refer your clients to Be Amazing when they are looking for other well-being services</li> 
+	<li><%= link_to "Tell your colleagues and peers about Be Amazing", :controller => "users", :action => "refer"%></li> 
+</ul>
+<h4><strong>Resources and products for you, our members</strong></h4>
+<p>Do you have products or services that other Health, Well-being and Development Professionals would find useful? Contact us to find out how to list them here. Email: <a href="mailto: sav@beamazing.co.nz">sav@beamazing.co.nz</a></p> 

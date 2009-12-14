@@ -18,7 +18,7 @@ class SessionsControllerTest < ActionController::TestCase
     start_call = Time.now
     post :create, :email => norma.email, :password => "monkey"
     end_call = Time.now
-    assert_redirected_to expanded_user_url(norma)
+    assert_redirected_to user_home_url
     assert_equal "Logged in successfully", flash[:notice]
     norma.reload
     assert !norma.free_listing?

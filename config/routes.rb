@@ -107,6 +107,8 @@ ActionController::Routing::Routes.draw do |map|
   map.user_welcome '/users/welcome', :controller => 'users', :action => "welcome"
   map.user_refer '/users/refer', :controller => 'users', :action => "refer"
   map.user_send_referrals '/users/send_referrals', :controller => 'users', :action => "send_referrals"
+  map.user_home '/users/home', :controller => 'users', :action => "home"
+  map.user_guide_great_profile '/users/guide-great-profile', :controller => 'users', :action => "guide_great_profile"
   
   map.resources :users
   map.resources :passwords

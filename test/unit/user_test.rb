@@ -20,6 +20,9 @@ class UserTest < ActiveSupport::TestCase
     emails = User.get_emails_from_string("joe@test.com jane@yahoo.fr bob@gmail.com")
     assert_equal ["joe@test.com", "jane@yahoo.fr", "bob@gmail.com"], emails
     
+    emails = User.get_emails_from_string("joe@test.com, jane@yahoo.fr,bob@gmail.com")
+    assert_equal ["joe@test.com", "jane@yahoo.fr", "bob@gmail.com"], emails
+    
     emails = User.get_emails_from_string("joe jane@yahoo.fr bob@gmail.com")
     assert_equal ["jane@yahoo.fr", "bob@gmail.com"], emails
     

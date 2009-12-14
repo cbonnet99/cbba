@@ -11,7 +11,7 @@ blockquote.quote{font-weight: bold; font-size: 12px; background-color: lightgrey
 #profile-tabs-nav {margin-top:40px;}
 #profile-tabs-nav .important {font-size: large;}
 .stuff-actions, .stuff-actions a {font-size: x-small; color: grey;}
-.user-big-menu {font-weight: bold; font-size: large;}
+.user-big-menu {font-weight: bold; font-size: medium;}
 #networks h3{padding: 0 0 0 0;}
 .column #networks h3, #networks #network-images{margin: 8px;}
 #share{margin: 8px;}

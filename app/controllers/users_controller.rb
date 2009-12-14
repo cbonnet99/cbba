@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     emails.each do |email|
       UserMailer.deliver_referral(current_user, email, params[:comment])
     end
-    flash[:notice] = "Thank you. #{help.pluralize(emails.size, 'email')} were sent"
+    flash[:notice] = "Thank you. #{help.pluralize(emails.size, 'email')} #{emails.size == 1 ? 'was' : 'were'} sent"
     redirect_to expanded_user_url(current_user)
   end
 
