@@ -3,6 +3,19 @@ class UserMailer < ActionMailer::Base
   include ApplicationHelper
   include ActionController::UrlWriter
 
+  def referral(sender, email, comment)
+    default_url_options[:host] = APP_CONFIG[:site_host]
+    default_url_options[:protocol] = APP_CONFIG[:logged_site_protocol]
+    @recipients = "#{email}"
+    @reply_to = "#{sender.email}"
+    @from = APP_CONFIG[:admin_email]
+    @subject = "See #{sender.name} on beamazing.co.nz"
+    @sent_on = Time.now
+    @body[:comment] = comment
+    @body[:sender] = sender
+    @content_type = 'text/html'
+  end
+
   def expired_feature(user, feature_name, feature_count=1)
     setup_email(user)
     if feature_count == 1

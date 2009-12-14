@@ -4,6 +4,27 @@ class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
 
+  def test_refer
+    get :refer, {}, {:user_id => users(:sgardiner) }
+    assert_response :success
+    assert_select "input[name=emails]"
+    assert_select "textarea[name=comment]"
+  end
+  
+  def test_send_referrals
+    sgardiner = users(:sgardiner)
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    post :send_referrals, {:emails => "joe@test.com jane@yahoo.fr bob@gmail.com", :comment => "This is cool" }, {:user_id => sgardiner }
+    assert_redirected_to expanded_user_url(sgardiner)
+    assert_nil flash[:error]
+    assert_not_nil flash[:notice]
+    assert_equal "Thank you. 3 emails were sent", flash[:notice]
+    assert_equal 3, ActionMailer::Base.deliveries.size, "3 emails should have been sent for the 3 email addresses"
+  end
+
   def test_unsubscribe
     norma = users(:norma)
     assert norma.receive_newsletter?

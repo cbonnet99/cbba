@@ -5,6 +5,15 @@ class UsersController < ApplicationController
   before_filter :login_required, :except => [:unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
 
+  def send_referrals
+    emails = User.get_emails_from_string(params[:emails])
+    emails.each do |email|
+      UserMailer.deliver_referral(current_user, email, params[:comment])
+    end
+    flash[:notice] = "Thank you. #{help.pluralize(emails.size, 'email')} were sent"
+    redirect_to expanded_user_url(current_user)
+  end
+
   def promote
     @order = current_user.orders.pending.first
     @order = Order.new if @order.nil?

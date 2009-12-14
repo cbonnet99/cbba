@@ -9,7 +9,7 @@ class TabsControllerTest < ActionController::TestCase
     sgardiner_hypnotherapy = tabs(:sgardiner_hypnotherapy)
     get :edit, {:id => sgardiner_hypnotherapy.slug }, {:user_id => sgardiner.id }
     assert_response :success
-    assert_select "input[name=tab[old_title]]"
+    assert_select "input[name='tab[old_title]']"
   end
   
   def test_create_too_many

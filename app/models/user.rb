@@ -98,6 +98,12 @@ class User < ActiveRecord::Base
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
+  DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
+  
+  def self.get_emails_from_string(email_string)
+    emails = email_string.split(" ")
+    emails.reject{|e| !e.match(RE_EMAIL_OK)}
+  end
 
   def count_not_expiring_special_offers
     count = 0

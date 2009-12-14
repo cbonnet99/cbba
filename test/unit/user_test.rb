@@ -15,7 +15,18 @@ class UserTest < ActiveSupport::TestCase
   #   assert_equal cyrille.subcategories[1].name, cyrille.tabs[1].title
   #   assert_equal cyrille.subcategories[2].name, cyrille.tabs[2].title
   # end
-
+  
+  def test_get_emails_from_string
+    emails = User.get_emails_from_string("joe@test.com jane@yahoo.fr bob@gmail.com")
+    assert_equal ["joe@test.com", "jane@yahoo.fr", "bob@gmail.com"], emails
+    
+    emails = User.get_emails_from_string("joe jane@yahoo.fr bob@gmail.com")
+    assert_equal ["jane@yahoo.fr", "bob@gmail.com"], emails
+    
+    emails = User.get_emails_from_string("joe @yahoo.fr bWHATl.com")
+    assert_equal [], emails
+  end
+  
   def test_remove_subcats
     cyrille = users(:cyrille)
     old_subcats = Subcategory.all.map(&:name)
