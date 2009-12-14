@@ -1,5 +1,6 @@
 This message was sent to you through <%= APP_CONFIG[:site_name] %><br/>
 <br/>
-Sender's details: <%= @preferred_contact %><br/>
+Sender's email: <%= @email %><br/>
+<% unless @phone.blank?-%>Sender's phone: <%= @phone %><br/><%end-%>
 <br/>
 <%= @body %><br/>

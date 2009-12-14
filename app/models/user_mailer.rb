@@ -48,10 +48,12 @@ class UserMailer < ActionMailer::Base
   def message(message)
     setup_email(message.user)
 		@subject << "[via beamazing.co.nz] #{message.subject}"
+		@reply_to = "#{message.email}"
 		body = message.body
 		body << "<hr>TIP from the Be Amazing Team: &quot;Want more enquiries from <a href='#{APP_CONFIG[:site_host]}'>beamazing.co.nz</a>? Then add articles, run special offers and offer a gift voucher - just log-in, follow the links and increase your profile!&quot;"
 		@body[:body] = body
-		@body[:preferred_contact] = message.preferred_contact
+		@body[:email] = message.email
+		@body[:phone] = message.phone
     @content_type = 'text/html'
   end
   

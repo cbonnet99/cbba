@@ -9,7 +9,7 @@ class MessagesControllerTest < ActionController::TestCase
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
     old_events_size = UserEvent.all.size
-    post :create, :message => {:preferred_contact => "021 185 3433", :subject => "I like your style", :body => "When can I get an appointment?", :user_id => cyrille.id}
+    post :create, :message => {:email => "cyrille@test.com", :phone => "021 185 3433", :subject => "I like your style", :body => "When can I get an appointment?", :user_id => cyrille.id}
     assert_redirected_to root_url
 
     assert_equal 1, ActionMailer::Base.deliveries.size

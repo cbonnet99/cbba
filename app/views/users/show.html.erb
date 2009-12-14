@@ -8,7 +8,7 @@
 	      <% if own_profile?(@user) || (is_admin? && !@user.user_profile.approved?) -%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @user.user_profile, :class_name => "user_profile" }   %></div><%end-%>
 		<div id="profile-photo"><%= medium_image(@user)%><br/>
 		<% if (own_profile?(@user) || @user.user_profile.published?) -%>
-             <% if own_profile?(@user) -%><%if @user.photo.exists?%><%= link_to_remote "Change your picture", :update => "upload-photo", :url => user_new_photo_url %><%else%><%= link_to_remote "Upload your picture here", :update => "upload-photo", :url => user_new_photo_url %><%end%><div id="upload-photo"></div><%end%>
+             <% if own_profile?(@user) && @user.paid_photo? -%><%if @user.photo.exists?%><%= link_to_remote "Change your picture", :update => "upload-photo", :url => user_new_photo_url %><%else%><%= link_to_remote "Upload your picture here", :update => "upload-photo", :url => user_new_photo_url %><%end%><div id="upload-photo"></div><%end%>
 		</div>
 			<%if own_profile?(@user) -%>
 			<div id="create-new-content" class="profile-calling-action-area"><%= link_to "Create NEW...", "#", {:id => "profile-ask-question-content", :class => "button"}%>

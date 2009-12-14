@@ -367,7 +367,22 @@ class UsersControllerTest < ActionController::TestCase
     # puts @response.body
     assert_select "a", :text => "0 articles"
     assert_select "a", :text => "3 offers"
-    assert_select "a", :text => "Upload your picture here", :count => 0 
+    assert_select "a", :text => "Upload your picture here", :count => 0
+  end
+
+  def test_show_upload_photo
+    norma = users(:norma)
+    auckland = regions(:auckland)
+    coaches = categories(:coaches)
+    norma.paid_photo = true
+    norma.save!
+    norma.reload
+    get :show, {:name => norma.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug}, {:user_id => norma.id }
+    assert_response :success
+    # puts @response.body
+    assert_select "a", :text => "0 articles"
+    assert_select "a", :text => "3 offers"
+    assert_select "a", :text => "Upload your picture here", :count => 1
   end
 
   def test_show_hide_articles_when_0

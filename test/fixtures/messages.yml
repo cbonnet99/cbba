@@ -4,10 +4,10 @@ one:
   user_id: 1
   subject: MyString
   body: 
-  preferred_contact: MyString
+  email: MyString
 
 two:
   user_id: 1
   subject: MyString
   body: 
-  preferred_contact: MyString
+  email: MyString

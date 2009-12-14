@@ -4,13 +4,13 @@
     <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
-        <div class="left-input"></div>
-        <div class="notice right-label">Enter your phone number or your email address</div>
+        <%= f.hidden_field :user_id, :value => user.id %>
+        <%= f.label :email, "Your email address:<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :email %>
       </li>
       <li>
-        <%= f.hidden_field :user_id, :value => user.id %>
-        <%= f.label :preferred_contact, "Please contact me at:<span class='mandatoryStar'>*</span>" %>
-        <%= f.text_field :preferred_contact %>
+        <%= f.label :phone, "Your phone number" %>
+        <%= f.text_field :phone %>
       </li>
       <li>
         <%= f.label :subject, "Subject:<span class='mandatoryStar'>*</span>" %>
