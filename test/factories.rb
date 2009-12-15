@@ -37,6 +37,7 @@ end
 Factory.define :order do |f|
   f.association :user
   f.photo true
+  f.whole_package false
 end
 
 Factory.define :payment do |f|

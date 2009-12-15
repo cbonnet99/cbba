@@ -21,11 +21,11 @@ class Order < ActiveRecord::Base
   named_scope :not_expiring, :conditions => ["created_at > ? and created_at < ?", 1.year.ago, 1.year.ago-7.days], :order => "created_at"  
   
   def check_whole_package
-    if whole_package?
-      photo = true
-      highlighted = true
-      special_offers = 1
-      gift_vouchers = 1
+    if self.whole_package?
+      self.photo = true
+      self.highlighted = true
+      self.special_offers = 1 if self.special_offers == 0 || self.special_offers.nil?
+      self.gift_vouchers = 1 if self.gift_vouchers == 0 || self.gift_vouchers.nil?
     end
   end
   
@@ -65,6 +65,14 @@ class Order < ActiveRecord::Base
   def compute_amount
     if whole_package?
       amount = 7500
+      if self.special_offers.nil?
+        self.special_offers = 1
+      end
+      amount += 1500*(self.special_offers-1)
+      if self.gift_vouchers.nil?
+        self.gift_vouchers = 1
+      end
+      amount += 1500*(self.gift_vouchers-1)
     else
       amount = 0
       if photo?
@@ -73,11 +81,11 @@ class Order < ActiveRecord::Base
       if highlighted?
         amount += 3000
       end
-      if !special_offers.nil?
-        amount += 1500*special_offers
+      if !self.special_offers.nil?
+        amount += 1500*self.special_offers
       end
-      if !gift_vouchers.nil?
-        amount += 1500*gift_vouchers
+      if !self.gift_vouchers.nil?
+        amount += 1500*self.gift_vouchers
       end
     end
     return amount
