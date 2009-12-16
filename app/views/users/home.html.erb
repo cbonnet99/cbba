@@ -5,7 +5,8 @@
 <ul>
 	<li><%= link_to "Edit your profile", expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)%></li>
 	<li><%= link_to "Change your details (phone, email, etc.)", :controller => "users", :action => "edit"%></li>
-	<li><%= link_to "Add a new article", new_article_url(:selected_tab_id => "articles", :context => "profile")%></li>
+	<li><%= link_to "Add a new article", new_article_url(:selected_tab_id => "articles", :context => "profile")%></li> 
+	<li><%= link_to "Add features", :controller => "users", :action => "promote"%> - Stand out on Be Amazing!</li>
 	<li><%= link_to "See your profile statistics", :controller => "users", :action => "stats"%></li>
 </ul>
 <h4><strong>Coaching guides to help you make the most of Be Amazing:</strong></h4>
@@ -19,7 +20,7 @@
 <h4><strong>Help Be Amazing GROW!</strong></h4>
 <p>We want to create an outstanding well-being resource for Kiwis and you can help...</p>
 <ul>
-	<li><%= link_to "Add articles and profile your expertise", new_article_url(:selected_tab_id => "articles", :context => "profile")%></li>
+	<li><%= link_to "Add articles to profile your expertise", new_article_url(:selected_tab_id => "articles", :context => "profile")%></li>
 	<li>Add a special Be Amazing membership graphic to your own website <em>- Coming soon!</em></li> 
 	<li>Refer your clients to Be Amazing when they are looking for other well-being services</li> 
 	<li><%= link_to "Tell your colleagues and peers about Be Amazing", :controller => "users", :action => "refer"%></li> 

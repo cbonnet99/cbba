@@ -185,6 +185,8 @@ class ApplicationController < ActionController::Base
 
 	def counters
 		@counters = Counter.published
+		@number_users = User.count
+		@number_services = SubcategoriesUser.count
 	end
 
   def tags
