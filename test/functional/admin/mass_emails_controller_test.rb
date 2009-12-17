@@ -89,6 +89,11 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     assert_equal old_size+User.active.full_members.size+Contact.all.size, UserEmail.all.size
   end
 
+  def test_edit
+    get :edit, {:id => mass_emails(:test_email)}, {:user_id => users(:cyrille).id }
+    assert_response :success
+  end
+
   def test_index
     get :index, {}, {:user_id => users(:cyrille).id }
     assert_response :success

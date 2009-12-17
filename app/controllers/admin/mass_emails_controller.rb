@@ -1,7 +1,8 @@
 class Admin::MassEmailsController < AdminApplicationController
 
   before_filter :mass_email, :except => [:new, :create, :index]
-
+  before_filter :get_newsletters, :only => [:edit, :create, :new]
+   
   def copy
     @new_mass_email = MassEmail.create!(:subject => @mass_email.subject, :body => @mass_email.body,
     :creator => current_user, :email_type => @mass_email.email_type)
@@ -18,7 +19,6 @@ class Admin::MassEmailsController < AdminApplicationController
   def new
     @mass_email = MassEmail.new
     @email_types = MassEmail::TYPES
-    @newsletters = Newsletter.find(:all, :conditions => ["state='published'"], :order => "published_at desc").collect{|n| [n.title, n.id]} 
   end
 
   def create
@@ -29,7 +29,6 @@ class Admin::MassEmailsController < AdminApplicationController
       redirect_to @mass_email
     else
       @email_types = MassEmail::TYPES
-      @newsletters = Newsletter.find(:all, :conditions => ["state='published'"], :order => "published_at desc").collect{|n| [n.title, n.id]} 
       render :action => 'new'
     end
   end
@@ -76,5 +75,8 @@ class Admin::MassEmailsController < AdminApplicationController
   def mass_email
     @mass_email = MassEmail.find(params[:id])
   end
-
+  
+  def get_newsletters
+    @newsletters = Newsletter.find(:all, :conditions => ["state='published'"], :order => "published_at desc").collect{|n| [n.title, n.id]} 
+  end
 end
