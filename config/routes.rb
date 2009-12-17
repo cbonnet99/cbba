@@ -109,6 +109,10 @@ ActionController::Routing::Routes.draw do |map|
   map.user_send_referrals '/users/send_referrals', :controller => 'users', :action => "send_referrals"
   map.user_home '/users/home', :controller => 'users', :action => "home"
   map.user_guide_great_profile '/users/guide-great-profile', :controller => 'users', :action => "guide_great_profile"
+  map.user_guide_photo '/users/guide-photo', :controller => 'users', :action => "guide_photo"
+  map.user_guide_article '/users/guide-article', :controller => 'users', :action => "guide_article"
+  map.user_guide_gift_voucher '/users/guide-gift-voucher', :controller => 'users', :action => "guide_gift_voucher"
+  map.user_guide_special_offer '/users/guide-special-offer', :controller => 'users', :action => "guide_special_offer"
   
   map.resources :users
   map.resources :passwords
