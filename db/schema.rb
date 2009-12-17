@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091216031033) do
+ActiveRecord::Schema.define(:version => 20091217092302) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -568,8 +568,8 @@ ActiveRecord::Schema.define(:version => 20091216031033) do
     t.datetime "last_logged_at"
     t.boolean  "paid_photo"
     t.boolean  "paid_highlighted"
-    t.integer  "paid_special_offers",                                :default => 0
-    t.integer  "paid_gift_vouchers",                                 :default => 0
+    t.integer  "paid_special_offers"
+    t.integer  "paid_gift_vouchers"
     t.date     "paid_photo_until"
     t.date     "paid_highlighted_until"
     t.date     "paid_gift_vouchers_next_date_check"

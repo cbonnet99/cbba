@@ -1,8 +1,13 @@
+ul#search-results .user-description h3 {color: #555555;} 
+ul#search-results .user-highlighted h3 {color: #20ACCD;} 
+ul#search-results li{padding-bottom:10px; overflow:hidden;}
+ul#search-results li .user-description {margin: 0 0 5px 0; padding: 0 0 9px 9px;}
 p#number-users{color:#20ACCD;}
 p#number-users em{font-weight: bold;}
 blockquote.quote{font-weight: bold; font-size: 12px; background-color: lightgrey; border: 1px solid grey; text-align: center; padding: 5px;}
 #contentMain .user-highlighted h3, #contentMain .user-highlighted p {font-weight: bold;}
-#contentMain .user-highlighted {margin: 3px; border: 1px solid #C00; background-color: #FEFDE3;}
+#contentMain #bam-meet-expert .user-highlighted {border: none; background-color: transparent;}
+#contentMain .user-highlighted {margin: 3px; background-color: #FEFDE3;}
 #contentMain ol#add-features-list li.help {margin-bottom: 15px;}
 #contentMain ol#add-features-list {margin: 0;padding: 0;}
 #contentMain form label.wide-label {width: auto;}

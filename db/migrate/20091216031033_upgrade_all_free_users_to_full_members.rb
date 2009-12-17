@@ -7,6 +7,12 @@ class UpgradeAllFreeUsersToFullMembers < ActiveRecord::Migration
         free.remove_role("free_listing")
         free.add_role("full_member")
         free.save!
+        free.user_profile.published_at = nil
+        if free.user_profile.published?
+          free.user_profile.reject!
+        else
+          free.user_profile.save!
+        end
       end
     end
   end
