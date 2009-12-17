@@ -74,8 +74,8 @@ class TaskUtils
       end
     end
     
-    users_no_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is null", :order => "published_at desc") || []
-    users_with_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is not null", :order => "feature_rank") || []
+    users_no_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.paid_photo is true and users.paid_highlighted is true and users.feature_rank is null", :order => "published_at desc") || []
+    users_with_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.paid_photo is true and users.paid_highlighted is true and users.feature_rank is not null", :order => "feature_rank") || []
     all_users = users_no_rank + users_with_rank
     total_size = all_users.size
     all_users.each_with_index do |u, i|

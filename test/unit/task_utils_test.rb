@@ -131,9 +131,14 @@ class TaskUtilsTest < ActiveSupport::TestCase
 
   def test_rotate_feature_ranks
     cyrille = users(:cyrille)
+    norma = users(:norma)
+    norma.paid_photo = true
+    norma.paid_highlighted = true
+    norma.save!
+    norma.reload
     TaskUtils.rotate_feature_ranks
     User.published.active.full_members.each do |u|
-      assert_not_nil u.feature_rank, "Feature should not be nil for user #{u.name}"
+      assert_not_nil u.feature_rank, "Feature should not be nil for user #{u.name}" if u.paid_photo? && u.paid_highlighted?
     end
     cyrille.reload
     rank = cyrille.feature_rank
