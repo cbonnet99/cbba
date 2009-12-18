@@ -751,7 +751,7 @@ class User < ActiveRecord::Base
   end
 
   def self.paginated_full_members(page, limit=$full_members_per_page)
-    User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "published_at desc", :limit => limit, :page => page )
+    User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "published_at desc", :limit => limit, :page => page )
   end
 
   def self.newest_full_members
