@@ -47,6 +47,8 @@ class Admin::MassEmailsController < AdminApplicationController
       end
       redirect_to @mass_email
     else
+      @email_types = MassEmail::TYPES
+      get_newsletters
       render :action => 'edit'
     end
   end

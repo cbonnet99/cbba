@@ -61,6 +61,15 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     assert_equal old_size+User.active.full_members.size, UserEmail.all.size
   end
 
+  def test_update_with_errors
+    old_size = UserEmail.all.size
+    
+    test_email = mass_emails(:test_email)
+    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:subject => "", :recipients_full_members => true }  }, {:user_id => users(:cyrille).id }
+    assert_response :success
+    assert_template 'edit'
+  end
+
   def test_update2
     old_size = UserEmail.all.size
     
