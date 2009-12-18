@@ -1,7 +1,7 @@
-ul#search-results .user-description h3 {color: #555555;} 
-ul#search-results .user-highlighted h3 {color: #20ACCD;} 
-ul#search-results li{padding-bottom:10px; overflow:hidden;}
-ul#search-results li .user-description {margin: 0 0 5px 0; padding: 0 0 9px 9px;}
+ul#search-results .user-description h3, ul.subcategories .user-description h3 {color: #555555;} 
+ul#search-results .user-highlighted h3, ul.subcategories .user-highlighted h3 {color: #20ACCD;} 
+ul#search-results li, ul.subcategories li{padding-bottom:10px; overflow:hidden;}
+ul#search-results li .user-description, ul.subcategories li .user-description {margin: 0 0 5px 0; padding: 0 0 9px 9px;}
 p#number-users{color:#20ACCD;}
 p#number-users em{font-weight: bold;}
 blockquote.quote{font-weight: bold; font-size: 12px; background-color: lightgrey; border: 1px solid grey; text-align: center; padding: 5px;}
