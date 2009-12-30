@@ -17,7 +17,7 @@ module ApplicationHelper
 
   def log_bam_user_event(name, destination_url = nil, extra_data = nil, options = {})
     unless request.env["HTTP_USER_AGENT"] =~ /bot/
-      log_user_event(name, destination_url, extra_data, options.merge(:browser => request.env["HTTP_USER_AGENT"], :session => session.session_id ))
+      log_user_event(name, destination_url, extra_data, options.merge(:browser => request.env["HTTP_USER_AGENT"][0..254], :session => session.session_id ))
     end
   end
 
