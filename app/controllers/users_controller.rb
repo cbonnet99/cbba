@@ -55,8 +55,13 @@ class UsersController < ApplicationController
     begin
       @message = Message.new(params[:message])
       @user = User.find_by_free_listing_and_slug(false, params[:slug])
-      @title = "Send a message"
-      @title << " to #{@user.name}" if params[:hide_name] != "true"
+      if @user.nil?
+        flash[:error] = "Sorry, we could not find this user"
+        redirect_to root_url
+      else
+        @title = "Send a message"
+        @title << " to #{@user.name}" if params[:hide_name] != "true"
+      end
     rescue ActionController::InvalidAuthenticityToken
       #spammer probably, don't worry about it
     end

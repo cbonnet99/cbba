@@ -55,6 +55,12 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_message_user_not_found
+    get :message, :slug => "BLA"
+    assert_not_nil flash[:error]
+    assert_redirected_to root_url
+  end
+
   def test_more_about_free_listing
     get :more_about_free_listing
     assert_response :success
