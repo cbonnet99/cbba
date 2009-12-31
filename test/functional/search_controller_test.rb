@@ -30,7 +30,7 @@ class SearchControllerTest < ActionController::TestCase
     #+1 for twitter widget
     assert_select "div.homepage-article", :maximum => $number_articles_on_homepage+1
     assert_select "a", :text => "View more articles &raquo;"
-    assert_equal 2, assigns(:newest_full_members).size
+    assert_equal 1, assigns(:featured_full_members).size
     assert assigns(:newest_articles).include?(money)
     assert_equal $number_articles_on_homepage, assigns(:newest_articles).size
   end

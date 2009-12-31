@@ -432,9 +432,9 @@ class UserTest < ActiveSupport::TestCase
     assert !articles.blank?
   end
 
-  def test_newest_full_members
+  def test_featured_full_members
     cyrille = users(:cyrille)
-    assert_equal [cyrille, users(:norma)], User.newest_full_members
+    assert_equal [cyrille], User.featured_full_members
   end
 
   def test_count_newest_full_members

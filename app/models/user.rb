@@ -754,14 +754,10 @@ class User < ActiveRecord::Base
     User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "published_at desc", :limit => limit, :page => page )
   end
 
-  def self.newest_full_members
-    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
-  end
-
   def self.featured_full_members
-    users = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is null", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
+    users = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active' and users.feature_rank is null", :order => "published_at desc", :limit => $number_full_members_on_homepage  )
     if users.size < $number_full_members_on_homepage
-      users += User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.feature_rank is not null", :order => "feature_rank", :limit => $number_full_members_on_homepage  )
+      users += User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active' and users.feature_rank is not null", :order => "feature_rank", :limit => $number_full_members_on_homepage  )
     end
     return users
   end
@@ -775,13 +771,13 @@ class User < ActiveRecord::Base
   end
 
   def self.published_full_members
-    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "first_name, last_name")
+    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and paid_photo is true and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "first_name, last_name")
   end
 
   def self.count_published_full_members
     User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active'")
   end
-
+  
   def self.count_newest_full_members
     User.count(:include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active'")
   end

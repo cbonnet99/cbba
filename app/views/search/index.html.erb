@@ -13,12 +13,12 @@
 </object></span></p>
 </div>
 <!-- Intro Ends -->
-<% unless @newest_full_members.empty? -%>
+<% unless @featured_full_members.empty? -%>
 <!--New Full Members Starts -->
 <div class="box">
   <h3>Featured Well-being Providers</h3>
   <div id="homepage-full-members">
-    <% @newest_full_members.each do |u| -%>
+    <% @featured_full_members.each do |u| -%>
       <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
     <% end -%>	
   </div>
