@@ -1,3 +1,5 @@
+p#number-users a {text-decoration: none;}
+p#number-users a:hover {text-decoration: underline;}
 ul#search-results .user-description h3, ul.subcategories .user-description h3 {color: #555555;} 
 ul#search-results .user-highlighted h3, ul.subcategories .user-highlighted h3 {color: #20ACCD;} 
 ul#search-results li, ul.subcategories li{padding-bottom:10px; overflow:hidden;}

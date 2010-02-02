@@ -99,7 +99,7 @@
   <!--Sidebar1 Starts -->
   <div id="sidebar1" class="column">
     <div class="columnTop">&nbsp;</div>
-	<p id="number-users"><em><%= @number_users%></em> Members,<br/><em><%= @number_services%></em> Wellbeing Services</p>
+	<p id="number-users"><em><%= @number_users%></em> <%= link_to "Members", full_members_url %>,<br/><em><%= @number_services%></em> Wellbeing Services</p>
     <a name="categoryList" href="#categoryList" class="skip-dest"></a>
     <ul id="categories">
       <% @categories.each do |c| -%>
@@ -120,7 +120,7 @@
           <a id="next-expert" class="nav-right" href="#"><span>Next&gt;</span></a>
       </div>
 	</div>
-	<%= link_to "<span>Add FREE Listing</span>", signup_url(:professional => "true", :mt => "free_listing" ), :class => "addListing button" %>
+	<%= link_to "<span>Add FREE Listing</span>", signup_url(:professional => "true", :mt => "full_member" ), :class => "addListing button" %>
     <div class="columnBottom">&nbsp;</div>
   </div>
   <!--Sidebar1 Ends -->
