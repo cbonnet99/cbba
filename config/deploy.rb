@@ -103,8 +103,11 @@ end
 namespace(:deploy) do
   desc "Update the crontab file"
   task :update_crontab, :roles => :db do
-    if rails_env == "production"
+    if rails_env == :production
+      puts "*** Deploying cron jobs"
       run "cd #{release_path} && whenever --write-crontab #{application}"
+    else
+      puts "*** No cron jobs deployed as the enviroment is NOT production, but #{rails_env}"
     end
   end
   
