@@ -12,3 +12,9 @@
 	<li><%=pluralize(current_user.last_12months_received_messages, "email enquiry")%> via BeAmazing</li>
 	<li><%=pluralize(current_user.last_12months_redirect_website, "click")%> through to your website</li>
 </ul>
+<p>Since you joined, you had:</p>
+<ul>
+	<li><%=pluralize(current_user.all_time_profile_visits, "visit")%> to your profile page</li>
+	<li><%=pluralize(current_user.all_time_received_messages, "email enquiry")%> via BeAmazing</li>
+	<li><%=pluralize(current_user.all_time_redirect_website, "click")%> through to your website</li>
+</ul>

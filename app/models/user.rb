@@ -482,6 +482,10 @@ class User < ActiveRecord::Base
     UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
   end
   
+  def all_time_redirect_website
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ?", self.id])
+  end
+  
   def last_30days_received_messages
     UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
   end
@@ -490,12 +494,20 @@ class User < ActiveRecord::Base
     UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
   end
   
+  def all_time_received_messages
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ?", self.id])
+  end
+  
   def last_30days_profile_visits
     UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
   end
 
   def last_12months_profile_visits
     UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
+  end
+  
+  def all_time_profile_visits
+    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ?", self.id])
   end
   
   def geocoded?
