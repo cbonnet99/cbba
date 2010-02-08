@@ -6,6 +6,7 @@
 	<%= title h(@article.title), :h1%>
 	<div class="publication-author">by <%= author_link(@article.author) %></div>
 </div>
+<div id="article-share-top"><%= render :partial => "articles/share_link" %></div>
 <%if (is_author?(@article) || (is_admin? && !@article.approved?))%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
 <div>
@@ -20,4 +21,4 @@
 <br/>
 <%= white_list @article.body %>
 </p>
-<% if @article.author.active? %><span id="meet-author"><%= link_to "Meet #{@article.author.name}", user_url_with_context(@article.author)%></span> | <%end%><span class="share-link"><%= render :partial => "search/share_link" %></span>
+<%= render :partial => "articles/share_link" %>

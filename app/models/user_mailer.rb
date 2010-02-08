@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
 	    @subject << "your #{pluralize(feature_count, feature_name)} have expired"
     end
 		@body[:feature_name] = feature_name
-		@body[:url] = user_promote_url    
+		@body[:url] = user_promote_url
   end
 
   def expiring_feature(user, feature_name, feature_count=1)

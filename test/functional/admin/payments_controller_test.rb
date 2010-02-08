@@ -8,11 +8,14 @@ class Admin::PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_mark_as_paid
-    pending = payments(:pending_user_payment)
-    assert_equal "pending", pending.status
-    post :mark_as_paid, {:id => pending.id }, {:user_id => users(:cyrille).id }
+    order = Order.create(:whole_package => true, :user => users(:cyrille))
+    assert_not_nil order.payment
+    assert_equal "pending", order.payment.status
+    post :mark_as_paid, {:id => order.payment.id }, {:user_id => users(:cyrille).id }
     # assert_response :success
-    pending.reload
-    assert_equal "completed", pending.status
+    order.payment.reload
+    assert_equal "completed", order.payment.status
+    order.reload
+    assert_equal "paid", order.state
   end
 end

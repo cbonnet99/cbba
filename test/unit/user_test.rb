@@ -434,6 +434,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_featured_full_members
     cyrille = users(:cyrille)
+    TaskUtils.rotate_feature_ranks
+    cyrille.reload
     assert_equal [cyrille], User.featured_full_members
   end
 

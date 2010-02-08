@@ -12,18 +12,19 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_index
-    money = how_tos(:money)
     jogging = articles(:jogging)
     cyrille = users(:cyrille)
+    TaskUtils.rotate_feature_ranks
+    cyrille.reload
     yoga = subcategories(:yoga)
     get :index
     assert_response :success
     #3 articles + 1 howto article + twitter widget
     assert_select "div.homepage-article", 5
     #Create 2 more published articles
-    Article.create(:title => "Test1", :lead => "Test1", :body => "",  :state => "published",
+    test1 = Article.create(:title => "Test1", :lead => "Test1", :body => "",  :state => "published",
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id  )
-    Article.create(:title => "Test2", :lead => "Test2", :body => "", :state => "published",
+    test2 = Article.create(:title => "Test2", :lead => "Test2", :body => "", :state => "published",
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id )
     get :index
     assert_response :success
@@ -31,7 +32,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_select "div.homepage-article", :maximum => $number_articles_on_homepage+1
     assert_select "a", :text => "View more articles &raquo;"
     assert_equal 1, assigns(:featured_full_members).size
-    assert assigns(:newest_articles).include?(money)
+    assert assigns(:newest_articles).include?(test1), "Newest articles are: #{assigns(:newest_articles).map(&:title).to_sentence}"
     assert_equal $number_articles_on_homepage, assigns(:newest_articles).size
   end
 

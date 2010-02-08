@@ -115,6 +115,11 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.check_feature_expiration
     
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired highlighted"
+
+    ActionMailer::Base.deliveries = []
+    TaskUtils.check_feature_expiration
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The expired feature email should only be sent once"
+    
   end
 
   def test_check_feature_expiration_expiring_highlighted

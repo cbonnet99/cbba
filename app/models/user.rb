@@ -76,14 +76,14 @@ class User < ActiveRecord::Base
   named_scope :new_users, :conditions => "new_user is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
-  named_scope :with_expired_photo, :conditions => "paid_photo_until IS NOT NULL AND paid_photo_until < now()"
-  named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo_until IS NOT NULL AND paid_photo_until > now() AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
-  named_scope :with_expired_highlighted, :conditions => "paid_highlighted_until IS NOT NULL AND paid_highlighted_until < now()"
-  named_scope :with_expiring_highlighted, lambda { |warning_period| { :conditions => "paid_highlighted_until IS NOT NULL AND paid_highlighted_until > now() AND paid_highlighted_until < '#{warning_period.to_s(:db)}'"}}
-  named_scope :with_expired_special_offers, :conditions => "paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check < now()"
-  named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
-  named_scope :with_expired_gift_vouchers, :conditions => "paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check < now()"
-  named_scope :with_expiring_gift_vouchers, lambda { |warning_period| { :conditions => "paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now() AND paid_gift_vouchers_next_date_check < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expired_photo, :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until < now()"
+  named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until > now() AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expired_highlighted, :conditions => "paid_highlighted IS TRUE AND paid_highlighted_until IS NOT NULL AND paid_highlighted_until < now()"
+  named_scope :with_expiring_highlighted, lambda { |warning_period| { :conditions => "paid_highlighted IS TRUE AND paid_highlighted_until IS NOT NULL AND paid_highlighted_until > now() AND paid_highlighted_until < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expired_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check < now()"
+  named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expired_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check < now()"
+  named_scope :with_expiring_gift_vouchers, lambda { |warning_period| { :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now() AND paid_gift_vouchers_next_date_check < '#{warning_period.to_s(:db)}'"}}
 
   
   # #around filters
