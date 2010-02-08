@@ -1,1 +1,1 @@
-<% if @article.author.active? %><span id="meet-author"><%= link_to "Meet the author", user_url_with_context(@article.author)%></span> | <%end%><span class="share-link"><%= render :partial => "search/share_link" %></span> | <span><%= link_to "Share this article", :controller => "articles", :action => "share_form"</span>
+<% if @article.author.active? %><span id="meet-author"><%= link_to "Meet the author", user_url_with_context(@article.author)%></span> | <%end%><span class="share-link"><%= render :partial => "search/share_link" %></span>
