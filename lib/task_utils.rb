@@ -2,24 +2,32 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.add_feature(feature_names_hash, user, feature_name)
+    if feature_names_hash[user].nil?
+      feature_names_hash[user] = []
+    end
+    feature_names_hash[user] << feature_name
+  end
+  
   def self.check_feature_expiration
+    feature_names = {}
     User.with_expired_photo.each do |u|
-      u.update_attribute(:paid_photo, false)
-      UserMailer.deliver_expired_feature(u, "photo")
+      u.update_attribute(:paid_photo, false) if u.paid_photo?
+      add_feature(feature_names, u, "photo")
     end
     User.with_expiring_photo(7.days.from_now).each do |u|
       UserMailer.deliver_expiring_feature(u, "photo")
     end
     User.with_expired_highlighted.each do |u|
-      u.update_attribute(:paid_highlighted, false)
-      UserMailer.deliver_expired_feature(u, "highlighted profile")
+      u.update_attribute(:paid_highlighted, false) if u.paid_highlighted?
+      add_feature(feature_names, u, "highlighted profile")
     end
     User.with_expiring_highlighted(7.days.from_now).each do |u|
       UserMailer.deliver_expiring_feature(u, "highlighted profile")
     end
     User.with_expired_special_offers.each do |u|
       feature_count = u.paid_special_offers - u.count_not_expired_special_offers
-      UserMailer.deliver_expired_feature(u, "special offer", feature_count)
+      add_feature(feature_names, u, help.pluralize(feature_count, "special offer"))
       if feature_count == u.paid_special_offers
         u.update_attribute(:paid_special_offers_next_date_check, nil)
       else
@@ -35,7 +43,7 @@ class TaskUtils
     end
     User.with_expired_gift_vouchers.each do |u|
       feature_count = u.paid_gift_vouchers - u.count_not_expired_gift_vouchers
-      UserMailer.deliver_expired_feature(u, "gift voucher", feature_count)
+      add_feature(feature_names, u, help.pluralize(feature_count, "gift voucher"))
       if feature_count == u.paid_gift_vouchers
         u.update_attribute(:paid_gift_vouchers_next_date_check, nil)
       else
@@ -49,7 +57,9 @@ class TaskUtils
       feature_count = u.paid_gift_vouchers - u.count_not_expiring_gift_vouchers()
       UserMailer.deliver_expiring_feature(u, "gift voucher", feature_count)
     end
-    
+    feature_names.keys.each do |u|
+      UserMailer.deliver_expired_features(u, feature_names[u]) unless feature_names.blank?
+    end
   end
   
   def self.rotate_feature_ranks

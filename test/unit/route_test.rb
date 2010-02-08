@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class RoutingTest < ActionController::TestCase
   def test_routes
     # assert_routing({:path => "articles/share/123" }, { :controller => "articles", :action => "share", :id => "123"})
+    assert_routing({:path => "admin/user_emails" }, { :controller => "admin/user_emails", :action => "index"})
     assert_routing({:path => "admin/user_activity/123" }, { :controller => "admin/user_activities", :action => "show", :id => "123"})
     assert_routing({:path => "user/cyrille-bonnet/unsubscribe" }, { :controller => "users", :action => "unsubscribe", :slug => "cyrille-bonnet"})
     assert_routing({:path => "admin/newsletters/123", :method => :delete }, { :controller => "admin/newsletters", :action => "destroy", :id => "123"})

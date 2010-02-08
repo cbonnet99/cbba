@@ -1,0 +1,18 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "auto_emails" }  %>
+<%= title "Automatic emails"%>
+<table class="admin">
+  <tr>
+    <th>User</th>
+    <th>Type</th>
+    <th>Sent</th>
+  </tr>
+<%= will_paginate @user_emails%>
+<%@user_emails.each do |s| -%>
+<tr class="<%=cycle('odd', 'even')%>">
+	<td><%= s.user.try(:email) %></td>
+	<td><%= s.email_type %></td>
+	<td><%= s.sent_at %></td>
+</tr>
+<%end-%>
+</table>
+<%= will_paginate @activities%>

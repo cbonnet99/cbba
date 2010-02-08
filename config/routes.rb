@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_activity_admin '/admin/user_activity/:id', :controller => "admin/user_activities", :action => "show"  
   map.resources :newsletters
   map.resources :newsletters, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/newsletters", :member => {:publish => [:get, :post], :retract => [:get, :post] }
+  map.resources :user_emails, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/user_emails"
 
   map.resources :users, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/users", :member => {:login => [:get, :post]}, :collection => {:search => [:get, :post]}
   
