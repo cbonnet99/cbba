@@ -10,24 +10,25 @@ class TaskUtils
   end
   
   def self.check_feature_expiration
-    feature_names = {}
+    expired_feature_names = {}
+    expiring_feature_names = {}
     User.with_expired_photo.each do |u|
       u.update_attribute(:paid_photo, false) if u.paid_photo?
-      add_feature(feature_names, u, "photo")
+      add_feature(expired_feature_names, u, "photo")
     end
     User.with_expiring_photo(7.days.from_now).each do |u|
-      UserMailer.deliver_expiring_feature(u, "photo")
+      add_feature(expiring_feature_names, u, "photo")
     end
     User.with_expired_highlighted.each do |u|
       u.update_attribute(:paid_highlighted, false) if u.paid_highlighted?
-      add_feature(feature_names, u, "highlighted profile")
+      add_feature(expired_feature_names, u, "highlighted profile")
     end
     User.with_expiring_highlighted(7.days.from_now).each do |u|
-      UserMailer.deliver_expiring_feature(u, "highlighted profile")
+      add_feature(expiring_feature_names, u, "highlighted profile")
     end
     User.with_expired_special_offers.each do |u|
       feature_count = u.paid_special_offers - u.count_not_expired_special_offers
-      add_feature(feature_names, u, help.pluralize(feature_count, "special offer"))
+      add_feature(expired_feature_names, u, help.pluralize(feature_count, "special offer"))
       if feature_count == u.paid_special_offers
         u.update_attribute(:paid_special_offers_next_date_check, nil)
       else
@@ -39,11 +40,11 @@ class TaskUtils
     end
     User.with_expiring_special_offers(7.days.from_now).each do |u|
       feature_count = u.paid_special_offers - u.count_not_expiring_special_offers()
-      UserMailer.deliver_expiring_feature(u, "special offer", feature_count)
+      add_feature(expiring_feature_names, u, help.pluralize(feature_count, "special offer"))
     end
     User.with_expired_gift_vouchers.each do |u|
       feature_count = u.paid_gift_vouchers - u.count_not_expired_gift_vouchers
-      add_feature(feature_names, u, help.pluralize(feature_count, "gift voucher"))
+      add_feature(expired_feature_names, u, help.pluralize(feature_count, "gift voucher"))
       if feature_count == u.paid_gift_vouchers
         u.update_attribute(:paid_gift_vouchers_next_date_check, nil)
       else
@@ -55,10 +56,13 @@ class TaskUtils
     end
     User.with_expiring_gift_vouchers(7.days.from_now).each do |u|
       feature_count = u.paid_gift_vouchers - u.count_not_expiring_gift_vouchers()
-      UserMailer.deliver_expiring_feature(u, "gift voucher", feature_count)
+      add_feature(expiring_feature_names, u, help.pluralize(feature_count, "gift voucher"))
     end
-    feature_names.keys.each do |u|
-      UserMailer.deliver_expired_features(u, feature_names[u]) unless feature_names.blank?
+    expired_feature_names.keys.each do |u|
+      UserMailer.deliver_expired_features(u, expired_feature_names[u]) unless expired_feature_names[u].blank?
+    end
+    expiring_feature_names.keys.each do |u|
+      UserMailer.deliver_expiring_features(u, expiring_feature_names[u]) unless expiring_feature_names[u].blank?
     end
   end
   

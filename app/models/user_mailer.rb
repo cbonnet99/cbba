@@ -31,6 +31,16 @@ class UserMailer < ActionMailer::Base
     end
   end
 
+  def alert_expiring_features(user, feature_names)
+    megan = User.find_by_email(APP_CONFIG[:megan])
+    unless megan.nil?
+      setup_email(megan)
+      @subject << "Expiring features for user #{user.name}"
+  		@body[:feature_names] = feature_names
+  		@body[:user] = user
+    end
+  end
+
   def expired_features(user, feature_names)
     setup_email(user)
     UserMailer.deliver_alert_expired_features(user, feature_names)
@@ -39,10 +49,11 @@ class UserMailer < ActionMailer::Base
 		@body[:url] = user_promote_url
   end
 
-  def expiring_feature(user, feature_name, feature_count=1)
+  def expiring_features(user, feature_names)
     setup_email(user)
-		@subject << "your #{feature_name} will expire soon"
-		@body[:feature_name] = feature_name
+    UserMailer.deliver_alert_expiring_features(user, feature_names)
+		@subject << "Time to renew your payment"
+		@body[:feature_names] = feature_names
 		@body[:url] = user_promote_url
   end
   

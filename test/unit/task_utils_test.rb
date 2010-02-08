@@ -36,10 +36,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries = []
     TaskUtils.check_feature_expiration
     
-    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring gift voucher"
-    email = ActionMailer::Base.deliveries.first
+    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring gift voucher + 1 alert to Megan"
+    email = ActionMailer::Base.deliveries.last
     assert_not_nil email
-    assert_match /gift voucher/, email.subject
+    assert_match /Time to renew/, email.subject
   end
 
   def test_check_feature_expiration_special_offers
@@ -75,10 +75,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries = []
     TaskUtils.check_feature_expiration
     
-    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring special offer"
-    email = ActionMailer::Base.deliveries.first
+    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring special offer + 1 alert to Megan"
+    email = ActionMailer::Base.deliveries.last
     assert_not_nil email
-    assert_match /special offer/, email.subject
+    assert_match /Time to renew/, email.subject
   end
 
   def test_check_feature_expiration_expired_photo
@@ -118,7 +118,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     TaskUtils.check_feature_expiration
     
-    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring photo"
+    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring photo + 1 alert to Megan"
   end
 
   def test_check_feature_expiration_expired_highlighted
@@ -147,7 +147,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     TaskUtils.check_feature_expiration
     
-    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring highlighted"
+    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring highlighted + 1 alert to Megan"
   end
 
   def test_rotate_feature_ranks
