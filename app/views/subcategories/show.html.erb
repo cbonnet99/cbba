@@ -4,7 +4,7 @@
 <% end -%>
 <% unless logged_in? -%>
 <div id="bam-invite-join">
-  <p>Do you offer <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
+  <p>Are you an expert on <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
 </div>
 <%end -%>
   <% @regions.each do |r| -%>

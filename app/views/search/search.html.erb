@@ -1,6 +1,6 @@
 <% unless logged_in? || @subcategory.nil? -%>
 <div id="bam-invite-join">
-  <p>Do you offer <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
+  <p>Are you an expert on <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
 </div>
 <%end -%>
 <h1>Search results<%=  describe_search(@region, @district, @category, @subcategory) %></h1>
