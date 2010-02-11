@@ -41,6 +41,8 @@ class Payment < ActiveRecord::Base
   after_create :create_invoice
 
   named_scope :pending, :conditions => "status ='pending'"
+  named_scope :notified, :conditions => "notified_at IS NOT NULL"
+  named_scope :not_notified, :conditions => "notified_at IS NULL"
   named_scope :renewals, :conditions => "payment_type = 'renewal'"
   named_scope :resident, :conditions => "payment_type = 'resident_expert'"
   named_scope :resident_renewals, :conditions => "payment_type = 'resident_expert_renewal'"

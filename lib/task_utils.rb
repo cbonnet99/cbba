@@ -2,6 +2,16 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.check_pending_payments
+    payments_to_notify = Payment.pending.not_notified
+    unless payments_to_notify.blank?
+      UserMailer.deliver_alert_pending_payments(payments_to_notify)
+    end
+    payments_to_notify.each do |p|
+      p.update_attribute(:notified_at, Time.now)
+    end
+  end
+
   def self.add_feature(feature_names_hash, user, feature_name)
     if feature_names_hash[user].nil?
       feature_names_hash[user] = []

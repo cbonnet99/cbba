@@ -3,6 +3,23 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_check_pending_payments
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_pending_payments
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    
+    ActionMailer::Base.deliveries = []
+
+    TaskUtils.check_pending_payments
+    
+    assert_equal 0, ActionMailer::Base.deliveries.size
+    
+  end
+
   def test_check_feature_expiration_gift_vouchers
     user_expired_gift_vouchers = Factory(:user, :paid_gift_vouchers => 3, :paid_gift_vouchers_next_date_check => 1.month.ago )
     order_secial_offers1 = Factory(:order, :gift_vouchers => 1, :created_at => 13.months.ago, :user_id => user_expired_gift_vouchers.id )

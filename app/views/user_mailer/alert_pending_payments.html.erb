@@ -1,0 +1,11 @@
+Hello,
+
+the following payments are pending:
+
+<% @payments.each do |p| -%>
+* <%= p.title %> for <%= "$#{p.amount.to_s[0..-3]}.#{p.amount.to_s.slice(-2, 2)}" %> (user: <%= p.user.name%>)
+<% end -%>
+
+Please contact the users and, in the admin interface, with mark then as paid or delete them.
+
+<%= render :partial => "signature"  %>
