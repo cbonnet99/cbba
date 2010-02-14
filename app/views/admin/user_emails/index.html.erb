@@ -9,7 +9,7 @@
 <%= will_paginate @user_emails%>
 <%@user_emails.each do |s| -%>
 <tr class="<%=cycle('odd', 'even')%>">
-	<td><%= s.user.try(:email) %></td>
+	<td><% unless s.user.nil?%> <%= link_to s.user.try(:email), search_admin_users_url(:search_term => s.user.email) %> <% end%></td>
 	<td><%= s.email_type %></td>
 	<td><%= s.sent_at %></td>
 </tr>
