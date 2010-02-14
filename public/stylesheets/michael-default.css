@@ -1,3 +1,4 @@
+ul.category li {width: 40%; float: left;}
 p#number-users a {text-decoration: none;}
 p#number-users a:hover {text-decoration: underline;}
 ul#search-results .user-description h3, ul.subcategories .user-description h3 {color: #555555;} 
