@@ -38,7 +38,7 @@ class SubcategoriesController < ApplicationController
   			  flash[:error]="Could not find subcategory #{params[:subcategory_slug]}"
   			  redirect_to root_url
 				else
-      		get_regions
+      		@users_hash = @subcategory.users_hash_by_region      		
 			  end
 			end
 	end

@@ -34,6 +34,10 @@ class SearchController < ApplicationController
         @subcategory = Subcategory.from_param(@what)
         logger.debug("====== in search, @category: #{@category.inspect}")
         logger.debug("====== in search, @subcategory: #{@subcategory.inspect}")
+        if !@subcategory.nil? && @region.nil? && @district.nil?
+          @category = @subcategory.category
+          redirect_to subcategory_url(@category.slug, @subcategory.slug)
+        end
         @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
         if @results.blank?
           @selected_user = User.find_paying_member_by_name(@what)

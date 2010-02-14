@@ -15,6 +15,18 @@ class Subcategory < ActiveRecord::Base
 
   named_scope :with_resident_expert, :conditions => "resident_expert_id is not null"
 
+  def users_hash_by_region
+    res = {}
+    self.users.find(:all, :include => "region",  :order => "regions.name").each do |u|
+      if res[u.region.name].blank?
+        res[u.region.name] = [u]
+      else
+        res[u.region.name] += [u]
+      end
+    end
+    return res
+  end
+
   def default_tab_content(user)
     string = "<h3>About #{self.name}</h3> <p>Give a summary here of your service&nbsp;(Just delete this text and the heading to remove it from your profile)</p> <h3>Key benefits</h3> <div> <ul> <li>List a benefit here (or delete this text)</li> <li>List a benefit here (or delete this text)</li> <li>List a benefit here (or delete this text)</li> </ul> </div> <h3>My Training</h3> <div> <ul> <li>List your training here (or delete this text)</li> <li>List your training here&nbsp;(or delete this text)</li> <li>List your training here&nbsp;(or delete this text)</li> </ul> </div> <h3>What you can expect...</h3> <p>Write about what people can expect from you and your service... (Just delete this text and the heading to remove it from your profile)</p> <h3>About #{user.first_name}</h3> <p>Tell people something about yourself and how you connect with the service... (Just delete this text and the heading to remove it from your profile)</p>"
   end

@@ -4,17 +4,18 @@
 <% end -%>
 <% unless logged_in? -%>
 <div id="bam-invite-join">
-  <p>Are you an expert on <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
+<% if @users_hash.blank? -%>
+  <p>Be the first expert on <%=@subcategory.name%>! Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
+<% else -%>
+<p>Are you an expert on <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
+<% end -%>
 </div>
 <%end -%>
-  <% @regions.each do |r| -%>
-      <% users = User.find_all_by_region_and_subcategories(r, @subcategory) -%>
-    <% unless users.empty? -%>
-    <h3 class="bam-region-name"><%=link_to r.name, subcategory_region_url(@category.slug, @subcategory.slug, r.slug)%></h3>
+  <% @users_hash.keys.sort.each do |region_name| -%>
+    <h3 class="bam-region-name"><%=link_to region_name, subcategory_region_url(@category.slug, @subcategory.slug, region_name.parameterize)%></h3>
     <ul class="subcategories simple">
-      <% users.each do |u| -%>
+      <% @users_hash[region_name].each do |u| -%>
         <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "users/user", :locals => {:user => u} %> </li>
       <% end -%>
     </ul>
-    <%end -%>
   <% end -%>

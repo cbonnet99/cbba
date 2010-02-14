@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SubcategoryTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_users_hash_by_region
+    hash = subcategories(:hypnotherapy).users_hash_by_region
+    assert !hash.blank?
+    assert hash.keys.include?(regions(:wellington).name)
+    assert hash[regions(:wellington).name].is_a?(Array)
+    assert hash[regions(:wellington).name].size > 1
+  end
+
   def test_full_name
     assert_equal "Practitioners - Hypnotherapy", subcategories(:hypnotherapy).full_name
   end

@@ -48,8 +48,8 @@ class SearchControllerTest < ActionController::TestCase
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
 		get :search, :where => canterbury_christchurch_city.name, :what => hypnotherapy.name.upcase
     assert_not_nil assigns(:subcategory)
-		assert_response :success
-		assert_equal 3, assigns(:results).size
+    assert_response :success
+    assert_equal 3, assigns(:results).size
   end
   
   def test_search
@@ -89,9 +89,7 @@ class SearchControllerTest < ActionController::TestCase
   def test_search_no_location_subcat
     hypnotherapy = subcategories(:hypnotherapy)
 		get :search, :where => '', :what => hypnotherapy.name
-		assert_response :success
-    assert !assigns(:results).empty?
-    assert_match %r{Search results for #{hypnotherapy.name}}, @response.body
+		assert_redirected_to subcategory_url(hypnotherapy.category.slug, hypnotherapy.slug)
   end
 
   def test_search_no_location_category
