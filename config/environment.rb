@@ -145,17 +145,3 @@ ExceptionNotifier.sender_address =
 #I18n.load_path += Dir[ File.join(RAILS_ROOT, 'lib', 'locale', '*.{rb,yml}') ]
 
 WhiteListHelper.attributes.merge %w(style)
-
-######## Added try manually (will be included in Rails2.3), which means that the code below can
-######## be deleted when Rails is upgraded to 2.3
-
-class Object
-  ##
-  #   @person ? @person.name : nil
-  # vs
-  #   @person.try(:name)
-  def try(method)
-    send method if respond_to? method
-  end
-end
-################# End try
