@@ -38,7 +38,6 @@ class Payment < ActiveRecord::Base
   validate_on_update :validate_card
 
   before_create :compute_gst, :set_defaults
-  after_create :create_invoice
 
   named_scope :pending, :conditions => "status ='pending'"
   named_scope :notified, :conditions => "notified_at IS NOT NULL"
@@ -161,6 +160,7 @@ class Payment < ActiveRecord::Base
     )
   end
   def finalize_complete
+    create_invoice
     if payment_type == "new" || payment_type == "renewal"
       user.member_since = Time.now if user.member_since.nil?
       if user.member_until.nil?
