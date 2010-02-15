@@ -17,7 +17,7 @@ class Subcategory < ActiveRecord::Base
 
   def users_hash_by_region
     res = {}
-    self.users.find(:all, :include => "region",  :order => "regions.name").each do |u|
+    self.users.find(:all, :include => "region",  :order => "regions.name, paid_photo, paid_highlighted").each do |u|
       if res[u.region.name].blank?
         res[u.region.name] = [u]
       else

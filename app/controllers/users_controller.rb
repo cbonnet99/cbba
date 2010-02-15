@@ -292,7 +292,7 @@ class UsersController < ApplicationController
         render :action => 'new', :subcategory1_id => params[:user]["subcatgory1_id"] 
       end
     else
-      flash[:error] = "There was a problem with the words you entered, please try again"
+      flash[:error] = "There was a problem with the words you entered with the security check. Did you see an image with words to type? If not, "
       get_districts_and_subcategories
       render :action => 'new'
     end

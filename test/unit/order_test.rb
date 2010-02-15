@@ -30,4 +30,9 @@ class OrderTest < ActiveSupport::TestCase
     order.photo = false
     assert !order.valid?
   end
+  
+  def test_mark_as_paid
+    order = Factory(:order, :photo => true)
+    order.mark_as_paid!
+  end
 end
