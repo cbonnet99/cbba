@@ -1,3 +1,7 @@
+.column #sidebar-related-content h3, #sidebar-related-content {margin: 8px;}
+#sidebar-related-content {padding: 0 0 0 0; margin: 0 0 0 0;}
+#sidebar-related-content h3 {padding: 0 0 0 0;}
+#sidebar-related-content li {list-style: none;}
 ul.category li {width: 40%; float: left;}
 p#number-users a {text-decoration: none;}
 p#number-users a:hover {text-decoration: underline;}

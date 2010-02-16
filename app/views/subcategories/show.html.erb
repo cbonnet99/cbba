@@ -11,6 +11,18 @@
 <% end -%>
 </div>
 <%end -%>
+<ul>
+<% content_for :sidebar_content do -%>
+	<% unless @articles.blank? -%>
+		<h3>Related articles</h3>
+		<ul>
+		<% @articles.each do |a| -%>
+			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%> by <%= author_link(a.author)%></li>
+		<% end -%>
+	<% end -%>
+		</ul>
+<% end -%>
+</ul>
   <% @users_hash.keys.sort.each do |region_name| -%>
     <h3 class="bam-region-name"><%=link_to region_name, subcategory_region_url(@category.slug, @subcategory.slug, region_name.parameterize)%></h3>
     <ul class="subcategories simple">

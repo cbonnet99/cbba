@@ -8,12 +8,12 @@ Factory.define :district do |f|
 end
 
 Factory.define :category do |c|
-  c.name "Coaches2"
+  c.sequence(:name) {|n| "Cat#{n}"}
   c.slug "coaches2"
 end
 
 Factory.define :subcategory do |sc|
-  sc.name "Life coaching2"
+  sc.sequence(:name) {|n| "Subcat#{n}"}
   sc.slug "coaching-life2"
   sc.association :category
 end
@@ -31,6 +31,18 @@ end
 Factory.define :subcategories_user do |scu|
   scu.association :user
   scu.association :subcategory
+end
+
+Factory.define :article do |f|
+  f.sequence(:title) {|n| "Article#{n}"}
+  f.author {|author| author.association(:user) }
+  f.lead "Bla"
+  f.body "Bla"
+end
+
+Factory.define :articles_subcategories do |asu|
+  asu.association :article
+  asu.association :subcategory
 end
 
 

@@ -132,7 +132,7 @@ module ApplicationHelper
       user.name
     end
   end
-
+  
   def preload_tinymce
     @content_for_tinymce = ""
     content_for :tinymce do

@@ -3,6 +3,15 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SubcategoryTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_last_articles
+    subcat = Factory(:subcategory)
+    cat = subcat.category
+    8.times do
+     Factory(:article, :subcategories => [subcat], :categories => [cat], :subcategory1_id => subcat.id, :state => "published")
+   end
+   assert_equal 6, subcat.last_articles(6).size
+  end
+
   def test_users_hash_by_region
     hash = subcategories(:hypnotherapy).users_hash_by_region
     assert !hash.blank?

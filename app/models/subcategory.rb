@@ -5,7 +5,8 @@ class Subcategory < ActiveRecord::Base
 	belongs_to :category
 	has_many :subcategories_users, :order => "position"
 	has_many :users, :through => :subcategories_users
-	has_many :articles
+	has_many :articles_subcategories
+	has_many :articles, :through => :articles_subcategories
 	has_many :special_offers
 	has_many :gift_vouchers
   has_many :expert_applications
@@ -14,6 +15,10 @@ class Subcategory < ActiveRecord::Base
   validates_uniqueness_of :name, :message => "must be unique"
 
   named_scope :with_resident_expert, :conditions => "resident_expert_id is not null"
+
+  def last_articles(number_articles)
+    self.articles.published.find(:all, :order => "published_at desc", :limit => number_articles)
+  end
 
   def users_hash_by_region
     res = {}
