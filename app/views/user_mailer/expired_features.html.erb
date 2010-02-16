@@ -1,7 +1,22 @@
-Dear <%= @user.first_name %>,
-
-It is time to renew your payment on BeAmazing for: <%= @feature_names.to_sentence%>. To renew, simply click on the link below:
-
-<%= @url %>
-
+Dear <%= @user.first_name %>,<br/>
+<br/>
+The paid features you have on <a href="http://www.beamazing.co.nz">BeAmazing.co.nz</a> have expired today:<br/>
+<ul>
+	<%@feature_names.each do |name| -%>
+	<li><%= name%></li>
+	<% end -%>
+</ul>
+<br/>
+We've made it really easy to renew, just follow these steps:<br/>
+<br/>
+<ol>
+	<li>Click on this link: <%= @url %> (you'll be asked to log in if you are not logged in)</li>
+	<li>Click on 'Add features'</li>
+	<li>Select the features you'd like</li>
+	<li>Then click 'Proceed to pay'</li>
+	<li>Finally just enter your credit card details and within no time at all, you're all done!</li>
+</ol>
+<br/>
+If you have any problems making the payment, just let us know by clicking here: https://www.beamazing.co.nz/contact<br/>
+<br/>
 <%= render :partial => "signature"  %>

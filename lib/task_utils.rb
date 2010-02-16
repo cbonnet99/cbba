@@ -20,11 +20,15 @@ class TaskUtils
   end
   
   def self.check_feature_expiration
+    has_expired_feature_names = {}
     expired_feature_names = {}
     expiring_feature_names = {}
     User.with_expired_photo.each do |u|
       u.update_attribute(:paid_photo, false) if u.paid_photo?
       add_feature(expired_feature_names, u, "photo")
+    end
+    User.with_has_expired_photo.each do |u|
+      add_feature(has_expired_feature_names, u, "photo")
     end
     User.with_expiring_photo(7.days.from_now).each do |u|
       add_feature(expiring_feature_names, u, "photo")
@@ -68,11 +72,14 @@ class TaskUtils
       feature_count = u.paid_gift_vouchers - u.count_not_expiring_gift_vouchers()
       add_feature(expiring_feature_names, u, help.pluralize(feature_count, "gift voucher"))
     end
+    has_expired_feature_names.keys.each do |u|
+      u.warn_has_expired_features(has_expired_feature_names[u])
+    end
     expired_feature_names.keys.each do |u|
-      UserMailer.deliver_expired_features(u, expired_feature_names[u]) unless expired_feature_names[u].blank?
+      u.warn_expired_features(expired_feature_names[u])
     end
     expiring_feature_names.keys.each do |u|
-      UserMailer.deliver_expiring_features(u, expiring_feature_names[u]) unless expiring_feature_names[u].blank?
+      u.warn_expiring_features_in_one_week(expiring_feature_names[u])
     end
   end
   

@@ -77,13 +77,14 @@ class User < ActiveRecord::Base
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
   named_scope :with_expired_photo, :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until < now()"
-  named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until > now() AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_has_expired_photo, :conditions => "paid_photo IS FALSE AND paid_photo_until IS NOT NULL AND now() > paid_photo_until + interval '3 days' AND feature_warning_sent < paid_photo_until + interval '3 days'"
+  named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until > now() AND feature_warning_sent IS NULL AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
   named_scope :with_expired_highlighted, :conditions => "paid_highlighted IS TRUE AND paid_highlighted_until IS NOT NULL AND paid_highlighted_until < now()"
-  named_scope :with_expiring_highlighted, lambda { |warning_period| { :conditions => "paid_highlighted IS TRUE AND paid_highlighted_until IS NOT NULL AND paid_highlighted_until > now() AND paid_highlighted_until < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expiring_highlighted, lambda { |warning_period| { :conditions => "paid_highlighted IS TRUE AND paid_highlighted_until IS NOT NULL AND paid_highlighted_until > now() AND feature_warning_sent IS NULL AND paid_highlighted_until < '#{warning_period.to_s(:db)}'"}}
   named_scope :with_expired_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check < now()"
-  named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND feature_warning_sent IS NULL AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
   named_scope :with_expired_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check < now()"
-  named_scope :with_expiring_gift_vouchers, lambda { |warning_period| { :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now() AND paid_gift_vouchers_next_date_check < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expiring_gift_vouchers, lambda { |warning_period| { :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now() AND feature_warning_sent IS NULL AND paid_gift_vouchers_next_date_check < '#{warning_period.to_s(:db)}'"}}
 
   
   # #around filters
@@ -99,6 +100,20 @@ class User < ActiveRecord::Base
 
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
+  
+  def warn_has_expired_features(has_expired_feature_names)
+    UserMailer.deliver_has_expired_features(self, has_expired_feature_names) unless has_expired_feature_names.blank?
+    self.update_attribute(:feature_warning_sent, Time.now)
+  end
+  
+  def warn_expired_features(expired_feature_names)
+    UserMailer.deliver_expired_features(self, expired_feature_names) unless expired_feature_names.blank?
+  end
+  
+  def warn_expiring_features_in_one_week(expiring_feature_names)
+    UserMailer.deliver_expiring_features(self, expiring_feature_names) unless expiring_feature_names.blank?
+    self.update_attribute(:feature_warning_sent, Time.now)
+  end
   
   def self.get_emails_from_string(email_string)
     emails = email_string.split(/[ |,]/)

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100211031651) do
+ActiveRecord::Schema.define(:version => 20100216182130) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -575,6 +575,7 @@ ActiveRecord::Schema.define(:version => 20100211031651) do
     t.date     "paid_highlighted_until"
     t.date     "paid_gift_vouchers_next_date_check"
     t.date     "paid_special_offers_next_date_check"
+    t.datetime "feature_warning_sent"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
