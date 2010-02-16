@@ -1,4 +1,4 @@
 <% if session[:verify_human_count].blank? || session[:verify_human_count] > 10 -%>
   <a id="recaptcha_whatsthis_btn" href="http://recaptcha.net/popuphelp/" target="_blank" title="Help">Please type the words you see below in the box provided to prevent spam</a>
-  <%= recaptcha_tags({:display => {:theme => 'white'}, :ajax => true}) %>
+  <%= recaptcha_tags({:display => {:theme => 'white'}, :ajax => true, :ssl  => true}) %>
 <% end -%>
