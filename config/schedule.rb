@@ -35,7 +35,7 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
   runner "TaskUtils.check_feature_expiration"
-  command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
+  command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%Y-\\%m-\\%d`.sql", :output => {:error => '/var/log/cron_bam.log'}
   command "psql -U postgres be_amazing_production < script/delete_old_user_events.sql"
   command "tar cvfz /home/cyrille/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > /home/cyrille/tar.log", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
 end
