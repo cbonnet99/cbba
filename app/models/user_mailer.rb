@@ -55,6 +55,7 @@ class UserMailer < ActionMailer::Base
 	  @subject << "Renew anytime"
 		@body[:feature_names] = feature_names
 		@body[:url] = user_promote_url
+		@content_type = 'text/html'
   end
 
   def expired_features(user, feature_names)
@@ -63,6 +64,7 @@ class UserMailer < ActionMailer::Base
 	  @subject << "Time to renew your payment"
 		@body[:feature_names] = feature_names
 		@body[:url] = user_promote_url
+		@content_type = 'text/html'
   end
 
   def expiring_features(user, feature_names)
