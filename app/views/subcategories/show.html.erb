@@ -14,10 +14,10 @@
 <ul>
 <% content_for :sidebar_content do -%>
 	<% unless @articles.blank? -%>
-		<h3>Related articles</h3>
+		<h4>Related articles</h4>
 		<ul>
 		<% @articles.each do |a| -%>
-			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%> by <%= author_link(a.author)%></li>
+			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%></li>
 		<% end -%>
 	<% end -%>
 		</ul>
