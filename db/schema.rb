@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100218022856) do
+ActiveRecord::Schema.define(:version => 20100221191237) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -243,13 +243,10 @@ ActiveRecord::Schema.define(:version => 20100218022856) do
     t.integer  "test_sent_to_id"
     t.datetime "sent_at"
     t.string   "email_type"
-    t.boolean  "recipients_resident_experts", :default => false
-    t.boolean  "recipients_full_members",     :default => false
-    t.boolean  "recipients_free_users",       :default => false
-    t.boolean  "recipients_general_public",   :default => false
     t.integer  "creator_id"
     t.text     "sent_to"
     t.integer  "newsletter_id"
+    t.string   "recipients"
   end
 
   create_table "messages", :force => true do |t|

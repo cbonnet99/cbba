@@ -1,15 +1,14 @@
-<%= title "Send email" %>
+<%= title @title %>
 <% form_for @mass_email do |f| %>
+  <% unless @possible_recipients.size == 1 -%>
   <ul>
-        <% @possible_recipients.each do |k, v| -%>
           <li>
-          <%= f.label "recipients_#{k}".to_sym, v %>
-          <%= f.check_box "recipients_#{k}".to_sym %>
+          <%= f.select :recipients, @possible_recipients %>
           </li>
-        <% end -%>
+<% end -%>
       <div class="buttons">
         <label for=""></label>
-        <%= submit_tag 'Send', :name => "send" %>
+        <%= submit_tag 'Send now', :name => "send" %>
       </div>
 </ul>
 <% end %>

@@ -17,7 +17,7 @@ class Admin::MassEmailsController < AdminApplicationController
   end
 
   def new
-    @mass_email = MassEmail.new
+    @mass_email = MassEmail.new(:email_type => params[:email_type])
     @email_types = MassEmail::TYPES
   end
 
@@ -55,6 +55,18 @@ class Admin::MassEmailsController < AdminApplicationController
 
   def select_email_recipients
     @possible_recipients = MassEmail::RECIPIENTS
+    @title = "Send email"
+    unless @mass_email.newsletter.nil?
+      if @mass_email.email_type == "Business newsletter"
+        @title = "Send business newsletter"
+        @possible_recipients = ["Full members"]
+      end
+      if @mass_email.email_type == "Public newsletter"
+        @title = "Send public newsletter"
+        @possible_recipients = ["All subscribers"]
+      end
+      @title << " to #{@mass_email.recipients}" unless @mass_email.recipients.blank?
+    end
   end
 
   def send_test

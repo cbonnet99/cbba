@@ -1,5 +1,7 @@
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "emails" }  %>
 <%= title "Emails" %>
+<p><%= link_to "Send public newsletter", new_mass_email_url(:email_type => "Public newsletter" ) %></p>
+<p><%= link_to "Send business newsletter", new_mass_email_url(:email_type => "Business newsletter") %></p>
 <p><%= link_to "Create new email", new_mass_email_url %></p>
 <% if @mass_emails.blank? -%>
   No emails

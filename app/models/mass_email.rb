@@ -9,30 +9,25 @@ class MassEmail < ActiveRecord::Base
   validates_presence_of :subject 
   validates_presence_of :body, :if => Proc.new {|email| email.email_type == 'Normal'}
   validates_presence_of :newsletter, :if => Proc.new {|email| email.email_type == 'Newsletter'}
-
+    
   TYPES = ["Normal", "Public newsletter", "Business newsletter"]
 
-  RECIPIENTS = {:resident_experts => "Resident experts", :full_members => "Full members",
-    :free_users => "Free users", :general_public => "General public"}
+  RECIPIENTS = ["Full members", "All subscribers"]
 
   def newsletter?
     email_type == "Public newsletter" || email_type == "Business newsletter"
   end
 
   def no_recipients?
-    !recipients_full_members? && !recipients_resident_experts? && !recipients_free_users? && !recipients_general_public?
+    recipients.blank?
   end
 
   def check_newsletter
     if email_type == "Business newsletter"
-      self.recipients_full_members = true
-      self.recipients_resident_experts = true
+      self.recipients = "Full members"
     end
     if email_type == "Public newsletter"
-      self.recipients_full_members = true
-      self.recipients_resident_experts = true
-      self.recipients_general_public = true
-      self.recipients_free_users = true
+      self.recipients = "All subscribers"
     end
   end
 
@@ -75,12 +70,6 @@ class MassEmail < ActiveRecord::Base
       end
       if recipients_full_members
         all_users.concat(users_obj.full_members)
-      end
-      if recipients_resident_experts
-        all_users.concat(users_obj.resident_experts)
-      end
-      if recipients_free_users
-        all_users.concat(users_obj.free_users)
       end
       all_users.each do |u|
         if u.is_a?(User)
