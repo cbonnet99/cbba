@@ -185,7 +185,7 @@ class User < ActiveRecord::Base
   end
   
   def self.currently_selected_and_last_10_published(newsletter)
-    newsletter.users + self.find(:all, :include => "user_profile", :conditions => "user_profiles.published_at is not null",  :order => "published_at desc", :limit => 10)
+    newsletter.users | self.find(:all, :include => "user_profile", :conditions => "user_profiles.published_at is not null",  :order => "published_at desc", :limit => 10)
   end
   
 

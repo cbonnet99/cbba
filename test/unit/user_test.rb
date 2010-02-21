@@ -4,17 +4,17 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
-  # def test_create_tabs
-  #   cyrille = users(:cyrille)
-  #   old_size = cyrille.tabs.size
-  #   cyrille.subcategory2_id = subcategories(:yoga).id
-  #   cyrille.subcategory3_id = subcategories(:bach_flowers).id
-  #   cyrille.save!
-  #   cyrille.reload
-  #   assert_equal Tab::MAX_PER_USER, cyrille.tabs.size
-  #   assert_equal cyrille.subcategories[1].name, cyrille.tabs[1].title
-  #   assert_equal cyrille.subcategories[2].name, cyrille.tabs[2].title
-  # end
+  def test_currently_selected_and_last_10_published
+    newsletter = Factory(:newsletter)
+    user = Factory(:user)
+    user_profile = Factory(:user_profile, :user => user, :state => "published", :published_at => Time.now)
+    
+    newsletter.users << user
+    
+    my_users = User.currently_selected_and_last_10_published(newsletter)
+    
+    assert_equal 1, my_users.count(user), "New user #{user.name} doesn't appear once: #{my_users.map(&:name).to_sentence}"
+  end
   
   def test_get_emails_from_string
     emails = User.get_emails_from_string("joe@test.com jane@yahoo.fr bob@gmail.com")

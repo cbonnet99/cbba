@@ -18,6 +18,10 @@ Factory.define :subcategory do |sc|
   sc.association :category
 end
 
+Factory.define :user_profile do |f|
+  f.association :user
+end
+
 Factory.define :user do |f|
   f.sequence(:first_name) {|n| "User#{n}"}
   f.last_name "Name"
@@ -57,4 +61,16 @@ Factory.define :payment do |f|
   f.association :order
   f.payment_card_type "credit_card"
   f.amount 1500
+end
+
+Factory.define :newsletter do |f|
+  f.title "May newsletter"
+  f.state "published"
+  f.publisher {|p| p.association(:user) }
+  f.author {|author| author.association(:user) }
+  f.main_article "This is the main article"
+  f.competition "And our great competition"
+  f.bam_news "Here are some news"
+  f.upcoming_events "Coming soon"
+  f.quotation_quiz "Quiz"
 end
