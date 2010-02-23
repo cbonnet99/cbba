@@ -73,7 +73,7 @@ module ApplicationHelper
 
   def thumbnail_image(user)
     if user.paid_photo? && user.photo.exists? && (user.user_profile.published? || (logged_in? && current_user == user))
-      image_tag user.photo.url(:thumbnail), :width => 50
+      image_tag user.photo.url(:thumbnail), :width => 50, :alt => "#{user.name}, #{user.main_expertise_name}, #{user.try(:district).try(:region).try(:name)}" 
     else
       image_tag "nophoto.gif", :width => 50
     end
@@ -81,7 +81,7 @@ module ApplicationHelper
 
   def medium_image(user)
     if user.paid_photo? && user.photo.exists? && (user.user_profile.published? || (logged_in? && current_user == user))
-      image_tag user.photo.url(:medium), :width => 90
+      image_tag user.photo.url(:medium), :width => 90, :alt => "#{user.name}, #{user.main_expertise_name}, #{user.try(:district).try(:region).try(:name)}" 
     else
       image_tag "nophoto.gif", :width => 90
     end
