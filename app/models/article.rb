@@ -24,6 +24,18 @@ class Article < ActiveRecord::Base
 
 	MAX_LENGTH_SLUG = 20
 
+  def self.search(subcategory, category, district, region)
+    subcategories = category.subcategories unless category.nil?
+    subcategories = [subcategory] unless subcategory.nil?
+    if !subcategory.nil? && !region.nil?
+      Article.find_by_sql(["select a.* from articles a, articles_subcategories asub, districts d, users u where d.region_id = ? and d.id = u.district_id and u.id = a.author_id and a.state = 'published' and a.id = asub.article_id and asub.subcategory_id in (?)", region.id, subcategories])
+    end
+    if !subcategory.nil? && !district.nil?
+      Article.find_by_sql(["select a.* from articles a, articles_subcategories asub, users u where u.district_id = ? and u.id = a.author_id and a.state = 'published' and a.id = asub.article_id and asub.subcategory_id in (?)", district.id, subcategories])
+    end
+    
+  end
+  
   def remove_html_from_lead
     self.lead = self.lead.gsub(/<\/?[^>]*>/,"")
   end

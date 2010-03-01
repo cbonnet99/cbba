@@ -1,5 +1,7 @@
 <%= render :partial => "back_links" %>
-<%= title @special_offer.title %>
+<% page_title @special_offer.title %>
+<% page_description @special_offer.short_description%>
+<% page_author @special_offer.author.try(:name)%>
 <%if (is_author?(@special_offer) || (is_admin? && !@special_offer.approved?)) -%>
 <div class="publication-actions">
 	<%= render :partial => "reviewer/publication_actions", :locals => {:item => @special_offer, :class_name => "special_offer" }   %>

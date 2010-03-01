@@ -47,8 +47,7 @@ class SearchController < ApplicationController
         end
         log_bam_user_event UserEvent::SEARCH, "", "what: #{@what}, where: #{@where}, category: #{@category.try(:name)}, subcategory: #{@subcategory.try(:name)}, region: #{@region.try(:name)}, district: #{@district.try(:name)}, found #{@results.size} results", {:district_id => @district ? @district.id : nil, :category_id => @category ? @category.id : nil, :subcategory_id => @subcategory ? @subcategory.id : nil, :region_id => @region ? @region.id : nil, :results_found => results_size, :what => @what, :where => @where}
         
-        @articles = Article.find_all_by_subcategories(@subcategory) unless @subcategory.blank?        
-        @articles = Article.find_all_by_subcategories(*@category.subcategories) unless @category.blank?
+        @articles = Article.search(@subcategory, @category, @district, @region)
         
         if @results.blank? && !@selected_user.nil?
             redirect_to expanded_user_url(@selected_user, :what => @what, :where => @where) unless @selected_user.nil?

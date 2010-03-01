@@ -6,13 +6,17 @@ ul.category li {width: 40%; float: left;}
 p#number-users a {text-decoration: none;}
 p#number-users a:hover {text-decoration: underline;}
 ul#search-results .user-description h3, ul.subcategories .user-description h3 {color: #555555;} 
+ul#search-results .user-description h3 a, ul.subcategories .user-description h3 a {color: #555555; text-decoration: none; font-size: 18px;} 
+ul#search-results .user-description h3 a:hover, ul.subcategories .user-description h3 a:hover {text-decoration: underline;} 
 ul#search-results .user-highlighted h3, ul.subcategories .user-highlighted h3 {color: #20ACCD;} 
+ul#search-results .user-highlighted h3 a, ul.subcategories .user-highlighted h3 a {color: #20ACCD; text-decoration: none; font-size: 18px;} 
+ul#search-results .user-highlighted h3 a:hover, ul.subcategories .user-highlighted h3 a:hover {text-decoration: underline;} 
 ul#search-results li, ul.subcategories li{padding-bottom:10px; overflow:hidden;}
 ul#search-results li .user-description, ul.subcategories li .user-description {margin: 0 0 5px 0; padding: 0 0 9px 9px;}
 p#number-users{color:#20ACCD;}
 p#number-users em{font-weight: bold;}
 blockquote.quote{font-weight: bold; font-size: 12px; background-color: lightgrey; border: 1px solid grey; text-align: center; padding: 5px;}
-#contentMain .user-highlighted h3, #contentMain .user-highlighted p {font-weight: bold;}
+#contentMain .user-highlighted h3, #contentMain .user-highlighted h3 a, #contentMain .user-highlighted p {font-weight: bold;}
 #contentMain #bam-meet-expert .user-highlighted {border: none; background-color: transparent;}
 #contentMain .user-highlighted {margin: 3px; background-color: #FEFDE3;}
 #contentMain ol#add-features-list li.help {margin-bottom: 15px;}

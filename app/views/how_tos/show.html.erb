@@ -3,6 +3,8 @@
 <div class="heading-photo"><%= thumbnail_image(@how_to.author) %></div>
 <div class="heading-title">
 	<%= title @how_to.title %>
+	<% page_description(@how_to.summary)%>
+	<% page_author(@how_to.author.try(:name))%>
 	<div class="publication-author">by <%= author_link(@how_to.author) %></div>
 </div>
 <%if (is_author?(@how_to) || (is_admin? && !@how_to.approved?))%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @how_to, :class_name => "how_to" }   %>

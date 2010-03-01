@@ -1,5 +1,8 @@
 <%= render :partial => "back_links" %>
-<%= title @gift_voucher.title %>
+<% page_title @gift_voucher.title %>
+<% page_description @gift_voucher.short_description%>
+<% page_author @gift_voucher.author.try(:name)%>
+
 <%if (is_author?(@gift_voucher) || (is_admin? && !@gift_voucher.approved?))%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @gift_voucher, :class_name => "gift_voucher" }   %>
 <% if is_author?(@gift_voucher) -%>
 <div>

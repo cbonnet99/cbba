@@ -65,10 +65,10 @@ class MassEmail < ActiveRecord::Base
         contact_obj = Contact
       end
       all_users = []
-      if recipients_general_public
+      if recipients == "All subscribers"
         all_users.concat(contact_obj.all)
       end
-      if recipients_full_members
+      if recipients == "Full members"
         all_users.concat(users_obj.full_members)
       end
       all_users.each do |u|

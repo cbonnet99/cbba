@@ -21,27 +21,23 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
   def test_create_biz
     post :create, {:mass_email => {:subject => "Test", :body => "This is cool", :email_type => "Business newsletter"  }}, {:user_id => users(:cyrille).id }
     assert_equal "Successfully created email.", flash[:notice]
-    assert assigns(:mass_email).recipients_full_members?
-    assert assigns(:mass_email).recipients_resident_experts?
+    assert_equal "Full members", assigns(:mass_email).recipients
   end
 
   def test_create_public_newsletter
     post :create, {:mass_email => {:subject => "Test", :newsletter_id => newsletters(:may_published), :email_type => "Public newsletter"  }}, {:user_id => users(:cyrille).id }
     assert_equal "Successfully created email.", flash[:notice]
-    assert assigns(:mass_email).recipients_full_members?
-    assert assigns(:mass_email).recipients_resident_experts?
-    assert assigns(:mass_email).recipients_general_public?
-    assert assigns(:mass_email).recipients_free_users?
+    assert_equal "All subscribers", assigns(:mass_email).recipients
   end
 
   def test_update_newsletter
     old_size = UserEmail.all.size
     
     email_public_newsletter = mass_emails(:email_public_newsletter)
-    post :update, {:send => "Send", :id => email_public_newsletter.id, :mass_email => {:recipients_full_members => true }  }, {:user_id => users(:cyrille).id }
+    post :update, {:send => "Send", :id => email_public_newsletter.id, :mass_email => {:recipients => "Full members" }  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     email_public_newsletter.reload
-    assert email_public_newsletter.recipients_full_members
+    assert_equal "Full members", email_public_newsletter.recipients
     assert_not_nil email_public_newsletter.sent_at
 
     assert_equal old_size+User.active.full_members.size, UserEmail.all.size
@@ -52,10 +48,10 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     old_size = UserEmail.all.size
     
     test_email = mass_emails(:test_email)
-    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:recipients_full_members => true }  }, {:user_id => users(:cyrille).id }
+    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:recipients => "Full members" }  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     test_email.reload
-    assert test_email.recipients_full_members
+    assert_equal "Full members", test_email.recipients
     assert_not_nil test_email.sent_at
 
     assert_equal old_size+User.active.full_members.size, UserEmail.all.size
@@ -65,7 +61,7 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     old_size = UserEmail.all.size
     
     test_email = mass_emails(:test_email)
-    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:subject => "", :recipients_full_members => true }  }, {:user_id => users(:cyrille).id }
+    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:subject => "", :recipients => "Full members" }  }, {:user_id => users(:cyrille).id }
     assert_response :success
     assert_template 'edit'
   end
@@ -74,28 +70,13 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     old_size = UserEmail.all.size
     
     test_email = mass_emails(:test_email)
-    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:recipients_full_members => true, :recipients_free_users => true }  }, {:user_id => users(:cyrille).id }
+    post :update, {:send => "Send", :id => test_email.id, :mass_email => {:recipients => "Full members"}  }, {:user_id => users(:cyrille).id }
     assert_redirected_to :action => "show"
     test_email.reload
-    assert test_email.recipients_full_members
-    assert test_email.recipients_free_users
+    assert_equal "Full members", test_email.recipients
     assert_not_nil test_email.sent_at
 
-    assert_equal old_size+User.active.full_members.size+User.free_users.size, UserEmail.all.size
-  end
-
-  def test_update3
-    old_size = UserEmail.all.size
-    
-    simple = mass_emails(:simple)
-    post :update, {:send => "Send", :id => simple.id, :mass_email => {:recipients_full_members => true, :recipients_general_public => true }  }, {:user_id => users(:cyrille).id }
-    assert_redirected_to :action => "show"
-    simple.reload
-    assert simple.recipients_full_members
-    assert simple.recipients_general_public
-    assert_not_nil simple.sent_at
-
-    assert_equal old_size+User.active.full_members.size+Contact.all.size, UserEmail.all.size
+    assert_equal old_size+User.active.full_members.size, UserEmail.all.size
   end
 
   def test_edit

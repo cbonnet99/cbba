@@ -1,5 +1,13 @@
 module ApplicationHelper
 
+  def link_to_other_subcats(user, subcat)
+    res = user.other_expertise_names(subcat).inject([]) do |memo, name|
+      tab = name.parameterize
+      memo << link_to(name, expanded_user_tabs_url(user, tab))
+    end
+    res.to_sentence
+  end
+
   def str_to_bool(str)
     if str.is_a?(TrueClass) || str.is_a?(FalseClass)
       return str
@@ -364,6 +372,14 @@ module ApplicationHelper
 
   def page_title(str)
     @page_title = "#{APP_CONFIG[:site_name]} - #{str}"
+  end
+  
+  def page_description(str)
+    @page_description = str
+  end
+
+  def page_author(str)
+    @page_author = str
   end
 
   # Outputs the corresponding flash message if any are set

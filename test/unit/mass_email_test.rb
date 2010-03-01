@@ -7,7 +7,7 @@ class MassEmailTest < ActiveSupport::TestCase
     old_size = UserEmail.all.size
     
     test_password = mass_emails(:test_password)
-    test_password.recipients_full_members = true
+    test_password.recipients = 'Full members'
     test_password.deliver
     assert_equal old_size+User.active.full_members.size, UserEmail.all.size
     assert_equal "<br/>#{User.active.full_members.map(&:name_with_email).join('<br/>')}", test_password.sent_to

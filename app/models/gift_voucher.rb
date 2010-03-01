@@ -11,6 +11,14 @@ class GiftVoucher < ActiveRecord::Base
   validates_presence_of :title, :description
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your gift vouchers" 
 
+  def short_description
+    if description.nil?
+      ""
+    else
+      description[0..300]
+    end
+  end
+
   def to_param
     slug
   end

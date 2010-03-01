@@ -2,6 +2,9 @@ class VirtualTab < Struct.new( :slug, :title, :partial, :nav)
   def virtual?
     true
   end
+  def content
+    title
+  end
 end
 class Tab < ActiveRecord::Base
 

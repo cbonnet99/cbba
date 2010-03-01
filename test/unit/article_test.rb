@@ -2,6 +2,18 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
 
+  def test_search_region
+    welly = regions(:wellington)
+    yoga = subcategories(:yoga)
+    assert !Article.search(yoga, nil, nil, welly)
+  end
+
+  def test_search_city
+    welly_city = districts(:wellington_wellington_city)
+    yoga = subcategories(:yoga)
+    assert !Article.search(yoga, nil, welly_city, nil)
+  end
+
   def test_all_featured_articles
     money = how_tos(:money)
     articles = Article.all_featured_articles

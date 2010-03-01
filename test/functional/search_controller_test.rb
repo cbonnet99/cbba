@@ -64,6 +64,7 @@ class SearchControllerTest < ActionController::TestCase
 		assert_equal 3, assigns(:results).size
 		#full members should be listed first
 		assert_equal sgardiner, assigns(:results).first, "full members should be listed first"
+		assert !assigns(:articles).blank?
   end
 
   def test_empty_search

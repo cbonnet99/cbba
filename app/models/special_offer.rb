@@ -23,6 +23,14 @@ class SpecialOffer < ActiveRecord::Base
   IMAGE_BOTTOM = "/images/bam-logo.jpg"
   TEXT_BOTTOM2 = "We make having a choice about your wellbeing easy!"
 
+  def short_description
+    if description.nil?
+      ""
+    else
+      description[0..300]
+    end
+  end
+
   def self.all_offers(user)
     special_offers = SpecialOffer.find_all_by_author_id(user.id, :order => "state, updated_at desc")
     gift_vouchers = GiftVoucher.find_all_by_author_id(user.id, :order => "state, updated_at desc")

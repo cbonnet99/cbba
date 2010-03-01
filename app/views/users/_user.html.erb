@@ -2,10 +2,10 @@
 <div class="user-description<%if user.paid_highlighted?%> user-highlighted<%end%>">
 <%unless user.free_listing?%><h4 class="<%=user.css_role_description%>"><%= user.role_description %></h4>
 <div class="user-photo"><%= thumbnail_image(user) %></div><%end%>
-<%if user.free_listing?%><h4><%else%><h3><%end%><%= user.name %> - <%= user.key_expertise_name(@subcategory)%><%if user.free_listing?%></h4><%else%></h3><%end%>
+<%if user.free_listing?%><h4><%else%><h3><%end%><% if user.user_profile.published?%><%= link_to "#{user.name} - #{user.key_expertise_name(@subcategory)}", expanded_user_url(user)%><%else%><%= user.name %> - <%= user.key_expertise_name(@subcategory)%><%end%><%if user.free_listing?%></h4><%else%></h3><%end%>
   <%if user.free_listing?%><a class="bam-show-more-details" id="bam-show-more-details-<%=user.id%>" href="#">Show more details</a><%end%>
   <div class="bam-user-details" <%if user.free_listing?%>style="display: none"<%end%>>
-	<%unless user.other_expertise_names(@subcategory).blank? %><p>Also offers: <%=  user.other_expertise_names(@subcategory).to_sentence %></p><%end%>
+	<%unless user.other_expertise_names(@subcategory).blank? %><p>Also offers: <%=  link_to_other_subcats(user, @subcategory) %></p><%end%>
 	<p><%=  user.business_name %><%unless user.business_name.blank?%>, <%end%><%=  user.region_name %></p>
 	</div>
 	<div class="cleaner"></div>

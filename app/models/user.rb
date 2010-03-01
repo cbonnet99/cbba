@@ -101,6 +101,22 @@ class User < ActiveRecord::Base
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   
+  def short_description_from_tabs(selected_tab)
+    if selected_tab.nil?
+      if self.tabs.first.nil?
+        ""
+      else
+        self.tabs.first.content[0..300].gsub(/<\/?[^>]*>/,  "")
+      end
+    else
+      if selected_tab.content.nil?
+        ""
+      else
+        selected_tab.content[0..300].gsub(/<\/?[^>]*>/,  "")
+      end
+    end
+  end
+  
   def warn_has_expired_features(has_expired_feature_names)
     UserMailer.deliver_has_expired_features(self, has_expired_feature_names) unless has_expired_feature_names.blank?
     self.update_attribute(:feature_warning_sent, Time.now)
