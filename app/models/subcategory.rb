@@ -11,7 +11,8 @@ class Subcategory < ActiveRecord::Base
 	has_many :gift_vouchers
   has_many :expert_applications
   belongs_to :resident_expert, :class_name => "User"
-
+  
+  validates_presence_of :name
   validates_uniqueness_of :name, :message => "must be unique"
 
   named_scope :with_resident_expert, :conditions => "resident_expert_id is not null"
