@@ -6,5 +6,6 @@ find /home/cyrille/backups/* -type f -mtime +14 | xargs rm -Rf
 /var/rails/be_amazing/current/script/s3sync/s3sync.rb --debug -r /home/cyrille/backups/ backups.beamazing.co.nz:/ > /home/cyrille/s3sync.log 2> /home/cyrille/s3sync.log
 /var/rails/be_amazing/current/script/s3sync/s3sync.rb --debug -r /etc/nginx/sites-available backups.beamazing.co.nz:/ > /home/cyrille/s3sync.log 2> /home/cyrille/s3sync.log
 /var/rails/be_amazing/current/script/s3sync/s3sync.rb --debug /etc/nginx/www-server.key backups.beamazing.co.nz:/ > /home/cyrille/s3sync.log 2> /home/cyrille/s3sync.log
+/var/rails/be_amazing/current/script/s3sync/s3sync.rb --debug /etc/nginx/beamazing.co.nz.pem backups.beamazing.co.nz:/ > /home/cyrille/s3sync.log 2> /home/cyrille/s3sync.log
 /var/rails/be_amazing/current/script/s3sync/s3sync.rb --debug -r /etc/apache2/sites-available backups.beamazing.co.nz:/ > /home/cyrille/s3sync.log 2> /home/cyrille/s3sync.log
 /var/rails/be_amazing/current/script/s3sync/s3sync.rb --debug /etc/varnish/default.vcl backups.beamazing.co.nz:/ > /home/cyrille/s3sync.log 2> /home/cyrille/s3sync.log
