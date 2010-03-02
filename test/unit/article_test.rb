@@ -5,13 +5,15 @@ class ArticleTest < ActiveSupport::TestCase
   def test_search_region
     welly = regions(:wellington)
     yoga = subcategories(:yoga)
-    assert !Article.search(yoga, nil, nil, welly)
+    search_res = Article.search(yoga, nil, nil, welly)
+    assert !search_res.blank?, "Search results should not be empty"
   end
 
   def test_search_city
     welly_city = districts(:wellington_wellington_city)
     yoga = subcategories(:yoga)
-    assert !Article.search(yoga, nil, welly_city, nil)
+    search_res = Article.search(yoga, nil, welly_city, nil)
+    assert !search_res.blank?
   end
 
   def test_all_featured_articles
