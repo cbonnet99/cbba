@@ -52,19 +52,18 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal 3, assigns(:results).size
   end
   
-  def test_search
+  def test_search2
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
 		sgardiner = users(:sgardiner)
+		norma = users(:norma)
+		norma.paid_photo = true
+		norma.save!
+		norma.reload
 		get :search, :where => canterbury_christchurch_city.name, :what => hypnotherapy.name
 		assert_response :success
-    assert_match %r{View full profile}, @response.body
-    assert @response.body =~ /Full profile coming soon/
-#		puts "========== #{assigns(:results).inspect}"
-		assert_equal 3, assigns(:results).size
-		#full members should be listed first
-		assert_equal sgardiner, assigns(:results).first, "full members should be listed first"
-		assert !assigns(:articles).blank?
+		assert_equal 3, assigns(:results).size, "Results were: #{assigns(:results).map(&:name).to_sentence}"
+		assert_equal norma, assigns(:results).first, "User with paid photo should be listed first"
   end
 
   def test_empty_search
