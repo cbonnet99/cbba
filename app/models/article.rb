@@ -18,9 +18,8 @@ class Article < ActiveRecord::Base
   validates_length_of :body, :maximum => 100000
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your articles" 
 
-	after_create :create_slug
-	before_create :remove_html_from_lead
-	before_update :remove_html_from_lead
+	before_create :remove_html_from_lead, :update_slug
+	before_update :remove_html_from_lead, :update_slug
 
 	MAX_LENGTH_SLUG = 20
 
@@ -108,11 +107,23 @@ class Article < ActiveRecord::Base
     Article.find_by_sql([query, name])
   end
 
-	def create_slug
-		self.update_attribute(:slug, computed_slug)
+	def update_slug
+		self.slug = computed_slug
 	end
 
+  def recompute_slug(old_slug)
+    old_slug << rand(9)
+    if old_slug.size > MAX_LENGTH_SLUG
+      old_slug = old_slug[1..MAX_LENGTH_SLUG-1]
+    end
+    old_slug
+  end
+
 	def computed_slug
-		help.shorten_string(title, MAX_LENGTH_SLUG, "").parameterize
+		res = help.shorten_string(title, MAX_LENGTH_SLUG, "").parameterize
+		while self.author.articles.find_by_slug(res) do
+		  res = recompute_slug(res)
+	  end
+	  res
 	end
 end

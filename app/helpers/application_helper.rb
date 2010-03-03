@@ -338,12 +338,16 @@ module ApplicationHelper
 				return str
 			else
 				words = str.split(" ")
-				words.pop
-				while words.join(" ").size > max_size do
-					words.pop
-				end
+				if words[0].size > max_size
+				  return words[0][0..max_size-1]
+			  else
+  				words.pop
+  				while words.join(" ").size > max_size do
+  					words.pop
+  				end
 
-				return words.join(" ") + extension
+  				return words.join(" ") + extension
+				end
 			end
 		end
 	end

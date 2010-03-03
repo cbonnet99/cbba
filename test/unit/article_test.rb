@@ -2,6 +2,26 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
 
+  def test_unique_slugs
+    user = Factory(:user)
+    article1 = Factory(:article, :title => "This is a test", :author => user)
+    article1.update_attributes(:title => "Other title")
+    article2 = Factory(:article, :title => "This is a test", :author => user)
+    assert_not_equal article1.slug, article2.slug
+  end
+
+  def test_shorten_string
+    assert_equal "a"*20, help.shorten_string("a"*21, 20, "").parameterize
+  end
+
+  def test_unique_slugs_for_long_titles
+    user = Factory(:user)
+    article1 = Factory(:article, :title => "a"*Article::MAX_LENGTH_SLUG+"1", :author => user)
+    article2 = Factory(:article, :title => "a"*Article::MAX_LENGTH_SLUG+"2", :author => user)
+    assert !article1.slug.blank?
+    assert_not_equal article1.slug, article2.slug
+  end
+
   def test_search_region
     welly = regions(:wellington)
     yoga = subcategories(:yoga)

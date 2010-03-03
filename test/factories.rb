@@ -42,6 +42,7 @@ Factory.define :article do |f|
   f.author {|author| author.association(:user) }
   f.lead "Bla"
   f.body "Bla"
+  f.subcategory1_id {|s| s.association(:subcategory) }
 end
 
 Factory.define :articles_subcategories do |asu|
