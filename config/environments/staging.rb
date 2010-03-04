@@ -14,7 +14,7 @@ config.cache_classes = true
 # Use a different logger for distributed setups
 $:.unshift File.join(RAILS_ROOT, "vendor", "SyslogLogger-1.4.0", "lib")
 require 'syslog_logger'
-config.logger = SyslogLogger.new
+config.logger = RAILS_DEFAULT_LOGGER = SyslogLogger.new('bam_staging')
 
 # Full error reports are disabled and caching is turned on
 config.action_controller.consider_all_requests_local = false
