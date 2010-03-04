@@ -1,6 +1,7 @@
 class HowTo < ActiveRecord::Base
 	include SubcategoriesSystem
   include Workflowable
+  include Sluggable
 
   has_many :how_to_steps, :order => "position", :dependent => :destroy
   belongs_to :author, :class_name => "User", :counter_cache => true
@@ -17,8 +18,7 @@ class HowTo < ActiveRecord::Base
   validates_associated :how_to_steps
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your 'how to' articles" 
 
-	after_create :create_slug
-	before_update :update_slug, :remove_html_from_summary
+	before_update :remove_html_from_summary
 	before_create :remove_html_from_summary
   after_update :save_steps
 
@@ -39,19 +39,7 @@ class HowTo < ActiveRecord::Base
       errors.add(:subcategory1_id, "^You must select at least one category")
     end
   end
-  
-	def create_slug
-		self.update_attribute(:slug, computed_slug)
-	end
-
-	def update_slug
-		self.slug = computed_slug
-	end
-
-	def computed_slug
-		help.shorten_string(title, MAX_LENGTH_SLUG, "").parameterize
-	end
-  
+    
   def new_step_attributes=(step_attributes)
     step_attributes.each do |attributes|
       how_to_steps.build(attributes)

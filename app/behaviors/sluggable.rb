@@ -3,8 +3,8 @@ module Sluggable
 
     base.send :include, WorkflowInstanceMethods
     base.send :extend, WorkflowClassMethods
-    base.send :before_create, :create_slug
-    base.send :before_update, :create_slug
+    base.send :before_create, :update_slug
+    base.send :before_update, :update_slug
   end
   
   module WorkflowClassMethods
@@ -15,16 +15,38 @@ module Sluggable
       self.slug
     end
 
-  	def create_slug
+  	def update_slug
   		self.slug = computed_slug
   	end
 
+    def recompute_slug(old_slug)
+      old_slug << rand(9)
+      if old_slug.size > Article::MAX_LENGTH_SLUG
+        old_slug = old_slug[1..Article::MAX_LENGTH_SLUG-1]
+      end
+      old_slug
+    end
+
   	def computed_slug
+  	  if respond_to?(:title)
+  	    p = title
+	    end
   	  if respond_to?(:full_name)
-  	    full_name.parameterize
-	    else
-  		  name.parameterize
-		  end
-  	end    
+  	    p = full_name
+	    end
+	    if p.blank?
+	      p = name
+      end
+  	  
+  		if self.respond_to?(:author)
+    		res = help.shorten_string(p, Article::MAX_LENGTH_SLUG, "").parameterize
+    		while self.author.articles.find_by_slug(res) do
+    		  res = recompute_slug(res)
+    	  end
+  	  else
+  	    res = p.parameterize
+  	  end
+  	  res
+  	end
   end
 end

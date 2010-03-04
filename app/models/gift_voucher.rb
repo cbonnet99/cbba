@@ -1,13 +1,12 @@
 class GiftVoucher < ActiveRecord::Base
   include Workflowable
+  include Sluggable
 
   belongs_to :author, :class_name => "User", :counter_cache => true
   belongs_to :subcategory
   has_many :gift_vouchers_newsletters
   has_many :newsletters, :through => :gift_vouchers_newsletters 
   
-  after_create :create_slug
-
   validates_presence_of :title, :description
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your gift vouchers" 
 
@@ -18,18 +17,6 @@ class GiftVoucher < ActiveRecord::Base
       description[0..300]
     end
   end
-
-  def to_param
-    slug
-  end
-  
-	def create_slug
-		self.update_attribute(:slug, computed_slug)
-	end
-
-	def computed_slug
-		title.parameterize
-	end
 	
 	def self.count_published_gift_vouchers
 	  GiftVoucher.find_all_by_state("published").size

@@ -1,5 +1,6 @@
 class SpecialOffer < ActiveRecord::Base
   include Workflowable
+  include Sluggable
   #  include WhiteListHelper
   
   belongs_to :author, :class_name => "User", :counter_cache => true
@@ -7,7 +8,7 @@ class SpecialOffer < ActiveRecord::Base
   has_many :newsletters_special_offers
   has_many :newsletters, :through => :newsletters_special_offers 
   
-  after_create :create_slug, :save_pdf_filename, :generate_pdf
+  after_create :save_pdf_filename, :generate_pdf
   after_update :generate_pdf
   validates_presence_of :title, :description, :how_to_book, :terms
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your special offers" 
@@ -73,21 +74,9 @@ class SpecialOffer < ActiveRecord::Base
     pdf.save_as(PDF_SUFFIX_ABSOLUTE+pdf_filename)
   end
 
-  def to_param
-    slug
-  end
-
   def save_pdf_filename
 		self.update_attribute(:filename, pdf_filename)
   end
-
-	def create_slug
-		self.update_attribute(:slug, computed_slug)
-	end
-
-	def computed_slug
-		title.parameterize
-	end
 
   def pdf_directory
     "#{PDF_SUFFIX_RELATIVE}/#{author.slug}"
