@@ -3,7 +3,11 @@ module ApplicationHelper
   def link_to_other_subcats(user, subcat)
     res = user.other_expertise_names(subcat).inject([]) do |memo, name|
       tab = name.parameterize
-      memo << link_to(name, expanded_user_tabs_url(user, tab))
+      if user.user_profile.published?
+        memo << link_to(name, expanded_user_tabs_url(user, tab))
+      else
+        memo << name
+      end
     end
     res.to_sentence
   end
