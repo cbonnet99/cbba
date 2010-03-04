@@ -1,6 +1,6 @@
-role :app, "75.101.132.186"
-role :web, "75.101.132.186"
-role :db, "75.101.132.186", :primary => true
+role :app, "staging.beamazing.co.nz"
+role :web, "staging.beamazing.co.nz"
+role :db, "staging.beamazing.co.nz", :primary => true
 set :user,          "cyrille"
 set :runner,        "cyrille"
 set :password,  "mavslr55"
