@@ -37,6 +37,7 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.check_feature_expiration"
   command "cp /etc/apache2/sites-available/be_amazing_staging /home/cyrille/backups/apache-be_amazing_staging"
   command "cp /etc/apache2/sites-available/be_amazing /home/cyrille/backups/apache-be_amazing"
+  command "cp /etc/apache2/sites-available/redmine /home/cyrille/backups/apache-redmine"
   command "cp /etc/nginx/sites-available/beamazing_staging /home/cyrille/backups/nginx-beamazing_staging"
   command "cp /etc/nginx/sites-available/beamazing /home/cyrille/backups/nginx-beamazing"
   command "cp /etc/nginx/www-server.key /home/cyrille/backups/"
