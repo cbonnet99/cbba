@@ -17,6 +17,10 @@ class Subcategory < ActiveRecord::Base
 
   named_scope :with_resident_expert, :conditions => "resident_expert_id is not null"
 
+  def has_users?
+    !users_counter.nil? && users_counter > 0
+  end
+
   def last_articles(number_articles)
     self.articles.published.find(:all, :order => "published_at desc", :limit => number_articles)
   end

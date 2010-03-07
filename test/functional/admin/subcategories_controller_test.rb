@@ -10,4 +10,17 @@ class Admin::SubcategoriesControllerTest < ActionController::TestCase
     assert_not_nil flash[:notice]
     assert_equal old_size+1, Subcategory.all.size
   end
+  
+  def test_index
+    get :index, {}, {:user_id => users(:cyrille).id }
+    assert_response :success
+    assert !assigns(:subcategories).blank?
+  end
+  
+  def test_destroy
+    s = Subcategory.first
+    old_size = Subcategory.all.size
+    post :destroy, {:id => s.slug}, {:user_id => users(:cyrille).id }
+    assert_equal old_size-1, Subcategory.all.size
+  end
 end

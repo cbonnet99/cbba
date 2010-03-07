@@ -1,0 +1,9 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "subcats" }  %>
+<%= title "Subcategories"%>
+<%= link_to "Add new subcategory", new_admin_subcategory_url%>
+<ul id="admin-subcats">
+<% @subcategories.each do |s| -%>
+	<li class="<%= cycle('odd', 'even')%>"><%= s.category.name%> - <%= s.name%> | <% if s.has_users?%>Delete and transfer existing users to: <%else%><%= link_to "Delete", admin_subcategory_url(s), :method => "delete"%><%end%></li>
+<% end -%>
+</ul>
+	

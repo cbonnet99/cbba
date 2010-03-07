@@ -14,5 +14,19 @@ class Admin::SubcategoriesController < AdminApplicationController
       render :action => "new" 
     end
   end
-  
+
+  def index
+    @subcategories = Subcategory.find(:all, :include => :category, :order => "categories.name")
+  end
+
+  def destroy
+    @subcategory = Subcategory.find_by_slug(params[:id])
+    if @subcategory.nil?
+      flash[:error] = "Could not find this subcategory"
+    else
+      @subcategory.destroy
+      flash[:notice] = "Subcategory deleted"
+    end
+    redirect_to :action => "index" 
+  end
 end

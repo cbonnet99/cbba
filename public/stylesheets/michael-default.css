@@ -1,3 +1,5 @@
+#admin-subcats li{list-style: none;}
+#admin-subcats li.odd  {background: #b3c4d4;}
 .column #sidebar-related-content h4, #sidebar-related-content {margin: 8px;}
 #sidebar-related-content {padding: 0 0 0 0; margin: 0 0 0 0;}
 #sidebar-related-content h4 {padding: 0 0 0 0;}
