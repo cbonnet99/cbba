@@ -1,3 +1,5 @@
+#contentMain #admin-subcats form input{float: none;}
+#contentMain ul#admin-subcats {margin: 0;}
 #admin-subcats li{list-style: none;}
 #admin-subcats li.odd  {background: #b3c4d4;}
 .column #sidebar-related-content h4, #sidebar-related-content {margin: 8px;}

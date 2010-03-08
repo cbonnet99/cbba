@@ -17,6 +17,7 @@ class Admin::SubcategoriesController < AdminApplicationController
 
   def index
     @subcategories = Subcategory.find(:all, :include => :category, :order => "categories.name")
+    @subcategories2 = Subcategory.find(:all, :include => :category, :order => "categories.name")
   end
 
   def destroy
@@ -24,8 +25,26 @@ class Admin::SubcategoriesController < AdminApplicationController
     if @subcategory.nil?
       flash[:error] = "Could not find this subcategory"
     else
-      @subcategory.destroy
-      flash[:notice] = "Subcategory deleted"
+      if !@subcategory.resident_expert.nil?
+        flash[:error] = "This subcategory has a resident expert and cannot be deleted"
+      else
+        if params[:new_subcategory_id]
+          @transfer_to = Subcategory.find(params[:new_subcategory_id])
+          if @transfer_to.nil?
+            flash[:error] = "Could not find the subcategory to transfer"
+          else
+            @subcategory.users.each do |u|
+              u.subcategories.delete(@subcategory)
+              u.subcategories << @transfer_to
+            end
+            @subcategory.destroy
+            flash[:notice] = "Subcategory deleted"
+          end
+        else
+          @subcategory.destroy
+          flash[:notice] = "Subcategory deleted"
+        end
+      end
     end
     redirect_to :action => "index" 
   end
