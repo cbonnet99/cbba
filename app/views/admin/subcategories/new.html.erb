@@ -1,7 +1,7 @@
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "subcats" }  %>
 
 <%= title "Add subcategories"%>
-<p>Please triple-check spelling, there is no edit function attached to this feature yet. Edits would need to go through Cyrille causing pain-in-bottom... Please also talk to Megan before adding new categories as some modalities have more than one name and Megan will know if we have something similar already. Thanks!</p>
+<p>Please talk to Megan before adding new categories as some modalities have more than one name and Megan will know if we have something similar already. Thanks!</p>
 <% form_for @subcategory, :url => admin_subcategories_url, :method => :post  do |f|-%>
 
 <%= render :partial => "form", :locals => {:f => f}   %>
