@@ -26,6 +26,7 @@ class UserEvent < ActiveRecord::Base
   STARTED_PAYMENT = "Started payment"
   PAYMENT_SUCCESS = "Payment successful"
   PAYMENT_FAILURE = "Payment failed"
+  VISIT_SUBCATEGORY = "Visit subcategory"
   
   def user_name
     if user.nil?

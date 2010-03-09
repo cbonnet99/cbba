@@ -46,9 +46,13 @@ class SubcategoriesControllerTest < ActionController::TestCase
   end
   
   def test_show
+    old_size = UserEvent.all.size
     yoga = subcategories(:yoga)
     get :show, :subcategory_slug => yoga.slug, :category_slug => yoga.category.slug
     assert_response :success
+    assert_equal old_size+1, UserEvent.all.size
+    last_event = UserEvent.last
+    assert_equal yoga.id, last_event.subcategory_id
   end
   
   def test_show_full_member
