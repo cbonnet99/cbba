@@ -62,13 +62,15 @@ class PaymentsController < ApplicationController
         if @payment.payment_card_type == "direct_debit"
           redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
         else
-          if @payment.purchase
+          @gateway_response = @payment.purchase
+          if @gateway_response.success?
             log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total)}")
             flash[:notice] = "Thank you for your payment. Features are now activated"
             redirect_to expanded_user_url(current_user)
           else
-            log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@payment.errors.full_messages.to_sentence}")
+            log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@gateway_response.message}")
             logger.debug "======= #{@payment.errors.inspect}"
+            flash[:error] = "There was a problem processing your payment. #{@gateway_response.message}"
             render :action => 'edit'
           end
         end

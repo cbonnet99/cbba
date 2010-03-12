@@ -123,7 +123,7 @@ class Payment < ActiveRecord::Base
     if response.success?
       self.mark_as_paid!
     end
-    response.success?
+    return response
   end
 
   def purchase_options

@@ -63,6 +63,25 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_equal (Time.now+1.year).to_date, pending_user.paid_gift_vouchers_next_date_check
   end
 
+  def test_pay_new_order_failure
+    pending_user = users(:pending_user)
+    new_order = Factory(:order, :user_id => pending_user.id, :photo => true, :highlighted => true, :special_offers => 2,
+        :gift_vouchers => 1 )
+    new_payment = new_order.payment
+    expires = Time.now.advance(:year => 1 )
+    put :update, {:id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
+      "city"=>"hjgjhgjhghg",
+      "card_number"=>"2",
+      "card_expires_on(1i)"=>expires.year.to_s,
+      "card_expires_on(2i)"=>expires.month.to_s,
+      "card_expires_on(3i)"=>expires.day.to_s,
+      "first_name"=>"hjggh",
+      "last_name"=>"gjhgjhgjhg",
+      "card_verification"=>"123"}}, {:user_id => pending_user.id }
+    assert_response :success    
+    assert_equal "There was a problem processing your payment. Bogus Gateway: Forced failure", flash[:error]
+  end
+
   def test_pay_extended_order
     pending_user = users(:pending_user)
     expires = Time.now.advance(:year => 1 )

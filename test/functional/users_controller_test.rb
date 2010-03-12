@@ -232,7 +232,8 @@ class UsersControllerTest < ActionController::TestCase
 
 		post :publish, {}, {:user_id => cyrille.id}
     assert_redirected_to expanded_user_url(cyrille)
-		assert_equal "Please add content to tab #{cyrille.tabs.first.title} or delete this tab", flash[:error]
+		assert_equal "Your tab #{cyrille.tabs.first.title} contains 'delete this text': please update the text or delete the tab entirely", flash[:error]
+
 		cyrille.user_profile.reload
 		assert_nil cyrille.user_profile.published_at
 
