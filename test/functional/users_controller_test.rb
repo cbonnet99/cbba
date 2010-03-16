@@ -4,6 +4,26 @@ class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
 
+  # def test_destroy_unpublished
+  #   user = Factory(:user, :unsubscribe_token => "bla")
+  #   user_email = user.email
+  #   assert user.user_profile.draft?
+  #   post :destroy, {:email => user.email, :token => user.unsubscribe_token}
+  #   assert_response :success
+  #   assert_nil flash[:error], "Flash: #{flash.inspect}"
+  #   assert_nil User.find_by_email(user_email)
+  # end
+
+  def test_unsubscribe_unpublished_reminder
+    user = Factory(:user, :notify_unpublished => true, :unsubscribe_token => "bla")
+    assert user.notify_unpublished?
+    post :unsubscribe_unpublished_reminder, {:email => user.email, :token => user.unsubscribe_token}
+    assert_response :success
+    assert_nil flash[:error], "Flash: #{flash.inspect}"
+    user.reload
+    assert !user.notify_unpublished?
+  end
+
   def test_refer
     get :refer, {}, {:user_id => users(:sgardiner) }
     assert_response :success

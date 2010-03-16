@@ -28,8 +28,15 @@ Factory.define :user do |f|
   f.accept_terms true
   f.association :district
   f.password "foobar"
+  f.notify_unpublished true
   f.password_confirmation { |u| u.password }
   f.sequence(:email) { |n| "foo#{n}@example.com" }
+end
+
+Factory.define :user_event do |e|
+  e.event_type UserEvent::VISIT_SUBCATEGORY
+  e.remote_ip "202.123.45.2"
+  e.association :subcategory
 end
 
 Factory.define :subcategories_user do |scu|

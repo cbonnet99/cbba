@@ -4,6 +4,36 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_notify_unpublished
+    user_yep = Factory(:user, :notify_unpublished => true)
+    user_no = Factory(:user, :notify_unpublished => false)
+    assert User.notify_unpublished.include?(user_yep)
+    assert !User.notify_unpublished.include?(user_no)
+  end
+
+  def test_had_visits_since
+    sub = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => sub.id)
+    user_event = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    assert user.had_visits_since?(7.days.ago)
+    assert !user.had_visits_since?(2.days.ago)
+  end
+
+  def test_visits_since
+    sub = Factory(:subcategory)
+    sub2 = Factory(:subcategory)
+    
+    user = Factory(:user, :subcategory1_id => sub.id, :subcategory2_id => sub2.id)
+    user_event = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    user_event2 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    user_event3 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub2.id, :logged_at => 3.days.ago)
+    hash = user.visits_since(7.days.ago)
+    assert hash.keys.include?(sub.name)
+    assert hash.keys.include?(sub2.name)
+    assert_equal 2, hash[sub.name]
+    assert_equal 1, hash[sub2.name]
+  end
+
   def test_currently_selected_and_last_10_published
     newsletter = Factory(:newsletter)
     user = Factory(:user)

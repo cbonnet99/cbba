@@ -75,7 +75,9 @@ class User < ActiveRecord::Base
   named_scope :resident_experts, :include => ["roles", "expertise_subcategory"], :conditions => "roles.name='resident_expert' AND subcategories.id is not null"
   named_scope :new_users, :conditions => "new_user is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
+  named_scope :notify_unpublished, :conditions => "notify_unpublished IS true"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
+  named_scope :unpublished, :include => "user_profile",  :conditions => "user_profiles.state='draft'" 
   named_scope :with_expired_photo, :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until < now()"
   named_scope :with_has_expired_photo, :conditions => "paid_photo IS FALSE AND paid_photo_until IS NOT NULL AND now() > paid_photo_until + interval '3 days' AND feature_warning_sent < paid_photo_until + interval '3 days'"
   named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until > now() AND feature_warning_sent IS NULL AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
@@ -100,6 +102,21 @@ class User < ActiveRecord::Base
 
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
+  
+  def had_visits_since?(start_date)
+    UserEvent.count(:all, :conditions => ["subcategory_id in (select subcategory_id from subcategories_users where user_id = ? ) AND event_type = '#{UserEvent::VISIT_SUBCATEGORY}' AND logged_at > ?", self.id, start_date]) > 0
+  end
+  
+  def visits_since(start_date)
+    res = {}
+    self.subcategories.each do |sub|
+      count = UserEvent.count(:all, :conditions => ["subcategory_id = ? AND event_type = '#{UserEvent::VISIT_SUBCATEGORY}' AND logged_at > ?", sub.id, start_date])
+      unless count == 0
+        res[sub.name] = count
+      end
+    end
+    res
+  end
   
   def short_description_from_tabs(selected_tab)
     if selected_tab.nil?

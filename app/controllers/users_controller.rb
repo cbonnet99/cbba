@@ -2,9 +2,31 @@ class UsersController < ApplicationController
   include ApplicationHelper
   
   before_filter :full_member_required, :only => [:articles]
-  before_filter :login_required, :except => [:unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
+  before_filter :login_required, :except => [:unsubscribe_unpublished_reminder, :unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
 
+  def unsubscribe_unpublished_reminder
+    @user = User.find_by_email(params[:email])
+    if @user.nil?
+      flash[:error] = "User not found"
+      render :template => "error_unsubscribe" 
+    else
+      if @user.unsubscribe_token.blank?
+        logger.error("Blank token for user #{@user.email}. Unsubscribe was allowed anyway.")
+        @user.update_attribute(:notify_unpublished, false)
+        flash[:notice] = "Your request has been successfully processed"
+      else
+        if @user.unsubscribe_token == params[:token]
+          @user.update_attribute(:notify_unpublished, false)
+          flash[:notice] = "Your request has been successfully processed"
+        else
+          flash[:error] = "Invalid token"
+          render :template => "error_unsubscribe" 
+        end
+      end
+    end
+  end
+  
   def send_referrals
     emails = User.get_emails_from_string(params[:emails])
     emails.each do |email|

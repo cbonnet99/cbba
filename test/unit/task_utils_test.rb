@@ -3,6 +3,25 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_notify_unpublished_users
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    sub = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => sub.id, :notify_unpublished => true)
+    user_event = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    user_event2 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    user_event3 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    
+    TaskUtils.notify_unpublished_users
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    new_email = ActionMailer::Base.deliveries.first
+    assert_equal [user.email], new_email.to
+    assert_match %r{3 people have visited our #{sub.name} page}, new_email.body
+  end
+
   def test_check_pending_payments
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true

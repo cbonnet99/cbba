@@ -2,6 +2,15 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.notify_unpublished_users
+    User.unpublished.notify_unpublished.each do |user|
+      if user.had_visits_since?(7.days.ago)
+        UserMailer.deliver_notify_unpublished(user, 7.days.ago)
+      end
+    end
+    
+  end
+
   def self.check_pending_payments
     payments_to_notify = Payment.pending.not_notified
     unless payments_to_notify.blank?

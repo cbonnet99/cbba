@@ -105,6 +105,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_profile_action '/user_profiles/:id/:action', :controller => 'users'
   map.user_new_photo '/users/new_photo', :controller => 'users', :action => "new_photo"
   map.user_create_photo '/users/create_photo', :controller => 'users', :action => "create_photo"
+  map.no_reminder '/users/unsubscribe_unpublished_reminder', :controller => 'users', :action => "unsubscribe_unpublished_reminder"
   map.user_promote '/users/promote', :controller => 'users', :action => "promote"
   map.user_welcome '/users/welcome', :controller => 'users', :action => "welcome"
   map.user_refer '/users/refer', :controller => 'users', :action => "refer"

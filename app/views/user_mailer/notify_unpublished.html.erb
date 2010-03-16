@@ -1,0 +1,14 @@
+Dear <%= @user.first_name%>,
+
+<p><strong>Your listing on <%= link_to "www.beamazing.co.nz", "www.beamazing.co.nz"%> has been found several times</strong>, however because <strong>your profile page is still incomplete</strong>, people viewing your listing have not been able to learn more about what you offer or contact you via your email address.</p>
+<br/>
+<p>Searches featuring your listing: <%=@visits.map{|sub, count| "#{help.pluralize(count, 'person')} have visited our #{sub} page"}.to_sentence%> over the last week.</p>
+<br/>
+<p>To help them learn more about your services and see your email and website links, simply take 10 minutes to complete your profile: <%= link_to "Click here to log-in", @login_link %> and off you go!</p>
+<br/>
+<p>Once logged-in you'll also find helpful tips from us on how to write and great profile and make the most of BeAmazing.co.nz - Remember, it's FREE to have a profile!</p>
+<br/>
+<br/>
+<%= render :partial => "signature"  %>
+<br/>
+<p><%= link_to "Thanks, but please don't remind me of this again", @no_reminder_link%> | <%= link_to "I've lost my password", @reset_password_link%></p>
