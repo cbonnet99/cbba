@@ -4,8 +4,8 @@ class TaskUtils
 
   def self.notify_unpublished_users
     User.unpublished.notify_unpublished.each do |user|
-      if user.had_visits_since?(7.days.ago)
-        UserMailer.deliver_notify_unpublished(user, 7.days.ago)
+      if user.count_visits_since(14.days.ago) >= 8        
+        UserMailer.deliver_notify_unpublished(user, 14.days.ago)
       end
     end
     

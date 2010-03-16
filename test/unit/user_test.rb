@@ -19,6 +19,16 @@ class UserTest < ActiveSupport::TestCase
     assert !user.had_visits_since?(2.days.ago)
   end
 
+  def test_count_visits_since
+    sub = Factory(:subcategory)
+    sub2 = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => sub.id, :subcategory2_id => sub2.id)
+    user_event = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    user_event2 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub2.id, :logged_at => 3.days.ago)
+    user_event3 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub2.id, :logged_at => 3.days.ago)
+    assert_equal 3, user.count_visits_since(7.days.ago)
+  end
+
   def test_visits_since
     sub = Factory(:subcategory)
     sub2 = Factory(:subcategory)

@@ -21,6 +21,10 @@
 
 set :output, "/var/log/cron_bam.log"
 
+every 2.weeks do
+  runner "TaskUtils.notify_unpublished_users"
+end
+
 every 1.week do
   rake "bam:count_published_items"
 end
