@@ -1,3 +1,12 @@
+<% content_for :sidebar_content do -%>
+<h4>Related searches</h4>
+	<ul>
+		<% @user.subcategories.each do |sub| -%>
+		<li><%= link_to sub.name, subcategory_url(sub.category.slug, sub.slug)%></li>
+		<% end -%>
+	</ul>
+
+<%end -%>
 <% javascript 'user-profile' %>
 <% page_title("#{@user.full_name} - #{@user.expertise} - #{@user.location}")%>
 <% page_description @user.short_description_from_tabs(@selected_tab)%>
