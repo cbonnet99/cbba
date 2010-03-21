@@ -32,6 +32,7 @@ class SearchController < ApplicationController
         @district = District.from_param(@where)
         @category = Category.from_param(@what)
         @subcategory = Subcategory.from_param(@what)
+        @page_description = title_search(@region, @district, @category, @subcategory)
         logger.debug("====== in search, @category: #{@category.inspect}")
         logger.debug("====== in search, @subcategory: #{@subcategory.inspect}")
         if !@subcategory.nil? && @region.nil? && @district.nil?

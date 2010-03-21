@@ -330,6 +330,17 @@ module ApplicationHelper
     return res
 	end
 
+	def title_search(region, district, category, subcategory)
+    res = ""
+    unless subcategory.nil?
+      res << "#{subcategory.category.name} - #{subcategory.name}"
+    end
+    unless district.nil? && region.nil?
+    	res << " in #{district.nil? ? region.nil? ? "" : region.name : district.name}"
+    end
+    return res
+	end
+
 	def javascript(*files)
 		content_for(:js) { javascript_include_tag(*files) }
 	end
