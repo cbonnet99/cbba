@@ -7,7 +7,7 @@ class HowTosControllerTest < ActionController::TestCase
   def test_destroy
     cyrille = users(:cyrille)
     old_size = cyrille.how_tos.size
-    post :destroy, {:id => how_tos(:improve) }, {:user_id => cyrille.id }
+    post :destroy, {:id => how_tos(:improve).slug }, {:user_id => cyrille.id }
     cyrille.reload
     assert_equal old_size-1, cyrille.how_tos.size
   end
@@ -170,5 +170,4 @@ class HowTosControllerTest < ActionController::TestCase
     assert_select "a", {:text => "Back to articles", :count => 1  }
     assert_select "div[class=publication-actions]", :count => 1
   end
-
 end

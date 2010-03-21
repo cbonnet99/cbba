@@ -85,9 +85,13 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
-    @article = Article.find_by_author_id_and_id(current_user.id, params[:id])
-#		@article.load_subcategories
-		get_subcategories
+    @article = current_user.articles.find_by_slug(params[:id])
+    if @article.nil?
+      flash[:error] = "Couldn't find this article"
+    else
+  #		@article.load_subcategories
+  		get_subcategories
+		end
   end
 
   # POST /articles
@@ -121,17 +125,21 @@ class ArticlesController < ApplicationController
   # PUT /articles/1
   # PUT /articles/1.xml
   def update
-    @article = Article.find(params[:id])
-    get_subcategories
+    @article = current_user.articles.find_by_slug(params[:id])
+    if @article.nil?
+      flash[:error] = "Couldn't find this article"
+    else
+      get_subcategories
 
-    respond_to do |format|
-      if @article.update_attributes(params[:article])
-        flash[:notice] = "\"#{@article.title}\" successfully updated."
-        format.html { redirect_to(articles_show_url(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
+      respond_to do |format|
+        if @article.update_attributes(params[:article])
+          flash[:notice] = "\"#{@article.title}\" successfully updated."
+          format.html { redirect_to(articles_show_url(@article.author.slug, @article.slug, :context => @context, :selected_tab_id => @selected_tab_id)) }
+          format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end
@@ -139,13 +147,13 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1
   # DELETE /articles/1.xml
   def destroy
-    @article = Article.find(params[:id])
-    @title = @article.title
-    if current_user.author?(@article)
+    @article = current_user.articles.find_by_slug(params[:id])
+    if @article.nil?
+      flash[:error] = "You cannot delete this article"
+    else
+      @title = @article.title
       @article.destroy
       flash[:notice] = "\"#{@title}\" was deleted"
-    else
-      flash[:error] = "You cannot delete this article"
     end
     redirect_with_context(articles_url)
   end

@@ -58,7 +58,7 @@ class ArticlesControllerTest < ActionController::TestCase
 		yoga = articles(:yoga)
 		yoga_sub = subcategories(:yoga)
 		cyrille = users(:cyrille)
-		get :edit, {:id => yoga.id }, {:user_id => cyrille.id}
+		get :edit, {:id => yoga.slug }, {:user_id => cyrille.id}
 		assert_response :success
 		assert_select "select#article_subcategory1_id > option[value=#{yoga_sub.id}][selected=selected]"
 	end
@@ -208,13 +208,13 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_get_edit
 		cyrille = users(:cyrille)
-    get :edit, {:id => articles(:yoga).id, :selected_user => cyrille.slug}, {:user_id => cyrille.id }
+    get :edit, {:id => articles(:yoga).slug, :selected_user => cyrille.slug}, {:user_id => cyrille.id }
     assert_response :success
   end
 
   def test_should_update_article
 		cyrille = users(:cyrille)
-    put :update, {:context => "profile", :selected_tab_id => "articles",  :id => articles(:yoga).id, :article => { }}, {:user_id => cyrille.id }
+    put :update, {:context => "profile", :selected_tab_id => "articles",  :id => articles(:yoga).slug, :article => { }}, {:user_id => cyrille.id }
     assert_redirected_to articles_show_url(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
     assert_not_nil assigns(:subcategories)
   end
@@ -222,14 +222,14 @@ class ArticlesControllerTest < ActionController::TestCase
   def test_should_destroy_article
 		cyrille = users(:cyrille)
     assert_difference('Article.count', -1) do
-      delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:yoga).id}, {:user_id => cyrille.id }
+      delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:yoga).slug}, {:user_id => cyrille.id }
     end
     assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
   end
   def test_should_destroy_draft_article
 		cyrille = users(:cyrille)
 		old_size = cyrille.articles_count
-    delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:yoga).id}, {:user_id => cyrille.id }
+    delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:yoga).slug}, {:user_id => cyrille.id }
     cyrille.reload
     assert_equal old_size-1, cyrille.articles_count
     assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
@@ -237,7 +237,7 @@ class ArticlesControllerTest < ActionController::TestCase
   def test_should_destroy_published_article
 		cyrille = users(:cyrille)
 		old_size = cyrille.published_articles_count
-    delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:long).id}, {:user_id => cyrille.id }
+    delete :destroy, {:context => "profile", :selected_tab_id => "articles", :id => articles(:long).slug}, {:user_id => cyrille.id }
     cyrille.reload
     assert_equal old_size-1, cyrille.published_articles_count
     assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")

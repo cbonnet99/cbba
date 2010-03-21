@@ -56,7 +56,7 @@ class HowTosController < ApplicationController
   end
 
   def edit
-    @how_to = current_user.how_tos.find(params[:id])
+    @how_to = current_user.how_tos.find_by_slug(params[:id])
 #		@how_to.load_subcategories
 		get_subcategories
   end
@@ -88,7 +88,7 @@ class HowTosController < ApplicationController
   end
 
   def update
-    @how_to = current_user.how_tos.find(params[:id])
+    @how_to = current_user.how_tos.find_by_slug(params[:id])
         get_subcategories
 
     respond_to do |format|
@@ -104,7 +104,7 @@ class HowTosController < ApplicationController
   end
 
   def destroy
-    @how_to = current_user.how_tos.find(params[:id])
+    @how_to = current_user.how_tos.find_by_slug(params[:id])
     @title = @how_to.title
     if current_user.author?(@how_to)
       @how_to.destroy
