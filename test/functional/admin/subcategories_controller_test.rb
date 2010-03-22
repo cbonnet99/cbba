@@ -18,10 +18,11 @@ class Admin::SubcategoriesControllerTest < ActionController::TestCase
   end
   
   def test_destroy
-    s = Subcategory.first
+    s = subcategories(:yoga)
     old_size = Subcategory.all.size
     post :destroy, {:id => s.slug}, {:user_id => users(:cyrille).id }
-    assert_equal old_size-1, Subcategory.all.size
+    assert_not_nil flash[:error], "Flash: #{flash.inspect}"
+    assert_equal old_size, Subcategory.all.size
   end
   
   def test_destroy_and_transfer_with_resident_expert
@@ -47,11 +48,13 @@ class Admin::SubcategoriesControllerTest < ActionController::TestCase
     users.each do |u|
       u.reload
       assert u.subcategories.include?(transfer_to), "#{u.name} should have #{transfer_to.name}, but subcats are: #{u.subcategories.map(&:name).to_sentence}"
+      assert !u.subcategories.include?(delete), "#{u.name} should NOT have #{delete.name}, but subcats are: #{u.subcategories.map(&:name).to_sentence}"
     end
     transfer_to.reload
     users.each do |u|
       assert transfer_to.users.include?(u)
     end
+    
     assert_equal old_users_size+transferred_users_size, transfer_to.users.size
   end
   

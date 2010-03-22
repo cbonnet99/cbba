@@ -28,7 +28,10 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
   validates_attachment_size :photo, :less_than => 3.megabytes
   validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif']
-
+  validates_format_of :subdomain, :with => /^[A-Za-z0-9-]+$/, :message => 'The subdomain can only contain alphanumeric characters and dashes.', :allow_blank => true
+  validates_uniqueness_of :subdomain, :case_sensitive => false, :allow_blank => true
+  validates_exclusion_of :subdomain, :in => %w( www staging redmine logged mail bookings logged-staging assets assets0 assets1 assets2 assets3 staging-assets0 staging-assets1 staging-assets2 staging-assets3 ), :message => "The subdomain <strong>{{value}}</strong> is reserved and unavailable."
+  
   # Relationships
   has_many :messages, :dependent => :delete_all 
   has_many :roles_users, :dependent => :delete_all
@@ -93,8 +96,8 @@ class User < ActiveRecord::Base
 	before_validation :assemble_phone_numbers, :trim_stuff
   before_create :create_geocodes, :get_region_from_district, :get_membership_type
   before_update :update_geocodes, :get_region_from_district, :get_membership_type
-
   after_create :create_profile, :add_tabs
+  before_validation :downcase_subdomain  
 
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status
 	attr_accessor :membership_type, :resident_expert_application, :accept_terms, :admin, :main_role, :old_password
@@ -102,6 +105,10 @@ class User < ActiveRecord::Base
 
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
+  
+  def downcase_subdomain
+    self.subdomain.downcase! if attribute_present?("subdomain")
+  end  
   
   def count_visits_since(start_date)
     UserEvent.count(:all, :conditions => ["subcategory_id in (select subcategory_id from subcategories_users where user_id = ? ) AND event_type = '#{UserEvent::VISIT_SUBCATEGORY}' AND logged_at > ?", self.id, start_date])

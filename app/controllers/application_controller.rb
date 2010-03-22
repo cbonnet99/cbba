@@ -16,7 +16,8 @@ class ApplicationController < ActionController::Base
 
 	#  before_filter :tags
   before_filter :current_category, :search_terms, :categories, :counters, :resident_experts, :except => :change_category
-
+  before_filter :set_current_user
+  
 	protected
 	exception_data :additional_data
 
@@ -208,5 +209,13 @@ class ApplicationController < ActionController::Base
 	def get_regions
 		@regions = Region.find(:all, :order => "name" )
 	end
+	
+  private
+    def set_current_user
+      @user = User.find_by_subdomain!(request.subdomains.first)
+      unless @user.nil?
+        
+      end
+    end
 end
 

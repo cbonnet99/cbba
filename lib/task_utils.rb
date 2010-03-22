@@ -111,10 +111,10 @@ class TaskUtils
     all_articles.each_with_index do |a, i|
       if i == total_size-1
         #put the last article in first place
-        a.update_attribute(:feature_rank, 0)
+        a.update_attribute_without_timestamping(:feature_rank, 0)
       else
         #move down all the others
-        a.update_attribute(:feature_rank, i+1)        
+        a.update_attribute_without_timestamping(:feature_rank, i+1)
       end
     end
     
@@ -125,10 +125,10 @@ class TaskUtils
     all_users.each_with_index do |u, i|
       if i == total_size-1
         #put the last user in first place
-        u.update_attribute(:feature_rank, 0)
+        u.update_attribute_without_timestamping(:feature_rank, 0)
       else
         #move down all the others
-        u.update_attribute(:feature_rank, i+1)        
+        u.update_attribute_without_timestamping(:feature_rank, i+1)
       end      
     end
   end

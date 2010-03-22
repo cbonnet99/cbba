@@ -233,6 +233,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
 
   def test_rotate_feature_ranks
     cyrille = users(:cyrille)
+    old_updated_at = cyrille.updated_at
     norma = users(:norma)
     norma.paid_photo = true
     norma.paid_highlighted = true
@@ -247,6 +248,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.rotate_feature_ranks
     cyrille.reload
     assert cyrille.feature_rank != rank, "Feature should have changed"
+    assert_equal old_updated_at, cyrille.updated_at, "User updated_at should not have changed, as this is not really a change to the user, but just s change of rank. We use update_attribute_without_timestamping to achieve this"
   end
 
   def test_extract_numbers_from_reference

@@ -3,6 +3,6 @@
 <%= link_to "Add new subcategory", new_admin_subcategory_url%>
 <ul id="admin-subcats">
 <% @subcategories.each do |s| -%>
-	<li class="<%= cycle('odd', 'even')%>"><%= s.category.name%> - <%= s.name%> | <% if s.has_users?-%><% if s.resident_expert.nil?%><%= form_tag admin_subcategory_url(s), :method => "delete"%><span>Delete and transfer existing users to: </span><br/><%= select_tag :new_subcategory_id, options_for_select(@subcategories.select{|subcat| subcat != s}.map{|s| ["#{s.category.name} - #{s.name}", s.id]})%><%= submit_tag "Go"%><%else%>This subcategory has a resident expert: it cannot be deleted<%end%><%else-%><%= link_to "Delete", admin_subcategory_url(s), :method => "delete"%><%end%></li>
+	<li class="<%= cycle('odd', 'even')%>"><%= s.category.name%> - <%= s.name%> | <% if s.has_users?-%><% if s.resident_expert.nil?%><span>Delete and transfer existing users to: </span><br/><% form_tag admin_subcategory_url(s), :method => "delete", :id => "delete_#{s.id}" do %><%= select_tag :new_subcategory_id, options_for_select(@subcategories.select{|subcat| subcat != s}.map{|s| ["#{s.category.name} - #{s.name}", s.id]}), :id => "delete_#{s.id}_new_subcategory_id"%><%= submit_tag "Go"%><%end%><%else%>This subcategory has a resident expert: it cannot be deleted<%end%><%else-%><%= link_to "Delete", admin_subcategory_url(s), :method => "delete"%><%end%></li>
 <% end -%>
 </ul>

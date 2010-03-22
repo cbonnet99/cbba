@@ -38,11 +38,11 @@ class Admin::SubcategoriesController < AdminApplicationController
               u.subcategories << @transfer_to
             end
             @subcategory.destroy
-            flash[:notice] = "Subcategory deleted"
+            flash[:notice] = "Subcategory deleted and users transferred to: #{@transfer_to.name}"
           end
         else
-          @subcategory.destroy
-          flash[:notice] = "Subcategory deleted"
+          # @subcategory.destroy
+          flash[:error] = "Subcategory cannot be deleted: you need to pass a new subcategory to transfer the users to"
         end
       end
     end
