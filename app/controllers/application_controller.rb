@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
 	#  before_filter :tags
   before_filter :current_category, :search_terms, :categories, :counters, :resident_experts, :except => :change_category
-  before_filter :set_current_user
+  # before_filter :set_current_user
   
 	protected
 	exception_data :additional_data
