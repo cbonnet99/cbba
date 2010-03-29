@@ -37,7 +37,7 @@ cyrille:
   paid_photo_until:         <%= 6.months.from_now.to_s :db %>
   paid_highlighted:         true
   paid_highlighted_until:         <%= 6.months.from_now.to_s :db %>
-  
+  subdomain:                cyrille
 norma:
   first_name:                Norma V.
   last_name:                 Stein2

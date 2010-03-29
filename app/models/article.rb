@@ -23,6 +23,8 @@ class Article < ActiveRecord::Base
 	before_update :remove_html_from_lead
 
   MAX_LENGTH_SLUG = 20
+  POINTS_FOR_RECENT_ARTICLE = 10
+  POINTS_FOR_OLDER_ARTICLE = 5
 
   def self.search(subcategory, category, district, region)
     subcategories = category.subcategories unless category.nil?

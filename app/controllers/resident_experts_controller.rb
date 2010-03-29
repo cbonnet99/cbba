@@ -1,6 +1,6 @@
 class ResidentExpertsController < ApplicationController
   def index
-    @experts = User.published_resident_experts
+    @subcategories, @experts_for_subcategory = User.experts_for_subcategories
   end
 
 end

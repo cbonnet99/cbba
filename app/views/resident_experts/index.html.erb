@@ -1,6 +1,12 @@
 <%= title "Resident experts" %>
 <p>Meet our team of Resident Experts; top professionals in their field with heaps of knowledge, experience and enthusiasm. These Experts are constantly writing material for Be Amazing to help us provide you with a wide range of information about health, well being and development.</p>
-<% @experts.each do |e| -%>
+<% @subcategories.each do |s| -%>
+	<% unless @experts_for_subcategory[s.id].nil? -%>
+	<h3><%= s.name%></h3>
+	<% @experts_for_subcategory[s.id].each do |e|-%>
   <div class="homepage-small-user user-rollover"><%= render :partial => "resident_experts/expert_small", :locals => {:user => e }  %></div>
+	<% end -%>
+	<div class="cleaner"></div>
+	<% end -%>
 <% end -%>
 <p>Want to become a Resident Expert? <%= link_to "Click here for more information", more_about_resident_expert_url %></p>

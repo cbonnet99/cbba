@@ -2,6 +2,16 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.recompute_points
+    #clean up, just in case
+    SubcategoriesUser.all.each do |su|
+      su.destroy if su.user.nil?
+    end
+    SubcategoriesUser.all.each do |su|
+      su.update_attribute(:points, su.user.compute_points(su.subcategory))
+    end
+  end
+
   def self.notify_unpublished_users
     User.unpublished.notify_unpublished.each do |user|
       if user.count_visits_since(14.days.ago) >= 8        

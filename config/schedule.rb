@@ -58,6 +58,7 @@ end
 every 1.hour do
   # command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%H-00.sql`"
   # command "/var/rails/be_amazing/current/script/s3sync"
+  runner "TaskUtils.recompute_points"
   runner "TaskUtils.generate_autocomplete_subcategories"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"

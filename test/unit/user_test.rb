@@ -4,6 +4,41 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_compute_points
+    user = Factory(:user)
+    sub1 = Factory(:subcategory)
+    sub2 = Factory(:subcategory)
+    article1 = Factory(:article, :author => user, :published_at => 2.days.ago)
+    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub1.id)  
+    article2 = Factory(:article, :author => user, :published_at => 32.days.ago)
+    Factory(:articles_subcategory, :article_id => article2.id, :subcategory_id => sub1.id)  
+    article3 = Factory(:article, :author => user, :published_at => 2.days.ago, :state => "draft")
+    Factory(:articles_subcategory, :article_id => article3.id, :subcategory_id => sub1.id)  
+    article4 = Factory(:article, :author => user, :published_at => 2.days.ago)
+    Factory(:articles_subcategory, :article_id => article4.id, :subcategory_id => sub2.id)  
+    assert_equal 15, user.compute_points(sub1)
+  end
+
+  def test_experts_for_subcategories
+    sub1 = Factory(:subcategory)
+    sub2 = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id  => sub1.id)
+    article1 = Factory(:article, :author => user, :published_at => 2.days.ago)
+    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub1.id)  
+    article2 = Factory(:article, :author => user, :published_at => 32.days.ago)
+    Factory(:articles_subcategory, :article_id => article2.id, :subcategory_id => sub1.id)  
+    article3 = Factory(:article, :author => user, :published_at => 2.days.ago, :state => "draft")
+    Factory(:articles_subcategory, :article_id => article3.id, :subcategory_id => sub1.id)  
+    article4 = Factory(:article, :author => user, :published_at => 2.days.ago)
+    Factory(:articles_subcategory, :article_id => article4.id, :subcategory_id => sub2.id)  
+    subcat_user = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, user.id)
+    subcat_user.points = user.compute_points(sub1)
+    subcat_user.save!
+    subcats, experts = User.experts_for_subcategories
+    assert_equal 1, subcats.size
+    assert experts[subcats.first.id].include?(user)
+  end
+
   def test_notify_unpublished
     user_yep = Factory(:user, :notify_unpublished => true)
     user_no = Factory(:user, :notify_unpublished => false)

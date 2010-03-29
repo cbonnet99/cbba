@@ -105,10 +105,35 @@ class User < ActiveRecord::Base
 
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
+  MIN_ARTICLES_TO_QUALIFY_FOR_EXPERT = 3
+  
+  def self.experts_for_subcategories
+    subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => "subcategories_users.points > 0", :order => "name, subcategories_users.points desc")
+    experts = {}
+    subcats.each do |s|
+      experts_subcat = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points > 0", s.id], :order => "subcategories_users.points desc").reject{|u| u.articles.published.count < MIN_ARTICLES_TO_QUALIFY_FOR_EXPERT}
+      if experts_subcat.blank?
+        subcats.delete(s)
+      else
+        experts[s.id] = experts_subcat[0..2]
+      end
+    end
+    return subcats, experts
+  end
+  
+  def compute_points(subcategory)
+    articles_count_in_last_month = self.articles.published.count(:all, :include => "articles_subcategories", :conditions => ["published_at >= ? and articles_subcategories.subcategory_id = ?", 30.days.ago, subcategory.id])
+    older_articles_count = self.articles.published.count(:all, :include => "articles_subcategories", :conditions => ["published_at < ? and articles_subcategories.subcategory_id = ?", 30.days.ago, subcategory.id])
+    (articles_count_in_last_month * Article::POINTS_FOR_RECENT_ARTICLE) + (older_articles_count * Article::POINTS_FOR_OLDER_ARTICLE)
+  end
   
   def downcase_subdomain
     self.subdomain.downcase! if attribute_present?("subdomain")
   end  
+  
+  def published?
+    !self.user_profile.nil? && self.user_profile.published?
+  end
   
   def count_visits_since(start_date)
     UserEvent.count(:all, :conditions => ["subcategory_id in (select subcategory_id from subcategories_users where user_id = ? ) AND event_type = '#{UserEvent::VISIT_SUBCATEGORY}' AND logged_at > ?", self.id, start_date])
