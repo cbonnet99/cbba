@@ -1,2 +1,2 @@
 <a href="<%=user_url_with_context(user)%>"><%= thumbnail_image(user) %></a>
-<h6><a href="<%=user_url_with_context(user)%>"><%= user.name %></a></h6><p class="highlight"><%=  user.expertise_subcategory.try(:name) %></p><p><%= user.region_name %></p>
+<h6><a href="<%=user_url_with_context(user)%>"><%= user.name %></a></h6><p class="highlight"><%=  subcat.try(:name) %></p><p class="articles-link"><%= link_to "Read #{user.first_name}'s articles", expanded_user_tabs_url(user, Tab::ARTICLES)%></p><p><%= user.region_name %></p>
