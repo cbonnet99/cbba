@@ -32,8 +32,10 @@ class UserTest < ActiveSupport::TestCase
     article4 = Factory(:article, :author => user, :published_at => 2.days.ago)
     Factory(:articles_subcategory, :article_id => article4.id, :subcategory_id => sub2.id)  
     subcat_user = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, user.id)
-    subcat_user.points = user.compute_points(sub1)
-    subcat_user.save!
+    TaskUtils.recompute_points
+    sub1.reload
+    sub2.reload
+    user.reload
     subcats, experts = User.experts_for_subcategories
     assert_equal 1, subcats.size
     assert experts[subcats.first.id].include?(user)

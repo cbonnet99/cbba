@@ -108,10 +108,10 @@ class User < ActiveRecord::Base
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   
   def self.experts_for_subcategories
-    subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => "subcategories_users.points > MIN_POINTS_TO_QUALIFY_FOR_EXPERT", :order => "name, subcategories_users.points desc")
+    subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => ["subcategories_users.points >= ?", MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "name, subcategories_users.points desc")
     experts = {}
     subcats.each do |s|
-      experts_subcat = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points > MIN_POINTS_TO_QUALIFY_FOR_EXPERT", s.id], :order => "subcategories_users.points desc")
+      experts_subcat = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points >= ?", s.id, MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "subcategories_users.points desc")
       if experts_subcat.blank?
         subcats.delete(s)
       else
