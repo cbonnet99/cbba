@@ -105,13 +105,13 @@ class User < ActiveRecord::Base
 
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
-  MIN_ARTICLES_TO_QUALIFY_FOR_EXPERT = 3
+  MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   
   def self.experts_for_subcategories
-    subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => "subcategories_users.points > 0", :order => "name, subcategories_users.points desc")
+    subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => "subcategories_users.points > MIN_POINTS_TO_QUALIFY_FOR_EXPERT", :order => "name, subcategories_users.points desc")
     experts = {}
     subcats.each do |s|
-      experts_subcat = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points > 0", s.id], :order => "subcategories_users.points desc").reject{|u| u.articles.published.count < MIN_ARTICLES_TO_QUALIFY_FOR_EXPERT}
+      experts_subcat = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points > MIN_POINTS_TO_QUALIFY_FOR_EXPERT", s.id], :order => "subcategories_users.points desc")
       if experts_subcat.blank?
         subcats.delete(s)
       else
