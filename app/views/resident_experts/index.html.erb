@@ -1,5 +1,5 @@
-<%= title "Resident experts" %>
-<p>Meet our team of Resident Experts; top professionals in their field with heaps of knowledge, experience and enthusiasm. These Experts are constantly writing material for Be Amazing to help us provide you with a wide range of information about health, well being and development.</p>
+<%= title "Resident experts - Sharing their knowledge with you!" %>
+<p>Meet Be Amazing's Resident Experts; professionals with heaps of knowledge, experience and enthusiasm writing articles to provide you with a wide range of information about health, well being and development. These are the top contributors under a range of categories, visit their profile page, read their articles and contact them for more information!</p>
 <% @subcategories.each do |s| -%>
 	<% unless @experts_for_subcategory[s.id].nil? -%>
 	<h3><%= s.name%></h3>
@@ -9,4 +9,3 @@
 	<div class="cleaner"></div>
 	<% end -%>
 <% end -%>
-<p>Want to become a Resident Expert? <%= link_to "Click here for more information", more_about_resident_expert_url %></p>
