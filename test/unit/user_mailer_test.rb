@@ -36,5 +36,10 @@ class UserMailerTest < ActionMailer::TestCase
     joe = contacts(:joe)
     actual_mail = UserMailer.create_mass_email_newsletter(joe, "Test", newsletters(:may_published))
   end
+
+  def test_notify_unpublished
+    actual_mail = UserMailer.create_notify_unpublished(users(:norma), 7.days.ago)
+    assert_match %r{unsubscribe_token}, actual_mail.body
+  end
   
 end

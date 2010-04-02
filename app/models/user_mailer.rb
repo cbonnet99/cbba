@@ -24,7 +24,7 @@ class UserMailer < ActionMailer::Base
     @body[:visits] = user.visits_since(start_date)
     @body[:login_link] = new_session_url(:protocol => APP_CONFIG[:logged_site_protocol], :email => user.email)
     @body[:reset_password_link] = forgot_password_url(:protocol => APP_CONFIG[:logged_site_protocol], :email => user.email)
-    @body[:no_reminder_link] = no_reminder_url(:protocol => APP_CONFIG[:logged_site_protocol], :email => user.email)
+    @body[:no_reminder_link] = no_reminder_url(:protocol => APP_CONFIG[:logged_site_protocol], :email => user.email, :unsubscribe_token => user.unsubscribe_token)
   end
 
   def congrats_published(user)
