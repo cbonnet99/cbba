@@ -232,6 +232,14 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_rotate_feature_ranks
+    fm_role = Factory(:role)
+    user1 = Factory(:user, :paid_photo => true, :membership_type => "full_member")
+    # user1.roles << fm_role
+    user1.user_profile.update_attribute(:state, "published")
+    user2 = Factory(:user, :paid_photo => true, :membership_type => "full_member")
+    # user2.roles << fm_role
+    user2.user_profile.update_attribute(:state, "published")
+    assert !user2.free_listing?
     cyrille = users(:cyrille)
     old_updated_at = cyrille.updated_at
     norma = users(:norma)
@@ -240,8 +248,9 @@ class TaskUtilsTest < ActiveSupport::TestCase
     norma.save!
     norma.reload
     TaskUtils.rotate_feature_ranks
+    assert User.published.active.full_members.size > User::DAILY_USER_ROTATION, "Should have at least #{User::DAILY_USER_ROTATION} users, otherwise the rotation is meaningless"
     User.published.active.full_members.each do |u|
-      assert_not_nil u.feature_rank, "Feature should not be nil for user #{u.name}" if u.paid_photo? && u.paid_highlighted?
+      assert_not_nil u.feature_rank, "Feature should not be nil for user #{u.name}" if u.paid_photo?
     end
     cyrille.reload
     rank = cyrille.feature_rank

@@ -103,44 +103,8 @@ class TaskUtils
   end
   
   def self.rotate_feature_ranks
-    articles = Article.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
-    howtos = HowTo.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
-    ranked_articles = articles + howtos
-    ranked_articles = ranked_articles.sort_by(&:feature_rank)
-    all_articles = ranked_articles
-    
-    articles_no_rank = Article.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc")
-    howtos_no_rank = HowTo.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc")
-    if !articles_no_rank.blank? || !howtos_no_rank.blank?
-      all_articles_no_rank = articles_no_rank + howtos_no_rank
-      all_articles_no_rank = all_articles_no_rank.sort_by(&:published_at)
-      all_articles_no_rank.reverse!
-      all_articles = all_articles_no_rank + ranked_articles
-    end
-    total_size = all_articles.size
-    all_articles.each_with_index do |a, i|
-      if i == total_size-1
-        #put the last article in first place
-        a.update_attribute_without_timestamping(:feature_rank, 0)
-      else
-        #move down all the others
-        a.update_attribute_without_timestamping(:feature_rank, i+1)
-      end
-    end
-    
-    users_no_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.paid_photo is true and users.paid_highlighted is true and users.feature_rank is null", :order => "published_at desc") || []
-    users_with_rank = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.paid_photo is true and users.paid_highlighted is true and users.feature_rank is not null", :order => "feature_rank") || []
-    all_users = users_no_rank + users_with_rank
-    total_size = all_users.size
-    all_users.each_with_index do |u, i|
-      if i == total_size-1
-        #put the last user in first place
-        u.update_attribute_without_timestamping(:feature_rank, 0)
-      else
-        #move down all the others
-        u.update_attribute_without_timestamping(:feature_rank, i+1)
-      end      
-    end
+    Article.rotate_feature_ranks
+    User.rotate_feature_ranks
   end
 
   def self.update_individual_counters

@@ -20,6 +20,11 @@ end
 
 Factory.define :user_profile do |f|
   f.association :user
+  f.state "published"
+end
+
+Factory.define :role do |f|
+  f.name "full_member"
 end
 
 Factory.define :user do |f|
@@ -28,6 +33,8 @@ Factory.define :user do |f|
   f.accept_terms true
   f.association :district
   f.password "foobar"
+  f.state "active"
+  f.free_listing false
   f.notify_unpublished true
   f.password_confirmation { |u| u.password }
   f.sequence(:email) { |n| "foo#{n}@example.com" }

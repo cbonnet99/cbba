@@ -25,7 +25,36 @@ class Article < ActiveRecord::Base
   MAX_LENGTH_SLUG = 20
   POINTS_FOR_RECENT_ARTICLE = 10
   POINTS_FOR_OLDER_ARTICLE = 5
-
+  DAILY_ARTICLE_ROTATION = 3
+  
+  def self.rotate_feature_ranks(rotate_by=nil)
+    rotate_by = DAILY_ARTICLE_ROTATION if rotate_by.nil?
+    articles = Article.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
+    howtos = HowTo.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
+    ranked_articles = articles + howtos
+    ranked_articles = ranked_articles.sort_by(&:feature_rank)
+    all_articles = ranked_articles
+    
+    articles_no_rank = Article.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc")
+    howtos_no_rank = HowTo.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc")
+    if !articles_no_rank.blank? || !howtos_no_rank.blank?
+      all_articles_no_rank = articles_no_rank + howtos_no_rank
+      all_articles_no_rank = all_articles_no_rank.sort_by(&:published_at)
+      all_articles_no_rank.reverse!
+      all_articles = all_articles_no_rank + ranked_articles
+    end
+    total_size = all_articles.size
+    all_articles.each_with_index do |a, i|
+      if i+rotate_by >= total_size
+        #put the last articles in first places
+        a.update_attribute_without_timestamping(:feature_rank, i+rotate_by-total_size)
+      else
+        #move down all the others
+        a.update_attribute_without_timestamping(:feature_rank, i+rotate_by)
+      end
+    end    
+  end
+  
   def self.search(subcategory, category, district, region)
     subcategories = category.subcategories unless category.nil?
     subcategories = [subcategory] unless subcategory.nil?

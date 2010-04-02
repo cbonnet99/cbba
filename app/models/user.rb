@@ -106,6 +106,22 @@ class User < ActiveRecord::Base
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
+  DAILY_USER_ROTATION = 3
+  
+  def self.rotate_feature_ranks(rotate_by=nil)
+    rotate_by = DAILY_USER_ROTATION if rotate_by.nil?
+    all_users = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.paid_photo is true", :order => "feature_rank")
+    total_size = all_users.size
+    all_users.each_with_index do |u, i|
+      if i+rotate_by >= total_size
+        #move last users to the first places
+        u.update_attribute_without_timestamping(:feature_rank, i+rotate_by-total_size)
+      else
+        #move down all the others
+        u.update_attribute_without_timestamping(:feature_rank, i+rotate_by)
+      end      
+    end  
+  end
   
   def self.experts_for_subcategories
     subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => ["subcategories_users.points >= ?", MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "name, subcategories_users.points desc")
@@ -851,7 +867,7 @@ class User < ActiveRecord::Base
   end
 
   def self.featured_full_members
-    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active' and users.feature_rank is not null", :order => "feature_rank", :limit => $number_full_members_on_homepage  )
+    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "feature_rank", :limit => $number_full_members_on_homepage  )
   end
 
   def self.published_resident_experts

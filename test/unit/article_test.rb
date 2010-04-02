@@ -45,7 +45,7 @@ class ArticleTest < ActiveSupport::TestCase
     TaskUtils.rotate_feature_ranks
     articles = Article.all_featured_articles
     # puts "articles AFTER: #{articles.map(&:title).join(', ')}"
-    assert_equal first_article, articles[1], "The first article should now be second"
+    assert_equal first_article, articles[3], "The first article should now be fourth"
   end
 
   def test_publish

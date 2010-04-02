@@ -5,7 +5,11 @@ class AddPointsToUsers < ActiveRecord::Migration
       su.destroy if su.user.nil?
     end
     SubcategoriesUser.all.each do |su|
-      su.update_attribute(:points, su.user.compute_points(su.subcategory))
+      if su.subcategory.nil?
+        puts "Couldn't find subcategory for ID: #{su.subcategory_id}"
+      else
+        su.update_attribute(:points, su.user.compute_points(su.subcategory))
+      end
     end
   end
 
