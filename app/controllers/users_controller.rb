@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.find_by_email(params[:email])
     if @user.nil?
       flash[:error] = "User not found"
-      render :template => "error_unsubscribe" 
+      render :template => "users/error_unsubscribe" 
     else
       if @user.unsubscribe_token.blank?
         logger.error("Blank token for user #{@user.email}. Unsubscribe was allowed anyway.")
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
           flash[:notice] = "Your request has been successfully processed"
         else
           flash[:error] = "Invalid token"
-          render :template => "error_unsubscribe" 
+          render :template => "users/error_unsubscribe" 
         end
       end
     end

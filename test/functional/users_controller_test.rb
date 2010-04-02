@@ -24,6 +24,15 @@ class UsersControllerTest < ActionController::TestCase
     assert !user.notify_unpublished?
   end
 
+  def test_unsubscribe_unpublished_reminder_invalid_token
+    user = Factory(:user, :notify_unpublished => true, :unsubscribe_token => "bla")
+    post :unsubscribe_unpublished_reminder, {:email => user.email, :token => "ahaha"}
+    assert_response :success
+    assert_not_nil flash[:error], "Flash: #{flash.inspect}"
+    user.reload
+    assert user.notify_unpublished?
+  end
+
   def test_refer
     get :refer, {}, {:user_id => users(:sgardiner) }
     assert_response :success
