@@ -1,3 +1,5 @@
-<% @resident_experts.each do |re| -%>
-<div class="pics-resident-experts-item"><%= link_to medium_image(re), expanded_user_url(re) %><h6><%=re.name%></h6><p class="highlight"><%=re.expertise_subcategory.name%></p></div>
+<% @re_subcats.each do |s| -%>
+	<% @resident_experts[s.id].each do |re| -%>
+	<div class="pics-resident-experts-item"><%= link_to medium_image(re), expanded_user_url(re) %><h6><%=re.name%></h6><p class="highlight"><%=s.name%></p></div>
+	<% end -%>
 <% end -%>
