@@ -16,6 +16,16 @@ class Subcategory < ActiveRecord::Base
   validates_uniqueness_of :name, :message => "must be unique"
 
   named_scope :with_resident_expert, :conditions => "resident_expert_id is not null"
+  
+  MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY = 3
+  
+  def resident_experts
+    experts = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points >= ?", self.id, User::MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "subcategories_users.points desc")
+    unless experts.blank?
+      experts = experts[0..MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY-1]
+    end
+    experts
+  end
 
   def has_users?
     !users_counter.nil? && users_counter > 0

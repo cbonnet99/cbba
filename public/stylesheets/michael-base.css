@@ -182,7 +182,7 @@ li li { font-size: 12px; }
    ----------------------------------------------------*/
 	#contentMain { min-height:560px; background:url(../images/contentMainBg.gif) repeat-y; float:left; margin:30px 0 0 17px; overflow:hidden; padding:0 0 30px; width:603px; }
 #contentMain .columnTop { background:url(../images/contentMainTopBg.gif) no-repeat; height:8px; width:603px; }
-#homepage-full-members { background:url(../images/boxBg.gif) repeat-y; border-bottom:solid 1px #efeded; clear:both; margin:0 0 8px; overflow:hidden; width:564px; }
+#homepage-full-members, #featured-experts { background:url(../images/boxBg.gif) repeat-y; border-bottom:solid 1px #efeded; clear:both; margin:0 0 8px; overflow:hidden; width:564px; }
 .homepage-small-user { float:left; min-height:110px; padding:9px 0; width:188px; }
 .homepage-small-user:hover { background:#eee; }
 .homepage-small-user img { float:left; margin:0 9px; }

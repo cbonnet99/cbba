@@ -2,15 +2,14 @@
 <% unless @subcategory.description.blank? -%>
 <p><%= @subcategory.description%></p>
 <% end -%>
-<% unless logged_in? -%>
-<div id="bam-invite-join">
-<% if @users_hash.blank? -%>
-  <p>Be the first expert on <%=@subcategory.name%>! Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
-<% else -%>
-<p>Are you an expert on <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to 'join beamazing.co.nz', signup_intro_url %>!</p>
-<% end -%>
+<div class="box">
+	<h3>Resident experts</h3>
+	<div id="featured-experts">
+	    <% @featured_experts.each do |u| -%>
+	      <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
+	    <% end -%>	
+	</div>
 </div>
-<%end -%>
 <ul>
 <% content_for :sidebar_content do -%>
 	<% unless @articles.blank? -%>

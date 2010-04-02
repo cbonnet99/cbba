@@ -10,11 +10,6 @@
 <%= title title_search(@region, @district, @category, @subcategory)%>
 <p><%= @subcategory.description%></p>
 <% end -%>
-<% unless @subcategory.nil? || @subcategory.resident_expert_id.nil? %>
-  <div id="bam-meet-expert"><h3 id="resident-title">Meet our resident expert:</h3>
-  <%=render :partial => "users/user", :locals => {:user => @subcategory.resident_expert }  %>
-</div>
-<%end -%>
 <% if @results.empty? -%>
   No results found <%=  describe_search(@region, @district, @category, @subcategory) %>.
 <% else -%>
