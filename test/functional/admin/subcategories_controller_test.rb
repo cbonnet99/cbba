@@ -39,6 +39,7 @@ class Admin::SubcategoriesControllerTest < ActionController::TestCase
     delete = subcategories(:business_coaching)
     transfer_to = subcategories(:life_coaching)
     users = delete.users
+    deleted_id = delete.id
     transferred_users_size = users.size
     old_users_size = transfer_to.users.size
     old_size = Subcategory.all.size
@@ -49,6 +50,7 @@ class Admin::SubcategoriesControllerTest < ActionController::TestCase
       u.reload
       assert u.subcategories.include?(transfer_to), "#{u.name} should have #{transfer_to.name}, but subcats are: #{u.subcategories.map(&:name).to_sentence}"
       assert !u.subcategories.include?(delete), "#{u.name} should NOT have #{delete.name}, but subcats are: #{u.subcategories.map(&:name).to_sentence}"
+      assert u.subcategories_users.find_by_subcategory_id(deleted_id).blank?
     end
     transfer_to.reload
     users.each do |u|

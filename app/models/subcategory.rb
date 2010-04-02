@@ -3,9 +3,9 @@ class Subcategory < ActiveRecord::Base
   include Sluggable
 
 	belongs_to :category
-	has_many :subcategories_users, :order => "position"
+	has_many :subcategories_users, :order => "position", :dependent => :delete_all 
 	has_many :users, :through => :subcategories_users
-	has_many :articles_subcategories
+	has_many :articles_subcategories, :dependent => :delete_all 
 	has_many :articles, :through => :articles_subcategories
 	has_many :special_offers
 	has_many :gift_vouchers
