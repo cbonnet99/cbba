@@ -1,6 +1,6 @@
 <% review = nil if local_assigns[:review].nil? -%>
 <div class="user-description<%if user.paid_highlighted?%> user-highlighted<%end%>">
-<%unless user.free_listing?%><h4 class="<%=user.css_role_description%>"><%= user.role_description %></h4>
+<%unless user.free_listing?%>
 <div class="user-photo"><%= thumbnail_image(user) %></div><%end%>
 <%if user.free_listing?%><h4><%else%><h3><%end%><% if user.user_profile.published?%><%= link_to "#{user.name} - #{user.key_expertise_name(@subcategory)}", expanded_user_url(user)%><%else%><%= user.name %> - <%= user.key_expertise_name(@subcategory)%><%end%><%if user.free_listing?%></h4><%else%></h3><%end%>
   <%if user.free_listing?%><a class="bam-show-more-details" id="bam-show-more-details-<%=user.id%>" href="#">Show more details</a><%end%>

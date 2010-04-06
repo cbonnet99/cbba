@@ -2,15 +2,16 @@
 <% unless @subcategory.description.blank? -%>
 <p><%= @subcategory.description%></p>
 <% end -%>
+<% unless @featured_experts.blank? -%>
 <div class="box">
-	<h3>Resident experts</h3>
+	<h3>Resident experts: <%= @subcategory.name%> Article Contributors</h3>
 	<div id="featured-experts">
 	    <% @featured_experts.each do |u| -%>
-	      <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
+	      <div class="homepage-small-user"><%= render :partial => "resident_experts/expert_small", :locals => {:subcat => @subcategory, :user => u }  %></div>
 	    <% end -%>	
 	</div>
 </div>
-<ul>
+<% end -%>
 <% content_for :sidebar_content do -%>
 	<% unless @articles.blank? -%>
 		<h4>Related articles</h4>
@@ -21,7 +22,9 @@
 	<% end -%>
 		</ul>
 <% end -%>
-</ul>
+<% if @users_hash.blank? -%>
+<p class="highlight">Be the first practitioner to <%= link_to "sign up", signup_intro_url%> (it's FREE!)</p>
+<% else -%>
   <% @users_hash.keys.sort.each do |region_name| -%>
     <h3 class="bam-region-name"><%=link_to region_name, subcategory_region_url(@category.slug, @subcategory.slug, region_name.parameterize)%></h3>
     <ul class="subcategories simple">
@@ -30,3 +33,4 @@
       <% end -%>
     </ul>
   <% end -%>
+<% end -%>
