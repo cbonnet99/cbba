@@ -444,11 +444,11 @@ class TaskUtilsTest < ActiveSupport::TestCase
     ImportUtils.import_districts
     ImportUtils.import_users("small_users.csv")
     TaskUtils.create_default_admins
-    #Norma exists in users
-    norma = User.find_by_email("norma@eurekacoaching.co.nz")
-    assert_not_nil norma
-    assert norma.admin?
-    assert !norma.free_listing?
+    #Sav exists in users
+    sav = User.find_by_email("sav@elevatecoaching.co.nz")
+    assert_not_nil sav
+    assert sav.admin?
+    assert !sav.free_listing?
   end
 
     def test_rotate_user_positions_in_subcategories

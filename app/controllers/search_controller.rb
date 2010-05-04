@@ -4,7 +4,6 @@ class SearchController < ApplicationController
   protect_from_forgery :except => :search
   
   def contact
-    @norma = User.find_by_email(APP_CONFIG[:norma])
     @sav = User.find_by_email(APP_CONFIG[:sav])
     @cyrille = User.find_by_email(APP_CONFIG[:cyrille])
     @megan = User.find_by_email(APP_CONFIG[:megan])
