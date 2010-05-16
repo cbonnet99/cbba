@@ -3,6 +3,17 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_generate_autocomplete_subcategories_content
+    fm = Factory(:role)
+    user_with_quote = Factory(:user, :last_name => "O'Neil")
+    user_with_quote.roles << fm
+    profile = Factory(:user_profile, :user => user_with_quote )
+    s = ""
+    assert User.full_members.published.include?(user_with_quote)
+    TaskUtils.generate_autocomplete_subcategories_content(s)
+    assert_match %r{O\\'Neil}, s, "Single quotes should be escaped"
+  end
+
   def test_notify_unpublished_users
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true

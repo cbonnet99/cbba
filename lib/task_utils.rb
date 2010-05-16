@@ -140,14 +140,18 @@ class TaskUtils
   
   def self.generate_autocomplete_subcategories
     File.open("#{RAILS_ROOT}/public/javascripts/subcategories.js", 'w') do |out|
-      subcategories = Subcategory.find(:all, :order =>:name)
-      subcategories.concat(Category.find(:all, :order =>:name))
-      subcategories.concat(User.full_members.published)
-      out << "var sbg=new Array(#{subcategories.size});"
-      subcategories.each_with_index do |stuff, index|
-        # puts "Adding #{stuff.name}"
-        out << "sbg[#{index}]='#{stuff.name}';"
-      end
+      generate_autocomplete_subcategories_content(out)
+    end
+  end
+  
+  def self.generate_autocomplete_subcategories_content(out)
+    subcategories = Subcategory.find(:all, :order =>:name)
+    subcategories.concat(Category.find(:all, :order =>:name))
+    subcategories.concat(User.full_members.published)
+    out << "var sbg=new Array(#{subcategories.size});"
+    subcategories.each_with_index do |stuff, index|
+      # puts "Adding #{stuff.name}"
+      out << "sbg[#{index}]='#{help.escape_javascript(stuff.name)}';"
     end
   end
 
@@ -159,7 +163,7 @@ class TaskUtils
       out << "var lts = new Array(#{locations.size});"
       locations.each_with_index do |location, index|
         # puts "Adding #{location.name}"
-        out << "lts[#{index}]='#{location.name}';"
+        out << "lts[#{index}]='#{help.escape_javascript(location.name)}';"
       end
     end    
   end
