@@ -92,7 +92,29 @@ class TabsControllerTest < ActionController::TestCase
     assert_equal "Your tab was deleted", flash[:notice]
     sgardiner.reload
     assert_equal old_size-1, sgardiner.tabs.size, "One tab should have been deleted"
-    assert_equal old_sub_size-1, sgardiner.subcategories.size
+    assert_equal old_sub_size-1, sgardiner.subcategories.size, "One subcategory should have been deleted"
+  end
+
+  def test_destroy_with_capitals
+    sgardiner = users(:sgardiner)
+    nlp = subcategories(:neuro_linguistic_programming)
+    sgardiner_life_coaching = tabs(:sgardiner_life_coaching)
+    sgardiner.remove_tab(sgardiner_life_coaching.slug)
+    sgardiner.reload
+    original_tab_size = sgardiner.tabs.size
+    sgardiner.add_tab(nlp)
+    sgardiner.reload
+    assert_equal original_tab_size+1, sgardiner.tabs.size
+    assert sgardiner.tabs.size > 1, "Should have more than 1 tab, otherwise it can't be deleted"
+    old_sub_size = sgardiner.subcategories.size
+    post :destroy, {:id => nlp.name.parameterize}, {:user_id => sgardiner.id }
+    assert_redirected_to expanded_user_url(sgardiner)
+    assert_nil flash[:error]
+    assert_not_nil flash[:notice]
+    assert_equal "Your tab was deleted", flash[:notice]
+    sgardiner.reload
+    assert_equal original_tab_size, sgardiner.tabs.size, "One tab should have been deleted"
+    assert_equal old_sub_size-1, sgardiner.subcategories.size, "One subcategory should have been deleted"
   end
 
 end

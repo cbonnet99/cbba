@@ -48,6 +48,19 @@ class UserTest < ActiveSupport::TestCase
     assert !User.notify_unpublished.include?(user_no)
   end
 
+  def test_unpublished
+    user_unpublished = Factory(:user)
+    user_unpublished_profile = Factory(:user_profile, :user => user_unpublished, :state => "draft" )
+    user_unpublished.user_profile = user_unpublished_profile
+    user_unpublished.save
+    user_published = Factory(:user)
+    user_published_profile = Factory(:user_profile, :user => user_published, :state => "published" )
+    user_published.user_profile = user_published_profile
+    user_published.save
+    assert User.unpublished.include?(user_unpublished)
+    assert !User.unpublished.include?(user_published)
+  end
+
   def test_had_visits_since
     sub = Factory(:subcategory)
     user = Factory(:user, :subcategory1_id => sub.id)

@@ -1016,12 +1016,17 @@ class User < ActiveRecord::Base
 
   def remove_tab(tab_slug)
     tab = self.tabs.find_by_slug(tab_slug)
-    unless tab.nil?
+    if tab.nil?
+      logger.error("No tab found for #{tab_slug} on user #{self.email}")
+    else
       tab.destroy
     end
     #delete corresponding subcategory
-    sub = self.subcategories.find_by_name(tab_slug.split("-").map(&:capitalize).join(" "))
-    unless sub.nil?
+    # sub = self.subcategories.find_by_name(tab_slug.split("-").map(&:capitalize).join(" "))
+    sub = self.subcategories.find(:first, :conditions => [ "lower(name) = ?", tab_slug.split("-").map(&:downcase).join(" ") ])
+    if sub.nil?
+      logger.error("Tab #{tab_slug} was removed for user #{self.email}, but there is no corresponding category")
+    else
       su = self.subcategories_users.find_by_subcategory_id(sub.id)
       unless su.nil?
         su.destroy

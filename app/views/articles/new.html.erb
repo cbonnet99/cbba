@@ -2,7 +2,8 @@
 <%= title "New article"  %>
 <% form_for(@article) do |f| %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your article could not be saved" %>
-
+  <h3>A note about adding an article</h3>
+<p>We are super-keen on providing an awesome library of articles for people using this site - articles that contain insights, tips and valuable information. When you're creating an article, keep the focus on 'giving, sharing and adding value' and steer away from trying to cloak a sales pitch as an article - <b>it won't work well for you</b>! Sharing an expertise freely and without agenda is a great way to build trust and credibility - <b>Now that will work for you!</b></p>
       <%= render :partial => "form", :locals => {:f => f, :subcategories_label => "Please enter up to 3 categories you would like this article to be listed in:"  }   %>
   <div class="buttons">
     <label for=""></label>
