@@ -5,7 +5,7 @@ class TaskUtils
   def self.check_inconsistent_tabs
     User.all.each do |u|
       if u.tabs.size != u.subcategories.size
-        puts "User #{u.email} has #{u.tabs.size} tabs, but #{u.subcategories.size} subcategories."
+        puts "User #{u.email} has #{u.tabs.size} tabs (#{u.tabs.map(&:title).to_sentence}), but #{u.subcategories.size} subcategories (#{u.subcategories.map(&:name).to_sentence})."
       end
     end
     puts "Done!"
