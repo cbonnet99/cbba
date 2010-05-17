@@ -2,12 +2,13 @@ require 'xero_gateway'
 
 class TaskUtils
 
-  def check_inconsistent_tabs
+  def self.check_inconsistent_tabs
     User.all.each do |u|
       if u.tabs.size != u.subcategories.size
-        logger.error("User #{u.email} has #{u.tabs.size} tabs, but #{u.subcategories.size} subcategories.")
+        puts "User #{u.email} has #{u.tabs.size} tabs, but #{u.subcategories.size} subcategories."
       end
     end
+    puts "Done!"
   end
 
   def self.recompute_points
