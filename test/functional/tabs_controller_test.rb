@@ -12,6 +12,14 @@ class TabsControllerTest < ActionController::TestCase
     assert_select "input[name='tab[old_title]']"
   end
   
+  def test_edit_unknown_slug
+    sgardiner = users(:sgardiner)
+    sgardiner_hypnotherapy = tabs(:sgardiner_hypnotherapy)
+    get :edit, {:id => "blabla" }, {:user_id => sgardiner.id }
+    assert_response :success
+    assert_select "input[name='tab[old_title]']"
+  end
+  
   def test_create_too_many
     rmoore = users(:rmoore)
     aromatherapy = subcategories(:aromatherapy)

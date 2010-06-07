@@ -77,7 +77,7 @@ class TabsController < ApplicationController
 
   def edit
     get_subcategory_names
-    @selected_tab = current_user.tabs.find_by_slug(params[:id])
+    @selected_tab = current_user.tabs.find_by_slug(params[:id]) || current_user.tabs.first
     @selected_tab.old_title = @selected_tab.title
     @user = current_user
     render :template => "users/show"
