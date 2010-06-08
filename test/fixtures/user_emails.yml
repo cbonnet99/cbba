@@ -10,6 +10,7 @@ mass_email1:
 standard_mail:
     user: norma
     email_type: membership_expired_today
+    sent_at: <%=Time.now%>
 
 mass_email_sent:
     user: cyrille

@@ -66,7 +66,7 @@ class MassEmail < ActiveRecord::Base
       end
       all_users = []
       if recipients == "All subscribers"
-        all_users.concat(contact_obj.all)
+        all_users = users_obj.concat(contact_obj.all)
       end
       if recipients == "Full members"
         all_users.concat(users_obj.full_members)

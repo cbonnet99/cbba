@@ -12,6 +12,15 @@ class MassEmailTest < ActiveSupport::TestCase
     assert_equal old_size+User.active.full_members.size, UserEmail.all.size
     assert_equal "<br/>#{User.active.full_members.map(&:name_with_email).join('<br/>')}", test_password.sent_to
   end
+  
+  def test_deliver_newsletter
+    UserEmail.check_and_send_mass_emails
+    assert_equal 0, UserEmail.not_sent.size, "UserEmail.not_sent: #{UserEmail.not_sent.inspect}"
+    email_public_newsletter = mass_emails(:email_public_newsletter)
+    email_public_newsletter.recipients = "All subscribers"
+    email_public_newsletter.deliver
+    assert_equal User.active.wants_newsletter.size+Contact.wants_newsletter.size, UserEmail.not_sent.size
+  end
 
   def test_unknown_attributes
     assert_equal ["bla"], mass_emails(:unknown_attributes).unknown_attributes(users(:cyrille))
