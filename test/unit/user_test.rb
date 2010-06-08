@@ -513,7 +513,14 @@ class UserTest < ActiveSupport::TestCase
   
   def test_user_slug
     cyrille = users(:cyrille)
-    assert "cyrille-bonnet", cyrille.slug
+    assert_equal "cyrille-bonnet-bioboy-inc", cyrille.slug
+  end
+
+  def test_user_identical_slug
+    cyrille = users(:cyrille)
+    assert_raise ActiveRecord::RecordInvalid do
+      new_user = Factory(:user, :first_name => cyrille.first_name, :last_name => cyrille.last_name, :business_name => cyrille.business_name)
+    end
   end
 
   def test_articles

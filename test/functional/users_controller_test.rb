@@ -591,7 +591,7 @@ class UsersControllerTest < ActionController::TestCase
       :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
       }
 		assert_not_nil assigns(:user)
-#    puts assigns(:user).errors.inspect
+    puts assigns(:user).errors.inspect
 		assert_equal 1, assigns(:user).errors.size
 	end
   def test_create_free_listing
