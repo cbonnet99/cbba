@@ -60,10 +60,10 @@ class PaymentTest < ActiveSupport::TestCase
     payment.update_attributes(:card_number => "1", :card_expires_on => Time.now, :expert_application => applying_expert )
     payment.purchase
     applying_resident_expert.reload
-    assert_equal Time.now.to_date, applying_resident_expert.resident_since.to_date
+    assert_equal Time.zone.now.to_date, applying_resident_expert.resident_since.to_date
     assert_equal 1.year.from_now.to_date, applying_resident_expert.resident_until.to_date
     #make sure that member dates are aligned
-    assert_equal Time.now.to_date, applying_resident_expert.member_since.to_date
+    assert_equal Time.zone.now.to_date, applying_resident_expert.member_since.to_date
     assert_equal 1.year.from_now.to_date, applying_resident_expert.member_until.to_date
     #an email should have been sent
     assert_equal 1, ActionMailer::Base.deliveries.size
@@ -88,7 +88,7 @@ class PaymentTest < ActiveSupport::TestCase
     payment.update_attributes(:card_number => "1", :card_expires_on => Time.now)
     payment.purchase
     pending_user.reload
-    assert_equal Time.now.to_date, pending_user.member_since.to_date
+    assert_equal Time.zone.now.to_date, pending_user.member_since.to_date
     assert_equal 1.year.from_now.to_date, pending_user.member_until.to_date
     #an email should have been sent
     assert_equal 1, ActionMailer::Base.deliveries.size

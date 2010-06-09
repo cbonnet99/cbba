@@ -767,6 +767,12 @@ class User < ActiveRecord::Base
         unless self.categories.include?(sub1.category)
           self.categories << sub1.category
         end
+        # update points
+        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
+        unless su.nil?
+          su.update_attribute(:points, self.compute_points(sub1))
+        end
+        
         # #update expertise position
         unless @old_positions.blank? || @old_positions[self.subcategory1_id].blank?
           su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
@@ -783,6 +789,12 @@ class User < ActiveRecord::Base
         unless self.categories.include?(sub2.category)
           self.categories << sub2.category
         end
+        # update points
+        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
+        unless su.nil?
+          su.update_attribute(:points, self.compute_points(sub2))
+        end
+        
         # #update expertise position
         unless @old_positions.blank? || @old_positions[self.subcategory2_id].blank?
           su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
@@ -799,6 +811,12 @@ class User < ActiveRecord::Base
         unless self.categories.include?(sub3.category)      
           self.categories << sub3.category
         end
+        # update points
+        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)
+        unless su.nil?
+          su.update_attribute(:points, self.compute_points(sub3))
+        end
+        
         # #update expertise position
         unless @old_positions.blank? || @old_positions[self.subcategory3_id].blank?
           su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)

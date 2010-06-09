@@ -39,6 +39,13 @@ class UserTest < ActiveSupport::TestCase
     subcats, experts = User.experts_for_subcategories
     assert_equal 1, subcats.size
     assert experts[subcats.first.id].include?(user)
+    
+    user.business_name = "bla"
+    user.save!
+    #user should still be an expert
+    subcats, experts = User.experts_for_subcategories
+    assert_equal 1, subcats.size
+    assert experts[subcats.first.id].include?(user)
   end
 
   def test_notify_unpublished
