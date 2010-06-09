@@ -288,21 +288,13 @@ class User < ActiveRecord::Base
     self.main_role = user_hash[:main_role]
     self.admin = user_hash[:admin] == "1"
     if user_hash[:main_role] == "Full member"
-      self.member_since = Date::civil(user_hash['member_since(1i)'].to_i,
-       user_hash['member_since(2i)'].to_i, 
-      user_hash['member_since(3i)'].to_i)
-      self.member_until = Date::civil(user_hash['member_until(1i)'].to_i,
-       user_hash['member_until(2i)'].to_i, 
-      user_hash['member_until(3i)'].to_i)
+      self.member_since = Time.zone.parse("#{user_hash['member_since(1i)']}-#{user_hash['member_since(2i)']}-#{user_hash['member_since(3i)']}")
+      self.member_until = Time.zone.parse("#{user_hash['member_until(1i)']}-#{user_hash['member_until(2i)']}-#{user_hash['member_until(3i)']}")
     end
     if user_hash[:main_role] == "Resident expert"
       #TO DO: make_resident_expert, test if it is already an expert...
-      self.resident_since = Date::civil(user_hash['resident_since(1i)'].to_i,
-       user_hash['resident_since(2i)'].to_i, 
-      user_hash['resident_since(3i)'].to_i)
-      self.resident_until = Date::civil(user_hash['resident_until(1i)'].to_i,
-       user_hash['resident_until(2i)'].to_i, 
-      user_hash['resident_until(3i)'].to_i)
+      self.resident_since = Time.zone.parse("#{user_hash['resident_since(1i)']}-#{user_hash['resident_since(2i)']}-#{user_hash['resident_since(3i)']}")
+      self.resident_until = Time.zone.parse("#{user_hash['resident_until(1i)']}-#{user_hash['resident_until(2i)']}-#{user_hash['resident_until(3i)']}")
       subcategory = Subcategory.find(user_hash[:expertise_subcategory_id])
       if subcategory.nil?
         self.errors.add(:expertise_subcategory_id, "doesn't exist")
