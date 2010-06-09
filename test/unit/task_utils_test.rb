@@ -428,10 +428,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
 		practitioners = categories(:practitioners)
 		hypnotherapy = subcategories(:hypnotherapy)
 		TaskUtils.count_users
-		practitioners.reload
-		assert_equal 7, practitioners.users_counter
 		hypnotherapy.reload
 		assert_equal 5, hypnotherapy.users_counter
+		practitioners.reload
+		assert_equal 8, practitioners.users_counter
 	end
 
   def test_create_default_admins
