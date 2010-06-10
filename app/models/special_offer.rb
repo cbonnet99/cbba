@@ -24,6 +24,10 @@ class SpecialOffer < ActiveRecord::Base
   IMAGE_BOTTOM = "/images/bam-logo.jpg"
   TEXT_BOTTOM2 = "We make having a choice about your wellbeing easy!"
 
+  def hash_count_published
+    
+  end
+
   def short_description
     if description.nil?
       ""

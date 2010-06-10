@@ -143,10 +143,9 @@
 <% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
     <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
 <% end -%>
-    <div id="ad-banners" class="advert">
-		<div class="ad-banner"><a target="_blank" href="http://www.elevatecoaching.co.nz"><%= image_tag "banner-ad-sav.gif"%></a></div>
-		<div class="ad-banner"><a target="_blank" href="http://www.eurekacoaching.co.nz"><%= image_tag "banner-ad-norma.jpg"%></a></div>
-		<div class="ad-banner"><a target="_blank" href="http://www.thatblindwoman.co.nz"><%= image_tag "banner-ad-julie.jpg"%></a></div>
+    <div id="ads">
+		<div><%= link_to image_tag("bamgiftvouchergraphic.png"), {:controller => "/gift_vouchers", :action => "index", :context => "homepage" }%></a></div>
+		<div><%= link_to image_tag("bamspecialoffergraphic.png"), {:controller => "/special_offers", :action => "index", :context => "homepage" }%></a></div>
 	</div>
 	<div id="networks">
 		<h4>Join us on:</h4>
