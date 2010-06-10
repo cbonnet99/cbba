@@ -1,4 +1,3 @@
-<% use_tinymce -%>
   <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
@@ -11,6 +10,10 @@
         <%= f.label :description, "Description<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :description, :cols => "35" %>
       </li>
+      <li>
+		<p><%= f.radio_button :nation_wide, "true" %><label for="gift_voucher_nation_wide_true">Available New Zealand-wide</label></p>
+		<p><%= f.radio_button :nation_wide, "false" %><label for="gift_voucher_nation_wide_false">Offered to people in your region only</label></p>
+	  </li>
       <li>
         <label><%=subcategories_label%></label>
       </li>

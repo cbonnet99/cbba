@@ -10,7 +10,8 @@ class SpecialOffer < ActiveRecord::Base
   
   after_create :save_pdf_filename, :generate_pdf
   after_update :generate_pdf
-  validates_presence_of :title, :description, :how_to_book, :terms
+  validates_presence_of :title, :description
+  validates_length_of :description, :maximum => 600
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your special offers" 
         
   DEFAULT_TERMS = "<ul><li>Subject to availability at time of application</li><li>Bookings must be made in advance</li><li>Limited to one offer per person</li><li>Not to be used in conjunction with any other offer</li></ul>"

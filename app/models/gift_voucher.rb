@@ -8,6 +8,7 @@ class GiftVoucher < ActiveRecord::Base
   has_many :newsletters, :through => :gift_vouchers_newsletters 
   
   validates_presence_of :title, :description
+  validates_length_of :description, :maximum => 600
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your gift vouchers" 
 
   def short_description

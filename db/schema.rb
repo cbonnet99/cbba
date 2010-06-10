@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100328181436) do
+ActiveRecord::Schema.define(:version => 20100610092540) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(:version => 20100328181436) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "subcategory_id"
+    t.boolean  "nation_wide",     :default => false
   end
 
   create_table "gift_vouchers_newsletters", :force => true do |t|
@@ -411,6 +412,7 @@ ActiveRecord::Schema.define(:version => 20100328181436) do
     t.integer  "approved_by_id"
     t.integer  "author_id"
     t.integer  "subcategory_id"
+    t.boolean  "nation_wide",     :default => false
   end
 
   create_table "subcategories", :force => true do |t|
