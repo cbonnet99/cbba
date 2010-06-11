@@ -14,9 +14,7 @@ class SpecialOffersController < ApplicationController
 
   def index
     @context = "homepage"
-    @special_offers = SpecialOffer.published
-    @special_only = true
-    @all_offers = @special_offers
+    @subcategories = Subcategory.with_special_offers
     log_bam_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
   end
 
