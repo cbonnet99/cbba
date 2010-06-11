@@ -69,8 +69,6 @@ class SpecialOffersController < ApplicationController
   
   def new
     @special_offer = current_user.special_offers.new
-    @special_offer.how_to_book = current_user.default_how_to_book
-    @special_offer.terms = SpecialOffer::DEFAULT_TERMS
     @special_offer.subcategory_id = current_user.subcategories.first.id unless current_user.subcategories.blank?
 		get_subcategories
   end

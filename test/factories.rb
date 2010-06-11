@@ -27,6 +27,13 @@ Factory.define :role do |f|
   f.name "full_member"
 end
 
+Factory.define :special_offer do |so|
+  so.author {|author| author.association(:user) }
+  so.title "Bla"
+  so.description "Bla"
+  so.association :subcategory
+end
+
 Factory.define :user do |f|
   f.sequence(:first_name) {|n| "User#{n}"}
   f.last_name "Name"

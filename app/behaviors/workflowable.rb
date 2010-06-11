@@ -13,7 +13,7 @@ module Workflowable
     base.send :aasm_state, :published, :enter => :email_reviewers_and_increment_count  	
     
     base.send :aasm_event, :publish do
-      transitions :from => :draft, :to => :published, :guard => Proc.new {|item| item.exceeds_paid_for?}
+      transitions :from => :draft, :to => :published, :guard => Proc.new {|item| item.paid_items_left?}
     end
 
     base.send :aasm_event, :remove do
@@ -77,7 +77,7 @@ module Workflowable
       res << sub[1..sub.length]
     end
 
-    def exceeds_paid_for?
+    def paid_items_left?
       !self.author.respond_to?("paid_#{self.class.to_s.tableize}") || (self.author.respond_to?("paid_#{self.class.to_s.tableize}") && self.class.to_s != "UserProfile" && self.author.send("#{self.class.to_s.tableize}".to_sym).published.size < self.author.send("paid_#{self.class.to_s.tableize}"))
     end
 
@@ -90,17 +90,23 @@ module Workflowable
     end
 
     def decrement_published_count
-      unless self.class.to_s == "UserProfile"
-        sym = "published_#{self.class.to_s.tableize}_count".to_sym
+      sym = "published_#{self.class.to_s.tableize}_count".to_sym
+      if self.respond_to?(:author) && self.author.respond_to?(sym)
         self.author.update_attribute(sym, self.author.send(sym)-1)
       end      
+      if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
+        self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
+      end
     end
 
     def remove_published_information_and_decrement_count
       self.update_attributes(:approved_at => nil, :approved_by => nil, :published_at => nil)
-      unless self.class.to_s == "UserProfile"
-        sym = "published_#{self.class.to_s.tableize}_count".to_sym
+      sym = "published_#{self.class.to_s.tableize}_count".to_sym
+      if self.respond_to?(:author) && self.author.respond_to?(sym)
         self.author.update_attribute(sym, self.author.send(sym)-1)
+      end
+      if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
+        self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
       end
     end
 
@@ -109,9 +115,12 @@ module Workflowable
       User.reviewers.each do |r|
         UserMailer.deliver_stuff_to_review(self, r)
       end
-      unless self.class.to_s == "UserProfile"
-        sym = "published_#{self.class.to_s.tableize}_count".to_sym
+      sym = "published_#{self.class.to_s.tableize}_count".to_sym
+      if self.respond_to?(:author) && self.author.respond_to?(sym)
         self.author.update_attribute(sym, self.author.send(sym)+1)
+      end
+      if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
+        self.subcategory.update_attribute(sym, self.subcategory.send(sym)+1)
       end
     end
 

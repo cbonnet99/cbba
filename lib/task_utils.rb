@@ -365,6 +365,13 @@ class TaskUtils
 		end
 	end
 
+  def self.count_offers
+		Subcategory.all.each do |s|
+			s.update_attribute(:published_special_offers_count, s.special_offers.published.size)
+			s.update_attribute(:published_gift_vouchers_count, s.gift_vouchers.published.size)
+		end    
+  end
+
 	def self.update_counters
 		Counter.all.each do |c|
 			c.update_attribute(:count, Object.const_get(c.class_name).send("count_published_#{c.title.gsub(/ /, '_').downcase}".to_sym))

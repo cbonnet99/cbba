@@ -2,10 +2,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SpecialOffersControllerTest < ActionController::TestCase
 
-  def teardown
-    FileUtils.rm_rf(SpecialOffer::PDF_SUFFIX_ABSOLUTE+SpecialOffer::PDF_SUFFIX_RELATIVE)
-  end
-
   def test_index_for_subcategory
     yoga = subcategories(:yoga)
     free_trial = special_offers(:free_trial)
@@ -19,11 +15,10 @@ class SpecialOffersControllerTest < ActionController::TestCase
   def test_limit_special_offers_for_full_members
     sgardiner = users(:sgardiner)
 
-    SpecialOffer.create(:title => "Title", :description => "Description",
-      :how_to_book => "Book here", :terms => "Terms here", :state => "published", :author => sgardiner   )
+    SpecialOffer.create(:title => "Title", :description => "Description", :state => "published", :author => sgardiner   )
 
     new_offer2 = SpecialOffer.create(:title => "Title2", :description => "Description",
-      :how_to_book => "Book here", :terms => "Terms here", :author => sgardiner)
+      :author => sgardiner)
     post :publish, {:id => new_offer2.id }, {:user_id => sgardiner.id }
     assert_equal "You have paid for 1 published special offer", flash[:error]
     assert_redirected_to special_offers_url
@@ -34,9 +29,9 @@ class SpecialOffersControllerTest < ActionController::TestCase
     one = special_offers(:one)
 
     SpecialOffer.create(:title => "Title", :description => "Description",
-      :how_to_book => "Book here", :terms => "Terms here", :state => "published", :author => cyrille   )
+       :state => "published", :author => cyrille   )
     SpecialOffer.create(:title => "Title2", :description => "Description",
-      :how_to_book => "Book here", :terms => "Terms here", :state => "published", :author => cyrille   )
+       :state => "published", :author => cyrille   )
 
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
     assert_equal "You have paid for 3 published special offers", flash[:error]
@@ -69,7 +64,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
     old_count = cyrille.special_offers_count
     old_size = cyrille.special_offers.size
     post :create, {:special_offer => {:title => "Title", :description => "Description",
-      :how_to_book => "Book here", :terms => "Terms here"} }, {:user_id => cyrille.id }
+      } }, {:user_id => cyrille.id }
     new_offer = assigns(:special_offer)
     assert_not_nil new_offer
     assert new_offer.errors.blank?, "Errors found in new_offer: #{new_offer.errors.inspect}"
@@ -125,16 +120,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
     assert_template 'show'
     assert_select "div[class=publication-actions]", :count => 1
   end
-  
-  def test_show_pdf
-    cyrille = users(:cyrille)
-    free_trial = special_offers(:free_trial)
-    #save the offer so that the PDF is created
-    free_trial.save!
-    get :show, {:id => free_trial.slug, :selected_user => cyrille.slug, :format => "pdf"  }
-    assert_response :success
-  end
-  
+    
   def test_show_draft
     cyrille = users(:cyrille)
     get :show, {:id => special_offers(:one).slug, :selected_user => cyrille.slug }

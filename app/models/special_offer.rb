@@ -8,27 +8,10 @@ class SpecialOffer < ActiveRecord::Base
   has_many :newsletters_special_offers
   has_many :newsletters, :through => :newsletters_special_offers 
   
-  after_create :save_pdf_filename, :generate_pdf
-  after_update :generate_pdf
   validates_presence_of :title, :description
   validates_length_of :description, :maximum => 600
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your special offers" 
-        
-  DEFAULT_TERMS = "<ul><li>Subject to availability at time of application</li><li>Bookings must be made in advance</li><li>Limited to one offer per person</li><li>Not to be used in conjunction with any other offer</li></ul>"
-  PDF_SUFFIX_ABSOLUTE = File.dirname(__FILE__) + "/../../public"
-  PDF_SUFFIX_RELATIVE = "/assets/special-offers"
-
-  PDF_TEXT_FONT = "Helvetica"
-  COLOR_TITLES = Color::RGB::CornflowerBlue
-  COLOR_TEXT = Color::RGB::DarkGrey
-  TEXT_BOTTOM1 = "This voucher was downloaded from:"
-  IMAGE_BOTTOM = "/images/bam-logo.jpg"
-  TEXT_BOTTOM2 = "We make having a choice about your wellbeing easy!"
-
-  def hash_count_published
     
-  end
-
   def short_description
     if description.nil?
       ""
@@ -57,27 +40,27 @@ class SpecialOffer < ActiveRecord::Base
 	  SpecialOffer.find_all_by_state("published").size
   end
 
-  def generate_pdf
-    FileUtils.mkdir_p(PDF_SUFFIX_ABSOLUTE + pdf_directory)
-    pdf = PDF::Writer.new
-    pdf.select_font PDF_TEXT_FONT
-    pdf.fill_color COLOR_TITLES
-    pdf.text title, :justification => :center, :font_size => 24
-    title_text(pdf, "Special offer description")
-    paragraph_text(pdf, description)
-    #    pdf.text description, :justification => :left, :font_size => 12
-    title_text(pdf, "How to book")
-    paragraph_text(pdf, how_to_book)
-    #    pdf.text how_to_book, :justification => :left, :font_size => 12
-    title_text(pdf, "Terms & conditions")
-    paragraph_text(pdf, terms)
-    paragraph_text(pdf, "\n")
-    pdf.text TEXT_BOTTOM1, :font_size=>12, :justification=>:center
-    pdf.image(PDF_SUFFIX_ABSOLUTE+IMAGE_BOTTOM, :justification=>:center)
-    pdf.text TEXT_BOTTOM2, :font_size=>12, :justification=>:center
-    logger.debug("----- Saving PDF file #{pdf_filename}")
-    pdf.save_as(PDF_SUFFIX_ABSOLUTE+pdf_filename)
-  end
+  # def generate_pdf
+  #   FileUtils.mkdir_p(PDF_SUFFIX_ABSOLUTE + pdf_directory)
+  #   pdf = PDF::Writer.new
+  #   pdf.select_font PDF_TEXT_FONT
+  #   pdf.fill_color COLOR_TITLES
+  #   pdf.text title, :justification => :center, :font_size => 24
+  #   title_text(pdf, "Special offer description")
+  #   paragraph_text(pdf, description)
+  #   #    pdf.text description, :justification => :left, :font_size => 12
+  #   title_text(pdf, "How to book")
+  #   paragraph_text(pdf, how_to_book)
+  #   #    pdf.text how_to_book, :justification => :left, :font_size => 12
+  #   title_text(pdf, "Terms & conditions")
+  #   paragraph_text(pdf, terms)
+  #   paragraph_text(pdf, "\n")
+  #   pdf.text TEXT_BOTTOM1, :font_size=>12, :justification=>:center
+  #   pdf.image(PDF_SUFFIX_ABSOLUTE+IMAGE_BOTTOM, :justification=>:center)
+  #   pdf.text TEXT_BOTTOM2, :font_size=>12, :justification=>:center
+  #   logger.debug("----- Saving PDF file #{pdf_filename}")
+  #   pdf.save_as(PDF_SUFFIX_ABSOLUTE+pdf_filename)
+  # end
 
   def save_pdf_filename
 		self.update_attribute(:filename, pdf_filename)

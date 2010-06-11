@@ -2,8 +2,6 @@ one:
   title: Offer one
   slug: offer_one
   description: MyText
-  how_to_book: MyText
-  terms: MyText
   author: cyrille
   state: draft
   subcategory: yoga
@@ -16,35 +14,6 @@ free_trial:
     During the Trial Session you will find out how coaching works, what is involved and what it will
     be like for you.  You will also come away with three exciting goals that will start your journey
     towards living the life you design!
-
-    Once your goals have been created, the fee for your coaching series will be discussed along
-    with your commitment to begin the series. Should you choose to undertake the 12 session
-    series you will receive a $150 discount off the fee.
-
-    The discount will be applied to match your payment schedule.  For monthly payments, $50
-    will be deducted from each payment.  For payment in full, $150 will be deducted from the full
-    amount.
-  how_to_book: |+
-    Please mention this special offer when you book your FREE Trial Session. 
-
-    Booking can be made by phone or e-mail or register at 
-    http://www.bydesignlifecoaching.co.nz/ 
-
-    Kris Mills 
-    By Design Life Coaching 
-    Phone: 04-234-6961 
-    Mobile: 027-212-3012 
-    E-Mail: Kris@bydesignlifecoaching.co.nz
-  terms: |+
-    <ul>
-      <li>Subject to availability at time of application</li>
-      <li>Bookings must be made in advance</li>
-      <li>Limited to one offer per person</li>
-      <li>Not to be used in conjunction with any other offer</li>
-      <li>Applicants must be genuinely interested in being coached through a full 12 session
-      coaching programme</li>
-      <li>Applicants must be in sound health and of a sound mind</li>
-    </ul>
   author: cyrille
   state: published
   published_at: <%= 5.days.ago.to_s :db %>
@@ -53,8 +22,6 @@ norma:
     title: Offer one
     slug: offer_one
     description: MyText
-    how_to_book: MyText
-    terms: MyText
     author: norma
     state: published
     published_at: <%= 7.days.ago.to_s :db %>
@@ -63,8 +30,6 @@ published_not_approved:
     title: Published not approved
     slug: pub-not-app
     description: MyText
-    how_to_book: MyText
-    terms: MyText
     author: rmoore
     state: published
     published_at: <%= 7.days.ago.to_s :db %>
@@ -72,8 +37,6 @@ published_and_approved:
     title: Published and approved
     slug: pub-and-app
     description: MyText
-    how_to_book: MyText
-    terms: MyText
     author: rmoore
     state: published
     published_at: <%= 7.days.ago.to_s :db %>
@@ -83,8 +46,6 @@ rejected:
     title: Published and rejected
     slug: pub-and-rej
     description: MyText
-    how_to_book: MyText
-    terms: MyText
     author: rmoore
     state: draft
     published_at: <%= 7.days.ago.to_s :db %>
