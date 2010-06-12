@@ -1,3 +1,6 @@
+<p>Use the box below to describe your special offer. To make it more appealing, be succinct and talk about the experience and the benefits. The system is also set up to automatically add a 'How to book' enquiry link and a note to contact you for further terms and conditions, so no need to add that information in your description.</p>
+
+<p>Last tip ... New special offers appear in our monthly newsletter, so we recommend changing your offer every few months to get more visibility. To do this, just delete your special offer first and create a new one.</p>
   <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
@@ -7,12 +10,16 @@
 		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
       </li>
       <li>
-        <%= f.label :description, "Description<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :description, "Description (600 characters max)<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :description, :cols => "35" %>
       </li>
       <li>
-		<p><%= f.radio_button :nation_wide, "true" %><label for="special_offer_nation_wide_true">Available New Zealand-wide</label></p>
-		<p><%= f.radio_button :nation_wide, "false" %><label for="special_offer_nation_wide_false">Offered to people in your region only</label></p>
+        <div class="left-input">Availability</div>
+		<div class="right-label"><%= f.radio_button :nation_wide, "true" %><label for="special_offer_nation_wide_true">Available New Zealand-wide</label></div>
+	  </li>
+    <li>
+	        <div class="left-input"></div>
+		<div class="right-label"><%= f.radio_button :nation_wide, "false" %><label for="special_offer_nation_wide_false">Offered to people in your region only</label></div>
 	  </li>
       <li>
         <label><%=subcategories_label%></label>
