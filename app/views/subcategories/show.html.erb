@@ -13,14 +13,25 @@
 </div>
 <% end -%>
 <% content_for :sidebar_content do -%>
+	<% unless @subcategory.published_special_offers_count == 0 && @subcategory.published_gift_vouchers_count == 0 -%>
+		<h4>Related offers</h4>
+		<ul>
+			<% unless @subcategory.published_special_offers_count == 0 -%>
+			<li><%= link_to "Special offers (#{@subcategory.published_special_offers_count})", special_offers_for_subcategory_url(@subcategory.slug)%></li>
+			<% end -%>
+			<% unless @subcategory.published_gift_vouchers_count == 0 -%>
+			<li><%= link_to "Gift Vouchers (#{@subcategory.published_gift_vouchers_count})", gift_vouchers_for_subcategory_url(@subcategory.slug)%></li>
+			<% end -%>
+		</ul>
+	<% end -%>
 	<% unless @articles.blank? -%>
 		<h4>Related articles</h4>
 		<ul>
 		<% @articles.each do |a| -%>
 			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%></li>
 		<% end -%>
-	<% end -%>
 		</ul>
+	<% end -%>
 <% end -%>
 <% if @users_hash.blank? -%>
 <p class="highlight">Be the first practitioner to <%= link_to "sign up", signup_intro_url%> (it's FREE!)</p>
