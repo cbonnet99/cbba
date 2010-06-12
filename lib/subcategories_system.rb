@@ -38,4 +38,7 @@ module SubcategoriesSystem
 			end
 		end
 	end
+	def main_subcategory
+	  self.subcategories.try(:first)
+  end
 end

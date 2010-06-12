@@ -914,7 +914,7 @@ class User < ActiveRecord::Base
         virtual_tab = VirtualTab.new(Tab::ARTICLES, "Articles", "articles/index", "articles/nav" )
         return virtual_tab
       when Tab::OFFERS:
-        virtual_tab = VirtualTab.new(Tab::OFFERS, "Offers", "special_offers/index", "special_offers/nav" )
+        virtual_tab = VirtualTab.new(Tab::OFFERS, "Offers", "users/special_offers", "special_offers/nav" )
         return virtual_tab
       else
         tabs.find_by_slug(tab_slug) || tabs.first

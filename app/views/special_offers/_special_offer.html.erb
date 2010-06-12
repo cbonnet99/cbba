@@ -1,4 +1,4 @@
-<h4 class="article-title"><%=link_to special_offer.title, special_offers_show_url(special_offer.author, special_offer.slug, :context => @context, :selected_tab_id => "offers") %>
+<h3 class="article-title"><%=link_to special_offer.title, special_offers_show_url(special_offer.author, special_offer.slug, :context => @context, :selected_tab_id => "offers") %>
 <% if @context == "profile" && is_author?(special_offer) -%>
  	<span class="stuff-actions">[<span class="<%=special_offer.workflow_css_class%>"><%=special_offer.state%></span>
 	<% if (is_author?(special_offer) || is_admin?) && current_user.active? -%>
@@ -14,11 +14,9 @@
 	<%end-%>
 	]</span>
 <%end-%>
-</h4>
-<% unless @context == "profile" -%>
-	<div class="by-author">by <%= author_link(special_offer.author) %></div>
-<%end-%>
-<%unless special_offer.subcategory.nil? -%>
-	<div class="article-subcategories">[<%= link_to special_offer.subcategory.name, special_offers_for_subcategory_url(special_offer.subcategory.slug)%>]</div>
-<%end-%>
-<p><%=first_sentence(white_list(special_offer.description))%></p>
+</h3>
+<div class="profile-calling-action-area"><%= link_to "Enquire" , user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => special_offer.author.slug, :action => "message", :message => {:subject => "Special offer: #{special_offer.title}"} ), {:class => "enquire-button button"}%></div>
+<h4>Offered by <%= author_link(special_offer.author) %></h4>
+<p><% if special_offer.nation_wide? -%>Available New Zealand-wide<% else -%>Available in <%= special_offer.author.region.name%> only<% end -%></p>
+<p><%=white_list(special_offer.description)%></p>
+<p class="footnote">Terms and conditions may apply, ask me for details</p>

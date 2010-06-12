@@ -1,4 +1,4 @@
-<h4 class="article-title"><%=link_to gift_voucher.title, gift_vouchers_show_url(gift_voucher.author, gift_voucher.slug, :context => @context, :selected_tab_id => "offers") %>
+<h3 class="article-title"><%=link_to gift_voucher.title, gift_vouchers_show_url(gift_voucher.author, gift_voucher.slug, :context => @context, :selected_tab_id => "offers") %>
 <% if @context == "profile" && is_author?(gift_voucher)-%>
  	<span class="stuff-actions">[<span class="<%=gift_voucher.workflow_css_class%>"><%=gift_voucher.state%></span>
 	<% if (is_author?(gift_voucher) || is_admin?) && current_user.active? -%>
@@ -14,11 +14,9 @@
 	<%end%>
 	]</span>
 <%end-%>
-</h4>
-<% unless @context == "profile"-%>
-	<div class="by-author">by <%= author_link(gift_voucher.author) %></div>
-<%end-%>
-<%unless gift_voucher.subcategory.nil? -%>
-	<div class="article-subcategories">[<%= link_to gift_voucher.subcategory.name, gift_vouchers_for_subcategory_url(gift_voucher.subcategory.slug)%>]</div>
-<%end-%>
-<p><%=first_sentence(white_list(gift_voucher.description))%></p>
+</h3>
+<div class="profile-calling-action-area"><%= link_to "Enquire" , user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => gift_voucher.author.slug, :action => "message", :message => {:subject => "Gift voucher: #{gift_voucher.title}"} ), {:class => "enquire-button button"}%></div>
+<h4>Offered by <%= author_link(gift_voucher.author) %></h4>
+<p><% if gift_voucher.nation_wide? -%>Available New Zealand-wide<% else -%>Available in <%= gift_voucher.author.region.name%> only<% end -%></p>
+<p><%=white_list(gift_voucher.description)%></p>
+<p class="footnote">Terms and conditions may apply, ask me for details</p>

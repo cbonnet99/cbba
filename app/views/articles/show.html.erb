@@ -24,3 +24,24 @@
 <%= white_list @article.body %>
 </p>
 <%= render :partial => "articles/share_link" %>
+<% content_for :sidebar_content do -%>
+	<% unless @article.main_subcategory.published_special_offers_count == 0 && @article.main_subcategory.published_gift_vouchers_count == 0 -%>
+		<h4>Related offers</h4>
+		<ul>
+			<% unless @article.main_subcategory.published_special_offers_count == 0 -%>
+			<li><%= link_to "Special offers (#{@article.main_subcategory.published_special_offers_count})", special_offers_for_subcategory_url(@article.main_subcategory.slug)%></li>
+			<% end -%>
+			<% unless @article.main_subcategory.published_gift_vouchers_count == 0 -%>
+			<li><%= link_to "Gift Vouchers (#{@article.main_subcategory.published_gift_vouchers_count})", gift_vouchers_for_subcategory_url(@article.main_subcategory.slug)%></li>
+			<% end -%>
+		</ul>
+	<% end -%>
+	<% unless @articles.blank? -%>
+		<h4>Related articles</h4>
+		<ul>
+		<% @articles.each do |a| -%>
+			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%></li>
+		<% end -%>
+		</ul>
+	<% end -%>
+<% end -%>
