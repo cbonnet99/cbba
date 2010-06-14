@@ -2,7 +2,56 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
+  
+  def test_send_offers_reminder_so
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
 
+    hasnt_created_offer = Factory(:user, :email => "hasnt_created_offer@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
+    
+    has_received_reminder_recently = Factory(:user, :email => "has_received_reminder_recently@test.com", :offers_reminder_sent_at => 2.weeks.ago, :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
+    
+    expired_offers = Factory(:user, :email => "expired_offers@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 2.weeks.ago)
+    
+    has_changed_offer_recently = Factory(:user, :email => "has_changed_offer_recently@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
+    recent_so = Factory(:special_offer, :published_at => 2.weeks.ago, :author => has_changed_offer_recently)
+    
+    hasnt_changed_offer_recently = Factory(:user, :email => "hasnt_changed_offer_recently@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
+    old_so = Factory(:special_offer, :published_at => 6.weeks.ago, :author => hasnt_changed_offer_recently )
+    
+    TaskUtils.send_offers_reminder
+    assert_equal 2, ActionMailer::Base.deliveries.size
+    assert ActionMailer::Base.deliveries.map(&:to).flatten.include?(hasnt_created_offer.email)
+    assert ActionMailer::Base.deliveries.map(&:to).flatten.include?(hasnt_changed_offer_recently.email)    
+  end
+  
+  def test_send_offers_reminder_gv
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    hasnt_created_offer = Factory(:user, :email => "hasnt_created_offer@test.com", :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.months.from_now)
+    
+    expired_offers = Factory(:user, :email => "expired_offers@test.com", :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 2.weeks.ago)
+    
+    has_changed_offer_recently = Factory(:user, :email => "has_changed_offer_recently@test.com", :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.months.from_now)
+    recent_gv = Factory(:gift_voucher, :published_at => 2.weeks.ago, :author => has_changed_offer_recently)
+    
+    hasnt_changed_offer_recently = Factory(:user, :email => "hasnt_changed_offer_recently@test.com", :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.months.from_now)
+    old_gv = Factory(:gift_voucher, :published_at => 6.weeks.ago, :author => hasnt_changed_offer_recently )
+    
+    TaskUtils.send_offers_reminder
+    assert_equal 2, ActionMailer::Base.deliveries.size
+    assert ActionMailer::Base.deliveries.map(&:to).flatten.include?(hasnt_created_offer.email)
+    assert ActionMailer::Base.deliveries.map(&:to).flatten.include?(hasnt_changed_offer_recently.email)    
+      
+    ActionMailer::Base.deliveries = []
+    TaskUtils.send_offers_reminder
+    assert_equal 0, ActionMailer::Base.deliveries.size, "Reminders should only be sent once"
+    
+  end
+  
   def test_generate_autocomplete_subcategories_content
     fm = Factory(:role)
     user_with_quote = Factory(:user, :last_name => "O'Neil")

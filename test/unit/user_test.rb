@@ -4,6 +4,17 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_hasnt_changed_special_offers_recently
+    has_changed_offer_recently = Factory(:user, :email => "has_changed_offer_recently@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
+    recent_so = Factory(:special_offer, :published_at => 2.weeks.ago, :author => has_changed_offer_recently)
+    
+    hasnt_changed_offer_recently = Factory(:user, :email => "hasnt_changed_offer_recently@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
+    old_so = Factory(:special_offer, :published_at => 6.weeks.ago, :author => hasnt_changed_offer_recently )
+    
+    assert hasnt_changed_offer_recently.hasnt_changed_special_offers_recently?
+    assert !has_changed_offer_recently.hasnt_changed_special_offers_recently?
+  end
+
   def test_compute_points
     user = Factory(:user)
     sub1 = Factory(:subcategory)

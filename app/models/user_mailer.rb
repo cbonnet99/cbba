@@ -3,6 +3,13 @@ class UserMailer < ActionMailer::Base
   include ApplicationHelper
   include ActionController::UrlWriter
 
+  def offers_reminder(user)
+    setup_email(user)
+    @subject = "Make the most of your offers"
+    @content_type = 'text/html'
+    user.update_attribute(:offers_reminder_sent_at, Time.now)
+  end
+
   def referral(sender, email, comment)
     default_url_options[:host] = APP_CONFIG[:site_host]
     default_url_options[:protocol] = APP_CONFIG[:logged_site_protocol]

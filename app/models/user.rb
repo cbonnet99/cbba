@@ -90,7 +90,9 @@ class User < ActiveRecord::Base
   named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND feature_warning_sent IS NULL AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
   named_scope :with_expired_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check < now()"
   named_scope :with_expiring_gift_vouchers, lambda { |warning_period| { :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now() AND feature_warning_sent IS NULL AND paid_gift_vouchers_next_date_check < '#{warning_period.to_s(:db)}'"}}
-
+  named_scope :has_paid_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now()"
+  named_scope :has_paid_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now()"
+  named_scope :hasnt_received_offers_reminder_recently, :conditions => ["offers_reminder_sent_at IS NULL OR offers_reminder_sent_at < ?", 1.month.ago]
   
   # #around filters
 	before_validation :assemble_phone_numbers, :trim_stuff
@@ -107,6 +109,14 @@ class User < ActiveRecord::Base
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
+  
+  def hasnt_changed_special_offers_recently?
+    special_offers.reject{|so| so.published_at.nil?}.map(&:published_at).blank? || special_offers.reject{|so| so.published_at.nil?}.map(&:published_at).sort.last < 1.month.ago
+  end
+  
+  def hasnt_changed_gift_vouchers_recently?
+    gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).blank? || gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).sort.last < 1.month.ago
+  end
   
   def self.rotate_feature_ranks(rotate_by=nil)
     rotate_by = DAILY_USER_ROTATION if rotate_by.nil?

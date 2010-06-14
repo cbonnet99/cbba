@@ -30,6 +30,7 @@ every 1.week do
 end
 
 every 1.day, :at => "3am"  do
+  runner "TaskUtils.send_offers_reminder"
   runner "TaskUtils.check_pending_payments"
   runner "TaskUtils.rotate_feature_ranks"
   runner "TaskUtils.mark_down_old_full_members"
