@@ -1,5 +1,5 @@
 a.enquire-button {background:url(../images/btnRed.gif) no-repeat; height:30px; line-height:29px; text-align:center; width:124px;}
-.footnote {font-size: smaller; color: #555555;}
+.footnote {font-size: smaller; color: #555555;border-bottom:2px solid grey;}
 .column div#ads img{margin: 10px 0 0 5px;}
 p.highlight{font-size: 14px; font-weight: bold; color: black;}
 #contentMain #admin-subcats form input{float: none;}

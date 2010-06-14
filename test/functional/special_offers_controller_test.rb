@@ -6,10 +6,15 @@ class SpecialOffersControllerTest < ActionController::TestCase
     yoga = subcategories(:yoga)
     free_trial = special_offers(:free_trial)
     one = special_offers(:one)
+    cyrille = users(:cyrille)
+    new_so = Factory(:special_offer, :subcategory => yoga, :author => cyrille )
+    new_so.publish!
+    assert new_so.published?
     get :index_for_subcategory, :subcategory_slug  => yoga.slug
     # puts @response.body
     assert !assigns(:special_offers).include?(one), "Draft special offer should not be included in index_for_subcategory"
     assert assigns(:special_offers).include?(free_trial), "Published special offer should be included in index_for_subcategory"
+    assert_equal new_so, assigns(:special_offers).first, "Latest special offer should appear first"
   end    
   
   def test_limit_special_offers_for_full_members

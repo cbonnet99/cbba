@@ -8,6 +8,9 @@ class GiftVouchersControllerTest < ActionController::TestCase
     therapeutic_massage = subcategories(:therapeutic_massage)
     free_massage = gift_vouchers(:free_massage)
     free_massage_draft = gift_vouchers(:free_massage_draft)
+    new_gv = Factory(:gift_voucher, :subcategory => therapeutic_massage, :author => users(:cyrille)  )
+    new_gv.publish!
+    assert new_gv.published?
     get :index_for_subcategory, :subcategory_slug  => therapeutic_massage.slug
     assert !assigns(:gift_vouchers).include?(free_massage_draft), "Draft article should not be included in index_for_subcategory"
     assert assigns(:gift_vouchers).include?(free_massage), "Published article should be included in index_for_subcategory"

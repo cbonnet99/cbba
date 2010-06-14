@@ -34,6 +34,13 @@ Factory.define :special_offer do |so|
   so.association :subcategory
 end
 
+Factory.define :gift_voucher do |gv|
+  gv.author {|author| author.association(:user) }
+  gv.title "Bla"
+  gv.description "Bla"
+  gv.association :subcategory
+end
+
 Factory.define :user do |f|
   f.sequence(:first_name) {|n| "User#{n}"}
   f.last_name "Name"
