@@ -71,12 +71,22 @@ class ArticleTest < ActiveSupport::TestCase
 		assert_equal 1, new_article.subcategories.size
 	end
 
+	def test_create_slug
+		yoga = subcategories(:yoga)
+		new_article = Article.create(:title => "Empowering your ", :lead => "This is my lead", :body => "",
+      :subcategory1_id => yoga.id, :author => users(:cyrille)  )
+		assert_equal "empowering-your", new_article.slug
+		new_article.update_attributes(:title => "Empowering your ")
+		assert_equal "empowering-your", new_article.slug, "Slug shouldn't change on update"
+	end
+
   def test_for_tag
     yoga = articles(:yoga)
     my_articles = Article.for_tag("yoga")
     assert_equal 1, my_articles.size
     assert_equal yoga.title, my_articles.first.title
   end
+  
 	def test_slug_length
 		cyrille = users(:cyrille)
 		new_article = Article.create(:title => "This is a long title that should be shorter",

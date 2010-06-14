@@ -20,7 +20,8 @@ module Sluggable
   	end
 
     def recompute_slug(old_slug)
-      old_slug << rand(9)
+      old_slug = "old_slug#{rand(9)}"
+      puts "HERE"
       if old_slug.size > Article::MAX_LENGTH_SLUG
         old_slug = old_slug[1..Article::MAX_LENGTH_SLUG-1]
       end
@@ -40,7 +41,7 @@ module Sluggable
   	  
   		if self.respond_to?(:author)
     		res = help.shorten_string(p, Article::MAX_LENGTH_SLUG, "").parameterize
-    		while self.author.articles.find_by_slug(res) do
+    		while self.author.has_article_with_same_slug?(self.id, res) do
     		  res = recompute_slug(res)
     	  end
   	  else

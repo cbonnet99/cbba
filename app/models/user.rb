@@ -110,6 +110,19 @@ class User < ActiveRecord::Base
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
   
+  def has_article_with_same_slug?(id, slug)
+    begin
+  		if id.nil? 
+  		  res = self.articles.find_by_slug(slug)
+  		else
+  		  res = self.articles.find(:conditions => ["slug = ? and id <> ?", slug, id])
+  		end
+  		return !res.blank?
+		rescue ActiveRecord::RecordNotFound
+		  return false
+	  end
+  end
+  
   def hasnt_changed_special_offers_recently?
     special_offers.reject{|so| so.published_at.nil?}.map(&:published_at).blank? || special_offers.reject{|so| so.published_at.nil?}.map(&:published_at).sort.last < 1.month.ago
   end
