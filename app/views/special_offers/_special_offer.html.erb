@@ -1,4 +1,4 @@
-<h3 class="article-title"><%=link_to special_offer.title, special_offers_show_url(special_offer.author, special_offer.slug, :context => @context, :selected_tab_id => "offers") %>
+<h3 class="article-title"><%=link_to special_offer.title, expanded_user_tabs_url(special_offer.author, Tab::OFFERS) %>
 <% if @context == "profile" && is_author?(special_offer) -%>
  	<span class="stuff-actions">[<span class="<%=special_offer.workflow_css_class%>"><%=special_offer.state%></span>
 	<% if (is_author?(special_offer) || is_admin?) && current_user.active? -%>
