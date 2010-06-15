@@ -1,4 +1,4 @@
-<h3 class="article-title"><%=link_to gift_voucher.title, gift_vouchers_show_url(gift_voucher.author, gift_voucher.slug, :context => @context, :selected_tab_id => "offers") %>
+<h3 class="article-title"><%=link_to gift_voucher.title, expanded_user_tabs_url(gift_voucher.author, Tab::OFFERS) %>
 <% if @context == "profile" && is_author?(gift_voucher)-%>
  	<span class="stuff-actions">[<span class="<%=gift_voucher.workflow_css_class%>"><%=gift_voucher.state%></span>
 	<% if (is_author?(gift_voucher) || is_admin?) && current_user.active? -%>
