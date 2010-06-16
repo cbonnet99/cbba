@@ -4,9 +4,9 @@ javascripts:
   - jrails
   - jquery.cycle.min
   - jquery.autocomplete.pack
-  - jquery.NobleCount.min
   - application
   - regions
+  - jquery.NobleCount.min
 stylesheets: 
 - base:
   - default
