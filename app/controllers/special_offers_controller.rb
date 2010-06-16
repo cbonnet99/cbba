@@ -89,6 +89,7 @@ class SpecialOffersController < ApplicationController
         end
         redirect_to special_offers_show_url(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)
       else
+    		get_subcategories        
         render :action => 'new'
       end
     end

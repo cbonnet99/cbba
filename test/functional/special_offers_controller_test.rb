@@ -64,6 +64,20 @@ class SpecialOffersControllerTest < ActionController::TestCase
     assert_equal old_published_count-1, cyrille.published_special_offers_count
   end
 
+  def test_create_with_error
+    cyrille = users(:cyrille)
+    old_count = cyrille.special_offers_count
+    old_size = cyrille.special_offers.size
+    post :create, {:special_offer => {:title => "Title", :description => "a"*601,
+      } }, {:user_id => cyrille.id }
+    new_offer = assigns(:special_offer)
+    assert_not_nil new_offer
+    assert !new_offer.errors.blank?, "Errors found in new_offer: #{new_offer.errors.inspect}"
+    cyrille.reload
+    assert_equal old_size, cyrille.special_offers.size
+    assert_equal old_count, cyrille.special_offers_count
+  end
+
   def test_create
     cyrille = users(:cyrille)
     old_count = cyrille.special_offers_count
