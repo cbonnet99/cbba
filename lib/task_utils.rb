@@ -60,6 +60,28 @@ class TaskUtils
     feature_names_hash[user] << feature_name
   end
   
+  def self.check_expired_offers
+    User.all.each do |u|
+      published_offers_count = u.special_offers.published.size
+      if published_offers_count > u.paid_special_offers
+        number_of_SOs_to_unpublish = published_offers_count-u.paid_special_offers
+        u.special_offers.published[0..number_of_SOs_to_unpublish].each do |so|
+          puts "For user: #{u.full_name}, unpublish special offer: #{so.title}"
+          so.remove!
+        end
+      end
+      published_gv_count = u.gift_vouchers.published.size
+      if published_gv_count > u.paid_gift_vouchers
+        number_of_GVs_to_unpublish = published_gv_count-u.paid_gift_vouchers
+        u.gift_vouchers.published[0..number_of_GVs_to_unpublish].each do |gv|
+          puts "For user: #{u.full_name}, unpublish gift voucher: #{gv.title}"
+          gv.remove!
+        end
+      end
+    end
+    puts "Done!"
+  end
+  
   def self.check_feature_expiration
     has_expired_feature_names = {}
     expired_feature_names = {}
@@ -91,10 +113,13 @@ class TaskUtils
         next_order_to_expire = u.orders.not_expired.first
         u.update_attribute(:paid_special_offers_next_date_check, next_order_to_expire.created_at+1.year)
       end
+      u.special_offers.published[0..feature_count-1].each do |so|
+        so.remove!
+      end
       u.update_attribute(:paid_special_offers, u.paid_special_offers-feature_count)
     end
     User.with_expiring_special_offers(7.days.from_now).each do |u|
-      feature_count = u.paid_special_offers - u.count_not_expiring_special_offers()
+      feature_count = u.paid_special_offers - u.count_not_expiring_special_offers
       add_feature(expiring_feature_names, u, help.pluralize(feature_count, "special offer"))
     end
     User.with_expired_gift_vouchers.each do |u|
@@ -106,6 +131,9 @@ class TaskUtils
         #move the next check date forward
         next_order_to_expire = u.orders.not_expired.first
         u.update_attribute(:paid_gift_vouchers_next_date_check, next_order_to_expire.created_at+1.year)
+      end
+      u.gift_vouchers.published[0..feature_count-1].each do |gv|
+        gv.remove!
       end
       u.update_attribute(:paid_gift_vouchers, u.paid_gift_vouchers-feature_count)
     end

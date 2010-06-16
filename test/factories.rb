@@ -29,15 +29,15 @@ end
 
 Factory.define :special_offer do |so|
   so.author {|author| author.association(:user) }
-  so.title "Bla"
-  so.description "Bla"
+  so.sequence(:title) {|n| "Special offer #{n}"}
+  so.sequence(:description) {|n| "Special offer #{n}"}
   so.association :subcategory
 end
 
 Factory.define :gift_voucher do |gv|
   gv.author {|author| author.association(:user) }
-  gv.title "Bla"
-  gv.description "Bla"
+  gv.sequence(:title) {|n| "Gift voucher #{n}"}
+  gv.sequence(:description) {|n| "Gift voucher #{n}"}
   gv.association :subcategory
 end
 

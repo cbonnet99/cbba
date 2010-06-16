@@ -114,6 +114,14 @@ class TaskUtilsTest < ActiveSupport::TestCase
     order_secial_offers1 = Factory(:order, :gift_vouchers => 1, :created_at => 13.months.ago, :user_id => user_expired_gift_vouchers.id )
     order_secial_offers2 = Factory(:order, :gift_vouchers => 1, :created_at => 6.months.ago, :user_id => user_expired_gift_vouchers.id )
     order_secial_offers3 = Factory(:order, :gift_vouchers => 1, :created_at => 3.months.ago, :user_id => user_expired_gift_vouchers.id )
+    
+    gv1 = Factory(:gift_voucher, :author => user_expired_gift_vouchers )
+    gv1.publish!
+    gv2 = Factory(:gift_voucher, :author => user_expired_gift_vouchers )
+    gv2.publish!
+    gv3 = Factory(:gift_voucher, :author => user_expired_gift_vouchers )
+    gv3.publish!
+    
     old_next_check = user_expired_gift_vouchers.paid_gift_vouchers_next_date_check
     assert_equal 2, user_expired_gift_vouchers.orders.not_expired.size
     assert_equal 3, user_expired_gift_vouchers.paid_gift_vouchers
@@ -130,6 +138,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     email = ActionMailer::Base.deliveries.last
     assert_not_nil email
     assert_match /Time to renew/, email.subject
+    
+    assert_equal 2, user_expired_gift_vouchers.gift_vouchers.published.size, "There should be only 2 published gift vouchers left"
   end
 
   def test_check_feature_expiring_gift_vouchers
@@ -158,6 +168,12 @@ class TaskUtilsTest < ActiveSupport::TestCase
     order_secial_offers1 = Factory(:order, :special_offers => 1, :created_at => 13.months.ago, :user_id => user_expired_special_offers.id )
     order_secial_offers2 = Factory(:order, :special_offers => 1, :created_at => 6.months.ago, :user_id => user_expired_special_offers.id )
     order_secial_offers3 = Factory(:order, :special_offers => 1, :created_at => 3.months.ago, :user_id => user_expired_special_offers.id )
+    so1 = Factory(:special_offer, :author => user_expired_special_offers)
+    so1.publish!
+    so2 = Factory(:special_offer, :author => user_expired_special_offers)
+    so2.publish!
+    so3 = Factory(:special_offer, :author => user_expired_special_offers)
+    so3.publish!
     old_next_check = user_expired_special_offers.paid_special_offers_next_date_check
     assert_equal 2, user_expired_special_offers.orders.not_expired.size
     assert_equal 3, user_expired_special_offers.paid_special_offers
@@ -174,6 +190,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     email = ActionMailer::Base.deliveries.last
     assert_not_nil email
     assert_match /Time to renew/, email.subject
+    
+    assert_equal 2, user_expired_special_offers.special_offers.published.size, "There should be only 2 published special offers left"
   end
 
   def test_check_feature_expiring_special_offers
