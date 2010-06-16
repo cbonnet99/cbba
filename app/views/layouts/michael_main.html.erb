@@ -141,7 +141,7 @@
   <div id="sidebar2" class="column">
     <div class="columnTop">&nbsp;</div>
 <% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
-    <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
+    <%= link_to "<span>FREE Subscribe</span>", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
 	<p><%= link_to "View past newsletters", newsletters_url%></p>
 <% end -%>
     <div id="ads">

@@ -94,7 +94,7 @@ span.clear, p.clear { display:block; height:0; margin:0; overflow:hidden; paddin
 a.button span { display:block; }
 a.addListing { background:url(../images/btnAddListing.gif) no-repeat; height:36px; margin:0 0 0 7px; width:149px; }
 a.addListing span { padding:9px 0 0 36px; }
-a.newsletterBtn { background: url(../images/btnFreeNewsletter2.jpg) no-repeat; height:73px; margin:0 0 0 7px; width:149px; }
+a.newsletterBtn { background: url(../images/FreeNewsletter.gif) no-repeat; height:73px; margin:0 0 0 7px; width:149px; }
 a.newsletterBtn:hover { color:#20ACCD; }
 a.newsletterBtn span { padding:46px 0 0 34px; }
 #prev-expert { background:url(../images/BtnBackRE.gif) no-repeat; display:block; height:19px; position:absolute; left:6px; top:60px; width:19px; }
