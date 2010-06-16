@@ -1,3 +1,5 @@
+.go_green {color: green;}
+.go_red {color: red;}
 a.enquire-button {background:url(../images/btnRed.gif) no-repeat; height:30px; line-height:29px; text-align:center; width:124px;}
 a.enquire-button:hover {color:#ccc;}
 .footnote {font-size: smaller; color: #555555;border-bottom:2px solid grey;}

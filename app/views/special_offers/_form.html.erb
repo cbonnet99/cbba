@@ -10,7 +10,7 @@
 		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
       </li>
       <li>
-        <%= f.label :description, "Description (600 characters max)<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :description, "Description<br/>600 characters max<br/><span id='special_offer_description_count'>600</span> left<span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :description, :cols => "35" %>
       </li>
       <li>

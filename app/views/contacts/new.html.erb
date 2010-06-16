@@ -9,7 +9,7 @@
 <li>Our Editor's monthly round-up</li>
 </ul>
 <p>Plus, rest assured you can unsubscribe at anytime and your email address will be kept totally confidential!</p>
-<% form_for @contact do |f| %>
+<% form_for @contact do |f| -%>
   <%= render :partial => "users/verify_human" %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your registration could not be completed" %>
   <fieldset>
@@ -42,4 +42,4 @@
     <label for=""></label>
     <%= submit_tag 'Sign up' %>
   </div>
-<% end %>
+<% end -%>
