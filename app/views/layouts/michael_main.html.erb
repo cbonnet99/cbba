@@ -142,6 +142,7 @@
     <div class="columnTop">&nbsp;</div>
 <% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
     <%= link_to "<span>FREE Newsletter</span>", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
+	<p><%= link_to "View past newsletters", newsletters_url%></p>
 <% end -%>
     <div id="ads">
 		<div><%= link_to image_tag("bamgiftvouchergraphic.png"), {:controller => "/gift_vouchers", :action => "index", :context => "homepage" }%></div>
