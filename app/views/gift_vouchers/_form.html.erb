@@ -1,3 +1,4 @@
+<% javascript 'new-gift-voucher'%>
 <p>Use the box below to describe your gift voucher. To make it more appealing, be succinct and talk about the experience and the benefits. The system is also set up to automatically add a 'How to book' enquiry link and a note to contact you for further terms and conditions, so no need to add that information in your description.</p>
 <p>Last tip ... New gift vouchers  appear in our monthly newsletter, so we recommend changing your voucher offer every few months to get more visibility. To do this, just delete your voucher first and then create a new one.</p>
   <ol>
@@ -9,7 +10,7 @@
 		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
       </li>
       <li>
-        <%= f.label :description, "Description (600 characters max)<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :description, "Description<br/>600 characters max<br/><span id='gift_voucher_description_count'>600</span><span class='mandatoryStar'>*</span>" %>
         <%= f.text_area :description, :cols => "35" %>
       </li>
       <li>
