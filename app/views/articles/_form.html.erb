@@ -1,4 +1,5 @@
 <% use_tinymce -%>
+<% javascript 'new-article'%>
   <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
@@ -8,7 +9,7 @@
 		<%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
       </li>
       <li>
-        <%= f.label :lead, "Lead (max. 500 characters):<span class='mandatoryStar'>*</span>" %>
+        <%= f.label :lead, "Lead<span class='mandatoryStar'>*</span><br/>500 characters max<br/><span id='article_lead_count'>600</span> left" %>
         <%= f.text_area :lead, :cols => "35", :class => "noHTMLEditor"  %>
       </li>
       <li>
