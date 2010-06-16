@@ -583,7 +583,22 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal 0, assigns(:user).errors.size
 		assert_equal old_size+1, User.all.size
 	end
-	
+
+  def test_create_with_capitals_in_email
+		old_size = User.all.size
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "CYrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id
+      }
+		assert_not_nil assigns(:user)
+#    puts assigns(:user).errors.inspect
+		assert_equal 0, assigns(:user).errors.size
+		assert_equal old_size+1, User.all.size
+		assert_equal "cyrille@stuff.com", assigns(:user).email
+	end
+
   def test_create_with_same_name
 		district = District.first
     hypnotherapy = subcategories(:hypnotherapy)

@@ -466,6 +466,7 @@ class User < ActiveRecord::Base
     self.first_name = self.first_name.try(:strip)
     self.last_name = self.last_name.try(:strip)
     self.email = self.email.try(:strip)
+    self.email = self.email.try(:downcase)
     self.business_name = self.business_name.try(:strip)
   end
   
