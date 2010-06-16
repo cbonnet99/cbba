@@ -4,7 +4,7 @@ javascripts:
   - jrails
   - jquery.cycle.min
   - jquery.autocomplete.pack
-  - jquery.NobleCount
+  - jquery.NobleCount.min
   - application
   - regions
 stylesheets: 
