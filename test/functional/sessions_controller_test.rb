@@ -13,6 +13,14 @@ class SessionsControllerTest < ActionController::TestCase
     cyrille.reload
     assert !cyrille.free_listing?
   end
+  def test_create_admin_with_capitals
+    cyrille = users(:cyrille)
+    post :create, :email => cyrille.email.upcase, :password => "monkey"
+    assert_redirected_to reviewer_url(:action => "index" )
+    assert_equal "Logged in successfully", flash[:notice]
+    cyrille.reload
+    assert !cyrille.free_listing?
+  end
   def test_create
     norma = users(:norma)
     start_call = Time.now

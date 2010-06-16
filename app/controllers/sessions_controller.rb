@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
 
   def create
     logout_keeping_session!
-    user = User.authenticate(params[:email], params[:password])
+    user = User.authenticate(params[:email].downcase, params[:password])
     if user
       self.current_user = user
       new_cookie_flag = (params[:remember_me] == "1")
