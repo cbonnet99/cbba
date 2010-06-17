@@ -112,7 +112,7 @@
 	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
 	    <%  end -%>
     </ul>
-	<div id="bam-meet-experts"><h3><%= link_to "Resident Expert Articles", :controller => "/resident_experts", :action => "index"  %></h3>
+	<div id="bam-meet-experts"><h3><%= link_to "Resident Experts", :controller => "/resident_experts", :action => "index"  %></h3>
       <div class="nav-expert">
           <a id="prev-expert" class="nav-left" href="#"><span>&lt;Prev</span></a>
 		<div id="pics-resident-experts" class="pics">

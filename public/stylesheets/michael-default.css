@@ -4,7 +4,7 @@ a.enquire-button {background:url(../images/btnRed.gif) no-repeat; height:30px; l
 a.enquire-button:hover {color:#ccc;}
 .footnote {font-size: smaller; color: #555555;border-bottom:2px solid grey;}
 .column div#ads img{margin: 10px 0 0 5px;}
-p.highlight{font-size: 14px; font-weight: bold; color: black;}
+p.highlight{font-size: 11px; font-weight: bold; color: black;}
 #contentMain #admin-subcats form input{float: none;}
 #contentMain ul#admin-subcats {margin: 0;}
 #admin-subcats li{list-style: none;}

@@ -116,7 +116,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_guide_article '/users/guide-article', :controller => 'users', :action => "guide_article"
   map.user_guide_gift_voucher '/users/guide-gift-voucher', :controller => 'users', :action => "guide_gift_voucher"
   map.user_guide_special_offer '/users/guide-special-offer', :controller => 'users', :action => "guide_special_offer"
-  
+  map.user_guide_resident_expert '/users/guide-resident-expert', :controller => 'users', :action => "guide_resident_expert"
   map.resources :users
   map.resources :passwords
   map.resource :session
