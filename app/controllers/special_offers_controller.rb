@@ -53,14 +53,6 @@ class SpecialOffersController < ApplicationController
       if @special_offer.nil?
         flash[:error]="Sorry, this special offer could not be found"
         redirect_with_context(special_offers_url, @selected_user)
-      else
-        respond_to do |format|
-          format.html do
-          end
-          format.pdf do
-            send_file "#{RAILS_ROOT}/public#{@special_offer.pdf_filename}", :type => "application/pdf", :disposition => "attachment; filename=#{@special_offer.slug}.pdf" 
-          end
-        end
       end
     end
   end

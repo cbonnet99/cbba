@@ -1,7 +1,6 @@
 class SpecialOffer < ActiveRecord::Base
   include Workflowable
   include Sluggable
-  #  include WhiteListHelper
   
   belongs_to :author, :class_name => "User", :counter_cache => true
   belongs_to :subcategory
@@ -40,59 +39,4 @@ class SpecialOffer < ActiveRecord::Base
 	  SpecialOffer.find_all_by_state("published").size
   end
 
-  # def generate_pdf
-  #   FileUtils.mkdir_p(PDF_SUFFIX_ABSOLUTE + pdf_directory)
-  #   pdf = PDF::Writer.new
-  #   pdf.select_font PDF_TEXT_FONT
-  #   pdf.fill_color COLOR_TITLES
-  #   pdf.text title, :justification => :center, :font_size => 24
-  #   title_text(pdf, "Special offer description")
-  #   paragraph_text(pdf, description)
-  #   #    pdf.text description, :justification => :left, :font_size => 12
-  #   title_text(pdf, "How to book")
-  #   paragraph_text(pdf, how_to_book)
-  #   #    pdf.text how_to_book, :justification => :left, :font_size => 12
-  #   title_text(pdf, "Terms & conditions")
-  #   paragraph_text(pdf, terms)
-  #   paragraph_text(pdf, "\n")
-  #   pdf.text TEXT_BOTTOM1, :font_size=>12, :justification=>:center
-  #   pdf.image(PDF_SUFFIX_ABSOLUTE+IMAGE_BOTTOM, :justification=>:center)
-  #   pdf.text TEXT_BOTTOM2, :font_size=>12, :justification=>:center
-  #   logger.debug("----- Saving PDF file #{pdf_filename}")
-  #   pdf.save_as(PDF_SUFFIX_ABSOLUTE+pdf_filename)
-  # end
-
-  def save_pdf_filename
-		self.update_attribute(:filename, pdf_filename)
-  end
-
-  def pdf_directory
-    "#{PDF_SUFFIX_RELATIVE}/#{author.slug}"
-  end
-
-  def pdf_filename
-    "#{pdf_directory}/#{slug}.pdf"
-  end
-
-  private
-  def paragraph_text(pdf, text, paragraph_font_size=12, paragraph_color=COLOR_TEXT)
-    #    text = white_list(text, {:attributes => ["class"], :tags => %w(strong  p  ul  li)})
-    sections = HtmlToPdfConverter.convert(text).split('\n')
-    sections.each do |section|
-      indent = found_bullet_point(section) ? 10 : 0
-      pdf.fill_color! paragraph_color
-      pdf.text "#{section}\n", :font_size=>paragraph_font_size, :left=>indent, :justification=>:full
-    end
-
-  end
-
-  def title_text(pdf, text)
-    pdf.fill_color! COLOR_TITLES
-    pdf.text text, :justification => :left, :font_size => 18
-
-  end
-  
-  def found_bullet_point(section)
-    /C:bullet/.match(section)
-  end
 end
