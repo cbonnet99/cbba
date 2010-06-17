@@ -22,10 +22,22 @@ class Article < ActiveRecord::Base
 	before_create :remove_html_from_lead
 	before_update :remove_html_from_lead
 
+
   MAX_LENGTH_SLUG = 20
   POINTS_FOR_RECENT_ARTICLE = 10
   POINTS_FOR_OLDER_ARTICLE = 5
   DAILY_ARTICLE_ROTATION = 3
+
+  def on_publish_enter
+    send_congrats_on_first
+    email_reviewers_and_increment_count
+  end
+
+  def send_congrats_on_first
+    if self.author.articles.published.size == 0
+      UserMailer.deliver_congrats_first_article(self.author)
+    end
+  end
   
   def self.rotate_feature_ranks(rotate_by=nil)
     rotate_by = DAILY_ARTICLE_ROTATION if rotate_by.nil?

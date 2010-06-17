@@ -3,6 +3,12 @@ class UserMailer < ActionMailer::Base
   include ApplicationHelper
   include ActionController::UrlWriter
 
+  def congrats_first_article(user)
+    setup_email(user)
+    @subject = "Your first article on BeAmazing!"
+    @content_type = 'text/html'
+  end
+
   def offers_reminder(user)
     setup_email(user)
     @subject = "Make the most of your offers"

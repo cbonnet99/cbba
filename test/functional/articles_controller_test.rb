@@ -93,7 +93,23 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:subcategories)
     cyrille.reload
     assert_equal old_count+1, cyrille.articles_count
+  end
 
+  def test_should_create_article_and_send_congrats_email
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    user = Factory(:user)
+		yoga = subcategories(:yoga)
+    post :create, {:context => "profile", :selected_tab_id => "articles",  :article => { :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => user.id }
+    assert_redirected_to articles_show_url(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
+		assert_equal yoga.id, assigns(:article).subcategory1_id
+    assert_not_nil assigns(:subcategories)
+    user.reload
+    assert_equal 1, user.articles_count
+		assert_equal User.reviewers.size+1, ActionMailer::Base.deliveries.size, "An email should be sent to all reviewers and a congrat email should be sent to the user (as it is her first published article)"
+    
   end
 
   def test_should_create_article_lead_too_long

@@ -10,7 +10,7 @@ module Workflowable
     base.send :aasm_column, :state
     base.send :aasm_initial_state, :initial => :draft
     base.send :aasm_state, :draft
-    base.send :aasm_state, :published, :enter => :email_reviewers_and_increment_count  	
+    base.send :aasm_state, :published, :enter => :on_publish_enter
     
     base.send :aasm_event, :publish do
       transitions :from => :draft, :to => :published, :guard => Proc.new {|item| item.paid_items_left?}
@@ -63,6 +63,10 @@ module Workflowable
     end
   end
   module WorkflowInstanceMethods
+    
+    def on_publish_enter
+      email_reviewers_and_increment_count
+    end
         
     def label(url="")
       if url.blank?
