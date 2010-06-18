@@ -147,7 +147,30 @@ class User < ActiveRecord::Base
   end
   
   def self.experts_for_subcategories
-    subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => ["subcategories_users.points >= ?", MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "name, subcategories_users.points desc")
+    encoded_subcats = Rails.cache.read("subcats_with_experts")
+    if encoded_subcats.nil?
+      subcats = Subcategory.find_and_cache_expert_subcats
+    else
+      subcats = encoded_subcats.split("/").inject([]) {|array, id| array << Subcategory.find(id)}
+    end
+    encoded_experts = Rails.cache.read("experts_in_subcats")
+    if encoded_experts.nil?
+      experts = User.find_and_cache_resident_experts(subcats)
+    else
+      experts = {}
+      encoded_experts.split("/").each do |str|
+        subcat_id_str, experts_id = str.split(":")
+        experts_array = []
+        experts_id.split(",").each do |expert_id|
+          experts_array << User.find(expert_id)
+        end
+        experts[subcat_id_str.to_i] = experts_array
+      end
+    end
+    return subcats, experts
+  end
+
+  def self.find_and_cache_resident_experts(subcats)
     experts = {}
     subcats.each do |s|
       experts_subcat = s.resident_experts
@@ -157,7 +180,12 @@ class User < ActiveRecord::Base
         experts[s.id] = experts_subcat
       end
     end
-    return subcats, experts
+    encoded_experts = ""
+    experts.each do |subcat_id, expert_users|
+       encoded_experts << "#{subcat_id}:#{expert_users.map(&:id).join(",")}/"
+    end
+    Rails.cache.write("experts_in_subcats", encoded_experts)
+    return experts
   end
   
   def compute_points(subcategory)

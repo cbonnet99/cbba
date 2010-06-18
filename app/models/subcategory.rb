@@ -21,6 +21,13 @@ class Subcategory < ActiveRecord::Base
   
   MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY = 3
   
+  def self.find_and_cache_expert_subcats
+    subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => ["subcategories_users.points >= ?", User::MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "name, subcategories_users.points desc")
+    encoded_subcats = subcats.inject(""){|str, s| str << "#{s.id}/" }
+    Rails.cache.write("subcats_with_experts", encoded_subcats)
+    return subcats  
+  end
+  
   def resident_experts
     experts = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points >= ?", self.id, User::MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "subcategories_users.points desc")
     unless experts.blank?

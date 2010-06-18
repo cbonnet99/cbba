@@ -21,7 +21,6 @@ module Sluggable
 
     def recompute_slug(old_slug)
       old_slug = "old_slug#{rand(9)}"
-      puts "HERE"
       if old_slug.size > Article::MAX_LENGTH_SLUG
         old_slug = old_slug[1..Article::MAX_LENGTH_SLUG-1]
       end

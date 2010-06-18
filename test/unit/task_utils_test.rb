@@ -2,6 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
+
+  def test_recompute_resident_experts
+    TaskUtils.recompute_resident_experts
+  end
   
   def test_send_offers_reminder_so
 		ActionMailer::Base.delivery_method = :test

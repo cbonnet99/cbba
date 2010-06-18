@@ -45,3 +45,5 @@ $xero_gateway = XeroGateway::Gateway.new(
   :api_key => "MDCYODC0ZMNJOTBJNDI1NZG0N2I0MZ",
   :xero_url => "https://network.xero.com/api.xro/1.0"
   )
+
+ActionController::Base.cache_store = :mem_cache_store, "localhost"

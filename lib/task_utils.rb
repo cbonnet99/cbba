@@ -2,6 +2,11 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.recompute_resident_experts
+    subcats = Subcategory.find_and_cache_expert_subcats
+    User.find_and_cache_resident_experts(subcats)
+  end
+
   def self.send_offers_reminder
     users = Set.new
     User.has_paid_special_offers.hasnt_received_offers_reminder_recently.each do |u|

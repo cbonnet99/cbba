@@ -64,6 +64,7 @@ every 1.hour do
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"
   runner "TaskUtils.process_paid_xero_invoices"
+  runner "TaskUtils.recompute_resident_experts"
 end
 
 every 5.minutes do
