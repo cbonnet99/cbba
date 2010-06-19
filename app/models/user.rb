@@ -498,7 +498,11 @@ class User < ActiveRecord::Base
   end
   
   def self.find_paying_member_by_name(my_name)
-    User.find_by_sql(["select * from users where free_listing is false AND lower(first_name) || ' ' || lower(last_name) = lower(?)", my_name]).first
+    if my_name.match(/-/)
+      User.find_by_sql(["select * from users where free_listing is false AND lower(first_name) || ' ' || lower(last_name) || ' - ' || lower(business_name) = lower(?)", my_name]).first
+    else
+      User.find_by_sql(["select * from users where free_listing is false AND lower(first_name) || ' ' || lower(last_name) = lower(?)", my_name]).first
+    end
   end
   
   def user_profile_url

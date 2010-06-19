@@ -206,7 +206,11 @@ class TaskUtils
     out << "var sbg=new Array(#{subcategories.size});"
     subcategories.each_with_index do |stuff, index|
       # puts "Adding #{stuff.name}"
-      out << "sbg[#{index}]='#{help.escape_javascript(stuff.name)}';"
+      if stuff.is_a?(User)
+        out << "sbg[#{index}]='#{help.escape_javascript(stuff.full_name)}';"
+      else
+        out << "sbg[#{index}]='#{help.escape_javascript(stuff.name)}';"
+      end
     end
   end
 

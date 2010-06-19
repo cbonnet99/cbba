@@ -238,13 +238,19 @@ class UserTest < ActiveSupport::TestCase
 
   def test_find_paying_member_by_name
     cyrille = users(:cyrille)
-    assert_equal cyrille, User.find_paying_member_by_name(cyrille.name)
+    assert_equal cyrille, User.find_paying_member_by_name(cyrille.full_name)
     assert_equal nil, User.find_paying_member_by_name("Bla blabla")
   end
   
   def test_find_paying_member_by_name_with_middle_names
     norma = users(:norma)
-    assert_equal norma, User.find_paying_member_by_name(norma.name)
+    assert_equal norma, User.find_paying_member_by_name(norma.full_name)
+  end
+
+  def test_find_paying_member_by_name_with_no_business_name
+    user = Factory(:user, :business_name => nil )
+    assert !user.free_listing?
+    assert_equal user, User.find_paying_member_by_name(user.full_name)
   end
   
   def test_published

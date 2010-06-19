@@ -36,11 +36,11 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal $number_articles_on_homepage, assigns(:newest_articles).size
   end
 
-  def test_search_full_member_name
+  def test_search_full_member_full_name
     cyrille = users(:cyrille)
-		get :search, :where => nil, :what => CGI::escape(cyrille.name)
+		get :search, :where => nil, :what => CGI::escape(cyrille.full_name)
     assert_not_nil assigns(:selected_user)
-		assert_redirected_to expanded_user_url(cyrille, :where => "", :what => cyrille.name  )
+		assert_redirected_to expanded_user_url(cyrille, :where => "", :what => cyrille.full_name  )
   end
   
   def test_search_lowercase

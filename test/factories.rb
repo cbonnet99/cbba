@@ -49,6 +49,7 @@ Factory.define :user do |f|
   f.password "foobar"
   f.state "active"
   f.free_listing false
+  f.membership_type "full_member"
   f.notify_unpublished true
   f.password_confirmation { |u| u.password }
   f.sequence(:email) { |n| "foo#{n}@example.com" }
