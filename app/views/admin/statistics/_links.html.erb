@@ -1,0 +1,2 @@
+<p><%= link_to "< Previous week", admin_statistics_url(:date => date.advance(:days => -7).to_date.to_s(:db) )%>
+<% unless date.advance(:days => 7) > Time.now %> | <%= link_to "Next week >", admin_statistics_url(:date => date.advance(:days => 7).to_date.to_s(:db) )%><%end%></p>

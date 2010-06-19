@@ -7,5 +7,6 @@
 <%if selected=="search_results"%><span class="user-tab-selected">Search results</span><%else%><%= link_to "Search results", action_search_results_url(:action => "index", :id => "", :search_term => nil)%><%end%> |
 <%if selected=="newsletters"%><span class="user-tab-selected">Newsletters</span><%else%><%= link_to "Newsletters", admin_newsletters_url%><%end%> |
 <%if selected=="auto_emails"%><span class="user-tab-selected">Automatic emails</span><%else%><%= link_to "Automatic emails", admin_user_emails_url%><%end%> | 
-<%if selected=="subcats"%><span class="user-tab-selected">Subcategories</span><%else%><%= link_to "Subcategories", admin_subcategories_url%><%end%>
+<%if selected=="subcats"%><span class="user-tab-selected">Subcategories</span><%else%><%= link_to "Subcategories", admin_subcategories_url%><%end%> | 
+<%if selected=="stats"%><span class="user-tab-selected">Statistics</span><%else%><%= link_to "Statistics", admin_statistics_url%><%end%>
 
