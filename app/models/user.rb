@@ -1239,13 +1239,13 @@ class User < ActiveRecord::Base
   end
 
 	def validate
-	  if first_name.match(/[\.\/#]/)
+	  if !first_name.nil? && first_name.match(/[\.\/#]/)
 	    errors.add(:first_name, "cannot contain characters: . # /")
     end
-	  if last_name.match(/[\.\/#]/)
+	  if !last_name.nil? && last_name.match(/[\.\/#]/)
 	    errors.add(:last_name, "cannot contain characters: . # /")
     end
-	  if business_name.match(/[\.\/#]/)
+	  if !business_name.nil? && business_name.match(/[\.\/#]/)
 	    errors.add(:last_name, "cannot contain characters: . # /")
     end
     if professional?

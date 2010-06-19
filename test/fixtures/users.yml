@@ -39,7 +39,7 @@ cyrille:
   paid_highlighted_until:         <%= 6.months.from_now.to_s :db %>
   subdomain:                cyrille
 norma:
-  first_name:                Norma V.
+  first_name:                Norma V
   last_name:                 Stein2
   business_name:             Amazing Biz
   email:                     norma2@eurekacoaching.co.nz
