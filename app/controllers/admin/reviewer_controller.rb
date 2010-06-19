@@ -2,6 +2,7 @@ class Admin::ReviewerController < AdminApplicationController
   before_filter :set_context
   
   def index
+    @context = "review"
 		@articles = Article.reviewable
 		@how_tos = HowTo.reviewable
 		@special_offers = SpecialOffer.reviewable

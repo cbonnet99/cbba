@@ -1,6 +1,10 @@
 <h3 class="article-title"><%=link_to special_offer.title, expanded_user_tabs_url(special_offer.author, Tab::OFFERS) %>
-<% if @context == "profile" && is_author?(special_offer) -%>
+<% if (@context == "profile" && (is_author?(special_offer) || is_admin?)) || (@context == "review" && is_admin?) -%>
  	<span class="stuff-actions">[<span class="<%=special_offer.workflow_css_class%>"><%=special_offer.state%></span>
+	<% if is_admin? -%>
+	 | <%= link_to "Approve", :controller => "reviewer", :action => "approve", :special_offer_id => special_offer.id%>
+	 | <%= link_to "Reject", :controller => "reviewer", :action => "reject", :special_offer_id => special_offer.id%>
+	<% end -%>
 	<% if (is_author?(special_offer) || is_admin?) && current_user.active? -%>
 	 | 
 		<%if special_offer.published? -%>
