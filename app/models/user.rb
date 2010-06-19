@@ -1245,6 +1245,9 @@ class User < ActiveRecord::Base
 	  if last_name.match(/[\.\/#]/)
 	    errors.add(:last_name, "cannot contain characters: . # /")
     end
+	  if business_name.match(/[\.\/#]/)
+	    errors.add(:last_name, "cannot contain characters: . # /")
+    end
     if professional?
           if subcategory1_id.blank? && !self.admin?
             errors.add(:subcategory1_id, "^You must select your main expertise")

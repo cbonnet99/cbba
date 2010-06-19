@@ -694,6 +694,42 @@ class UsersControllerTest < ActionController::TestCase
     # puts assigns(:user).errors.inspect
 		assert_equal 1, assigns(:user).errors.size
 	end
+
+  def test_create_illegal_characters_in_biz_name
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Boet",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc.", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
+	
+  def test_create_illegal_characters_in_biz_name2
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Boet",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy#Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
+	
+  def test_create_illegal_characters_in_biz_name3
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Boet",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy /Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
 	
   def test_create_free_listing
 		old_size = User.all.size
