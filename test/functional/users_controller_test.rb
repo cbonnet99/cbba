@@ -623,6 +623,78 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal 1, assigns(:user).errors.size
 	end
 	
+  def test_create_illegal_characters_in_first_name
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille A.", :last_name => "Bonnet",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
+	
+  def test_create_illegal_characters_in_first_name2
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille A/", :last_name => "Bonnet",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
+	
+  def test_create_illegal_characters_in_first_name3
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille# A", :last_name => "Bonnet",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
+	
+  def test_create_illegal_characters_in_last_name
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Boet.",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
+	
+  def test_create_illegal_characters_in_last_name2
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Bonnet#Gonnet",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
+	
+  def test_create_illegal_characters_in_last_name3
+		district = District.first
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Bonnet/G",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id, :business_name => "Bioboy Inc", :professional => true,
+      }
+		assert_not_nil assigns(:user)
+    # puts assigns(:user).errors.inspect
+		assert_equal 1, assigns(:user).errors.size
+	end
+	
   def test_create_free_listing
 		old_size = User.all.size
 		district = districts(:wellington_wellington_city)

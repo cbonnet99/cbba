@@ -17,7 +17,6 @@ class User < ActiveRecord::Base
    :path => ":rails_root/public/assets/profiles/:id/:style/:basename.:extension"
    
   #validation
-  validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
   validates_length_of :phone, :maximum => 14
   validates_length_of :mobile, :maximum => 14
@@ -1240,6 +1239,12 @@ class User < ActiveRecord::Base
   end
 
 	def validate
+	  if first_name.match(/[\.\/#]/)
+	    errors.add(:first_name, "cannot contain characters: . # /")
+    end
+	  if last_name.match(/[\.\/#]/)
+	    errors.add(:last_name, "cannot contain characters: . # /")
+    end
     if professional?
           if subcategory1_id.blank? && !self.admin?
             errors.add(:subcategory1_id, "^You must select your main expertise")
