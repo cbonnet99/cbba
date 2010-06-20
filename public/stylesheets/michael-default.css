@@ -1,3 +1,4 @@
+.resident_expert, li.resident_expert a{font-weight: bold;}
 .go_green {color: green;}
 .go_red {color: red;}
 a.enquire-button {background:url(../images/btnRed.gif) no-repeat; height:30px; line-height:29px; text-align:center; width:124px;}

@@ -109,6 +109,15 @@ class User < ActiveRecord::Base
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
   
+  def points_in_subcategory(subcat_id)
+    su = self.subcategories_users.find_by_subcategory_id(subcat_id)
+    if su.nil?
+      0
+    else
+      su.points
+    end
+  end
+  
   def has_article_with_same_slug?(id, slug)
     begin
   		if id.nil? 

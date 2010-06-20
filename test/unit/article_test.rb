@@ -65,10 +65,14 @@ class ArticleTest < ActiveSupport::TestCase
 
 	def test_create
 		yoga = subcategories(:yoga)
+		cyrille = users(:cyrille)
 		new_article = Article.create(:title => "Test", :lead => "This is my lead", :body => "",
-      :subcategory1_id => yoga.id, :author => users(:cyrille)  )
+      :subcategory1_id => yoga.id, :author => cyrille  )
 #    puts new_article.errors.inspect
+    new_article.publish!
 		assert_equal 1, new_article.subcategories.size
+		cyrille.reload
+		assert cyrille.points_in_subcategory(yoga.id) > 0, "Points should have been credited for the article"
 	end
 
 	def test_create_slug

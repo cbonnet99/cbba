@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :user_emails, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/user_emails"
   map.resources :subcategories, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/subcategories"
   map.resources :statistics, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/statistics"
+  map.resources :resident_experts, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/resident_experts", :member => {:index_for_subcategory => :get}
 
   map.resources :users, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/users", :member => {:login => [:get, :post]}, :collection => {:search => [:get, :post]}
   

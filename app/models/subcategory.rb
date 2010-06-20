@@ -20,7 +20,7 @@ class Subcategory < ActiveRecord::Base
   named_scope :with_gift_vouchers, :conditions => "published_gift_vouchers_count > 0" 
   
   MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY = 3
-  
+
   def self.find_and_cache_expert_subcats
     subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => ["subcategories_users.points >= ?", User::MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "name, subcategories_users.points desc")
     encoded_subcats = subcats.inject(""){|str, s| str << "#{s.id}/" }
@@ -34,6 +34,10 @@ class Subcategory < ActiveRecord::Base
       experts = experts[0..MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY-1]
     end
     experts
+  end
+
+  def users_with_points
+    @users_with_points ||= User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points > 0", self.id], :order => "subcategories_users.points desc")
   end
 
   def has_users?

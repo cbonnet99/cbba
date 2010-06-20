@@ -8,6 +8,14 @@ class UserTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
   
+  def test_points_in_subcategory
+    user = Factory(:user)
+    subcat = Factory(:subcategory)
+    article = Factory(:article, :author => user, :subcategory1_id => subcat.id, :state => "draft" )
+    article.publish!
+    assert user.points_in_subcategory(subcat.id) > 0
+  end
+  
   def test_hasnt_changed_special_offers_recently
     has_changed_offer_recently = Factory(:user, :email => "has_changed_offer_recently@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
     recent_so = Factory(:special_offer, :published_at => 2.weeks.ago, :author => has_changed_offer_recently)

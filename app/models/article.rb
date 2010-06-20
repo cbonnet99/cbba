@@ -31,6 +31,24 @@ class Article < ActiveRecord::Base
   def on_publish_enter
     send_congrats_on_first
     email_reviewers_and_increment_count
+    compute_points
+  end
+
+  def compute_points
+    unless subcategory.nil?
+      su = self.author.subcategories_users.find_by_subcategory_id(subcategory.id)
+      if su.nil?
+        self.author.subcategories_users.create(:subcategory => subcategory, :points => POINTS_FOR_RECENT_ARTICLE )
+      else
+        su.update_attribute(:points, su.points+POINTS_FOR_RECENT_ARTICLE)
+      end
+    end
+  end
+  
+  def subcategory
+    unless self.subcategory1_id.nil?
+      Subcategory.find(self.subcategory1_id)
+    end
   end
 
   def send_congrats_on_first

@@ -2,7 +2,7 @@
 <%if selected=="user_activities"%><span class="user-tab-selected">Last Activity</span><%else%><%= link_to "Last activity", user_activities_admin_url %><%end%> |
 <%if selected=="emails"%><span class="user-tab-selected">Manual emails</span><%else%><%= link_to "Manual emails", mass_emails_url %><%end%> |
 <%if selected=="payments"%><span class="user-tab-selected">Payments</span><%else%><%= link_to "Payments", :controller => "admin/payments", :action => "index", :id => ""    %><%end%> |
-<%if selected=="expert_applications"%><span class="user-tab-selected">Expert applications</span><%else%><%= link_to "Expert_applications", expert_applications_action_url(:action => "index")%><%end%> |
+<%if selected=="resident_experts"%><span class="user-tab-selected">Resident experts</span><%else%><%= link_to "Resident experts", admin_resident_experts_url(:action => "index")%><%end%> |
 <%if selected=="reviews"%><span class="user-tab-selected"><%=current_user.sentence_to_review%></span><%else%><%= link_to current_user.sentence_to_review, reviewer_url(:action => "index")%><%end%> |
 <%if selected=="search_results"%><span class="user-tab-selected">Search results</span><%else%><%= link_to "Search results", action_search_results_url(:action => "index", :id => "", :search_term => nil)%><%end%> |
 <%if selected=="newsletters"%><span class="user-tab-selected">Newsletters</span><%else%><%= link_to "Newsletters", admin_newsletters_url%><%end%> |

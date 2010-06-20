@@ -1,0 +1,8 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "resident_experts" }  %>
+<%= title "Resident experts for #{@subcategory.name}"%>
+<p>The resident experts (if any) are in <span class="resident_expert">bold</span></p>
+<ul>
+<% @users_with_points.each do |u| -%>
+	<li<%if @subcat_resident_experts.include?(u)%> class="resident_expert"<%end%>><%= u.full_name %> (<%= pluralize(u.points_in_subcategory(@subcategory.id), "point")%>)</li>
+<% end -%>
+</ul>
