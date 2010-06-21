@@ -2,6 +2,12 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.send_weekly_admin_stats
+    User.admins.each do |admin|
+      UserMailer.deliver_weekly_admin_statistics(admin)
+    end
+  end
+
   def self.recompute_resident_experts
     subcats = Subcategory.find_and_cache_expert_subcats
     User.find_and_cache_resident_experts(subcats)

@@ -27,6 +27,7 @@ end
 
 every 1.week do
   rake "bam:count_published_items"
+  runner "send_weekly_admin_stats"
 end
 
 every 1.day, :at => "3am"  do

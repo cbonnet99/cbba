@@ -3,6 +3,21 @@ class UserMailer < ActionMailer::Base
   include ApplicationHelper
   include ActionController::UrlWriter
 
+  def weekly_admin_statistics(user)
+    setup_email(user)
+    @subject = "BAM stats #{Time.now.to_date}"
+    @content_type = 'text/html'
+    @start_date = Time.now.beginning_of_week
+    @end_date = Time.now.end_of_week
+    p = Payment.find(:all, :conditions => {:created_at => @start_date..@end_date } )
+    @payments = p.size
+    @total_payments = p.inject(0){|sum, p| sum+p.amount}
+    @signups = User.count(:all, :conditions => {:created_at => @start_date..@end_date } )
+    @published_profiles = UserProfile.count(:all, :conditions => {:published_at => @start_date..@end_date } )
+    @published_articles = Article.count(:all, :conditions => {:published_at => @start_date..@end_date } )
+    @published_SOs = SpecialOffer.count(:all, :conditions => {:published_at => @start_date..@end_date } )
+    @published_GVs = GiftVoucher.count(:all, :conditions => {:published_at => @start_date..@end_date } )
+  end
   def congrats_first_article(user)
     setup_email(user)
     @subject = "Your first article on BeAmazing!"

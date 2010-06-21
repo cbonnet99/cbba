@@ -3,6 +3,16 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_send_weekly_admin_stats
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.send_weekly_admin_stats
+    
+    assert_equal User.admins.size, ActionMailer::Base.deliveries.size
+  end
+
   def test_recompute_resident_experts
     TaskUtils.recompute_resident_experts
   end
