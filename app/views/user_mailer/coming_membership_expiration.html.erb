@@ -5,9 +5,9 @@ Dear <%= @user.first_name %>,
 <% if @user.member_since_launch_date? -%>
 <p>Over the last 12 months you've been with us you've had:</p>
 <ul>
-	<li><%=pluralize(@user.last_12months_profile_visits, "visit")%> to your profile</li>
-	<li><%=pluralize(@user.last_12months_received_messages, "email enquiry")%> through BeAmazing</li>
-	<li><%=pluralize(@user.last_12months_redirect_website, "click")%> through to your website</li>
+	<li><%=pluralize(@user.visited_user_events.visited_profile.last_12_months.size, "visit")%> to your profile</li>
+	<li><%=pluralize(@user.visited_user_events.received_message.last_12_months.size, "email enquiry")%> through BeAmazing</li>
+	<li><%=pluralize(@user.visited_user_events.redirect_website.last_12_months.size, "click")%> through to your website</li>
 </ul>
 <% end -%>
 <p>We love having you on the site and together we're making a bigger difference to Kiwis' wellbeing. To renew your membership for only $199+gst (that's only 61c per day inc gst!) please click on the link below:</p>

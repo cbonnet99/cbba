@@ -431,34 +431,41 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 4, cyrille.articles_count_for_user(cyrille)
   end
 
+  def test_events_for_week_around_date
+    user = Factory(:user)
+    ev = Factory(:user_event, :visited_user => user, :event_type => UserEvent::VISIT_PROFILE, :logged_at => Time.now )
+    assert_equal 1, user.visited_user_events.for_week_around_date(Time.now).size
+    assert_equal 0, user.visited_user_events.for_week_around_date(2.weeks.ago).size
+  end
+
   def test_last_30days_redirect_website
     cyrille = users(:cyrille)
-    assert_equal 1, cyrille.last_30days_redirect_website
+    assert_equal 1, cyrille.visited_user_events.redirect_website.last_30_days.size
   end
 
   def test_last_12months_redirect_website
     cyrille = users(:cyrille)
-    assert_equal 2, cyrille.last_12months_redirect_website
+    assert_equal 2, cyrille.visited_user_events.redirect_website.last_12_months.size
   end
 
   def test_last_30days_received_messages
     cyrille = users(:cyrille)
-    assert_equal 1, cyrille.last_30days_received_messages
+    assert_equal 1, cyrille.visited_user_events.received_message.last_30_days.size
   end
 
   def test_last_12months_received_messages
     cyrille = users(:cyrille)
-    assert_equal 2, cyrille.last_12months_received_messages
+    assert_equal 2, cyrille.visited_user_events.received_message.last_12_months.size
   end
 
   def test_last_30days_profile_visits
     cyrille = users(:cyrille)
-    assert_equal 1, cyrille.last_30days_profile_visits
+    assert_equal 1, cyrille.visited_user_events.visited_profile.last_30_days.size
   end
 
   def test_last_12_months_profile_visits
     cyrille = users(:cyrille)
-    assert_equal 2, cyrille.last_12months_profile_visits
+    assert_equal 2, cyrille.visited_user_events.visited_profile.last_12_months.size
   end
 
   def test_invoices

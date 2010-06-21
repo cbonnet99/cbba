@@ -8,9 +8,11 @@ class UserEvent < ActiveRecord::Base
 	belongs_to :district
 
 	named_scope :login, :conditions => ["event_type='Login'"]
-	named_scope :free_users_show_details, :conditions => ["event_type='Free user show details'"]
 	named_scope :for_session, lambda { |session| {:conditions => ["session = ?", session] }}
   named_scope :no_results, :conditions => "results_found=0"
+  named_scope :for_week_around_date, lambda {|date| {:conditions => ["logged_at BETWEEN ? AND ?", date.beginning_of_week, date.end_of_week]}}
+  named_scope :last_30_days, :conditions => ["logged_at BETWEEN ? AND ?", 30.days.ago, Time.now]
+  named_scope :last_12_months, :conditions => ["logged_at BETWEEN ? AND ?", 12.months.ago, Time.now]
   
   MSG_SENT = "Message sent"
   FREE_USER_DETAILS = "Free user show details"
@@ -28,6 +30,11 @@ class UserEvent < ActiveRecord::Base
   PAYMENT_FAILURE = "Payment failed"
   VISIT_SUBCATEGORY = "Visit subcategory"
   
+	named_scope :free_users_show_details, :conditions => ["event_type=?", UserEvent::FREE_USER_DETAILS]
+	named_scope :redirect_website, :conditions => ["event_type=?", UserEvent::REDIRECT_WEBSITE]
+	named_scope :visited_profile, :conditions => ["event_type=?", UserEvent::VISIT_PROFILE]
+	named_scope :received_message, :conditions => ["event_type=?", UserEvent::MSG_SENT]
+	
   def user_name
     if user.nil?
       res = "Anonymous"

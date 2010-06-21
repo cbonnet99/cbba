@@ -2,19 +2,19 @@
 <%= title "Statistics"  %>
 <p>For the <strong>last month</strong>, you had:</p>
 <ul>
-	<li><%=pluralize(current_user.last_30days_profile_visits, "visit")%> to your profile page</li>
-	<li><%=pluralize(current_user.last_30days_received_messages, "email enquiry")%> via BeAmazing</li>
-	<li><%=pluralize(current_user.last_30days_redirect_website, "click")%> through to your website</li>
+	<li><%=pluralize(current_user.user_events.visited_profile.last_30_days.size, "visit")%> to your profile page</li>
+	<li><%=pluralize(current_user.user_events.received_message.last_30_days.size, "email enquiry")%> via BeAmazing</li>
+	<li><%=pluralize(current_user.user_events.redirect_website.last_30_days.size, "click")%> through to your website</li>
 </ul>
 <p>For the <strong>last 12 months</strong>, you had:</p>
 <ul>
-	<li><%=pluralize(current_user.last_12months_profile_visits, "visit")%> to your profile page</li>
-	<li><%=pluralize(current_user.last_12months_received_messages, "email enquiry")%> via BeAmazing</li>
-	<li><%=pluralize(current_user.last_12months_redirect_website, "click")%> through to your website</li>
+	<li><%=pluralize(current_user.user_events.visited_profile.last_12_months.size, "visit")%> to your profile page</li>
+	<li><%=pluralize(current_user.user_events.received_message.last_12_months.size, "email enquiry")%> via BeAmazing</li>
+	<li><%=pluralize(current_user.user_events.redirect_website.last_12_months.size, "click")%> through to your website</li>
 </ul>
 <p>Since you joined, you had:</p>
 <ul>
-	<li><%=pluralize(current_user.all_time_profile_visits, "visit")%> to your profile page</li>
-	<li><%=pluralize(current_user.all_time_received_messages, "email enquiry")%> via BeAmazing</li>
-	<li><%=pluralize(current_user.all_time_redirect_website, "click")%> through to your website</li>
+	<li><%=pluralize(current_user.user_events.visited_profile, "visit")%> to your profile page</li>
+	<li><%=pluralize(current_user.user_events.received_message, "email enquiry")%> via BeAmazing</li>
+	<li><%=pluralize(current_user.user_events.redirect_website, "click")%> through to your website</li>
 </ul>

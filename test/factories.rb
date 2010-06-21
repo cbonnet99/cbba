@@ -57,8 +57,10 @@ end
 
 Factory.define :user_event do |e|
   e.event_type UserEvent::VISIT_SUBCATEGORY
+  e.logged_at Time.now
   e.remote_ip "202.123.45.2"
   e.association :subcategory
+  e.visited_user {|u| u.association(:user)} 
 end
 
 Factory.define :subcategories_user do |scu|

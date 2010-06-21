@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   has_many :payments, :dependent => :delete_all
   has_many :user_emails, :dependent => :delete_all
   has_many :user_events, :dependent => :delete_all
-  has_many :profile_visits, :class_name => "UserEvent", :foreign_key => :visited_user_id, :dependent => :delete_all
+  has_many :visited_user_events, :class_name => "UserEvent", :foreign_key => :visited_user_id, :dependent => :delete_all
   has_many :special_offers, :foreign_key => :author_id
   has_many :expert_applications, :dependent => :delete_all
   has_many :gift_vouchers, :foreign_key => :author_id
@@ -629,43 +629,6 @@ class User < ActiveRecord::Base
   #     self.special_offers.find_by_state_and_slug("published", slug)
   #   end
   # end
-
-  def last_30days_redirect_website
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
-  end
-
-  def last_12months_redirect_website
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
-  end
-  
-  def all_time_redirect_website
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::REDIRECT_WEBSITE}' AND visited_user_id = ?", self.id])
-  end
-  
-  def last_30days_received_messages
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
-  end
-
-  def last_12months_received_messages
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
-  end
-  
-  def all_time_received_messages
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::MSG_SENT}' AND visited_user_id = ?", self.id])
-  end
-  
-  def last_30days_profile_visits
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  30.days.ago,  Time.now])
-  end
-
-  def last_12months_profile_visits
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ? and logged_at BETWEEN ? AND ?", self.id,  12.months.ago,  Time.now])
-  end
-  
-  def all_time_profile_visits
-    UserEvent.count_by_sql(["SELECT count(*) from user_events where event_type ='#{UserEvent::VISIT_PROFILE}' AND visited_user_id = ?", self.id])
-  end
-  
   def geocoded?
     !latitude.blank? && !longitude.blank?
   end
