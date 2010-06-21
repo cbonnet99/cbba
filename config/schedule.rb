@@ -54,6 +54,7 @@ every 1.day, :at => "3am"  do
 end
 every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/runs3sync"
+  command "ruby script/delete_old_S3_files.rb"
 end
 
 every 1.hour do
