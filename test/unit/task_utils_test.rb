@@ -235,7 +235,9 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired photo + 1 alert to Megan"
 
-    ActionMailer::Base.deliveries = []    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.check_feature_expiration
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The expired photo email should only be sent once"    
   end
 
   def test_check_feature_expiration_has_expired_photo
@@ -280,6 +282,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_not_nil email
     assert_match /photo/, email.body
     assert_match /highlighted profile/, email.body
+    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.check_feature_expiration
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The expiring features email should only be sent once"    
   end
 
   def test_check_feature_expiration_expiring_photo
@@ -292,6 +298,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.check_feature_expiration
     
     assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring photo + 1 alert to Megan"
+    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.check_feature_expiration
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The expiring photo feature email should only be sent once"
   end
 
   def test_check_feature_expiration_expired_highlighted
@@ -321,6 +331,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.check_feature_expiration
     
     assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring highlighted + 1 alert to Megan"
+    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.check_feature_expiration
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The expiring highlighted email should only be sent once"    
   end
 
   def test_rotate_feature_ranks
