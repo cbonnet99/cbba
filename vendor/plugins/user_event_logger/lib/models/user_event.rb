@@ -10,6 +10,7 @@ class UserEvent < ActiveRecord::Base
 	named_scope :login, :conditions => ["event_type='Login'"]
 	named_scope :for_session, lambda { |session| {:conditions => ["session = ?", session] }}
   named_scope :no_results, :conditions => "results_found=0"
+  named_scope :excludes_own, :conditions => "user_id IS NULL OR user_id <> visited_user_id"
   named_scope :for_week_around_date, lambda {|date| {:conditions => ["logged_at BETWEEN ? AND ?", date.beginning_of_week, date.end_of_week]}}
   named_scope :last_30_days, :conditions => ["logged_at BETWEEN ? AND ?", 30.days.ago, Time.now]
   named_scope :last_12_months, :conditions => ["logged_at BETWEEN ? AND ?", 12.months.ago, Time.now]

@@ -465,7 +465,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_last_12_months_profile_visits
     cyrille = users(:cyrille)
-    assert_equal 2, cyrille.visited_user_events.visited_profile.last_12_months.size
+    assert_equal 2, cyrille.visited_user_events.visited_profile.last_12_months.excludes_own.size
   end
 
   def test_invoices

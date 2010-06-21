@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   has_many :payments, :dependent => :delete_all
   has_many :user_emails, :dependent => :delete_all
   has_many :user_events, :dependent => :delete_all
-  has_many :visited_user_events, :class_name => "UserEvent", :foreign_key => :visited_user_id, :dependent => :delete_all
+  has_many :visited_user_events, :class_name => "UserEvent", :foreign_key => :visited_user_id, :dependent => :delete_all 
   has_many :special_offers, :foreign_key => :author_id
   has_many :expert_applications, :dependent => :delete_all
   has_many :gift_vouchers, :foreign_key => :author_id

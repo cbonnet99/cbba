@@ -6,6 +6,11 @@ cyrille_profile2:
     visited_user: cyrille
     event_type: <%=UserEvent::VISIT_PROFILE%>
     logged_at: <%= Time.now.utc.advance(:months => -6 )%>
+cyrille_profile3:
+    user: cyrille
+    visited_user: cyrille
+    event_type: <%=UserEvent::VISIT_PROFILE%>
+    logged_at: <%= Time.now.utc.advance(:months => -6 )%>
 cyrille_msg1:
     visited_user: cyrille
     event_type: <%=UserEvent::MSG_SENT%>
