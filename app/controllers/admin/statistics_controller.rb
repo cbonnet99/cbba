@@ -11,5 +11,6 @@ class Admin::StatisticsController < ApplicationController
     @published_articles = Article.count(:all, :conditions => {:published_at => @start_date..@end_date } )
     @published_SOs = SpecialOffer.count(:all, :conditions => {:published_at => @start_date..@end_date } )
     @published_GVs = GiftVoucher.count(:all, :conditions => {:published_at => @start_date..@end_date } )
+    @public_newsletter_signups = Contact.find(:all, :conditions => {:created_at => @start_date..@end_date })
   end
 end
