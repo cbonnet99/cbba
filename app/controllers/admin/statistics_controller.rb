@@ -5,12 +5,12 @@ class Admin::StatisticsController < ApplicationController
     @end_date = @date.end_of_week
     p = Payment.find(:all, :conditions => {:created_at => @start_date..@end_date } )
     @payments = p.size
-    @total_payments = p.inject(0){|sum, p| sum+p.amount}
+    @total_payments = p.inject(0){|sum, p| sum+p.amount} || 0
     @signups = User.count(:all, :conditions => {:created_at => @start_date..@end_date } )
     @published_profiles = UserProfile.count(:all, :conditions => {:published_at => @start_date..@end_date } )
     @published_articles = Article.count(:all, :conditions => {:published_at => @start_date..@end_date } )
     @published_SOs = SpecialOffer.count(:all, :conditions => {:published_at => @start_date..@end_date } )
     @published_GVs = GiftVoucher.count(:all, :conditions => {:published_at => @start_date..@end_date } )
-    @public_newsletter_signups = Contact.find(:all, :conditions => {:created_at => @start_date..@end_date })
+    @public_newsletter_signups = Contact.count(:all, :conditions => {:created_at => @start_date..@end_date })
   end
 end
