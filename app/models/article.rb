@@ -27,7 +27,16 @@ class Article < ActiveRecord::Base
   POINTS_FOR_RECENT_ARTICLE = 10
   POINTS_FOR_OLDER_ARTICLE = 5
   DAILY_ARTICLE_ROTATION = 3
-
+  SHORT_LEAD_MAX_SIZE = 200
+  
+  def short_lead
+    if self.lead.size < SHORT_LEAD_MAX_SIZE
+      self.lead
+    else
+      "#{self.lead[0..SHORT_LEAD_MAX_SIZE-1]}..."
+    end
+  end
+  
   def on_publish_enter
     send_congrats_on_first
     email_reviewers_and_increment_count

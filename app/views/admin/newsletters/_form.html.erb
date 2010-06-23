@@ -59,6 +59,8 @@
     <li>
       <div class="left-input"><%= check_box_tag( "newsletter[articles_attributes][id#{i}]",a.id, @newsletter.selected_article?(a, i)) %></div>
       <div class="right-label"><label for="newsletter_articles_attributes_id<%=i%>"><%= a.label%></label></div>
+	  <div class="left-input"></div>
+      <div class="right-label"><label class="short-lead" for="newsletter_articles_attributes_id<%=i%>"><%= a.short_lead%></label></div>
     </li>
 	<% end -%>
   	<li>
