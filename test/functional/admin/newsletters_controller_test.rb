@@ -20,6 +20,13 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     assert_equal [free_trial], assigns(:newsletter).special_offers
   end
   
+  def test_create_with_error
+    free_trial = special_offers(:free_trial)
+    post :create, {}, {:user_id => users(:cyrille).id }
+    assert_response :success
+    assert_not_nil flash[:error]
+  end
+  
   def test_edit
     get :edit, {:id => newsletters(:may_published).id }, {:user_id => users(:cyrille).id }
     assert_response :success
@@ -37,6 +44,14 @@ class Admin::NewslettersControllerTest < ActionController::TestCase
     assert assigns(:newsletter).errors.blank?
     assert_equal [free_trial], may_published.special_offers
     assert_equal "bla", may_published.title
+  end
+  
+  def test_update_with_error
+    free_trial = special_offers(:free_trial)
+    may_published = newsletters(:may_published)
+    post :update, {:id => may_published.id, :newsletter => {:title => "", :special_offers_attributes => {:id => free_trial.id } } }, {:user_id => users(:cyrille).id }
+    assert_response :success
+    assert_not_nil flash[:error]
   end
   
   def test_index

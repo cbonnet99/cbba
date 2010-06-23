@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100614071331) do
+ActiveRecord::Schema.define(:version => 20100623104326) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -277,6 +277,10 @@ ActiveRecord::Schema.define(:version => 20100614071331) do
     t.text     "custom1_body"
     t.string   "custom2_title"
     t.text     "custom2_body"
+    t.string   "custom3_title"
+    t.text     "custom3_body"
+    t.string   "custom4_title"
+    t.text     "custom4_body"
   end
 
   create_table "newsletters_special_offers", :force => true do |t|

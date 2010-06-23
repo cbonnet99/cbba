@@ -2,10 +2,9 @@
 <h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;"><%= newsletter.custom1_title%></h3>
 <%= newsletter.custom1_body%>
 <% end -%>
-<% unless newsletter.main_article.blank? -%>
-
-<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Main article</h3>
-<%= newsletter.main_article%>
+<% unless newsletter.custom2_title.blank? || newsletter.custom2_body.blank? -%>
+<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;"><%= newsletter.custom2_title%></h3>
+<%= newsletter.custom2_body%>
 <% end -%>
 
 <% unless newsletter.special_offers.blank? -%>
@@ -18,7 +17,7 @@
 <% end -%>
 
 <% unless newsletter.competition.blank? -%>
-<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Competition</h3>
+<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Win Win Win!</h3>
 <%= newsletter.competition%>
 <% end -%>
 
@@ -59,12 +58,12 @@
 <%= newsletter.upcoming_events%>
 <% end -%>
 
-<% unless newsletter.quotation_quiz.blank? -%>
-<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Quotation quiz</h3>
-<%= newsletter.quotation_quiz%>
+<% unless newsletter.custom3_title.blank? || newsletter.custom3_body.blank? -%>
+<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;"><%= newsletter.custom3_title%></h3>
+<%= newsletter.custom3_body%>
 <% end -%>
 
-<% unless newsletter.custom2_title.blank? || newsletter.custom2_body.blank? -%>
-<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;"><%= newsletter.custom2_title%></h3>
-<%= newsletter.custom2_body%>
+<% unless newsletter.custom4_title.blank? || newsletter.custom4_body.blank? -%>
+<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;"><%= newsletter.custom4_title%></h3>
+<%= newsletter.custom4_body%>
 <% end -%>

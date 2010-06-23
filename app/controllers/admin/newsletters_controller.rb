@@ -4,10 +4,7 @@ class Admin::NewslettersController < AdminApplicationController
   before_filter :get_latest_items, :only => [:edit, :new]
 
   def edit
-    @special_offers = SpecialOffer.currently_selected_and_last_10_published(@newsletter)
-    @articles = Article.currently_selected_and_last_10_published(@newsletter)
-    @gift_vouchers = GiftVoucher.currently_selected_and_last_10_published(@newsletter)
-    @users = User.currently_selected_and_last_10_published(@newsletter)
+    get_currently_selected_items
   end
 
   def destroy
@@ -35,10 +32,7 @@ class Admin::NewslettersController < AdminApplicationController
   
   def new
     @newsletter = Newsletter.new
-    @special_offers = SpecialOffer.published_in_last_2_months
-    @articles = Article.published_in_last_2_months
-    @gift_vouchers = GiftVoucher.published_in_last_2_months
-    @users = User.published_in_last_2_months
+    get_all_items
   end
   
   def update
@@ -51,6 +45,7 @@ class Admin::NewslettersController < AdminApplicationController
         flash[:notice] = "Newsletter saved"
         redirect_to admin_newsletters_url
       else
+        get_currently_selected_items
         flash[:error] = "There were some errors saving this newsletter"
         render :action => "edit" 
       end
@@ -68,6 +63,7 @@ class Admin::NewslettersController < AdminApplicationController
         flash[:notice] = "Newsletter saved"
         redirect_to admin_newsletters_url
       else
+        get_all_items
         flash[:error] = "There were some errors saving this newsletter"
         render :action => "new" 
       end
@@ -84,5 +80,17 @@ class Admin::NewslettersController < AdminApplicationController
   end
   def get_latest_items
     @latest_special_offers = SpecialOffer.latest.published
+  end
+  def get_all_items
+    @special_offers = SpecialOffer.published_in_last_2_months
+    @articles = Article.published_in_last_2_months
+    @gift_vouchers = GiftVoucher.published_in_last_2_months
+    @users = User.published_in_last_2_months
+  end
+  def get_currently_selected_items
+    @special_offers = SpecialOffer.currently_selected_and_last_10_published(@newsletter)
+    @articles = Article.currently_selected_and_last_10_published(@newsletter)
+    @gift_vouchers = GiftVoucher.currently_selected_and_last_10_published(@newsletter)
+    @users = User.currently_selected_and_last_10_published(@newsletter)
   end
 end
