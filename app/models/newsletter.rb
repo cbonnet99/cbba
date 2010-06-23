@@ -35,6 +35,32 @@ class Newsletter < ActiveRecord::Base
   NUMBER_SPECIAL_OFFERS = 3
   NUMBER_GIFT_VOUCHERS = 3
 
+  def past_actions
+    res = ""
+    if !published_at.nil?
+      res << "Published on #{published_at} by #{publisher.try(:name)}<br/>"
+    end
+    if test_sent?
+      res << "Test email sent on #{mass_email.try(:test_sent_at)} to #{mass_email.try(:test_sent_to).try(:name)}<br/>"
+    end
+    if email_sent?
+      res << "Newsletter sent on #{mass_email.try(:sent_at)} by #{mass_email.try(:sent_by).try(:name)}<br/>"
+    end
+    res
+  end
+  
+  def mass_email
+    mass_emails.try(:last)
+  end
+  
+  def test_sent?
+    !mass_emails.blank? && !mass_email.try(:test_sent_at).nil?
+  end
+  
+  def email_sent?
+    !mass_emails.blank? && !mass_email.try(:sent_at).nil?
+  end
+  
   def save_attributes
     unless special_offers_attributes.blank?
       self.newsletters_special_offers.destroy_all

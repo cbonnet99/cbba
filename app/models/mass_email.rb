@@ -1,6 +1,7 @@
 class MassEmail < ActiveRecord::Base
 
   belongs_to :test_sent_to, :class_name => "User"
+  belongs_to :sent_by, :class_name => "User"
   belongs_to :creator, :class_name => "User"
   belongs_to :newsletter
   
@@ -47,7 +48,7 @@ class MassEmail < ActiveRecord::Base
     return res
   end
 
-  def deliver
+  def deliver(sender)
     if sent_at.nil?
       if !newsletter.nil? && !newsletter.published?
         newsletter.publish!
@@ -99,7 +100,7 @@ class MassEmail < ActiveRecord::Base
           self.update_attribute(:sent_to, "#{self.sent_to}<br/>#{u.email}")
         end
       end
-      self.update_attribute(:sent_at, Time.now)
+      self.update_attributes(:sent_at  => Time.now, :sent_by => sender )
     end
   end
 

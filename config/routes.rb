@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_activities_admin '/admin/user_activities', :controller => "admin/user_activities", :action => "index"  
   map.user_activity_admin '/admin/user_activity/:id', :controller => "admin/user_activities", :action => "show"  
   map.resources :newsletters
-  map.resources :newsletters, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/newsletters", :member => {:publish => [:get, :post], :retract => [:get, :post] }
+  map.resources :newsletters, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/newsletters", :member => {:publish => [:get, :post], :retract => [:get, :post]}
   map.resources :user_emails, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/user_emails"
   map.resources :subcategories, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/subcategories"
   map.resources :statistics, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/statistics"
@@ -16,8 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.special_offers_for_subcategory '/special_offers/subcategory/:subcategory_slug', :controller => "special_offers", :action => "index_for_subcategory"
   map.resources :search_results, :path_prefix => "/admin", :controller => "admin/search_results"
   map.action_search_results '/admin/search_results/:id/:action', :controller => "admin/search_results"
-  map.resources :mass_emails, :path_prefix => "/admin", :controller => "admin/mass_emails"
-  map.action_mass_emails '/admin/mass_emails/:id/:action', :controller => "admin/mass_emails"
+  map.resources :mass_emails, :path_prefix => "/admin", :controller => "admin/mass_emails", :member => {:select_email_recipients => [:get, :post], :send_test => [:get, :post], :copy => [:get, :post]}, :new => {:create_and_send_test => [:get, :post] }
   map.resources :messages
   map.resources :full_members
   map.resources :resident_experts

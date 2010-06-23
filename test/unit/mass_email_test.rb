@@ -8,7 +8,7 @@ class MassEmailTest < ActiveSupport::TestCase
     
     test_password = mass_emails(:test_password)
     test_password.recipients = 'Full members'
-    test_password.deliver
+    test_password.deliver(users(:cyrille))
     assert_equal old_size+User.active.full_members.size, UserEmail.all.size
     assert_equal "<br/>#{User.active.full_members.map(&:name_with_email).join('<br/>')}", test_password.sent_to
   end
@@ -18,7 +18,7 @@ class MassEmailTest < ActiveSupport::TestCase
     assert_equal 0, UserEmail.not_sent.size, "UserEmail.not_sent: #{UserEmail.not_sent.inspect}"
     email_public_newsletter = mass_emails(:email_public_newsletter)
     email_public_newsletter.recipients = "All subscribers"
-    email_public_newsletter.deliver
+    email_public_newsletter.deliver(users(:cyrille))
     assert_equal User.active.wants_newsletter.size+Contact.wants_newsletter.size, UserEmail.not_sent.size
   end
 

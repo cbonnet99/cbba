@@ -96,6 +96,10 @@ Factory.define :payment do |f|
   f.amount 1500
 end
 
+Factory.define :mass_email do |me|
+  me.subject "Mass email"
+end
+
 Factory.define :newsletter do |f|
   f.title "May newsletter"
   f.state "published"

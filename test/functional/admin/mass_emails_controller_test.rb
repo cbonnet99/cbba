@@ -3,6 +3,37 @@ require File.dirname(__FILE__) + '/../../test_helper'
 class Admin::MassEmailsControllerTest < ActionController::TestCase
   fixtures :all
 
+  def test_show
+    cyrille = users(:cyrille)
+    mass_email = Factory(:mass_email, :test_sent_at => nil)
+    get :show, {:id => mass_email.id}, {:user_id => cyrille.id}
+    assert_response :success
+    
+    mass_email = Factory(:mass_email, :test_sent_at => Time.now)
+    get :show, {:id => mass_email.id}, {:user_id => cyrille.id}
+    assert_response :success
+    
+    mass_email = Factory(:mass_email, :sent_at => nil)
+    get :show, {:id => mass_email.id}, {:user_id => cyrille.id}
+    assert_response :success
+
+    mass_email = Factory(:mass_email, :sent_at => Time.now)
+    get :show, {:id => mass_email.id}, {:user_id => cyrille.id}
+    assert_response :success
+  end
+
+  def test_create_and_send_test
+    cyrille = users(:cyrille)
+    newsletter = Factory(:newsletter, :author => cyrille)
+    old_size = MassEmail.all.size
+    post :create_and_send_test, {:newsletter_id => newsletter.id }, {:user_id => cyrille.id}
+    assert_redirected_to admin_newsletters_url
+    assert_equal old_size+1, MassEmail.all.size
+    last_mass_email = MassEmail.last
+    assert_equal newsletter.id, last_mass_email.newsletter_id
+    assert_not_nil last_mass_email.test_sent_at?
+    assert_not_nil last_mass_email.test_sent_to_id
+  end
 
   def test_copy
     test_email = mass_emails(:test_email)
@@ -28,6 +59,20 @@ class Admin::MassEmailsControllerTest < ActionController::TestCase
     post :create, {:mass_email => {:subject => "Test", :newsletter_id => newsletters(:may_published), :email_type => "Public newsletter"  }}, {:user_id => users(:cyrille).id }
     assert_equal "Successfully created email.", flash[:notice]
     assert_equal "All subscribers", assigns(:mass_email).recipients
+  end
+
+  def test_send_newsletter
+    old_size = UserEmail.all.size
+    
+    email_public_newsletter = mass_emails(:email_public_newsletter)
+    post :update, {:send => "Send", :id => email_public_newsletter.id, :mass_email => {:recipients => "All subscribers" }, :send => true, :return_to => admin_newsletters_url }, {:user_id => users(:cyrille).id }
+    assert_redirected_to admin_newsletters_url
+    email_public_newsletter.reload
+    assert_equal "All subscribers", email_public_newsletter.recipients
+    assert_not_nil email_public_newsletter.sent_at
+    assert_not_nil email_public_newsletter.sent_by_id
+    assert_equal old_size+User.active.wants_newsletter.size+Contact.active.wants_newsletter.size, UserEmail.all.size
+    UserEmail.check_and_send_mass_emails
   end
 
   def test_update_newsletter

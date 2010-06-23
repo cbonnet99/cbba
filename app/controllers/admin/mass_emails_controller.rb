@@ -1,7 +1,28 @@
 class Admin::MassEmailsController < AdminApplicationController
 
-  before_filter :mass_email, :except => [:new, :create, :index]
+  before_filter :mass_email, :except => [:new, :create, :index, :create_and_send_test]
   before_filter :get_newsletters, :only => [:edit, :create, :new]
+
+  def create_and_send_test
+    @newsletter = Newsletter.find(params[:newsletter_id])
+    if @newsletter.published?
+      @mass_email = MassEmail.create!(:subject => @newsletter.title, :newsletter_id => @newsletter.id, 
+      :creator => current_user, :email_type => "Public newsletter")
+      if @mass_email.nil?
+        flash[:error] = "There was an error sending this newsletter"
+      else
+        res = @mass_email.deliver_test(current_user)
+        if res.blank?    
+          flash[:notice] = "The test email was sent"
+        else
+          flash[:warning] = res
+        end
+      end
+    else
+      flash[:error] = "This newsletter is not published"
+    end
+    redirect_to admin_newsletters_url
+  end
    
   def copy
     @new_mass_email = MassEmail.create!(:subject => @mass_email.subject, :body => @mass_email.body,
@@ -39,13 +60,17 @@ class Admin::MassEmailsController < AdminApplicationController
         flash[:notice] = "Successfully updated email."
       else
         if params["send"]
-          @mass_email.deliver
+          @mass_email.deliver(current_user)
           flash[:notice] = "Sending emails."
         else
           flash[:error]="There was an error, please contact administrator (your email cannot be sent)"
         end
       end
-      redirect_to @mass_email
+      if params[:return_to]
+        redirect_to params[:return_to]
+      else
+        redirect_to @mass_email
+      end
     else
       @email_types = MassEmail::TYPES
       get_newsletters
