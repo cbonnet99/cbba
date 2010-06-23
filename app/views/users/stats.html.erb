@@ -14,7 +14,7 @@
 </ul>
 <p>Since you joined, you had:</p>
 <ul>
-	<li><%=pluralize(current_user.user_events.visited_profile, "visit")%> to your profile page</li>
-	<li><%=pluralize(current_user.user_events.received_message, "email enquiry")%> via BeAmazing</li>
-	<li><%=pluralize(current_user.user_events.redirect_website, "click")%> through to your website</li>
+	<li><%=pluralize(current_user.user_events.visited_profile.size, "visit")%> to your profile page</li>
+	<li><%=pluralize(current_user.user_events.received_message.size, "email enquiry")%> via BeAmazing</li>
+	<li><%=pluralize(current_user.user_events.redirect_website.size, "click")%> through to your website</li>
 </ul>

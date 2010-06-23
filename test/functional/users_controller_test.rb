@@ -99,6 +99,10 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_stats
     get :stats, {}, {:user_id => users(:cyrille).id }
+    assert_response :success
+    assert_match %r{([0-9])+ visit(s?) to your profile page}, @response.body
+    assert_match %r{([0-9])+ email enquir(y|ies) via BeAmazing}, @response.body
+    assert_match %r{([0-9])+ click(s?) through to your website}, @response.body
   end
 
   def test_redirect_website
