@@ -136,7 +136,8 @@ a:hover { color:#cc0000; }
 a:focus, a:active, input:focus { outline:0; }
 /***** List Styles *****/ 
 	ul, ol { /*margin: 0 0 18px 24px;*/ }
-		#contentMain ul, #contentMain ol {list-style-type: disc; margin: 0 0 18px 24px;padding:4px 0 0; }
+		#contentMain ul {list-style-type: disc; margin: 0 0 18px 24px;padding:4px 0 0; }
+		#contentMain ol {list-style-type: decimal; margin: 0 0 18px 24px;padding:4px 0 0; }
 		#contentMain ul.simple {list-style-type: none;} 
 		#contentMain .intro ul { list-style-type: none; }
 		#profile-header ul {margin:0;}
