@@ -2,8 +2,8 @@
 <% if (@context == "profile" && (is_author?(gift_voucher) || is_admin?)) || (@context == "review" && is_admin?)-%>
  	<span class="stuff-actions">[<span class="<%=gift_voucher.workflow_css_class%>"><%=gift_voucher.state%></span>
 	<% if is_admin? -%>
-	 | <%= link_to "Approve", :controller => "reviewer", :action => "approve", :gift_voucher_id => gift_voucher.id%>
-	 | <%= link_to "Reject", :controller => "reviewer", :action => "reject", :gift_voucher_id => gift_voucher.id%>
+	 | <%= link_to "Approve", :controller => "admin/reviewer", :action => "approve", :gift_voucher_id => gift_voucher.id%>
+	 | <%= link_to "Reject", :controller => "admin/reviewer", :action => "reject", :gift_voucher_id => gift_voucher.id%>
 	<% end -%>
 	<% if (is_author?(gift_voucher) || is_admin?) && current_user.active? -%>
 	 | 

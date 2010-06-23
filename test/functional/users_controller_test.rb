@@ -317,6 +317,19 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "div.by-author", {:count => 0}, "Author should not be shown, as it is the current user"
     assert_select "span.workflow-draft", {:count => 2}, "Article state should be shown"
   end
+
+  def test_show_offers_with_so_to_approve
+    cyrille = users(:cyrille)
+    auckland = regions(:auckland)
+    coaches = categories(:coaches)
+    
+    so = Factory(:special_offer, :author => cyrille )    
+    so.publish!
+    
+    get :show, {:name => cyrille.slug, :region => auckland.slug, :main_expertise_slug => coaches.slug, :selected_tab_id => "offers" }, {:user_id => cyrille.id }
+    assert_response :success
+  end
+
   
   def test_show
     old_size = UserEvent.all.size
