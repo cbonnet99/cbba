@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
-
+    
   def test_send_weekly_admin_stats
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
@@ -67,7 +67,17 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
   
   def test_generate_autocomplete_subcategories
+    TaskUtils.delete_subcat_files
+    old_lca = Subcategory.last_created_at
     TaskUtils.generate_autocomplete_subcategories
+    ts = JsCounter.subcats_value
+    sleep 1
+    subcat = Factory(:subcategory)
+    assert old_lca < Subcategory.last_created_at, "A new subcategory was created, the last_created_at should have changed"
+    TaskUtils.generate_autocomplete_subcategories
+    new_ts = JsCounter.subcats_value
+    assert ts < new_ts, "A newer timestamp should have been creates, but ts is: #{ts} and new_ts is: #{new_ts}"
+    TaskUtils.delete_subcat_files
   end
   
   def test_generate_autocomplete_subcategories_content
