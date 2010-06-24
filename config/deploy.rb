@@ -163,7 +163,7 @@ namespace(:deploy) do
     end
   end
 
-  task :after_update_code, :roles => [:app] do
+  task :generate_assets, :roles => [:app] do
     run "cd #{release_path} && rake bam:generate_autocomplete_js RAILS_ENV=#{rails_env}"
     run "cd #{release_path} && rake asset:packager:build_all RAILS_ENV=#{rails_env}"
   end
@@ -185,6 +185,7 @@ namespace(:deploy) do
       # install_gems
       migrate
       # load_data
+      generate_assets
     end
 
     restart
@@ -202,6 +203,7 @@ namespace(:deploy) do
 #      run_init_ami
       migrate
 #      load_data
+      generate_assets
     end
 
     restart
