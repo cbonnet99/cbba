@@ -1,4 +1,6 @@
-ActionController::Routing::Routes.draw do |map|  
+ActionController::Routing::Routes.draw do |map|
+  map.resources :friend_messages
+  
   
   map.user_activities_admin '/admin/user_activities', :controller => "admin/user_activities", :action => "index"  
   map.user_activity_admin '/admin/user_activity/:id', :controller => "admin/user_activities", :action => "show"  

@@ -135,6 +135,17 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
   
+  def friend_message(message)
+    @recipients = "#{message.to_email}"
+    @from = "#{message.from}"
+    @sent_on = Time.now
+		@subject = "[via beamazing.co.nz] #{message.subject}"
+		@reply_to = "#{message.from}"
+		body = message.body
+		@body[:body] = body
+    @content_type = 'text/html'
+  end
+  
   def mass_email(user, subject, body)
     setup_email(user)
 		@subject << subject

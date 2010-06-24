@@ -16,6 +16,7 @@ class UserEvent < ActiveRecord::Base
   named_scope :last_12_months, :conditions => ["logged_at BETWEEN ? AND ?", 12.months.ago, Time.now]
   
   MSG_SENT = "Message sent"
+  FRIEND_MSG_SENT = "Message sent to a friend"
   FREE_USER_DETAILS = "Free user show details"
   SEARCH = "Search"
   SELECT_CATEGORY = "Select category"

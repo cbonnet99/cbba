@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   validates_exclusion_of :subdomain, :in => %w( www staging redmine logged mail bookings logged-staging assets assets0 assets1 assets2 assets3 staging-assets0 staging-assets1 staging-assets2 staging-assets3 ), :message => "The subdomain <strong>{{value}}</strong> is reserved and unavailable."
   
   # Relationships
+  has_many :friend_messages
   has_many :messages, :dependent => :delete_all 
   has_many :roles_users, :dependent => :delete_all
   has_many :roles, :through => :roles_users, :uniq => true 

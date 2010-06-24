@@ -164,7 +164,7 @@ module ApplicationHelper
       javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/tiny_mce/tiny_mce"
     end
     @content_for_tinymce_init = ""
-    if current_user.admin?
+    if logged_in? && current_user.admin?
       content_for :tinymce_init do
         javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/mce_editor_admin1"
       end
