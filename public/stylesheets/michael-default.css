@@ -1,3 +1,8 @@
+#link-text-close{float: right;}
+#link-text{display: none; background-color: lightgrey;border: grey 1px solid;}
+#link-text p {padding: 4px;}
+#link-text p em {font-weight: bold;}
+#link{background:url(../images/link.png) no-repeat; padding: 2px 0 2px 18px;}
 #send-link{background:url(../images/send.png) no-repeat; padding: 2px 0 2px 18px;}
 .short-lead {font-style: italic;}
 .resident_expert, li.resident_expert a{font-weight: bold;}
