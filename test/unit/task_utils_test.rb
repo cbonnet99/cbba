@@ -80,6 +80,16 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.delete_subcat_files
   end
   
+  def test_generate_autocomplete_subcategories_with_existing_timestamp
+    TaskUtils.delete_subcat_files
+    invalid_timestamp = 1234352454
+    JsCounter.set_subcats(invalid_timestamp)
+    TaskUtils.generate_autocomplete_subcategories
+    ts = JsCounter.subcats_value
+    assert_not_equal invalid_timestamp, ts
+    TaskUtils.delete_subcat_files
+  end
+  
   def test_generate_autocomplete_subcategories_content
     fm = Factory(:role)
     user_with_quote = Factory(:user, :last_name => "O'Neil")

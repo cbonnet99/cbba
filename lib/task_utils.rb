@@ -211,24 +211,28 @@ class TaskUtils
   end
   
   def self.generate_autocomplete_subcategories
-    if JsCounter.subcats.nil? || JsCounter.subcats_value < Subcategory.last_subcat_or_member_created_at.to_i
+    if JsCounter.subcats.nil?
       regenerate_autocomplete_subcategories
     else
       #make sure that the corresponding file exists
       if !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{JsCounter.subcats_value}.js")
         JsCounter.set_subcats(nil)
         regenerate_autocomplete_subcategories
+      else
+        if JsCounter.subcats_value < Subcategory.last_subcat_or_member_created_at.to_i
+          regenerate_autocomplete_subcategories
+        end
       end
     end
   end
   
   def self.regenerate_autocomplete_subcategories
-    old_timestamp = JsCounter.subcats_value unless JsCounter.subcats.nil?
+    old_timestamp = JsCounter.subcats_value unless JsCounter.subcats.nil? || JsCounter.subcats_value.nil?
     new_timestamp = Subcategory.last_subcat_or_member_created_at.to_i
     File.open("#{RAILS_ROOT}/public/javascripts/subcategories-#{new_timestamp}.js", 'w') do |out|
       generate_autocomplete_subcategories_content(out)
     end
-    File.delete("#{RAILS_ROOT}/public/javascripts/subcategories-#{old_timestamp}.js") unless JsCounter.subcats.nil?
+    File.delete("#{RAILS_ROOT}/public/javascripts/subcategories-#{old_timestamp}.js") unless JsCounter.subcats.nil? || JsCounter.subcats_value.nil?
     JsCounter.set_subcats(new_timestamp)
   end
   
