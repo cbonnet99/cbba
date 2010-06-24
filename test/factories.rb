@@ -53,6 +53,7 @@ Factory.define :user do |f|
   f.notify_unpublished true
   f.password_confirmation { |u| u.password }
   f.sequence(:email) { |n| "foo#{n}@example.com" }
+  f.subcategory1_id {|s| s.association(:subcategory) }
 end
 
 Factory.define :user_event do |e|

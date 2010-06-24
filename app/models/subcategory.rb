@@ -20,6 +20,14 @@ class Subcategory < ActiveRecord::Base
   named_scope :with_gift_vouchers, :conditions => "published_gift_vouchers_count > 0" 
   
   MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY = 3
+  
+  def self.last_created_at
+    self.first(:order=>"created_at DESC", :conditions=>"created_at IS NOT NULL").try(:created_at)
+  end
+  
+  def self.last_subcat_or_member_created_at
+    [UserProfile.last_published_at, Subcategory.last_created_at].max
+  end
 
   def self.find_and_cache_expert_subcats
     subcats = Subcategory.find(:all, :include => "subcategories_users", :conditions => ["subcategories_users.points >= ?", User::MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "name, subcategories_users.points desc")

@@ -3,6 +3,23 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SubcategoryTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_last_subcat_or_member_created_at
+    old_last = Subcategory.last_subcat_or_member_created_at
+    new_subcat = Factory(:subcategory)
+    assert Subcategory.last_subcat_or_member_created_at > old_last
+    assert_equal Subcategory.last_subcat_or_member_created_at, new_subcat.created_at
+  end
+
+  def test_last_subcat_or_member_created_at2
+    subcat = Factory(:subcategory)
+    old_last = Subcategory.last_subcat_or_member_created_at
+    new_user = Factory(:user, :subcategory1_id => subcat.id )
+    assert_equal old_last, Subcategory.last_subcat_or_member_created_at
+    new_user.user_profile.publish!
+    assert Subcategory.last_subcat_or_member_created_at > old_last
+    assert_equal Subcategory.last_subcat_or_member_created_at, new_user.user_profile.published_at
+  end
+
   def test_last_articles
     subcat = Factory(:subcategory)
     cat = subcat.category

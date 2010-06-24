@@ -74,6 +74,7 @@ namespace(:bam) do
   task :import_users, :roles => :app do
     run "cd #{release_path} && rake bam:import_users RAILS_ENV=production"    
   end
+  
      
   # desc "Regenerates JS files after a new subcategory or location has been added"
   # task :regenerates_js, :roles => :app do

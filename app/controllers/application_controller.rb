@@ -186,7 +186,7 @@ class ApplicationController < ActionController::Base
 
 	def counters
 		@counters = Counter.published
-		@number_users = User.count
+		@number_users = User.active.count
 		@number_services = SubcategoriesUser.count
 	end
 

@@ -163,8 +163,7 @@
   <div id="footer">
     <p class="floatLeft">&copy; Be Amazing Ltd</p>
 	<p class="floatRight">
-	<% if logged_in? -%>
-    <%= link_to "Terms &amp; Conditions", terms_url %> | <%= link_to "Disclaimer", disclaimer_url %> | <%end -%>
+    <%= link_to "Terms &amp; Conditions", terms_url %> | <%= link_to "Disclaimer", disclaimer_url %> |
 	design :: <a href="http://www.catchgraphics.com/">catch graphics</a></p>
   </div>
   <!--Footer Starts -->
@@ -191,7 +190,11 @@
 <%= javascript_include_tag 'jquery.js' %>
 <%= javascript_include_tag 'jquery-ui.js' %>
 <% end -%>
+<% if ENV["RAILS_ENV"] == "production" || ENV["RAILS_ENV"] == "staging" -%>
+<script type="text/javascript" src="/javascripts/subcategories-<%=JsCounter.subcats_value%>.js"></script>
+<% else -%>
 <script type="text/javascript" src="/javascripts/subcategories.js"></script>
+<% end -%>
 <%= javascript_include_merged :base %>
 <%= yield :js %>
 </body>
