@@ -8,6 +8,8 @@ class FriendMessage < ActiveRecord::Base
   
   ARTICLE_SUBJECT = "An article you might like"
   ARTICLE_BODY = "<p>Dear friend,<br/><br/>Here is an article that might interest you:</p><p><a href='_ARTICLE_LINK_'>_ARTICLE_LINK_</a></p><p>I have found it on <a href='http://www.beamazing.co.nz'>beamazing.co.nz</a></p>"
+  NEWSLETTER_SUBJECT = "A great newsletter"
+  NEWSLETTER_BODY = "<p>Dear friend,<br/><br/>Here is a newsletter from <a href='http://www.beamazing.co.nz'>beamazing.co.nz</a>:</p><p><a href='_NEWSLETTER_LINK_'>_NEWSLETTER_LINK_</a></p>"
   
   def validate
     if from_user.nil? && from_email.blank?
