@@ -7,7 +7,6 @@ namespace :bam do
 
   desc "Generates cat/subcat autocomplete JS files (in production, run also: rake asset:packager:build_all)"
   task :generate_autocomplete_js => :environment do
-    TaskUtils.delete_subcat_files
     TaskUtils.generate_autocomplete
   end
   
