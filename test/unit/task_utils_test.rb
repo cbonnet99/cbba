@@ -66,6 +66,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
   end
   
+  def test_generate_autocomplete_subcategories
+    TaskUtils.generate_autocomplete_subcategories
+  end
+  
   def test_generate_autocomplete_subcategories_content
     fm = Factory(:role)
     user_with_quote = Factory(:user, :last_name => "O'Neil")

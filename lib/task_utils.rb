@@ -200,7 +200,7 @@ class TaskUtils
   end
   
   def self.generate_autocomplete_subcategories
-    if JsCounter.subcats_last_updated_at.nil? || JsCounter.subcats_last_updated_at < Subcategory.last_subcat_or_member_created_at
+    if JsCounter.subcats.nil? || JsCounter.subcats_value < Subcategory.last_subcat_or_member_created_at.to_i
       new_timestamp = Subcategory.last_subcat_or_member_created_at.to_i
       File.open("#{RAILS_ROOT}/public/javascripts/subcategories-#{new_timestamp}.js", 'w') do |out|
         generate_autocomplete_subcategories_content(out)
