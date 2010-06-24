@@ -80,13 +80,53 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.delete_subcat_files
   end
   
-  def test_generate_autocomplete_subcategories_with_existing_timestamp
+  def test_generate_autocomplete_subcategories_with_invalid_timestamp
     TaskUtils.delete_subcat_files
     invalid_timestamp = 1234352454
     JsCounter.set_subcats(invalid_timestamp)
     TaskUtils.generate_autocomplete_subcategories
     ts = JsCounter.subcats_value
     assert_not_equal invalid_timestamp, ts
+    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{ts}.js")
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    TaskUtils.delete_subcat_files
+  end
+  
+  def test_generate_autocomplete_subcategories_with_existing_timestamp_but_no_file
+    TaskUtils.delete_subcat_files
+    invalid_timestamp = Subcategory.last_subcat_or_member_created_at.to_i+1
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    JsCounter.set_subcats(invalid_timestamp)
+    TaskUtils.generate_autocomplete_subcategories
+    ts = JsCounter.subcats_value
+    assert_not_equal invalid_timestamp, ts
+    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{ts}.js")
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    TaskUtils.delete_subcat_files
+  end
+  
+  def test_generate_autocomplete_subcategories_with_existing_timestamp_but_no_file2
+    TaskUtils.delete_subcat_files
+    invalid_timestamp = Subcategory.last_subcat_or_member_created_at.to_i-1
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    JsCounter.set_subcats(invalid_timestamp)
+    TaskUtils.generate_autocomplete_subcategories
+    ts = JsCounter.subcats_value
+    assert_not_equal invalid_timestamp, ts
+    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{ts}.js")
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    TaskUtils.delete_subcat_files
+  end
+  
+  def test_generate_autocomplete_subcategories_with_existing_timestamp_but_no_file3
+    TaskUtils.delete_subcat_files
+    initial_timestamp = Subcategory.last_subcat_or_member_created_at.to_i
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{initial_timestamp}.js")
+    JsCounter.set_subcats(initial_timestamp)
+    TaskUtils.generate_autocomplete_subcategories
+    ts = JsCounter.subcats_value
+    assert_equal initial_timestamp, ts
+    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{initial_timestamp}.js")
     TaskUtils.delete_subcat_files
   end
   
