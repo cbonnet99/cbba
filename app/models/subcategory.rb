@@ -36,10 +36,30 @@ class Subcategory < ActiveRecord::Base
     return subcats  
   end
   
+  def has_resident_experts?
+    encoded_subcats = Rails.cache.read("subcats_with_experts")
+    if encoded_subcats.blank?
+      subcats = Subcategory.find_and_cache_expert_subcats
+      return subcats.include?(self)
+    else
+      return encoded_subcats.split("/").include?(self.id.to_s)
+    end
+  end
+  
   def resident_experts
-    experts = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points >= ?", self.id, User::MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "subcategories_users.points desc")
-    unless experts.blank?
-      experts = experts[0..MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY-1]
+    encoded_experts = Rails.cache.read("experts_in_subcats")
+    if encoded_experts.blank?
+      experts = User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and subcategories_users.points >= ?", self.id, User::MIN_POINTS_TO_QUALIFY_FOR_EXPERT], :order => "subcategories_users.points desc")
+      unless experts.blank?
+        experts = experts[0..MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY-1]
+      end
+    else
+      experts_for_subcat = encoded_experts.split("/").select{|str| str.split(":")[0] == self.id.to_s}
+      experts = []
+      unless experts_for_subcat.blank?
+        debugger
+        experts_for_subcat.each{|str| str.split(":")[1].split(",").each{|res_id| experts << User.find(res_id)}}
+      end
     end
     experts
   end

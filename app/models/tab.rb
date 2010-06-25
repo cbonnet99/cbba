@@ -10,6 +10,7 @@ class Tab < ActiveRecord::Base
 
   ARTICLES = "articles"
   OFFERS = "offers"
+  EXPERTISE = "expertise"
   MAX_PER_USER = 3
   
   after_create :create_slug, :create_link_to_subcategories

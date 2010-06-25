@@ -9,10 +9,14 @@
 
 <p>Here are some steps:</p>
 <ul>
-    <li>Choose which category you want to be a Resident Expert in (Naturoapthy, Life Coaching etc.) - It must be one of the three categories you've selected for your profile.</li>
+    <li>Choose which category you want to be a Resident Expert in (Naturopathy, Life Coaching etc.) - It must be one of the three categories you've selected for your profile.</li>
     <li>Add articles and select which of those categories they relate too (you'll see an option to do this at the bottom of the page when you create an article)</li>
-    <li>Add at least three articles under that category to qualify</li>
+    <li>Add <strong>at least three articles</strong> under that category to qualify</li>
+	<li>Each article is worth 10 points. After 30 days, an article is only worth 5 points. This system is designed to encourage new entrants and fresh content.</li>
     <li>Keep adding more articles, the more you add, the more points you gain</li>
+	<li>The <strong>top 3</strong> members in each modality are Resident Experts</li> 
 </ul>
+
+<p>To see where you stand in the expertise ranking, you can check your <%= link_to "Expertise tab", expanded_user_url(current_user, :selected_tab_id => Tab::EXPERTISE)%> at any time.
 
 <p><%= link_to "Add an article now", new_article_url%></p>

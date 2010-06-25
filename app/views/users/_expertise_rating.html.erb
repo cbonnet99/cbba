@@ -1,0 +1,13 @@
+<p>To learn more about the Resident Expert system on BeAmazing, see our <%= link_to "guide to become a Resident Expert", user_guide_resident_expert_url%></p>
+<p>You current rankings are:</p>
+<ul>
+	<% current_user.subcategories.each do |s| -%>
+	<li><% if current_user.ranking_in_subcat(s).nil?%>No ranking<%else%>#<%= current_user.ranking_in_subcat(s)%><%end%> in <%= s.name%> (<%= pluralize(current_user.points_in_subcategory(s.id), "point")%>). 
+	<% if current_user.resident_expert_in_subcat?(s)-%>
+	Congratulations! 
+	<% else -%>
+	You only need <%= pluralize(current_user.points_to_become_RE_in_subcat(s), "points")%> to become a Resident Expert (that's <%= pluralize(current_user.articles_to_become_RE_in_subcat(s), "article")%>)!
+	<%end -%>
+</li>
+	<% end -%>
+</ul>

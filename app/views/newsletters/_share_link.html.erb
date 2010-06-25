@@ -1,5 +1,5 @@
 <%= link_to "Send this newsletter to a friend", new_friend_message_url(:protocol => APP_CONFIG[:logged_site_protocol], :subject => FriendMessage::NEWSLETTER_SUBJECT, :body => FriendMessage::NEWSLETTER_BODY.gsub(/_NEWSLETTER_LINK_/, newsletter_url(newsletter, :protocol => APP_CONFIG[:site_protocol] )), :return_to => newsletter_url(newsletter) ), :id => "send-link" %> | <%= link_to "Link", "#", :id => "link" %>
 <div id="link-text">
 <p>Paste link in <em>email</em> or <em>IM</em><span id="link-text-close"><%= link_to "Close", "#", :id => "link-close" %></span></p>
-<p><input type="text" id="link-text-input" value="<%= newsletter_url(newsletter, :protocol => APP_CONFIG[:site_protocol])%>" size="50"></input></p>
+<p><input type="text" id="link-text-input" value="<%= newsletter_url(newsletter, :protocol => APP_CONFIG[:site_protocol])%>" size="50"></p>
 </div>

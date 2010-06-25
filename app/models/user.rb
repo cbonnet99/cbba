@@ -110,6 +110,35 @@ class User < ActiveRecord::Base
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
   
+  def articles_to_become_RE_in_subcat(subcat)
+    (points_to_become_RE_in_subcat(subcat)/Article::POINTS_FOR_RECENT_ARTICLE.to_f).ceil
+  end
+  
+  def points_to_become_RE_in_subcat(subcat)
+    experts = subcat.resident_experts
+    if experts.blank? || experts.size < Subcategory::MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY
+      MIN_POINTS_TO_QUALIFY_FOR_EXPERT-self.points_in_subcategory(subcat.id)
+    else
+      (experts[Subcategory::MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY-1].try(:points_in_subcategory, subcat.id) || 0) - self.points_in_subcategory(subcat.id)+1
+    end
+  end
+  
+  def ranking_in_subcat(subcat)
+    if subcat.users_with_points.include?(self)
+      subcat.users_with_points.find_index(self)+1
+    else
+      nil
+    end
+  end
+  
+  def top_resident_expert_in_subcat?(subcat)
+    !subcat.resident_experts.blank? && self == subcat.resident_experts[0]
+  end
+  
+  def resident_expert_in_subcat?(subcat)
+    !subcat.resident_experts.blank? && subcat.resident_experts.include?(self)
+  end
+  
   def points_in_subcategory(subcat_id)
     su = self.subcategories_users.find_by_subcategory_id(subcat_id)
     if su.nil?
@@ -943,6 +972,9 @@ class User < ActiveRecord::Base
         return virtual_tab
       when Tab::OFFERS:
         virtual_tab = VirtualTab.new(Tab::OFFERS, "Offers", "users/special_offers", "special_offers/nav" )
+        return virtual_tab
+      when Tab::EXPERTISE:
+        virtual_tab = VirtualTab.new(Tab::EXPERTISE, "Expertise", "users/expertise_rating", "expertise_rating_nav" )
         return virtual_tab
       else
         tabs.find_by_slug(tab_slug) || tabs.first
