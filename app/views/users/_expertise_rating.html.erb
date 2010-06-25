@@ -4,7 +4,7 @@
 	<% current_user.subcategories.each do |s| -%>
 	<li><% if current_user.ranking_in_subcat(s).nil?%>No ranking<%else%>#<%= current_user.ranking_in_subcat(s)%><%end%> in <%= s.name%> (<%= pluralize(current_user.points_in_subcategory(s.id), "point")%>). 
 	<% if current_user.resident_expert_in_subcat?(s)-%>
-	Congratulations! 
+	Congratulations, your are a Resident Expert in this modality! 
 	<% else -%>
 	You only need <%= pluralize(current_user.points_to_become_RE_in_subcat(s), "points")%> to become a Resident Expert (that's <%= pluralize(current_user.articles_to_become_RE_in_subcat(s), "article")%>)!
 	<%end -%>
