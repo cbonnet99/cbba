@@ -25,7 +25,7 @@ class CategoriesControllerTest < ActionController::TestCase
     get :show, :category_slug => categories(:practitioners).slug
     assert_response :success
   end
-
+  
   def test_show_health
     get :show, :category_slug => categories(:health_centres).slug
     assert_response :success

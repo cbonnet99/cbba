@@ -5,6 +5,11 @@ class UsersController < ApplicationController
   before_filter :login_required, :except => [:unsubscribe_unpublished_reminder, :unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
 
+  def deactivate
+    current_user.deactivate!
+    redirect_to root_url
+  end
+
   def unsubscribe_unpublished_reminder
     @user = User.find_by_email(params[:email])
     if @user.nil?

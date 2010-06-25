@@ -11,6 +11,12 @@ class User < ActiveRecord::Base
 	include SubcategoriesSystem
   include Sluggable
   
+  aasm_state :inactive
+  
+  aasm_event :deactivate do
+      transitions :from => :active, :to => :inactive, :on_transition => :"unpublish!"
+    end
+  
   has_attached_file :photo, :styles => { :medium => "150x220>", :thumbnail => "100x150>" },
    :convert_options => { :all => "-quality 100"},
    :url  => "/assets/profiles/:id/:style/:basename.:extension",
@@ -109,6 +115,16 @@ class User < ActiveRecord::Base
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
+  
+  def unpublish!
+    self.try(:user_profile).try(:"remove!")
+    self.special_offers.published.each {|so| so.remove!}
+    self.gift_vouchers.published.each {|gv| gv.remove!}
+  end
+  
+  def active?
+    state == "active"
+  end
   
   def articles_to_become_RE_in_subcat(subcat)
     (points_to_become_RE_in_subcat(subcat)/Article::POINTS_FOR_RECENT_ARTICLE.to_f).ceil

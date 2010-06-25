@@ -54,6 +54,17 @@ class SubcategoriesControllerTest < ActionController::TestCase
     last_event = UserEvent.last
     assert_equal yoga.id, last_event.subcategory_id
   end
+
+  def test_show_inactive_user
+    category = Factory(:category)
+    subcat = Factory(:subcategory, :category => category )
+    user = Factory(:user, :subcategory1_id => subcat.id, :state => "inactive")
+    get :show, :category_slug => category.slug, :subcategory_slug => subcat.slug 
+    assert_response :success
+    assert_select "a[href]", {:text => user.name, :count => 0}
+    assert_select "h3", {:text => "#{user.name} - #{user.key_expertise_name(subcat)}", :count => 0}
+  end
+
   
   def test_show_full_member
     yoga = subcategories(:yoga)

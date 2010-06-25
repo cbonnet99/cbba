@@ -202,6 +202,15 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_nil assigns(:article)
   end
 
+  def test_should_not_hyperlink_inactive_author
+    user = Factory(:user, :state => "inactive" )
+    article = Factory(:article, :author => user)
+    assert article.published?
+    get :show, {:id => article.slug, :selected_user => user.slug  }
+    assert_response :success
+    assert_select "a[href]", {:text => user.name, :count => 0 }
+  end
+
   def test_should_show_article_profile
     cyrille = users(:cyrille)
     get :show, {:context => "profile", :id => articles(:long).slug, :selected_user => cyrille.slug }

@@ -14,6 +14,30 @@ class UsersControllerTest < ActionController::TestCase
   #   assert_nil User.find_by_email(user_email)
   # end
 
+  def test_deactivate
+    user = Factory(:user, :paid_special_offers => 1, :paid_gift_vouchers => 1)
+    user.user_profile.publish!
+    so = Factory(:special_offer, :author => user )
+    so.publish!
+    assert so.published?
+    gv = Factory(:gift_voucher, :author => user )
+    gv.publish!
+    assert gv.published?
+    
+    post :deactivate, {}, {:user_id => user.id}
+    
+    assert_redirected_to root_url
+    user.reload
+    assert_not_nil user
+    assert !user.active?
+    assert !user.published?
+    
+    so.reload
+    assert !so.published?
+    gv.reload
+    assert !gv.published?
+  end
+
   def test_unsubscribe_unpublished_reminder
     user = Factory(:user, :notify_unpublished => true, :unsubscribe_token => "bla")
     assert user.notify_unpublished?

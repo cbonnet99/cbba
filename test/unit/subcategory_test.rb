@@ -30,11 +30,13 @@ class SubcategoryTest < ActiveSupport::TestCase
   end
 
   def test_users_hash_by_region
-    hash = subcategories(:hypnotherapy).users_hash_by_region
+    subcat = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => subcat.id )
+    hash = subcat.users_hash_by_region
     assert !hash.blank?
-    assert hash.keys.include?(regions(:wellington).name)
-    assert hash[regions(:wellington).name].is_a?(Array)
-    assert hash[regions(:wellington).name].size > 1
+    assert hash.keys.include?(user.region.name)
+    assert hash[user.region.name].is_a?(Array)
+    assert_equal 1, hash[user.region.name].size
   end
 
   def test_full_name

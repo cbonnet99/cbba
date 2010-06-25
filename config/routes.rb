@@ -115,6 +115,7 @@ ActionController::Routing::Routes.draw do |map|
   map.user_send_referrals '/users/send_referrals', :controller => 'users', :action => "send_referrals"
   map.user_home '/users/home', :controller => 'users', :action => "home"
   map.user_expertise '/users/expertise', :controller => 'users', :action => "expertise"
+  map.user_deactivate '/users/deactivate', :controller => 'users', :action => "deactivate"
   map.user_guide_great_profile '/users/guide-great-profile', :controller => 'users', :action => "guide_great_profile"
   map.user_guide_photo '/users/guide-photo', :controller => 'users', :action => "guide_photo"
   map.user_guide_article '/users/guide-article', :controller => 'users', :action => "guide_article"
