@@ -141,7 +141,7 @@ class User < ActiveRecord::Base
   
   def ranking_in_subcat(subcat)
     if subcat.users_with_points.include?(self)
-      subcat.users_with_points.find_index(self)+1
+      subcat.users_with_points.index(self)+1
     else
       nil
     end
