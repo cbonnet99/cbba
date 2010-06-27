@@ -7,6 +7,18 @@ class UserTest < ActiveSupport::TestCase
   def setup
     Rails.cache.clear
   end
+
+  def test_resident_expert
+    user = Factory(:user)
+    subcat = Factory(:subcategory)
+    assert !user.resident_expert?
+    article1 = Factory(:article, :author => user, :subcategory1_id => subcat.id, :state => "draft")
+    article1.publish!
+    assert !user.resident_expert?
+    article2 = Factory(:article, :author => user, :subcategory1_id => subcat.id, :state => "draft")
+    article2.publish!
+    assert user.resident_expert?
+  end
   
   def test_points_in_subcategory
     user = Factory(:user)
@@ -215,11 +227,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_roles_description
-    assert_equal "Admin, Resident expert for Hypnotherapy", users(:cyrille).roles_description
-  end
-
-  def test_bam_dates
-    assert_equal "Since: #{6.months.ago.to_date}, renewal date: #{6.months.from_now.to_date}", users(:cyrille).bam_dates
+    assert_equal "Admin, Full member", users(:cyrille).roles_description
   end
 
   def test_location
@@ -301,52 +309,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "http://www.google.com", users(:cyrille).clean_website
   end
   
-  def test_make_resident_expert_from_free_listing
-    rmoore = users(:rmoore)
-    
-    #the profile should not be published
-    #but we want to make sure that publication
-    #information is reset...
-    rmoore.user_profile.published_at = Time.now
-    rmoore.user_profile.approved_at = Time.now
-    rmoore.user_profile.approved_by_id = users(:cyrille).id
-    rmoore.user_profile.save!
-    
-    free_listing_role = roles(:free_listing_role)
-    full_member_role = roles(:full_member_role)
-    assert rmoore.roles.include?(free_listing_role)
-    assert rmoore.free_listing?
-    kinesiology = subcategories(:kinesiology)
-    rmoore.make_resident_expert!(kinesiology)
-    rmoore.reload
-    assert rmoore.resident_expert?
-    assert_not_nil rmoore.expertise_subcategory
-    assert_not_nil rmoore.resident_since
-    assert_not_nil rmoore.resident_until
-    assert !rmoore.free_listing?
-    # IMPORTANT: if the user keeps the free listing role, it would appear twice in the search results
-    assert !rmoore.roles.include?(free_listing_role)
-    assert rmoore.roles.include?(full_member_role)
-    assert_nil rmoore.user_profile.published_at, "Publication info should have been reset"
-    assert_nil rmoore.user_profile.approved_at, "Publication info should have been reset"
-    assert_nil rmoore.user_profile.approved_by_id, "Publication info should have been reset"
-  end
-
-  def test_make_resident_expert_from_full_member
-    norma = users(:norma)
-    full_member_role = roles(:full_member_role)
-    assert norma.roles.include?(full_member_role)
-    kinesiology = subcategories(:kinesiology)
-    norma.make_resident_expert!(kinesiology)
-    assert norma.resident_expert?
-    assert_not_nil norma.expertise_subcategory
-    assert_not_nil norma.resident_since
-    assert_not_nil norma.resident_until
-    assert norma.roles.include?(full_member_role)
-    assert_not_nil norma.user_profile.published_at, "Publication info should not have been reset as the user was already a full member"
-    assert_not_nil norma.user_profile.approved_at, "Publication info should not have been reset as the user was already a full member"
-    assert_not_nil norma.user_profile.approved_by_id, "Publication info not should have been reset as the user was already a full member"
-  end
 
   def test_find_article_for_user
     jogging_draft = articles(:jogging_draft)
@@ -497,16 +459,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal reviewers.size, User.reviewers.size
   end
 
-  def test_resident_experts
-    resident_experts = []
-    #build the list the slow way (with lots of users, it would very slow)
-    User.all.each do |u|
-      resident_experts << u if u.resident_expert? && !u.expertise_subcategory.blank?
-    end
-    #now make sure that the named_scope finds the same result
-    assert_equal resident_experts.size, User.resident_experts.size
-  end
-
   def test_full_members
     full_members = []
     #build the list the slow way (with lots of users, it would very slow)
@@ -516,40 +468,6 @@ class UserTest < ActiveSupport::TestCase
     #now make sure that the named_scope finds the same result
     assert_equal full_members.size, User.full_members.size
   end
-
-  # def test_tab_change_on_update
-  #   norma = users(:norma)
-  #   spiritual_healing = subcategories(:spiritual_healing)
-  #   old_subcategories = norma.subcategories
-  #   old_tabs = norma.tabs
-  #   old_first_tab = old_tabs[0]
-  #   old_second_tab = old_tabs[1]
-  #   
-  #   norma.save
-  #   norma.reload
-  #   assert_equal 2, norma.tabs.size
-  #   norma.subcategory1_id = old_subcategories[1].id
-  #   norma.subcategory2_id = old_subcategories[0].id
-  #   norma.save
-  #   norma.reload
-  # 
-  #   assert_equal 2, norma.tabs.size
-  #   #tab titles should have been swapped
-  #   assert_equal old_subcategories[1].name, norma.tabs.first.title
-  #   assert_equal old_subcategories[0].name, norma.tabs[1].title
-  #   
-  #   #tab content should be the same
-  #   assert_equal old_first_tab.content, norma.tabs[1].content
-  #   assert_equal old_second_tab.content, norma.tabs[0].content    
-  #    
-  #   norma.subcategory1_id = spiritual_healing.id
-  #   norma.subcategory2_id = nil
-  #   norma.save
-  #   norma.reload
-  #   assert_equal 1, norma.tabs.size
-  #   assert_not_nil norma.tabs.first
-  #   assert_equal spiritual_healing.name, norma.tabs.first.title
-  # end
 
   def test_location_change_on_update
     norma = users(:norma)

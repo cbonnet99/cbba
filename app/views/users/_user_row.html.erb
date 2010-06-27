@@ -1,7 +1,7 @@
 <td><%= u.name_with_email%></td>
-<td><%= u.roles_description%><% unless u.free_listing?%><br/><%=u.bam_dates%><%end%></td>
-<td><%= u.state%></td>
+<td><% if u.active?%><span class="active">Active</span><%else%><span class="inactive">Inactive</span><%end%><br>
+	<% if !u.user_profile.nil? && u.user_profile.published?%><span class="active">Published profile</span><%else%><span class="inactive">Draft profile</span><%end%></td>
 <td><%= link_to "Edit", edit_admin_user_url(u) %><br/>
 	<%= link_to "Login as #{u.first_name}", login_admin_user_url(u) %><br/>
 	<%= link_to "View all activities for #{u.first_name}", user_activity_admin_url(:id  => u.id) %><br/>
-	<%= link_to "Delete", admin_user_url(u, :search_term => params[:search_term]), :method => "delete", :confirm => 'Are you sure?', :method => :delete %></td>
+	<% if u.active?%><%= link_to "Delete", deactivate_admin_user_url(:id => u.slug, :search_term => params[:search_term]) %><%else%><%= link_to "Restore", reactivate_admin_user_url(:id => u.slug, :search_term => params[:search_term])%><%end%></td>

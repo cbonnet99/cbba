@@ -7,4 +7,9 @@
 		<%if selected=="pwd"%><span class="user-tab-selected">Change password</span><%else%><%= link_to "Change password", :controller => "users", :action => "edit_password"%><%end%> |
 <%if selected=="stats"%><span class="user-tab-selected">Statistics</span><%else%><%= link_to "Statistics", :controller => "users", :action => "stats"%><%end%> |
 <%if selected=="payments"%><span class="user-tab-selected">Payments</span><%else%><%= link_to "Payments", payments_url%><%end%>
+<% end -%> | 
+<%if current_user.active? -%>
+<%if selected=="deactivate"%><span class="user-tab-selected">Delete my profile</span><%else%><%= link_to "Delete my profile", user_deactivate_url%><%end%>
+<% else -%>
+<%if selected=="reactivate"%><span class="user-tab-selected">Restore my profile</span><%else%><%= link_to "Restore my profile", user_reactivate_url%><%end%>
 <% end -%>

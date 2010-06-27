@@ -14,7 +14,7 @@ class UsersControllerTest < ActionController::TestCase
   #   assert_nil User.find_by_email(user_email)
   # end
 
-  def test_deactivate
+  def test_warning_deactivate
     user = Factory(:user, :paid_special_offers => 1, :paid_gift_vouchers => 1)
     user.user_profile.publish!
     so = Factory(:special_offer, :author => user )
@@ -26,6 +26,50 @@ class UsersControllerTest < ActionController::TestCase
     
     post :deactivate, {}, {:user_id => user.id}
     
+    assert_redirected_to user_warning_deactivate_url
+    user.reload
+    assert_not_nil user
+    assert user.active?
+    assert user.published?
+    
+    so.reload
+    assert so.published?
+    gv.reload
+    assert gv.published?
+  end
+
+  def test_deactivate
+    user = Factory(:user)
+    user.user_profile.publish!
+    
+    post :deactivate, {}, {:user_id => user.id}
+    
+    assert_redirected_to root_url
+    user.reload
+    assert_not_nil user
+    assert !user.active?
+    assert !user.published?
+    
+    post :reactivate, {}, {:user_id => user.id }
+    assert_redirected_to expanded_user_url(user)
+    user.reload
+    assert_not_nil user
+    assert user.active?
+    assert user.published?
+  end
+
+  def test_deactivate_confirm
+    user = Factory(:user, :paid_special_offers => 1, :paid_gift_vouchers => 1)
+    user.user_profile.publish!
+    so = Factory(:special_offer, :author => user )
+    so.publish!
+    assert so.published?
+    gv = Factory(:gift_voucher, :author => user )
+    gv.publish!
+    assert gv.published?
+    
+    post :deactivate, {:confirm => "true" }, {:user_id => user.id}
+    
     assert_redirected_to root_url
     user.reload
     assert_not_nil user
@@ -36,6 +80,9 @@ class UsersControllerTest < ActionController::TestCase
     assert !so.published?
     gv.reload
     assert !gv.published?
+    
+    user.subcategories_users.reload
+    assert user.subcategories_users.reject{|su| su.points==0}.blank?, "user.subcategories_users: #{user.subcategories_users.inspect}"
   end
 
   def test_unsubscribe_unpublished_reminder

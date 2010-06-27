@@ -18,7 +18,7 @@ class CategoriesController < ApplicationController
   		  flash[:error]="Could not find category #{params[:category_slug]}"
   		  redirect_to root_url
       else
-        @users = User.search_results(@category.id, nil, @region.id, nil, params[:page])
+        @users = User.active.search_results(@category.id, nil, @region.id, nil, params[:page])
       end
     end
   end

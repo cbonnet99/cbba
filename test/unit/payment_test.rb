@@ -49,28 +49,6 @@ class PaymentTest < ActiveSupport::TestCase
     assert_equal old_size+1, cyrille.payments.renewals.size
   end
 
-  def test_purchase_resident_expert
-    ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-
-    applying_resident_expert = users(:applying_resident_expert)
-    applying_expert = expert_applications(:applying_expert)
-    payment = applying_resident_expert.payments.create!(Payment::TYPES[:resident_expert])
-    payment.update_attributes(:card_number => "1", :card_expires_on => Time.now, :expert_application => applying_expert )
-    payment.purchase
-    applying_resident_expert.reload
-    assert_equal Time.zone.now.to_date, applying_resident_expert.resident_since.to_date
-    assert_equal 1.year.from_now.to_date, applying_resident_expert.resident_until.to_date
-    #make sure that member dates are aligned
-    assert_equal Time.zone.now.to_date, applying_resident_expert.member_since.to_date
-    assert_equal 1.year.from_now.to_date, applying_resident_expert.member_until.to_date
-    #an email should have been sent
-    assert_equal 1, ActionMailer::Base.deliveries.size
-    applying_resident_expert.reload
-    assert applying_resident_expert.resident_expert?
-  end
-
   def test_purchase
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
@@ -95,18 +73,6 @@ class PaymentTest < ActiveSupport::TestCase
     assert_nil pending_user.user_profile.published_at, "Publication info should have been reset"
     assert_nil pending_user.user_profile.approved_at, "Publication info should have been reset"
     assert_nil pending_user.user_profile.approved_by_id, "Publication info should have been reset"
-  end
-
-  def test_purchase_renew
-    cyrille = users(:cyrille)
-    old_resident_since = cyrille.resident_since
-    old_resident_until = cyrille.resident_until
-    payment = cyrille.payments.create!(Payment::TYPES[:renew_resident_expert])
-    payment.update_attributes(:card_number => "1", :card_expires_on => Time.now)
-    payment.purchase
-    cyrille.reload
-    assert_equal old_resident_since, cyrille.resident_since
-    assert_equal old_resident_until+1.year, cyrille.resident_until
   end
 
 end

@@ -14,8 +14,12 @@ class User < ActiveRecord::Base
   aasm_state :inactive
   
   aasm_event :deactivate do
-      transitions :from => :active, :to => :inactive, :on_transition => :"unpublish!"
-    end
+    transitions :from => :active, :to => :inactive, :on_transition => :"unpublish!"
+  end
+  
+  aasm_event :reactivate do
+    transitions :from => :inactive, :to => :active, :on_transition => :"publish!"
+  end
   
   has_attached_file :photo, :styles => { :medium => "150x220>", :thumbnail => "100x150>" },
    :convert_options => { :all => "-quality 100"},
@@ -115,11 +119,35 @@ class User < ActiveRecord::Base
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
+    
+  def warning_deactivate?
+    self.paid_special_offers > 0 || self.paid_gift_vouchers > 0 
+  end
   
   def unpublish!
-    self.try(:user_profile).try(:"remove!")
+    if !self.user_profile.nil? && self.user_profile.published?
+      self.user_profile.remove!
+    end
     self.special_offers.published.each {|so| so.remove!}
     self.gift_vouchers.published.each {|gv| gv.remove!}
+    if resident_expert?
+      Rails.cache.delete("subcats_with_experts")
+      Rails.cache.delete("experts_in_subcats")
+    end
+    self.subcategories_users.destroy_all
+  end
+  
+  def publish!
+    if !self.user_profile.nil? && self.user_profile.draft?
+      self.user_profile.publish!
+    end
+    self.subcategories.each do |s|
+      self.compute_points(s)
+    end
+    if resident_expert?
+      Rails.cache.delete("subcats_with_experts")
+      Rails.cache.delete("experts_in_subcats")
+    end
   end
   
   def active?
@@ -243,9 +271,13 @@ class User < ActiveRecord::Base
   end
   
   def compute_points(subcategory)
-    articles_count_in_last_month = self.articles.published.count(:all, :include => "articles_subcategories", :conditions => ["published_at >= ? and articles_subcategories.subcategory_id = ?", 30.days.ago, subcategory.id])
-    older_articles_count = self.articles.published.count(:all, :include => "articles_subcategories", :conditions => ["published_at < ? and articles_subcategories.subcategory_id = ?", 30.days.ago, subcategory.id])
-    (articles_count_in_last_month * Article::POINTS_FOR_RECENT_ARTICLE) + (older_articles_count * Article::POINTS_FOR_OLDER_ARTICLE)
+    if active?
+      articles_count_in_last_month = self.articles.published.count(:all, :include => "articles_subcategories", :conditions => ["published_at >= ? and articles_subcategories.subcategory_id = ?", 30.days.ago, subcategory.id])
+      older_articles_count = self.articles.published.count(:all, :include => "articles_subcategories", :conditions => ["published_at < ? and articles_subcategories.subcategory_id = ?", 30.days.ago, subcategory.id])
+      (articles_count_in_last_month * Article::POINTS_FOR_RECENT_ARTICLE) + (older_articles_count * Article::POINTS_FOR_OLDER_ARTICLE)
+    else
+      0
+    end
   end
   
   def downcase_subdomain
@@ -470,16 +502,6 @@ class User < ActiveRecord::Base
     else
       if full_member?
         res << "Full member"
-      end
-    end
-  end
-
-  def bam_dates
-    if resident_expert?
-      "Since: #{resident_since.try(:to_date)}, renewal date: #{resident_until.try(:to_date)}"
-    else
-      if full_member?
-        "Since: #{member_since.try(:to_date)}, renewal date: #{member_until.try(:to_date)}"
       end
     end
   end
@@ -1012,7 +1034,9 @@ class User < ActiveRecord::Base
   end
 
   def resident_expert?
-    has_role?("resident_expert")
+    subcats, experts = User.experts_for_subcategories
+    all_experts = experts.values.inject([]){|arr, v| arr | v }
+    all_experts.include?(self)
   end
 
   def sentence_to_review

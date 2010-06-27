@@ -4,16 +4,14 @@ class SearchController < ApplicationController
   protect_from_forgery :except => :search
   
   def contact
-    @sav = User.find_by_email(APP_CONFIG[:sav])
-    @cyrille = User.find_by_email(APP_CONFIG[:cyrille])
-    @megan = User.find_by_email(APP_CONFIG[:megan])
+    @sav = User.find_by_email(APP_CONFIG[:sav]) || $admins.first[:email]
+    @cyrille = User.find_by_email(APP_CONFIG[:cyrille]) || $admins.first[:email]
+    @megan = User.find_by_email(APP_CONFIG[:megan]) || $admins.first[:email]
   end
 
   def count_show_more_details
     id = params[:id].split("-").last
-    logger.debug("==== in count_show_more_details, id: #{id}")
     user = User.find(id)
-    logger.debug("==== in count_show_more_details, user: #{user}")
     unless user.nil?
       log_bam_user_event UserEvent::FREE_USER_DETAILS, "", "User: #{user.email} (#{user.id})", {:visited_user_id => user.id }
     end

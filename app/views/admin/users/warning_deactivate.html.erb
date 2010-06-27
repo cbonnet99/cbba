@@ -1,0 +1,2 @@
+<%= render :partial => "users/warning_deactivate", :locals => {:user => @selected_user}  %>
+<%= link_to "Cancel", search_admin_users_url(:search_term => params[:search_term]) %> | <%= link_to "Delete anyway", deactivate_admin_user_url(:confirm => "true", :search_term => params[:search_term])%>

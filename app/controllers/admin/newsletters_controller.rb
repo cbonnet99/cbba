@@ -85,12 +85,12 @@ class Admin::NewslettersController < AdminApplicationController
     @special_offers = SpecialOffer.published_in_last_2_months
     @articles = Article.published_in_last_2_months
     @gift_vouchers = GiftVoucher.published_in_last_2_months
-    @users = User.published_in_last_2_months
+    @users = User.active.published_in_last_2_months
   end
   def get_currently_selected_items
     @special_offers = SpecialOffer.currently_selected_and_last_10_published(@newsletter)
     @articles = Article.currently_selected_and_last_10_published(@newsletter)
     @gift_vouchers = GiftVoucher.currently_selected_and_last_10_published(@newsletter)
-    @users = User.currently_selected_and_last_10_published(@newsletter)
+    @users = User.active.currently_selected_and_last_10_published(@newsletter)
   end
 end

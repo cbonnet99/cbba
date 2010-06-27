@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   
   def create
-    @user = User.find_by_free_listing_and_id(false, params[:message]["user_id"])
+    @user = User.active.find_by_free_listing_and_id(false, params[:message]["user_id"])
     my_params = params[:message].dup
     my_params[:body].gsub!(/\r/, "<br/>")
     @message = Message.new(params[:message])

@@ -1,5 +1,5 @@
 <% if (is_author?(item) && current_user.active?)%><div id="profile-publish-information"><%end%>
-	  <% if item.is_a?(UserProfile) && item.user == current_user && item.draft? %><div id="bam-warning-profile-draft">Your profile is not public yet. To make it public, click on Publish -></div><%end%>
+	  <% if item.is_a?(UserProfile) && item.user == current_user && item.draft? && item.user.active? %><div id="bam-warning-profile-draft">Your profile is not public yet. To make it public, click on Publish -></div><%end%>
 <%if item.draft? && is_author?(item) && current_user.active? -%>
   <div id="author-actions"><% form_tag "/#{class_name.pluralize}/#{item.id}/publish" do -%>
 		<%= hidden_field_tag :context, @context%>

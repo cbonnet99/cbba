@@ -1,3 +1,5 @@
+.active{color: green;}
+.inactive{color: red;}
 #link-text-close{float: right;}
 #link-text{display: none; background-color: lightgrey;border: grey 1px solid;}
 #link-text p {padding: 4px;}

@@ -1,5 +1,5 @@
 class Admin::UsersController < AdminApplicationController
-  before_filter :get_selected_user, :only => [:edit, :update, :login, :destroy]
+  before_filter :get_selected_user, :only => [:edit, :update, :login, :reactivate, :deactivate, :warning_deactivate]
   
   def edit
     get_subcategories
@@ -40,15 +40,33 @@ class Admin::UsersController < AdminApplicationController
     end
   end
   
-  def destroy
+  def reactivate
+    @selected_user.reactivate!
+    flash[:notice] = "#{@selected_user.name}'s profile was restored"
+    redirect_to search_admin_users_url(:search_term => params[:search_term] )
+  end  
+  
+  def deactivate
     if @selected_user.nil?
       flash[:error]="User not found"
     else
-      log_bam_user_event UserEvent::USER_DELETED, "", "Admin #{current_user} deleted user #{@selected_user.full_name}"
-      @selected_user.destroy
-      flash[:notice]="User deleted"
+      if @selected_user.warning_deactivate?
+        if params[:confirm] == "true"
+          log_bam_user_event UserEvent::USER_DEACTIVATED, "", "Admin #{current_user} deactivated user #{@selected_user.full_name}"
+          @selected_user.deactivate!
+          flash[:notice]="#{@selected_user.name}'s profile was deactivated"
+          redirect_to search_admin_users_url(:search_term => params[:search_term])
+        else        
+          flash[:error] = "Warning"
+          redirect_to warning_deactivate_admin_user_url(:search_term => params[:search_term] )
+        end
+      else
+        log_bam_user_event UserEvent::USER_DEACTIVATED, "", "Admin #{current_user} deactivated user #{@selected_user.full_name}"
+        @selected_user.deactivate!
+        flash[:notice]="#{@selected_user.name}'s profile was deactivated"
+        redirect_to search_admin_users_url(:search_term => params[:search_term])
+      end
     end
-    redirect_to search_admin_users_url(:search_term => params[:search_term])
   end
   
 end

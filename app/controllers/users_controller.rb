@@ -5,9 +5,27 @@ class UsersController < ApplicationController
   before_filter :login_required, :except => [:unsubscribe_unpublished_reminder, :unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
 
+  def reactivate
+    current_user.reactivate!
+    flash[:notice] = "Your profile was restored"
+    redirect_to expanded_user_url(current_user)
+  end
+
   def deactivate
-    current_user.deactivate!
-    redirect_to root_url
+    if current_user.warning_deactivate?
+      if params[:confirm] == "true"
+        current_user.deactivate!
+        flash[:notice] = "Your profile was deleted"
+        redirect_to root_url
+      else
+        flash[:notice] = "Warning!"
+        redirect_to user_warning_deactivate_url
+      end
+    else      
+      current_user.deactivate!
+      flash[:notice] = "Your profile was deleted"
+      redirect_to root_url
+    end
   end
 
   def unsubscribe_unpublished_reminder

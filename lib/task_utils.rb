@@ -51,9 +51,23 @@ class TaskUtils
     SubcategoriesUser.all.each do |su|
       su.destroy if su.user.nil?
     end
-    SubcategoriesUser.all.each do |su|
-      su.update_attribute(:points, su.user.compute_points(su.subcategory))
+    User.active.each do |u|
+      u.subcategories.each do |s|
+        points = u.compute_points(s)
+        if points > 0
+          su = SubcategoriesUser.find_by_subcategory_id_and_user_id(s.id, u.id)
+          if su.nil?
+            su = SubcategoriesUser.new(:subcategory => s, :user => u, :points => points )
+            su.save!
+          else
+            su.update_attribute(:points, points)
+          end
+        end
+      end
     end
+    # SubcategoriesUser.all.each do |su|
+    #   su.update_attribute(:points, su.user.compute_points(su.subcategory))
+    # end
   end
 
   def self.notify_unpublished_users

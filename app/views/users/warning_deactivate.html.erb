@@ -1,0 +1,2 @@
+<%= render :partial => "users/warning_deactivate", :locals => {:user => current_user}  %>
+<%= link_to "Cancel", expanded_user_url(current_user) %> | <%= link_to "Delete anyway", user_deactivate_url(:confirm => "true")%>

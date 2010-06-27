@@ -10,25 +10,9 @@
 		</li>
 		<li>
 			<%= f.label :main_role, "Main role: "%>
-			<%=f.select :main_role, ["Free listing", "Full member", "Resident expert"]%>
+			<%=f.select :main_role, ["Free listing", "Full member"]%>
 		</li>
-		<div id="subcategory-resident-expert"<%unless @selected_user.resident_expert?%> style="display: none"<%end%>>
-		<li>
-			<%= f.label :expertise_subcategory_id, "Resident expert in: "%>
-			<%=f.select :expertise_subcategory_id, @subcategories%>
-		</li>
-		</div>
-		<div id="dates-resident-expert"<%unless @selected_user.resident_expert?%> style="display: none"<%end%>>
-		<li>
-			<%= f.label :resident_since, "Resident expert since:"%>
-			<%= f.date_select :resident_since%>
-		</li>
-		<li>
-			<%= f.label :resident_until, "Resident expert until:"%>
-			<%= f.date_select :resident_until%>
-		</li>
-		</div>
-		<div id="dates-full-member"<%if @selected_user.resident_expert?%> style="display: none"<%end%>>
+		<div id="dates-full-member">
 		<li>
 			<%= f.label :member_since, "Full member since:"%>
 			<%= f.date_select :member_since%>

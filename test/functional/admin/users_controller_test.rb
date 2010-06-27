@@ -10,14 +10,94 @@ class Admin::UsersControllerTest < ActionController::TestCase
     assert_redirected_to :controller => "/users", :action => "edit"  
   end
   
-  def test_destroy
+  def test_deactivate
     cyrille = users(:cyrille)
-    rmoore = users(:rmoore)
+    user = Factory(:user)
+    user.user_profile.publish!
     old_size = User.all.size
-    post :destroy, {:id => rmoore.slug }, {:user_id => cyrille.id}
+    post :deactivate, {:id => user.slug }, {:user_id => cyrille.id}
     assert_redirected_to search_admin_users_url
-    assert_equal old_size-1, User.all.size
+    
+    user.reload
+    assert_not_nil user
+    assert !user.active?
+    assert !user.published?
+    
+    post :reactivate, {:id => user.slug }, {:user_id => cyrille.id }
+    assert_redirected_to search_admin_users_url
+    user.reload
+    assert_not_nil user
+    assert user.active?
+    assert user.published?
+    
   end
+  
+  def test_deactivate_unpublished_profile
+    cyrille = users(:cyrille)
+    user = Factory(:user)
+    old_size = User.all.size
+    post :deactivate, {:id => user.slug }, {:user_id => cyrille.id}
+    assert_redirected_to search_admin_users_url
+    
+    user.reload
+    assert_not_nil user
+    assert !user.active?
+    assert !user.published?
+  end
+  
+  def test_warning_deactivate
+    cyrille = users(:cyrille)
+    user = Factory(:user, :paid_special_offers => 1, :paid_gift_vouchers => 1)
+    user.user_profile.publish!
+    so = Factory(:special_offer, :author => user )
+    so.publish!
+    assert so.published?
+    gv = Factory(:gift_voucher, :author => user )
+    gv.publish!
+    assert gv.published?
+    
+    post :deactivate, {:id => user.slug }, {:user_id => cyrille.id}
+    
+    assert_redirected_to warning_deactivate_admin_user_url
+    user.reload
+    assert_not_nil user
+    assert user.active?
+    assert user.published?
+    
+    so.reload
+    assert so.published?
+    gv.reload
+    assert gv.published?
+  end
+
+  def test_deactivate_confirm
+    cyrille = users(:cyrille)
+    user = Factory(:user, :paid_special_offers => 1, :paid_gift_vouchers => 1)
+    user.user_profile.publish!
+    so = Factory(:special_offer, :author => user )
+    so.publish!
+    assert so.published?
+    gv = Factory(:gift_voucher, :author => user )
+    gv.publish!
+    assert gv.published?
+    
+    post :deactivate, {:confirm => "true", :id => user.slug}, {:user_id => cyrille.id}
+    
+    assert_redirected_to search_admin_users_url
+    user.reload
+    assert_not_nil user
+    assert !user.active?
+    assert !user.published?
+    
+    so.reload
+    assert !so.published?
+    gv.reload
+    assert !gv.published?
+    
+    user.subcategories_users.reload
+    assert user.subcategories_users.reject{|su| su.points==0}.blank?, "user.subcategories_users: #{user.subcategories_users.inspect}"
+  end
+  
   
   def test_search
     cyrille = users(:cyrille)
@@ -67,30 +147,6 @@ class Admin::UsersControllerTest < ActionController::TestCase
     assert_equal old_resident_since, rmoore.resident_since
     assert_equal old_resident_until, rmoore.resident_until
     assert_equal rmoore.subcategories.size, rmoore.tabs.size, "User has #{rmoore.subcategories.size} modalities, so it should have that many tabs"
-  end
-  
-  def test_update_free_to_resident_expert
-    rmoore = users(:rmoore)
-    old_member_since = rmoore.member_since
-    old_member_until = rmoore.member_until
-    old_resident_since = rmoore.resident_since
-    old_resident_until = rmoore.resident_until
-    cyrille = users(:cyrille)
-    post :update, {:id => rmoore.slug, :user => {:admin => false, :expertise_subcategory_id => subcategories(:addiction_recovery).id, :main_role => "Resident expert", "member_since(1i)" => "2008",
-       "member_since(2i)" => "10", "member_since(3i)" => "30", "member_until(1i)" => "2009",
-          "member_until(2i)" => "11", "member_until(3i)" => "1", "resident_since(1i)" => "2008",
-             "resident_since(2i)" => "10", "resident_since(3i)" => "30", "resident_until(1i)" => "2009",
-                "resident_until(2i)" => "11", "resident_until(3i)" => "1" }  }, {:user_id => cyrille.id}
-    assert_redirected_to search_admin_users_url
-    rmoore.reload
-    assert !rmoore.free_listing?
-    assert !rmoore.admin?
-    assert !rmoore.full_member?
-    assert rmoore.resident_expert?
-    assert_equal Time.zone.parse('2008-10-30'), rmoore.resident_since
-    assert_equal Time.zone.parse('2009-11-1'), rmoore.resident_until
-    assert_equal old_member_since, rmoore.member_since
-    assert_equal old_member_until, rmoore.member_until
   end
   
   def test_update_free_to_admin

@@ -1,0 +1,21 @@
+<%= title "Warning!"%>
+<p>Please be aware that:</p>
+<ul>
+<% if user.admin? -%>
+	<li>You are a BAM Admin!</li>
+<% end -%>
+<% if user.resident_expert? -%>
+	<li>You are a Resident Expert</li>
+<% end -%>
+<% if user.paid_photo? -%>
+	<li>You have paid for a photo</li>
+<% end -%>
+<% if user.paid_highlighted? -%>
+	<li>You have paid to be highlighted on search results</li>
+<% end -%>
+<% if user.paid_special_offers > 0 -%>
+	<li>You have paid for <%= pluralize(user.paid_special_offers, "special offer")%></li>
+<% end -%>
+<% if user.paid_gift_vouchers > 0 -%>
+	<li>You have paid for <%= pluralize(user.paid_gift_vouchers, "gift voucher")%></li>
+<% end -%>

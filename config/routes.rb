@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :statistics, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/statistics"
   map.resources :resident_experts, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/resident_experts", :member => {:index_for_subcategory => :get}
 
-  map.resources :users, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/users", :member => {:login => [:get, :post]}, :collection => {:search => [:get, :post]}
+  map.resources :users, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/users", :member => {:login => [:get, :post], :deactivate => [:get, :post], :warning_deactivate => [:get, :post], :reactivate => [:get, :post] }, :collection => {:search => [:get, :post]}
   
   map.articles_for_subcategory '/articles/subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_subcategory" 
   map.gift_vouchers_for_subcategory '/gift_vouchers/subcategory/:subcategory_slug', :controller => "gift_vouchers", :action => "index_for_subcategory"
@@ -115,7 +115,9 @@ ActionController::Routing::Routes.draw do |map|
   map.user_send_referrals '/users/send_referrals', :controller => 'users', :action => "send_referrals"
   map.user_home '/users/home', :controller => 'users', :action => "home"
   map.user_expertise '/users/expertise', :controller => 'users', :action => "expertise"
+  map.user_reactivate '/users/reactivate', :controller => 'users', :action => "reactivate"
   map.user_deactivate '/users/deactivate', :controller => 'users', :action => "deactivate"
+  map.user_warning_deactivate '/users/warning_deactivate', :controller => 'users', :action => "warning_deactivate"
   map.user_guide_great_profile '/users/guide-great-profile', :controller => 'users', :action => "guide_great_profile"
   map.user_guide_photo '/users/guide-photo', :controller => 'users', :action => "guide_photo"
   map.user_guide_article '/users/guide-article', :controller => 'users', :action => "guide_article"
