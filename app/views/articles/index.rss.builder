@@ -13,7 +13,7 @@ xml.rss :version => "2.0" do
         else
           xml.description article.lead
         end
-        xml.pubDate article.created_at.to_s(:rfc822)
+        xml.pubDate article.published_at.to_s(:rfc822)
         if article.class.to_s == "HowTo"
           xml.link how_tos_show_url(article.author.slug, article.slug)
           xml.guid how_to_url(article, :format => :rss)
