@@ -5,7 +5,7 @@ xml.rss :version => "2.0" do
     xml.description "Latest articles from BeAmazing"
     xml.link articles_url(:format => :rss)
     
-    for article in @articles
+    for article in @all_articles
       xml.item do
         xml.title article.title
         if article.class.to_s == "HowTo"
