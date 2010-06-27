@@ -14,8 +14,13 @@ xml.rss :version => "2.0" do
           xml.description article.lead
         end
         xml.pubDate article.created_at.to_s(:rfc822)
-        xml.link article_url(article, :format => :rss)
-        xml.guid article_url(article, :format => :rss)
+        if article.class.to_s == "HowTo"
+          xml.link how_tos_show_url(article.author.slug, article.slug)
+          xml.guid how_to_url(article, :format => :rss)
+        else
+          xml.link articles_show_url(article.author.slug, article.slug)
+          xml.guid article_url(article, :format => :rss)
+        end
       end
     end
   end
