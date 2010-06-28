@@ -75,6 +75,13 @@ namespace(:bam) do
     run "cd #{release_path} && rake bam:import_users RAILS_ENV=production"    
   end
   
+  desc "Restart HTTP accelerator"
+  task :restart_varnish, :roles => :app do
+    if rails_env == :production
+      sudo "/etc/init.d/varnish restart"
+    end
+  end
+  
      
   # desc "Regenerates JS files after a new subcategory or location has been added"
   # task :regenerates_js, :roles => :app do
@@ -208,6 +215,7 @@ namespace(:deploy) do
 
     restart
     web.enable
+    bam.restart_varnish
     cleanup
   end
 
