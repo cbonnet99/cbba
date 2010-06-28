@@ -2,6 +2,15 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class SearchController < ApplicationController
   protect_from_forgery :except => :search
+
+  def main
+    @profiles = UserProfile.published
+    @articles = Article.published
+    @gv = GiftVoucher.published
+    @so = SpecialOffer.published
+    @all = @profiles.concat(@articles).concat(@gv).concat(@so)
+    @all = @all.sort_by(&:published_at).reverse
+  end
   
   def contact
     @sav = User.find_by_email(APP_CONFIG[:sav]) || $admins.first[:email]

@@ -28,6 +28,10 @@ class Article < ActiveRecord::Base
   POINTS_FOR_OLDER_ARTICLE = 5
   DAILY_ARTICLE_ROTATION = 3
   SHORT_LEAD_MAX_SIZE = 200
+
+  def summary
+    lead
+  end
   
   def short_lead
     if self.lead.size < SHORT_LEAD_MAX_SIZE

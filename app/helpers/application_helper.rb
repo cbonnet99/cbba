@@ -1,5 +1,20 @@
 module ApplicationHelper
-
+  
+  def stuff_url(stuff)
+    case stuff.class.to_s
+    when "HowTo"
+      how_tos_show_url(stuff.author.slug, stuff.slug)
+    when "Article"
+      articles_show_url(stuff.author.slug, stuff.slug)
+    when "UserProfile"
+      expanded_user_url(stuff.user)
+    when "GiftVoucher", "SpecialOffer"
+      expanded_user_tabs_url(stuff.author, Tab::OFFERS)
+    else
+      ""
+    end
+  end
+  
   def link_to_other_subcats(user, subcat)
     res = user.other_expertise_names(subcat).inject([]) do |memo, name|
       tab = name.parameterize

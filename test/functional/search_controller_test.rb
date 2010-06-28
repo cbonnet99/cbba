@@ -4,6 +4,11 @@ class SearchControllerTest < ActionController::TestCase
   fixtures :all
 	include ApplicationHelper
 
+  def test_main_rss
+    get :main, {:format => "rss"}
+    assert_response :success
+  end
+
   def test_count_show_more_details
     old_count = UserEvent.free_users_show_details.size
     post :count_show_more_details, {:id => "bam-show-more-details-#{users(:rmoore).id}" }

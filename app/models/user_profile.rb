@@ -2,7 +2,11 @@ class UserProfile < ActiveRecord::Base
   include Workflowable
   
   belongs_to :user
-
+  
+  def summary
+    "#{user.full_name}: #{user.expertise}"
+  end
+  
   def author
     user
   end
