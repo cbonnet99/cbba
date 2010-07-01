@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
           UserMailer.deliver_message(@message)
           log_bam_user_event UserEvent::MSG_SENT, "Subject: #{@message.subject}", {}, {:visited_user_id => @message.user.id }
           flash[:notice] = "Your message has been sent"
-          redirect_to root_url
+          redirect_to signup_newsletter_url
         else
           flash[:error] = "There were some errors in your message"
           render :action => "new"
