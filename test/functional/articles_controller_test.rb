@@ -28,9 +28,12 @@ class ArticlesControllerTest < ActionController::TestCase
     
 	
 	def test_unpublish
+	  TaskUtils.update_subcategories_counters
 		long = articles(:long)
 		cyrille = users(:cyrille)
     old_published_count = cyrille.published_articles_count
+    subcat = long.subcategories.first
+    old_count = subcat.published_articles_count
 		post :unpublish, {:context => "profile", :selected_tab_id => "articles", :id => long.id }, {:user_id => cyrille.id}
 		assert_redirected_to expanded_user_url(cyrille, :selected_tab_id => "articles")
 		long.reload
@@ -39,10 +42,14 @@ class ArticlesControllerTest < ActionController::TestCase
     cyrille.reload
     assert_equal old_published_count-1, cyrille.articles.published.size
     assert_equal old_published_count-1, cyrille.published_articles_count
-
+    subcat.reload
+    assert_equal old_count-1, subcat.published_articles_count
   end
 	def test_publish
+	  TaskUtils.update_subcategories_counters
 		yoga = articles(:yoga)
+    subcat = yoga.subcategories.first
+    old_count = subcat.published_articles_count
 		cyrille = users(:cyrille)
     old_published_count = cyrille.published_articles_count
 		ActionMailer::Base.delivery_method = :test
@@ -59,6 +66,8 @@ class ArticlesControllerTest < ActionController::TestCase
     
     cyrille.reload
     assert_equal old_published_count+1, cyrille.published_articles_count
+    subcat.reload
+    assert_equal old_count+1, subcat.published_articles_count
 	end
 
 	def test_edit
@@ -79,7 +88,7 @@ class ArticlesControllerTest < ActionController::TestCase
   def test_should_get_index
     get :index
     assert_response :success
-    assert_not_nil assigns(:articles)
+    assert_not_nil assigns(:subcategories)
   end
 
   def test_should_get_new

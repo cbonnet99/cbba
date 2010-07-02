@@ -665,38 +665,6 @@ class User < ActiveRecord::Base
     end
   end
 
-
-  # def find_how_to_for_user(slug, user=nil)
-  #   if user == self || self.admin?
-  #     self.how_tos.find_by_slug(slug)
-  #   else
-  #     self.how_tos.find_by_state_and_slug("published", slug)
-  #   end
-  # end
-  # 
-  # def find_article_for_user(slug, user=nil)
-  #   if user == self || self.admin?
-  #     self.articles.find_by_slug(slug)
-  #   else
-  #     self.articles.find_by_state_and_slug("published", slug)
-  #   end
-  # end
-  # 
-  # def find_gift_voucher_for_user(slug, user=nil)
-  #   if user == self || self.admin?
-  #     self.gift_vouchers.find_by_slug(slug)
-  #   else
-  #     self.gift_vouchers.find_by_state_and_slug("published", slug)
-  #   end
-  # end
-  # 
-  # def find_special_offer_for_user(slug, user=nil)
-  #   if user == self || self.admin?
-  #     self.special_offers.find_by_slug(slug)
-  #   else
-  #     self.special_offers.find_by_state_and_slug("published", slug)
-  #   end
-  # end
   def geocoded?
     !latitude.blank? && !longitude.blank?
   end

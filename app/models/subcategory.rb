@@ -15,9 +15,10 @@ class Subcategory < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :message => "must be unique"
 
-  named_scope :with_resident_expert, :conditions => "resident_expert_id is not null"
-  named_scope :with_special_offers, :conditions => "published_special_offers_count > 0" 
-  named_scope :with_gift_vouchers, :conditions => "published_gift_vouchers_count > 0" 
+  named_scope :with_articles, :conditions => "published_articles_count > 0", :order => "name"
+  named_scope :with_resident_expert, :conditions => "resident_expert_id is not null", :order => "name"
+  named_scope :with_special_offers, :conditions => "published_special_offers_count > 0", :order => "name"
+  named_scope :with_gift_vouchers, :conditions => "published_gift_vouchers_count > 0", :order => "name"
   
   MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY = 3
   

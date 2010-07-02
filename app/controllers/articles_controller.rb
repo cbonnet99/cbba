@@ -39,16 +39,18 @@ class ArticlesController < ApplicationController
   
   def index
     @context = "homepage"
-    @articles = Article.published
-    @how_tos = HowTo.published
-    
-    @all_articles = @articles.concat(@how_tos)
-    @all_articles = @all_articles.sort_by(&:published_at).reverse
     
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @all_articles }
-      format.rss{}
+      format.html{
+        @subcategories = Subcategory.with_articles
+      }
+      format.rss  {
+        @articles = Article.published
+        @how_tos = HowTo.published
+
+        @all_articles = @articles.concat(@how_tos)
+        @all_articles = @all_articles.sort_by(&:published_at).reverse
+      }
     end
   end
 

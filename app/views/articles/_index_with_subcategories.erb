@@ -1,0 +1,9 @@
+<%if @subcategories.blank? -%>
+  No articles
+<% else -%>
+<ul class="simple category">
+  <% @subcategories.each do |s| -%>
+    <li><%=link_to s.name, articles_for_subcategory_url(s.slug)%><span class="users-counter"> <%=h s.published_articles_count%></span></li>
+  <% end -%>
+  </ul>
+<% end -%>

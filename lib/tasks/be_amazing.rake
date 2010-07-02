@@ -3,6 +3,7 @@ namespace :bam do
   desc "Counts real published items for each user"
   task :count_published_items => :environment do
     TaskUtils.update_individual_counters
+    TaskUtils.update_subcategories_counters
   end
 
   desc "Generates cat/subcat autocomplete JS files (in production, run also: rake asset:packager:build_all)"

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100624161856) do
+ActiveRecord::Schema.define(:version => 20100701203935) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -449,6 +449,7 @@ ActiveRecord::Schema.define(:version => 20100624161856) do
     t.text     "description"
     t.integer  "published_gift_vouchers_count",  :default => 0
     t.integer  "published_special_offers_count", :default => 0
+    t.integer  "published_articles_count",       :default => 0
   end
 
   create_table "subcategories_users", :force => true do |t|

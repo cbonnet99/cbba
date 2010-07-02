@@ -102,8 +102,16 @@ module Workflowable
       if self.respond_to?(:author) && self.author.respond_to?(sym)
         self.author.update_attribute(sym, self.author.send(sym)-1)
       end      
-      if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
-        self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
+      if self.respond_to?(:subcategories)
+        self.subcategories.each do |s|
+          if s.respond_to?(sym)
+            s.update_attribute(sym, s.send(sym)-1)
+          end
+        end
+      else
+        if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
+          self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
+        end
       end
     end
 
@@ -113,8 +121,16 @@ module Workflowable
       if self.respond_to?(:author) && self.author.respond_to?(sym)
         self.author.update_attribute(sym, self.author.send(sym)-1)
       end
-      if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
-        self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
+      if self.respond_to?(:subcategories)
+        self.subcategories.each do |s|
+          if s.respond_to?(sym)
+            s.update_attribute(sym, s.send(sym)-1)
+          end
+        end
+      else
+        if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
+          self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
+        end
       end
     end
 
@@ -127,8 +143,16 @@ module Workflowable
       if self.respond_to?(:author) && self.author.respond_to?(sym)
         self.author.update_attribute(sym, self.author.send(sym)+1)
       end
-      if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
-        self.subcategory.update_attribute(sym, self.subcategory.send(sym)+1)
+      if self.respond_to?(:subcategories)
+        self.subcategories.each do |s|
+          if s.respond_to?(sym)
+            s.update_attribute(sym, s.send(sym)+1)
+          end
+        end
+      else
+        if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
+          self.subcategory.update_attribute(sym, self.subcategory.send(sym)+1)
+        end
       end
     end
 

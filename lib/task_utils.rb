@@ -192,7 +192,13 @@ class TaskUtils
     Article.rotate_feature_ranks
     User.rotate_feature_ranks
   end
-
+  
+  def self.update_subcategories_counters
+    Subcategory.all.each do |s|
+      s.update_attributes(:published_articles_count => s.articles.published.size, :published_special_offers_count => s.special_offers.published.size, :published_gift_vouchers_count => s.gift_vouchers.published.size)
+    end
+  end
+  
   def self.update_individual_counters
     User.full_members.each do |u|
       real_published_articles_count = u.articles.published.size
