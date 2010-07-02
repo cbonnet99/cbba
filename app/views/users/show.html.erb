@@ -5,7 +5,14 @@
 		<li><%= link_to sub.name, subcategory_url(sub.category.slug, sub.slug)%></li>
 		<% end -%>
 	</ul>
-
+	<% unless @articles.blank? -%>
+		<h4>Articles by <%= @user.name%></h4>
+		<ul>
+		<% @articles.each do |a| -%>
+			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%></li>
+		<% end -%>
+		</ul>
+	<% end -%>
 <%end -%>
 <% javascript 'user-profile' %>
 <% page_title("#{@user.full_name} - #{@user.expertise} - #{@user.location}")%>

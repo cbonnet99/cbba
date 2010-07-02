@@ -119,6 +119,11 @@ class User < ActiveRecord::Base
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
+  MAX_RECENT_ARTICLES = 3
+  
+  def recent_articles
+    self.articles.published.find(:all, :limit => MAX_RECENT_ARTICLES, :order => "published_at desc")
+  end
     
   def warning_deactivate?
     self.paid_special_offers > 0 || self.paid_gift_vouchers > 0 

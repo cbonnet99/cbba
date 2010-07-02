@@ -225,6 +225,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Sorry, we could not find this user"
       redirect_to root_url
     else
+      @articles = @user.recent_articles
       # #we don't want to count the visits to our own profile
       unless @user == current_user
         log_bam_user_event UserEvent::VISIT_PROFILE, "", "", {:visited_user_id => @user.id, :category_id => params[:category_id], :subcategory_id => params[:subcategory_id], :region_id => params[:region_id], :district_id => params[:district_id], :article_id => params[:article_id]}
