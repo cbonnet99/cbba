@@ -4,7 +4,7 @@
 <% page_description(@article.lead)%>
 <% page_author(@article.author.try(:name))%>
 <div class='cleaner'></div>
-<div class="heading-photo"><%= thumbnail_image(@article.author) %></div>
+<div class="heading-photo"><%= author_photo_link(@article.author) %></div>
 <div class="heading-title">
 	<%= title h(@article.title), :h1%>
 	<div class="publication-author">by <%= author_link(@article.author) %></div>

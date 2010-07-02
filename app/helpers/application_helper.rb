@@ -164,6 +164,14 @@ module ApplicationHelper
     end
   end
   
+  def author_photo_link(user)
+    if user.user_profile.published? && user.active?
+      link_to thumbnail_image(user), user_url_with_context(user)
+    else
+      thumbnail_image(user)
+    end
+  end
+  
   def preload_tinymce
     @content_for_tinymce = ""
     content_for :tinymce do
