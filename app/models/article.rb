@@ -28,6 +28,11 @@ class Article < ActiveRecord::Base
   POINTS_FOR_OLDER_ARTICLE = 5
   DAILY_ARTICLE_ROTATION = 3
   SHORT_LEAD_MAX_SIZE = 200
+  MAX_ARTICLES_ON_INDEX = 6
+
+  def self.recent_articles
+    Article.find_all_by_state("published", :limit => MAX_ARTICLES_ON_INDEX, :order => "published_at desc" )
+  end
 
   def summary
     lead

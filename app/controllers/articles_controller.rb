@@ -43,6 +43,7 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       format.html{
         @subcategories = Subcategory.with_articles
+        @recent_articles = Article.recent_articles
       }
       format.rss  {
         @articles = Article.published
