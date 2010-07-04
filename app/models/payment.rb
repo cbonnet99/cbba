@@ -1,5 +1,14 @@
 require 'xero_gateway'
 
+class ErrorResponse < Struct.new(:message)
+  def success?
+    false
+  end
+  def message
+    message
+  end
+end
+
 class Payment < ActiveRecord::Base  
 	include Authorization::AasmRoles::StatefulRolesInstanceMethods
 	include AASM
@@ -24,7 +33,7 @@ class Payment < ActiveRecord::Base
     transitions :from => :pending, :to => :completed
   end
 
-
+  belongs_to :stored_token
   belongs_to :user
   has_one :invoice
   has_many :transactions, :class_name => "PaymentTransaction"
@@ -33,7 +42,7 @@ class Payment < ActiveRecord::Base
   has_many :paid_features
   belongs_to :order
   
-  attr_accessor :card_number, :card_verification
+  attr_accessor :card_number, :card_verification, :store_card, :stored_token_id
 
   validate_on_update :validate_card
 
@@ -116,9 +125,27 @@ class Payment < ActiveRecord::Base
     UserMailer.deliver_payment_invoice(user, self, self.invoice)
   end
 
+  def last4digits
+    unless card_number.nil?
+      card_number[-4..card_number.length]
+    end
+  end
+
   def purchase
-    response = GATEWAY.purchase(total, credit_card, purchase_options)
-    logger.debug "============ response from DPS: #{response.inspect}"
+    if self.stored_token_id.nil?
+      if self.store_card == "1"
+        token = user.stored_tokens.create(:card_number => card_number, :first_name => first_name, :last_name => last_name, :last4digits => last4digits, :card_expires_on => card_expires_on)
+      end
+      response = GATEWAY.purchase(total, credit_card, purchase_options)
+    else
+      token = self.user.stored_tokens.find(self.stored_token_id)
+      if token.nil?
+        return ErrorResponse.new("No token for ID: #{self.stored_token_id}")
+      else
+        response = GATEWAY.purchase(total, token.billing_id , purchase_options)
+      end
+    end
+    logger.debug "============ response from DPS purchase: #{response.inspect}"
     transactions.create!(:action => "purchase", :amount => total, :response => response)
     if response.success?
       self.mark_as_paid!
@@ -135,13 +162,12 @@ class Payment < ActiveRecord::Base
         :address1 => address1,
         :city     => city,
         :country  => "NZ"
-
       }
     }
   end
 
   def validate_card
-    unless payment_card_type == "direct_debit" || credit_card.valid?
+    unless payment_card_type == "direct_debit" || !self.stored_token_id.nil? || credit_card.valid?
       credit_card.errors.full_messages.each do |message|
         errors.add_to_base message
       end

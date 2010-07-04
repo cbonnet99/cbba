@@ -1,0 +1,43 @@
+<% form_for @payment do |f| -%>
+  <ol>
+      <%= f.error_messages :header_message => "Please try again", :message => "Your payment could not be processed"%>
+	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
+      <li>
+        <div class="left-input">Amount:</div>
+        <div class="right-label"><em class="money"><%=amount_view(@payment.total)%></em></div>
+      </li>
+      <li>
+        <%= f.label :first_name, "First name<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :first_name %>
+      </li>
+      <li>
+        <%= f.label :last_name, "Surname<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :last_name %>
+      </li>
+      <li>
+        <%= f.label :card_type %>
+        <%= f.select :card_type, [["Visa", "visa"], ["MasterCard", "master"], ["American Express", "american_express"]] %>
+      </li>
+      <li>
+        <%= f.label :card_number, "Card number<span class='mandatoryStar'>*</span>" %>
+        <%= f.text_field :card_number %>
+      </li>
+      <li>
+        <%= f.label :card_verification, "Card Verification Value (CVV)<span class='mandatoryStar'>*</span><br/><span style='font-size: 10px;'>[These are the last three digits of the number on the back of your credit card]</span>" %>
+        <%= f.text_field :card_verification %>
+      </li>
+      <li>
+        <%= f.label :card_expires_on %>
+        <%= f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true %>
+      </li>
+      <li>
+        <%= f.label :store_card, "Setup automatic renewal" %>
+        <%= f.check_box :store_card  %>
+      </li>
+  </ol>
+	<div class="clear"></div>
+	<p class="register-actions register-actions-active">
+  <%= submit_tag 'Process my payment', :class => "button submit", :name => "process"  %>
+  <%= submit_tag 'Cancel', :class => "button cancel", :name => "cancel"   %>
+</p>
+<% end -%>

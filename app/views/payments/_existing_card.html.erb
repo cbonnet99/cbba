@@ -1,0 +1,11 @@
+<% form_for @payment do |f| -%>
+<ul class="simple">
+	<% current_user.stored_tokens.not_expired.each_with_index do |t,i| -%>
+	<li><%=f.radio_button :stored_token_id, t.id %><%=t.name%> <%= t.obfuscated_card_number%> (expires on <%= t.card_expires_on%>)</li>
+	<% end -%>
+</ul>
+<p class="register-actions register-actions-active">
+  <%= submit_tag 'Process my payment', :class => "button submit", :name => "process"  %>
+  <%= submit_tag 'Cancel', :class => "button cancel", :name => "cancel"   %>
+</p>
+<% end %>

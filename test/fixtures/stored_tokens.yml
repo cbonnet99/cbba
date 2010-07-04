@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  billing_id: MyString
+  card_expires_on: 2010-07-03
+
+two:
+  user_id: 1
+  billing_id: MyString
+  card_expires_on: 2010-07-03

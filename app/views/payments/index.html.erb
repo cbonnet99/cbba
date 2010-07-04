@@ -1,7 +1,22 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "payments" }  %>
 <%= title "Your payments"  %>
-
-
+<h3>Your credit cards</h3>
+<%= link_to "Add a credit card", new_stored_token_url%>
+<table id="credit_cards" class="admin">
+  <tr>
+    <th>Number</th>
+    <th>Expires</th>
+    <th>Actions</th>
+  </tr>
+<% @stored_tokens.each do |t| -%>
+<tr class="<%=cycle('odd', 'even')%>">
+  <td><%=t.obfuscated_card_number%></td>
+  <td><span<%if t.card_expired?%> class="expired-token"<%end%>><%= t.card_expires_on%><%if t.card_expired?%><br/>** EXPIRED **<%end%></span></td>
+  <td><%= link_to "Delete", stored_token_url(t), :method => :delete %> </td>
+</tr>
+<% end -%>
+</table>
+<h3>Past payments</h3>
 <table id="payments" class="admin">
   <tr>
     <th>Status</th>

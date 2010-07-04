@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :stored_tokens
   map.resources :friend_messages
   
   

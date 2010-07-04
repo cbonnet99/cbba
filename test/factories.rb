@@ -1,3 +1,14 @@
+Factory.define :stored_token do |t|
+  t.last4digits "1234"
+  t.card_expires_on 1.year.from_now
+  t.association :user  
+  t.billing_id "21323213-2445"
+  t.card_number "1"
+  t.card_verification "1234"
+  t.first_name "Cyrille"
+  t.last_name "Bonnet"
+end
+
 Factory.define :region do |f|
   f.name "Wellington Region"
 end

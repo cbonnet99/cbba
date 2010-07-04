@@ -1,4 +1,5 @@
-<%= title "Pay by credit card" %>
+<% javascript "edit-payment"%>
+<%= title "Payment" %>
 <div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount)%></em><br/>
 <% unless @payment.discount == 0 -%>
 - Year one discount <em class="money"><%=amount_view(@payment.discount) %></em><br/>
@@ -9,52 +10,16 @@ You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
 Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
 <div class="cleaner"></div>
 <hr/>
-<% form_for @payment do |f| -%>
-  <ol>
-      <%= f.error_messages :header_message => "Please try again", :message => "Your payment could not be processed"%>
-	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
-      <li>
-        <div class="left-input">Amount:</div>
-        <div class="right-label"><em class="money"><%=amount_view(@payment.total)%></em></div>
-      </li>
-      <li>
-        <%= f.label :first_name, "First name<span class='mandatoryStar'>*</span>" %>
-        <%= f.text_field :first_name %>
-      </li>
-      <li>
-        <%= f.label :last_name, "Surname<span class='mandatoryStar'>*</span>" %>
-        <%= f.text_field :last_name %>
-      </li>
-      <li>
-        <%= f.label :address1, "Address" %>
-        <%= f.text_area :address1, :rows => 2, :cols => "35" %>
-      </li>
-      <li>
-        <%= f.label :city %>
-        <%= f.text_field :city %>
-      </li>
-      <li>
-        <%= f.label :card_type %>
-        <%= f.select :card_type, [["Visa", "visa"], ["MasterCard", "master"], ["American Express", "american_express"]] %>
-      </li>
-      <li>
-        <%= f.label :card_number, "Card number<span class='mandatoryStar'>*</span>" %>
-        <%= f.text_field :card_number %>
-      </li>
-      <li>
-        <%= f.label :card_verification, "Card Verification Value (CVV)<span class='mandatoryStar'>*</span><br/><span style='font-size: 10px;'>[These are the last three digits of the number on the back of your credit card]</span>" %>
-        <%= f.text_field :card_verification %>
-      </li>
-      <li>
-        <%= f.label :card_expires_on %>
-        <%= f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true %>
-      </li>
-  </ol>
-	<div class="clear"></div>
-	<p class="register-actions">
-  <%= submit_tag 'Process my payment', :class => "button submit", :name => "process"  %>
-  <%= submit_tag 'Cancel', :class => "button cancel", :name => "cancel"   %>
-</p>
+<% if current_user.has_current_stored_tokens? -%>
+	<p class="big-title">
+		<% if @pm == :existing %>Use an existing credit card<%else%><%= link_to "Use an existing credit card", edit_payment_url(@payment, :pm => "existing")%><%end%>
+		 | 
+		<% if @pm == :different %>Use a different card<%else%><%= link_to "Use a different card", edit_payment_url(@payment, :pm => "different")%><%end%>
+		</p>
+<% if @pm == :existing %><%= render :partial => "payments/existing_card" %><%end%>
+<% if @pm == :different %><%= render :partial => "payments/different_card" %><%end%>
+<% else -%>
+<%= render :partial => "payments/different_card" %>
 <% end -%>
 <div id="payment-processor">Payments processed by <a href="http://www.paymentexpress.com/about/about_paymentexpress/privacy_policy.html">
 <img src="/images/paymentexpress.png" alt="Payment Processor" width="118" height="21" />

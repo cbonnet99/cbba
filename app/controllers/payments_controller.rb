@@ -7,6 +7,7 @@ class PaymentsController < ApplicationController
   end
 
   def index
+    @stored_tokens = current_user.stored_tokens
     @payments = current_user.payments.find(:all, :order => "status desc" )
     respond_to do |format|
       format.html # index.html.erb
@@ -22,9 +23,19 @@ class PaymentsController < ApplicationController
     @payment.last_name = current_user.last_name
     @payment.address1 = current_user.address1
     @payment.city = current_user.city
+    @payment.store_card = true
     unless @payment.pending?
       flash[:error] = "This payment is not pending"
       redirect_back_or_default root_url
+    end
+    if params[:pm] != "existing" && params[:pm] != "different"
+      if current_user.has_current_stored_tokens?
+        @pm = :existing
+      else
+        @pm = :different
+      end
+    else
+      @pm = params[:pm].to_sym
     end
   end
 
@@ -63,14 +74,14 @@ class PaymentsController < ApplicationController
           redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
         else
           @gateway_response = @payment.purchase
-          if @gateway_response.success?
+          if !@gateway_response.nil? && @gateway_response.success?
             log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total)}")
             flash[:notice] = "Thank you for your payment. Features are now activated"
             redirect_to expanded_user_url(current_user)
           else
-            log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@gateway_response.message}")
+            log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@gateway_response.try(:message)}")
             logger.debug "======= #{@payment.errors.inspect}"
-            flash[:error] = "There was a problem processing your payment. #{@gateway_response.message}"
+            flash[:error] = "There was a problem processing your payment. #{@gateway_response.try(:message)}"
             render :action => 'edit'
           end
         end

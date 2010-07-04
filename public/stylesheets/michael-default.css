@@ -1,3 +1,5 @@
+.big-title{font-size: large;}
+.expired-token{color: red;}
 .active{color: green;}
 .inactive{color: red;}
 #link-text-close{float: right;}
@@ -64,9 +66,9 @@ h4.article-title{padding:8px 0 0 0;}
 .publication-author{font-size:12px;}
 #direct-debit-code{font-weight: bold;color:black;}
 #contentMain .register-actions input.button {background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:30px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;color:#333333;cursor:pointer;font-size:11px;margin-right:2px;overflow:visible;width:auto;}
-#contentMain .register-actions input.submit:hover {background:#090; }
+#contentMain .register-actions-active input.submit:hover {background:#090; }
 #contentMain .register-actions a.anchor-button {float:right;text-decoration: none; background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:26px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;border-width:2px; color:#333333;cursor:pointer;display:block; font-size:11px; line-height:30px;margin-right:2px;overflow:visible;width:auto;}
-#contentMain .register-actions input.cancel:hover, #contentMain .register-actions a.cancel:hover{background:#CC0000;color:#fff;}
+#contentMain .register-actions-active input.cancel:hover, #contentMain .register-actions-active a.cancel:hover{background:#CC0000;color:#fff;}
 #articles-homepage h3{color:black;}
 #articles-homepage h4, h4.article-title {color:#20ACCD;}
 #articles-homepage h4 a, h4.article-title a {color:#20ACCD;}

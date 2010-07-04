@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100701203935) do
+ActiveRecord::Schema.define(:version => 20100704152354) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -376,6 +376,7 @@ ActiveRecord::Schema.define(:version => 20100701203935) do
     t.string   "payment_card_type"
     t.integer  "order_id"
     t.datetime "notified_at"
+    t.integer  "stored_token_id"
   end
 
   create_table "recommendations", :force => true do |t|
@@ -436,6 +437,17 @@ ActiveRecord::Schema.define(:version => 20100701203935) do
     t.integer  "author_id"
     t.integer  "subcategory_id"
     t.boolean  "nation_wide",     :default => false
+  end
+
+  create_table "stored_tokens", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "billing_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "last4digits"
+    t.date     "card_expires_on"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   create_table "subcategories", :force => true do |t|

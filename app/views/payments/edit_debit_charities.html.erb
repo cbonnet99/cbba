@@ -4,7 +4,7 @@
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
 <% form_for @payment do |f| -%>
 <%= render :partial => "charities", :locals => {:f  => f} %>
-	<li class="register-actions">
+	<li class="register-actions register-actions-active">
   <%= submit_tag 'Next >', :class => "button submit" %>
 </li>
 <% end -%>

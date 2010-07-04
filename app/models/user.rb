@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   validates_exclusion_of :subdomain, :in => %w( www staging redmine logged mail bookings logged-staging assets assets0 assets1 assets2 assets3 staging-assets0 staging-assets1 staging-assets2 staging-assets3 ), :message => "The subdomain <strong>{{value}}</strong> is reserved and unavailable."
   
   # Relationships
+  has_many :stored_tokens
   has_many :friend_messages
   has_many :messages, :dependent => :delete_all 
   has_many :roles_users, :dependent => :delete_all
@@ -120,6 +121,10 @@ class User < ActiveRecord::Base
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
   MAX_RECENT_ARTICLES = 3
+  
+  def has_current_stored_tokens?
+    self.stored_tokens.not_expired.size > 0
+  end
   
   def recent_articles
     self.articles.published.find(:all, :limit => MAX_RECENT_ARTICLES, :order => "published_at desc")

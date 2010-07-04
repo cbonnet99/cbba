@@ -91,7 +91,6 @@ class PaymentExpressTest < Test::Unit::TestCase
     token = response.token
     
     @gateway.expects(:ssl_post).returns( successful_token_purchase_response )
-    
     assert response = @gateway.purchase(@amount, token, @options)
     assert_success response
     assert_equal 'APPROVED', response.message
