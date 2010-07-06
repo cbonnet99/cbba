@@ -80,7 +80,6 @@ class PaymentsControllerTest < ActionController::TestCase
       "card_number"=>"1",
       "card_expires_on(1i)"=>expires.year.to_s,
       "card_expires_on(2i)"=>expires.month.to_s,
-      "card_expires_on(3i)"=>expires.day.to_s,
       "first_name"=>"hjggh",
       "last_name"=>"gjhgjhgjhg",
       "card_verification"=>"123",
@@ -89,6 +88,8 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_equal "Thank you for your payment. Features are now activated", flash[:notice]
     pending_user.reload
     assert_equal old_token_count+1, pending_user.stored_tokens.size
+    new_token = pending_user.stored_tokens.last
+    assert_equal expires.end_of_month.to_date, new_token.card_expires_on
     
     assert pending_user.active?
     assert pending_user.paid_photo?

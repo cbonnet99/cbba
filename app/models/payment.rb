@@ -134,7 +134,7 @@ class Payment < ActiveRecord::Base
   def purchase
     if self.stored_token_id.nil?
       if self.store_card == "1"
-        token = user.stored_tokens.create(:card_number => card_number, :first_name => first_name, :last_name => last_name, :last4digits => last4digits, :card_expires_on => card_expires_on)
+        token = user.stored_tokens.create(:card_number => card_number, :first_name => first_name, :last_name => last_name, :last4digits => last4digits, :card_expires_on => card_expires_on.end_of_month)
       end
       response = GATEWAY.purchase(total, credit_card, purchase_options)
     else
