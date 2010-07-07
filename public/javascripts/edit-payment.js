@@ -8,3 +8,6 @@ $("#use-different-card").click(function(){
 	$("#payment-different-credit-card").show();
 	}
 );
+$("#store_card_help_link").click(function(){
+	$("#store_card_help").show();
+})
