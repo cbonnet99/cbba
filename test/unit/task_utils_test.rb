@@ -401,6 +401,26 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size, "The expiring highlighted email should only be sent once"    
   end
 
+  def test_check_feature_expiration_expiring_highlighted_with_active_stored_token
+    user = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.from_now )
+    token = Factory(:stored_token, :user => user )
+    assert user.has_current_stored_tokens?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user saying that we will charge stored card"
+    email = ActionMailer::Base.deliveries.first
+    assert_not_nil email
+    assert_equal "[Be Amazing(test)] Your features will be automatically renewed", email.subject
+    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.check_feature_expiration
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The email should only be sent once"    
+  end
+
   def test_rotate_feature_ranks
     fm_role = Factory(:role)
     user1 = Factory(:user, :paid_photo => true, :membership_type => "full_member")

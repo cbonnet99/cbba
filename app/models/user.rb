@@ -343,7 +343,11 @@ class User < ActiveRecord::Base
   end
   
   def warn_expiring_features_in_one_week(expiring_feature_names)
-    UserMailer.deliver_expiring_features(self, expiring_feature_names) unless expiring_feature_names.blank?
+    if self.has_current_stored_tokens?
+      UserMailer.deliver_charging_card(self, expiring_feature_names) unless expiring_feature_names.blank?
+    else
+      UserMailer.deliver_expiring_features(self, expiring_feature_names) unless expiring_feature_names.blank?
+    end
     self.update_attribute(:feature_warning_sent, Time.now)
   end
   
