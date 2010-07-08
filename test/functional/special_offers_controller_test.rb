@@ -101,6 +101,15 @@ class SpecialOffersControllerTest < ActionController::TestCase
     assert new_offer.errors.blank?, "Errors found in new_offer: #{new_offer.errors.inspect}"
   end
 
+  def test_update_errors
+    free_trial = special_offers(:free_trial)
+    cyrille = users(:cyrille)
+    post :update, {:id => free_trial.slug, :special_offer => {:title => "TitleNEW", :description => "a"*620 } }, {:user_id => cyrille.id }
+    new_offer = assigns(:special_offer)
+    assert_not_nil new_offer
+    assert !new_offer.errors.blank?
+  end
+
   def test_index
     cyrille = users(:cyrille)
     get :index, {}, {:user_id => cyrille.id }
