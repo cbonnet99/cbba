@@ -99,6 +99,15 @@ class GiftVouchersControllerTest < ActionController::TestCase
     assert new_gift.errors.blank?, "Errors found in new_gift: #{new_gift.errors.inspect}"
   end
   
+  def test_update_errors
+    free_massage = gift_vouchers(:free_massage)
+    cyrille = users(:cyrille)
+    post :update, {:id => free_massage.slug, :gift_voucher => {:title => "TitleNEW", :description => "a"*650}}, {:user_id => cyrille.id }
+    new_gift = assigns(:gift_voucher)
+    assert_not_nil new_gift
+    assert !new_gift.errors.blank?
+  end
+  
   def test_index
     cyrille = users(:cyrille)
     get :index, {}, {:user_id => cyrille.id }

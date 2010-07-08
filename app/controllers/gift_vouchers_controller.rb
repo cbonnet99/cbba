@@ -100,6 +100,7 @@ class GiftVouchersController < ApplicationController
         flash[:notice] = "\"#{@gift_voucher.title}\" successfully updated."
         redirect_to gift_vouchers_show_url(@gift_voucher.author.slug, @gift_voucher.slug, :context => @context, :selected_tab_id => @selected_tab_id)
       else
+        get_subcategories
         render :action => 'edit'
       end
     end
