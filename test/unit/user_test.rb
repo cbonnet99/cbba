@@ -8,6 +8,22 @@ class UserTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  def test_remove_auto_renewable_features_old_stored_token
+    user = Factory(:user, :paid_photo => true, :paid_photo_until => 6.days.ago )
+    token = Factory(:stored_token, :user => user, :created_at => 8.days.ago )
+    
+    res = user.remove_auto_renewable_features(["photo"])
+    assert res.blank?, "There should be no features left, as they will be auto-renewed"
+  end
+
+  def test_remove_auto_renewable_features_recent_stored_token
+    user = Factory(:user, :paid_photo => true, :paid_photo_until => 6.days.ago )
+    token = Factory(:stored_token, :user => user, :created_at => 1.day.ago )
+    
+    res = user.remove_auto_renewable_features(["photo"])
+    assert !res.blank?, "The stored token was created more recently than the expiration of the card"
+  end
+
   def test_resident_expert
     user = Factory(:user)
     subcat = Factory(:subcategory)

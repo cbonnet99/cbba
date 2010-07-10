@@ -42,8 +42,8 @@ class User < ActiveRecord::Base
   validates_exclusion_of :subdomain, :in => %w( www staging redmine logged mail bookings logged-staging assets assets0 assets1 assets2 assets3 staging-assets0 staging-assets1 staging-assets2 staging-assets3 ), :message => "The subdomain <strong>{{value}}</strong> is reserved and unavailable."
   
   # Relationships
-  has_many :stored_tokens
-  has_many :friend_messages
+  has_many :stored_tokens, :order => "card_expires_on desc", :dependent => :delete_all 
+  has_many :friend_messages, :dependent => :delete_all, :foreign_key => "from_user_id" 
   has_many :messages, :dependent => :delete_all 
   has_many :roles_users, :dependent => :delete_all
   has_many :roles, :through => :roles_users, :uniq => true 
@@ -121,6 +121,67 @@ class User < ActiveRecord::Base
   MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
   MAX_RECENT_ARTICLES = 3
+  FEATURE_PHOTO = "photo"
+  FEATURE_HIGHLIGHT = "highlighted profile"
+  FEATURE_SO = "special offer"
+  FEATURE_GV = "gift voucher"
+
+  def charge_auto_renewal(feature_names)
+    unless self.stored_tokens.blank?
+      so = 0
+      gv = 0
+      feature_names.each do |name|
+        if name =~ Regexp.new(FEATURE_SO)
+          so = name.split(" ").to_i
+        end
+        if name =~ Regexp.new(FEATURE_GV)
+          gv = name.split(" ").to_i
+        end
+      end
+      
+      order = Order.create(:photo => feature_names.include?(FEATURE_PHOTO), :highlighted => feature_names.include?(FEATURE_HIGHLIGHT),
+      :special_offers => so, :gift_vouchers => gv, :user => self)
+      p = order.payment
+      p.stored_token_id = self.stored_tokens.first.id
+      p.purchase!
+    end
+  end
+  
+  def has_stored_token_older_than?(date)
+    !self.stored_tokens.blank? && !date.nil? && date > self.stored_tokens.first.created_at.to_date
+  end
+  
+  def keep_auto_renewable_features(feature_names)
+    auto_renewable_features(feature_names, true)    
+  end
+  
+  def remove_auto_renewable_features(feature_names)
+    auto_renewable_features(feature_names, false)
+  end
+  
+  def auto_renewable_features(feature_names, keep)
+    new_feature_names = []
+    feature_names.each do |name|
+      field_name = case name
+        when FEATURE_PHOTO then "paid_photo_until"
+        when FEATURE_HIGHLIGHT then "paid_highlighted_until"
+        else
+          if name =~ Regexp.new(FEATURE_SO)
+            "paid_special_offers_next_date_check"
+          else
+            if name =~ Regexp.new(FEATURE_GV)
+              "paid_gift_vouchers_next_date_check"
+            end
+          end
+      end
+      if keep
+        new_feature_names << name if self.has_stored_token_older_than?(self.send(field_name.to_sym))
+      else
+        new_feature_names << name if !self.has_stored_token_older_than?(self.send(field_name.to_sym))
+      end
+    end
+    return new_feature_names
+  end
   
   def has_current_stored_tokens?
     self.stored_tokens.not_expired.size > 0

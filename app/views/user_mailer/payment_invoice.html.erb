@@ -1,7 +1,10 @@
 Dear <%= @user.first_name %>,
 
-Thank you for your payment. Please find enclosed our invoice.
-
+<% if payment.stored_token_id.nil? -%>
+Thank you for your payment. Please find enclosed your invoice.
+<% else -%>
+We've renewed your paid features on BeAmazing.co.nz as requested and attached is your invoice.
+<% end -%>
 If you need to review the details of this payment, please click on the following link:
 
 <%= @url %>

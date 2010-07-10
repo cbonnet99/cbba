@@ -118,6 +118,32 @@ class TaskUtils
     puts "Done!"
   end
   
+  def self.charge_expired_features
+    expired_feature_names = {}
+    User.with_expired_photo.each do |u|
+      add_feature(expired_feature_names, u, "photo")
+    end
+    User.with_expired_highlighted.each do |u|
+      add_feature(expired_feature_names, u, User::FEATURE_HIGHLIGHT)
+    end
+    User.with_expired_special_offers.each do |u|
+      feature_count = u.paid_special_offers - u.count_not_expired_special_offers
+      add_feature(expired_feature_names, u, help.pluralize(feature_count, User::FEATURE_SO))
+    end
+    User.with_expired_gift_vouchers.each do |u|
+      feature_count = u.paid_gift_vouchers - u.count_not_expired_gift_vouchers
+      add_feature(expired_feature_names, u, help.pluralize(feature_count, User::FEATURE_GV))
+    end
+    new_expired_feature_names = {}
+    expired_feature_names.keys.reject{|u| expired_feature_names[u].blank?}.each do |u|
+      new_features = u.keep_auto_renewable_features(expired_feature_names[u])
+      new_expired_feature_names[u] = new_features unless new_features.blank?
+    end
+    new_expired_feature_names.each do |u, v|
+      u.charge_auto_renewal(v)
+    end
+  end
+  
   def self.check_feature_expiration
     has_expired_feature_names = {}
     expired_feature_names = {}
@@ -127,21 +153,21 @@ class TaskUtils
       add_feature(expired_feature_names, u, "photo")
     end
     User.with_has_expired_photo.each do |u|
-      add_feature(has_expired_feature_names, u, "photo")
+      add_feature(has_expired_feature_names, u, User::FEATURE_PHOTO)
     end
     User.with_expiring_photo(7.days.from_now).each do |u|
-      add_feature(expiring_feature_names, u, "photo")
+      add_feature(expiring_feature_names, u, User::FEATURE_PHOTO)
     end
     User.with_expired_highlighted.each do |u|
       u.update_attribute(:paid_highlighted, false) if u.paid_highlighted?
-      add_feature(expired_feature_names, u, "highlighted profile")
+      add_feature(expired_feature_names, u, User::FEATURE_HIGHLIGHT)
     end
     User.with_expiring_highlighted(7.days.from_now).each do |u|
-      add_feature(expiring_feature_names, u, "highlighted profile")
+      add_feature(expiring_feature_names, u, User::FEATURE_HIGHLIGHT)
     end
     User.with_expired_special_offers.each do |u|
       feature_count = u.paid_special_offers - u.count_not_expired_special_offers
-      add_feature(expired_feature_names, u, help.pluralize(feature_count, "special offer"))
+      add_feature(expired_feature_names, u, help.pluralize(feature_count, User::FEATURE_SO))
       if feature_count == u.paid_special_offers
         u.update_attribute(:paid_special_offers_next_date_check, nil)
       else
@@ -156,11 +182,11 @@ class TaskUtils
     end
     User.with_expiring_special_offers(7.days.from_now).each do |u|
       feature_count = u.paid_special_offers - u.count_not_expiring_special_offers
-      add_feature(expiring_feature_names, u, help.pluralize(feature_count, "special offer"))
+      add_feature(expiring_feature_names, u, help.pluralize(feature_count, User::FEATURE_SO))
     end
     User.with_expired_gift_vouchers.each do |u|
       feature_count = u.paid_gift_vouchers - u.count_not_expired_gift_vouchers
-      add_feature(expired_feature_names, u, help.pluralize(feature_count, "gift voucher"))
+      add_feature(expired_feature_names, u, help.pluralize(feature_count, User::FEATURE_GV))
       if feature_count == u.paid_gift_vouchers
         u.update_attribute(:paid_gift_vouchers_next_date_check, nil)
       else
@@ -175,13 +201,23 @@ class TaskUtils
     end
     User.with_expiring_gift_vouchers(7.days.from_now).each do |u|
       feature_count = u.paid_gift_vouchers - u.count_not_expiring_gift_vouchers()
-      add_feature(expiring_feature_names, u, help.pluralize(feature_count, "gift voucher"))
+      add_feature(expiring_feature_names, u, help.pluralize(feature_count, User::FEATURE_GV))
     end
-    has_expired_feature_names.keys.each do |u|
-      u.warn_has_expired_features(has_expired_feature_names[u])
+    new_has_expired_feature_names = {}
+    has_expired_feature_names.keys.reject{|u| has_expired_feature_names[u].blank?}.each do |u|
+      new_features = u.remove_auto_renewable_features(has_expired_feature_names[u])
+      new_has_expired_feature_names[u] = new_features unless new_features.blank?
     end
-    expired_feature_names.keys.each do |u|
-      u.warn_expired_features(expired_feature_names[u])
+    new_has_expired_feature_names.keys.each do |u|
+      u.warn_has_expired_features(new_has_expired_feature_names[u])
+    end
+    new_expired_feature_names = {}
+    expired_feature_names.keys.reject{|u| expired_feature_names[u].blank?}.each do |u|
+      new_features = u.remove_auto_renewable_features(expired_feature_names[u])
+      new_expired_feature_names[u] = new_features unless new_features.blank?
+    end
+    new_expired_feature_names.keys.each do |u|
+      u.warn_expired_features(new_expired_feature_names[u])
     end
     expiring_feature_names.keys.each do |u|
       u.warn_expiring_features_in_one_week(expiring_feature_names[u])

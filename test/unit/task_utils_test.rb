@@ -385,6 +385,56 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
   end
 
+  def test_check_feature_expiration_expired_highlighted_with_old_stored_token
+    user_expired_photo = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.ago )
+    token = Factory(:stored_token, :user => user_expired_photo, :created_at => 6.months.ago )
+    assert user_expired_photo.paid_highlighted?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 0, ActionMailer::Base.deliveries.size, "Should be no email, as the user has an old stored token"    
+  end
+
+  def test_check_feature_expiration_expired_highlighted_with_recent_stored_token
+    user_expired_photo = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.ago )
+    token = Factory(:stored_token, :user => user_expired_photo, :created_at => 1.day.ago )
+    assert user_expired_photo.paid_highlighted?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.check_feature_expiration
+    
+    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be emails, because the stored token is more recent than the expiration of the paid feature"
+  end
+
+  def test_charge_expired_features
+    user = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.ago )
+    token = Factory(:stored_token, :user => user, :created_at => 6.months.ago )
+    old_orders_size = user.orders.size
+    assert user.paid_highlighted?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.charge_expired_features
+    
+    user.reload
+    assert_equal old_orders_size+1, user.orders.size
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
+    email = ActionMailer::Base.deliveries.first
+    assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
+    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.charge_expired_features
+    user.reload
+    assert_equal old_orders_size+1, user.orders.size, "The features should only be charged once"
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The email should only be sent once"    
+  end
+
   def test_check_feature_expiration_expiring_highlighted
     user_expired_photo = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.from_now )
     assert user_expired_photo.paid_highlighted?

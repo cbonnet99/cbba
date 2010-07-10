@@ -73,7 +73,7 @@ class PaymentsController < ApplicationController
         if @payment.payment_card_type == "direct_debit"
           redirect_to :controller => "payments", :action => "edit_debit", :id => @payment.id
         else
-          @gateway_response = @payment.purchase
+          @gateway_response = @payment.purchase!
           if !@gateway_response.nil? && @gateway_response.success?
             log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total)}")
             flash[:notice] = "Thank you for your payment. Features are now activated"

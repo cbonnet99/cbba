@@ -1,5 +1,5 @@
 class FriendMessage < ActiveRecord::Base
-  belongs_to :from_user, :class_name => "User" 
+  belongs_to :from_user, :class_name => "User"
   validates_presence_of :to_email, :subject, :body
   validates_format_of :to_email, :with => Message::RE_EMAIL_OK, :message => Message::MSG_EMAIL_BAD
   validates_format_of :from_email, :with => Message::RE_EMAIL_OK, :message => Message::MSG_EMAIL_BAD, :allow_blank => true

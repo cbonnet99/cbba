@@ -47,19 +47,20 @@ class Order < ActiveRecord::Base
 
   def description
     res = "Order for "
+    features = []
     if whole_package?
-      res << "the whole package"
+      features << "the whole package"
     else
-      res << "a photo " if photo?
-      res << "a highlighted profile " if highlighted?
+      features << "a photo" if photo?
+      features << "a highlighted profile" if highlighted?
       if (special_offers.blank? || special_offers == 0)
-        res << "#{help.pluralize(special_offers, 'special offer')}"
+        features << "#{help.pluralize(special_offers, 'special offer')}"
       end
       if (gift_vouchers.blank? || gift_vouchers == 0)
-        res << "#{help.pluralize(gift_vouchers, 'gift voucher')}"
+        features << "#{help.pluralize(gift_vouchers, 'gift voucher')}"
       end
     end
-    return res
+    return res + features.to_sentence
   end
   
   def compute_amount

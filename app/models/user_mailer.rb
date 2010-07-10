@@ -205,7 +205,11 @@ class UserMailer < ActionMailer::Base
 
   def payment_invoice(user, payment, invoice)
     setup_email(user)
-		@subject << "Invoice for your payment"
+    if payment.stored_token_id.nil?
+		  @subject << "Invoice for your payment"
+	  else
+	    @subject << "Invoice for your auto-renewed features"
+    end
     @body[:payment] = payment
 		@body[:url] = payments_url
     attachment :content_type => "application/pdf",

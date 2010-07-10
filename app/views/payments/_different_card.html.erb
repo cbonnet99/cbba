@@ -31,11 +31,11 @@
         <%= f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true %>
       </li>
       <li>
-        <%= f.label :store_card, "Setup automatic renewal#{link_to image_tag("help.gif", :id => "store_card_help_img"), "#", :id => "store_card_help_link"}" %>
+        <%= f.label :store_card, "Setup automatic renewal#{link_to image_tag("help.gif", :id => "store_card_help_img"), "#", :id => "store_card_help_link"}<br/><span class='help'>(Please note that, for your convenience, it will apply to all your paid features)</span>" %>
         <%= f.check_box :store_card  %>
       </li>
 	  <li>
-        <p id="store_card_help" class="help">Don't lose visibility! Tick the box to auto-renew your paid features before they expire. We'll email you a month before to give you the option to cancel. Just ignore the email and we'll automatically charge your credit card. And if your credit card expires in the meantime, we'll let you know that too.</p>
+        <p id="store_card_help" class="help">Don't lose visibility! Tick the box to auto-renew your paid features before they expire. We'll email you a week before to give you the option to cancel. Just ignore the email and we'll automatically charge your credit card. And if your credit card expires in the meantime, we'll let you know that too.</p>
 	  </li>
   </ol>
 	<div class="clear"></div>

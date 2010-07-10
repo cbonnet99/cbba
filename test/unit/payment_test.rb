@@ -6,7 +6,7 @@ class PaymentTest < ActiveSupport::TestCase
 
   def test_purchase
     payment = users(:cyrille).payments.create(:amount => 3000 )
-    payment.purchase
+    payment.purchase!
   end
 
   #for GST calculations, see http://www.ird.govt.nz/technical-tax/general-articles/qwba-gst-5cent-coin-rounding.html
@@ -64,7 +64,7 @@ class PaymentTest < ActiveSupport::TestCase
     
     payment = pending_user.payments.create!(Payment::TYPES[:full_member])
     payment.update_attributes(:card_number => "1", :card_expires_on => Time.now)
-    payment.purchase
+    payment.purchase!
     pending_user.reload
     assert_equal Time.zone.now.to_date, pending_user.member_since.to_date
     assert_equal 1.year.from_now.to_date, pending_user.member_until.to_date
