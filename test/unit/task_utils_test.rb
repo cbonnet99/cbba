@@ -560,6 +560,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     email = ActionMailer::Base.deliveries.first
     assert_not_nil email
     assert_equal "[Be Amazing(test)] Your features will be automatically renewed", email.subject
+    assert_match /\$30\.00/, email.body
     
     ActionMailer::Base.deliveries = []
     TaskUtils.check_feature_expiration

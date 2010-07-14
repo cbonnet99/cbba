@@ -126,29 +126,43 @@ class User < ActiveRecord::Base
   FEATURE_SO = "special offer"
   FEATURE_GV = "gift voucher"
 
+  def self.extract_features_from_name(feature_names)
+    so = 0
+    gv = 0
+    feature_names.each do |name|
+      if name =~ Regexp.new(FEATURE_SO)
+        so = name.split(" ").first.to_i
+      end
+      if name =~ Regexp.new(FEATURE_GV)
+        gv = name.split(" ").first.to_i
+      end
+    end
+    photo = feature_names.include?(FEATURE_PHOTO)
+    highlighted = feature_names.include?(FEATURE_HIGHLIGHT)
+    return photo, highlighted, so, gv
+  end
+
+  def init_order_from_feature_names(feature_names)
+    photo, highlighted, so, gv = User.extract_features_from_name(feature_names)
+    if !photo && !highlighted && so == 0 && gv == 0
+      logger.error("Error while trying to charge auto-renewal features for user #{self.full_name}: there were no features to renew...")
+    else
+      order = Order.new(:photo => photo, :highlighted => highlighted,
+      :special_offers => so, :gift_vouchers => gv, :user => self,
+      :whole_package => photo && highlighted && so >= 1 && gv >= 1 && self.had_whole_package_order_1_year_ago?(self.paid_photo_until))
+      return order
+    end
+  end
+  
   def charge_auto_renewal(feature_names)
     unless self.stored_tokens.blank?
-      so = 0
-      gv = 0
-      feature_names.each do |name|
-        if name =~ Regexp.new(FEATURE_SO)
-          so = name.split(" ").first.to_i
-        end
-        if name =~ Regexp.new(FEATURE_GV)
-          gv = name.split(" ").first.to_i
-        end
-      end
-      photo = feature_names.include?(FEATURE_PHOTO)
-      highlighted = feature_names.include?(FEATURE_HIGHLIGHT)
-      if !photo && !highlighted && so == 0 && gv == 0
-        logger.error("Error while trying to charge auto-renewal features for user #{self.full_name}: there were no features to renew...")
-      else
-        order = Order.create(:photo => photo, :highlighted => highlighted,
-        :special_offers => so, :gift_vouchers => gv, :user => self,
-        :whole_package => photo && highlighted && so >= 1 && gv >= 1 && self.had_whole_package_order_1_year_ago?(self.paid_photo_until))
+      order = self.init_order_from_feature_names(feature_names)
+      if order.save
         p = order.payment
         p.stored_token_id = self.stored_tokens.first.id
         p.purchase!
+      else
+        logger.error("There was an error while charge auto-renewal features; the order is not valid")
       end
     end
   end
@@ -415,7 +429,8 @@ class User < ActiveRecord::Base
   
   def warn_expiring_features_in_one_week(expiring_feature_names)
     if self.has_current_stored_tokens?
-      UserMailer.deliver_charging_card(self, expiring_feature_names) unless expiring_feature_names.blank?
+      order = order = self.init_order_from_feature_names(expiring_feature_names)
+      UserMailer.deliver_charging_card(self, expiring_feature_names, order.compute_amount) unless expiring_feature_names.blank?
     else
       UserMailer.deliver_expiring_features(self, expiring_feature_names) unless expiring_feature_names.blank?
     end

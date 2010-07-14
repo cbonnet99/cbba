@@ -26,7 +26,7 @@ class Order < ActiveRecord::Base
   PRICE_GV = 1500
   PRICE_PHOTO = 3000
   PRICE_HIGHLIGHT = 3000
-  
+    
   def check_whole_package
     if self.whole_package?
       self.photo = true

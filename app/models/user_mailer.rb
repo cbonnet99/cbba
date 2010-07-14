@@ -116,12 +116,13 @@ class UserMailer < ActionMailer::Base
 		@content_type = 'text/html'
   end
 
-  def charging_card(user, feature_names)
+  def charging_card(user, feature_names, amount)
     setup_email(user)
 		@subject << "Your features will be automatically renewed"
 		@body[:feature_names] = feature_names
 		@body[:url] = payments_url
 		@body[:contact_url] = contact_url
+		@body[:amount] = amount
 		@content_type = 'text/html'
   end
   
