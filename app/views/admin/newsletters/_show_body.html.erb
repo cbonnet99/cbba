@@ -37,7 +37,7 @@
 
 <% unless newsletter.users.blank? -%>
 <h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">In the spotlight</h3>
-<ul>
+<ul class="simple">
 <% newsletter.users.each do |u| -%>
 	<li><%= u.label(full_user_url(:main_expertise_slug => u.main_expertise_slug, :region => u.region.slug, :name => u.slug))%></li>
 <% end -%>
@@ -46,9 +46,10 @@
 
 <% unless newsletter.articles.blank? -%>
 <h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Past month's articles</h3>
-<ul>
+<ul class="simple">
 <% newsletter.articles.each do |a| -%>
 	<li><%= a.label(articles_show_url(a.author.slug, a.slug, :context => "homepage"))%></li>
+	<div class="short-lead"><%= a.short_lead%></div>
 <% end -%>
 </ul>
 <% end -%>
