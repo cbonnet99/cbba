@@ -25,7 +25,7 @@ every 2.weeks do
   runner "TaskUtils.notify_unpublished_users"
 end
 
-every 1.week do
+every :sunday, :at => '12pm'  do
   rake "bam:count_published_items"
   runner "TaskUtils.send_weekly_admin_stats"
 end
