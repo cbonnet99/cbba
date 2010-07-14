@@ -548,6 +548,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
 
   def test_check_feature_expiration_expiring_highlighted_with_active_stored_token
     user = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.from_now )
+    old_size = user.orders.size
     token = Factory(:stored_token, :user => user )
     assert user.has_current_stored_tokens?
 		ActionMailer::Base.delivery_method = :test
@@ -556,6 +557,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     TaskUtils.check_feature_expiration
     
+    user.reload
+    assert_equal old_size, user.orders.size, "No order should have been created: this is only a warning"
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email to user saying that we will charge stored card"
     email = ActionMailer::Base.deliveries.first
     assert_not_nil email
