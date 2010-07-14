@@ -41,6 +41,8 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
   runner "TaskUtils.check_feature_expiration"
+  runner "TaskUtils.check_expired_offers"
+  runner "TaskUtils.charge_expired_features"
   command "cp --preserve=timestamps /etc/apache2/sites-available/be_amazing_staging /home/cyrille/backups/apache-be_amazing_staging"
   command "cp --preserve=timestamps /etc/apache2/sites-available/be_amazing /home/cyrille/backups/apache-be_amazing"
   command "cp --preserve=timestamps /etc/apache2/sites-available/redmine /home/cyrille/backups/apache-redmine"
