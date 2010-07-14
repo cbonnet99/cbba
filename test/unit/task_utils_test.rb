@@ -411,8 +411,39 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size, "Should be emails, because the stored token is more recent than the expiration of the paid feature"
   end
 
-  def test_charge_expired_features
-    user = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.ago )
+  def test_charge_expired_features_photo
+    user = Factory(:user, :paid_photo => true, :paid_photo_until => 6.days.ago.to_date )
+    old_paid_until = user.paid_photo_until
+    order = Factory(:order, :photo => true, :user => user, :created_at => 1.year.ago-6.days )
+    token = Factory(:stored_token, :user => user, :created_at => 6.months.ago )
+    old_orders_size = user.orders.size
+    assert user.paid_photo?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.charge_expired_features
+    
+    user.reload
+    assert user.paid_photo_until > old_paid_until, "The photo feature should have been extended, but is: #{user.paid_photo_until}"
+    assert_equal old_orders_size+1, user.orders.size
+    order = user.orders.last
+    assert_equal 3000, order.payment.amount
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
+    email = ActionMailer::Base.deliveries.first
+    assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
+    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.charge_expired_features
+    user.reload
+    assert_equal old_orders_size+1, user.orders.size, "The features should only be charged once"
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The email should only be sent once"    
+  end
+
+  def test_charge_expired_features_highlight
+    user = Factory(:user, :paid_highlighted => true, :paid_highlighted_until => 6.days.ago.to_date )
+    old_paid_until = user.paid_highlighted_until
+    order = Factory(:order, :highlighted => true, :user => user, :created_at => 1.year.ago-6.days )
     token = Factory(:stored_token, :user => user, :created_at => 6.months.ago )
     old_orders_size = user.orders.size
     assert user.paid_highlighted?
@@ -423,7 +454,71 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.charge_expired_features
     
     user.reload
+    assert user.paid_highlighted_until > old_paid_until, "The highlighted feature should have been extended, but is: #{user.paid_highlighted_until}"
     assert_equal old_orders_size+1, user.orders.size
+    order = user.orders.last
+    assert_equal 3000, order.payment.amount
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
+    email = ActionMailer::Base.deliveries.first
+    assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
+    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.charge_expired_features
+    user.reload
+    assert_equal old_orders_size+1, user.orders.size, "The features should only be charged once"
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The email should only be sent once"    
+  end
+
+  def test_charge_expired_features_so
+    user = Factory(:user, :paid_special_offers => 3, :paid_special_offers_next_date_check => 6.days.ago.to_date )
+    old_paid_check = user.paid_special_offers_next_date_check
+    order = Factory(:order, :special_offers => 3, :user => user, :created_at => 1.year.ago-6.days )
+    token = Factory(:stored_token, :user => user, :created_at => 6.months.ago )
+    old_orders_size = user.orders.size
+    assert user.has_paid_special_offers?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.charge_expired_features
+    
+    user.reload
+    assert user.paid_special_offers_next_date_check > old_paid_check, "The SO feature should have been extended, but is: #{user.paid_special_offers_next_date_check}"
+    assert_equal old_orders_size+1, user.orders.size
+    order = user.orders.last
+    assert_equal 4500, order.payment.amount
+    assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
+    email = ActionMailer::Base.deliveries.first
+    assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
+    
+    ActionMailer::Base.deliveries = []
+    TaskUtils.charge_expired_features
+    user.reload
+    assert_equal old_orders_size+1, user.orders.size, "The features should only be charged once"
+    assert_equal 0, ActionMailer::Base.deliveries.size, "The email should only be sent once"    
+  end
+
+  def test_charge_expired_features_whole_package
+    user = Factory(:user, :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.days.ago.to_date,
+    :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.days.ago.to_date, :paid_photo => true,
+    :paid_photo_until => 6.days.ago.to_date, :paid_highlighted => true, :paid_highlighted_until => 6.days.ago.to_date )
+    old_paid_so_check = user.paid_special_offers_next_date_check
+    order = Factory(:order, :special_offers => 1, :gift_vouchers => 1, :photo => true, :highlighted => true,
+    :whole_package => true, :user => user, :created_at => 1.year.ago-6.days, :state => "paid" )
+    token = Factory(:stored_token, :user => user, :created_at => 6.months.ago )
+    old_orders_size = user.orders.size
+    assert user.has_paid_special_offers?
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    TaskUtils.charge_expired_features
+    
+    user.reload
+    assert user.paid_special_offers_next_date_check > old_paid_so_check, "The SO feature should have been extended, but is: #{user.paid_special_offers_next_date_check}"
+    assert_equal old_orders_size+1, user.orders.size
+    order = user.orders.last
+    assert_equal 7500, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
     assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject

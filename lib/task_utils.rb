@@ -118,7 +118,7 @@ class TaskUtils
     puts "Done!"
   end
   
-  def self.charge_expired_features
+  def self.charge_expired_features    
     expired_feature_names = {}
     User.with_expired_photo.each do |u|
       add_feature(expired_feature_names, u, "photo")
@@ -139,6 +139,7 @@ class TaskUtils
       new_features = u.keep_auto_renewable_features(expired_feature_names[u])
       new_expired_feature_names[u] = new_features unless new_features.blank?
     end
+    
     new_expired_feature_names.each do |u, v|
       u.charge_auto_renewal(v)
     end

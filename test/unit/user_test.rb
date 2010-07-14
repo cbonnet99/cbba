@@ -8,6 +8,19 @@ class UserTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  def test_had_whole_package_order_1_year_ago
+    user = Factory(:user, :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.days.ago.to_date,
+    :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.days.ago.to_date, :paid_photo => true,
+    :paid_photo_until => 6.days.ago.to_date, :paid_highlighted => true, :paid_highlighted_until => 6.days.ago.to_date )
+    order = Factory(:order, :special_offers => 3, :user => user, :created_at => 1.year.ago-6.days, :state => "paid" )
+    user.reload
+    assert !user.had_whole_package_order_1_year_ago?(6.days.ago)
+    order2 = Factory(:order, :special_offers => 1, :gift_vouchers => 1, :photo => true, :highlighted => true,
+    :whole_package => true, :user => user, :created_at => 1.year.ago-6.days, :state => "paid" )
+    user.reload
+    assert user.had_whole_package_order_1_year_ago?(6.days.ago)
+  end
+
   def test_remove_auto_renewable_features_old_stored_token
     user = Factory(:user, :paid_photo => true, :paid_photo_until => 6.days.ago )
     token = Factory(:stored_token, :user => user, :created_at => 8.days.ago )

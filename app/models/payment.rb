@@ -114,11 +114,11 @@ class Payment < ActiveRecord::Base
       end
       if !self.order.special_offers.nil? && self.order.special_offers > 0
         self.user.paid_special_offers = (self.user.paid_special_offers || 0) + self.order.special_offers
-        self.user.paid_special_offers_next_date_check = self.user.paid_special_offers_next_date_check.nil? ? Time.now+1.year : self.user.paid_special_offers_next_date_check
+        self.user.paid_special_offers_next_date_check = (self.user.paid_special_offers_next_date_check.nil? || self.user.paid_special_offers_next_date_check < Time.now.to_date) ? Time.now+1.year : self.user.paid_special_offers_next_date_check
       end
       if !self.order.gift_vouchers.nil? && self.order.gift_vouchers > 0
         self.user.paid_gift_vouchers = (self.user.paid_gift_vouchers || 0) + self.order.gift_vouchers
-        self.user.paid_gift_vouchers_next_date_check = self.user.paid_gift_vouchers_next_date_check.nil? ? Time.now+1.year : self.user.paid_special_offers_next_date_check
+        self.user.paid_gift_vouchers_next_date_check = (self.user.paid_gift_vouchers_next_date_check.nil? || self.user.paid_gift_vouchers_next_date_check < Time.now.to_date) ? Time.now+1.year : self.user.paid_special_offers_next_date_check
       end
       self.user.save!
     end    

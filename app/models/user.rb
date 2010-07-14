@@ -132,19 +132,29 @@ class User < ActiveRecord::Base
       gv = 0
       feature_names.each do |name|
         if name =~ Regexp.new(FEATURE_SO)
-          so = name.split(" ").to_i
+          so = name.split(" ").first.to_i
         end
         if name =~ Regexp.new(FEATURE_GV)
-          gv = name.split(" ").to_i
+          gv = name.split(" ").first.to_i
         end
       end
-      
-      order = Order.create(:photo => feature_names.include?(FEATURE_PHOTO), :highlighted => feature_names.include?(FEATURE_HIGHLIGHT),
-      :special_offers => so, :gift_vouchers => gv, :user => self)
-      p = order.payment
-      p.stored_token_id = self.stored_tokens.first.id
-      p.purchase!
+      photo = feature_names.include?(FEATURE_PHOTO)
+      highlighted = feature_names.include?(FEATURE_HIGHLIGHT)
+      if !photo && !highlighted && so == 0 && gv == 0
+        logger.error("Error while trying to charge auto-renewal features for user #{self.full_name}: there were no features to renew...")
+      else
+        order = Order.create(:photo => photo, :highlighted => highlighted,
+        :special_offers => so, :gift_vouchers => gv, :user => self,
+        :whole_package => photo && highlighted && so >= 1 && gv >= 1 && self.had_whole_package_order_1_year_ago?(self.paid_photo_until))
+        p = order.payment
+        p.stored_token_id = self.stored_tokens.first.id
+        p.purchase!
+      end
     end
+  end
+  
+  def had_whole_package_order_1_year_ago?(date)
+    !self.orders.blank? && !self.orders.find(:all, :conditions => ["state = 'paid' AND whole_package IS TRUE AND created_at BETWEEN ? AND ?", date.advance(:years => -1).advance(:days  => -2), date.advance(:years => -1).advance(:days  => 2)]).blank?
   end
   
   def has_stored_token_older_than?(date)

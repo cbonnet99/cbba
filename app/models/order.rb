@@ -17,8 +17,15 @@ class Order < ActiveRecord::Base
     transitions :from => :pending, :to => :paid
   end
 
+  named_scope :recently_expired, :conditions => ["created_at > ? and created_at < ?", 1.year.ago+7.days, 1.year.ago-7.days], :order => "created_at"  
   named_scope :not_expired, :conditions => ["created_at > ?", 1.year.ago], :order => "created_at"  
   named_scope :not_expiring, :conditions => ["created_at > ? and created_at < ?", 1.year.ago, 1.year.ago-7.days], :order => "created_at"  
+  
+  PRICE_WHOLE_PACKAGE = 7500
+  PRICE_SO = 1500
+  PRICE_GV = 1500
+  PRICE_PHOTO = 3000
+  PRICE_HIGHLIGHT = 3000
   
   def check_whole_package
     if self.whole_package?
@@ -65,28 +72,28 @@ class Order < ActiveRecord::Base
   
   def compute_amount
     if whole_package?
-      amount = 7500
+      amount = PRICE_WHOLE_PACKAGE
       if self.special_offers.nil?
         self.special_offers = 1
       end
-      amount += 1500*(self.special_offers-1)
+      amount += PRICE_SO*(self.special_offers-1)
       if self.gift_vouchers.nil?
         self.gift_vouchers = 1
       end
-      amount += 1500*(self.gift_vouchers-1)
+      amount += PRICE_GV*(self.gift_vouchers-1)
     else
       amount = 0
       if photo?
-        amount += 3000
+        amount += PRICE_PHOTO
       end
       if highlighted?
-        amount += 3000
+        amount += PRICE_HIGHLIGHT
       end
       if !self.special_offers.nil?
-        amount += 1500*self.special_offers
+        amount += PRICE_SO*self.special_offers
       end
       if !self.gift_vouchers.nil?
-        amount += 1500*self.gift_vouchers
+        amount += PRICE_GV*self.gift_vouchers
       end
     end
     return amount
