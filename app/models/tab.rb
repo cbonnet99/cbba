@@ -11,9 +11,14 @@ class Tab < ActiveRecord::Base
   ARTICLES = "articles"
   OFFERS = "offers"
   MAX_PER_USER = 3
+  DEFAULT_CONTENT1_WITH = "Write about what people can expect from you and your service... (Just delete this text and the heading to remove it from your profile)"
+  DEFAULT_CONTENT2_BENEFITS = "<ul><li>List a benefit here (or delete this text)</li> <li>List a benefit here (or delete this text)</li> <li>List a benefit here (or delete this text)</li> </ul>"
+  DEFAULT_CONTENT3_TRAINING = "<ul><li>List your training here (or delete this text)</li> <li>List your training here&nbsp;(or delete this text)</li> <li>List your training here&nbsp;(or delete this text)</li> </ul>"
+  DEFAULT_CONTENT4_ABOUT = "Give a summary here of your service&nbsp;(Just delete this text and the heading to remove it from your profile)"
   
-  after_create :create_slug, :create_link_to_subcategories
+  after_create :create_slug, :create_link_to_subcategories, :set_contents
   after_update :update_subcategories
+  before_update :update_content
   before_save :change_slug
 
   acts_as_list :scope => :user_id
@@ -24,7 +29,83 @@ class Tab < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :user_id, :message => "^You already have this modality"
   validates_length_of :title, :maximum => 30
   
-  attr_accessor :old_title
+  attr_accessor :old_title, :content1_with, :content2_benefits, :content3_training, :content4_about
+
+  def self.content_for_title(title, c)
+    strings = c.split("<h3>#{title}</h3>")
+    if strings.length > 1
+      return strings[1].split("<h3>")[0]
+    else
+      return ""
+    end
+  end
+
+  def set_contents
+    if self.content1_with.blank? && self.content2_benefits.blank? && self.content3_training.blank? && self.content4_about.blank?
+      unless content.nil?
+        titles = self.content.split("<h3>").select{|str| str.match(%r{</h3>})}.map{|str| str.split("</h3>")[0]}
+        if titles.include?(title1_with)
+          self.content1_with = Tab.content_for_title(title1_with, self.content)
+          titles.delete(title1_with)
+        else
+          self.content1_with = ""
+        end
+        if titles.include?(title2_benefits)
+          self.content2_benefits = Tab.content_for_title(title2_benefits, self.content)
+          titles.delete(title2_benefits)
+        else
+          self.content2_benefits = ""
+        end
+        if titles.include?(title3_training)
+          self.content3_training = Tab.content_for_title(title3_training, self.content)
+          titles.delete(title3_training)
+        else
+          self.content3_training = ""
+        end
+        if titles.include?(title4_about)
+          self.content4_about = Tab.content_for_title(title4_about, self.content)
+          titles.delete(title4_about)
+        else
+          self.content4_about = ""
+        end
+        unless titles.blank?
+          titles.each do |t|
+            self.content1_with << "<h3>#{t}</h3>#{Tab.content_for_title(t, self.content)}"
+          end
+        end
+      end
+    end
+  end
+  
+  def update_content
+    if self.content.blank?
+      self.content = "<h3>#{title1_with}</h3>#{help.remove_html_titles(content1_with)}<h3>#{title2_benefits}</h3>#{help.remove_html_titles(content2_benefits)}<h3>#{title3_training}</h3>#{content3_training}<h3>#{title4_about}</h3>#{content4_about}"
+    end
+  end
+  
+  def title1_with
+    if user.subcategories.blank? || position.nil?
+      ""
+    else
+      "#{user.subcategories[position-1].try(:name)} with #{user.try(:name)}"
+    end
+  end
+  
+  def title2_benefits
+    if user.subcategories.blank? || position.nil?
+      ""
+    else
+      "Benefits of #{user.subcategories[position-1].try(:name)}"
+    end
+  end
+  
+  def title3_training
+    "#{user.try(:first_name)}'s Training"
+  end
+  
+  def title4_about
+    "About #{user.try(:name)}"
+  end
   
   def change_slug
     self.slug = self.title.parameterize

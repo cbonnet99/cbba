@@ -26,7 +26,10 @@
 	  <% if params[:action]=="new"-%>
 		<%= render(:partial => "tabs/new") %>
 	  <% else -%>
-      	<%= white_list @selected_tab.try(:content) %>
+		<% unless @selected_tab.content1_with.blank? -%>
+		<h3><%= @selected_tab.title1_with%></h3>
+      	<%= white_list @selected_tab.try(:content1_with) %>
+		<% end -%>
       <% end -%>
     <% end -%>
   <% end -%>

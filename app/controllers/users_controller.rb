@@ -232,6 +232,9 @@ class UsersController < ApplicationController
       end
       @selected_tab = @user.select_tab(params[:selected_tab_id])
       unless @selected_tab.nil?
+        unless @selected_tab.virtual?
+          @selected_tab.set_contents
+        end
         if @selected_tab.slug == Tab::ARTICLES
           if @user == current_user
             @all_articles = Article.all_articles(current_user)

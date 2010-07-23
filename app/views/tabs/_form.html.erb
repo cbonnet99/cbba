@@ -8,11 +8,23 @@
       </li>
       <li id="tab-content-item">
 		<% if hide_content == true -%>
-        <%= f.label :content, 'Content:', :class => "hidden-label"  %>
-        <%= f.text_area :content, :cols => "35", :class => "hidden-text-area"  %>
+        <%= f.label :content1_with, @selected_tab.title1_with, :class => "hidden-label"  %>
+        <%= f.text_area :content1_with, :cols => "35", :class => "hidden-text-area"  %>
+        <%= f.label :content2_benefits, @selected_tab.title2_benefits, :class => "hidden-label"  %>
+        <%= f.text_area :content2_benefits, :cols => "35", :class => "hidden-text-area"  %>
+        <%= f.label :content3_training, @selected_tab.title3_training, :class => "hidden-label"  %>
+        <%= f.text_area :content3_training, :cols => "35", :class => "hidden-text-area"  %>
+        <%= f.label :content4_about, @selected_tab.title4_about, :class => "hidden-label"  %>
+        <%= f.text_area :content4_about, :cols => "35", :class => "hidden-text-area"  %>
 		<% else -%>
-        <%= f.label :content, 'Content:'  %>
-        <%= f.text_area :content, :cols => "35" %>
+        <%= f.label :content1_with, @selected_tab.title1_with  %>
+        <%= f.text_area :content1_with, :cols => "35" %>
+        <%= f.label :content2_benefits, @selected_tab.title2_benefits  %>
+        <%= f.text_area :content2_benefits, :cols => "35" %>
+        <%= f.label :content3_training, @selected_tab.title3_training  %>
+        <%= f.text_area :content3_training, :cols => "35"  %>
+        <%= f.label :content4_about, @selected_tab.title4_about  %>
+        <%= f.text_area :content4_about, :cols => "35" %>
 		<% end -%>
       </li>
     </ol>

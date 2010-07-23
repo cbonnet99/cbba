@@ -1,3 +1,9 @@
+Factory.define :tab do |t|
+  t.title "Yoga"
+  t.association :user
+  t.position 1
+  t.slug "yoga"
+end
 Factory.define :stored_token do |t|
   t.last4digits "1234"
   t.card_expires_on 1.year.from_now

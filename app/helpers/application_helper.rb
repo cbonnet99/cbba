@@ -253,6 +253,14 @@ module ApplicationHelper
     return amount_integer/100.0
   end
 
+  def remove_html_titles(str)
+    if str.nil?
+      ""
+    else
+      str.gsub(/\<h[0-9]+\>/, "").gsub(/\<\/h[0-9]+\>/, "")
+    end
+  end
+
   def amount_view(amount_integer)
     s = amount_integer.to_s
 
