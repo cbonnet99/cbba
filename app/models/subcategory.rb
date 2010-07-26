@@ -58,7 +58,6 @@ class Subcategory < ActiveRecord::Base
       experts_for_subcat = encoded_experts.split("/").select{|str| str.split(":")[0] == self.id.to_s}
       experts = []
       unless experts_for_subcat.blank?
-        debugger
         experts_for_subcat.each{|str| str.split(":")[1].split(",").each{|res_id| experts << User.find(res_id)}}
       end
     end
