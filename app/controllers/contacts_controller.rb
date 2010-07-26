@@ -5,10 +5,10 @@ class ContactsController < ApplicationController
   end
 
   def create
+    @contact = Contact.new(params[:contact])
     if verify_human
       user = params[:contact].nil? ? nil : User.active.find_by_email(params[:contact]["email"])
       if user.nil?
-        @contact = Contact.new(params[:contact])
         if @contact.save
           flash[:notice] = "Thank you for signing up"
           redirect_back_or_default root_url
