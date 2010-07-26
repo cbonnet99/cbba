@@ -327,19 +327,24 @@ class UsersControllerTest < ActionController::TestCase
 	end
   
 	def test_publish_with_unedited_tabs
-		cyrille = users(:cyrille)
-		cyrille.tabs.first.update_attribute(:content, "delete this text")
-		cyrille.user_profile.remove!
+	  hypnotherapy = subcategories(:hypnotherapy)
+	  district = District.first
+	  user = User.create(:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id)
+    assert_equal 1, user.tabs.size
+    tab = user.tabs.first
+    assert_match /delete this text/, tab.content1_with
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
-		post :publish, {}, {:user_id => cyrille.id}
-    assert_redirected_to expanded_user_url(cyrille)
-		assert_equal "Your tab #{cyrille.tabs.first.title} contains 'delete this text': please update the text or delete the tab entirely", flash[:error]
+		post :publish, {}, {:user_id => user.id}
+    assert_redirected_to expanded_user_url(user)
+		assert_equal "Your tab #{user.tabs.first.title} contains 'delete this text': please update the text or delete the tab entirely", flash[:error]
 
-		cyrille.user_profile.reload
-		assert_nil cyrille.user_profile.published_at
+		user.user_profile.reload
+		assert_nil user.user_profile.published_at
 
 		assert_equal 0, ActionMailer::Base.deliveries.size
 	end
@@ -670,6 +675,13 @@ class UsersControllerTest < ActionController::TestCase
 #    puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
 		assert_equal old_size+1, User.all.size
+		assert_equal 1, assigns(:user).tabs.size
+		tab = assigns(:user).tabs.first
+		assert_match /delete this text/, tab.content1_with
+		assert_match /delete this text/, tab.content2_benefits
+		assert_match /delete this text/, tab.content3_training
+		assert_match /delete this text/, tab.content4_about
+		assert_match /delete this text/, tab.content
 	end
 
   def test_create_with_capitals_in_email

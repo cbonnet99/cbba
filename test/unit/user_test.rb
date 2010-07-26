@@ -604,7 +604,7 @@ class UserTest < ActiveSupport::TestCase
       :password => "blablabla", :password_confirmation => "blablabla", :subcategory1_id => hypnotherapy.id )
     user.register!
     user.activate!
-    assert_equal 0, user.tabs.size
+    assert_equal 1, user.tabs.size
     user.membership_type = "full_member"
     user.save!
     user.reload

@@ -1,4 +1,4 @@
-<% use_tinymce -%>
+<% use_tinymce(false) -%>
 <% form_for @selected_tab, :url => action_tab_with_id_url(@selected_tab.slug, :action => "update" )  do |f| -%>
 	<%= render :partial => "form", :locals => {:f => f, :hide_content => false  }  %>
   <div class="buttons">

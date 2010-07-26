@@ -27,7 +27,7 @@ class Tab < ActiveRecord::Base
 
   validates_presence_of :title, :message => "^Please select a modality"
   validates_uniqueness_of :title, :scope => :user_id, :message => "^You already have this modality"
-  validates_length_of :title, :maximum => 30
+  validates_length_of :title, :maximum => 31
   
   attr_accessor :old_title, :content1_with, :content2_benefits, :content3_training, :content4_about
 
@@ -78,7 +78,7 @@ class Tab < ActiveRecord::Base
   end
   
   def update_content
-    if self.content.blank?
+    if self.content.nil? || (!content1_with.blank? || !content2_benefits.blank? || !content3_training.blank? || !content4_about.blank?)
       self.content = "<h3>#{title1_with}</h3>#{help.remove_html_titles(content1_with)}<h3>#{title2_benefits}</h3>#{help.remove_html_titles(content2_benefits)}<h3>#{title3_training}</h3>#{content3_training}<h3>#{title4_about}</h3>#{content4_about}"
     end
   end

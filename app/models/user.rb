@@ -496,7 +496,7 @@ class User < ActiveRecord::Base
   def unedited_tabs
      unedited_tabs = []
      tabs.each do |tab|
-       unedited_tabs << tab if tab.content =~ /delete this text/
+       unedited_tabs << tab if tab.content =~ /delete this text/ || tab.content1_with =~ /delete this text/ || tab.content2_benefits =~ /delete this text/ || tab.content3_training =~ /delete this text/ || tab.content4_about =~ /delete this text/
      end
      unedited_tabs
   end
@@ -1185,7 +1185,7 @@ class User < ActiveRecord::Base
     if self.has_max_number_tabs?
       return nil
     else
-      Tab.create(:user_id => id, :title => subcat.name,
+      self.tabs.create(:title => subcat.name,
         :content1_with => Tab::DEFAULT_CONTENT1_WITH,
         :content2_benefits => Tab::DEFAULT_CONTENT2_BENEFITS,  
         :content3_training => Tab::DEFAULT_CONTENT3_TRAINING, 

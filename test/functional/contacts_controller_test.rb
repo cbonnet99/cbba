@@ -26,8 +26,8 @@ class ContactsControllerTest < ActionController::TestCase
       cyrille.save!
       cyrille.reload
       post :create, {:contact => {:email => cyrille.email }}
-      assert_nil assigns(:contact)
-  #    puts assigns(:contact).errors.inspect
+      assert_not_nil assigns(:contact)
+      assert assigns(:contact).errors.blank?
   
       cyrille.reload
       assert cyrille.receive_newsletter

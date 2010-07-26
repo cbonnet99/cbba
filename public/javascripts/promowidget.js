@@ -1,5 +1,4 @@
 function PromoWidget(pwid, pwdata, pwindex, pwdelay) {
-    alert("HERE");
 	// check for widget
 	this.promowidget = document.getElementById(pwid);
 	if (this.promowidget && pwdata.length>1) {

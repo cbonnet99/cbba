@@ -180,7 +180,7 @@ module ApplicationHelper
     end
   end
 
-  def use_tinymce
+  def use_tinymce(heading=true)
     @content_for_tinymce = ""
     content_for :tinymce do
       #had to specify a non-asset path to prevent caching bug: see http://blog.p.latyp.us/2008/04/tinymce-and-using-rails-asset-hosts.html
@@ -192,9 +192,15 @@ module ApplicationHelper
         javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/mce_editor_admin1"
       end
     else
-      content_for :tinymce_init do
-        javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/mce_editor2"
-      end
+      if heading
+        content_for :tinymce_init do
+          javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/mce_editor2"
+        end
+      else
+        content_for :tinymce_init do
+          javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/mce_editor_noheading"
+        end
+      end        
     end
   end
 

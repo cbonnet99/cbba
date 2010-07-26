@@ -3,7 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TabTest < ActiveSupport::TestCase
   
   def test_set_contents
-    user = Factory(:user)
+    subcat = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => subcat.id )
     tab = Factory(:tab, :user => user, :title => "Yoga", :content => "<h3>Yoga with #{user.name}</h3>CONTENT1<h3>Benefits of Yoga</h3>CONTENT2<h3>#{user.first_name}'s Training</h3>CONTENT3<h3>About #{user.name}</h3>CONTENT4" )
     tab.reload
     assert_equal "CONTENT1", tab.content1_with

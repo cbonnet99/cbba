@@ -77,6 +77,28 @@ class TabsControllerTest < ActionController::TestCase
     assert !norma.subcategories.include?(hypnotherapy), "Hypnotherapy should have been removed from Norma's profile, as it was removed as a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"
   end
 
+  def test_update_legacy
+    norma = users(:norma)
+    norma_hypnotherapy = tabs(:norma_hypnotherapy)
+    hypnotherapy = subcategories(:hypnotherapy)
+    yoga = subcategories(:yoga)
+    assert !norma.subcategories.include?(yoga)
+    old_title = norma_hypnotherapy.title
+    post :update, {:id => norma_hypnotherapy.slug, :tab => {:old_title => old_title, :title => yoga.name, :content => "SOMETHING that existed before",  :content1_with => "With me, it's better",
+      :content2_benefits => "You'll be relaxed", :content3_training => "MBA with Harvard", :content4_about => "I love kitesurfing"  } }, {:user_id => norma.id }
+    norma.reload
+    norma.tabs.reload
+    norma_hypnotherapy.reload
+    assert_equal yoga.name, norma_hypnotherapy.title
+    assert_no_match /SOMETHING that existed before/, norma_hypnotherapy.content
+    assert_match /MBA with Harvard/, norma_hypnotherapy.content
+    assert !norma.tabs.map(&:title).include?(old_title), "Tabs should not contain #{old_title} anymore. Tabs are: #{norma.tabs.inspect}"
+    assert norma.tabs.map(&:title).include?(yoga.name)
+    norma.subcategories.reload
+    assert norma.subcategories.include?(yoga), "Yoga should have been added to Norma's profile, as it was selected for a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"
+    assert !norma.subcategories.include?(hypnotherapy), "Hypnotherapy should have been removed from Norma's profile, as it was removed as a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"
+  end
+
   def test_update_strip_invalid_tags
     norma = users(:norma)
     norma_hypnotherapy = tabs(:norma_hypnotherapy)
