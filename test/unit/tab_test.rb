@@ -5,7 +5,7 @@ class TabTest < ActiveSupport::TestCase
   def test_set_contents
     subcat = Factory(:subcategory)
     user = Factory(:user, :subcategory1_id => subcat.id )
-    tab = Factory(:tab, :user => user, :title => "Yoga", :content => "<h3>Yoga with #{user.name}</h3>CONTENT1<h3>Benefits of Yoga</h3>CONTENT2<h3>#{user.name}'s Training</h3>CONTENT3<h3>About #{user.name}</h3>CONTENT4" )
+    tab = Factory(:tab, :user => user, :title => "Yoga", :content => "<h3>Yoga with #{user.name}</h3>CONTENT1<h3>Benefits of Yoga</h3>CONTENT2<h3>Training</h3>CONTENT3<h3>About #{user.name}</h3>CONTENT4" )
     tab.reload
     assert_equal "CONTENT1", tab.content1_with
     assert_equal "CONTENT2", tab.content2_benefits
@@ -15,7 +15,7 @@ class TabTest < ActiveSupport::TestCase
   
   def test_set_contents_missing_title
     user = Factory(:user)
-    tab = Factory(:tab, :user => user, :title => "Yoga", :content => "<h3>Yoga with #{user.name}</h3>CONTENT1<h3>Some other random title</h3>RANDOM CONTENT<h3>#{user.name}'s Training</h3>CONTENT3<h3>About #{user.name}</h3>CONTENT4" )
+    tab = Factory(:tab, :user => user, :title => "Yoga", :content => "<h3>Yoga with #{user.name}</h3>CONTENT1<h3>Some other random title</h3>RANDOM CONTENT<h3>Training</h3>CONTENT3<h3>About #{user.name}</h3>CONTENT4" )
     tab.reload
     assert_equal "CONTENT1<h3>Some other random title</h3>RANDOM CONTENT", tab.content1_with
     assert_equal "", tab.content2_benefits
@@ -25,7 +25,7 @@ class TabTest < ActiveSupport::TestCase
   
   def test_set_contents_mix
     user = Factory(:user)
-    tab = Factory(:tab, :user => user, :title => "Yoga", :content => "<h3>About #{user.name}</h3>CONTENT4<h3>Benefits of Yoga</h3>CONTENT2<h3>#{user.name}'s Training</h3>CONTENT3<h3>Yoga with #{user.name}</h3>CONTENT1" )
+    tab = Factory(:tab, :user => user, :title => "Yoga", :content => "<h3>About #{user.name}</h3>CONTENT4<h3>Benefits of Yoga</h3>CONTENT2<h3>Training</h3>CONTENT3<h3>Yoga with #{user.name}</h3>CONTENT1" )
     tab.reload
     assert_equal "CONTENT1", tab.content1_with
     assert_equal "CONTENT2", tab.content2_benefits

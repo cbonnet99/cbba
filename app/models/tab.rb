@@ -100,7 +100,7 @@ class Tab < ActiveRecord::Base
   end
   
   def title3_training
-    "#{user.try(:name)}'s Training"
+    "Training"
   end
   
   def title4_about

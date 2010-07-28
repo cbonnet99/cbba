@@ -8,7 +8,7 @@ $(document).ready(function(){
 		$("label[for='tab_content1_with']").show();
 		$("label[for='tab_content2_benefits']").text("Benefits of "+subcatName);
 		$("label[for='tab_content2_benefits']").show();
-		$("label[for='tab_content3_training']").text(userName+"'s Training");
+		$("label[for='tab_content3_training']").text("Training");
 		$("label[for='tab_content3_training']").show();
 		$("label[for='tab_content4_about']").text("About "+userName);
 		$("label[for='tab_content4_about']").show();
