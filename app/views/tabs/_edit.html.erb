@@ -1,6 +1,7 @@
 <% use_tinymce(false) -%>
+<% javascript "change-tab-title"%>
 <% form_for @selected_tab, :url => action_tab_with_id_url(@selected_tab.slug, :action => "update" )  do |f| -%>
-	<%= render :partial => "form", :locals => {:f => f, :hide_content => false  }  %>
+	<%= render :partial => "form", :locals => {:f => f, :hide_content => false }  %>
   <div class="buttons">
     <label for=""></label>
     <%= submit_tag 'Update', :name => "update" %>

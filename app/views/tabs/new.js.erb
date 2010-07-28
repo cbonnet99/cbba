@@ -1,0 +1,35 @@
+$(document).ready(function(){
+	$("select#tab_title").change( function() {
+		var content1With = "<%=Tab::DEFAULT_CONTENT1_WITH%>";
+		var content2Benefits = "<%=Tab::DEFAULT_CONTENT2_BENEFITS%>";
+		var content3Training = "<%=Tab::DEFAULT_CONTENT3_TRAINING%>";
+		var content4About = "<%=Tab::DEFAULT_CONTENT4_ABOUT%>";
+		if (typeof(tinyMCE.settings) == "undefined"){
+			tinyMCE.init({
+			mode : "textareas",
+			theme : "advanced",
+			plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,iespell,print,contextmenu,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+			theme_advanced_buttons1 : ",bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect",
+			theme_advanced_buttons2 : "cut,copy,paste,code,|,search,replace,|,bullist,numlist,|,undo,redo",
+			theme_advanced_buttons3 : "",
+			theme_advanced_toolbar_location : "top",
+			theme_advanced_toolbar_align : "left",
+			theme_advanced_statusbar_location : "bottom",
+			theme_advanced_resizing : true,
+			editor_deselector : "noHTMLEditor",
+			extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+			template_external_list_url : "example_template_list.js",
+			use_native_selects : true,
+			theme_advanced_blockformats : "p,h2,h3,h4",
+			paste_auto_cleanup_on_paste : true
+			});
+			$("textarea#tab_content1_with").val(content1With);
+		}
+		else {
+			tinyMCE.activeEditor.setContent(content1With);
+		};
+		$("textarea#tab_content2_benefits").val(content2Benefits);
+		$("textarea#tab_content3_training").val(content3Training);
+		$("textarea#tab_content4_about").val(content4About);
+	});
+});

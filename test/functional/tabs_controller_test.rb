@@ -3,6 +3,12 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TabsControllerTest < ActionController::TestCase
   include ApplicationHelper
   fixtures :all
+
+  def test_new
+    sgardiner = users(:sgardiner)
+    get :new, {}, {:user_id => sgardiner.id }
+    assert_response :success
+  end    
   
   def test_edit
     sgardiner = users(:sgardiner)

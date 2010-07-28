@@ -7,12 +7,12 @@
 	<% end -%>
 <%unless @user.no_articles_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="<%=pluralize(@user.articles_count_for_user(current_user), "article")%>" href="<%= expanded_user_tabs_url(@user, Tab::ARTICLES) %>"><%=pluralize(@user.articles_count_for_user(current_user), "article")%></a></li><%end%>
 <%unless @user.no_special_offers_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::OFFERS%> selected-tab<%end%>"><a alt="<%=pluralize(@user.special_offers_count_for_user(current_user), "special offer")%>" href="<%= expanded_user_tabs_url(@user, Tab::OFFERS) %>"><%=pluralize(@user.special_offers_count_for_user(current_user), "offer")%></a></li><%end%>
-	<% unless @user.has_max_number_tabs? %><li class="tab"><%= link_to "+", expanded_user_tabs_url(@user, @selected_tab, "new" ) %></li><% end %>
+	<% unless @user.has_max_number_tabs? || @selected_tab.nil? || @selected_tab.slug.nil?%><li class="tab"><%= link_to "+", expanded_user_tabs_url(@user, @selected_tab, "new" ) %></li><% end %>
   </ul>
 </div>
 <div id="profile-tab-content">
   <% if own_profile?(@user)  && (@selected_tab.nil? || !@selected_tab.virtual?) -%>
-    <div id="profile-tabs-nav"><%= @selected_tab.nil? ? "" : render(:partial => "tabs/tab_nav") %></div>
+    <div id="profile-tabs-nav"><%= @selected_tab.nil? || @selected_tab.slug.nil? ? "" : render(:partial => "tabs/tab_nav") %></div>
   <% end -%>
   <% if own_profile?(@user)  && !@selected_tab.nil? && @selected_tab.virtual? -%>
     <div id="profile-tabs-nav"><%= render(:partial => @selected_tab.nav) %></div>
@@ -28,7 +28,19 @@
 	  <% else -%>
 		<% unless @selected_tab.content1_with.blank? -%>
 		<h3><%= @selected_tab.title1_with%></h3>
-      	<%= white_list @selected_tab.try(:content1_with) %>
+    	<%= white_list @selected_tab.try(:content1_with) %>
+		<% end -%>
+		<% unless @selected_tab.content2_benefits.blank? -%>
+		<h3><%= @selected_tab.title2_benefits%></h3>
+      	<%= white_list @selected_tab.try(:content2_benefits) %>
+		<% end -%>
+		<% unless @selected_tab.content3_training.blank? -%>
+		<h3><%= @selected_tab.title3_training%></h3>
+      	<%= white_list @selected_tab.try(:content3_training) %>
+		<% end -%>
+		<% unless @selected_tab.content4_about.blank? -%>
+		<h3><%= @selected_tab.title4_about%></h3>
+      	<%= white_list @selected_tab.try(:content4_about) %>
 		<% end -%>
       <% end -%>
     <% end -%>
