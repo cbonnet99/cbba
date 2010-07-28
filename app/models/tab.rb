@@ -24,6 +24,7 @@ class Tab < ActiveRecord::Base
   acts_as_list :scope => :user_id
 
   belongs_to :user
+  belongs_to :subcategory
 
   validates_presence_of :title, :message => "^Please select a modality"
   validates_uniqueness_of :title, :scope => :user_id, :message => "^You already have this modality"
@@ -83,20 +84,24 @@ class Tab < ActiveRecord::Base
     end
   end
   
-  def title1_with
-    if user.subcategories.blank? || position.nil?
-      ""
+  def subcategory_with_fallback
+    if subcategory.nil?
+      if user.subcategories.blank? || position.nil?
+        nil
+      else
+        user.subcategories[position-1].try(:name)
+      end
     else
-      "#{user.subcategories[position-1].try(:name)} with #{user.try(:name)}"
+      subcategory.name
     end
   end
   
+  def title1_with
+    "#{subcategory_with_fallback} with #{user.try(:name)}"
+  end
+  
   def title2_benefits
-    if user.subcategories.blank? || position.nil?
-      ""
-    else
-      "Benefits of #{user.subcategories[position-1].try(:name)}"
-    end
+    "Benefits of #{subcategory_with_fallback}"
   end
   
   def title3_training

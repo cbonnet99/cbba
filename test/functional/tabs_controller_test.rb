@@ -40,6 +40,18 @@ class TabsControllerTest < ActionController::TestCase
     assert "Sorry, you can only have 3 tabs", flash[:error]
   end
 
+ def test_create
+   rmoore = users(:rmoore)
+   astrology = subcategories(:astrology)
+   old_size = rmoore.subcategories.size
+   post :create, { :tab => {:title => astrology.name, :content3_training=>Tab::DEFAULT_CONTENT3_TRAINING,
+       :old_title=>"",:content2_benefits=>Tab::DEFAULT_CONTENT2_BENEFITS,
+       :content1_with=>Tab::DEFAULT_CONTENT1_WITH,
+       :content4_about=>Tab::DEFAULT_CONTENT4_ABOUT}}, {:user_id => rmoore.id }
+    assert_not_nil assigns(:tab)
+    assert_match %r{#{astrology.name} with #{rmoore.name}}, assigns(:tab).content
+  end
+
   def test_move
     sgardiner = users(:sgardiner)
     sgardiner_hypnotherapy = tabs(:sgardiner_hypnotherapy)

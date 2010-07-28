@@ -10,6 +10,7 @@ class Subcategory < ActiveRecord::Base
 	has_many :special_offers
 	has_many :gift_vouchers
   has_many :expert_applications
+  has_many :tabs
   belongs_to :resident_expert, :class_name => "User"
   
   validates_presence_of :name

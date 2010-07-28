@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100704152354) do
+ActiveRecord::Schema.define(:version => 20100728205340) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -485,6 +485,7 @@ ActiveRecord::Schema.define(:version => 20100704152354) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "slug"
+    t.integer  "subcategory_id"
   end
 
   add_index "tabs", ["user_id"], :name => "index_tabs_on_user_id"
@@ -617,6 +618,7 @@ ActiveRecord::Schema.define(:version => 20100704152354) do
     t.boolean  "notify_unpublished"
     t.string   "subdomain"
     t.datetime "offers_reminder_sent_at"
+    t.string   "about"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

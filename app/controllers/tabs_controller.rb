@@ -53,6 +53,8 @@ class TabsController < ApplicationController
         redirect_to expanded_user_url(current_user)
       else
         @tab = Tab.new(params[:tab])
+        @subcategory = Subcategory.find_by_name(params[:tab]["title"])
+        @tab.subcategory = @subcategory
         @tab.user_id = current_user.id
         if @tab.save
           flash[:notice] = "Your tab was saved"
