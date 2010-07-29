@@ -1,6 +1,6 @@
 <% preload_tinymce -%>
 <% javascript "change-tab-title"%>
-<% javascript "/tabs/new.js"%>
+<% javascript "new-tab"%>
 <% form_for @selected_tab, :url => action_tab_url(:action => "create" )  do |f| -%>
 	<%= render :partial => "form", :locals => {:f => f, :hide_content => true }  %>
   <div class="buttons">

@@ -28,16 +28,11 @@ class TabsController < ApplicationController
   end
   
   def new
-    respond_to do |format|
-      format.js {}
-      format.html {
-        get_subcategory_names
-        @subcategories = current_user.remove_subcats(@subcategories)
-        @selected_tab = Tab.new(:user_id => current_user.id)
-        @user = current_user
-        render :template => "users/show"
-      }
-    end
+    get_subcategory_names
+    @subcategories = current_user.remove_subcats(@subcategories)
+    @selected_tab = Tab.new(:user_id => current_user.id)
+    @user = current_user
+    render :template => "users/show"
   end
   
   def create
