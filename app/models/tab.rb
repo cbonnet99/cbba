@@ -86,11 +86,7 @@ class Tab < ActiveRecord::Base
   
   def subcategory_with_fallback
     if subcategory.nil?
-      if user.subcategories.blank? || position.nil?
-        nil
-      else
-        user.subcategories[position-1].try(:name)
-      end
+      self.title
     else
       subcategory.name
     end

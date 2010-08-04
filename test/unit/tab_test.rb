@@ -1,6 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class TabTest < ActiveSupport::TestCase
+
+  def test_subcategory_with_fallback
+    subcat = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => subcat.id )
+    tab = user.tabs.first
+    sub = tab.subcategory_with_fallback
+    assert_not_nil sub
+    assert_equal subcat.name, sub
+  end
   
   def test_set_contents
     subcat = Factory(:subcategory)
