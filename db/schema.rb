@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100728205340) do
+ActiveRecord::Schema.define(:version => 20100815200802) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(:version => 20100728205340) do
     t.string   "lead",            :limit => 500
     t.integer  "feature_rank"
   end
+
+  add_index "articles", ["state"], :name => "index_articles_on_state"
 
   create_table "articles_categories", :force => true do |t|
     t.datetime "created_at"
@@ -68,6 +70,8 @@ ActiveRecord::Schema.define(:version => 20100728205340) do
     t.string   "slug"
     t.text     "description"
   end
+
+  add_index "categories", ["name", "position"], :name => "index_categories_on_position_and_name"
 
   create_table "categories_users", :force => true do |t|
     t.datetime "created_at"
@@ -124,6 +128,8 @@ ActiveRecord::Schema.define(:version => 20100728205340) do
     t.string   "latitude"
     t.string   "longitude"
   end
+
+  add_index "districts", ["id"], :name => "index_districts_on_id"
 
   create_table "expert_applications", :force => true do |t|
     t.text     "expert_presentation"
@@ -210,6 +216,8 @@ ActiveRecord::Schema.define(:version => 20100728205340) do
     t.string   "slug"
     t.integer  "feature_rank"
   end
+
+  add_index "how_tos", ["state"], :name => "index_how_tos_on_state"
 
   create_table "how_tos_categories", :force => true do |t|
     t.datetime "created_at"
@@ -397,6 +405,8 @@ ActiveRecord::Schema.define(:version => 20100728205340) do
     t.string   "longitude"
   end
 
+  add_index "regions", ["id"], :name => "index_regions_on_id"
+
   create_table "roles", :force => true do |t|
     t.string "name"
   end
@@ -474,6 +484,7 @@ ActiveRecord::Schema.define(:version => 20100728205340) do
     t.integer  "points"
   end
 
+  add_index "subcategories_users", ["expertise_position"], :name => "index_subcategories_users_on_expertise_position"
   add_index "subcategories_users", ["subcategory_id"], :name => "index_subcategories_users_on_subcategory_id"
   add_index "subcategories_users", ["user_id"], :name => "index_subcategories_users_on_user_id"
 
@@ -488,6 +499,7 @@ ActiveRecord::Schema.define(:version => 20100728205340) do
     t.integer  "subcategory_id"
   end
 
+  add_index "tabs", ["position"], :name => "index_tabs_on_position"
   add_index "tabs", ["user_id"], :name => "index_tabs_on_user_id"
 
   create_table "taggings", :force => true do |t|
@@ -622,5 +634,6 @@ ActiveRecord::Schema.define(:version => 20100728205340) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["state"], :name => "index_users_on_state"
 
 end
