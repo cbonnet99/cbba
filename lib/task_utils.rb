@@ -2,6 +2,25 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.import_blog_categories
+    File.new("#{RAILS_ROOT}/csv/blog_categories.csv", 'r').each_line("\n") do |row|
+      cols = row.split(",")
+      cat_name = cols[0]
+      subcat_name = cols[1]
+      cat = BlogCategory.find_by_name(cat_name)
+      if cat.nil?
+        cat = BlogCategory.create(:name  => cat_name)
+        puts "Created BlogCategory #{cat_name}"
+      end
+      subcat = BlogSubcategory.find_by_name(subcat_name)
+      if subcat.nil?
+        subcat = BlogSubcategory.create(:blog_category => cat, :name  => subcat_name)
+        puts "Created BlogSubcategory #{subcat_name}"
+      end
+    end
+    return "Created blog categories"
+  end
+
   def self.delete_subcat_files
     @subcat_files_mask = 
     File.join("#{RAILS_ROOT}/public/javascripts/subcategories-*.js")
