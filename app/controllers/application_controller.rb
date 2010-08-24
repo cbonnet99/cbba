@@ -194,6 +194,10 @@ class ApplicationController < ActionController::Base
     @tags = Tag.tags(:limit => 20)  
   end
 
+	def get_blog_subcategories
+		@blog_subcategories = BlogSubcategory.find(:all, :include => "blog_category", :order => "blog_categories.name, blog_subcategories.name").collect {|d| [ d.full_name, d.id ]}
+	end
+
 	def get_subcategories
 		@subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.id ]}
 	end

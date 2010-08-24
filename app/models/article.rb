@@ -2,6 +2,8 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class Article < ActiveRecord::Base
 	include SubcategoriesSystem
+  include BlogSubcategoriesSystem
+  include MultiAfterFindSystem
   include Workflowable
   include Sluggable
 	
@@ -10,6 +12,10 @@ class Article < ActiveRecord::Base
 	has_many :subcategories, :through => :articles_subcategories
 	has_many :articles_categories
 	has_many :categories, :through => :articles_categories
+	has_many :articles_blog_subcategories
+	has_many :blog_subcategories, :through => :articles_blog_subcategories
+	has_many :articles_blog_categories
+	has_many :blog_categories, :through => :articles_blog_categories
   has_many :articles_newsletters
   has_many :newsletters, :through => :articles_newsletters 
 

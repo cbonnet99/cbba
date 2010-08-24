@@ -28,4 +28,16 @@
       <li>
         <%= f.label :subcategory3, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
       </li>
+      <li>
+        <label><%=blog_subcat_label%></label>
+      </li>
+      <li>
+        <%= f.label :blog_subcategory1, 'Category1:' %><%= f.select :blog_subcategory1_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true } %><br/>
+      </li>
+      <li>
+        <%= f.label :blog_subcategory2, 'Category2:' %><%= f.select :blog_subcategory2_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
+      <li>
+        <%= f.label :blog_subcategory3, 'Category3:' %><%= f.select :blog_subcategory3_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
+      </li>
 </ol>

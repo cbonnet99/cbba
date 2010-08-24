@@ -1,5 +1,6 @@
 class HowTo < ActiveRecord::Base
 	include SubcategoriesSystem
+  include MultiAfterFindSystem
   include Workflowable
   include Sluggable
 

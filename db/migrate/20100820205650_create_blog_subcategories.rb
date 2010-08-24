@@ -1,7 +1,7 @@
 class CreateBlogSubcategories < ActiveRecord::Migration
   def self.up
     create_table :blog_subcategories do |t|
-      t.integer :bloc_category_id
+      t.integer :blog_category_id
       t.string :name
 
       t.timestamps

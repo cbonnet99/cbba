@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   include Authorization::AasmRoles
   include ContactSystem
 	include SubcategoriesSystem
+  include MultiAfterFindSystem
   include Sluggable
   
   aasm_state :inactive

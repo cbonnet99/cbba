@@ -81,7 +81,8 @@ class ArticlesController < ApplicationController
     #default to user's main expertise
     @article.subcategory1_id = current_user.subcategories.first.id unless current_user.subcategories.blank?
 		get_subcategories
-
+    get_blog_subcategories
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @article }
@@ -94,8 +95,8 @@ class ArticlesController < ApplicationController
     if @article.nil?
       flash[:error] = "Couldn't find this article"
     else
-  #		@article.load_subcategories
   		get_subcategories
+  		get_blog_subcategories
 		end
   end
 
@@ -109,6 +110,8 @@ class ArticlesController < ApplicationController
       @article = Article.new(params[:article])
       @article.author_id = @current_user.id
       get_subcategories
+      get_blog_subcategories
+      
       respond_to do |format|
         if @article.save
           if params["save_as_draft"]
@@ -135,7 +138,8 @@ class ArticlesController < ApplicationController
       flash[:error] = "Couldn't find this article"
     else
       get_subcategories
-
+      get_blog_subcategories
+      
       respond_to do |format|
         if @article.update_attributes(params[:article])
           flash[:notice] = "\"#{@article.title}\" successfully updated."

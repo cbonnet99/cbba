@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100820205650) do
+ActiveRecord::Schema.define(:version => 20100820213154) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -32,6 +32,20 @@ ActiveRecord::Schema.define(:version => 20100820205650) do
   end
 
   add_index "articles", ["state"], :name => "index_articles_on_state"
+
+  create_table "articles_blog_categories", :force => true do |t|
+    t.integer  "article_id"
+    t.integer  "blog_category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "articles_blog_subcategories", :force => true do |t|
+    t.integer  "article_id"
+    t.integer  "blog_subcategory_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "articles_categories", :force => true do |t|
     t.datetime "created_at"
@@ -68,7 +82,7 @@ ActiveRecord::Schema.define(:version => 20100820205650) do
   end
 
   create_table "blog_subcategories", :force => true do |t|
-    t.integer  "bloc_category_id"
+    t.integer  "blog_category_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"

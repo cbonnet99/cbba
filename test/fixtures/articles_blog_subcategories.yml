@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  blog_category_id: 1
-  name: MyString
+  article_id: 1
+  blog_subcategory_id: 1
 
 two:
-  blog_category_id: 1
-  name: MyString
+  article_id: 1
+  blog_subcategory_id: 1
