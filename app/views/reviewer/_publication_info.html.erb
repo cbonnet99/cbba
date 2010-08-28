@@ -5,7 +5,15 @@
 <% if !item.rejected_at.nil? && (is_reviewer? || is_author?(item)) -%>
 <div class="rejection-date">Rejected: <%= item.rejected_at %> by <%=link_to item.rejected_by.name, expanded_user_url(item.rejected_by)%>(Reason: <%=item.reason_reject%>)</div>
 <%end-%>
+<div>
 <%unless item.published_at.nil?-%>
-<div class="publication-date">Published: <%= item.published_at.to_date %></div>
+<span class="publication-date">Published: <%= item.published_at.to_date %></span>
 <%end-%>
+<% if item.respond_to?(:subcategories)-%>
+| Directory: <span class="article-subcategories"><%= link_articles_subcategories(item)%></span>
+<% end -%>
+<% if item.respond_to?(:blog_subcategories)-%>
+| Blog: <span class="article-subcategories"><%= item.blog_subcategories[0].try(:name)%></span>
+<% end -%>
+</div>
 </div>
