@@ -24,6 +24,12 @@
 <br/>
 <%= white_list @article.body %>
 </p>
+<% unless @article.about.blank? -%>
+<h4>About the author</h4>
+<p><%= white_list @article.about %></p>
+<% end -%>
+<%= link_to "Contact #{@article.author.try(:name)}", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @article.author.slug, :action => "message"), {:id => "profile-ask-question-content", :class => "button"}%>
+<br/>
 <%= render :partial => "articles/share_link" %>
 <% content_for :sidebar_content do -%>
 	<% unless @article.main_subcategory.published_special_offers_count == 0 && @article.main_subcategory.published_gift_vouchers_count == 0 -%>
