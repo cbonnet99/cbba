@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100820213154) do
+ActiveRecord::Schema.define(:version => 20100826200727) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20100820213154) do
     t.integer  "approved_by_id"
     t.string   "lead",            :limit => 500
     t.integer  "feature_rank"
+    t.string   "about",           :limit => 600
   end
 
   add_index "articles", ["state"], :name => "index_articles_on_state"
@@ -657,7 +658,7 @@ ActiveRecord::Schema.define(:version => 20100820213154) do
     t.boolean  "notify_unpublished"
     t.string   "subdomain"
     t.datetime "offers_reminder_sent_at"
-    t.string   "about"
+    t.string   "about",                               :limit => 600
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

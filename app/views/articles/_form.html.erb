@@ -14,13 +14,17 @@
 <p><%= f.select :blog_subcategory1_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true } %></p>
 
 <h3><%= f.label :lead, "Step 3: Write a lead paragraph<span class='mandatoryStar'>*</span>"%></h3>
-<p>Maximum 500 characters (<span id='article_lead_count'>600</span> left)</p>
-<p><%= f.text_area :lead, :cols => "70", :rows => 10,  :class => "noHTMLEditor"  %></p>
+<p>Maximum 500 characters (<span id='article_lead_count'>500</span> left)</p>
+<p><%= f.text_area :lead, :cols => "70", :rows => 9,  :class => "noHTMLEditor"  %></p>
 
 <h3>Step 4: Add the main content of your article</h3>
 <p><%= f.text_area :body, :cols => "70", :rows => 30  %></p>
 
-<h3>Step 5: Choose up to three relevant directory categories</h3>
+<h3>Step 5: About the author</h3>
+<p>Say something about yourself here, this will appear at the bottom of the article and link to your profile</p>
+<p>Maximum 600 characters (<span id='article_about_count'>600</span> left)</p>
+<p><%= f.text_area :about, :cols => 70, :rows => 9,  :class => "noHTMLEditor" %></p>
+<h3>Step 6: Choose up to three relevant directory categories</h3>
 <p><%= f.label :subcategory1, 'Category1:' %> <%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true } %></p>
 <p><%= f.label :subcategory2, 'Category2:' %> <%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %></p>
 <p><%= f.label :subcategory3, 'Category3:' %> <%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %></p>

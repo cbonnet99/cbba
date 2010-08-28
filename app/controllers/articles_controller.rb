@@ -82,6 +82,7 @@ class ArticlesController < ApplicationController
     @article.subcategory1_id = current_user.subcategories.first.id unless current_user.subcategories.blank?
 		get_subcategories
     get_blog_subcategories
+    @article.about = current_user.about
     
     respond_to do |format|
       format.html # new.html.erb

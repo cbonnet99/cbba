@@ -27,7 +27,7 @@ class Article < ActiveRecord::Base
 
 	before_create :remove_html_from_lead
 	before_update :remove_html_from_lead
-
+	after_save :update_user_about
 
   MAX_LENGTH_SLUG = 20
   POINTS_FOR_RECENT_ARTICLE = 10
@@ -36,6 +36,12 @@ class Article < ActiveRecord::Base
   SHORT_LEAD_MAX_SIZE = 200
   MAX_ARTICLES_ON_INDEX = 6
 
+  def update_user_about
+    unless author.nil?
+      author.update_attribute(:about, self.about)
+    end
+  end
+  
   def self.recent_articles
     Article.find_all_by_state("published", :limit => MAX_ARTICLES_ON_INDEX, :order => "published_at desc" )
   end

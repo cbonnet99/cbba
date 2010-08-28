@@ -93,21 +93,30 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_get_new
 		cyrille = users(:cyrille)
+		user_about = "This is about me"
+		cyrille.about = user_about
+		cyrille.save!
+		cyrille.reload
     get :new, {}, {:user_id => cyrille.id }
     assert_response :success
     #should default to the user's main expertise
-		assert_select "select#article_subcategory1_id > option[value=#{cyrille.subcategories.first.id}][selected=selected]"
+		assert_select "select#article_subcategory1_id > option[value=#{cyrille.subcategories.first.id}][selected=selected]", true, "A default subcategory should be selected automatically"
+		assert_select "textarea#article_about", true, "There should be an about section"
+		assert_select "textarea#article_about", user_about, "There should be an about section with text from user about"
   end
 
   def test_should_create_article
 		cyrille = users(:cyrille)
 		yoga = subcategories(:yoga)
     old_count = cyrille.articles_count
-    post :create, {:context => "profile", :selected_tab_id => "articles",  :article => { :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
+    about = "And you can contact me"
+    post :create, {:context => "profile", :selected_tab_id => "articles",  :article => {:about => about,  :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => cyrille.id }
     assert_redirected_to articles_show_url(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
 		assert_equal yoga.id, assigns(:article).subcategory1_id
+		assert_equal about, assigns(:article).about
     assert_not_nil assigns(:subcategories)
     cyrille.reload
+    assert_equal about, cyrille.about, "About section should be saved for user (so that next time, the new about section is used)"
     assert_equal old_count+1, cyrille.articles_count
   end
 
