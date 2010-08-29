@@ -138,6 +138,52 @@ div.user-description h4.title-user-paying {
 	padding-bottom: 1em;
 }
 
+#contentMain form li {
+    list-style: none;
+    clear: both;
+}
+
+#contentMain fieldset {
+    margin: 3px;
+    padding: 0;
+	border: 1px solid grey;
+}
+
+#contentMain #profile-tab-content  fieldset {
+    margin: 0;
+    padding: 0;
+	border: 1px;
+}
+#contentMain #profile-tab-content form fieldset label, #contentMain #profile-tab-content form fieldset div.left-input {
+    display: block;
+    float: left;
+    text-align: right;
+    padding-right: 10px;
+    margin-bottom: 5px;
+    width: 120px;
+}
+#contentMain form fieldset label, #contentMain form fieldset div.left-input {
+    display: block;
+    float: left;
+    text-align: right;
+    padding-right: 10px;
+    margin-bottom: 5px;
+    width: 200px;
+}
+#contentMain form fieldset div.left-input input {
+    text-align: right;
+    display: inline;
+    float: none;
+}
+#contentMain form fieldset input, #contentMain form fieldset select, #contentMain form fieldset textarea, #contentMain form fieldset div.right-label {
+    display: block;
+    float: left;
+    margin-bottom: 5px;
+    text-align: left;
+}
+#contentMain form fieldset div.right-label label {
+    text-align: left;
+}
 table.admin{
     border: black solid;
     padding: 4px;
