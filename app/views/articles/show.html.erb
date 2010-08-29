@@ -9,6 +9,7 @@
 	<%= title h(@article.title), :h1%>
 	<div class="publication-author">by <%= author_link(@article.author) %></div>
 </div>
+<div class="cleaner"></div>
 <div id="article-share-top"><%= render :partial => "articles/share_link" %></div>
 <%if (is_author?(@article) || (is_admin? && !@article.approved?))%><div class="publication-actions"><%= render :partial => "reviewer/publication_actions", :locals => {:item => @article, :class_name => "article" }   %>
 <% if is_author?(@article) -%>
