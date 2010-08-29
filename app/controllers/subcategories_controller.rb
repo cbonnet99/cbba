@@ -1,5 +1,10 @@
 class SubcategoriesController < ApplicationController
 
+  def articles
+    @subcategory = Subcategory.find_by_slug(params[:id])
+    @articles = @subcategory.articles.published
+  end
+
   def index
     @subcategories = Subcategory.find(:all, :order =>:name)
     @subcategories.concat(Category.find(:all, :order =>:name))

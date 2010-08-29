@@ -27,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :invoices
   map.resources :orders
   map.resources :contacts, :member => {:unsubscribe => [:get, :post]}
-  map.resources :subcategories
+  map.resources :subcategories, :member => {:articles => :get} 
   map.resources :categories
   map.how_tos_show '/how-tos/:selected_user/:id', :controller => "how_tos", :action => "show"
   map.resources :how_tos, :member => {:publish => [:get, :post], :unpublish => [:get, :post] }

@@ -23,6 +23,10 @@ class HowTo < ActiveRecord::Base
 	before_create :remove_html_from_summary
   after_update :save_steps
 
+  def lead
+    summary
+  end
+
   def remove_html_from_summary
     self.summary = self.summary.gsub(/<\/?[^>]*>/,"")
   end

@@ -1,11 +1,11 @@
 xml.instruct! :xml, :version => "1.0" 
 xml.rss :version => "2.0" do
   xml.channel do
-    xml.title "BeAmazing articles"
-    xml.description "Latest articles from BeAmazing"
+    xml.title "BeAmazing articles for #{@subcategory.name}"
+    xml.description "Latest articles from BeAmazing for #{@subcategory.name}"
     xml.link articles_url(:format => :rss)
     
-    for article in @all_articles
+    for article in @articles
       xml.item do
         xml.title article.title
         xml.description article.lead

@@ -4,6 +4,12 @@ class SubcategoriesControllerTest < ActionController::TestCase
   include ApplicationHelper
   fixtures :all
 
+  def test_articles_rss
+    sub = Factory(:subcategory)
+    get :articles, {:id => sub.slug, :format => "rss"}
+    assert_response :success 
+  end
+
   def test_index_js
     get :index, :format => "js"
     assert_response :success

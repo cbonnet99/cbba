@@ -1,4 +1,5 @@
 class Admin::SubcategoriesController < AdminApplicationController
+
   def new
     @subcategory = Subcategory.new
     @categories = Category.find(:all, :order => "name")
