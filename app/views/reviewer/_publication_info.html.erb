@@ -9,9 +9,9 @@
 <div class="publication-date">Published: <%= item.published_at.to_date %></div>
 <%end-%>
 <% if item.respond_to?(:subcategories)-%>
-<div>Directory: <span class="article-subcategories"><%= link_articles_subcategories(item)%></span></div>
+<div>Directory categories: <span class="article-subcategories"><%= link_articles_subcategories(item)%></span></div>
 <% end -%>
 <% if item.respond_to?(:blog_subcategories) && item.blog_subcategories.size > 0-%>
-<div>Blog: <span class="article-subcategories"><%= item.blog_subcategories[0].try(:name)%></span></div>
+<div>Blog category: <span class="article-subcategories"><%= item.blog_subcategories[0].try(:name)%></span></div>
 <% end -%>
 </div>
