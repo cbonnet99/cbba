@@ -35,6 +35,17 @@ Factory.define :subcategory do |sc|
   sc.association :category
 end
 
+Factory.define :blog_category do |c|
+  c.sequence(:name) {|n| "Blog Cat#{n}"}
+  c.sequence(:slug) {|n| "blog-cat#{n}"}
+end
+
+Factory.define :blog_subcategory do |sc|
+  sc.sequence(:name) {|n| "Blog Subcat#{n}"}
+  sc.sequence(:slug) {|n| "blog-subcat#{n}"}
+  sc.association :blog_category
+end
+
 Factory.define :user_profile do |f|
   f.association :user
   f.state "published"
