@@ -217,6 +217,8 @@ ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { bac
 #profile-photo {float:left; margin:0 10px 0 0;}
 .profile-calling-action-area{float:right;}
 #profile-ask-question-content  {background:url(../images/btnRed.gif) no-repeat; height:30px; line-height:29px; text-align:center; width:124px;}
+.article-contact-calling-area {float:left;}
+#article-contact-author-content  {background:url(../images/btnRedLarge.gif) no-repeat; height:30px; line-height:29px; text-align:center;width:200px;}
 	#profile-ask-question-content:hover {color:#ccc;}
 .business {color:#00a0c6;}
 .location {color:#000;}
