@@ -3,7 +3,7 @@ class CreateArticlesBlogCategories < ActiveRecord::Migration
     create_table :articles_blog_categories do |t|
       t.integer :article_id
       t.integer :blog_category_id
-
+      t.string :slug
       t.timestamps
     end
   end
