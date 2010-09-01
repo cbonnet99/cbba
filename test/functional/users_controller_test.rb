@@ -88,7 +88,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_unsubscribe_unpublished_reminder
     user = Factory(:user, :notify_unpublished => true, :unsubscribe_token => "bla")
     assert user.notify_unpublished?
-    post :unsubscribe_unpublished_reminder, {:email => user.email, :token => user.unsubscribe_token}
+    post :unsubscribe_unpublished_reminder, {:email => user.email, :unsubscribe_token => user.unsubscribe_token}
     assert_response :success
     assert_nil flash[:error], "Flash: #{flash.inspect}"
     user.reload
@@ -97,7 +97,7 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_unsubscribe_unpublished_reminder_invalid_token
     user = Factory(:user, :notify_unpublished => true, :unsubscribe_token => "bla")
-    post :unsubscribe_unpublished_reminder, {:email => user.email, :token => "ahaha"}
+    post :unsubscribe_unpublished_reminder, {:email => user.email, :unsubscribe_token => "ahaha"}
     assert_response :success
     assert_not_nil flash[:error], "Flash: #{flash.inspect}"
     user.reload
@@ -119,20 +119,21 @@ class UsersControllerTest < ActionController::TestCase
     
     post :send_referrals, {:emails => "joe@test.com jane@yahoo.fr bob@gmail.com", :comment => "This is cool" }, {:user_id => sgardiner }
     assert_redirected_to expanded_user_url(sgardiner)
-    assert_nil flash[:error]
-    assert_not_nil flash[:notice]
+    assert_nil flash[:error], "Flash: #{flash.inspect}"
+    assert_not_nil flash[:notice], "Flash: #{flash.inspect}"
     assert_equal "Thank you. 3 emails were sent", flash[:notice]
     assert_equal 3, ActionMailer::Base.deliveries.size, "3 emails should have been sent for the 3 email addresses"
   end
 
   def test_unsubscribe
-    norma = users(:norma)
-    assert norma.receive_newsletter?
-    get :unsubscribe, :token => norma.unsubscribe_token, :slug => norma.slug 
+    user = Factory(:user, :receive_newsletter => true, :unsubscribe_token => "3872643uygyyt34")
+    assert user.receive_newsletter?
+    get :unsubscribe, :token => user.unsubscribe_token, :slug => user.slug 
     assert_response :success
+    assert_nil flash[:error], "Flash: #{flash.inspect}"
     assert_template 'unsubscribe_success'
-    norma.reload
-    assert !norma.receive_newsletter?
+    user.reload
+    assert !user.receive_newsletter?
   end
 
   def test_unsubscribe_failure

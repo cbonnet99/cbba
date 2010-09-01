@@ -39,7 +39,7 @@ class UsersController < ApplicationController
         @user.update_attribute(:notify_unpublished, false)
         flash[:notice] = "Your request has been successfully processed"
       else
-        if @user.unsubscribe_token == params[:token]
+        if @user.unsubscribe_token == params[:unsubscribe_token]
           @user.update_attribute(:notify_unpublished, false)
           flash[:notice] = "Your request has been successfully processed"
         else
