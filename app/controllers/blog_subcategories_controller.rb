@@ -1,7 +1,11 @@
 class BlogSubcategoriesController < ApplicationController
   def show
     @blog_subcategory = BlogSubcategory.find_by_slug(params[:id])
-    @articles = @blog_subcategory.try(:articles).try(:published) || []
+    @articles = if @blog_subcategory.nil?
+      []
+    else
+      @blog_subcategory.articles.published
+    end
   end
 
 end
