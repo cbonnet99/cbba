@@ -156,11 +156,12 @@ module ApplicationHelper
     end
   end
 
-  def author_link(user)
+  def author_link(user, label='')
+    label = user.try(:name) if label.blank?
     if user.user_profile.published? && user.active?
-      link_to user.name, user_url_with_context(user)
+      link_to label, user_url_with_context(user)
     else
-      user.name
+      label
     end
   end
   

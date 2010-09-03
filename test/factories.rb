@@ -104,6 +104,7 @@ Factory.define :article do |f|
   f.body "Bla"
   f.state "published"
   f.subcategory1_id {|s| s.association(:subcategory) }
+  f.blog_subcategory1_id {|s| s.association(:blog_subcategory) }
 end
 
 Factory.define :articles_subcategory do |asu|
