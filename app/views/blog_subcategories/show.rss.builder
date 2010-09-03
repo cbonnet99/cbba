@@ -1,9 +1,9 @@
 xml.instruct! :xml, :version => "1.0" 
 xml.rss :version => "2.0" do
   xml.channel do
-    xml.title "BeAmazing content for #{@blog_subcategory.full_name}"
-    xml.description "Latest content from BeAmazing for #{@blog_subcategory.full_name}"
-    xml.link blog_subcategory_url(@blog_subcategory, :format => :rss)
+    xml.title "BeAmazing content for #{@blog_subcategory.try(:full_name)}"
+    xml.description "Latest content from BeAmazing for #{@blog_subcategory.try(:full_name)}"
+    xml.link @blog_subcategory.nil? ? "" : blog_subcategory_url(@blog_subcategory, :format => :rss)
     
     for article in @articles
       xml.item do

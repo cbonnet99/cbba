@@ -6,4 +6,11 @@ class BlogSubcategoriesControllerTest < ActionController::TestCase
     get :show, {:id => sub.slug, :format => "rss"}
     assert_response :success 
   end
+  
+  def test_show_rss_wrong_slug
+    get :show, {:id => "wrong_slug", :format => "rss"}
+    assert_response :success 
+  end
+  
+  
 end
