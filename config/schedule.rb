@@ -22,7 +22,7 @@
 set :output, "/var/log/cron_bam.log"
 
 every 2.weeks do
-  runner "TaskUtils.notify_unpublished_users"
+  # runner "TaskUtils.notify_unpublished_users"
 end
 
 every :sunday, :at => '12pm'  do
