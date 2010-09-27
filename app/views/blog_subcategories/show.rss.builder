@@ -8,7 +8,7 @@ xml.rss :version => "2.0" do
     for article in @articles
       xml.item do
         xml.title article.title
-        xml.description "by #{author_link(article.author)}<br/>#{white_list(article.lead)}<br/>#{white_list(article.body)}<br/>#{article.about_section}<h4>About the author</h4>#{white_list article.about}<br/>"
+        xml.description "by #{author_link(article.author)}<br/>#{white_list(article.lead)}<br/>#{white_list(article.body)}<br/>#{article.about_section}#{author_link(article.author, 'Meet '+article.author.try(:name))}"
         xml.pubDate article.published_at.to_s(:rfc822)
         xml.author article.author.name
         xml.link stuff_url(article)

@@ -1,7 +1,16 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
+  
+  def test_about_section
+    article = Factory(:article)
+    assert article.about_section.blank?
+    article = Factory(:article, :about => "All about me")
+    assert !article.about_section.blank?
+    assert_equal "<h4>About the author</h4>All about me<br/>", article.about_section
 
+  end
+  
   def test_unique_slugs
     user = Factory(:user)
     article1 = Factory(:article, :title => "This is a test", :author => user)
