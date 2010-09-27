@@ -90,7 +90,7 @@ class TaskUtils
   end
 
   def self.notify_unpublished_users
-    User.unpublished.notify_unpublished.each do |user|
+    User.unpublished.recently_created.notify_unpublished.each do |user|
       if user.count_visits_since(14.days.ago) >= 8        
         UserMailer.deliver_notify_unpublished(user, 14.days.ago)
       end

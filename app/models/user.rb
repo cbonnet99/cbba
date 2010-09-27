@@ -93,6 +93,8 @@ class User < ActiveRecord::Base
   named_scope :notify_unpublished, :conditions => "notify_unpublished IS true"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
   named_scope :unpublished, :include => "user_profile",  :conditions => "user_profiles.state='draft'" 
+  named_scope :recently_created, lambda{{:conditions => ["users.created_at > ?", 1.month.ago] }} 
+  
   named_scope :with_expired_photo, :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until < now()"
   named_scope :with_has_expired_photo, :conditions => "paid_photo IS FALSE AND paid_photo_until IS NOT NULL AND now() > paid_photo_until + interval '3 days' AND feature_warning_sent < paid_photo_until + interval '3 days'"
   named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until > now() AND feature_warning_sent IS NULL AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
