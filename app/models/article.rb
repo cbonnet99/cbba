@@ -35,7 +35,15 @@ class Article < ActiveRecord::Base
   DAILY_ARTICLE_ROTATION = 3
   SHORT_LEAD_MAX_SIZE = 200
   MAX_ARTICLES_ON_INDEX = 6
-
+  
+  def about_section
+    if self.about.blank?
+      ""
+    else
+      "<h4>About the author</h4>#{self.about}<br/>"
+    end
+  end
+  
   def update_user_about
     unless author.nil?
       author.update_attribute(:about, self.about)
