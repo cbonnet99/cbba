@@ -26,6 +26,7 @@ class Admin::SubcategoriesController < AdminApplicationController
     if @subcategory.nil?
       flash[:error] = "Could not find this subcategory"
     else
+      @deleted_subcategory_name = @subcategory.name
       if !@subcategory.resident_expert.nil?
         flash[:error] = "This subcategory has a resident expert and cannot be deleted"
       else
@@ -39,11 +40,15 @@ class Admin::SubcategoriesController < AdminApplicationController
               u.subcategories << @transfer_to
             end
             @subcategory.destroy
-            flash[:notice] = "Subcategory deleted and users transferred to: #{@transfer_to.name}"
+            flash[:notice] = "Subcategory #{@deleted_subcategory_name} deleted and users transferred to: #{@transfer_to.name}"
           end
         else
-          # @subcategory.destroy
-          flash[:error] = "Subcategory cannot be deleted: you need to pass a new subcategory to transfer the users to"
+          if @subcategory.has_users?
+            flash[:error] = "Subcategory cannot be deleted: you need to pass a new subcategory to transfer the users to"
+          else
+            flash[:notice] = "Subcategory #{@deleted_subcategory_name} deleted"
+            @subcategory.destroy
+          end
         end
       end
     end

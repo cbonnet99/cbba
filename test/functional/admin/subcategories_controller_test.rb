@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 class Admin::SubcategoriesControllerTest < ActionController::TestCase
   fixtures :all
-  
+    
   def test_create
     old_size = Subcategory.all.size
     post :create, {:subcategory => {:name => "Test", :category_id => categories(:coaches).id, :description => "Bla"}}, {:user_id => users(:cyrille).id }
@@ -18,11 +18,22 @@ class Admin::SubcategoriesControllerTest < ActionController::TestCase
   end
   
   def test_destroy
+    TaskUtils.count_users
     s = subcategories(:yoga)
     old_size = Subcategory.all.size
     post :destroy, {:id => s.slug}, {:user_id => users(:cyrille).id }
     assert_not_nil flash[:error], "Flash: #{flash.inspect}"
     assert_equal old_size, Subcategory.all.size
+  end
+  
+  def test_destroy_no_users
+    TaskUtils.count_users
+    old_size = Subcategory.all.size
+    subcat_with_no_users = subcategories(:feng_shui)
+    cyrille = users(:cyrille)
+    post :destroy, {:id => subcat_with_no_users.slug}, {:user_id => users(:cyrille).id }
+    assert_not_nil flash[:notice]
+    assert_equal old_size-1, Subcategory.all.size, "Feng Shui should have been deleted"
   end
   
   def test_destroy_and_transfer_with_resident_expert
