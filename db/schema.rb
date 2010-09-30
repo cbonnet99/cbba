@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100829192810) do
+ActiveRecord::Schema.define(:version => 20100930024122) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(:version => 20100829192810) do
     t.integer  "users_counter", :default => 0
     t.string   "slug"
     t.text     "description"
+    t.string   "label"
   end
 
   add_index "categories", ["name", "position"], :name => "index_categories_on_position_and_name"
