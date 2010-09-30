@@ -36,6 +36,10 @@ class Article < ActiveRecord::Base
   SHORT_LEAD_MAX_SIZE = 200
   MAX_ARTICLES_ON_INDEX = 6
   
+	def self.count_published_articles
+	  Article.find_all_by_state("published").size
+  end  
+  
   def about_section
     if self.about.blank?
       ""
