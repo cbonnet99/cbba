@@ -1,16 +1,13 @@
 <!-- Intro Starts -->
 <div class="intro">
   <h2>Be Amazing is New Zealand's home of health, well-being and development</h2>
-  <h3>&ndash; helping inspired Kiwis live Amazing lives!</h3>
   <ul>
-    <li>Find <%= link_to "Well-being Providers", :controller => "full_members", :action => "index"%></li>
+    <li>Find <%= link_to "Coaches", :controller => "full_members", :action => "index"%> near you</li>
     <li>Connect with <%= link_to "Resident Experts", :controller => "resident_experts", :action => "index"%></li>
-    <li>Search our <%= link_to "Articles", :controller => "articles", :action => "index"%></li>
-    <li>Find <%= link_to "Courses &amp; Events", category_url(:category_slug => "courses")%></li>
+    <li>Search <%= link_to "Articles", :controller => "articles", :action => "index"%></li>
+    <li>Find <%= link_to "Courses &amp; Workshops", category_url(:category_slug => "courses")%></li>
   </ul>
-  <p class="video"><span class="video-embed"><object type="application/x-shockwave-flash" style="width:218px; height:160px;" data="http://www.youtube.com/v/X69keOjs2Dg">
-<param name="movie" value="http://www.youtube.com/v/X69keOjs2Dg" />
-</object></span></p>
+<p class="video"><%= link_to image_tag("welcome_msg.gif"), root_url%></p>
 </div>
 <!-- Intro Ends -->
 <% unless @featured_full_members.empty? -%>
@@ -20,7 +17,7 @@
   <div id="homepage-full-members">
     <% @featured_full_members.each do |u| -%>
       <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
-    <% end -%>	
+    <% end -%>
   </div>
   <% if @total_full_members > $number_full_members_on_homepage -%>
   <p class="floatRight"><%= link_to "View more new well-being providers &raquo;", :controller => "full_members", :action => "index"%></p>

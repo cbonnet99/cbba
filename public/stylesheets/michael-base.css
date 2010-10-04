@@ -177,11 +177,11 @@ li li { font-size: 12px; }
    ----------------------------------------------------*/
 	#header { float:left; width:259px; }
 #header h1 { padding:0 0 0 40px; }
-#header h1 a { background: url(../images/BeAmazingLogo.gif) no-repeat; display:block; float:left; height:69px; margin:40px 0 0 0; text-indent:-9999px; width:259px; }
+#header h1 a { background: url(../images/BeAmazingLogoNZ.png) no-repeat; display:block; float:left; height:148px; margin:0px 0 0 0; text-indent:-9999px; width:262px; }
 .branding { background:url(../images/BeAmazingByline.gif) top right no-repeat; float:left; height:19px; padding:0 0 6px 40px; text-indent:-9999px; width:259px; }
 /* =ContentMain
    ----------------------------------------------------*/
-	#contentMain { min-height:560px; background:url(../images/contentMainBg.gif) repeat-y; float:left; margin:30px 0 0 17px; overflow:hidden; padding:0 0 30px; width:603px; }
+	#contentMain { min-height:560px; background:url(../images/contentMainBg.gif) repeat-y; float:left; margin:15px 0 0 17px; overflow:hidden; padding:0 0 30px; width:603px; }
 #contentMain .columnTop { background:url(../images/contentMainTopBg.gif) no-repeat; height:8px; width:603px; }
 #homepage-full-members, #featured-experts { background:url(../images/boxBg.gif) repeat-y; border-bottom:solid 1px #efeded; clear:both; margin:0 0 8px; overflow:hidden; width:564px; }
 .homepage-small-user { float:left; min-height:120px; padding:9px 0; width:188px; }
@@ -195,16 +195,16 @@ li li { font-size: 12px; }
 .homepage-small-user h6 a { font-weight:bold; }
 .homepage-small-user p.articles-link a { color: #555;}
 .intro { padding:14px 16px 26px; position:relative; }
-.intro h2 { background: url(../images/h2Intro.gif) no-repeat; height:65px; text-indent:-9999px; width:437px; }
+.intro h2 { background: url(../images/bamintrotext.gif) no-repeat; height:81px; text-indent:-9999px; width:437px; }
 .intro h3 { background: url(../images/h3Intro.gif) no-repeat; border:none; height:21px; margin:10px 0 0; padding:0; text-indent:-9999px; width:374px; }
 #contentMain .intro ul { margin:30px 0 0 0; }
 .intro li { background:url(../images/bullet.gif) no-repeat 0 4px; font-size:14px; margin:0; padding:0 0 12px 30px; }
 .intro li a { color:#222; font-size:14px; font-weight:bold; }
 .intro li a:hover { color:#cc0000; }
-.video { position:absolute; right:0; top:40px; }
-.intro .video { background:url(../images/videoBg.gif) no-repeat; display:block; height:81px; text-decoration:none; width:220px;}
+.video { position:absolute; right:0; top:10px; }
+/*.intro .video { background:url(../images/videoBg.gif) no-repeat; display:block; height:81px; text-decoration:none; width:220px;}
 .intro .video span.video-embed {position: relative; top:81px;}
-#profile-header {padding:0 0 28px;}
+*/#profile-header {padding:0 0 28px;}
 #profile-tab-content { border:1px solid #EDECEC;
 margin:44px 0 0;
 min-height:214px;
@@ -231,7 +231,7 @@ ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { bac
 		#contentMain .publication-actions a.delete:hover, #contentMain #author-actions input:hover, #contentMain #reviewer-actions  input:hover {background:#CC0000;color:#fff;}
 /* =Sidebar1
    ----------------------------------------------------*/
-	#sidebar1 { clear:left; float:left; margin:30px 0 0 0; }
+	#sidebar1 { clear:left; float:left; margin:15px 0 0 0; }
 #bam-meet-experts { margin:20px 1px; }
 #bam-meet-experts img { margin:0; }
 #bam-meet-experts a span { display:block; }/* fix for Safari showing anchor link color */
@@ -248,7 +248,7 @@ ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { bac
 .nav-expert { background:#f3f8f9 url(../images/ReBg.gif) repeat-x; border-bottom:1px solid #ccc; min-height:100px; padding:10px 0 5px; position:relative; text-align:center; }
 /* =Sidebar2
    ----------------------------------------------------*/
-	#sidebar2 { clear:right; float:right; margin:30px 0 0 0; }
+	#sidebar2 { clear:right; float:right; margin:15px 0 0 0; }
 /* =Footer
    ----------------------------------------------------*/
    	#footer { background:url(../images/footerBg.gif) no-repeat; clear:both; margin:0 0 0 181px; overflow:hidden; padding:20px 0 0 0; width:603px; }
