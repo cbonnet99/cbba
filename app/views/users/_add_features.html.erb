@@ -6,7 +6,7 @@
 			<%= o.check_box :photo%>
 			<%= o.label :photo, current_user.paid_photo? ? "Extend your photo or business logo $30* for another year" : "Add a photo or business logo $30* for 1 year", :class => "wide-label"  %>
 		</li>
-		<li class="help">Adding a photo or logo to your profile looks professional and can result in more enquiries. Your photo will also appear in search results, making your listing stand out.<br/>(Select this option AND the 'Go Bold' option and you'll appear on the home page in the 'Featured Well-being Providers' box.)</li>
+		<li class="help">Adding a photo or logo to your profile looks professional and can result in more enquiries. Your photo will also appear in search results, making your listing stand out.<br/>(Select this option AND the 'Go Bold' option and you'll appear on the home page in the 'Featured Coaches, Speakers &amp; Courses' box.)</li>
 		<li><%= o.check_box :highlighted%><%= o.label :highlighted, current_user.paid_highlighted? ? "Extend your highlighted profile $30* for another year" : "Go BOLD! $30* for 1 year", :class => "wide-label"%></li>
 		<li class="help">Choose this option and your listing will appear in searches with a yellow background and bold text, another great way for your listing to look different and more attractive.<br/>(Select this option AND the 'Photo' option and you'll appear on the home page in the 'Featured Well-being Providers' box.)</li>
 		<li><div class="right-label">Special Offer(s) $15* each for 1 year. Select quantity:&nbsp;</div><%= o.text_field :special_offers, :value => 0,  :size => 2, :maxlength => 2 %></li>

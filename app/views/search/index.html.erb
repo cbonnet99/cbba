@@ -13,14 +13,14 @@
 <% unless @featured_full_members.empty? -%>
 <!--New Full Members Starts -->
 <div class="box">
-  <h3>Featured Well-being Providers</h3>
+  <h3>Featured Coaches, Speakers &amp; Courses</h3>
   <div id="homepage-full-members">
     <% @featured_full_members.each do |u| -%>
       <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
     <% end -%>
   </div>
   <% if @total_full_members > $number_full_members_on_homepage -%>
-  <p class="floatRight"><%= link_to "View more new well-being providers &raquo;", :controller => "full_members", :action => "index"%></p>
+  <p class="floatRight"><%= link_to "View more &raquo;", :controller => "full_members", :action => "index"%></p>
   <% end -%>
 </div>
 <!--New Full Members Ends -->
@@ -30,11 +30,8 @@
 <div id="articles-homepage" class="section"> 
 <h3>Featured Articles</h3>
 <div class="rss"><%= link_to image_tag('rss_icon.png'), "http://feeds.feedburner.com/BeAmazing"%></div>
-<div class="homepage-article col2">
-<script type="text/javascript" src="http://static.ak.connect.facebook.com/connect.php/en_GB"></script><script type="text/javascript">FB.init("55dbece89ea08eddd7241d3aca06d8f4");</script><fb:fan profile_id="361000885623" stream="0" connections="10" logobar="1" width="300"></fb:fan><div style="font-size:8px; padding-left:10px"><a href="http://www.facebook.com/pages/Be-Amazing-NZs-home-of-health-well-being-and-development/361000885623">Be Amazing - NZ&#039;s home of health, well-being and development</a> on Facebook</div>
-</div>    
 <% @newest_articles.each do |a| -%>
-  <div class="homepage-article col1">
+  <div class="homepage-article">
   <% if a.class.to_s == "HowTo" -%>
     <%= render :partial => "how_tos/how_to", :locals => {:how_to => a }  %>
   <% else -%>
