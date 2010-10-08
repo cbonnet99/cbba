@@ -69,7 +69,7 @@ class ArticlesController < ApplicationController
         flash[:error]="Sorry, this article could not be found"
         redirect_with_context(articles_url, @selected_user) 
       else
-        @articles = @article.main_subcategory.last_articles(6)
+        @articles = @article.last_articles_for_main_subcategory
       end      
     end
   end

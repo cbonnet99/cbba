@@ -35,6 +35,15 @@ class Article < ActiveRecord::Base
   DAILY_ARTICLE_ROTATION = 3
   SHORT_LEAD_MAX_SIZE = 200
   MAX_ARTICLES_ON_INDEX = 6
+
+  def last_articles_for_main_subcategory
+    if main_subcategory.nil?
+      Rails.logger.error("Article ID #{self.id} has a main subcategory that doesn't exist anymore")
+      return []
+    else
+      return main_subcategory.last_articles(6)
+    end
+  end
   
 	def self.count_published_articles
 	  Article.find_all_by_state("published").size

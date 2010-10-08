@@ -1,6 +1,16 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ArticleTest < ActiveSupport::TestCase
+
+  def test_last_articles_for_main_subcategory
+    article = Factory(:article)
+    assert_not_nil article.main_subcategory
+    article.last_articles_for_main_subcategory
+    
+    article.subcategories.delete_all
+    assert_nil article.main_subcategory
+    article.last_articles_for_main_subcategory
+  end
   
   def test_about_section
     article = Factory(:article)
