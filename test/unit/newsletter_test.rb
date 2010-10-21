@@ -1,8 +1,11 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class NewsletterTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  
+  def test_generate_body
+    n = Factory(:newsletter)
+    n.generate_body
+    # assert !n.body.blank?
   end
+  
 end

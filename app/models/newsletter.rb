@@ -35,6 +35,10 @@ class Newsletter < ActiveRecord::Base
   NUMBER_SPECIAL_OFFERS = 3
   NUMBER_GIFT_VOUCHERS = 3
 
+  def generate_body
+    
+  end
+
   def past_actions
     res = ""
     if !published_at.nil?
