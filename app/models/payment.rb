@@ -21,7 +21,7 @@ class Payment < ActiveRecord::Base
   }
   REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal", :resident_expert => "thank_you_resident_expert", :resident_expert_renewal => "thank_you_resident_expert"}
 
-  GST = 1250  
+  GST = 1500  
   
   
   aasm_column :status

@@ -13,22 +13,22 @@ class PaymentTest < ActiveSupport::TestCase
   #IMPORTANT: the numbers quoted in the article above are INCLUSIVE of GST
   def test_compute_gst
     payment = users(:cyrille).payments.create(:amount => 2302 )
-    assert_equal 288, payment.gst
+    assert_equal 345, payment.gst
   end
 
   def test_compute_gst2
     payment = users(:cyrille).payments.create(:amount => 2293 )
-    assert_equal 287, payment.gst
+    assert_equal 344, payment.gst
   end
 
   def test_compute_gst3
     payment = users(:cyrille).payments.create(:amount => 2298 )
-    assert_equal 287, payment.gst
+    assert_equal 345, payment.gst
   end
 
   def test_compute_gst4
     payment = users(:cyrille).payments.create(:amount => 19900 )
-    assert_equal 2487, payment.gst
+    assert_equal 2985, payment.gst
   end
 
   def test_amount_view
