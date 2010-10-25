@@ -12,13 +12,13 @@ class PaymentTest < ActiveSupport::TestCase
   #for GST calculations, see http://www.ird.govt.nz/technical-tax/general-articles/qwba-gst-5cent-coin-rounding.html
   #IMPORTANT: the numbers quoted in the article above are INCLUSIVE of GST
   def test_compute_gst
-    payment = users(:cyrille).payments.create(:amount => 2302 )
-    assert_equal 345, payment.gst
+    payment = users(:cyrille).payments.create(:amount => 2580 )
+    assert_equal 387, payment.gst
   end
 
   def test_compute_gst2
-    payment = users(:cyrille).payments.create(:amount => 2293 )
-    assert_equal 344, payment.gst
+    payment = users(:cyrille).payments.create(:amount => 2590 )
+    assert_equal 388, payment.gst
   end
 
   def test_compute_gst3
