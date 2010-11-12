@@ -12,9 +12,9 @@ class SpecialOffersControllerTest < ActionController::TestCase
     assert new_so.published?
     get :index_for_subcategory, :subcategory_slug  => yoga.slug
     # puts @response.body
-    assert !assigns(:special_offers).include?(one), "Draft special offer should not be included in index_for_subcategory"
-    assert assigns(:special_offers).include?(free_trial), "Published special offer should be included in index_for_subcategory"
-    assert_equal new_so, assigns(:special_offers).first, "Latest special offer should appear first"
+    assert !assigns(:special_offers).include?(one), "Draft trial session should not be included in index_for_subcategory"
+    assert assigns(:special_offers).include?(free_trial), "Published trial session should be included in index_for_subcategory"
+    assert_equal new_so, assigns(:special_offers).first, "Latest trial session should appear first"
   end    
   
   def test_limit_special_offers_for_full_members
@@ -25,7 +25,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
     new_offer2 = SpecialOffer.create(:title => "Title2", :description => "Description",
       :author => sgardiner)
     post :publish, {:id => new_offer2.id }, {:user_id => sgardiner.id }
-    assert_equal "You have paid for 1 published special offer", flash[:error]
+    assert_equal "You have paid for 1 published trial session", flash[:error]
     assert_redirected_to special_offers_url
   end
 
@@ -39,7 +39,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
        :state => "published", :author => cyrille   )
 
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
-    assert_equal "You have paid for 3 published special offers", flash[:error]
+    assert_equal "You have paid for 3 published trial sessions", flash[:error]
     assert_redirected_to special_offers_url
   end
 

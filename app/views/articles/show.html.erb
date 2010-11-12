@@ -38,7 +38,7 @@
 		<h4>Related offers</h4>
 		<ul>
 			<% unless @article.main_subcategory.published_special_offers_count == 0 -%>
-			<li><%= link_to "Special offers (#{@article.main_subcategory.published_special_offers_count})", special_offers_for_subcategory_url(@article.main_subcategory.slug)%></li>
+			<li><%= link_to "Trial sessions (#{@article.main_subcategory.published_special_offers_count})", special_offers_for_subcategory_url(@article.main_subcategory.slug)%></li>
 			<% end -%>
 			<% unless @article.main_subcategory.published_gift_vouchers_count == 0 -%>
 			<li><%= link_to "Gift Vouchers (#{@article.main_subcategory.published_gift_vouchers_count})", gift_vouchers_for_subcategory_url(@article.main_subcategory.slug)%></li>

@@ -8,7 +8,7 @@
 	<li>Highlighted profile, until <%= current_user.paid_highlighted_until %></li>
 	<%end -%>
 	<% if current_user.has_paid_special_offers? -%>
-	<li><%= pluralize(current_user.paid_special_offers, "special offer")%>, until <%= current_user.paid_special_offers_next_date_check %></li>
+	<li><%= pluralize(current_user.paid_special_offers, "trial session")%>, until <%= current_user.paid_special_offers_next_date_check %></li>
 	<%end -%>
 	<% if current_user.has_paid_gift_vouchers? -%>
 	<li><%= pluralize(current_user.paid_gift_vouchers, "gift voucher")%>, until <%= current_user.paid_gift_vouchers_next_date_check %></li>

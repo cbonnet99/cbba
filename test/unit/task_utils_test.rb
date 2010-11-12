@@ -261,7 +261,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     TaskUtils.check_feature_expiration
     
-    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired special offer + 1 alert to Megan"
+    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expired trial session + 1 alert to Megan"
     user_expired_special_offers.reload
     assert old_next_check < user_expired_special_offers.paid_special_offers_next_date_check, "The next date check should have moved forward, but old_next_check is #{old_next_check} and the new one is #{user_expired_special_offers.paid_special_offers_next_date_check}"
     assert_in_delta 6.months.from_now.to_time.to_f, user_expired_special_offers.paid_special_offers_next_date_check.to_time.to_f, 60*60*24*2, "More or less (two day leeway to account for leap years)"
@@ -269,7 +269,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_not_nil email
     assert_match /Time to renew/, email.subject
     
-    assert_equal 2, user_expired_special_offers.special_offers.published.size, "There should be only 2 published special offers left"
+    assert_equal 2, user_expired_special_offers.special_offers.published.size, "There should be only 2 published trial sessions left"
   end
 
   def test_check_feature_expiring_special_offers
@@ -282,7 +282,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries = []
     TaskUtils.check_feature_expiration
     
-    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring special offer + 1 alert to Megan"
+    assert_equal 2, ActionMailer::Base.deliveries.size, "Should be 1 email to user with expiring trial session + 1 alert to Megan"
     email = ActionMailer::Base.deliveries.last
     assert_not_nil email
     assert_match /Time to renew/, email.subject

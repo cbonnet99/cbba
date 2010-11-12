@@ -61,7 +61,7 @@ class Order < ActiveRecord::Base
       features << "a photo" if photo?
       features << "a highlighted profile" if highlighted?
       if (special_offers.blank? || special_offers == 0)
-        features << "#{help.pluralize(special_offers, 'special offer')}"
+        features << "#{help.pluralize(special_offers, 'trial session')}"
       end
       if (gift_vouchers.blank? || gift_vouchers == 0)
         features << "#{help.pluralize(gift_vouchers, 'gift voucher')}"

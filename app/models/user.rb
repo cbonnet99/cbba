@@ -126,7 +126,7 @@ class User < ActiveRecord::Base
   MAX_RECENT_ARTICLES = 3
   FEATURE_PHOTO = "photo"
   FEATURE_HIGHLIGHT = "highlighted profile"
-  FEATURE_SO = "special offer"
+  FEATURE_SO = "trial session"
   FEATURE_GV = "gift voucher"
 
   def self.extract_features_from_name(feature_names)

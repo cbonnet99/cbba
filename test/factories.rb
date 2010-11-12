@@ -57,8 +57,8 @@ end
 
 Factory.define :special_offer do |so|
   so.author {|author| author.association(:user) }
-  so.sequence(:title) {|n| "Special offer #{n}"}
-  so.sequence(:description) {|n| "Special offer #{n}"}
+  so.sequence(:title) {|n| "Trial session #{n}"}
+  so.sequence(:description) {|n| "Trial session #{n}"}
   so.association :subcategory
 end
 

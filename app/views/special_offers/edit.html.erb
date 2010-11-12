@@ -1,7 +1,7 @@
 <%= render :partial => "back_links" %>
-<%= title "Edit special offer" %>
+<%= title "Edit trial session" %>
 <% form_for @special_offer, :url => {:action => "update"}  do |f| %>
-<%= f.error_messages :header_message => "Please try again", :message => "Your special offer could not be saved"%>
+<%= f.error_messages :header_message => "Please try again", :message => "Your trial session could not be saved"%>
 
 <%= render :partial => 'form', :locals => {:f => f, :subcategories_label => "Category this gift voucher is listed in:"} %>
 <div class="buttons">

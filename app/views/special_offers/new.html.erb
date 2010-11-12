@@ -1,10 +1,10 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "" } %>
-<%= title "Create a new special offer" %>
+<%= title "Create a new trial session" %>
 
 <% form_for @special_offer do |f| %>
-    <%= f.error_messages :header_message => "Please try again", :message => "Your special offer could not be saved"%>
+    <%= f.error_messages :header_message => "Please try again", :message => "Your trial session could not be saved"%>
 
-	<%= render :partial => 'form', :locals => {:f => f, :subcategories_label => "Please select the category you would like this special offer to be listed in:"} %>
+	<%= render :partial => 'form', :locals => {:f => f, :subcategories_label => "Please select the category you would like this trial session to be listed in:"} %>
 	
 <div class="buttons">
   <label for=""></label>

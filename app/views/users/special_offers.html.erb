@@ -1,8 +1,8 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "special_offers" }  %>
-<%= title "Your special offers"  %>
+<%= title "Your trial sessions"  %>
 <p><%= link_to "New special_offer", new_special_offer_url %></p>
 <% if @special_offers.empty? -%>
-  No special offers
+  No trial sessions
 <% else -%>
   <ul class="simple" id="your-special-offers">
   <% @special_offers.each do |v| -%>

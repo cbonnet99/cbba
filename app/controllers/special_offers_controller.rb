@@ -15,7 +15,7 @@ class SpecialOffersController < ApplicationController
   def index
     @context = "homepage"
     @subcategories = Subcategory.with_special_offers
-    log_bam_user_event UserEvent::SELECT_COUNTER, "", "Special offers"
+    log_bam_user_event UserEvent::SELECT_COUNTER, "", "Trial sessions"
   end
 
 	def publish
@@ -23,11 +23,11 @@ class SpecialOffersController < ApplicationController
     if @special_offer.publish!
       flash[:notice] = "\"#{@special_offer.title}\" successfully published"
     else
-      flash[:error] = "You have paid for #{help.pluralize(current_user.paid_special_offers, "published special offer")}"
+      flash[:error] = "You have paid for #{help.pluralize(current_user.paid_special_offers, "published trial session")}"
     end
     redirect_with_context(special_offers_url)
 		rescue ActiveRecord::RecordNotFound => e
-			flash[:error] = "You can not publish this special offer"
+			flash[:error] = "You can not publish this trial session"
       redirect_with_context(special_offers_url)
 	end
 
@@ -38,7 +38,7 @@ class SpecialOffersController < ApplicationController
     redirect_with_context(special_offers_url)
 
 		rescue ActiveRecord::RecordNotFound => e
-			flash[:error] = "You can not unpublish this special offer"
+			flash[:error] = "You can not unpublish this trial session"
       redirect_with_context(special_offers_url)
 	end
   
@@ -46,12 +46,12 @@ class SpecialOffersController < ApplicationController
     get_selected_user
     @selected_tab_id = "offers"
     if @selected_user.nil?
-      flash[:error]="Sorry, this special offer could not be found"
+      flash[:error]="Sorry, this trial session could not be found"
       redirect_with_context(special_offers_url, nil)
     else
       @special_offer = @selected_user.find_special_offer_for_user(params[:id], current_user)
       if @special_offer.nil?
-        flash[:error]="Sorry, this special offer could not be found"
+        flash[:error]="Sorry, this trial session could not be found"
         redirect_with_context(special_offers_url, @selected_user)
       end
     end
@@ -65,7 +65,7 @@ class SpecialOffersController < ApplicationController
   
   def create
     if params["cancel"]
-      flash[:notice]="Special offer cancelled"
+      flash[:notice]="Trial session cancelled"
       redirect_back_or_default user_special_offers_url
     else  
       @special_offer = current_user.special_offers.new(params[:special_offer])
@@ -76,7 +76,7 @@ class SpecialOffersController < ApplicationController
           if @special_offer.publish!
             flash[:notice] = "\"#{@special_offer.title}\" was successfully saved and published."
           else
-            flash[:error] = "\"#{@special_offer.title}\" was saved as a draft (you have paid for #{help.pluralize(current_user.paid_special_offers, "published special offer")})"
+            flash[:error] = "\"#{@special_offer.title}\" was saved as a draft (you have paid for #{help.pluralize(current_user.paid_special_offers, "published trial session")})"
           end
         end
         redirect_to special_offers_show_url(@special_offer.author.slug, @special_offer.slug, :context => @context, :selected_tab_id => @selected_tab_id)
@@ -94,7 +94,7 @@ class SpecialOffersController < ApplicationController
   
   def update
     if params["cancel"]
-      flash[:notice]="Special offer cancelled"
+      flash[:notice]="Trial session cancelled"
       redirect_back_or_default user_special_offers_url
     else
       @special_offer = current_user.special_offers.find_by_slug(params[:id])
@@ -115,7 +115,7 @@ class SpecialOffersController < ApplicationController
       @special_offer.destroy
       flash[:notice] = "\"#{@title}\" was deleted"
     else
-      flash[:error] = "You cannot delete this special offer"
+      flash[:error] = "You cannot delete this trial session"
     end
     redirect_with_context(special_offers_url)
   end

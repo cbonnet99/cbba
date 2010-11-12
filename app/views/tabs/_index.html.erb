@@ -6,7 +6,7 @@
 	<li class="tab selected-tab">New tab...</li>
 	<% end -%>
 <%unless @user.no_articles_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::ARTICLES%> selected-tab<%end%>"><a alt="<%=pluralize(@user.articles_count_for_user(current_user), "article")%>" href="<%= expanded_user_tabs_url(@user, Tab::ARTICLES) %>"><%=pluralize(@user.articles_count_for_user(current_user), "article")%></a></li><%end%>
-<%unless @user.no_special_offers_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::OFFERS%> selected-tab<%end%>"><a alt="<%=pluralize(@user.special_offers_count_for_user(current_user), "special offer")%>" href="<%= expanded_user_tabs_url(@user, Tab::OFFERS) %>"><%=pluralize(@user.special_offers_count_for_user(current_user), "offer")%></a></li><%end%>
+<%unless @user.no_special_offers_for_user?(current_user)%><li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == Tab::OFFERS%> selected-tab<%end%>"><a alt="<%=pluralize(@user.special_offers_count_for_user(current_user), "trial session")%>" href="<%= expanded_user_tabs_url(@user, Tab::OFFERS) %>"><%=pluralize(@user.special_offers_count_for_user(current_user), "offer")%></a></li><%end%>
 	<% unless @user.has_max_number_tabs? || @selected_tab.nil? || @selected_tab.slug.nil?%><li class="tab"><%= link_to "+", expanded_user_tabs_url(@user, @selected_tab, "new" ) %></li><% end %>
   </ul>
 </div>

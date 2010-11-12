@@ -121,7 +121,7 @@ class TaskUtils
       if published_offers_count > u.paid_special_offers
         number_of_SOs_to_unpublish = published_offers_count-u.paid_special_offers
         u.special_offers.published[0..number_of_SOs_to_unpublish].each do |so|
-          puts "For user: #{u.full_name}, unpublish special offer: #{so.title}"
+          puts "For user: #{u.full_name}, unpublish trial session: #{so.title}"
           so.remove!
         end
       end

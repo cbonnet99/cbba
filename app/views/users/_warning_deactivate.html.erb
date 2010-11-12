@@ -14,7 +14,7 @@
 	<li>You have paid to be highlighted on search results</li>
 <% end -%>
 <% if user.paid_special_offers > 0 -%>
-	<li>You have paid for <%= pluralize(user.paid_special_offers, "special offer")%></li>
+	<li>You have paid for <%= pluralize(user.paid_special_offers, "trial session")%></li>
 <% end -%>
 <% if user.paid_gift_vouchers > 0 -%>
 	<li>You have paid for <%= pluralize(user.paid_gift_vouchers, "gift voucher")%></li>

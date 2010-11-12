@@ -9,7 +9,7 @@ class SpecialOffer < ActiveRecord::Base
   
   validates_presence_of :title, :description
   validates_length_of :description, :maximum => 600
-  validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your special offers" 
+  validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your trial sessions" 
 
   def summary
     short_description

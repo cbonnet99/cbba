@@ -461,7 +461,7 @@ class UsersControllerTest < ActionController::TestCase
     #only one published article
     assert_select "a", :text => "1 article"
     
-    #only one published special offer and one published gift voucher
+    #only one published trial session and one published gift voucher
     assert_select "a", :text => "2 offers"
   end
 
@@ -474,7 +474,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "input[value=Unpublish]", :count => 0
     assert_select "div[class=publication-actions]", :count => 0
     
-    #only one published special offer and one published gift voucher
+    #only one published trial session and one published gift voucher
     assert_select "a", :text => "2 offers"
   end
 
