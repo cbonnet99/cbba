@@ -3,20 +3,14 @@
 <% form_for @order do |o| -%>
 	<ol id="add-features-list">
 		<li>
-			<%= o.check_box :photo%>
-			<%= o.label :photo, current_user.paid_photo? ? "Extend your photo or business logo $30* for another year" : "Add a photo or business logo $30* for 1 year", :class => "wide-label"  %>
+			<%= o.radio_button :package, "triple_vis", :checked => true %><%= o.label :package_triple_vis, "Triple-Vis"%>
 		</li>
-		<li class="help">Adding a photo or logo to your profile looks professional and can result in more enquiries. Your photo will also appear in search results, making your listing stand out.<br/>(Select this option AND the 'Go Bold' option and you'll appear on the home page in the 'Featured Coaches, Speakers &amp; Courses' box.)</li>
-		<li><%= o.check_box :highlighted%><%= o.label :highlighted, current_user.paid_highlighted? ? "Extend your highlighted profile $30* for another year" : "Go BOLD! $30* for 1 year", :class => "wide-label"%></li>
-		<li class="help">Choose this option and your listing will appear in searches with a yellow background and bold text, another great way for your listing to look different and more attractive.<br/>(Select this option AND the 'Photo' option and you'll appear on the home page in the 'Featured Well-being Providers' box.)</li>
-		<li><div class="right-label">Special Offer(s) $15* each for 1 year. Select quantity:&nbsp;</div><%= o.text_field :special_offers, :value => 0,  :size => 2, :maxlength => 2 %></li>
-		<li class="help">With this option you can run a special offer, giving you the ability to manage promotions online, perfect for time-bound offers and new products or services. If you want the ability to run more than one special offer at any one-time, just increase the quantity.</li>
-		<li><div class="right-label">Gift Voucher(s) $15* each for 1 year. Select quantity:&nbsp;</div><%= o.text_field :gift_vouchers, :value => 0, :size => 2, :maxlength => 2 %></li>
-		<li class="help">Gift Vouchers have been proven to significantly increase clientele. Choose this option to add a Gift Voucher. If you want to advertise more than one at any one time, just increase the quantity.</li>		
-		<li><%= o.check_box :whole_package%><%= o.label :whole_package, "The WHOLE-LOT! $75* per year", :class => "wide-label"%></li>
-		<li class="help">For just $75, you can have a complete online marketing campaign with Be Amazing for an entire year! Includes a photo, bolded listing, one Special Offer and one Gift Voucher. If you want more than one Gift Voucher or Special Offer, just enter the quantity in the boxes above and the additional ones will be added to your order at $15 each.<br/>(Select this option and you'll appear on the home page in the 'Featured Well-being Providers' box.)</li>
-	</ol>
-<p>* Excludes GST</p>
+		<li>
+			<%= o.radio_button :package, "stand_out"%><%= o.label :package_stand_out, "Stand-Out" %>
+		</li>
+		<li>
+			<%= o.radio_button :package, "premium"%><%= o.label :package_premium, "Premium"%>
+		</li>
 <p class="register-actions register-actions-active">
 	<%= submit_tag 'Proceed to pay >', :name => "save", :class => "button submit"  %>
 	<%= link_to 'No thanks', expanded_user_url(current_user), :class => "anchor-button cancel"  %>

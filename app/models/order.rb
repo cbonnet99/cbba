@@ -4,10 +4,9 @@ class Order < ActiveRecord::Base
   has_many :order_items
   has_one :payment
   
-  before_create :check_whole_package
-  before_update :check_whole_package
   after_create :create_payment
   after_update :update_amount
+  before_validation :convert_package_to_features
   
   aasm_column :state
   aasm_initial_state :pending
@@ -16,26 +15,33 @@ class Order < ActiveRecord::Base
   aasm_event :mark_as_paid do
     transitions :from => :pending, :to => :paid
   end
-
+  
+  attr_accessor :package
+  
   named_scope :recently_expired, :conditions => ["created_at > ? and created_at < ?", 1.year.ago+7.days, 1.year.ago-7.days], :order => "created_at"  
   named_scope :not_expired, :conditions => ["created_at > ?", 1.year.ago], :order => "created_at"  
   named_scope :not_expiring, :conditions => ["created_at > ? and created_at < ?", 1.year.ago, 1.year.ago-7.days], :order => "created_at"  
   
-  PRICE_WHOLE_PACKAGE = 7500
   PRICE_SO = 1500
   PRICE_GV = 1500
   PRICE_PHOTO = 3000
   PRICE_HIGHLIGHT = 3000
-    
-  def check_whole_package
-    if self.whole_package?
-      self.photo = true
-      self.highlighted = true
-      self.special_offers = 1 if self.special_offers == 0 || self.special_offers.nil?
-      self.gift_vouchers = 1 if self.gift_vouchers == 0 || self.gift_vouchers.nil?
+  
+  def convert_package_to_features
+    case package
+      when "triple_vis" then
+        self.photo = true
+      when "stand_out" then
+        self.photo = true
+        self.highlighted = true
+      when "premium" then
+        self.photo = true
+        self.highlighted = true
+        self.special_offers = 2
+        self.gift_vouchers = 2
     end
   end
-  
+      
   def update_amount
     if valid?
       if payment.nil?
