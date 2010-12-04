@@ -1,16 +1,19 @@
+<% javascript 'add-features'%>
 <h3>Add features and make more of Be Amazing!</h3>
 <p>Make more of your membership on Be Amazing and add features to stand out and reach more people. These features will enhance your membership and give you a wider range of options to market yourself online headache free!</p>
 <% form_for @order do |o| -%>
 	<ol id="add-features-list">
 		<li>
-			<%= o.radio_button :package, "triple_vis", :checked => true %><%= o.label :package_triple_vis, "Triple-Vis"%>
+			<%= o.radio_button :package, "triple_vis", :checked => true %><%= o.label :package_triple_vis, "Triple-Vis"%><p class="intro-offer">Get x3 more visits</p><p class="main-offer">Add a photo<br/>$30+gst p.a.</p><p class="conclusion-offer">plus, be seen in featured sections &amp; get higher rankings</p>
 		</li>
 		<li>
-			<%= o.radio_button :package, "stand_out"%><%= o.label :package_stand_out, "Stand-Out" %>
+			<%= o.radio_button :package, "stand_out"%><%= o.label :package_stand_out, "Stand-Out" %><p class="intro-offer">be found easily</p><p class="main-offer">Photo + Bold<br/>$60+gst p.a.</p><p class="conclusion-offer">bold your listing &amp; stand-out in directory searches</p>
 		</li>
 		<li>
-			<%= o.radio_button :package, "premium"%><%= o.label :package_premium, "Premium"%>
+			<%= o.radio_button :package, "premium"%><%= o.label :package_premium, "Premium"%><p class="intro-offer">photo + bold &amp;</p><p class="main-offer">Incentives<br/>$90+gst p.a.</p><p class="conclusion-offer">promote gift vouchers &amp; trial sessions</p>
 		</li>
+	</ol>
+<div class="clear"></div>
 <p class="register-actions register-actions-active">
 	<%= submit_tag 'Proceed to pay >', :name => "save", :class => "button submit"  %>
 	<%= link_to 'No thanks', expanded_user_url(current_user), :class => "anchor-button cancel"  %>

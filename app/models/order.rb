@@ -22,8 +22,8 @@ class Order < ActiveRecord::Base
   named_scope :not_expired, :conditions => ["created_at > ?", 1.year.ago], :order => "created_at"  
   named_scope :not_expiring, :conditions => ["created_at > ? and created_at < ?", 1.year.ago, 1.year.ago-7.days], :order => "created_at"  
   
-  PRICE_SO = 1500
-  PRICE_GV = 1500
+  PRICE_SO = 750
+  PRICE_GV = 750
   PRICE_PHOTO = 3000
   PRICE_HIGHLIGHT = 3000
   
@@ -77,30 +77,18 @@ class Order < ActiveRecord::Base
   end
   
   def compute_amount
-    if whole_package?
-      amount = PRICE_WHOLE_PACKAGE
-      if self.special_offers.nil?
-        self.special_offers = 1
-      end
-      amount += PRICE_SO*(self.special_offers-1)
-      if self.gift_vouchers.nil?
-        self.gift_vouchers = 1
-      end
-      amount += PRICE_GV*(self.gift_vouchers-1)
-    else
-      amount = 0
-      if photo?
-        amount += PRICE_PHOTO
-      end
-      if highlighted?
-        amount += PRICE_HIGHLIGHT
-      end
-      if !self.special_offers.nil?
-        amount += PRICE_SO*self.special_offers
-      end
-      if !self.gift_vouchers.nil?
-        amount += PRICE_GV*self.gift_vouchers
-      end
+    amount = 0
+    if photo?
+      amount += PRICE_PHOTO
+    end
+    if highlighted?
+      amount += PRICE_HIGHLIGHT
+    end
+    if !self.special_offers.nil?
+      amount += PRICE_SO*self.special_offers
+    end
+    if !self.gift_vouchers.nil?
+      amount += PRICE_GV*self.gift_vouchers
     end
     return amount
   end
