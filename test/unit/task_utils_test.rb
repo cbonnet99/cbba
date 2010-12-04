@@ -486,7 +486,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert user.paid_special_offers_next_date_check > old_paid_check, "The SO feature should have been extended, but is: #{user.paid_special_offers_next_date_check}"
     assert_equal old_orders_size+1, user.orders.size
     order = user.orders.last
-    assert_equal 4500, order.payment.amount
+    assert_equal 2250, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
     assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject

@@ -4,19 +4,9 @@ class OrderTest < ActiveSupport::TestCase
   fixtures :all
   def test_compute_amount
     order = Factory(:order, :photo => true, :highlighted => false,  :special_offers => "", :gift_vouchers => 2)
-    assert_equal 6000, order.compute_amount
+    assert_equal 4500, order.compute_amount
     order = Factory(:order, :photo => true, :highlighted => true,  :special_offers => 1, :gift_vouchers => 2)
-    assert_equal 10500, order.compute_amount
-    order = Factory(:order, :whole_package => true)
-    assert_equal 7500, order.compute_amount
-    order = Factory(:order, :whole_package => true, :photo => true, :highlighted => true,  :special_offers => 1, :gift_vouchers => 2)
-    assert_equal 9000, order.compute_amount, "Whole package selected, add 1 additional voucher"
-    order = Factory(:order, :whole_package => true, :photo => false, :highlighted => false,  :special_offers => 1, :gift_vouchers => 2)
-    assert_equal 9000, order.compute_amount, "Whole package selected, photo and highlighted are forced to true"
-  end
-  def test_compute_amount2
-    order = Factory(:order, :whole_package => true, :photo => false, :highlighted => false,  :special_offers => 0, :gift_vouchers => 0)
-    assert_equal 7500, order.compute_amount, "Whole package selected, special_offers and gift_vouchers are forced to 1"
+    assert_equal 8250, order.compute_amount
   end
   
   def test_validate
