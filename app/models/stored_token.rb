@@ -39,7 +39,7 @@ class StoredToken < ActiveRecord::Base
       self.billing_id = billing_id
     else
       self.errors.add(:base, "The credit card could not be stored")
-      logger.error("A credit card could not be stored on DPS servers. Billing_id: #{billing_id}, credit_card: #{credit_card.inspect}")
+      logger.error("A credit card could not be stored on DPS servers. Billing_id: #{billing_id}")
     end
   end
   
