@@ -28,17 +28,23 @@ class Order < ActiveRecord::Base
   PRICE_HIGHLIGHT = 3000
   
   def convert_package_to_features
-    case package
-      when "triple_vis" then
-        self.photo = true
-      when "stand_out" then
-        self.photo = true
-        self.highlighted = true
-      when "premium" then
-        self.photo = true
-        self.highlighted = true
-        self.special_offers = 2
-        self.gift_vouchers = 2
+    unless package.blank?
+      self.photo = false
+      self.highlighted = false
+      self.special_offers = 0
+      self.gift_vouchers = 0    
+      case package
+        when "triple_vis" then
+          self.photo = true
+        when "stand_out" then
+          self.photo = true
+          self.highlighted = true
+        when "premium" then
+          self.photo = true
+          self.highlighted = true
+          self.special_offers = 2
+          self.gift_vouchers = 2
+      end
     end
   end
       
