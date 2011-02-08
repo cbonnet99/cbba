@@ -2,6 +2,16 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
+
+  def test_check_inconsistent_tabs
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    TaskUtils.check_inconsistent_tabs
+    
+    assert_equal User.admins.size, ActionMailer::Base.deliveries.size
+  end
     
   def test_send_weekly_admin_stats
 		ActionMailer::Base.delivery_method = :test

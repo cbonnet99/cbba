@@ -2,7 +2,13 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
   include ActionController::UrlWriter
-
+  
+  def inconsistent_tabs(user, res)
+    setup_email(user)
+    @subject = "Inconsistent tabs"    
+    @res = res
+  end
+  
   def weekly_admin_statistics(user)
     setup_email(user)
     @subject = "BAM stats #{Time.now.to_date}"
