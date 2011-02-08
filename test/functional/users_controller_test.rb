@@ -907,7 +907,7 @@ class UsersControllerTest < ActionController::TestCase
       :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_template "new"
    # puts @response.body
-    assert_select "h2", :text => "Sign up for full membership" 
+    assert_select "h2", :text => "Sign up for your FREE profile" 
     assert_select "option[value=#{hypnotherapy.id}][selected=selected]"
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect

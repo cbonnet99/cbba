@@ -1,7 +1,7 @@
 require 'xero_gateway'
 
 class TaskUtils
-
+  
   def self.import_blog_categories
     File.new("#{RAILS_ROOT}/csv/blog_categories.csv", 'r').each_line("\n") do |row|
       cols = row.split(",")
@@ -57,12 +57,22 @@ class TaskUtils
   end
 
   def self.check_inconsistent_tabs
-    User.all.each do |u|
-      if u.tabs.size != u.subcategories.size
-        puts "User #{u.email} has #{u.tabs.size} tabs (#{u.tabs.map(&:title).to_sentence}), but #{u.subcategories.size} subcategories (#{u.subcategories.map(&:name).to_sentence})."
+    res = ""
+    User.active.each do |user|
+      if user.tabs.size != user.subcategories.size
+        res << "User #{user.email} has #{user.tabs.size} tabs (#{user.tabs.map(&:title).to_sentence}), but #{user.subcategories.size} subcategories (#{user.subcategories.map(&:name).to_sentence})."
+      end
+      user_tab_titles = user.tabs.map(&:title)
+      user_subcategory_names = user.subcategories.map(&:name)
+      if user_subcategory_names != user_tab_titles
+        res << "User #{user.name} has inconsistent tabs. Tab titles are: #{user_tab_titles.to_sentence}, but subcategories are: #{user_subcategory_names.to_sentence}\n"
       end
     end
-    puts "Done!"
+    unless res.blank?
+      User.admins.each do |admin|
+        UserMailer.deliver_inconsistent_tabs(admin, res)
+      end
+    end
   end
 
   def self.recompute_points

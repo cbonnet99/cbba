@@ -37,8 +37,7 @@ class PaymentsControllerTest < ActionController::TestCase
 
   def test_pay_new_order
     pending_user = users(:pending_user)
-    new_order = Factory(:order, :user_id => pending_user.id, :photo => true, :highlighted => true, :special_offers => 2,
-        :gift_vouchers => 1 )
+    new_order = Factory(:order, :user_id => pending_user.id, :package => "premium" )
     new_payment = new_order.payment
     expires = Time.now.advance(:year => 1 )
     put :update, {:id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
@@ -63,7 +62,7 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_equal 2, pending_user.paid_special_offers
     assert_not_nil pending_user.paid_special_offers_next_date_check
     assert_equal (Time.now+1.year).to_date, pending_user.paid_special_offers_next_date_check
-    assert_equal 1, pending_user.paid_gift_vouchers
+    assert_equal 2, pending_user.paid_gift_vouchers
     assert_not_nil pending_user.paid_gift_vouchers_next_date_check
     assert_equal (Time.now+1.year).to_date, pending_user.paid_gift_vouchers_next_date_check
   end
