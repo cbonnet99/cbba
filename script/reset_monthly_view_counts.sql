@@ -1,0 +1,1 @@
+update articles set monthly_view_counts = 0;

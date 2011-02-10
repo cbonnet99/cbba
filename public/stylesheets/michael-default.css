@@ -1,3 +1,5 @@
+span.monthly_view_counts{font-size: 10px;font-weight: bold;}
+div#welcome_message{padding: 0px 5px 5px 8px; font-weight: bold; font-size: 12px;}
 div.article-view-counts {font-weight: bold;}
 .article_photo {float: left;}
 .article_lead {float: right; font-size: 14px; width: 400px; background-color: lightgrey; padding: 10px; border: 1px solid black;}

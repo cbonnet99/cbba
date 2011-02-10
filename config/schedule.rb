@@ -21,6 +21,10 @@
 
 set :output, "/var/log/cron_bam.log"
 
+every 1.month, :at => "beginning of the month at 3am" do
+  command "psql -U postgres be_amazing_production < script/reset_monthly_view_counts.sql"  
+end
+
 every 2.weeks do
   runner "TaskUtils.notify_unpublished_users"
 end

@@ -38,6 +38,10 @@ class Article < ActiveRecord::Base
   DAILY_ARTICLE_ROTATION = 3
   SHORT_LEAD_MAX_SIZE = 200
   MAX_ARTICLES_ON_INDEX = 6
+
+  def self.popular
+    self.find(:all, :order => "monthly_view_counts desc", :limit => 10)
+  end
   
   def self.first_homepage_featured
     Article.homepage_featured.first
