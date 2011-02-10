@@ -1,0 +1,7 @@
+nz:
+  name: New Zealand
+  currency: NZD
+
+au:
+  name: Australia
+  currency: AUD

@@ -18,6 +18,7 @@ class Article < ActiveRecord::Base
 	has_many :blog_categories, :through => :articles_blog_categories
   has_many :articles_newsletters
   has_many :newsletters, :through => :articles_newsletters 
+  belongs_to :country
 
   validates_presence_of :title, :lead, :author
   validates_length_of :title, :maximum => 255

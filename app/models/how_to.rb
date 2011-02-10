@@ -10,6 +10,7 @@ class HowTo < ActiveRecord::Base
 	has_many :subcategories, :through => :how_tos_subcategories
 	has_many :how_tos_categories
 	has_many :categories, :through => :how_tos_categories
+  belongs_to :country
   
 	MAX_LENGTH_SLUG = 50
   

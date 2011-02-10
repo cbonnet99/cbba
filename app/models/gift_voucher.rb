@@ -6,6 +6,7 @@ class GiftVoucher < ActiveRecord::Base
   belongs_to :subcategory
   has_many :gift_vouchers_newsletters
   has_many :newsletters, :through => :gift_vouchers_newsletters 
+  belongs_to :country
   
   validates_presence_of :title, :description
   validates_length_of :description, :maximum => 600

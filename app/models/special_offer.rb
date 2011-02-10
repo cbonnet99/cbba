@@ -6,6 +6,7 @@ class SpecialOffer < ActiveRecord::Base
   belongs_to :subcategory
   has_many :newsletters_special_offers
   has_many :newsletters, :through => :newsletters_special_offers 
+  belongs_to :country
   
   validates_presence_of :title, :description
   validates_length_of :description, :maximum => 600

@@ -1,4 +1,7 @@
 class Counter < ActiveRecord::Base
+
+  belongs_to :country
+
   named_scope :published, :conditions => ["state= 'published'"] 
   
   def controller_name

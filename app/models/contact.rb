@@ -7,6 +7,7 @@ class Contact < ActiveRecord::Base
 
   belongs_to :region
   belongs_to :district
+  belongs_to :country
 
   validates_presence_of :email
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true

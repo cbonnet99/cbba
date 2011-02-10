@@ -1,6 +1,8 @@
 class Region < ActiveRecord::Base
   has_many :users
 	has_many :districts
+  belongs_to :country
+
   after_create :create_slug
   before_create :locate
   before_update :update_geocodes

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110210073325) do
+ActiveRecord::Schema.define(:version => 20110210133148) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.string   "about",                     :limit => 600
     t.boolean  "homepage_featured",                        :default => false
     t.datetime "last_homepage_featured_at"
+    t.integer  "country_id"
   end
 
   add_index "articles", ["state"], :name => "index_articles_on_state"
@@ -142,6 +143,7 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.string   "activation_code",           :limit => 40
     t.datetime "remember_token_expires_at"
     t.string   "state"
+    t.integer  "country_id"
   end
 
   create_table "counters", :force => true do |t|
@@ -151,6 +153,14 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.datetime "updated_at"
     t.string   "class_name"
     t.string   "state",      :default => "draft"
+    t.integer  "country_id"
+  end
+
+  create_table "countries", :force => true do |t|
+    t.string   "name"
+    t.string   "currency"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "districts", :force => true do |t|
@@ -160,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.datetime "updated_at"
     t.string   "latitude"
     t.string   "longitude"
+    t.integer  "country_id"
   end
 
   add_index "districts", ["id"], :name => "index_districts_on_id"
@@ -213,6 +224,7 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.datetime "updated_at"
     t.integer  "subcategory_id"
     t.boolean  "nation_wide",     :default => false
+    t.integer  "country_id"
   end
 
   create_table "gift_vouchers_newsletters", :force => true do |t|
@@ -248,6 +260,7 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.string   "state",                          :default => "draft"
     t.string   "slug"
     t.integer  "feature_rank"
+    t.integer  "country_id"
   end
 
   add_index "how_tos", ["state"], :name => "index_how_tos_on_state"
@@ -437,6 +450,7 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.string   "slug"
     t.string   "latitude"
     t.string   "longitude"
+    t.integer  "country_id"
   end
 
   add_index "regions", ["id"], :name => "index_regions_on_id"
@@ -481,6 +495,7 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.integer  "author_id"
     t.integer  "subcategory_id"
     t.boolean  "nation_wide",     :default => false
+    t.integer  "country_id"
   end
 
   create_table "stored_tokens", :force => true do |t|
@@ -665,6 +680,7 @@ ActiveRecord::Schema.define(:version => 20110210073325) do
     t.string   "subdomain"
     t.datetime "offers_reminder_sent_at"
     t.string   "about",                               :limit => 600
+    t.integer  "country_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

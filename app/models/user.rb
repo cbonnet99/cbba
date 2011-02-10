@@ -75,6 +75,7 @@ class User < ActiveRecord::Base
   has_many :newsletters, :through => :newsletters_users 
   has_many :orders
   has_many :paid_features
+  belongs_to :country
   
   # #named scopes
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"

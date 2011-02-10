@@ -1,6 +1,7 @@
 class District < ActiveRecord::Base
   has_many :users
 	belongs_to :region
+  belongs_to :country
 
   before_create :locate
   before_update :update_geocodes
