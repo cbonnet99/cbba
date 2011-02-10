@@ -237,23 +237,35 @@ class ArticlesControllerTest < ActionController::TestCase
   end
 
   def test_should_show_article_profile
+    long = articles(:long)
+    old_count = long.view_counts
+    old_monthly_count = long.monthly_view_counts
     cyrille = users(:cyrille)
-    get :show, {:context => "profile", :id => articles(:long).slug, :selected_user => cyrille.slug }
+    get :show, {:context => "profile", :id => long.slug, :selected_user => cyrille.slug }
     assert_response :success
     assert_not_nil assigns(:selected_user)
     assert_not_nil assigns(:article)
     assert_select "a[href$=articles]", {:text => "Back to #{cyrille.name}'s profile", :count => 1  }
     assert_select "div[class=publication-actions]", :count => 0
+    long.reload
+    assert_equal old_count+1, long.view_counts
+    assert_equal old_monthly_count+1, long.monthly_view_counts
   end
 
   def test_should_show_own_article_draft
       cyrille = users(:cyrille)
-      get :show, {:context => "profile", :selected_tab_id => "articles",  :id => articles(:yoga).slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }
+      yoga = articles(:yoga)
+      old_count = yoga.view_counts
+      old_monthly_count = yoga.monthly_view_counts
+      get :show, {:context => "profile", :selected_tab_id => "articles",  :id => yoga.slug, :selected_user => cyrille.slug }, {:user_id => cyrille.id }
       assert_response :success
       assert_not_nil assigns(:selected_user)
       assert_not_nil assigns(:article)
       assert_select "a", {:text => "Profile", :count => 1  }
       assert_select "div[class=publication-actions]", :count => 1
+      yoga.reload
+      assert_equal old_count+1, yoga.view_counts
+      assert_equal old_monthly_count+1, yoga.monthly_view_counts
   end
 
   def test_should_get_edit

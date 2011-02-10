@@ -1,3 +1,4 @@
+div.article-view-counts {font-weight: bold;}
 .article_photo {float: left;}
 .article_lead {float: right; font-size: 14px; width: 400px; background-color: lightgrey; padding: 10px; border: 1px solid black;}
 .buy_now {text-decoration: underline; font-weight: bold; font-size: medium; cursor: pointer;}

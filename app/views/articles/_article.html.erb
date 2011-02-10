@@ -19,5 +19,5 @@
 	<% unless @context == "profile"-%>
 		<div class="by-author">by <%= author_link(article.author) %></div>
 	<%end-%>
-	<div class="article-subcategories">[<%= link_articles_subcategories(article)%>]</div>
+	<div class="article-view-counts">Viewed <%= pluralize(article.view_counts, "time")%></div>
 <%= white_list article.lead %>
