@@ -3,6 +3,18 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_change_homepage_featured_article
+    featured_recently = Factory(:article, :last_homepage_featured_at => 1.week.ago)
+    featured_before = Article.first_homepage_featured
+    
+    TaskUtils.change_homepage_featured_article
+    
+    featured_after = Article.first_homepage_featured
+    assert_not_nil featured_after
+    assert featured_before != featured_after
+    assert_not_nil featured_after.last_homepage_featured_at
+  end
+
   def test_check_inconsistent_tabs
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true

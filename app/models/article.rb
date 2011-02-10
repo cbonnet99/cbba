@@ -29,13 +29,19 @@ class Article < ActiveRecord::Base
 	before_update :remove_html_from_lead
 	after_save :update_user_about
 
+  named_scope :homepage_featured, :conditions => ["homepage_featured is true"] 
+  
   MAX_LENGTH_SLUG = 20
   POINTS_FOR_RECENT_ARTICLE = 10
   POINTS_FOR_OLDER_ARTICLE = 5
   DAILY_ARTICLE_ROTATION = 3
   SHORT_LEAD_MAX_SIZE = 200
   MAX_ARTICLES_ON_INDEX = 6
-
+  
+  def self.first_homepage_featured
+    Article.homepage_featured.first
+  end
+  
   def last_articles_for_main_subcategory
     if main_subcategory.nil?
       Rails.logger.error("Article ID #{self.id} has a main subcategory that doesn't exist anymore")

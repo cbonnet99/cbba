@@ -190,6 +190,7 @@
 <%= javascript_include_tag 'jquery.js' %>
 <%= javascript_include_tag 'jquery-ui.js' %>
 <% end -%>
+<%= javascript_include_tag 'jquery.curvycorners.packed' %>
 <% if ENV["RAILS_ENV"] == "production" || ENV["RAILS_ENV"] == "staging" -%>
 <script type="text/javascript" src="/javascripts/subcategories-<%=JsCounter.subcats_value%>.js"></script>
 <% else -%>

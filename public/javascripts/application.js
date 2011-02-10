@@ -34,6 +34,8 @@ $(document).ready(function(){
         $.get("/search/"+$(this).attr("id")+"/count_show_more_details");
         return false;
     });
+    $('.rounded').corner();
+	
 });
 
 U_Core = {};

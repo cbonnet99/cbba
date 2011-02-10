@@ -84,6 +84,7 @@ class SearchController < ApplicationController
     @total_articles = @total_straight_articles+@total_howto_articles
     @featured_full_members = User.featured_full_members
     @total_full_members = User.count_newest_full_members
+    @featured_article = Article.first_homepage_featured
 	end
 
 	def simple_search

@@ -1,3 +1,5 @@
+.article_photo {float: left;}
+.article_lead {float: right; font-size: 14px; width: 400px; background-color: lightgrey; padding: 10px; border: 1px solid black;}
 .buy_now {text-decoration: underline; font-weight: bold; font-size: medium; cursor: pointer;}
 #contentMain form ol#add-features-list li {text-align: center;border:grey 1px solid; float:left;clear:none;width:130px;padding:10px;margin:10px;}
 #contentMain form ol#add-features-list li p.main-offer{font-size:large;font-weight:bold;}

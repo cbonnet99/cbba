@@ -1,6 +1,17 @@
 require 'xero_gateway'
 
 class TaskUtils
+
+  def self.change_homepage_featured_article
+    article_to_feature = Article.find(:first, :include => "author", :conditions => ["last_homepage_featured_at is NULL and users.paid_photo is true"])
+    if article_to_feature.nil?
+      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true"], :order => "last_homepage_featured_at")
+    end
+    Article.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
+    article_to_feature.homepage_featured = true
+    article_to_feature.last_homepage_featured_at = Time.now
+    article_to_feature.save!
+  end
   
   def self.import_blog_categories
     File.new("#{RAILS_ROOT}/csv/blog_categories.csv", 'r').each_line("\n") do |row|
