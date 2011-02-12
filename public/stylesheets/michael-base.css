@@ -238,10 +238,10 @@ ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { bac
 #bam-meet-experts h3 a:hover { color:#cc0000; }
 .pics {
 	position: relative;
-	left: 25px;
+	left: 10px;
 }
 .pics-resident-experts-item {
-	width: 120px;
+	width: 150px;
 }
 .nav-expert { background:#f3f8f9 url(../images/ReBg.gif) repeat-x; border-bottom:1px solid #ccc; min-height:100px; padding:10px 0 5px; position:relative; text-align:center; }
 /* =Sidebar2
