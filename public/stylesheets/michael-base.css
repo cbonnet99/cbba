@@ -79,7 +79,7 @@ span.clear, p.clear { display:block; height:0; margin:0; overflow:hidden; paddin
 .box { background:#f3f8f9 url(../images/boxBtmBg.gif) repeat-y; border-bottom:solid 1px #efeded; overflow:hidden; }
 .box h3 { background:#f3f8f9 url(../images/boxBgTop.gif) no-repeat; color:#333; border:none; font-size:16px; font-weight:normal; height:33px; line-height:35px; margin:0; padding:0 9px; }
 .column { background:url(../images/sideBarBg.gif) repeat-y; /*overflow:hidden;*/ width:164px; }
-.columnTop { background:url(../images/sidebarTopBg.gif) no-repeat; height:6px; padding:0 0 20px 0; width:164px; }
+.columnTop { background:url(../images/sidebarTopBg.gif) no-repeat; height:2px; padding:0 0 20px 0; width:164px; }
 .columnBottom { background: url(../images/sidebarBtmBg.gif) no-repeat; height:6px; margin:20px 0 0 0; width:164px; }
 .column ul, .column ol, .column p, .column h1, .column h2, .column h3, .column h4, .column h5, .column h6, .column img { margin:0 18px; }
 .column ul li { margin:0; }
@@ -109,7 +109,7 @@ a.newsletterBtn span { padding:46px 0 0 34px; }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color:#222; }
 address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:400; }
 h1, h2 { color:#000; font-size:24px;font-weight:bold; }
-h3 {color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0; }
+h3 {color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:0; }
 	.section h3 {background:#fff;  border-bottom:1px solid #EFEDED; }
 	div.user-description h3 {padding:0 0 2px; margin: 0 0 2px;}
 	div.bam-user-details p {padding: 0 0 5px;}
@@ -182,7 +182,7 @@ li li { font-size: 12px; }
 /* =ContentMain
    ----------------------------------------------------*/
 	#contentMain { min-height:560px; background:url(../images/contentMainBg.gif) repeat-y; float:left; margin:15px 0 0 17px; overflow:hidden; padding:0 0 30px; width:603px; }
-#contentMain .columnTop { background:url(../images/contentMainTopBg.gif) no-repeat; height:8px; width:603px; }
+#contentMain .columnTop { background:url(../images/contentMainTopBg.gif) no-repeat; height:2px; width:603px; }
 #homepage-full-members, #featured-experts { background:url(../images/boxBg.gif) repeat-y; border-bottom:solid 1px #efeded; clear:both; margin:0 0 8px; overflow:hidden; width:564px; }
 .homepage-small-user { float:left; min-height:120px; padding:9px 0; width:188px; }
 .homepage-small-user:hover { background:#eee; }
@@ -194,9 +194,7 @@ li li { font-size: 12px; }
 .homepage-small-user h6 { float:right; font-size:11px; font-weight:bold; line-height:14px; padding:0 0 4px; width:118px; }
 .homepage-small-user h6 a { font-weight:bold; }
 .homepage-small-user p.articles-link a { color: #555;}
-.intro { padding:14px 16px 26px; position:relative; }
-.intro h2 { background: url(../images/bamintrotext.gif) no-repeat; height:81px; text-indent:-9999px; width:437px; }
-.intro h3 { background: url(../images/h3Intro.gif) no-repeat; border:none; height:21px; margin:10px 0 0; padding:0; text-indent:-9999px; width:374px; }
+.intro { padding:0px 16px 26px; position:relative; }
 #contentMain .intro ul { margin:30px 0 0 0; }
 .intro li { background:url(../images/bullet.gif) no-repeat 0 4px; font-size:14px; margin:0; padding:0 0 12px 30px; }
 .intro li a { color:#222; font-size:14px; font-weight:bold; }

@@ -17,9 +17,9 @@ class TaskUtils
   end
 
   def self.change_homepage_featured_article
-    article_to_feature = Article.find(:first, :include => "author", :conditions => ["articles.last_homepage_featured_at is NULL and users.paid_photo is true"])
+    article_to_feature = Article.find(:first, :include => "author", :conditions => ["articles.last_homepage_featured_at is NULL and users.paid_photo is true and articles.state='published'"])
     if article_to_feature.nil?
-      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true"], :order => "articles.last_homepage_featured_at")
+      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true and articles.state='published'"], :order => "articles.last_homepage_featured_at")
     end
     Article.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
     article_to_feature.homepage_featured = true

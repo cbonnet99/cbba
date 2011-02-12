@@ -1,5 +1,6 @@
+div.article_author_link{margin-left: 5px;}
 span.monthly_view_counts{font-size: 10pxpx;font-weight: bold;}
-div#welcome_message{padding: 0px 5px 5px 8px; font-weight: bold; font-size: 12px;}
+div#welcome_message{padding: 0px 5px 5px 8px; font-weight: bold; font-size: 12px; color:#20ACCD; font-style: italic;}
 div.article-view-counts {font-weight: bold;}
 .article_photo {float: left;}
 .speechbubble {float:left;margin-top:10px;margin-right:-1px;}

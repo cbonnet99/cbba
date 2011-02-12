@@ -114,11 +114,9 @@
     </ul>
 	<div id="bam-meet-experts"><h3><%= link_to "Resident Experts", :controller => "/resident_experts", :action => "index"  %></h3>
       <div class="nav-expert">
-          <a id="prev-expert" class="nav-left" href="#"><span>&lt;Prev</span></a>
 		<div id="pics-resident-experts" class="pics">
        	<%= render :partial => "resident_experts/gallery" %>
 		</div>
-          <a id="next-expert" class="nav-right" href="#"><span>Next&gt;</span></a>
       </div>
 	</div>
 	<%= link_to "<span>Add FREE Listing</span>", signup_url(:professional => "true", :mt => "full_member" ), :class => "addListing button" %>
@@ -140,7 +138,7 @@
   <!--Sidebar2 Starts -->
   <div id="sidebar2" class="column">
     <div class="columnTop">&nbsp;</div>
-	<div id="welcome_message">Live your life your way, achieve more and Be Amazing! A blog for you by New Zealand Coaches</div>
+	<div id="welcome_message">"Live your life your way, achieve more and Be Amazing! A blog for you by New Zealand Coaches"</div>
 	<div id="networks">
 		<h4>Join us on:</h4>
 		<div id="network-images"><%= link_to image_tag("linked-in.png"),  "http://www.linkedin.com/groups?gid=2097679&trk=hb_side_g", :alt => "Linked in" %>

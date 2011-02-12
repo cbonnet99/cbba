@@ -9,8 +9,6 @@ URLDecode:function(s){var o=s;var binVal,t;var r=/(%[^%]{2})/;
 });
 
 $(document).ready(function(){
-    $('#pics-resident-experts').cycle({fx: 'fade', pause: '1', prev: '#prev-expert', next: '#next-expert'});
-    $('#ad-banners').cycle({fx: 'fade', pause: '1'});
     $("#what").autocomplete(sbg).setOptions({matchContains: true});
     $("#where").autocomplete(lts).setOptions({matchContains: true});
 	$("input#what").focus();
