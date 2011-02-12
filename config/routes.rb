@@ -44,9 +44,6 @@ ActionController::Routing::Routes.draw do |map|
   map.special_offers_show_format '/special-offers/:selected_user/:id.:format', :controller => "special_offers", :action => "show"
   map.resources :special_offers, :member => {:publish => [:get, :post], :unpublish => [:get, :post] }
   
-  map.thank_you_expert_applications '/expert_applications/thank_you', :controller => 'expert_applications', :action => "thank_you"
-  map.resources :expert_applications
-
   map.contact '/contact', :controller => "search", :action => "contact"
   map.customerror '/customerror', :controller => "search", :action => "customerror"
   map.notfound '/notfound', :controller => "search", :action => "notfound"
@@ -70,8 +67,6 @@ ActionController::Routing::Routes.draw do |map|
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
   map.payment_action_with_id '/payments/:id/:action', :controller => "payments", :requirements => {:action => /edit|edit_debit|thank_you|thank_you_direct_debit|thank_you_renewal|thank_you_resident_expert/}
   map.resources :payments
-	map.expert_applications_action 'admin/expert_applications/:action', :controller => "admin/expert_applications"
-	map.expert_applications_action_with_id 'admin/expert_applications/:id/:action', :controller => "admin/expert_applications"
 	map.payments_action_with_id 'admin/payments/:id/:action', :controller => "admin/payments"
 	map.reviewer 'reviewer/:action', :controller => "admin/reviewer"
 	map.category '/category/:category_slug', :controller => "categories", :action => "show"

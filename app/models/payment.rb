@@ -37,7 +37,6 @@ class Payment < ActiveRecord::Base
   belongs_to :user
   has_one :invoice
   has_many :transactions, :class_name => "PaymentTransaction"
-  has_one :expert_application
   belongs_to :charity
   has_many :paid_features
   belongs_to :order
@@ -223,9 +222,6 @@ class Payment < ActiveRecord::Base
         user.member_until += 1.year
       end
       
-      if !user.resident_expert?
-        user.make_resident_expert!(expert_application.subcategory)
-      end
     end
     user.save!
     user.activate! unless user.active?

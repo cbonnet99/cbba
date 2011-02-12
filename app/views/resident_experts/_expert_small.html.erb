@@ -1,2 +1,2 @@
 <a href="<%=user_url_with_context(user)%>"><%= thumbnail_image(user) %></a>
-<h6><a href="<%=user_url_with_context(user)%>"><%= user.name %></a></h6><p class="highlight"><%=  subcat.try(:name) %></p><p class="articles-link"><%= link_to "#{user.first_name}'s articles (#{user.published_articles_count})", expanded_user_tabs_url(user, Tab::ARTICLES)%></p><p><%= user.region_name %></p>
+<h6><a href="<%=user_url_with_context(user)%>"><%= user.name %></a></h6><p class="highlight"><%=  user.resident_expertise_description %></p><p class="articles-link"><%= link_to "#{user.first_name}'s articles (#{user.published_articles_count})", expanded_user_tabs_url(user, Tab::ARTICLES)%></p><p><%= user.region_name %></p>

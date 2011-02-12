@@ -103,10 +103,6 @@ class Article < ActiveRecord::Base
         self.author.subcategories_users.create(:subcategory => subcategory, :points => POINTS_FOR_RECENT_ARTICLE )
       else
         su.update_attribute(:points, su.points+POINTS_FOR_RECENT_ARTICLE)
-        if su.points+POINTS_FOR_RECENT_ARTICLE >= User::MIN_POINTS_TO_QUALIFY_FOR_EXPERT
-          Rails.cache.delete("subcats_with_experts")
-          Rails.cache.delete("experts_in_subcats")
-        end
       end
     end
   end

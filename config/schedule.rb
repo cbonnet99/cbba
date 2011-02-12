@@ -39,7 +39,6 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.check_pending_payments"
   runner "TaskUtils.rotate_feature_ranks"
   runner "TaskUtils.mark_down_old_full_members"
-  runner "TaskUtils.mark_down_old_expert_applications"
   command "find /home/cyrille/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
   command "find /home/cyrille/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
   runner "TaskUtils.rotate_user_positions_in_subcategories"
@@ -64,12 +63,12 @@ end
 every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/runs3sync"
   command "ruby script/delete_old_S3_files.rb"
+  runner "TaskUtils.recompute_points"
 end
 
 every 1.hour do
   # command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%H-00.sql`"
   # command "/var/rails/be_amazing/current/script/s3sync"
-  runner "TaskUtils.recompute_points"
   runner "TaskUtils.generate_autocomplete_subcategories"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"

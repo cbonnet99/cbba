@@ -56,6 +56,7 @@ class User < ActiveRecord::Base
   has_many :how_tos, :foreign_key => :author_id
 	has_many :subcategories_users, :order => "expertise_position", :dependent => :delete_all
 	has_many :subcategories, :through => :subcategories_users, :include => :subcategories_users, :order => "subcategories_users.expertise_position"
+	has_many :expert_subcategories, :through => :subcategories_users, :include => :subcategories_users, :source => :subcategory, :conditions => "subcategories_users.expertise_position is not null"
 	has_many :categories_users, :dependent => :delete_all
 	has_many :categories, :through => :categories_users
   has_many :tabs, :order => "position", :dependent => :delete_all
@@ -65,9 +66,7 @@ class User < ActiveRecord::Base
   has_many :user_events, :dependent => :delete_all
   has_many :visited_user_events, :class_name => "UserEvent", :foreign_key => :visited_user_id, :dependent => :delete_all 
   has_many :special_offers, :foreign_key => :author_id
-  has_many :expert_applications, :dependent => :delete_all
   has_many :gift_vouchers, :foreign_key => :author_id
-  has_one :expertise_subcategory, :class_name => "Subcategory",  :foreign_key => :resident_expert_id, :dependent => :delete
   has_many :recommendations, :dependent => :delete_all
   has_many :recommended_by_recommendations, :class_name => "Recommendation", :foreign_key => :recommended_user_id , :dependent => :delete_all
   has_many :recommended_by, :class_name => "User" , :through => :recommended_by_recommendations, :source => :user
@@ -86,10 +85,8 @@ class User < ActiveRecord::Base
   named_scope :full_members, :include => "roles", :conditions => "roles.name='full_member'"
   named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
   named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"
-  named_scope :resident_expert_admins, :include => "roles", :conditions => "roles.name='resident_expert_admin'"
-  #resident experts with an assigned subcategory (i.e. subcategories.id is not null)
-  named_scope :resident_experts, :include => ["roles", "expertise_subcategory"], :conditions => "roles.name='resident_expert' AND subcategories.id is not null"
   named_scope :new_users, :conditions => "new_user is true"
+  named_scope :resident_experts, :conditions => "is_resident_expert is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   named_scope :notify_unpublished, :conditions => "notify_unpublished IS true"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
@@ -108,6 +105,7 @@ class User < ActiveRecord::Base
   named_scope :has_paid_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now()"
   named_scope :has_paid_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now()"
   named_scope :hasnt_received_offers_reminder_recently, :conditions => ["offers_reminder_sent_at IS NULL OR offers_reminder_sent_at < ?", 1.month.ago]
+  named_scope :homepage_featured, :conditions => ["homepage_featured is true"] 
   
   # #around filters
 	before_validation :assemble_phone_numbers, :trim_stuff
@@ -117,18 +115,22 @@ class User < ActiveRecord::Base
   before_validation :downcase_subdomain  
 
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status
-	attr_accessor :membership_type, :resident_expert_application, :accept_terms, :admin, :main_role, :old_password
+	attr_accessor :membership_type, :accept_terms, :admin, :main_role, :old_password
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
-  MIN_POINTS_TO_QUALIFY_FOR_EXPERT = 15
   DAILY_USER_ROTATION = 3
   MAX_RECENT_ARTICLES = 3
   FEATURE_PHOTO = "photo"
   FEATURE_HIGHLIGHT = "highlighted profile"
   FEATURE_SO = "trial session"
   FEATURE_GV = "gift voucher"
+  NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
+  
+  def self.homepage_featured_resident_experts
+    User.find(:all, :conditions => ["homepage_featured is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+  end
 
   def self.extract_features_from_name(feature_names)
     so = 0
@@ -229,11 +231,6 @@ class User < ActiveRecord::Base
     end
     self.special_offers.published.each {|so| so.remove!}
     self.gift_vouchers.published.each {|gv| gv.remove!}
-    if resident_expert?
-      Rails.cache.delete("subcats_with_experts")
-      Rails.cache.delete("experts_in_subcats")
-    end
-    self.subcategories_users.destroy_all
   end
   
   def publish!
@@ -242,10 +239,6 @@ class User < ActiveRecord::Base
     end
     self.subcategories.each do |s|
       self.compute_points(s)
-    end
-    if resident_expert?
-      Rails.cache.delete("subcats_with_experts")
-      Rails.cache.delete("experts_in_subcats")
     end
   end
   
@@ -260,7 +253,7 @@ class User < ActiveRecord::Base
   def points_to_become_RE_in_subcat(subcat)
     experts = subcat.resident_experts
     if experts.blank? || experts.size < Subcategory::MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY
-      MIN_POINTS_TO_QUALIFY_FOR_EXPERT-self.points_in_subcategory(subcat.id)
+      Article::POINTS_FOR_RECENT_ARTICLE
     else
       (experts[Subcategory::MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY-1].try(:points_in_subcategory, subcat.id) || 0) - self.points_in_subcategory(subcat.id)+1
     end
@@ -328,26 +321,7 @@ class User < ActiveRecord::Base
   end
   
   def self.experts_for_subcategories
-    encoded_subcats = Rails.cache.read("subcats_with_experts")
-    if encoded_subcats.nil?
-      subcats = Subcategory.find_and_cache_expert_subcats
-    else
-      subcats = encoded_subcats.split("/").inject([]) {|array, id| array << Subcategory.find(id)}
-    end
-    encoded_experts = Rails.cache.read("experts_in_subcats")
-    if encoded_experts.nil?
-      experts = User.find_and_cache_resident_experts(subcats)
-    else
-      experts = {}
-      encoded_experts.split("/").each do |str|
-        subcat_id_str, experts_id = str.split(":")
-        experts_array = []
-        experts_id.split(",").each do |expert_id|
-          experts_array << User.find(expert_id)
-        end
-        experts[subcat_id_str.to_i] = experts_array
-      end
-    end
+    subcats_with_experts, experts = User.find_and_cache_resident_experts(subcats)
     return subcats, experts
   end
 
@@ -361,11 +335,6 @@ class User < ActiveRecord::Base
         experts[s.id] = experts_subcat
       end
     end
-    encoded_experts = ""
-    experts.each do |subcat_id, expert_users|
-       encoded_experts << "#{subcat_id}:#{expert_users.map(&:id).join(",")}/"
-    end
-    Rails.cache.write("experts_in_subcats", encoded_experts)
     return experts
   end
   
@@ -1044,7 +1013,7 @@ class User < ActiveRecord::Base
   end
 
   def self.featured_full_members
-    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "feature_rank", :limit => $number_full_members_on_homepage  )
+    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "feature_rank", :limit => $number_full_members_on_homepage)
   end
 
   def self.published_resident_experts
@@ -1106,9 +1075,7 @@ class User < ActiveRecord::Base
   end
 
   def resident_expert?
-    subcats, experts = User.experts_for_subcategories
-    all_experts = experts.values.inject([]){|arr, v| arr | v }
-    all_experts.include?(self)
+    is_resident_expert?
   end
 
   def sentence_to_review

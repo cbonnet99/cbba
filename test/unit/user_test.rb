@@ -4,10 +4,6 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
   
-  def setup
-    Rails.cache.clear
-  end
-
   def test_had_whole_package_order_1_year_ago
     user = Factory(:user, :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.days.ago.to_date,
     :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.days.ago.to_date, :paid_photo => true,
@@ -39,13 +35,11 @@ class UserTest < ActiveSupport::TestCase
 
   def test_resident_expert
     user = Factory(:user)
-    subcat = Factory(:subcategory)
-    assert !user.resident_expert?
+    subcat = Factory(:subcategory, :name => "Cyrille test subcat")
     article1 = Factory(:article, :author => user, :subcategory1_id => subcat.id, :state => "draft")
     article1.publish!
-    assert !user.resident_expert?
-    article2 = Factory(:article, :author => user, :subcategory1_id => subcat.id, :state => "draft")
-    article2.publish!
+    TaskUtils.recompute_resident_experts
+    user.reload
     assert user.resident_expert?
   end
   
@@ -83,65 +77,25 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 15, user.compute_points(sub1)
   end
 
-  def test_experts_for_subcategories_with_cache
+  def test_resident_expert
     sub1 = Factory(:subcategory)
     sub2 = Factory(:subcategory)
     user = Factory(:user, :subcategory1_id  => sub1.id)
+    assert user.active?
     article1 = Factory(:article, :author => user, :published_at => 2.days.ago)
     Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub1.id)  
     article2 = Factory(:article, :author => user, :published_at => 32.days.ago)
     Factory(:articles_subcategory, :article_id => article2.id, :subcategory_id => sub1.id)  
-    article3 = Factory(:article, :author => user, :published_at => 2.days.ago, :state => "draft")
-    Factory(:articles_subcategory, :article_id => article3.id, :subcategory_id => sub1.id)  
+    article3 = Factory(:article, :author => user, :published_at => 2.days.ago)
+    Factory(:articles_subcategory, :article_id => article3.id, :subcategory_id => sub2.id)  
     article4 = Factory(:article, :author => user, :published_at => 2.days.ago)
     Factory(:articles_subcategory, :article_id => article4.id, :subcategory_id => sub2.id)  
-    subcat_user = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, user.id)
     TaskUtils.recompute_points
-    sub1.reload
-    sub2.reload
+    TaskUtils.recompute_resident_experts
     user.reload
-    subcats, experts = User.experts_for_subcategories
-    assert_equal 1, subcats.size
-    assert experts[subcats.first.id].include?(user)
-    
-    user.business_name = "bla"
-    user.save!
-    
-    #user should still be an expert
-    subcats, experts = User.experts_for_subcategories
-    assert_equal 1, subcats.size
-    assert experts[subcats.first.id].include?(user)
-  end
-
-  def test_experts_for_subcategories_without_cache
-    sub1 = Factory(:subcategory)
-    sub2 = Factory(:subcategory)
-    user = Factory(:user, :subcategory1_id  => sub1.id)
-    article1 = Factory(:article, :author => user, :published_at => 2.days.ago)
-    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub1.id)  
-    article2 = Factory(:article, :author => user, :published_at => 32.days.ago)
-    Factory(:articles_subcategory, :article_id => article2.id, :subcategory_id => sub1.id)  
-    article3 = Factory(:article, :author => user, :published_at => 2.days.ago, :state => "draft")
-    Factory(:articles_subcategory, :article_id => article3.id, :subcategory_id => sub1.id)  
-    article4 = Factory(:article, :author => user, :published_at => 2.days.ago)
-    Factory(:articles_subcategory, :article_id => article4.id, :subcategory_id => sub2.id)  
-    subcat_user = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, user.id)
-    TaskUtils.recompute_points
-    sub1.reload
-    sub2.reload
-    user.reload
-    subcats, experts = User.experts_for_subcategories
-    assert_equal 1, subcats.size
-    assert experts[subcats.first.id].include?(user)
-    
-    user.business_name = "bla"
-    user.save!
-    
-    #user should still be an expert
-    Rails.cache.clear
-    subcats, experts = User.experts_for_subcategories
-    assert_equal 1, subcats.size
-    assert experts[subcats.first.id].include?(user)
+    experts = User.resident_experts
+    assert experts.include?(user)
+    assert_equal "#{sub1.name}", user.resident_expertise_description, "Subcategory2 should not be included, because it is not in the listed subcategories of user"
   end
 
   def test_notify_unpublished

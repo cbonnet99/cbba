@@ -189,27 +189,6 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'    
   end
   
-  def approve_expert(user, expert_application)
-    setup_email(user)
-		@subject << "Your expert application has been approved"
-    @body[:expert_application] = expert_application
-		@body[:url] = edit_payment_url(expert_application.payment)
-  end
-
-  def expert_application_time_out(user, expert_application)
-    setup_email(user)
-		@subject << "Your expert application has timed out"
-    @body[:expert_application] = expert_application
-		@body[:url] = edit_expert_application_url(expert_application)
-  end
-
-  def notifiy_admin_new_expert_application(expert_application, user)
-    setup_email(user)
-		@subject << "New expert application"
-    @body[:expert_application] = expert_application
-		@body[:url] = expert_applications_action_with_id_url(expert_application, :action => "show")
-  end
-
   def payment_invoice(user, payment, invoice)
     setup_email(user)
     if payment.stored_token_id.nil?
@@ -231,13 +210,6 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
 
-  def residence_expired_today(user)
-    setup_email(user)
-		@subject << "Your residence has expired"
-		@body[:url] = user_renew_resident_url(:user => user)
-    @content_type = 'text/html'
-  end
-
   def past_membership_expiration(user, time_description)
     setup_email(user)
 		@subject << "Your membership has expired #{time_description} ago"
@@ -246,27 +218,11 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
 
-  def past_residence_expiration(user, time_description)
-    setup_email(user)
-		@subject << "Your membership has expired #{time_description} ago"
-		@body[:time_description] = time_description
-		@body[:url] = user_renew_resident_url(:user => user)
-    @content_type = 'text/html'
-  end
-
   def coming_membership_expiration(user, time_description)
     setup_email(user)
 		@subject << "Your membership will expire in #{time_description}"
 		@body[:time_description] = time_description
 		@body[:url] = user_renew_membership_url(:user => user)
-    @content_type = 'text/html'
-  end
-
-  def coming_residence_expiration(user, time_description)
-    setup_email(user)
-		@subject << "Your membership will expire in #{time_description}"
-		@body[:time_description] = time_description
-		@body[:url] = user_renew_resident_url(:user => user)
     @content_type = 'text/html'
   end
 

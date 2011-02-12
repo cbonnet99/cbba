@@ -65,8 +65,11 @@ class SubcategoriesControllerTest < ActionController::TestCase
     category = Factory(:category)
     subcat = Factory(:subcategory, :category => category )
     user = Factory(:user, :subcategory1_id => subcat.id, :state => "inactive")
+    assert !user.resident_expert?
+
     get :show, :category_slug => category.slug, :subcategory_slug => subcat.slug 
     assert_response :success
+    
     assert_select "a[href]", {:text => user.name, :count => 0}
     assert_select "h3", {:text => "#{user.name} - #{user.key_expertise_name(subcat)}", :count => 0}
   end

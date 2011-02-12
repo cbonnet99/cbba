@@ -1,8 +1,9 @@
-span.monthly_view_counts{font-size: 10px;font-weight: bold;}
+span.monthly_view_counts{font-size: 10pxpx;font-weight: bold;}
 div#welcome_message{padding: 0px 5px 5px 8px; font-weight: bold; font-size: 12px;}
 div.article-view-counts {font-weight: bold;}
 .article_photo {float: left;}
-.article_lead {float: right; font-size: 14px; width: 400px; background-color: lightgrey; padding: 10px; border: 1px solid black;}
+.speechbubble {float:left;margin-top:10px;margin-right:-1px;}
+.article_lead {float: left; font-size: 14px; width: 380px; background-color: lightgrey; padding: 10px;}
 .buy_now {text-decoration: underline; font-weight: bold; font-size: medium; cursor: pointer;}
 #contentMain form ol#add-features-list li {text-align: center;border:grey 1px solid; float:left;clear:none;width:130px;padding:10px;margin:10px;}
 #contentMain form ol#add-features-list li p.main-offer{font-size:large;font-weight:bold;}

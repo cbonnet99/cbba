@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
   end
 
   def resident_experts
-    @re_subcats, @resident_experts = User.experts_for_subcategories
+    @featured_resident_experts = User.homepage_featured_resident_experts
   end
 
 	def get_districts_and_subcategories

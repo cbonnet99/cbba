@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110210171408) do
+ActiveRecord::Schema.define(:version => 20110212213132) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -176,24 +176,6 @@ ActiveRecord::Schema.define(:version => 20110210171408) do
   end
 
   add_index "districts", ["id"], :name => "index_districts_on_id"
-
-  create_table "expert_applications", :force => true do |t|
-    t.text     "expert_presentation"
-    t.integer  "user_id"
-    t.integer  "subcategory_id"
-    t.string   "status",              :default => "pending"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "approved_at"
-    t.integer  "approved_by_id"
-    t.text     "reason_reject"
-    t.datetime "rejected_at"
-    t.integer  "rejected_by_id"
-    t.boolean  "raise_profile"
-    t.boolean  "basic_articles"
-    t.boolean  "weekly_question"
-    t.integer  "payment_id"
-  end
 
   create_table "friend_messages", :force => true do |t|
     t.string   "from_email"
@@ -683,6 +665,11 @@ ActiveRecord::Schema.define(:version => 20110210171408) do
     t.datetime "offers_reminder_sent_at"
     t.string   "about",                               :limit => 600
     t.integer  "country_id"
+    t.boolean  "homepage_featured",                                  :default => false
+    t.datetime "last_homepage_featured_at"
+    t.boolean  "is_resident_expert"
+    t.string   "expertise_description"
+    t.string   "resident_expertise_description"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

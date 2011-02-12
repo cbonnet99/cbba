@@ -3,8 +3,34 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_change_homepage_featured_resident_experts
+    sub1 = Factory(:subcategory)
+    sub2 = Factory(:subcategory)
+    expert1 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true)
+    expert2 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true)
+    expert3 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true)
+
+    article1 = Factory(:article, :author => expert1, :published_at => 2.days.ago)
+    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub1.id)  
+
+    article2 = Factory(:article, :author => expert2, :published_at => 2.days.ago)
+    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub1.id)  
+
+    article3 = Factory(:article, :author => expert3, :published_at => 2.days.ago)
+    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub2.id)  
+    
+    TaskUtils.recompute_resident_experts
+    
+    assert User.resident_experts.size >= User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, 
+      "Only #{User.resident_experts.size} resident experts were found: #{User.resident_experts.map(&:name).to_sentence}"
+
+    TaskUtils.change_homepage_featured_resident_experts  
+    assert_equal User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, User.homepage_featured_resident_experts.size,
+        "Only #{User.homepage_featured_resident_experts.size} featured resident experts were found: #{User.homepage_featured_resident_experts.map(&:name).to_sentence}"
+    featured_before = User.homepage_featured_resident_experts
+  end
+
   def test_change_homepage_featured_article
-    featured_recently = Factory(:article, :last_homepage_featured_at => 1.week.ago)
     featured_before = Article.first_homepage_featured
     
     TaskUtils.change_homepage_featured_article
@@ -37,6 +63,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
 
   def test_recompute_resident_experts
     TaskUtils.recompute_resident_experts
+    assert User.resident_experts.count > 0
   end
   
   def test_send_offers_reminder_so
@@ -655,25 +682,6 @@ class TaskUtilsTest < ActiveSupport::TestCase
 
   def test_generate_random_passwords
     TaskUtils.generate_random_passwords
-  end
-
-  def test_mark_down_old_expert_applications
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-    
-    applying_expert_without_payment = expert_applications(:applying_expert_without_payment)
-    assert_not_nil applying_expert_without_payment.approved_by_id
-    assert_not_nil applying_expert_without_payment.approved_at
-    
-    TaskUtils.mark_down_old_expert_applications
-    applying_expert_without_payment.reload
-    assert_nil applying_expert_without_payment.approved_at
-    assert_nil applying_expert_without_payment.approved_by_id
-    assert applying_expert_without_payment.pending?
-
-    assert_equal 1, ActionMailer::Base.deliveries.size
-
   end
 
   def test_update_counters

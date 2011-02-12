@@ -2,10 +2,24 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.change_homepage_featured_resident_experts
+    users_to_feature = User.find(:all, :conditions => ["last_homepage_featured_at is NULL and is_resident_expert is true and paid_photo is true"], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+    if users_to_feature.size < User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS
+      more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id).join(",")], :order => "last_homepage_featured_at")
+      users_to_feature = users_to_feature.concat(more_users_to_feature)[0..User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS-1]
+    end
+    User.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
+    users_to_feature.each do |user|
+      user.homepage_featured = true
+      user.last_homepage_featured_at = Time.now
+      user.save!
+    end
+  end
+
   def self.change_homepage_featured_article
-    article_to_feature = Article.find(:first, :include => "author", :conditions => ["last_homepage_featured_at is NULL and users.paid_photo is true"])
+    article_to_feature = Article.find(:first, :include => "author", :conditions => ["articles.last_homepage_featured_at is NULL and users.paid_photo is true"])
     if article_to_feature.nil?
-      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true"], :order => "last_homepage_featured_at")
+      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true"], :order => "articles.last_homepage_featured_at")
     end
     Article.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
     article_to_feature.homepage_featured = true
@@ -50,8 +64,31 @@ class TaskUtils
   end
 
   def self.recompute_resident_experts
-    subcats = Subcategory.find_and_cache_expert_subcats
-    User.find_and_cache_resident_experts(subcats)
+    #reset
+    User.resident_experts.each do |expert|
+      expert.update_attribute(:is_resident_expert, false)
+    end
+    SubcategoriesUser.find(:all, :conditions => ["expertise_position is not null"]).each do |su|
+      su.update_attribute(:expertise_position, nil)
+    end
+    
+    #recompute
+    Subcategory.all.each do |s|
+      s.resident_experts.each_with_index do |expert, index|
+        expert.update_attribute(:is_resident_expert, true)
+        su = SubcategoriesUser.find_by_subcategory_id_and_user_id(s.id, expert.id)
+        if su.nil?
+          Rails.logger.error("No SubcategoriesUser found for user #{expert.id} and subcat #{s.id}. This indicates a serious problem!")
+        else
+          su.update_attribute(:expertise_position, index)
+        end
+      end
+    end
+    #cached resident expertise recomputed for each resident expert
+    User.resident_experts.each do |expert|
+      resident_expertise_description = expert.expert_subcategories.map(&:name).to_sentence
+      expert.update_attribute(:resident_expertise_description, resident_expertise_description)
+    end
   end
 
   def self.send_offers_reminder
@@ -87,27 +124,19 @@ class TaskUtils
   end
 
   def self.recompute_points
-    #clean up, just in case
-    SubcategoriesUser.all.each do |su|
-      su.destroy if su.user.nil?
-    end
     User.active.each do |u|
       u.subcategories.each do |s|
         points = u.compute_points(s)
         if points > 0
           su = SubcategoriesUser.find_by_subcategory_id_and_user_id(s.id, u.id)
           if su.nil?
-            su = SubcategoriesUser.new(:subcategory => s, :user => u, :points => points )
-            su.save!
+            Rails.logger.error("Could not find a SubcategoriesUser for user_id #{u.id} and subcategory #{s.id} even though this subcat is listed in user's profile... Something is seriously wrong here.")
           else
             su.update_attribute(:points, points)
           end
         end
       end
     end
-    # SubcategoriesUser.all.each do |su|
-    #   su.update_attribute(:points, su.user.compute_points(su.subcategory))
-    # end
   end
 
   def self.notify_unpublished_users
@@ -479,16 +508,6 @@ class TaskUtils
     User.full_members.new_users.each do |m|
       if !m.member_since.nil? && m.member_since < 1.month.ago
         m.update_attribute(:new_user, false)
-      end
-    end
-  end
-
-  def self.mark_down_old_expert_applications
-    ExpertApplication.approved_without_payment.each do |a|
-      if a.approved_at < 1.week.ago
-        a.approved_at = nil
-        a.approved_by_id = nil
-        a.time_out!
       end
     end
   end

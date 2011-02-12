@@ -125,45 +125,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def upgrade_to_full_membership
-    @payment = current_user.payments.pending.renewals.first
-    @payment = current_user.payments.create!(Payment::TYPES[:full_member]) if @payment.nil?
-    flash[:notice] = "Please complete the payment below to upgrade your membership"
-    redirect_to edit_payment_url(@payment)
-  end
-
-  def membership
-    @payment = current_user.payments.pending.find(:first, :order => "created_at desc" )
-    @new_member = current_user.member_since.nil?
-    @new_resident = current_user.resident_since.nil?
-    @awaiting_payment_expert_apps = current_user.expert_applications.approved_without_payment
-    @pending_expert_apps = current_user.expert_applications.pending
-  end
-
-  def renew_membership
-    # #unless there is already a pending payment
-    @payment = current_user.payments.pending.renewals.first
-    @payment = current_user.payments.create!(Payment::TYPES[:renew_full_member]) if @payment.nil?
-    flash[:notice] = "Please complete the payment below to renew your membership"
-    redirect_to edit_payment_url(@payment)
-  end
-
-  def pay_resident
-    # #unless there is already a pending payment
-    @payment = current_user.payments.pending.resident.first
-    @payment = current_user.payments.create!(Payment::TYPES[:resident_expert]) if @payment.nil?
-    flash[:notice] = "Please complete the payment below to complete your resident expert membership"
-    redirect_to edit_payment_url(@payment)
-  end
-
-  def renew_resident
-    # #unless there is already a pending payment
-    @payment = current_user.payments.pending.resident_renewals.first
-    @payment = current_user.payments.create!(Payment::TYPES[:renew_resident_expert]) if @payment.nil?
-    flash[:notice] = "Please complete the payment below to renew your resident expert membership"
-    redirect_to edit_payment_url(@payment)
-  end
-
   def index
     page = params[:page] || 1
     @full_members = User.paginated_full_members(page)
@@ -302,9 +263,6 @@ class UsersController < ApplicationController
 
   def new
     @mt = params[:mt] || "free_listing"
-    if logged_in? && @mt == "resident_expert"
-      redirect_to new_expert_application_url(:subcategory_id => params[:subcategory_id])
-    end
     professional_str = params[:professional] || "false"
     professional = professional_str == "true"
     subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i
@@ -324,10 +282,6 @@ class UsersController < ApplicationController
           @user.activate!
           session[:user_id] = @user.id
           redirect_to :controller => "users", :action => "welcome"  
-        when "resident_expert":
-           @user.activate!
-          session[:user_id] = @user.id
-          redirect_to new_expert_application_url
         else
           @user.activate!
           session[:user_id] = @user.id

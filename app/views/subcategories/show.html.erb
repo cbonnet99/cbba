@@ -7,7 +7,7 @@
 	<h3>Resident experts: <%= @subcategory.name%> Article Contributors</h3>
 	<div id="featured-experts">
 	    <% @featured_experts.each do |u| -%>
-	      <div class="homepage-small-user"><%= render :partial => "resident_experts/expert_small", :locals => {:subcat => @subcategory, :user => u }  %></div>
+	      <div class="homepage-small-user"><%= render :partial => "resident_experts/expert_small", :locals => {:user => u }  %></div>
 	    <% end -%>	
 	</div>
 </div>
