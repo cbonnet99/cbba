@@ -27,6 +27,7 @@ end
 
 every 2.weeks do
   runner "TaskUtils.notify_unpublished_users"
+  runner "TaskUtils.generate_autocomplete_subcategories"
 end
 
 every :sunday, :at => '12pm'  do
@@ -64,16 +65,15 @@ every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/runs3sync"
   command "ruby script/delete_old_S3_files.rb"
   runner "TaskUtils.recompute_points"
+  runner "TaskUtils.recompute_resident_experts"
 end
 
 every 1.hour do
   # command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%H-00.sql`"
   # command "/var/rails/be_amazing/current/script/s3sync"
-  runner "TaskUtils.generate_autocomplete_subcategories"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"
   runner "TaskUtils.process_paid_xero_invoices"
-  runner "TaskUtils.recompute_resident_experts"
 end
 
 every 5.minutes do
