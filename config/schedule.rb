@@ -66,6 +66,7 @@ every 1.day, :at => "4am"  do
   command "ruby script/delete_old_S3_files.rb"
   runner "TaskUtils.recompute_points"
   runner "TaskUtils.recompute_resident_experts"
+  runner "TaskUtils.change_homepage_featured_resident_experts"
 end
 
 every 1.hour do
