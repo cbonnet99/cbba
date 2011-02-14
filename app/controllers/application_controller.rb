@@ -15,11 +15,24 @@ class ApplicationController < ActionController::Base
 
 
 	#  before_filter :tags
-  before_filter :current_category, :search_terms, :categories, :counters, :resident_experts, :except => :change_category
+  before_filter :current_category, :search_terms, :categories, :counters, :resident_experts, :get_country, :except => :change_category
   # before_filter :set_subdomain_user
   
 	protected
 	exception_data :additional_data
+
+  def get_country
+    #default value
+    top_domain = request.host
+    host_bits = request.host.split(".")
+    if host_bits.size >= 2
+      top_domain = host_bits[-2..-1].join(".")
+    end
+    @country = Country.find_by_top_domain(top_domain)
+    if @country.nil?
+      @country = Country.default_country
+    end
+  end
 
   def redirect_with_context(default_url, visiting_user=current_user)
     if @context == "profile"

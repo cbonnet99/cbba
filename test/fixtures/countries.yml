@@ -1,7 +1,9 @@
 nz:
   name: New Zealand
   currency: NZD
+  country_code: nz
 
 au:
   name: Australia
   currency: AUD
+  country_code: au
