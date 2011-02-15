@@ -40,6 +40,14 @@ class HowTo < ActiveRecord::Base
 		HowTo.find_by_sql(["select ht.* from how_tos ht, how_tos_subcategories htsub where ht.state = 'published' and ht.id = htsub.how_to_id and htsub.subcategory_id in (?)", subcategories])
 	end
 
+  def self.find_all_by_subcategories_and_country_code(country_code, *subcategories)
+    if country_code.blank?
+      self.find_all_by_subcategories(subcategories)
+    else
+  		HowTo.find_by_sql(["select ht.* from how_tos ht, how_tos_subcategories htsub, countries c where c.country_code = ? and c.id = ht.country_id and ht.state = 'published' and ht.id = htsub.how_to_id and htsub.subcategory_id in (?)", country_code, subcategories])
+    end
+  end
+
   def validate
     if subcategory1_id.blank?
       errors.add(:subcategory1_id, "^You must select at least one category")

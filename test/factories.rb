@@ -82,6 +82,7 @@ Factory.define :user do |f|
   f.password_confirmation { |u| u.password }
   f.sequence(:email) { |n| "foo#{n}@example.com" }
   f.subcategory1_id {|s| s.association(:subcategory) }
+  f.association :country
 end
 
 Factory.define :user_event do |e|
@@ -97,12 +98,20 @@ Factory.define :subcategories_user do |scu|
   scu.association :subcategory
 end
 
+Factory.define :country do |c|
+  c.country_code "nz"
+  c.name "New Zealand"
+  c.currency "NZD"
+end
+
 Factory.define :article do |f|
   f.sequence(:title) {|n| "Article#{n}"}
   f.author {|author| author.association(:user) }
   f.lead "Bla"
   f.body "Bla"
   f.state "published"
+  f.published_at Time.now
+  f.association :country 
   f.subcategory1_id {|s| s.association(:subcategory) }
   f.blog_subcategory1_id {|s| s.association(:blog_subcategory) }
 end

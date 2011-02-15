@@ -1,0 +1,6 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+nz_yoga:
+  country: nz
+  subcategory: yoga
+  published_articles_count: 2

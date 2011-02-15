@@ -74,8 +74,12 @@ class Article < ActiveRecord::Base
     end
   end
   
-  def self.recent_articles
-    Article.find_all_by_state("published", :limit => MAX_ARTICLES_ON_INDEX, :order => "published_at desc" )
+  def self.recent_articles(country)
+    if country.nil?
+      Article.find_all_by_state("published", :limit => MAX_ARTICLES_ON_INDEX, :order => "published_at desc" )
+    else
+      country.articles.find_all_by_state("published", :limit => MAX_ARTICLES_ON_INDEX, :order => "published_at desc" )      
+    end
   end
 
   def summary
@@ -191,6 +195,14 @@ class Article < ActiveRecord::Base
 
 	def self.find_all_by_subcategories(*subcategories)
 		Article.find_by_sql(["select a.* from articles a, articles_subcategories asub where a.state = 'published' and a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
+	end
+
+	def self.find_all_by_subcategories_and_country_code(country_code, *subcategories)
+	  if country_code.blank?
+	    return self.find_all_by_subcategories(subcategories)
+    else
+		  Article.find_by_sql(["select a.* from articles a, articles_subcategories asub, countries c where c.country_code = ? and c.id = a.country_id and a.state = 'published' and a.id = asub.article_id and asub.subcategory_id in (?)", country_code, subcategories])
+	  end
 	end
 
   def self.all_newest_articles

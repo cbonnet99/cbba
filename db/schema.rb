@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110214074240) do
+ActiveRecord::Schema.define(:version => 20110214190418) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -165,6 +165,14 @@ ActiveRecord::Schema.define(:version => 20110214074240) do
     t.datetime "updated_at"
     t.string   "country_code"
     t.string   "top_domain"
+  end
+
+  create_table "countries_subcategories", :force => true do |t|
+    t.integer  "country_id"
+    t.integer  "subcategory_id"
+    t.integer  "published_articles_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "districts", :force => true do |t|

@@ -122,9 +122,19 @@ module Workflowable
         self.author.update_attribute(sym, self.author.send(sym)-1)
       end
       if self.respond_to?(:subcategories)
-        self.subcategories.each do |s|
-          if s.respond_to?(sym)
-            s.update_attribute(sym, s.send(sym)-1)
+        self.subcategories.each do |subcat|
+          if subcat.respond_to?(sym)
+            subcat.update_attribute(sym, subcat.send(sym)-1)
+          end
+          country = self.author.country
+          cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, subcat.id)            
+          if cs.respond_to?(sym)
+            if cs.nil?
+              CountriesSubcategory.create(:country_id => country.id, :subcategory_id => subcat.id,
+                                      sym => 0)
+            else
+              cs.update_attribute(sym, cs.send(sym)-1)
+            end
           end
         end
       else
@@ -144,9 +154,22 @@ module Workflowable
         self.author.update_attribute(sym, self.author.send(sym)+1)
       end
       if self.respond_to?(:subcategories)
-        self.subcategories.each do |s|
-          if s.respond_to?(sym)
-            s.update_attribute(sym, s.send(sym)+1)
+        self.subcategories.each do |subcat|
+          if subcat.respond_to?(sym)
+            subcat.update_attribute(sym, subcat.send(sym)+1)
+          end
+          country = self.author.country
+          if country.nil?
+            country = Country.default_country
+          end
+          cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, subcat.id)            
+          if cs.respond_to?(sym)
+            if cs.nil?
+              CountriesSubcategory.create(:country_id => country.id, :subcategory_id => subcat.id,
+                                      sym => 1)
+            else
+              cs.update_attribute(sym, cs.send(sym)+1)
+            end
           end
         end
       else

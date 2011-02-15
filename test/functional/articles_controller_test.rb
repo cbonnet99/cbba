@@ -14,6 +14,20 @@ class ArticlesControllerTest < ActionController::TestCase
     assert !assigns(:articles).include?(article_yoga), "Draft article should not be included in index_for_subcategory"
   end
 
+  def test_index_for_subcategory_nz
+    yoga = subcategories(:yoga)
+    au_article = Factory(:article, :country => countries(:au), :subcategory1_id => yoga.id)
+    nz = countries(:nz)
+    article_yoga = articles(:yoga)
+    long = articles(:long)
+    get :index_for_subcategory, :subcategory_slug  => yoga.slug, :country_code => nz.country_code
+    assert assigns(:articles).include?(long), "Published article should be included in index_for_subcategory"
+    assert !assigns(:articles).include?(article_yoga), "Draft article should not be included in index_for_subcategory"
+    assigns(:articles).each do |a|
+      assert_equal nz, a.country
+    end
+  end
+
   def test_index_rss
     get :index, :format => "rss"
     assert_response :success
@@ -30,8 +44,10 @@ class ArticlesControllerTest < ActionController::TestCase
 	def test_unpublish
 	  TaskUtils.update_subcategories_counters
 		long = articles(:long)
+    subcat = long.subcategories.first
 		cyrille = users(:cyrille)
     old_published_count = cyrille.published_articles_count
+    old_country_count = CountriesSubcategory.find_by_country_id_and_subcategory_id(cyrille.country.id, subcat.id).try(:published_articles_count) || 0
     subcat = long.subcategories.first
     old_count = subcat.published_articles_count
 		post :unpublish, {:context => "profile", :selected_tab_id => "articles", :id => long.id }, {:user_id => cyrille.id}
@@ -44,13 +60,18 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_equal old_published_count-1, cyrille.published_articles_count
     subcat.reload
     assert_equal old_count-1, subcat.published_articles_count
+    cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(cyrille.country.id, subcat.id)
+    assert_not_nil cs
+    assert_equal old_country_count-1, cs.published_articles_count
   end
+  
 	def test_publish
 	  TaskUtils.update_subcategories_counters
 		yoga = articles(:yoga)
     subcat = yoga.subcategories.first
     old_count = subcat.published_articles_count
 		cyrille = users(:cyrille)
+    old_country_count = CountriesSubcategory.find_by_country_id_and_subcategory_id(cyrille.country.id, subcat.id).try(:published_articles_count) || 0
     old_published_count = cyrille.published_articles_count
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
@@ -68,6 +89,9 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_equal old_published_count+1, cyrille.published_articles_count
     subcat.reload
     assert_equal old_count+1, subcat.published_articles_count
+    cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(cyrille.country.id, subcat.id)
+    assert_not_nil cs
+    assert_equal old_country_count+1, cs.published_articles_count
 	end
 
 	def test_edit
@@ -89,6 +113,19 @@ class ArticlesControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:subcategories)
+  end
+
+  def test_should_get_index_nz
+    au_article = Factory(:article, :country => countries(:au))
+    
+    get :index, :country_code => "nz" 
+    assert_response :success
+    assert_not_nil assigns(:subcategories)
+    assert !assigns(:recent_articles).blank?
+    nz = countries(:nz)
+    assigns(:recent_articles).each do |a|
+      assert_equal nz, a.country
+    end
   end
 
   def test_should_get_new
@@ -114,6 +151,7 @@ class ArticlesControllerTest < ActionController::TestCase
     assert_redirected_to articles_show_url(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
 		assert_equal yoga.id, assigns(:article).subcategory1_id
 		assert_equal about, assigns(:article).about
+		assert_equal countries(:nz), assigns(:article).country
     assert_not_nil assigns(:subcategories)
     cyrille.reload
     assert_equal about, cyrille.about, "About section should be saved for user (so that next time, the new about section is used)"

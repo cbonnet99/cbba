@@ -38,6 +38,7 @@ cyrille:
   paid_highlighted:         true
   paid_highlighted_until:         <%= 6.months.from_now.to_s :db %>
   subdomain:                cyrille
+  country:                  nz
 norma:
   first_name:                Norma V
   last_name:                 Stein2
@@ -68,6 +69,7 @@ norma:
   website:                   http://www.google.com
   receive_newsletter:       true
   unsubscribe_token:        282e6165f5d5dd716717755d0f733f5b38fe035a
+  country:                  nz
 amcloughlin:
   first_name:                Aaron
   last_name:                 McLoughlin
@@ -92,6 +94,7 @@ amcloughlin:
   member_since:              <%= 11.months.ago.to_s :db %>
   member_until:              <%= 2.weeks.from_now.to_s :db %>
   slug:                      aaron-mcloughlin
+  country:                   nz
 sgardiner:
   first_name:                Stephanie
   last_name:                 Gardiner
@@ -119,6 +122,7 @@ sgardiner:
   slug:                      stephanie-gardiner
   paid_special_offers:       1
   paid_gift_vouchers:        1
+  country:                   nz
 rmoore:
   first_name:                Roger
   last_name:                 Moore
@@ -145,6 +149,7 @@ rmoore:
   member_since:              <%= 2.weeks.ago.to_s :db %>
   member_until:              <%= 50.weeks.from_now.to_s :db %>
   slug:                      roger-moore
+  country:                   nz
 pending_user:
   first_name:                Pending
   last_name:                 User
@@ -164,6 +169,7 @@ pending_user:
   free_listing:              false
   phone:                     (06)3086130
   slug:                      pending-user
+  country:                   nz
 suspended_user1:
   first_name:                Suspended
   last_name:                 User1
@@ -182,6 +188,7 @@ suspended_user1:
   member_since:              <%= 1.year.ago.to_s :db %>
   member_until:              <%= 1.week.ago.to_s :db %>
   slug:                      suspended1
+  country:                   nz
 suspended_user2:
   first_name:                Suspended
   last_name:                 User2
@@ -200,6 +207,7 @@ suspended_user2:
   member_since:              <%= 1.year.ago.to_s :db %>
   member_until:              <%= 2.weeks.ago.to_s :db %>
   slug:                      suspended2
+  country:                   nz
 resident_expert_user:
   first_name:                Resident
   last_name:                 User
@@ -218,6 +226,7 @@ resident_expert_user:
   resident_since:              <%= 1.year.ago.to_s :db %>
   resident_until:              <%= 1.year.from_now.to_s :db %>
   slug:                      resident
+  country:                   nz
 applying_resident_expert:
   first_name:                Joe
   last_name:                 Smith
@@ -233,3 +242,5 @@ applying_resident_expert:
   free_listing:              false
   phone:                     (06)3086130
   slug:                      joe-smith
+  country:                   nz
+  

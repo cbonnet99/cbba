@@ -7,8 +7,8 @@ class ArticlesController < ApplicationController
   def index_for_subcategory
     @subcategory = Subcategory.find_by_slug(params[:subcategory_slug])
     @subcategory = Subcategory.first if @subcategory.nil?
-    @articles = Article.find_all_by_subcategories(@subcategory)
-    @how_tos = HowTo.find_all_by_subcategories(@subcategory)
+    @articles = Article.find_all_by_subcategories_and_country_code(params[:country_code], @subcategory)
+    @how_tos = HowTo.find_all_by_subcategories_and_country_code(params[:country_code], @subcategory)
     @all_articles = @articles.concat(@how_tos)
     @all_articles = @all_articles.sort_by(&:published_at).reverse
   end
@@ -39,11 +39,11 @@ class ArticlesController < ApplicationController
   
   def index
     @context = "homepage"
-    
+    @selected_country = Country.find_by_country_code(params[:country_code])
     respond_to do |format|
       format.html{
-        @subcategories = Subcategory.with_articles
-        @recent_articles = Article.recent_articles
+        @subcategories = Subcategory.with_articles(@selected_country)
+        @recent_articles = Article.recent_articles(@selected_country)
       }
       format.rss  {
         @articles = Article.published
@@ -111,6 +111,7 @@ class ArticlesController < ApplicationController
     else  
       @article = Article.new(params[:article])
       @article.author_id = @current_user.id
+      @article.country = @current_user.country
       get_subcategories
       get_blog_subcategories
       
