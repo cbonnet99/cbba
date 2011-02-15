@@ -199,7 +199,7 @@ class Article < ActiveRecord::Base
 
 	def self.find_all_by_subcategories_and_country_code(country_code, *subcategories)
 	  if country_code.blank?
-	    return self.find_all_by_subcategories(subcategories)
+	    return self.find_all_by_subcategories(*subcategories)
     else
 		  Article.find_by_sql(["select a.* from articles a, articles_subcategories asub, countries c where c.country_code = ? and c.id = a.country_id and a.state = 'published' and a.id = asub.article_id and asub.subcategory_id in (?)", country_code, subcategories])
 	  end
