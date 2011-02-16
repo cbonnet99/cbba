@@ -5,6 +5,7 @@ module Sluggable
     base.send :extend, WorkflowClassMethods
     base.send :before_create, :update_slug
     base.send :before_update, :update_slug
+    base.send :before_create, :set_country
   end
   
   module WorkflowClassMethods
@@ -14,7 +15,13 @@ module Sluggable
     def to_param
       self.slug
     end
-
+    
+    def set_country
+      if respond_to?(:author) && respond_to?(:country_id)
+        self.country_id = self.author.country_id
+      end
+    end
+    
   	def update_slug
   		self.slug = computed_slug
   	end

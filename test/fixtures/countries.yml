@@ -2,8 +2,10 @@ nz:
   name: New Zealand
   currency: NZD
   country_code: nz
+  top_domain: co.nz
 
 au:
   name: Australia
   currency: AUD
   country_code: au
+  top_domain: com.au

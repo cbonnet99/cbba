@@ -1,3 +1,10 @@
+jones_au:
+  first_name:                Dave
+  last_name:                 Jones
+  country:                   au
+  business_name:             Jones Inc.
+  email:                     jones@telstraclear.com.au
+  region:                    queensland    
 cyrille:
   last_logged_at:            <%= 16.days.ago.to_s :db  %>
   first_name:                Cyrille

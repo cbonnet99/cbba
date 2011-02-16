@@ -1,54 +1,76 @@
+queensland:
+    name: Queensland
+    slug: queensland
+    country: au
 auckland:
     name: Auckland Region
     slug: auckland-region
+    country: nz
 plenty:
     name: Bay Of Plenty
     slug: bay-of-plenty
+    country: nz
 canterbury:
     name: Canterbury
     slug: canterbury
+    country: nz
 gisborne:
     name: Gisborne
     slug: gisborne
+    country: nz
 hawkes_bay:
     name: Hawkes Bay
     slug: hawkes-bay
+    country: nz
 marlborough:
     name: Marlborough
     slug: marlborough
+    country: nz
 manawatu:
     name: Manawatu
     slug: manawatu
+    country: nz
 nelson:
     name: Nelson Bays
     slug: nelson-bays
+    country: nz
 northland:
     name: Northland
     slug: northland
+    country: nz
 otago:
     name: Otago
     slug: otago
+    country: nz
 southland:
     name: Southland
     slug: southland
+    country: nz
 taranaki:
     name: Taranaki
     slug: taranaki
+    country: nz
 timaru_oamaru:
     name: Timaru-Oamaru
     slug: timaru-oamaru
+    country: nz
 waikato:
     name: Waikato
     slug: waikato
+    country: nz
 wairarapa:
     name: Wairarapa
     slug: wairarapa
+    country: nz
 wanganui:
     name: Wanganui
     slug: wanganui
+    country: nz
 wellington:
     name: Wellington Region
     slug: wellington-region
+    country: nz
 west_coast:
     name: West Coast
     slug: west-coast
+    country: nz

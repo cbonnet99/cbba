@@ -16,7 +16,7 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_index_for_subcategory_nz
     yoga = subcategories(:yoga)
-    au_article = Factory(:article, :country => countries(:au), :subcategory1_id => yoga.id)
+    au_article = Factory(:article, :country => countries(:au), :subcategory1_id => yoga.id, :author => users(:jones_au))
     nz = countries(:nz)
     article_yoga = articles(:yoga)
     long = articles(:long)
@@ -24,7 +24,7 @@ class ArticlesControllerTest < ActionController::TestCase
     assert assigns(:articles).include?(long), "Published article should be included in index_for_subcategory"
     assert !assigns(:articles).include?(article_yoga), "Draft article should not be included in index_for_subcategory"
     assigns(:articles).each do |a|
-      assert_equal nz, a.country
+      assert_equal nz, a.country, "For article #{a}, expected country: #{nz}, but got #{a.country}"
     end
   end
 

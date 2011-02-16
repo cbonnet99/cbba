@@ -10,6 +10,10 @@ class Country < ActiveRecord::Base
   has_many :special_offers
   has_many :countries_subcategories
   
+  def to_s
+    "#{self.id}: #{self.name}"
+  end
+  
   def self.default_country
     Country.find_by_country_code("nz")
   end

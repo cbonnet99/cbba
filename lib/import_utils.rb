@@ -94,6 +94,7 @@ class ImportUtils
   end
 
 	def self.import_users(csv_file="users.csv")
+	  nz = Country.find_by_country_code("nz")
 		parsed_file = CSV::Reader.parse(File.open(File.dirname(__FILE__) + "/../csv/#{csv_file}"))
 		User.transaction do
 			Category.transaction do
@@ -125,7 +126,7 @@ class ImportUtils
           member_until = member_since = nil
           member_until = DateTime.strptime(member_until_str, "%d.%m.%Y") unless member_until_str.blank?
           member_since = DateTime.strptime(member_since_str, "%d.%m.%Y") unless member_since_str.blank?
-
+          
 					role_str = ImportUtils.strip_and_nil(row[21])
 					if role_str == "2"
 						role = full_member
@@ -193,7 +194,7 @@ class ImportUtils
               end
             end
           end
-					user = User.new(:first_name => first_name, :last_name => last_name, :business_name => business_name,
+					user = User.new(:country_id => nz.id, :first_name => first_name, :last_name => last_name, :business_name => business_name,
 						:address1 => address1, :suburb => suburb, :district_id => district.id,
 						:region_id => region.id, :phone_prefix => phone_array[0], :phone_suffix => phone_array[1], :mobile_prefix => mobile_array[0], :mobile_suffix => mobile_array[1], :email => email,
 						:free_listing => (role == free_listing), :professional => true,

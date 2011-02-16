@@ -111,7 +111,6 @@ class ArticlesController < ApplicationController
     else  
       @article = Article.new(params[:article])
       @article.author_id = @current_user.id
-      @article.country = @current_user.country
       get_subcategories
       get_blog_subcategories
       
