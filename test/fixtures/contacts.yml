@@ -10,6 +10,7 @@ joe:
   state:                     active
   salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
   crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
+  country: nz
   
 sarah:
   email: sarah@gmail.com
@@ -22,3 +23,4 @@ sarah:
   state:                     active
   salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
   crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
+  country: nz

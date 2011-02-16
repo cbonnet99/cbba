@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110214190418) do
+ActiveRecord::Schema.define(:version => 20110215211811) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -317,6 +317,7 @@ ActiveRecord::Schema.define(:version => 20110214190418) do
     t.integer  "newsletter_id"
     t.string   "recipients"
     t.integer  "sent_by_id"
+    t.integer  "country_id"
   end
 
   create_table "messages", :force => true do |t|

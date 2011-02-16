@@ -29,5 +29,14 @@ class CreateCountries < ActiveRecord::Migration
 
   def self.down
     drop_table :countries
+    remove_column :users, :country_id
+    remove_column :contacts, :country_id
+    remove_column :articles, :country_id
+    remove_column :counters, :country_id
+    remove_column :districts, :country_id
+    remove_column :gift_vouchers, :country_id
+    remove_column :how_tos, :country_id
+    remove_column :regions, :country_id
+    remove_column :special_offers, :country_id
   end
 end

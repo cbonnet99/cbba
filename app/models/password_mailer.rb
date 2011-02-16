@@ -13,7 +13,7 @@ class PasswordMailer < ActionMailer::Base
   protected
   
   def setup_email(user)
-    default_url_options[:host] = APP_CONFIG[:site_host]
+    default_url_options[:host] = APP_CONFIG[:site_host][user.country.country_code]
     default_url_options[:protocol] = APP_CONFIG[:logged_site_protocol]
     @recipients = "#{user.email}"
     @from = APP_CONFIG[:admin_email]

@@ -1,5 +1,7 @@
 development: &non_production_settings
-  site_host: localhost:3000
+  site_host:
+      nz: localhost:3000
+      au: localhost.com.au:3000
   site_protocol: http
   logged_site_protocol: http
   site_name: Be Amazing(development)
@@ -10,7 +12,9 @@ development: &non_production_settings
   megan: norma2@eurekacoaching.co.nz
   
 test:
-    site_host: test.host
+    site_host:
+        nz: test.host
+        au: test.host.com.au
     site_protocol: http
     logged_site_protocol: http
     site_name: Be Amazing(test)
@@ -21,7 +25,9 @@ test:
     megan: norma2@eurekacoaching.co.nz
   
 production:
-  site_host: www.beamazing.co.nz
+  site_host: 
+      nz: www.beamazing.co.nz
+      au: www.beamazing.com.au
   site_protocol: http
   logged_site_protocol: https
   site_name: Be Amazing
@@ -31,7 +37,9 @@ production:
   cyrille: cbonnet99@gmail.com
   megan: megan@beamazing.co.nz
 staging:
-    site_host: staging.beamazing.co.nz
+    site_host:
+        nz: staging.beamazing.co.nz
+        nz: staging.beamazing.com.au
     site_protocol: http
     logged_site_protocol: http
     site_name: Be Amazing [STAGING]
