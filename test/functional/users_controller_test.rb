@@ -595,6 +595,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal 0, assigns(:user).errors.size
 		assert_equal old_size+1, User.all.size
 		assert_equal 1, assigns(:user).tabs.size
+		assert_not_nil assigns(:user).country
 		tab = assigns(:user).tabs.first
 		assert_match /delete this text/, tab.content1_with
 		assert_match /delete this text/, tab.content2_benefits
