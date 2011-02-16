@@ -17,11 +17,13 @@ end
 
 Factory.define :region do |f|
   f.name "Wellington Region"
+  f.country {|c| Country.find_by_country_code("nz")}
 end
 
 Factory.define :district do |f|
   f.name "Wellington City"
   f.association :region
+  f.country {|c| Country.find_by_country_code("nz")}
 end
 
 Factory.define :category do |c|

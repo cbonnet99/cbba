@@ -15,7 +15,7 @@
       </li>
       <li>
         <div class="left-input">Availability</div>
-		<div class="right-label"><%= f.radio_button :nation_wide, "true" %><label for="gift_voucher_nation_wide_true">Available New Zealand-wide</label></div>
+		<div class="right-label"><%= f.radio_button :nation_wide, "true" %><label for="gift_voucher_nation_wide_true">Available <%= @country.name%>-wide</label></div>
 	  </li>
     <li>
 		<div class="left-input"></div>

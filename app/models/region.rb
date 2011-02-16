@@ -17,7 +17,7 @@ class Region < ActiveRecord::Base
   end
 
   def locate
-      address = [name, "New Zealand"].reject{|o| o.blank?}.join(", ")
+      address = [name, country.name].reject{|o| o.blank?}.join(", ")
       begin
         location = ImportUtils.geocode(address)
         logger.debug("====== Geocoding: #{address}: #{location.inspect}")

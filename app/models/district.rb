@@ -3,9 +3,13 @@ class District < ActiveRecord::Base
 	belongs_to :region
   belongs_to :country
 
-  before_create :locate
+  before_create :set_country, :locate
   before_update :update_geocodes
-
+  
+  def set_country
+    self.country = self.region.country
+  end
+  
   def update_geocodes
     if self.name_changed?
       locate
@@ -13,7 +17,7 @@ class District < ActiveRecord::Base
   end
 
   def locate
-      address = [name, "New Zealand"].reject{|o| o.blank?}.join(", ")
+      address = [name, country.name].reject{|o| o.blank?}.join(", ")
       begin
         location = ImportUtils.geocode(address)
         logger.debug("====== Geocoding: #{address}: #{location.inspect}")

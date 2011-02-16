@@ -248,7 +248,8 @@ class UsersControllerTest < ActionController::TestCase
 	def test_publish_with_unedited_tabs
 	  hypnotherapy = subcategories(:hypnotherapy)
 	  district = District.first
-	  user = User.create(:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
+	  nz = Country.find_by_country_code("nz")
+	  user = User.create(:country => nz, :email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
       :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
       :accept_terms => "1", :subcategory1_id => hypnotherapy.id)
     assert_equal 1, user.tabs.size

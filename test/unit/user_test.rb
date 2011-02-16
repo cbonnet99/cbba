@@ -526,7 +526,7 @@ class UserTest < ActiveSupport::TestCase
     canterbury = regions(:canterbury)
     hypnotherapy = subcategories(:hypnotherapy)
     old_roles_user_size = RolesUser.all.size
-    user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
+    user = User.new(:country => countries(:nz), :first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
       :region_id => canterbury.id, :email => "joe@test.com",
       :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
       :password => "blablabla", :password_confirmation => "blablabla", :accept_terms => true  )
@@ -551,7 +551,7 @@ class UserTest < ActiveSupport::TestCase
     canterbury_christchurch_city = districts(:canterbury_christchurch_city)
     canterbury = regions(:canterbury)
     hypnotherapy = subcategories(:hypnotherapy)
-    user = User.new(:first_name => "Joe", :last_name => "Test",
+    user = User.new(:country => countries(:nz), :first_name => "Joe", :last_name => "Test",
       :district_id => canterbury_christchurch_city.id, :business_name => "uytut",
       :region_id => canterbury.id, :email => "joe.bill@nunu.com",
       :free_listing => true, :professional => true,
@@ -673,7 +673,7 @@ class UserTest < ActiveSupport::TestCase
 		wellington = regions(:wellington)
 		wellington_wellington_city = districts(:wellington_wellington_city)
 
-		new_user = User.new(:accept_terms => "1", :first_name => "Joe", :last_name => "Test", :business_name => "Test",
+		new_user = User.new(:country => countries(:nz), :accept_terms => "1", :first_name => "Joe", :last_name => "Test", :business_name => "Test",
 			:address1 => "1, Main St", :suburb => "Newtown", :district_id => wellington_wellington_city.id,
 			:region_id => wellington.id, :phone => "04-28392173", :mobile => "", :email => "joe@test.com",
 			:password => "blablabla", :password_confirmation => "blablabla", :professional => true  )
@@ -688,7 +688,7 @@ class UserTest < ActiveSupport::TestCase
 		yoga = subcategories(:yoga)
 
 		old_count = User.count
-		new_user = User.new(:first_name => "Joe", :last_name => "Test", :business_name => "   Test",
+		new_user = User.new(:country => countries(:nz), :first_name => "Joe", :last_name => "Test", :business_name => "   Test",
 			:address1 => "1, Main St", :suburb => "Newtown", :district_id => wellington_wellington_city.id,
 			:region_id => wellington.id, :phone => "04-28392173", :mobile => "", :email => "joe@test.com",
 			:subcategory1_id => hypnotherapy.id, :subcategory2_id => yoga.id, :subcategory3_id => nil,

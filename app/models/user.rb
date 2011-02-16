@@ -1362,7 +1362,7 @@ class User < ActiveRecord::Base
       self.latitude = nil
       self.longitude = nil
     else
-      address = [address1, suburb, district.name, "New Zealand"].reject{|o| o.blank?}.join(", ")
+      address = [address1, suburb, district.name, self.country.name].reject{|o| o.blank?}.join(", ")
       begin
         location = ImportUtils.geocode(address)
         logger.debug("====== Geocoding: #{address}: #{location.inspect}")

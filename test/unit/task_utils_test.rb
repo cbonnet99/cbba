@@ -818,7 +818,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
   #     end
       old_user_size = User.all.size
       # #another hypnoptherapist in Chrischurch!
-      user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
+      user = User.new(:country => countries(:nz), :first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
         :region_id => canterbury.id, :email => "joe@test.com",
         :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
         :password => "blablabla", :password_confirmation => "blablabla" )
@@ -874,7 +874,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
   #     end
       old_user_size = User.all.size
       # #another hypnoptherapist in Chrischurch!
-      user = User.new(:first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
+      user = User.new(:country => countries(:nz), :first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
         :region_id => canterbury.id, :email => "joe@test.com",
         :membership_type => "full_member", :professional => true, :subcategory1_id => subcategories(:hypnotherapy).id,
         :password => "blablabla", :password_confirmation => "blablabla" )
