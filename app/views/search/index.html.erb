@@ -12,31 +12,16 @@
 <!-- Intro Starts -->
 <div class="intro">
 	<% unless @featured_article.nil? -%>
-	<h3>Featured author:</h3>
+	<h3>Featured author: <%= link_to @featured_article.author.name, user_url_with_context(@featured_article.author), :class => "homepage_article_link" %></h3>
 	<%= render :partial => "articles/article_with_photo", :locals => {:article => @featured_article} %>
 	<% end -%>
 </div>
 <!-- Intro Ends -->
-<% unless @featured_full_members.empty? -%>
-<!--New Full Members Starts -->
-<div class="box">
-  <h3>Featured Coaches, Speakers &amp; Courses</h3>
-  <div id="homepage-full-members">
-    <% @featured_full_members.each do |u| -%>
-      <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
-    <% end -%>
-  </div>
-  <% if @total_full_members > $number_full_members_on_homepage -%>
-  <p class="floatRight"><%= link_to "View more &raquo;", :controller => "full_members", :action => "index"%></p>
-  <% end -%>
-</div>
-<!--New Full Members Ends -->
-<% end -%>
 <!--News Starts -->
 
 <div id="articles-homepage" class="section"> 
-<h3>Featured Articles</h3>
-<div class="rss"><%= link_to image_tag('rss_icon.png'), "http://feeds.feedburner.com/BeAmazing"%></div>
+<div id="subscribe_articles">Subscribe to Beamazing articles</div><div class="rss"><%= link_to image_tag('rss_icon.png'), "http://feeds.feedburner.com/BeAmazing"%></div>
+<div class="cleaner"></div>
 <% @newest_articles.each do |a| -%>
   <div class="homepage-article">
   <% if a.class.to_s == "HowTo" -%>

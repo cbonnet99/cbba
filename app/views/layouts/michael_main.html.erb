@@ -138,6 +138,10 @@
   <div id="sidebar2" class="column">
     <div class="columnTop">&nbsp;</div>
 	<div id="welcome_message">"Live your life your way, achieve more and Be Amazing! A blog for you by <%= @country.name%> Coaches"</div>
+	<% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
+	    <%= link_to "<span>FREE Subscribe</span>", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
+	       <p><%= link_to "View past newsletters", newsletters_url%></p>
+	<% end -%>
 	<div id="networks">
 		<h4>Join us on:</h4>
 		<div id="network-images"><%= link_to image_tag("linked-in.png"),  "http://www.linkedin.com/groups?gid=2097679&trk=hb_side_g", :alt => "Linked in" %>

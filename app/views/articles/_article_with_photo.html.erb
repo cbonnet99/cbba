@@ -1,8 +1,7 @@
 <div class="article_photo"><%= medium_image(article.author)%>
-		<div class="article_author_link"><a href="<%=user_url_with_context(article.author)%>"><%= article.author.name %></a></div>
 </div>
 <div class="speechbubble"><%= image_tag 'speechbubble.png'%></div>
-<div class="article_lead rounded"><%= white_list article.lead.gsub(/\n/, '').gsub(/<br\/>/, '')%>
+<div class="article_lead rounded"><div class="article_title_in_bubble"><%= article.title %></div><%= white_list article.lead.gsub(/\n/, '').gsub(/<br\/>/, '')%>
 	<br/>
-	<%=link_to "Read \"#{article.title}\" >", articles_show_url(article.author.slug, article.slug, :context => @context, :selected_tab_id => "articles") %></div>
+	<%=link_to "Read more >", articles_show_url(article.author.slug, article.slug, :context => @context, :selected_tab_id => "articles") %></div>
 <div class="cleaner"></div>

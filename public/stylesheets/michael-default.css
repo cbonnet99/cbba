@@ -1,6 +1,13 @@
+div.left_article_stuff {float: left;}
+div.left_article_stuff p {width: 450px;}
+div.right_article_stuff {float: right;}
+div#subscribe_articles {float: right; font-size: 14px; padding: 0 10px 0 10px;}
+div.rss {float: right;}
+h3 a.homepage_article_link {color: #20ACCD;}
+div.article_title_in_bubble {font-weight: bold;}
 div.article_author_link{margin-left: 5px;}
 span.monthly_view_counts{font-size: 10pxpx;font-weight: bold;}
-div#welcome_message{padding: 0px 5px 5px 8px; font-weight: bold; font-size: 12px; color:#20ACCD; font-style: italic;}
+div#welcome_message{padding: 0px 5px 5px 8px; font-weight: bold; font-size: 12px; color:#C00; font-style: italic;}
 div.article-view-counts {font-weight: bold;}
 .article_photo {float: left;}
 .speechbubble {float:left;margin-top:10px;margin-right:-1px;}
@@ -70,7 +77,7 @@ blockquote.quote{font-weight: bold; font-size: 12px; background-color: lightgrey
 .column #networks h4, #networks #network-images{margin: 8px;}
 #share{margin: 8px;}
 #contentMain ul.simple{margin: 0 0 0 0;}
-h4.article-title{padding:8px 0 0 0;}
+h4.article-title{padding:8px 0 0 0; color: #5555;}
 .article-subcategories{font-size:10px;}
 #meet-author{font-size:12px;}
 .heading-title, .heading-photo{float:left;}
@@ -83,7 +90,6 @@ h4.article-title{padding:8px 0 0 0;}
 #contentMain .register-actions a.anchor-button {float:right;text-decoration: none; background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:26px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;border-width:2px; color:#333333;cursor:pointer;display:block; font-size:11px; line-height:30px;margin-right:2px;overflow:visible;width:auto;}
 #contentMain .register-actions-active input.cancel:hover, #contentMain .register-actions-active a.cancel:hover{background:#CC0000;color:#fff;}
 #articles-homepage h3{color:black;}
-#articles-homepage h4, h4.article-title {color:#20ACCD;}
 #articles-homepage h4 a, h4.article-title a {color:#20ACCD;}
 h2.bonus-offer{color:red;}
 p.bonus-offer em{font-weight: bold;}

@@ -108,7 +108,8 @@ a.newsletterBtn span { padding:46px 0 0 34px; }
 	h1, h2, h3, h4, h5, h6 { color:#222; font-family: Arial, Helvetica, sans-serif; font-size:100%; font-weight:normal; }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color:#222; }
 address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:400; }
-h1, h2 { color:#000; font-size:24px;font-weight:bold; }
+h1 { color:#000; font-size:24px;font-weight:bold; }
+h2 {color:#000; font-size:20px;}
 h3 {color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:0; }
 	.section h3 {background:#fff;  border-bottom:1px solid #EFEDED; }
 	div.user-description h3 {padding:0 0 2px; margin: 0 0 2px;}
@@ -195,7 +196,7 @@ li li { font-size: 12px; }
 .homepage-small-user h6 { float:right; font-size:11px; font-weight:bold; line-height:14px; padding:0 0 4px; width:118px; }
 .homepage-small-user h6 a { font-weight:bold; }
 .homepage-small-user p.articles-link a { color: #555;}
-.intro { padding:0px 16px 26px; position:relative; }
+.intro { padding:0; position:relative; }
 #contentMain .intro ul { margin:30px 0 0 0; }
 .intro li { background:url(../images/bullet.gif) no-repeat 0 4px; font-size:14px; margin:0; padding:0 0 12px 30px; }
 .intro li a { color:#222; font-size:14px; font-weight:bold; }
