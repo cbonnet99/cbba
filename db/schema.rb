@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110217202309) do
+ActiveRecord::Schema.define(:version => 20110215211811) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -680,8 +680,7 @@ ActiveRecord::Schema.define(:version => 20110217202309) do
     t.boolean  "is_resident_expert"
     t.string   "expertise_description"
     t.string   "resident_expertise_description"
-    t.boolean  "homepage_featured_resident"
-    t.datetime "last_homepage_featured_resident_at"
+    t.integer  "feature_rank"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
