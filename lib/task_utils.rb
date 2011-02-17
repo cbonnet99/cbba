@@ -3,19 +3,19 @@ require 'xero_gateway'
 class TaskUtils
 
   def self.change_homepage_featured_resident_experts
-    users_to_feature = User.find(:all, :conditions => ["last_homepage_featured_at is NULL and is_resident_expert is true and paid_photo is true"], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+    users_to_feature = User.find(:all, :conditions => ["last_homepage_featured_resident_at is NULL and is_resident_expert is true and paid_photo is true"], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
     if users_to_feature.size < User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS
       if users_to_feature.blank?
-        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true"], :order => "last_homepage_featured_at")
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true"], :order => "last_homepage_featured_resident_at")
       else
-        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id).join(",")], :order => "last_homepage_featured_at")
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id).join(",")], :order => "last_homepage_featured_resident_at")
       end
       users_to_feature = users_to_feature.concat(more_users_to_feature)[0..User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS-1]
     end
-    User.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
+    User.homepage_featured_resident.each {|a| a.update_attribute_without_timestamping(:homepage_featured_resident, false)}
     users_to_feature.each do |user|
-      user.homepage_featured = true
-      user.last_homepage_featured_at = Time.now
+      user.homepage_featured_resident = true
+      user.last_homepage_featured_resident_at = Time.now
       user.save!
     end
   end

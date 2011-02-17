@@ -105,6 +105,7 @@ class User < ActiveRecord::Base
   named_scope :has_paid_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now()"
   named_scope :has_paid_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now()"
   named_scope :hasnt_received_offers_reminder_recently, :conditions => ["offers_reminder_sent_at IS NULL OR offers_reminder_sent_at < ?", 1.month.ago]
+  named_scope :homepage_featured_resident, :conditions => ["homepage_featured_resident is true"] 
   named_scope :homepage_featured, :conditions => ["homepage_featured is true"] 
   
   # #around filters
@@ -129,7 +130,7 @@ class User < ActiveRecord::Base
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   
   def self.homepage_featured_resident_experts
-    User.find(:all, :conditions => ["homepage_featured is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+    User.find(:all, :conditions => ["homepage_featured_resident is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
   end
 
   def self.extract_features_from_name(feature_names)
@@ -1010,10 +1011,6 @@ class User < ActiveRecord::Base
 
   def self.paginated_full_members(page, limit=$full_members_per_page)
     User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "published_at desc", :limit => limit, :page => page )
-  end
-
-  def self.featured_full_members
-    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "feature_rank", :limit => $number_full_members_on_homepage)
   end
 
   def self.published_resident_experts
