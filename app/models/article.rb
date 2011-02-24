@@ -127,8 +127,7 @@ class Article < ActiveRecord::Base
     end
   end
   
-  def self.rotate_feature_ranks(rotate_by=nil)
-    rotate_by = DAILY_ARTICLE_ROTATION if rotate_by.nil?
+  def self.rotate_feature_ranks
     articles = Article.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
     howtos = HowTo.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
     ranked_articles = articles + howtos
@@ -145,12 +144,12 @@ class Article < ActiveRecord::Base
     end
     total_size = all_articles.size
     all_articles.each_with_index do |a, i|
-      if i+rotate_by >= total_size
+      if i+DAILY_ARTICLE_ROTATION >= total_size
         #put the last articles in first places
-        a.update_attribute_without_timestamping(:feature_rank, i+rotate_by-total_size)
+        a.update_attribute_without_timestamping(:feature_rank, i+DAILY_ARTICLE_ROTATION-total_size)
       else
         #move down all the others
-        a.update_attribute_without_timestamping(:feature_rank, i+rotate_by)
+        a.update_attribute_without_timestamping(:feature_rank, i+DAILY_ARTICLE_ROTATION)
       end
     end    
   end

@@ -15,7 +15,7 @@ class Country < ActiveRecord::Base
   end
 
   def featured_full_members
-    User.find(:all, :include => "user_profile", :conditions => ["user_profiles.state = 'published' and users.country_id = ? and paid_photo is true and free_listing is false and users.state='active'", self.id], :order => "feature_rank", :limit => $number_full_members_on_homepage)
+    User.find(:all, :include => "user_profile", :conditions => ["user_profiles.state = 'published' and users.country_id = ? and paid_photo is true and free_listing is false and users.state='active'", self.id], :order => "last_homepage_featured_at", :limit => $number_full_members_on_homepage)
   end
 
   

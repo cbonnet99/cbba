@@ -115,7 +115,7 @@ class User < ActiveRecord::Base
   after_create :create_profile, :add_tabs
   before_validation :downcase_subdomain  
 
-  attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status
+  attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status, :homepage_featured, :homepage_featured_resident
 	attr_accessor :membership_type, :accept_terms, :admin, :main_role, :old_password
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
@@ -131,6 +131,10 @@ class User < ActiveRecord::Base
   
   def self.homepage_featured_resident_experts
     User.find(:all, :conditions => ["homepage_featured_resident is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+  end
+
+  def self.homepage_featured_users
+    User.find(:all, :conditions => ["homepage_featured is true"], :limit => DAILY_USER_ROTATION)
   end
 
   def self.extract_features_from_name(feature_names)
@@ -306,19 +310,36 @@ class User < ActiveRecord::Base
     gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).blank? || gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).sort.last < 1.month.ago
   end
   
-  def self.rotate_feature_ranks(rotate_by=nil)
-    rotate_by = DAILY_USER_ROTATION if rotate_by.nil?
-    all_users = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.paid_photo is true", :order => "feature_rank")
-    total_size = all_users.size
-    all_users.each_with_index do |u, i|
-      if i+rotate_by >= total_size
-        #move last users to the first places
-        u.update_attribute_without_timestamping(:feature_rank, i+rotate_by-total_size)
-      else
-        #move down all the others
-        u.update_attribute_without_timestamping(:feature_rank, i+rotate_by)
-      end      
-    end  
+  def self.rotate_feature_ranks
+    existing_featured_users = User.homepage_featured
+    featured_users = User.find(:all, :include => "user_profile",
+     :conditions => "user_profiles.state = 'published' and free_listing is false 
+                     and users.state='active' and users.paid_photo is true 
+                     and last_homepage_featured_at is null",
+     :limit => DAILY_USER_ROTATION)
+     puts "==== existing_featured_users: #{existing_featured_users.map(&:id)}"
+     puts "==== featured_users: #{featured_users.map(&:id)}"
+    excluded_users_ids = existing_featured_users.concat(featured_users).map(&:id).join(",")
+    puts "==== excluded_users_ids: #{excluded_users_ids}"
+    if featured_users.size < DAILY_USER_ROTATION
+      new_featured_users = User.find(:all, :include => "user_profile",
+        :conditions => ["user_profiles.state = 'published' 
+          and free_listing is false and users.state='active' 
+          and users.paid_photo is true 
+          and users.id not in (?)",
+          excluded_users_ids],
+        :order => "last_homepage_featured_at",
+        :limit => DAILY_USER_ROTATION-featured_users.size)
+      featured_users = featured_users.concat(new_featured_users)[0..DAILY_USER_ROTATION-1]
+    end
+    existing_featured_users.each do |user|
+      user.update_attribute_without_timestamping(:homepage_featured, false)
+    end
+    featured_users.each do |user|
+      user.homepage_featured = true
+      user.last_homepage_featured_at = Time.now
+      user.save!
+    end
   end
   
   def self.experts_for_subcategories
