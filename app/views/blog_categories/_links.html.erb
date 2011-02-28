@@ -1,0 +1,5 @@
+<div id="blog_categories_links">
+<% @all_blog_categories.each_with_index do |c, index|-%>
+	<%= link_to c.name, articles_blog_category_url(c.slug, :country_code => params[:country_code])%><% unless index == @all_blog_categories.size-1%> | <%end%>
+<% end -%>
+</div>

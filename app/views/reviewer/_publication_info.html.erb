@@ -6,7 +6,7 @@
 <div class="rejection-date">Rejected: <%= item.rejected_at %> by <%=link_to item.rejected_by.name, expanded_user_url(item.rejected_by)%>(Reason: <%=item.reason_reject%>)</div>
 <%end-%>
 <%unless item.published_at.nil?-%>
-<div class="publication-date">Published: <%= item.published_at.to_date %></div>
+<div class="publication-date">Published: <%= item.published_at.to_date %><% if item.respond_to?(:monthly_view_counts)%> | Viewed <%=pluralize(item.monthly_view_counts, "time")%><% end -%></div>
 <%end-%>
 <% if item.respond_to?(:subcategories)-%>
 <div>Directory categories: <span class="article-subcategories"><%= link_articles_subcategories(item)%></span></div>

@@ -4,7 +4,8 @@
 		by 
 		<span class="by-author"><%= author_link(article.author) %></span>
 	<%end-%></h3>
-	<div class="left_article_stuff"><% if (@context == "profile" && is_author?(article)) || (is_admin? && @context == "review") -%>
+	<div class="overall_small_article">
+	<div class="left_article_stuff"<% if article.author.paid_photo? && @context != "profile" && !is_author?(article)%> style="width: 80%"<%end%>><% if (@context == "profile" && is_author?(article)) || (is_admin? && @context == "review") -%>
 	 <span class="stuff-actions">[<span class="<%=article.workflow_css_class%>"><%=article.state%></span>
 		<% if (is_author?(article) || is_admin?) && current_user.active? -%>
 		 | 
@@ -24,4 +25,5 @@
 	<p><%= white_list article.lead %></p>
 	</div>
 	<% if article.author.paid_photo? && @context != "profile" && !is_author?(article)%><div class="right_article_stuff"><%= author_photo_link(article.author)%></div><% end %>
+	</div>
 	<div class="cleaner"></div>

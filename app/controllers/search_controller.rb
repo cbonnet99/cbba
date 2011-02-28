@@ -86,6 +86,7 @@ class SearchController < ApplicationController
     @total_full_members = User.count_newest_full_members
     @featured_article = Article.first_homepage_featured
     @popular_articles = Article.popular
+    @all_blog_categories = BlogCategory.all
 	end
 
 	def simple_search

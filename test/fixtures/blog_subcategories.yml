@@ -1,9 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  blog_category_id: 1
-  name: MyString
+yourself_life:
+  blog_category: yourself
+  name: Life Coaching
+  slug: life-coaching
 
-two:
-  blog_category_id: 1
-  name: MyString
+yourhealth_weight:
+  blog_category: yourhealth
+  name: Weight Loss
+  slug: weight-loss

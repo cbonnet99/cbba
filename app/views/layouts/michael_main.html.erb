@@ -140,7 +140,8 @@
 	<div id="welcome_message">"<span class="welcome_message">Live your life your way, achieve more and Be Amazing!</span> A blog for you by <%= @country.name%> Coaches"</div>
 	<% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
 	    <%= link_to "<span>FREE Subscribe</span>", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
-	       <p><%= link_to "View past newsletters", newsletters_url%></p>
+			<br/>
+	       <p id="past_newsletters"><%= link_to "View past newsletters", newsletters_url%></p>
 	<% end -%>
 	<div id="networks">
 		<h4>Join us on:</h4>

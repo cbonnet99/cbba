@@ -38,6 +38,7 @@ class ArticlesController < ApplicationController
 	end
   
   def index
+    @all_blog_categories = BlogCategory.all
     @context = "homepage"
     @selected_country = Country.find_by_country_code(params[:country_code])
     respond_to do |format|

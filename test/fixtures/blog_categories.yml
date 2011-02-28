@@ -1,7 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  name: MyString
+yourself:
+  name: Your Self
+  slug: yourself
 
-two:
-  name: MyString
+yourhealth:
+  name: Your Health
+  slug: yourhealth

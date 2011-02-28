@@ -49,7 +49,7 @@
 		<h4>Related articles</h4>
 		<ul>
 		<% @articles.each do |a| -%>
-			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%></li>
+			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%><br/>Viewed <%= pluralize(a.monthly_view_counts, "time")%></li>
 		<% end -%>
 		</ul>
 	<% end -%>

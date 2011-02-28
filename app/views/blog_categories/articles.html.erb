@@ -1,0 +1,5 @@
+<%= render :partial => "blog_categories/links" %>
+<%= title "#{@blog_category.name} - articles"%>
+<% @articles.each do |a| -%>
+	<%= render :partial => "articles/article", :locals => {:article => a } %>
+<% end -%>
