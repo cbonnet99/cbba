@@ -128,6 +128,7 @@ class User < ActiveRecord::Base
   FEATURE_SO = "trial session"
   FEATURE_GV = "gift voucher"
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
+  NUMBER_HOMEPAGE_FEATURED_USERS = 3
   
   def self.homepage_featured_resident_experts
     User.find(:all, :conditions => ["homepage_featured_resident is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
@@ -309,31 +310,45 @@ class User < ActiveRecord::Base
   def hasnt_changed_gift_vouchers_recently?
     gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).blank? || gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).sort.last < 1.month.ago
   end
+
+  def self.rotate_featured_resident_experts
+    users_to_feature = User.find(:all, :conditions => ["last_homepage_featured_resident_at is NULL and is_resident_expert is true and paid_photo is true"], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+    if users_to_feature.size < User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS
+      if users_to_feature.blank?
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true"], :order => "last_homepage_featured_resident_at")
+      else
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id).join(",")], :order => "last_homepage_featured_resident_at")
+      end
+      users_to_feature = users_to_feature.concat(more_users_to_feature)[0..User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS-1]
+    end
+    User.homepage_featured_resident.each {|a| a.update_attribute(:homepage_featured_resident, false)}
+    users_to_feature.each do |user|
+      user.homepage_featured_resident = true
+      user.last_homepage_featured_resident_at = Time.now
+      user.save!
+    end    
+  end
   
-  def self.rotate_feature_ranks
+  def self.rotate_featured
     existing_featured_users = User.homepage_featured
     featured_users = User.find(:all, :include => "user_profile",
      :conditions => "user_profiles.state = 'published' and free_listing is false 
                      and users.state='active' and users.paid_photo is true 
                      and last_homepage_featured_at is null",
      :limit => DAILY_USER_ROTATION)
-     puts "==== existing_featured_users: #{existing_featured_users.map(&:id)}"
-     puts "==== featured_users: #{featured_users.map(&:id)}"
-    excluded_users_ids = existing_featured_users.concat(featured_users).map(&:id).join(",")
-    puts "==== excluded_users_ids: #{excluded_users_ids}"
     if featured_users.size < DAILY_USER_ROTATION
       new_featured_users = User.find(:all, :include => "user_profile",
         :conditions => ["user_profiles.state = 'published' 
           and free_listing is false and users.state='active' 
           and users.paid_photo is true 
           and users.id not in (?)",
-          excluded_users_ids],
+          existing_featured_users.concat(featured_users).map(&:id)],
         :order => "last_homepage_featured_at",
         :limit => DAILY_USER_ROTATION-featured_users.size)
       featured_users = featured_users.concat(new_featured_users)[0..DAILY_USER_ROTATION-1]
     end
     existing_featured_users.each do |user|
-      user.update_attribute_without_timestamping(:homepage_featured, false)
+      user.update_attribute(:homepage_featured, false)
     end
     featured_users.each do |user|
       user.homepage_featured = true

@@ -78,7 +78,7 @@ class SearchController < ApplicationController
 
 	def index
 	  @context = "homepage"
-    @newest_articles = Article.all_featured_articles
+    @newest_articles = Article.all_newest_articles
     @total_straight_articles = Article.count_published
     @total_howto_articles = HowTo.count_published
     @total_articles = @total_straight_articles+@total_howto_articles

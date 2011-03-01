@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110217202309) do
+ActiveRecord::Schema.define(:version => 20110301171526) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -28,13 +28,12 @@ ActiveRecord::Schema.define(:version => 20110217202309) do
     t.datetime "approved_at"
     t.integer  "approved_by_id"
     t.string   "lead",                      :limit => 500
-    t.integer  "feature_rank"
     t.string   "about",                     :limit => 600
-    t.boolean  "homepage_featured",                        :default => false
     t.datetime "last_homepage_featured_at"
     t.integer  "country_id"
     t.integer  "view_counts",                              :default => 0
     t.integer  "monthly_view_counts",                      :default => 0
+    t.boolean  "homepage_featured"
   end
 
   add_index "articles", ["state"], :name => "index_articles_on_state"

@@ -3,32 +3,11 @@ require 'xero_gateway'
 class TaskUtils
 
   def self.change_homepage_featured_resident_experts
-    users_to_feature = User.find(:all, :conditions => ["last_homepage_featured_resident_at is NULL and is_resident_expert is true and paid_photo is true"], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
-    if users_to_feature.size < User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS
-      if users_to_feature.blank?
-        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true"], :order => "last_homepage_featured_resident_at")
-      else
-        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id).join(",")], :order => "last_homepage_featured_resident_at")
-      end
-      users_to_feature = users_to_feature.concat(more_users_to_feature)[0..User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS-1]
-    end
-    User.homepage_featured_resident.each {|a| a.update_attribute_without_timestamping(:homepage_featured_resident, false)}
-    users_to_feature.each do |user|
-      user.homepage_featured_resident = true
-      user.last_homepage_featured_resident_at = Time.now
-      user.save!
-    end
+    User.rotate_featured_resident_experts
   end
 
   def self.change_homepage_featured_article
-    article_to_feature = Article.find(:first, :include => "author", :conditions => ["articles.last_homepage_featured_at is NULL and users.paid_photo is true and articles.state='published'"])
-    if article_to_feature.nil?
-      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true and articles.state='published'"], :order => "articles.last_homepage_featured_at")
-    end
-    Article.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
-    article_to_feature.homepage_featured = true
-    article_to_feature.last_homepage_featured_at = Time.now
-    article_to_feature.save!
+    Article.rotate_featured
   end
   
   def self.import_blog_categories
@@ -298,9 +277,8 @@ class TaskUtils
     end
   end
   
-  def self.rotate_feature_ranks
-    Article.rotate_feature_ranks
-    User.rotate_feature_ranks
+  def self.rotate_users
+    User.rotate_featured
   end
   
   def self.update_subcategories_counters

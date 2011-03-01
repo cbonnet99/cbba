@@ -619,7 +619,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size, "The email should only be sent once"    
   end
 
-  def test_rotate_feature_ranks
+  def test_rotate_users
     user1 = Factory(:user, :paid_photo => true, :membership_type => "full_member")
     user1.user_profile.update_attribute(:state, "published")
     user2 = Factory(:user, :paid_photo => true, :membership_type => "full_member")
@@ -632,13 +632,13 @@ class TaskUtilsTest < ActiveSupport::TestCase
     norma.paid_highlighted = true
     norma.save!
     norma.reload
-    TaskUtils.rotate_feature_ranks
+    TaskUtils.rotate_users
     featured_users = User.homepage_featured_users
     assert_equal User::DAILY_USER_ROTATION, featured_users.size
 
-    TaskUtils.rotate_feature_ranks
+    TaskUtils.rotate_users
     new_featured_users = User.homepage_featured_users
-    assert_equal User::DAILY_USER_ROTATION, new_featured_users.size
+    assert_equal 1, new_featured_users.size
     assert featured_users != new_featured_users
     
   end

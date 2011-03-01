@@ -26,7 +26,7 @@
       <div class="homepage-small-user"><%= render :partial => "users/user_small", :locals => {:user => u }  %></div>
     <% end -%>
   </div>
-  <% if @total_full_members > $number_full_members_on_homepage -%>
+  <% if @total_full_members > User::NUMBER_HOMEPAGE_FEATURED_USERS -%>
   <p class="floatRight"><%= link_to "View more &raquo;", :controller => "full_members", :action => "index"%></p>
   <% end -%>
 </div>
@@ -47,7 +47,7 @@
   </div>
 <% end -%>
 <!--News Ends -->
-  <% if @total_articles > $number_articles_on_homepage -%>
+  <% if @total_articles > User::NUMBER_HOMEPAGE_FEATURED_USERS -%>
     <p><%= link_to "View more articles &raquo;", articles_url %></p>
   <% end -%>
 </div>

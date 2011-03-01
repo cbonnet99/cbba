@@ -35,9 +35,20 @@ class Article < ActiveRecord::Base
   MAX_LENGTH_SLUG = 20
   POINTS_FOR_RECENT_ARTICLE = 10
   POINTS_FOR_OLDER_ARTICLE = 5
-  DAILY_ARTICLE_ROTATION = 3
   SHORT_LEAD_MAX_SIZE = 200
   MAX_ARTICLES_ON_INDEX = 6
+  NUMBER_ON_HOMEPAGE = 4
+  
+  def self.rotate_featured
+    article_to_feature = Article.find(:first, :include => "author", :conditions => ["articles.last_homepage_featured_at is NULL and users.paid_photo is true and articles.state='published'"])
+    if article_to_feature.nil?
+      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true and articles.state='published'"], :order => "articles.last_homepage_featured_at")
+    end
+    Article.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
+    article_to_feature.homepage_featured = true
+    article_to_feature.last_homepage_featured_at = Time.now
+    article_to_feature.save!    
+  end
   
   def to_s
     "#{self.id}: #{self.title}"
@@ -126,34 +137,7 @@ class Article < ActiveRecord::Base
       UserMailer.deliver_congrats_first_article(self.author)
     end
   end
-  
-  def self.rotate_feature_ranks
-    articles = Article.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
-    howtos = HowTo.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank")
-    ranked_articles = articles + howtos
-    ranked_articles = ranked_articles.sort_by(&:feature_rank)
-    all_articles = ranked_articles
     
-    articles_no_rank = Article.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc")
-    howtos_no_rank = HowTo.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc")
-    if !articles_no_rank.blank? || !howtos_no_rank.blank?
-      all_articles_no_rank = articles_no_rank + howtos_no_rank
-      all_articles_no_rank = all_articles_no_rank.sort_by(&:published_at)
-      all_articles_no_rank.reverse!
-      all_articles = all_articles_no_rank + ranked_articles
-    end
-    total_size = all_articles.size
-    all_articles.each_with_index do |a, i|
-      if i+DAILY_ARTICLE_ROTATION >= total_size
-        #put the last articles in first places
-        a.update_attribute_without_timestamping(:feature_rank, i+DAILY_ARTICLE_ROTATION-total_size)
-      else
-        #move down all the others
-        a.update_attribute_without_timestamping(:feature_rank, i+DAILY_ARTICLE_ROTATION)
-      end
-    end    
-  end
-  
   def self.search(subcategory, category, district, region)
     subcategories = category.subcategories unless category.nil?
     subcategories = [subcategory] unless subcategory.nil?
@@ -209,28 +193,12 @@ class Article < ActiveRecord::Base
 	end
 
   def self.all_newest_articles
-    newest_straight_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
-    newest_howto_articles = HowTo.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => $number_articles_on_homepage )
+    newest_straight_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => Article::NUMBER_ON_HOMEPAGE)
+    newest_howto_articles = HowTo.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => Article::NUMBER_ON_HOMEPAGE)
     newest_articles = newest_straight_articles + newest_howto_articles
     newest_articles = newest_articles.sort_by(&:published_at)
     newest_articles.reverse!
-    return newest_articles[0..$number_articles_on_homepage-1]
-  end
-
-  def self.all_featured_articles
-    articles_no_rank = Article.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc", :limit => $number_articles_on_homepage )
-    howtos_no_rank = HowTo.find(:all, :conditions => "state='published' and feature_rank is null", :order => "published_at desc", :limit => $number_articles_on_homepage )
-    all_articles = articles_no_rank + howtos_no_rank
-    all_articles = all_articles.sort_by(&:published_at)
-    all_articles.reverse!
-    if articles_no_rank.size + howtos_no_rank.size < $number_articles_on_homepage
-      articles = Article.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank", :limit => $number_articles_on_homepage )
-      howtos = HowTo.find(:all, :conditions => "state='published' and feature_rank is not null", :order => "feature_rank", :limit => $number_articles_on_homepage )
-      ranked_articles = articles + howtos
-      ranked_articles = ranked_articles.sort_by(&:feature_rank)
-      all_articles += ranked_articles
-    end
-    return all_articles[0..$number_articles_on_homepage-1]
+    return newest_articles[0..Article::NUMBER_ON_HOMEPAGE-1]
   end
 
 	def self.count_all_by_subcategories(*subcategories)

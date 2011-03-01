@@ -38,7 +38,7 @@ end
 every 1.day, :at => "3am"  do
   runner "TaskUtils.send_offers_reminder"
   runner "TaskUtils.check_pending_payments"
-  runner "TaskUtils.rotate_feature_ranks"
+  runner "TaskUtils.rotate_users"
   runner "TaskUtils.mark_down_old_full_members"
   command "find /home/cyrille/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
   command "find /home/cyrille/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
