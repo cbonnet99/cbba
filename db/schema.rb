@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110215211811) do
+ActiveRecord::Schema.define(:version => 20110301171526) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -28,13 +28,12 @@ ActiveRecord::Schema.define(:version => 20110215211811) do
     t.datetime "approved_at"
     t.integer  "approved_by_id"
     t.string   "lead",                      :limit => 500
-    t.integer  "feature_rank"
     t.string   "about",                     :limit => 600
-    t.boolean  "homepage_featured",                        :default => false
     t.datetime "last_homepage_featured_at"
     t.integer  "country_id"
     t.integer  "view_counts",                              :default => 0
     t.integer  "monthly_view_counts",                      :default => 0
+    t.boolean  "homepage_featured"
   end
 
   add_index "articles", ["state"], :name => "index_articles_on_state"
@@ -659,7 +658,6 @@ ActiveRecord::Schema.define(:version => 20110215211811) do
     t.integer  "gift_vouchers_count",                                :default => 0
     t.integer  "published_gift_vouchers_count",                      :default => 0
     t.boolean  "receive_professional_newsletter",                    :default => true
-    t.integer  "feature_rank"
     t.string   "unsubscribe_token"
     t.datetime "last_logged_at"
     t.boolean  "paid_photo",                                         :default => false
@@ -681,6 +679,8 @@ ActiveRecord::Schema.define(:version => 20110215211811) do
     t.boolean  "is_resident_expert"
     t.string   "expertise_description"
     t.string   "resident_expertise_description"
+    t.boolean  "homepage_featured_resident"
+    t.datetime "last_homepage_featured_resident_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

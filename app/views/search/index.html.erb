@@ -33,7 +33,7 @@
   </div>
 <% end -%>
 <!--News Ends -->
-  <% if @total_articles > $number_articles_on_homepage -%>
+  <% if @total_articles > User::NUMBER_HOMEPAGE_FEATURED_USERS -%>
     <p><%= link_to "View more articles &raquo;", articles_url %></p>
   <% end -%>
 </div>

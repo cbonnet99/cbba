@@ -619,13 +619,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size, "The email should only be sent once"    
   end
 
-  def test_rotate_feature_ranks
-    fm_role = Factory(:role)
+  def test_rotate_users
     user1 = Factory(:user, :paid_photo => true, :membership_type => "full_member")
-    # user1.roles << fm_role
     user1.user_profile.update_attribute(:state, "published")
     user2 = Factory(:user, :paid_photo => true, :membership_type => "full_member")
-    # user2.roles << fm_role
     user2.user_profile.update_attribute(:state, "published")
     assert !user2.free_listing?
     cyrille = users(:cyrille)
@@ -635,17 +632,15 @@ class TaskUtilsTest < ActiveSupport::TestCase
     norma.paid_highlighted = true
     norma.save!
     norma.reload
-    TaskUtils.rotate_feature_ranks
-    assert User.published.active.full_members.size > User::DAILY_USER_ROTATION, "Should have at least #{User::DAILY_USER_ROTATION} users, otherwise the rotation is meaningless"
-    User.published.active.full_members.each do |u|
-      assert_not_nil u.feature_rank, "Feature should not be nil for user #{u.name}" if u.paid_photo?
-    end
-    cyrille.reload
-    rank = cyrille.feature_rank
-    TaskUtils.rotate_feature_ranks
-    cyrille.reload
-    assert cyrille.feature_rank != rank, "Feature should have changed"
-    assert_equal old_updated_at, cyrille.updated_at, "User updated_at should not have changed, as this is not really a change to the user, but just s change of rank. We use update_attribute_without_timestamping to achieve this"
+    TaskUtils.rotate_users
+    featured_users = User.homepage_featured_users
+    assert_equal User::DAILY_USER_ROTATION, featured_users.size
+
+    TaskUtils.rotate_users
+    new_featured_users = User.homepage_featured_users
+    assert_equal 1, new_featured_users.size
+    assert featured_users != new_featured_users
+    
   end
 
   def test_extract_numbers_from_reference

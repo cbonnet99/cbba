@@ -19,7 +19,7 @@ class SearchControllerTest < ActionController::TestCase
   def test_index
     jogging = articles(:jogging)
     cyrille = users(:cyrille)
-    TaskUtils.rotate_feature_ranks
+    TaskUtils.rotate_users
     cyrille.reload
     yoga = subcategories(:yoga)
     get :index
@@ -34,11 +34,10 @@ class SearchControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     #+1 for twitter widget
-    assert_select "div.homepage-article", :maximum => $number_articles_on_homepage+1
+    assert_select "div.homepage-article", :maximum => Article::NUMBER_ON_HOMEPAGE+1
     assert_select "a", :text => "View more articles &raquo;"
     assert_equal 1, assigns(:featured_full_members).size
-    assert assigns(:newest_articles).include?(test1), "Newest articles are: #{assigns(:newest_articles).map(&:title).to_sentence}"
-    assert_equal $number_articles_on_homepage, assigns(:newest_articles).size
+    assert_equal Article::NUMBER_ON_HOMEPAGE, assigns(:newest_articles).size
   end
 
   def test_search_full_member_full_name

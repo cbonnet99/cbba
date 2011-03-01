@@ -105,6 +105,7 @@ class User < ActiveRecord::Base
   named_scope :has_paid_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now()"
   named_scope :has_paid_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now()"
   named_scope :hasnt_received_offers_reminder_recently, :conditions => ["offers_reminder_sent_at IS NULL OR offers_reminder_sent_at < ?", 1.month.ago]
+  named_scope :homepage_featured_resident, :conditions => ["homepage_featured_resident is true"] 
   named_scope :homepage_featured, :conditions => ["homepage_featured is true"] 
   
   # #around filters
@@ -114,7 +115,7 @@ class User < ActiveRecord::Base
   after_create :create_profile, :add_tabs
   before_validation :downcase_subdomain  
 
-  attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status
+  attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status, :homepage_featured, :homepage_featured_resident
 	attr_accessor :membership_type, :accept_terms, :admin, :main_role, :old_password
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
@@ -127,9 +128,14 @@ class User < ActiveRecord::Base
   FEATURE_SO = "trial session"
   FEATURE_GV = "gift voucher"
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
+  NUMBER_HOMEPAGE_FEATURED_USERS = 3
   
   def self.homepage_featured_resident_experts
-    User.find(:all, :conditions => ["homepage_featured is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+    User.find(:all, :conditions => ["homepage_featured_resident is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+  end
+
+  def self.homepage_featured_users
+    User.find(:all, :conditions => ["homepage_featured is true"], :limit => DAILY_USER_ROTATION)
   end
 
   def self.extract_features_from_name(feature_names)
@@ -304,20 +310,51 @@ class User < ActiveRecord::Base
   def hasnt_changed_gift_vouchers_recently?
     gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).blank? || gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).sort.last < 1.month.ago
   end
-  
-  def self.rotate_feature_ranks(rotate_by=nil)
-    rotate_by = DAILY_USER_ROTATION if rotate_by.nil?
-    all_users = User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and free_listing is false and users.state='active' and users.paid_photo is true", :order => "feature_rank")
-    total_size = all_users.size
-    all_users.each_with_index do |u, i|
-      if i+rotate_by >= total_size
-        #move last users to the first places
-        u.update_attribute_without_timestamping(:feature_rank, i+rotate_by-total_size)
+
+  def self.rotate_featured_resident_experts
+    users_to_feature = User.find(:all, :conditions => ["last_homepage_featured_resident_at is NULL and is_resident_expert is true and paid_photo is true"], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+    if users_to_feature.size < User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS
+      if users_to_feature.blank?
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true"], :order => "last_homepage_featured_resident_at")
       else
-        #move down all the others
-        u.update_attribute_without_timestamping(:feature_rank, i+rotate_by)
-      end      
-    end  
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id).join(",")], :order => "last_homepage_featured_resident_at")
+      end
+      users_to_feature = users_to_feature.concat(more_users_to_feature)[0..User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS-1]
+    end
+    User.homepage_featured_resident.each {|a| a.update_attribute(:homepage_featured_resident, false)}
+    users_to_feature.each do |user|
+      user.homepage_featured_resident = true
+      user.last_homepage_featured_resident_at = Time.now
+      user.save!
+    end    
+  end
+  
+  def self.rotate_featured
+    existing_featured_users = User.homepage_featured
+    featured_users = User.find(:all, :include => "user_profile",
+     :conditions => "user_profiles.state = 'published' and free_listing is false 
+                     and users.state='active' and users.paid_photo is true 
+                     and last_homepage_featured_at is null",
+     :limit => DAILY_USER_ROTATION)
+    if featured_users.size < DAILY_USER_ROTATION
+      new_featured_users = User.find(:all, :include => "user_profile",
+        :conditions => ["user_profiles.state = 'published' 
+          and free_listing is false and users.state='active' 
+          and users.paid_photo is true 
+          and users.id not in (?)",
+          existing_featured_users.concat(featured_users).map(&:id)],
+        :order => "last_homepage_featured_at",
+        :limit => DAILY_USER_ROTATION-featured_users.size)
+      featured_users = featured_users.concat(new_featured_users)[0..DAILY_USER_ROTATION-1]
+    end
+    existing_featured_users.each do |user|
+      user.update_attribute(:homepage_featured, false)
+    end
+    featured_users.each do |user|
+      user.homepage_featured = true
+      user.last_homepage_featured_at = Time.now
+      user.save!
+    end
   end
   
   def self.experts_for_subcategories
@@ -1010,10 +1047,6 @@ class User < ActiveRecord::Base
 
   def self.paginated_full_members(page, limit=$full_members_per_page)
     User.paginate(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "published_at desc", :limit => limit, :page => page )
-  end
-
-  def self.featured_full_members
-    User.find(:all, :include => "user_profile", :conditions => "user_profiles.state = 'published' and paid_photo is true and free_listing is false and users.state='active'", :order => "feature_rank", :limit => $number_full_members_on_homepage)
   end
 
   def self.published_resident_experts

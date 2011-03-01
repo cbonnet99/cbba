@@ -123,9 +123,6 @@ $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last
 
 $launch_date = Time.parse("Jul 1 2009")
 
-$number_articles_on_homepage = 4
-$number_full_members_on_homepage = 3
-$max_number_tabs = 6
 $workflowable_stuff = ['Article', 'UserProfile', 'SpecialOffer']
 # Ensure the gateway is in test mode
 ActiveMerchant::Billing::Base.gateway_mode = :test

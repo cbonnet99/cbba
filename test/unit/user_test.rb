@@ -505,13 +505,6 @@ class UserTest < ActiveSupport::TestCase
     assert !articles.blank?
   end
 
-  def test_featured_full_members
-    cyrille = users(:cyrille)
-    TaskUtils.rotate_feature_ranks
-    cyrille.reload
-    assert_equal [cyrille], User.featured_full_members
-  end
-
   def test_count_newest_full_members
     assert_equal 2, User.count_newest_full_members
   end
