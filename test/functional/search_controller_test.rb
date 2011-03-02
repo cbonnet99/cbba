@@ -24,12 +24,14 @@ class SearchControllerTest < ActionController::TestCase
     yoga = subcategories(:yoga)
     get :index
     assert_response :success
-    #3 articles + 1 howto article
-    assert_select "div.homepage-article", 4
-    #Create 2 more published articles
+    #Create 4 more published articles
     test1 = Article.create(:title => "Test1", :lead => "Test1", :body => "",  :state => "published",
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id  )
     test2 = Article.create(:title => "Test2", :lead => "Test2", :body => "", :state => "published",
+      :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id )
+    test3 = Article.create(:title => "Test3", :lead => "Test1", :body => "",  :state => "published",
+      :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id  )
+    test4 = Article.create(:title => "Test4", :lead => "Test2", :body => "", :state => "published",
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id )
     get :index
     assert_response :success

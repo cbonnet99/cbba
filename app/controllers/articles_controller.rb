@@ -38,11 +38,12 @@ class ArticlesController < ApplicationController
 	end
   
   def index
-    @all_blog_categories = BlogCategory.all
-    @context = "homepage"
-    @selected_country = Country.find_by_country_code(params[:country_code])
     respond_to do |format|
       format.html{
+        @popular_articles = Article.popular
+        @all_blog_categories = BlogCategory.all
+        @context = "homepage"
+        @selected_country = Country.find_by_country_code(params[:country_code])
         @subcategories = Subcategory.with_articles(@selected_country)
         @recent_articles = Article.recent_articles(@selected_country)
       }

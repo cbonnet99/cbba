@@ -8,6 +8,7 @@
   </ul>
 <% end -%>
 <div class="cleaner"></div>
+<br/>
 <h3>Most recent articles</h3>
 <% @recent_articles.each do |a| -%>
 	<%= render :partial => "articles/article", :locals => {:article => a } %>

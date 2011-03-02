@@ -1,3 +1,14 @@
+<% content_for :sidebar_content do -%>
+	<% unless @popular_articles.blank? -%>
+		<h4>Popular articles</h4>
+		<ul>
+		<% @popular_articles.each do |a| -%>
+			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%><br/><span class="monthly_view_counts">Viewed <%= pluralize(a.view_counts, "time")%></span></li>
+		<% end -%>
+	<% end -%>
+		</ul>
+<% end -%>
+
 <%= render :partial => "blog_categories/links" %>
 <%= title "Articles" %>
 <div><%= link_to image_tag('rss_icon.png'), articles_url(:format => :rss)%></div>

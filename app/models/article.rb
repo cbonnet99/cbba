@@ -37,7 +37,7 @@ class Article < ActiveRecord::Base
   POINTS_FOR_OLDER_ARTICLE = 5
   SHORT_LEAD_MAX_SIZE = 200
   MAX_ARTICLES_ON_INDEX = 6
-  NUMBER_ON_HOMEPAGE = 4
+  NUMBER_ON_HOMEPAGE = 10
   
   def self.rotate_featured
     article_to_feature = Article.find(:first, :include => "author", :conditions => ["articles.last_homepage_featured_at is NULL and users.paid_photo is true and articles.state='published'"])
