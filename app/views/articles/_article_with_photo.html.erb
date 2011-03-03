@@ -4,3 +4,4 @@
 <div class="article_lead rounded"><div class="article_title_in_bubble"><%= link_to article.title, articles_show_url(article.author.slug, article.slug, :context => @context, :selected_tab_id => "articles") %></div><div id="featured_article_text"><%= white_list article.lead.gsub(/\n/, '').gsub(/<br\/>/, '')%></div>
 	<%=link_to "Read the full story >", articles_show_url(article.author.slug, article.slug, :context => @context, :selected_tab_id => "articles"), :class => "read_full_story"  %></div>
 <div class="cleaner"></div>
+<br/>
