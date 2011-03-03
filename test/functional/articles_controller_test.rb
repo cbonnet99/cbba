@@ -31,9 +31,9 @@ class ArticlesControllerTest < ActionController::TestCase
   def test_index_rss
     get :index, :format => "rss"
     assert_response :success
-    assert_not_nil assigns(:all_articles)
-    assert !assigns(:all_articles).blank?
-    assigns(:all_articles).each do |a|
+    assert_not_nil assigns(:articles)
+    assert !assigns(:articles).blank?
+    assigns(:articles).each do |a|
       if a.is_a?(Article)
         assert_select "link", :text => "#{articles_show_url(a.author.slug, a.slug)}"
       end

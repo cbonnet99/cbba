@@ -4,10 +4,10 @@ class SearchController < ApplicationController
   protect_from_forgery :except => :search
 
   def main
-    @profiles = UserProfile.published
-    @articles = Article.published
-    @gv = GiftVoucher.published
-    @so = SpecialOffer.published
+    @profiles = UserProfile.find(:all, :conditions => "state = 'published'", :order => "published_at desc", :limit => 10)
+    @articles = Article.find(:all, :conditions => "state = 'published'", :order => "published_at desc", :limit => 10)
+    @gv = GiftVoucher.find(:all, :conditions => "state = 'published'", :order => "published_at desc", :limit => 10)
+    @so = SpecialOffer.find(:all, :conditions => "state = 'published'", :order => "published_at desc", :limit => 10)
     @all = @profiles.concat(@articles).concat(@gv).concat(@so)
     @all = @all.sort_by(&:published_at).reverse
   end

@@ -48,11 +48,7 @@ class ArticlesController < ApplicationController
         @recent_articles = Article.recent_articles(@selected_country)
       }
       format.rss  {
-        @articles = Article.published
-        @how_tos = HowTo.published
-
-        @all_articles = @articles.concat(@how_tos)
-        @all_articles = @all_articles.sort_by(&:published_at).reverse
+        @articles = Article.find(:all, :conditions => "state = 'published'", :order => "published_at desc", :limit => 20)
       }
     end
   end

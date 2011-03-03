@@ -2,7 +2,7 @@ class SubcategoriesController < ApplicationController
 
   def articles
     @subcategory = Subcategory.find_by_slug(params[:id])
-    @articles = @subcategory.articles.published
+    @articles = @subcategory.articles.find(:all, :conditions => "state = 'published'", :order => "published_at desc", :limit => 20)
   end
 
   def index

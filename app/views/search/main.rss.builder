@@ -10,6 +10,7 @@ xml.rss :version => "2.0" do
         xml.title stuff.title
         xml.description stuff.summary
         xml.pubDate stuff.published_at.to_s(:rfc822)
+        xml.author stuff.try(:author).try(:name)
         xml.link stuff_url(stuff)
         xml.guid stuff_url(stuff)
       end
