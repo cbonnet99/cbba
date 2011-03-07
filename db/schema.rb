@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110301171526) do
+ActiveRecord::Schema.define(:version => 20110306201741) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -426,6 +426,15 @@ ActiveRecord::Schema.define(:version => 20110301171526) do
     t.integer  "order_id"
     t.datetime "notified_at"
     t.integer  "stored_token_id"
+  end
+
+  create_table "quotes", :force => true do |t|
+    t.text     "body"
+    t.string   "author"
+    t.boolean  "homepage_featured"
+    t.datetime "last_homepage_featured_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "recommendations", :force => true do |t|

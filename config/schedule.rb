@@ -60,6 +60,7 @@ every 1.day, :at => "3am"  do
   command "tar cvfz /home/cyrille/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > /home/cyrille/tar.log", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
   runner "TaskUtils.check_inconsistent_tabs"
   runner "TaskUtils.change_homepage_featured_article"
+  runner "TaskUtils.change_homepage_featured_quote"
 end
 every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/runs3sync"

@@ -112,6 +112,12 @@
 	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
 	    <%  end -%>
     </ul>
+	<% @featured_quotes.each do |q| -%>
+	<div class="quote">
+		<div class="quote_body">&quot;<%= q.body %>&quot;</div>
+		<div class="quote_author"><%= q.author %></div>
+	</div>
+	<% end -%>
 	<div id="bam-meet-experts"><h3><%= link_to "Resident Experts", :controller => "/resident_experts", :action => "index"  %></h3>
       <div class="nav-expert">
 		<div id="pics-resident-experts" class="pics">
@@ -137,7 +143,7 @@
   <!--Sidebar2 Starts -->
   <div id="sidebar2" class="column">
     <div class="columnTop">&nbsp;</div>
-	<div id="welcome_message">"<span class="welcome_message">Live your life your way, achieve more and Be Amazing!</span> A blog for you by <%= @country.name%> Coaches"</div>
+	<div id="welcome_message">&quot;<span class="welcome_message">Live your life your way, achieve more and Be Amazing!</span> A blog for you by <%= @country.name%> Coaches&quot;</div>
 	<% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
 	    <%= link_to "<span>FREE Subscribe</span>", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
 			<br/>

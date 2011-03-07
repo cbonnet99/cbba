@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
 
 	#  before_filter :tags
-  before_filter :current_category, :search_terms, :categories, :counters, :resident_experts, :get_country, :except => :change_category
+  before_filter :featured_quotes, :current_category, :search_terms, :categories, :counters, :resident_experts, :get_country, :except => :change_category
   # before_filter :set_subdomain_user
   
 	protected
@@ -120,6 +120,10 @@ class ApplicationController < ActionController::Base
       session[:verify_human_count] += 1
       return true
     end
+  end
+
+  def featured_quotes
+    @featured_quotes = Quote.homepage_featured
   end
 
   def resident_experts

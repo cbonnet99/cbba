@@ -10,6 +10,10 @@ class TaskUtils
     Article.rotate_featured
   end
   
+  def self.change_homepage_featured_quote
+    Quote.rotate_featured
+  end
+  
   def self.import_blog_categories
     File.new("#{RAILS_ROOT}/csv/blog_categories.csv", 'r').each_line("\n") do |row|
       cols = row.split(",")

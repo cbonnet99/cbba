@@ -1,3 +1,8 @@
+Factory.define :quote do |q|
+  q.sequence(:body) {|n| "This is a great quote here #{n}"}
+  q.sequence(:author) {|n| "Great author here #{n}"}
+end
+
 Factory.define :tab do |t|
   t.title "Yoga"
   t.association :user

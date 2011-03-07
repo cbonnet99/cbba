@@ -3,6 +3,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_change_homepage_featured_quote
+    q = Factory(:quote)
+    TaskUtils.change_homepage_featured_quote
+    featured_quotes = Quote.homepage_featured
+    assert_equal 1, featured_quotes.size
+  end
+
   def test_change_homepage_featured_resident_experts
     sub1 = Factory(:subcategory)
     sub2 = Factory(:subcategory)

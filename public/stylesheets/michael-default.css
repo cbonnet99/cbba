@@ -1,3 +1,5 @@
+div.quote{padding: 10px; background-color: lightgrey; font-size: 12px;}
+div.quote_body{font-weight: bold;}
 div#blog_categories_links{padding-bottom: 8px;font-size: 12px;}
 div.homepage-article{padding-top: 5px;}
 .read_full_story{font-size: 10px;}
