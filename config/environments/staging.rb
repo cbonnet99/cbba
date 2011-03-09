@@ -34,7 +34,7 @@ $hostname = "www.beamazing.co.nz"
 
 config.after_initialize do
   ActiveMerchant::Billing::Base.mode = :test
-  ::GATEWAY = ActiveMerchant::Billing::PaymentExpressGateway.new(
+  ::GATEWAY = PatchedGateway.new(
     :login => "BeAmazingDev",
     :password => "6229c3d7"
   )
