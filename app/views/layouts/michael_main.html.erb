@@ -112,13 +112,16 @@
 	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
 	    <%  end -%>
     </ul>
-	<% @featured_quotes.each do |q| -%>
-	<div class="quote">
-		<div class="quote_body">&quot;<%= q.body %>&quot;</div>
-		<div class="quote_author"><%= q.author %></div>
+    <div class="left_column_box">
+	    <h3>Daily Quote</h3>
+		<% @featured_quotes.each do |q| -%>
+		<div class="quote">
+			<div class="quote_body">&quot;<%= q.body %>&quot;</div>
+			<div class="quote_author"><%= q.author %></div>
+		</div>
 	</div>
 	<% end -%>
-	<div id="bam-meet-experts"><h3><%= link_to "Resident Experts", :controller => "/resident_experts", :action => "index"  %></h3>
+	<div id="bam-meet-experts" class="left_column_box"><h3><%= link_to "Resident Experts", :controller => "/resident_experts", :action => "index"  %></h3>
       <div class="nav-expert">
 		<div id="pics-resident-experts" class="pics">
        	<%= render :partial => "resident_experts/gallery" %>
