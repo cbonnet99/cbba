@@ -225,7 +225,13 @@ class UserMailer < ActionMailer::Base
 		@body[:url] = user_renew_membership_url(:user => user)
     @content_type = 'text/html'
   end
-
+  
+  def featured_homepage_article(article)
+    setup_email(article.author)
+    @subject << "You're on our homepage!"
+    @body[:feature_date] = Time.now.to_date
+  end
+  
 	def item_rejected(item, author)
     setup_email(author)
 		@subject << "Your #{item.class.to_s.titleize.downcase} must be revised for publication"

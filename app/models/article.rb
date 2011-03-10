@@ -47,7 +47,8 @@ class Article < ActiveRecord::Base
     Article.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
     article_to_feature.homepage_featured = true
     article_to_feature.last_homepage_featured_at = Time.now
-    article_to_feature.save!    
+    article_to_feature.save!
+    UserMailer.deliver_featured_homepage_article(article_to_feature)
   end
   
   def to_s

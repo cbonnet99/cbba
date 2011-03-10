@@ -38,6 +38,9 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_change_homepage_featured_article
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
     featured_before = Article.first_homepage_featured
     
     TaskUtils.change_homepage_featured_article
@@ -46,6 +49,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_not_nil featured_after
     assert featured_before != featured_after
     assert_not_nil featured_after.last_homepage_featured_at
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    email = ActionMailer::Base.deliveries.first
   end
 
   def test_check_inconsistent_tabs
