@@ -1,4 +1,4 @@
-div.quote{padding: 10px; text-align: center; color: #20ACCD; font-size: 12px;}
+div.quote{padding: 10px; text-align: center; color: #20ACCD; font-size: 12px; font-style:italic;}
 div.quote_body{font-weight: bold;}
 div#blog_categories_links{padding-bottom: 8px;font-size: 12px;}
 div.homepage-article{padding-top: 5px;}
