@@ -69,8 +69,15 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_recompute_resident_experts
+    expert = Factory(:user)
+    yoga = subcategories(:yoga)
+    expert_article = Factory(:article, :subcategory1_id => yoga.id, :author => expert, :state => "draft")
+    expert_article.publish!
     TaskUtils.recompute_resident_experts
     assert User.resident_experts.count > 0
+    User.resident_experts.each do |expert|
+      assert expert.published_articles_count > 0, "Expert #{expert.full_name} has no published article..."
+    end
   end
   
   def test_send_offers_reminder_so
