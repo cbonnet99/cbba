@@ -9,8 +9,10 @@
 		</ul>
 <% end -%>
 
-<%= render :partial => "blog_categories/links" %>
+<%= render :partial => "blog_categories/links", :locals => {:selected => @blog_category.slug} %>
+<%= will_paginate @articles%>
 <%= title "#{@blog_category.name} - articles"%>
 <% @articles.each do |a| -%>
 	<%= render :partial => "articles/article", :locals => {:article => a } %>
 <% end -%>
+<%= will_paginate @articles%>

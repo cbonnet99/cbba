@@ -1058,7 +1058,7 @@ class User < ActiveRecord::Base
   end
 
   def self.published_full_members
-    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "paid_photo desc, first_name, last_name")
+    User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "paid_photo desc, published_articles_count desc")
   end
 
   def self.count_published_full_members
