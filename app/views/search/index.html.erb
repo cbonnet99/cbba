@@ -11,7 +11,7 @@
 
 <!-- Intro Starts -->
 <div class="intro">
-	<%= render :partial => "blog_categories/links" %>
+	<%= render :partial => "blog_categories/links", :locals => {:selected => ""} %>
 	<% unless @featured_article.nil? -%>
 	<h3>Featured author: <%= link_to @featured_article.author.name, user_url_with_context(@featured_article.author), :class => "homepage_article_link" %></h3>
 	<%= render :partial => "articles/article_with_photo", :locals => {:article => @featured_article} %>
