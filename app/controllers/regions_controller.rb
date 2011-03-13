@@ -1,8 +1,9 @@
 class RegionsController < ApplicationController
 
   def index
-    @regions = Region.find(:all, :order => "name" )
-    @districts = District.find(:all, :order => "name" )
+    @country = Country.find_by_country_code(params[:country_code]) || Country.default_country
+    @regions = @country.regions
+    @districts = @country.districts
     @locations = @regions + @districts
   end
 	

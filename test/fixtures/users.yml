@@ -157,6 +157,8 @@ rmoore:
   member_until:              <%= 50.weeks.from_now.to_s :db %>
   slug:                      roger-moore
   country:                   nz
+  published_articles_count:  1
+  
 pending_user:
   first_name:                Pending
   last_name:                 User

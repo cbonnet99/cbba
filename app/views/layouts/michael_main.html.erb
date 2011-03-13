@@ -88,7 +88,7 @@
     <div id="where-wrapper" class="search-wrapper">
       <label for="where">Where: </label>
       <input class="text" type="text" id="where" name="where" value="<%=@where%>"  />
-      <span>e.g. auckland city, canterbury</span>
+      <span>e.g. <%= @country.example_locations %></span>
     </div>
     <div id="search-submit-wrapper">
       <%= submit_tag "Find", :class => "submit"  %>
@@ -173,32 +173,21 @@
   <!--Footer Starts -->
 </div>
 <!--Container Ends -->
-<% if ENV["RAILS_ENV"] == "production" -%>
-<script type="text/javascript">
-  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-  try {
-    var pageTracker = _gat._getTracker("UA-8125380-1");
-    pageTracker._trackPageview();
-  } catch(err) {}
-</script>
-<script type="text/javascript">
-  var gaJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-  document.write(unescape("%3Cscript src='" + gaJsHost + "ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
-  document.write(unescape("%3Cscript src='" + gaJsHost + "ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<% else -%>
-<%= stylesheet_link_tag 'jquery-ui' %>
-<%= javascript_include_tag 'jquery.js' %>
-<%= javascript_include_tag 'jquery-ui.js' %>
+<% if in_production -%>
+	<%= render :partial => "search/google_analytics" %>
+	<%= render :partial => "search/jquery_cdn" %>
+<% else -%>	
+	<%= stylesheet_link_tag 'jquery-ui' %>
+	<%= javascript_include_tag 'jquery.js' %>
+	<%= javascript_include_tag 'jquery-ui.js' %>
 <% end -%>
 <%= javascript_include_tag 'jquery.curvycorners.packed' %>
-<% if ENV["RAILS_ENV"] == "production" || ENV["RAILS_ENV"] == "staging" -%>
-<script type="text/javascript" src="/javascripts/subcategories-<%=JsCounter.subcats_value%>.js"></script>
+<% if in_production || in_staging -%>
+	<script type="text/javascript" src="/javascripts/regions-<%=@country.country_code%>.js"></script>
+	<script type="text/javascript" src="/javascripts/subcategories-<%=@country.country_code%>-<%=JsCounter.subcats_value%>.js"></script>
 <% else -%>
-<script type="text/javascript" src="/javascripts/subcategories.js"></script>
+	<script type="text/javascript" src="/javascripts/regions.js?country_code=<%=@country.country_code%>"></script>
+	<script type="text/javascript" src="/javascripts/subcategories.js?country_code=<%=@country.country_code%>"></script>
 <% end -%>
 <%= javascript_include_merged :base %>
 <%= yield :js %>

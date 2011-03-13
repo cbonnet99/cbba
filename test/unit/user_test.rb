@@ -160,7 +160,7 @@ class UserTest < ActiveSupport::TestCase
     
     my_users = User.currently_selected_and_last_10_published(newsletter)
     
-    assert_equal 1, my_users.count(user), "New user #{user.name} doesn't appear once: #{my_users.map(&:name).to_sentence}"
+    assert_equal 1, my_users.select{|my_user| my_user == user}.size, "New user #{user.name} doesn't appear once: #{my_users.map(&:name).to_sentence}"
   end
   
   def test_get_emails_from_string

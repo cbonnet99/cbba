@@ -5,7 +5,6 @@ javascripts:
   - jquery.cycle.min
   - jquery.autocomplete.pack
   - application
-  - regions
   - jquery.NobleCount.min
   - jquery.curvycorners.packed
 stylesheets: 

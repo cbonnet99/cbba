@@ -8,6 +8,8 @@ class SubcategoriesController < ApplicationController
   def index
     @subcategories = Subcategory.find(:all, :order =>:name)
     @subcategories.concat(Category.find(:all, :order =>:name))
+    @country = Country.find_by_country_code(params[:country_code]) || Country.default_country
+    @members = @country.users.full_members.published
   end
 
   def region

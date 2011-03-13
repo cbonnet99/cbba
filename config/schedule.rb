@@ -65,7 +65,6 @@ end
 every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/runs3sync"
   command "ruby script/delete_old_S3_files.rb"
-  runner "TaskUtils.recompute_points"
   runner "TaskUtils.recompute_resident_experts"
   runner "TaskUtils.change_homepage_featured_resident_experts"
 end

@@ -1,4 +1,12 @@
 module ApplicationHelper
+
+  def in_staging
+    ENV["RAILS_ENV"] == "staging"
+  end
+
+  def in_production
+    ENV["RAILS_ENV"] == "production"
+  end
   
   def stuff_url(stuff)
     case stuff.class.to_s

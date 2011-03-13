@@ -1,15 +1,24 @@
 auckland_auckland_city:
     region: auckland
     name: Auckland City
+    country: nz
 wellington_wellington_city:
     region: wellington
     name: Wellington City
+    country: nz
 wairarapa_featherston:
     region: wairarapa
     name: Featherston
+    country: nz
 canterbury_christchurch_city:
     region: canterbury
     name: Christchurch City
+    country: nz
 canterbury_akaroa:
     region: canterbury
     name: Akaroa
+    country: nz
+new_south_wales_sydney:
+    region: new_south_wales
+    name: Sydney
+    country: au

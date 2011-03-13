@@ -51,6 +51,7 @@ class TaskUtils
   end
 
   def self.recompute_resident_experts
+    TaskUtils.recompute_points
     #reset
     User.resident_experts.each do |expert|
       expert.update_attribute(:is_resident_expert, false)
@@ -355,19 +356,24 @@ class TaskUtils
   end
   
   def self.regenerate_autocomplete_subcategories
-    old_timestamp = JsCounter.subcats_value unless JsCounter.subcats.nil? || JsCounter.subcats_value.nil?
-    new_timestamp = Subcategory.last_subcat_or_member_created_at.to_i
-    File.open("#{RAILS_ROOT}/public/javascripts/subcategories-#{new_timestamp}.js", 'w') do |out|
-      generate_autocomplete_subcategories_content(out)
+    Country.all.each do |country|
+      old_timestamp = JsCounter.subcats_value unless JsCounter.subcats.nil? || JsCounter.subcats_value.nil?
+      new_timestamp = Subcategory.last_subcat_or_member_created_at.to_i
+      File.open("#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{new_timestamp}.js", 'w') do |out|
+        generate_autocomplete_subcategories_content(out, country.id)
+      end
+      filename = "#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{old_timestamp}.js"
+      if File.exists?(filename)
+        File.delete(filename) unless JsCounter.subcats.nil? || JsCounter.subcats_value.nil?
+      end
+      JsCounter.set_subcats(new_timestamp)
     end
-    File.delete("#{RAILS_ROOT}/public/javascripts/subcategories-#{old_timestamp}.js") unless JsCounter.subcats.nil? || JsCounter.subcats_value.nil?
-    JsCounter.set_subcats(new_timestamp)
   end
   
-  def self.generate_autocomplete_subcategories_content(out)
+  def self.generate_autocomplete_subcategories_content(out, country_id)
     subcategories = Subcategory.find(:all, :order =>:name)
     subcategories.concat(Category.find(:all, :order =>:name))
-    subcategories.concat(User.full_members.published)
+    subcategories.concat(User.full_members.published.find(:all, :conditions => ["country_id = ?", country_id]))
     out << "var sbg=new Array(#{subcategories.size});"
     subcategories.each_with_index do |stuff, index|
       # puts "Adding #{stuff.name}"
@@ -380,16 +386,18 @@ class TaskUtils
   end
 
   def self.generate_autocomplete_regions
-    File.open("#{RAILS_ROOT}/public/javascripts/regions.js", 'w') do |out|
-      regions = Region.find(:all, :order => "name" )
-      districts = District.find(:all, :order => "name" )
-      locations = regions + districts
-      out << "var lts = new Array(#{locations.size});"
-      locations.each_with_index do |location, index|
-        # puts "Adding #{location.name}"
-        out << "lts[#{index}]='#{help.escape_javascript(location.name)}';"
-      end
-    end    
+    Country.all.each do |country|
+      File.open("#{RAILS_ROOT}/public/javascripts/regions-#{country.country_code}.js", 'w') do |out|
+        regions = Region.find(:all, :conditions => ["country_id = ?", country.id],  :order => "name" )
+        districts = District.find(:all, :conditions => ["country_id = ?", country.id], :order => "name" )
+        locations = regions + districts
+        out << "var lts = new Array(#{locations.size});"
+        locations.each_with_index do |location, index|
+          # puts "Adding #{location.name}"
+          out << "lts[#{index}]='#{help.escape_javascript(location.name)}';"
+        end
+      end    
+    end
   end
   
   def self.reset_slugs

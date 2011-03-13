@@ -17,14 +17,15 @@ class TaskUtilsTest < ActiveSupport::TestCase
     expert2 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true)
     expert3 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true)
 
-    article1 = Factory(:article, :author => expert1, :published_at => 2.days.ago)
-    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub1.id)  
+    article1 = Factory(:article, :author => expert1, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub1.id)
+    article1.publish!
+    
 
-    article2 = Factory(:article, :author => expert2, :published_at => 2.days.ago)
-    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub1.id)  
+    article2 = Factory(:article, :author => expert2, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub1.id)
+    article2.publish!
 
-    article3 = Factory(:article, :author => expert3, :published_at => 2.days.ago)
-    Factory(:articles_subcategory, :article_id => article1.id, :subcategory_id => sub2.id)  
+    article3 = Factory(:article, :author => expert3, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub2.id)
+    article3.publish!
     
     TaskUtils.recompute_resident_experts
     
@@ -78,7 +79,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     yoga = subcategories(:yoga)
     expert_article = Factory(:article, :subcategory1_id => yoga.id, :author => expert, :state => "draft")
     expert_article.publish!
+    
     TaskUtils.recompute_resident_experts
+    
+    expert.reload
     assert User.resident_experts.count > 0
     User.resident_experts.each do |expert|
       assert expert.published_articles_count > 0, "Expert #{expert.full_name} has no published article..."
@@ -155,8 +159,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.generate_autocomplete_subcategories
     ts = JsCounter.subcats_value
     assert_not_equal invalid_timestamp, ts
-    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{ts}.js")
-    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{ts}.js")
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{invalid_timestamp}.js")
     TaskUtils.delete_subcat_files
   end
   
@@ -168,44 +172,45 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.generate_autocomplete_subcategories
     ts = JsCounter.subcats_value
     assert_not_equal invalid_timestamp, ts
-    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{ts}.js")
-    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{ts}.js")
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{invalid_timestamp}.js")
     TaskUtils.delete_subcat_files
   end
   
   def test_generate_autocomplete_subcategories_with_existing_timestamp_but_no_file2
     TaskUtils.delete_subcat_files
     invalid_timestamp = Subcategory.last_subcat_or_member_created_at.to_i-1
-    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{invalid_timestamp}.js")
     JsCounter.set_subcats(invalid_timestamp)
     TaskUtils.generate_autocomplete_subcategories
     ts = JsCounter.subcats_value
     assert_not_equal invalid_timestamp, ts
-    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{ts}.js")
-    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{invalid_timestamp}.js")
+    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{ts}.js")
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{invalid_timestamp}.js")
     TaskUtils.delete_subcat_files
   end
   
   def test_generate_autocomplete_subcategories_with_existing_timestamp_but_no_file3
     TaskUtils.delete_subcat_files
     initial_timestamp = Subcategory.last_subcat_or_member_created_at.to_i
-    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{initial_timestamp}.js")
+    assert !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{initial_timestamp}.js")
     JsCounter.set_subcats(initial_timestamp)
     TaskUtils.generate_autocomplete_subcategories
     ts = JsCounter.subcats_value
     assert_equal initial_timestamp, ts
-    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{initial_timestamp}.js")
+    assert File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-nz-#{initial_timestamp}.js")
     TaskUtils.delete_subcat_files
   end
   
   def test_generate_autocomplete_subcategories_content
     fm = Factory(:role)
-    user_with_quote = Factory(:user, :last_name => "O'Neil")
+    nz = countries(:nz)
+    user_with_quote = Factory(:user, :last_name => "O'Neil", :country => nz)
     user_with_quote.roles << fm
     profile = Factory(:user_profile, :user => user_with_quote )
     s = ""
     assert User.full_members.published.include?(user_with_quote)
-    TaskUtils.generate_autocomplete_subcategories_content(s)
+    TaskUtils.generate_autocomplete_subcategories_content(s, nz)
     assert_match %r{O\\'Neil}, s, "Single quotes should be escaped"
   end
 

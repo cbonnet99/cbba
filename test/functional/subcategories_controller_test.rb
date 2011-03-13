@@ -15,6 +15,21 @@ class SubcategoriesControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  def test_index_js_for_australia
+    au = countries(:au)
+    nz = countries(:nz)
+    au_user = Factory(:user, :country => au)
+    au_user.publish!
+    nz_user = Factory(:user, :country => nz)
+    nz_user.publish!
+
+    get :index, :format => "js", :country_code => au.country_code 
+
+    assert_response :success
+    assert assigns(:members).include?(au_user), "Members are: #{assigns(:members).map(&:name).to_sentence}"
+    assert !assigns(:members).include?(nz_user), "Members are: #{assigns(:members).map(&:name).to_sentence}"
+  end
+  
   def test_region
     plenty = regions(:plenty)
     get :region, {:region_slug => plenty.slug,
