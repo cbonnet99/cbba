@@ -180,12 +180,16 @@ module ApplicationHelper
       thumbnail_image(user)
     end
   end
+
+  def tinymce_url(filename="timy_mce")
+    javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host][@country.country_code]}/javascripts/tiny_mce/#{filename}"
+  end
   
   def preload_tinymce
     @content_for_tinymce = ""
     content_for :tinymce do
       #had to specify a non-asset path to prevent caching bug: see http://blog.p.latyp.us/2008/04/tinymce-and-using-rails-asset-hosts.html
-      javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/tiny_mce/tiny_mce"
+      tinymce_url
     end
   end
 
@@ -193,21 +197,21 @@ module ApplicationHelper
     @content_for_tinymce = ""
     content_for :tinymce do
       #had to specify a non-asset path to prevent caching bug: see http://blog.p.latyp.us/2008/04/tinymce-and-using-rails-asset-hosts.html
-      javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/tiny_mce/tiny_mce"
+      tinymce_url
     end
     @content_for_tinymce_init = ""
     if logged_in? && current_user.admin?
       content_for :tinymce_init do
-        javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/mce_editor_admin1"
+        tinymce_url("mce_editor_admin1")
       end
     else
       if heading
         content_for :tinymce_init do
-          javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/mce_editor2"
+          tinymce_url("mce_editor2")
         end
       else
         content_for :tinymce_init do
-          javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host]}/javascripts/mce_editor_noheading"
+          tinymce_url("mce_editor_noheading")
         end
       end        
     end
