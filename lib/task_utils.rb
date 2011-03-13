@@ -344,7 +344,7 @@ class TaskUtils
       regenerate_autocomplete_subcategories
     else
       #make sure that the corresponding file exists
-      if !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{JsCounter.subcats_value}.js")
+      if !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{JsCounter.subcats_value}.js")
         JsCounter.set_subcats(nil)
         regenerate_autocomplete_subcategories
       else
