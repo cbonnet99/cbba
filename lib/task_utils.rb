@@ -340,34 +340,34 @@ class TaskUtils
   end
   
   def self.generate_autocomplete_subcategories
-    if JsCounter.subcats.nil?
-      regenerate_autocomplete_subcategories
-    else
-      #make sure that the corresponding file exists
-      if !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{JsCounter.subcats_value}.js")
-        JsCounter.set_subcats(nil)
-        regenerate_autocomplete_subcategories
+    Country.all.each do |country|
+      if JsCounter.subcats(country).nil?
+        regenerate_autocomplete_subcategories(country)
       else
-        if JsCounter.subcats_value < Subcategory.last_subcat_or_member_created_at.to_i
-          regenerate_autocomplete_subcategories
+        #make sure that the corresponding file exists
+        if !File.exists?("#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{JsCounter.subcats_value(country)}.js")
+          JsCounter.set_subcats(country, nil)
+          regenerate_autocomplete_subcategories(country)
+        else
+          if JsCounter.subcats_value(country) < Subcategory.last_subcat_or_member_created_at(country).to_i
+            regenerate_autocomplete_subcategories(country)
+          end
         end
       end
     end
   end
   
-  def self.regenerate_autocomplete_subcategories
-    Country.all.each do |country|
-      old_timestamp = JsCounter.subcats_value unless JsCounter.subcats.nil? || JsCounter.subcats_value.nil?
-      new_timestamp = Subcategory.last_subcat_or_member_created_at.to_i
-      File.open("#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{new_timestamp}.js", 'w') do |out|
-        generate_autocomplete_subcategories_content(out, country.id)
-      end
-      filename = "#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{old_timestamp}.js"
-      if File.exists?(filename)
-        File.delete(filename) unless JsCounter.subcats.nil? || JsCounter.subcats_value.nil?
-      end
-      JsCounter.set_subcats(new_timestamp)
+  def self.regenerate_autocomplete_subcategories(country)
+    old_timestamp = JsCounter.subcats_value(country) unless JsCounter.subcats(country).nil? || JsCounter.subcats_value(country).nil?
+    new_timestamp = Subcategory.last_subcat_or_member_created_at(country).to_i
+    File.open("#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{new_timestamp}.js", 'w') do |out|
+      generate_autocomplete_subcategories_content(out, country.id)
     end
+    filename = "#{RAILS_ROOT}/public/javascripts/subcategories-#{country.country_code}-#{old_timestamp}.js"
+    if File.exists?(filename)
+      File.delete(filename) unless JsCounter.subcats(country).nil? || JsCounter.subcats_value(country).nil?
+    end
+    JsCounter.set_subcats(country, new_timestamp)
   end
   
   def self.generate_autocomplete_subcategories_content(out, country_id)

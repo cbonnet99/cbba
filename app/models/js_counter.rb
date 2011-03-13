@@ -1,6 +1,8 @@
 class JsCounter < ActiveRecord::Base
-  def self.subcats
-    JsCounter.find_by_name("subcats")
+  belongs_to :country
+  
+  def self.subcats(country)
+    JsCounter.find_by_country_id_and_name(country.id, "subcats")
   end
   def self.regions
     JsCounter.find_by_name("regions")
@@ -11,15 +13,15 @@ class JsCounter < ActiveRecord::Base
   # def self.regions_last_updated_at
   #   self.regions.try(:updated_at)
   # end
-  def self.set_subcats(new_timestamp)
-    if self.subcats.nil?
-      JsCounter.create(:name => "subcats", :value => new_timestamp )
+  def self.set_subcats(country, new_timestamp)
+    if self.subcats(country).nil?
+      JsCounter.create(:name => "subcats", :value => new_timestamp, :country_id => country.id)
     else
-      JsCounter.subcats.update_attribute(:value, new_timestamp )
+      JsCounter.subcats(country).update_attribute(:value, new_timestamp )
     end
   end
-  def self.subcats_value
-    self.subcats.try(:value)
+  def self.subcats_value(country)
+    self.subcats(country).try(:value)
   end
   
 end

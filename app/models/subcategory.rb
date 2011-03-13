@@ -34,8 +34,8 @@ class Subcategory < ActiveRecord::Base
     self.first(:order=>"created_at DESC", :conditions=>"created_at IS NOT NULL").try(:created_at)
   end
   
-  def self.last_subcat_or_member_created_at
-    [UserProfile.last_published_at, Subcategory.last_created_at].max
+  def self.last_subcat_or_member_created_at(country)
+    [UserProfile.last_published_at(country), Subcategory.last_created_at].reject{|stuff| stuff.nil?}.max
   end
 
   def resident_experts

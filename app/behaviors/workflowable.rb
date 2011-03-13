@@ -31,8 +31,8 @@ module Workflowable
   end
   module WorkflowClassMethods
     
-    def last_published_at
-      self.first(:order=>"published_at DESC", :conditions=>"published_at IS NOT NULL").try(:published_at)
+    def last_published_at(country)
+      self.first(:order=>"published_at DESC", :conditions=>["country_id = ? and published_at IS NOT NULL", country.id]).try(:published_at)
     end
         
     def currently_selected_and_last_10_published(newsletter)

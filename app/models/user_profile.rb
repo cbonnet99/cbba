@@ -2,6 +2,10 @@ class UserProfile < ActiveRecord::Base
   include Workflowable
   
   belongs_to :user
+
+  def self.last_published_at(country)
+    self.first(:include => :user, :order=>"published_at DESC", :conditions=>["users.country_id = ? and published_at IS NOT NULL", country.id]).try(:published_at)
+  end
   
   def summary
     "#{user.full_name}: #{user.expertise}"

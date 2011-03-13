@@ -9,6 +9,7 @@ class Country < ActiveRecord::Base
   has_many :regions
   has_many :special_offers
   has_many :countries_subcategories
+  has_many :js_counters
   
   def to_s
     "#{self.id}: #{self.name}"
