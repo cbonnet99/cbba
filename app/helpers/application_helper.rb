@@ -181,8 +181,8 @@ module ApplicationHelper
     end
   end
 
-  def tinymce_url(filename="timy_mce")
-    javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host][@country.country_code]}/javascripts/tiny_mce/#{filename}"
+  def tinymce_url(filename="tiny_mce/tiny_mce")
+    javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host][@country.country_code]}/javascripts/#{filename}"
   end
   
   def preload_tinymce
