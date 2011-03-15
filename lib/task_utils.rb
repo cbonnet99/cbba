@@ -95,13 +95,16 @@ class TaskUtils
   def self.check_inconsistent_tabs
     res = ""
     User.active.each do |user|
-      if user.tabs.size > user.subcategories.size
-        res << "User #{user.email} has #{user.tabs.size} tabs (#{user.tabs.map(&:title).to_sentence}), but #{user.subcategories.size} subcategories (#{user.subcategories.map(&:name).to_sentence})."
+      user_tab_titles = user.tabs.map(&:title)
+      user_subcategory_names = user.subcategories.map(&:name)
+      tabs_without_subcat = []
+      user_tab_titles.each do |title|
+        if !user_subcategory_names.include?(title)
+          tabs_without_subcat << title
+        end
       end
-      user_tab_titles = user.tabs.map(&:title).sort
-      user_subcategory_names = user.subcategories.map(&:name).sort
-      if user_subcategory_names != user_tab_titles
-        res << "User #{user.email} has inconsistent tabs. Tab titles are: #{user_tab_titles.to_sentence}, but subcategories are: #{user_subcategory_names.to_sentence}\n"
+      unless tabs_without_subcat.blank?
+        res << "User #{user.email} has inconsistent tabs. Tab titles: #{tabs_without_subcat.to_sentence} #{tabs_without_subcat.size > 1 ? "have" : "has"} no corresponding subcategories in user's expertise: #{user_subcategory_names.to_sentence}\n"
       end
     end
     unless res.blank?
