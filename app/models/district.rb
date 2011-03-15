@@ -3,7 +3,7 @@ class District < ActiveRecord::Base
 	belongs_to :region
   belongs_to :country
 
-  before_create :set_country, :locate
+  before_create :set_country
   before_update :update_geocodes
   
   def set_country

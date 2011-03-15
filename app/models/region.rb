@@ -4,7 +4,6 @@ class Region < ActiveRecord::Base
   belongs_to :country
 
   after_create :create_slug
-  before_create :locate
   before_update :update_geocodes
 
   DEFAULT_NZ_LATITUDE = -41.3
