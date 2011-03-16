@@ -220,6 +220,15 @@ class UsersControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     assert_select "select#user_subcategory1_id"
+    assert_select "select#user_district_id > option", :text => "Auckland Region - Auckland City"
+    assert_select "select#user_district_id > option", :text => "New South Wales - Sydney", :count => 0
+  end
+
+  def test_new_au
+    get :new, :country_code => "au" 
+    assert_response :success
+    assert_select "select#user_district_id > option", :text => "Auckland Region - Auckland City", :count => 0  
+    assert_select "select#user_district_id > option", :text => "New South Wales - Sydney"    
   end
 
   def test_new_photo
@@ -585,7 +594,8 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_create
 		old_size = User.all.size
-		district = District.first
+		district = districts(:auckland_auckland_city)
+		nz = countries(:nz)
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
       :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
@@ -597,12 +607,30 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal old_size+1, User.all.size
 		assert_equal 1, assigns(:user).tabs.size
 		assert_not_nil assigns(:user).country
+		assert_equal nz, assigns(:user).country
 		tab = assigns(:user).tabs.first
 		assert_match /delete this text/, tab.content1_with
 		assert_match /delete this text/, tab.content2_benefits
 		assert_match /delete this text/, tab.content3_training
 		assert_match /delete this text/, tab.content4_about
 		assert_match /delete this text/, tab.content
+	end
+
+  def test_create_au
+		old_size = User.all.size
+		district = districts(:new_south_wales_sydney)
+		au = countries(:au)
+    hypnotherapy = subcategories(:hypnotherapy)
+		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "full_membership",
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id
+      }
+		assert_not_nil assigns(:user)
+		assert_equal 0, assigns(:user).errors.size, "Errors were: #{assigns(:user).errors.full_messages.to_sentence}"
+		assert_equal old_size+1, User.all.size
+		assert_equal 1, assigns(:user).tabs.size
+		assert_not_nil assigns(:user).country
+		assert_equal au, assigns(:user).country
 	end
 
   def test_create_with_capitals_in_email

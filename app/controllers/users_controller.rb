@@ -272,7 +272,6 @@ class UsersController < ApplicationController
  
   def create
     @user = User.new(params[:user])
-    @user.country_id = @country.id
     if verify_human
       logout_keeping_session!
       @user.register! if @user && @user.valid?

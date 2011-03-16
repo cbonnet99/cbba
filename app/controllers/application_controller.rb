@@ -22,15 +22,21 @@ class ApplicationController < ActionController::Base
 	exception_data :additional_data
 
   def get_country
-    #default value
-    top_domain = request.host
-    host_bits = request.host.split(".")
-    if host_bits.size >= 2
-      top_domain = host_bits[-2..-1].join(".")
+    @country = nil
+    if params[:country_code]
+      @country = Country.find_by_country_code(params[:country_code])
     end
-    @country = Country.find_by_top_domain(top_domain)
     if @country.nil?
-      @country = Country.default_country
+      #default value
+      top_domain = request.host
+      host_bits = request.host.split(".")
+      if host_bits.size >= 2
+        top_domain = host_bits[-2..-1].join(".")
+      end
+      @country = Country.find_by_top_domain(top_domain)
+      if @country.nil?
+        @country = Country.default_country
+      end
     end
   end
 
@@ -224,7 +230,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def get_districts
-		@districts = District.find(:all, :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
+		@districts = District.find(:all, :conditions => ["districts.country_id = ?", @country.id], :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
 	end
 
 	def get_regions

@@ -110,7 +110,7 @@ class User < ActiveRecord::Base
   
   # #around filters
 	before_validation :assemble_phone_numbers, :trim_stuff
-  before_create :create_geocodes, :get_region_from_district, :get_membership_type
+  before_create :create_geocodes, :get_region_from_district, :get_membership_type, :set_country
   before_update :update_geocodes, :get_region_from_district, :get_membership_type
   after_create :create_profile, :add_tabs
   before_validation :downcase_subdomain  
@@ -129,6 +129,12 @@ class User < ActiveRecord::Base
   FEATURE_GV = "gift voucher"
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
+  
+  def set_country
+    if self.country_id.nil?
+      self.country_id = self.district.country_id
+    end
+  end
   
   def self.homepage_featured_resident_experts
     User.find(:all, :conditions => ["homepage_featured_resident is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
