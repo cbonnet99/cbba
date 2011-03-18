@@ -8,6 +8,7 @@ free_massage:
   subcategory: therapeutic_massage
   author: cyrille
   published_at: <%= 2.days.ago.to_s :db %>
+  country: nz
 free_massage_draft:
     title: Free massage draft
     description: 1 paid, 1 free
@@ -15,23 +16,27 @@ free_massage_draft:
     subcategory: therapeutic_massage
     slug: free-massage-draft
     author: cyrille
+    country: nz
 free_session:
     title: 2 sessions for the price of 1
     state: draft
     slug: free-session
     author: norma
+    country: nz
 free_massage_norma:
     title: Free massage
     state: published
     slug: free-massage
     author: norma
     published_at: <%= 2.days.ago.to_s :db %>
+    country: nz
 published_not_approved:
     title: Published not approved
     state: published
     slug: pub-not-app
     author: rmoore
     published_at: <%= 2.days.ago.to_s :db %>
+    country: nz
 published_and_approved:
     title: Published and approved
     state: published
@@ -40,6 +45,7 @@ published_and_approved:
     published_at: <%= 2.days.ago.to_s :db %>
     approved_at: <%= 2.days.ago.to_s :db %>
     approved_by: cyrille
+    country: nz
 rejected:
     title: Published and rejected
     state: draft
@@ -50,3 +56,4 @@ rejected:
     approved_by: cyrille
     rejected_at: <%= 1.day.ago.to_s :db %>
     rejected_by: cyrille
+    country: nz

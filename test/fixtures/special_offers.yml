@@ -5,7 +5,8 @@ one:
   author: cyrille
   state: draft
   subcategory: yoga
-
+  country: nz
+  
 free_trial:
   title: FREE Trial Session Plus $150 Off A Full 12 Session Coaching Series
   slug: free-trial
@@ -18,6 +19,7 @@ free_trial:
   state: published
   published_at: <%= 5.days.ago.to_s :db %>
   subcategory: yoga
+  country: nz
 norma:
     title: Offer one
     slug: offer_one
@@ -25,6 +27,7 @@ norma:
     author: norma
     state: published
     published_at: <%= 7.days.ago.to_s :db %>
+    country: nz
 
 published_not_approved:
     title: Published not approved
@@ -33,6 +36,7 @@ published_not_approved:
     author: rmoore
     state: published
     published_at: <%= 7.days.ago.to_s :db %>
+    country: nz
 published_and_approved:
     title: Published and approved
     slug: pub-and-app
@@ -42,6 +46,7 @@ published_and_approved:
     published_at: <%= 7.days.ago.to_s :db %>
     approved_at: <%= 7.days.ago.to_s :db %>
     approved_by: cyrille
+    country: nz
 rejected:
     title: Published and rejected
     slug: pub-and-rej
@@ -53,3 +58,5 @@ rejected:
     approved_by: cyrille
     rejected_at: <%= 6.days.ago.to_s :db %>
     rejected_by: cyrille
+    country: nz
+    

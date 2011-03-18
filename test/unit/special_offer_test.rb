@@ -20,7 +20,8 @@ class SpecialOfferTest < ActiveSupport::TestCase
   end
   
   def test_count_published_special_offers
-    assert_equal 4, SpecialOffer.count_published_special_offers
+    nz = countries(:nz)
+    assert_equal 4, SpecialOffer.count_published_special_offers(nz)
   end
   
   def test_latest

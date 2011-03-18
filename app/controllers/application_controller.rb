@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
 
 	#  before_filter :tags
-  before_filter :featured_quotes, :current_category, :search_terms, :categories, :counters, :resident_experts, :get_country, :except => :change_category
+  before_filter :get_country, :featured_quotes, :current_category, :search_terms, :categories, :counters, :resident_experts, :except => :change_category
   # before_filter :set_subdomain_user
   
 	protected
@@ -208,9 +208,9 @@ class ApplicationController < ActionController::Base
 	end
 
 	def counters
-		@counters = Counter.published
-		@number_users = User.active.count
-		@number_services = SubcategoriesUser.count
+		@counters = @country.counters.published
+		@number_users = @country.users.active.count
+		@number_services = @country.subcategories_users.count
 	end
 
   def tags

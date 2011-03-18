@@ -1059,16 +1059,16 @@ class User < ActiveRecord::Base
     User.find(:all, :include => ["user_profile", "roles", "subcategories"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "first_name, last_name")
   end
 
-  def self.count_published_resident_experts
-    User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false and users.state='active'")
+  def self.count_published_resident_experts(country)
+    User.count(:include => ["user_profile", "roles"], :conditions => ["roles.name='resident_expert' and user_profiles.state = 'published' and free_listing is false and users.state='active' and users.country_id = ?", country.id])
   end
 
   def self.published_full_members
     User.find(:all, :include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active'", :order => "paid_photo desc, published_articles_count desc")
   end
 
-  def self.count_published_full_members
-    User.count(:include => ["user_profile", "roles"], :conditions => "roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active'")
+  def self.count_published_full_members(country)
+    User.count(:include => ["user_profile", "roles"], :conditions => ["roles.name='full_member' and user_profiles.state = 'published' and free_listing is false and users.state='active' and users.country_id = ?", country.id])
   end
   
   def self.count_newest_full_members

@@ -40,8 +40,8 @@ class SpecialOffer < ActiveRecord::Base
     return offers.reverse!
   end
   
-	def self.count_published_special_offers
-	  SpecialOffer.find_all_by_state("published").size
+	def self.count_published_special_offers(country)
+	  SpecialOffer.find_all_by_country_id_and_state(country.id, "published").size
   end
 
 end
