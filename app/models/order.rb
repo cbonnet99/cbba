@@ -102,7 +102,7 @@ class Order < ActiveRecord::Base
   def create_payment
     Payment.create(:user_id => user.id, :amount => self.compute_amount, :payment_card_type => "credit_card",
     :first_name => user.first_name, :last_name => user.last_name, :address1 => user.address1,
-    :city => user.city, :order_id => self.id )
+    :city => user.city, :order_id => self.id, :currency => user.country.currency)
   end
     
 end

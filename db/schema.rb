@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110318190119) do
+ActiveRecord::Schema.define(:version => 20110318191802) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -428,6 +428,7 @@ ActiveRecord::Schema.define(:version => 20110318190119) do
     t.integer  "order_id"
     t.datetime "notified_at"
     t.integer  "stored_token_id"
+    t.string   "currency"
   end
 
   create_table "quotes", :force => true do |t|

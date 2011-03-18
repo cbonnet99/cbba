@@ -155,6 +155,7 @@ class Payment < ActiveRecord::Base
   def purchase_options
     {
       :ip => ip_address,
+      :currency => self.currency, 
       :description => "#{user.email} - #{payment_type}",
       :billing_address => {
         :name     => "#{first_name} #{last_name}",
