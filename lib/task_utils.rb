@@ -590,7 +590,12 @@ class TaskUtils
 
 	def self.update_counters
 		Counter.all.each do |c|
-			c.update_attribute(:count, Object.const_get(c.class_name).send(c.count_method.to_sym, c.country))
+		  if c.count_method.blank?
+		    method = "count_published"
+	    else
+	      method = c.count_method
+      end
+			c.update_attribute(:count, Object.const_get(c.class_name).send(method.to_sym, c.country))
 		end
 	end
 

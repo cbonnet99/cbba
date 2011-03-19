@@ -161,8 +161,8 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def self.count_published
-    Article.count(:all, :conditions => "state = 'published'")
+  def self.count_published(country)
+    Article.count(:all, :conditions => ["state = 'published' and country_id = ?", country.id])
   end
 
   def self.all_articles(user)

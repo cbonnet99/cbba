@@ -19,9 +19,9 @@ class SpecialOfferTest < ActiveSupport::TestCase
     assert_equal old_size+1, yoga.published_special_offers_count
   end
   
-  def test_count_published_special_offers
+  def test_count_published
     nz = countries(:nz)
-    assert_equal 4, SpecialOffer.count_published_special_offers(nz)
+    assert_equal 4, SpecialOffer.count_published(nz)
   end
   
   def test_latest

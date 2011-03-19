@@ -24,8 +24,8 @@ class GiftVoucher < ActiveRecord::Base
     end
   end
 	
-	def self.count_published_gift_vouchers(country)
-	  GiftVoucher.find_all_by_country_id_and_state(country.id, "published").size
+	def self.count_published(country)
+	  GiftVoucher.count(:all, :conditions => ["state = ? and country_id = ?", 'published', country.id])
   end
 		
 end
