@@ -117,6 +117,8 @@ ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
   :default => '%e %B %Y %H:%M', :short => "%B %Y" )
 
+ActiveRecord::Base.include_root_in_json = false
+
 $admins = [{:email => "sav@elevatecoaching.co.nz", :first_name => "David", :last_name => "Savage", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business Coaching"},
   {:email => "cbonnet99@gmail.com", :first_name => "Cyrille", :last_name => "Bonnet", :region => "Wellington Region", :district => "Wellington City", :category => "Coaches", :subcategory => "Business Coaching" },
   {:email => "megan@beamazing.co.nz", :first_name => "Megan", :last_name => "Savage", :region => "Wellington Region", :district => "Wellington City", :category => "Practitioners", :subcategory => "Massage (Therapeutic)"}]

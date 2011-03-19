@@ -136,10 +136,15 @@ class ApplicationController < ActionController::Base
     @featured_resident_experts = User.homepage_featured_resident_experts
   end
 
-	def get_districts_and_subcategories
-    get_districts
+	def get_districts_and_subcategories(country_id)
+    get_districts(country_id)
 	  get_subcategories
+	  get_countries
 	end
+
+  def get_countries
+    @countries = Country.all.collect {|d| [ d.name, d.id ]}
+  end
   
   def admin_required
     unless logged_in? && current_user.admin?
@@ -229,8 +234,8 @@ class ApplicationController < ActionController::Base
 		@subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.name ]}
 	end
 
-	def get_districts
-		@districts = District.find(:all, :conditions => ["districts.country_id = ?", @country.id], :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
+	def get_districts(country_id)
+		@districts = District.find(:all, :conditions => ["districts.country_id = ?", country_id], :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
 	end
 
 	def get_regions

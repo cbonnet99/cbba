@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :stored_tokens
   map.resources :friend_messages
   
+  map.districts_for_country '/countries/districts/:id.:format', :controller => "countries", :action => "districts" 
   
   map.main '/main.rss', :controller => "search", :action => "main", :format => :rss   
   map.user_activities_admin '/admin/user_activities', :controller => "admin/user_activities", :action => "index"  

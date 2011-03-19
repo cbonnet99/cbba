@@ -1,3 +1,4 @@
+<% javascript "new-contact"%>
 <%= title "Sign up for our newsletter"  %>
 <p>Keep connected to <%= @country.name%> Health, Well-being and Development professionals via our monthly newsletter and receive news on...</p>
 <ul>
@@ -19,6 +20,10 @@
       <li>
         <%= f.label :email, "Your email address:<span class='mandatoryStar'>*</span>" %>
         <%= f.text_field :email %>
+      </li>
+      <li>
+        <%= f.label :country_id, "Your country:<span class='mandatoryStar'>*</span>" %>
+        <%= f.select :country_id, @countries%>
       </li>
       <li>
         <%= f.label :district_id, "Your area:" %>

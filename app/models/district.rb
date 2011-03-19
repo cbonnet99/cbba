@@ -5,6 +5,10 @@ class District < ActiveRecord::Base
 
   before_create :set_country
   before_update :update_geocodes
+
+  def to_json(options={})
+    super(:only => [:id], :methods => :full_name)
+  end
   
   def set_country
     self.country = self.region.country

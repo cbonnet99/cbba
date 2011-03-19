@@ -3,7 +3,7 @@ class Country < ActiveRecord::Base
   has_many :articles
   has_many :contacts
   has_many :counters
-  has_many :districts
+  has_many :districts 
   has_many :gift_vouchers
   has_many :how_tos
   has_many :regions
@@ -11,7 +11,7 @@ class Country < ActiveRecord::Base
   has_many :countries_subcategories
   has_many :js_counters
   has_many :subcategories_users, :through => :users 
-  
+    
   def to_s
     "#{self.id}: #{self.name}"
   end

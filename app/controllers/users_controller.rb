@@ -225,7 +225,7 @@ class UsersController < ApplicationController
 
 	def edit
     #    current_user.disassemble_phone_numbers
-		get_districts_and_subcategories
+		get_districts_and_subcategories(current_user.country_id || @country.id)
     current_user.set_membership_type
     @mt = current_user.membership_type
 	end
@@ -255,7 +255,7 @@ class UsersController < ApplicationController
       @user.main_expertise_name(:reload)
       flash[:notice] = "Your details have been updated"
     else
-			get_districts_and_subcategories
+			get_districts_and_subcategories(current_user.country_id || @country.id)
       flash.now[:error]  = "There were some errors in your details."
       render :action => 'edit'
     end
@@ -266,8 +266,8 @@ class UsersController < ApplicationController
     professional_str = params[:professional] || "false"
     professional = professional_str == "true"
     subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i
-    @user = User.new(:membership_type => @mt, :professional => professional, :subcategory1_id => subcategory1_id  )
-		get_districts_and_subcategories
+    @user = User.new(:membership_type => @mt, :professional => professional, :subcategory1_id => subcategory1_id, :country_id => @country.id)
+		get_districts_and_subcategories(@user.country_id || @country.id)
   end
  
   def create
@@ -289,14 +289,14 @@ class UsersController < ApplicationController
           redirect_to user_membership_url
         end
       else
-        get_districts_and_subcategories
+        get_districts_and_subcategories(@user.country_id || @country.id)
         flash.now[:error]  = "There were some errors in your signup information."
         @mt = @user.membership_type
         render :action => 'new', :subcategory1_id => params[:user]["subcatgory1_id"] 
       end
     else
       flash[:error] = "There was a problem with the words you entered with the security check. Did you see an image with words to type? If not, "
-      get_districts_and_subcategories
+      get_districts_and_subcategories(@user.country_id || @country.id)
       render :action => 'new'
     end
   end
