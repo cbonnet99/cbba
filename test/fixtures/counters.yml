@@ -1,24 +1,28 @@
 full_members:
     class_name: User
     title: Full members
+    count_method: count_published_full_members
     count: 2
     state: draft
     country: nz
 resident_experts:
     class_name: User
     title: Resident experts
+    count_method: count_published_resident_experts
     count: 1
     state: draft
     country: nz
 special_offers:
     class_name: SpecialOffer
-    title: Special offers
+    title: Trial Sessions
+    count_method: count_published_special_offers
     count: 2
     state: published
     country: nz
 gift_vouchers:
     class_name: GiftVoucher
     title: Gift vouchers
+    count_method: count_published_gift_vouchers
     count: 1
     state: published
     country: nz

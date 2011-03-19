@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110318191802) do
+ActiveRecord::Schema.define(:version => 20110319210206) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -153,8 +153,9 @@ ActiveRecord::Schema.define(:version => 20110318191802) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "class_name"
-    t.string   "state",      :default => "draft"
+    t.string   "state",        :default => "draft"
     t.integer  "country_id"
+    t.string   "count_method"
   end
 
   create_table "countries", :force => true do |t|

@@ -4,7 +4,6 @@ class AddOzCounters < ActiveRecord::Migration
     Counter.all.each do |c|
       Counter.create(:country => au, :title => c.title, :class_name => c.class_name, :state => c.state)
     end
-    TaskUtils.update_counters
   end
 
   def self.down
