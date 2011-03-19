@@ -16,6 +16,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     expert1 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true)
     expert2 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true)
     expert3 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true)
+    expert4 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true)
+    expert5 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true)
 
     article1 = Factory(:article, :author => expert1, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub1.id)
     article1.publish!
@@ -27,6 +29,12 @@ class TaskUtilsTest < ActiveSupport::TestCase
     article3 = Factory(:article, :author => expert3, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub2.id)
     article3.publish!
     
+    article4 = Factory(:article, :author => expert4, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub2.id)
+    article4.publish!
+    
+    article5 = Factory(:article, :author => expert5, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub2.id)
+    article5.publish!
+    
     TaskUtils.recompute_resident_experts
     
     assert User.resident_experts.size >= User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, 
@@ -36,6 +44,11 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, User.homepage_featured_resident_experts.size,
         "Only #{User.homepage_featured_resident_experts.size} featured resident experts were found: #{User.homepage_featured_resident_experts.map(&:name).to_sentence}"
     featured_before = User.homepage_featured_resident_experts
+    
+    TaskUtils.change_homepage_featured_resident_experts  
+    
+    featured_after = User.homepage_featured_resident_experts
+    assert featured_after.include?(expert4)
   end
 
   def test_change_homepage_featured_article

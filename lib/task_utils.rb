@@ -598,7 +598,7 @@ class TaskUtils
 #    YAML::load(ERB.new(IO.read(File.dirname(__FILE__) +"/../test/fixtures/roles.yml")).result)
 #  end
 
-  #better to call after the exisitg users have been imported (because Norma, Julie, etc. will
+  #better to call after the existing users have been imported (because Norma, Julie, etc. will
   #be listed there as practicioners)
   def self.create_default_admins
     #IMPORTANT: keep the following line to make sure that the admin role exists

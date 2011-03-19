@@ -323,7 +323,7 @@ class User < ActiveRecord::Base
       if users_to_feature.blank?
         more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true"], :order => "last_homepage_featured_resident_at")
       else
-        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id).join(",")], :order => "last_homepage_featured_resident_at")
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id).map(&:to_s)], :order => "last_homepage_featured_resident_at")
       end
       users_to_feature = users_to_feature.concat(more_users_to_feature)[0..User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS-1]
     end
