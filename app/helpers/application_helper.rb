@@ -242,7 +242,7 @@ module ApplicationHelper
   end
 
   def expanded_user_url(user, options={})
-    options.merge!(:main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
+    options.merge!(:host => APP_CONFIG[:site_host][user.country.country_code], :main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
     if options.include?(:selected_tab_id) && !options[:selected_tab_id].blank?
       user_tabs_url(options)
     else
@@ -295,7 +295,7 @@ module ApplicationHelper
       "item_number" => "1",
 #      "custom" => payment.comment,
       "amount" => convert_amount(payment.amount),
-      "currency_code" => "NZD",
+      "currency_code" => "HttpPublisherTest",
       "country" => "NZ",
       "no_note" => "1",
       "no_shipping" => "1",
