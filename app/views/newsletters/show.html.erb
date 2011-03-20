@@ -1,5 +1,5 @@
 <% javascript "link"%>
 <div class="floatRight"><%= link_to "See past newsletters", newsletters_url%></div>
-<%= render :partial => "share_link", :locals => {:newsletter => @newsletter}  %>
+<%= render :partial => "search/share_link", :locals => {:url => newsletter_url(@newsletter)}  %>
 <%= render :partial => "admin/newsletters/show", :locals => {:newsletter => @newsletter }  %>
 <div class="floatRight"><%= link_to "See past newsletters", newsletters_url%></div>
