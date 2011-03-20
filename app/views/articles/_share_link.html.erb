@@ -1,5 +1,1 @@
-<% if @article.author.active? %><span id="meet-author"><%= link_to "See #{@article.author.try(:name)}'s profile", user_url_with_context(@article.author)%></span> | <%end%><span class="share-link"><%= render :partial => "search/share_link" %></span> | <%= link_to "Send this article to a friend", new_friend_message_url(:protocol => APP_CONFIG[:logged_site_protocol], :subject => FriendMessage::ARTICLE_SUBJECT, :body => FriendMessage::ARTICLE_BODY.gsub(/_ARTICLE_LINK_/, article_url(@article, :protocol => APP_CONFIG[:site_protocol] )), :return_to => article_url(@article) ), :id => "send-link" %> | <%= link_to "Link", "#", :id => "link" %>
-<div id="link-text">
-<p>Paste link in <em>email</em> or <em>IM</em><span id="link-text-close"><%= link_to "Close", "#", :id => "link-close" %></span></p>
-<p><input type="text" id="link-text-input" value="<%= article_url(@article, :protocol => APP_CONFIG[:site_protocol])%>" size="50"></p>
-</div>
+<% if @article.author.active? %><span id="meet-author"><%= link_to "See #{@article.author.try(:name)}'s profile", user_url_with_context(@article.author)%></span><%end%>
