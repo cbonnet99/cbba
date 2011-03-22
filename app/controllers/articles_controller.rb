@@ -43,7 +43,11 @@ class ArticlesController < ApplicationController
         @popular_articles = Article.popular
         @all_blog_categories = BlogCategory.all
         @context = "homepage"
-        @selected_country = Country.find_by_country_code(params[:country_code])
+        if params[:only_show_own] == "true"
+          @selected_country = @country
+        else
+          @selected_country = nil
+        end
         @subcategories = Subcategory.with_articles(@selected_country)
         @recent_articles = Article.recent_articles(@selected_country)
       }

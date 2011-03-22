@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110319210206) do
+ActiveRecord::Schema.define(:version => 20110322072422) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(:version => 20110319210206) do
     t.string   "country_code"
     t.string   "top_domain"
     t.string   "example_locations"
+    t.boolean  "default_only_show_own"
   end
 
   create_table "countries_subcategories", :force => true do |t|
