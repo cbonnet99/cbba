@@ -5,6 +5,7 @@ jones_au:
   business_name:             Jones Inc.
   email:                     jones@telstraclear.com.au
   region:                    queensland    
+  slug:                      dave-jones
 cyrille:
   last_logged_at:            <%= 16.days.ago.to_s :db  %>
   first_name:                Cyrille

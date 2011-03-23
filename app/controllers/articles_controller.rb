@@ -7,10 +7,11 @@ class ArticlesController < ApplicationController
   def index_for_subcategory
     @subcategory = Subcategory.find_by_slug(params[:subcategory_slug])
     @subcategory = Subcategory.first if @subcategory.nil?
-    @articles = Article.find_all_by_subcategories_and_country_code(params[:country_code], @subcategory)
-    @how_tos = HowTo.find_all_by_subcategories_and_country_code(params[:country_code], @subcategory)
-    @all_articles = @articles.concat(@how_tos)
-    @all_articles = @all_articles.sort_by(&:published_at).reverse
+    if params[:only_show_own] == "true"
+      @articles = Article.find_all_by_subcategories_and_country_code(@country.country_code, @subcategory)
+    else
+      @articles = Article.find_all_by_subcategories(@subcategory)
+    end    
   end
 
 	def unpublish

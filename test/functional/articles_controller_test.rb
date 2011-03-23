@@ -14,13 +14,13 @@ class ArticlesControllerTest < ActionController::TestCase
     assert !assigns(:articles).include?(article_yoga), "Draft article should not be included in index_for_subcategory"
   end
 
-  def test_index_for_subcategory_nz
+  def test_index_for_subcategory_own
     yoga = subcategories(:yoga)
-    au_article = Factory(:article, :country => countries(:au), :subcategory1_id => yoga.id, :author => users(:jones_au))
     nz = countries(:nz)
+    au_article = Factory(:article, :country => countries(:au), :subcategory1_id => yoga.id, :author => users(:jones_au))
     article_yoga = articles(:yoga)
     long = articles(:long)
-    get :index_for_subcategory, :subcategory_slug  => yoga.slug, :country_code => nz.country_code
+    get :index_for_subcategory, :subcategory_slug  => yoga.slug, :only_show_own => "true"
     assert assigns(:articles).include?(long), "Published article should be included in index_for_subcategory"
     assert !assigns(:articles).include?(article_yoga), "Draft article should not be included in index_for_subcategory"
     assigns(:articles).each do |a|
