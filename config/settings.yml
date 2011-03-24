@@ -39,7 +39,7 @@ production:
 staging:
     site_host:
         nz: staging.beamazing.co.nz
-        nz: staging.beamazing.com.au
+        au: staging.beamazing.com.au
     site_protocol: http
     logged_site_protocol: http
     site_name: Be Amazing [STAGING]
