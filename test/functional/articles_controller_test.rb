@@ -144,6 +144,7 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_create_article
 		cyrille = users(:cyrille)
+		old_expertise_size = cyrille.subcategories.size
 		yoga = subcategories(:yoga)
     old_count = cyrille.articles_count
     about = "And you can contact me"
@@ -154,6 +155,7 @@ class ArticlesControllerTest < ActionController::TestCase
 		assert_equal countries(:nz), assigns(:article).country
     assert_not_nil assigns(:subcategories)
     cyrille.reload
+		assert_equal old_expertise_size, cyrille.subcategories.size, "The author's expertise should not have changed"
     assert_equal about, cyrille.about, "About section should be saved for user (so that next time, the new about section is used)"
     assert_equal old_count+1, cyrille.articles_count
   end

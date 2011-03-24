@@ -44,8 +44,8 @@ class UserTest < ActiveSupport::TestCase
   end
   
   def test_points_in_subcategory
-    user = Factory(:user)
     subcat = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => subcat.id)
     article = Factory(:article, :author => user, :subcategory1_id => subcat.id, :state => "draft" )
     article.publish!
     assert user.points_in_subcategory(subcat.id) > 0

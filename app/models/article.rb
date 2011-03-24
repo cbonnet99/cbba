@@ -119,9 +119,7 @@ class Article < ActiveRecord::Base
   def compute_points
     unless subcategory.nil?
       su = self.author.subcategories_users.find_by_subcategory_id(subcategory.id)
-      if su.nil?
-        self.author.subcategories_users.create(:subcategory => subcategory, :points => POINTS_FOR_RECENT_ARTICLE )
-      else
+      unless su.nil?
         su.update_attribute(:points, su.points+POINTS_FOR_RECENT_ARTICLE)
       end
     end

@@ -292,7 +292,7 @@ class User < ActiveRecord::Base
     if su.nil?
       0
     else
-      su.points
+      su.points || 0
     end
   end
   

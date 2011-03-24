@@ -71,15 +71,17 @@ class ArticleTest < ActiveSupport::TestCase
 	end
 
 	def test_create
-		yoga = subcategories(:yoga)
+		hypnotherapy = subcategories(:hypnotherapy)
 		cyrille = users(:cyrille)
+		old_points = cyrille.points_in_subcategory(hypnotherapy.id)
+		assert_not_nil old_points
 		new_article = Article.create(:title => "Test", :lead => "This is my lead", :body => "",
-      :subcategory1_id => yoga.id, :author => cyrille  )
+      :subcategory1_id => hypnotherapy.id, :author => cyrille  )
 #    puts new_article.errors.inspect
     new_article.publish!
 		assert_equal 1, new_article.subcategories.size
 		cyrille.reload
-		assert cyrille.points_in_subcategory(yoga.id) > 0, "Points should have been credited for the article"
+		assert cyrille.points_in_subcategory(hypnotherapy.id) > old_points, "Points should have been credited for the article"
 	end
 
 	def test_create_slug
