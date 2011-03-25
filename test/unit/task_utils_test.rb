@@ -52,14 +52,21 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_change_homepage_featured_article
+    nz = countries(:nz)
+    
+    user_with_paid_photo = Factory(:user, :paid_photo => true, :country => nz)
+    user_with_paid_photo.publish!
+    article = Factory(:article, :author => user_with_paid_photo, :state => "draft")
+    article.publish!
+    
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
-    featured_before = Article.first_homepage_featured
+    featured_before = Article.first_homepage_featured(nz)
     
     TaskUtils.change_homepage_featured_article
     
-    featured_after = Article.first_homepage_featured
+    featured_after = Article.first_homepage_featured(nz)
     assert_not_nil featured_after
     assert featured_before != featured_after
     assert_not_nil featured_after.last_homepage_featured_at

@@ -7,7 +7,9 @@ class TaskUtils
   end
 
   def self.change_homepage_featured_article
-    Article.rotate_featured
+    Country.all.each do |country|
+      Article.rotate_featured(country)
+    end
   end
   
   def self.change_homepage_featured_quote

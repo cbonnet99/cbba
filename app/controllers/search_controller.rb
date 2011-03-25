@@ -82,7 +82,7 @@ class SearchController < ApplicationController
     @total_articles = Article.count_published(@country)
     @featured_full_members = @country.featured_full_members
     @total_full_members = User.count_newest_full_members
-    @featured_article = Article.first_homepage_featured
+    @featured_article = Article.first_homepage_featured(@country)
     @popular_articles = Article.popular
     @all_blog_categories = BlogCategory.all
 	end

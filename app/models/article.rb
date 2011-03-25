@@ -30,8 +30,6 @@ class Article < ActiveRecord::Base
 	before_update :remove_html_from_lead
 	after_save :update_user_about
 
-  named_scope :homepage_featured, :conditions => ["homepage_featured is true"] 
-  
   MAX_LENGTH_SLUG = 20
   POINTS_FOR_RECENT_ARTICLE = 10
   POINTS_FOR_OLDER_ARTICLE = 5
@@ -39,16 +37,22 @@ class Article < ActiveRecord::Base
   MAX_ARTICLES_ON_INDEX = 6
   NUMBER_ON_HOMEPAGE = 10
   
-  def self.rotate_featured
-    article_to_feature = Article.find(:first, :include => "author", :conditions => ["articles.last_homepage_featured_at is NULL and users.paid_photo is true and articles.state='published'"])
+  def self.homepage_featured(country)
+    Article.find(:all, :conditions => ["homepage_featured is true and country_id=?", country.id])
+  end
+  
+  def self.rotate_featured(country)
+    article_to_feature = Article.find(:first, :include => "author", :conditions => ["articles.last_homepage_featured_at is NULL and users.paid_photo is true and articles.state='published' and articles.country_id=?", country.id])
     if article_to_feature.nil?
-      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true and articles.state='published'"], :order => "articles.last_homepage_featured_at")
+      article_to_feature = Article.find(:first, :include => "author", :conditions => ["users.paid_photo is true and articles.state='published' and articles.country_id=?", country.id], :order => "articles.last_homepage_featured_at")
     end
-    Article.homepage_featured.each {|a| a.update_attribute(:homepage_featured, false)}
-    article_to_feature.homepage_featured = true
-    article_to_feature.last_homepage_featured_at = Time.now
-    article_to_feature.save!
-    UserMailer.deliver_featured_homepage_article(article_to_feature)
+    unless article_to_feature.nil?
+      Article.homepage_featured(country).each {|a| a.update_attribute(:homepage_featured, false)}
+      article_to_feature.homepage_featured = true
+      article_to_feature.last_homepage_featured_at = Time.now
+      article_to_feature.save!
+      UserMailer.deliver_featured_homepage_article(article_to_feature)
+    end
   end
   
   def to_s
@@ -59,8 +63,8 @@ class Article < ActiveRecord::Base
     self.find(:all, :order => "monthly_view_counts desc", :limit => 10)
   end
   
-  def self.first_homepage_featured
-    Article.homepage_featured.first
+  def self.first_homepage_featured(country)
+    Article.homepage_featured(country).first
   end
   
   def last_articles_for_main_subcategory
