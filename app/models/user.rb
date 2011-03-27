@@ -86,7 +86,6 @@ class User < ActiveRecord::Base
   named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
   named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"
   named_scope :new_users, :conditions => "new_user is true"
-  named_scope :resident_experts, :conditions => "is_resident_expert is true"
   named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   named_scope :notify_unpublished, :conditions => "notify_unpublished IS true"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
@@ -105,7 +104,6 @@ class User < ActiveRecord::Base
   named_scope :has_paid_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now()"
   named_scope :has_paid_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now()"
   named_scope :hasnt_received_offers_reminder_recently, :conditions => ["offers_reminder_sent_at IS NULL OR offers_reminder_sent_at < ?", 1.month.ago]
-  named_scope :homepage_featured_resident, :conditions => ["homepage_featured_resident is true"] 
   named_scope :homepage_featured, :conditions => ["homepage_featured is true"] 
   
   # #around filters
@@ -130,14 +128,18 @@ class User < ActiveRecord::Base
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
   
+  def self.resident_experts(country)
+    User.find(:all, :conditions => ["is_resident_expert is true and country_id = ?", country.id])
+  end
+  
   def set_country
     if self.country_id.nil?
       self.country_id = self.district.country_id
     end
   end
   
-  def self.homepage_featured_resident_experts
-    User.find(:all, :conditions => ["homepage_featured_resident is true"], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+  def self.homepage_featured_resident_experts(country)
+    User.find(:all, :conditions => ["homepage_featured_resident is true and country_id = ?", country.id], :limit => NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
   end
 
   def self.homepage_featured_users
@@ -279,10 +281,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  def top_resident_expert_in_subcat?(subcat)
-    !subcat.resident_experts.blank? && self == subcat.resident_experts[0]
-  end
-  
   def resident_expert_in_subcat?(subcat)
     !subcat.resident_experts.blank? && subcat.resident_experts.include?(self)
   end
@@ -317,17 +315,17 @@ class User < ActiveRecord::Base
     gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).blank? || gift_vouchers.reject{|gv| gv.published_at.nil?}.map(&:published_at).sort.last < 1.month.ago
   end
 
-  def self.rotate_featured_resident_experts
-    users_to_feature = User.find(:all, :conditions => ["last_homepage_featured_resident_at is NULL and is_resident_expert is true and paid_photo is true"], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+  def self.rotate_featured_resident_experts(country)
+    users_to_feature = User.find(:all, :conditions => ["country_id = ? and last_homepage_featured_resident_at is NULL and is_resident_expert is true and paid_photo is true", country.id], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
     if users_to_feature.size < User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS
       if users_to_feature.blank?
-        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true"], :order => "last_homepage_featured_resident_at")
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and country_id = ?", country.id], :order => "last_homepage_featured_resident_at")
       else
-        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and id not in (?)", users_to_feature.map(&:id)], :order => "last_homepage_featured_resident_at")
+        more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and country_id = ? and id not in (?)", country.id, users_to_feature.map(&:id)], :order => "last_homepage_featured_resident_at")
       end
       users_to_feature = users_to_feature.concat(more_users_to_feature)[0..User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS-1]
     end
-    User.homepage_featured_resident.each {|a| a.update_attribute(:homepage_featured_resident, false)}
+    User.homepage_featured_resident_experts(country).each {|a| a.update_attribute(:homepage_featured_resident, false)}
     users_to_feature.each do |user|
       user.homepage_featured_resident = true
       user.last_homepage_featured_resident_at = Time.now

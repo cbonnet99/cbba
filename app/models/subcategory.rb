@@ -38,8 +38,8 @@ class Subcategory < ActiveRecord::Base
     [UserProfile.last_published_at(country), Subcategory.last_created_at].reject{|stuff| stuff.nil?}.max
   end
 
-  def resident_experts
-    return User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and users.state = 'active' and subcategories_users.points > 0", self.id], :limit => MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY, :order => "subcategories_users.points desc")
+  def resident_experts(country)
+    return User.find(:all, :include  => "subcategories_users", :conditions => ["subcategories_users.subcategory_id = ? and users.country_id = ? and users.state = 'active' and subcategories_users.points > 0", self.id, country.id], :limit => MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY, :order => "subcategories_users.points desc")
   end
 
   def users_with_points

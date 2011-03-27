@@ -133,7 +133,7 @@ class ApplicationController < ActionController::Base
   end
 
   def resident_experts
-    @featured_resident_experts = User.homepage_featured_resident_experts
+    @featured_resident_experts = User.homepage_featured_resident_experts(@country)
   end
 
 	def get_districts_and_subcategories(country_id)

@@ -6,7 +6,7 @@ class Admin::ResidentExpertsController < ApplicationController
   def index_for_subcategory
     @subcategory = Subcategory.find(params[:id])
     unless @subcategory.nil?
-      @subcat_resident_experts = @subcategory.resident_experts
+      @subcat_resident_experts = @subcategory.resident_experts(@country)
       @users_with_points = @subcategory.users_with_points
     end
   end

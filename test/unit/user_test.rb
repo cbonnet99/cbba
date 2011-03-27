@@ -33,9 +33,9 @@ class UserTest < ActiveSupport::TestCase
     assert !res.blank?, "The stored token was created more recently than the expiration of the card"
   end
 
-  def test_resident_expert
-    user = Factory(:user)
+  def test_resident_expert2
     subcat = Factory(:subcategory, :name => "Cyrille test subcat")
+    user = Factory(:user, :subcategory1_id => subcat.id)
     article1 = Factory(:article, :author => user, :subcategory1_id => subcat.id, :state => "draft")
     article1.publish!
     TaskUtils.recompute_resident_experts
@@ -78,6 +78,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_resident_expert
+    nz = countries(:nz)
     sub1 = Factory(:subcategory)
     sub2 = Factory(:subcategory)
     user = Factory(:user, :subcategory1_id  => sub1.id)
@@ -93,7 +94,7 @@ class UserTest < ActiveSupport::TestCase
     TaskUtils.recompute_points
     TaskUtils.recompute_resident_experts
     user.reload
-    experts = User.resident_experts
+    experts = User.resident_experts(nz)
     assert experts.include?(user)
     assert_equal "#{sub1.name}", user.resident_expertise_description, "Subcategory2 should not be included, because it is not in the listed subcategories of user"
   end

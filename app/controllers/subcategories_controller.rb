@@ -49,7 +49,7 @@ class SubcategoriesController < ApplicationController
 				  @page_description = @subcategory.description
       		@users_hash = @subcategory.users_hash_by_region
       		@articles = @subcategory.last_articles(6)
-      		@featured_experts = @subcategory.resident_experts
+      		@featured_experts = @subcategory.resident_experts(@country)
 			  end
 			end
 	end

@@ -11,13 +11,14 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_change_homepage_featured_resident_experts
+    nz = countries(:nz)
     sub1 = Factory(:subcategory)
     sub2 = Factory(:subcategory)
-    expert1 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true)
-    expert2 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true)
-    expert3 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true)
-    expert4 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true)
-    expert5 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true)
+    expert1 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true, :country => nz)
+    expert2 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true, :country => nz)
+    expert3 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true, :country => nz)
+    expert4 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true, :country => nz)
+    expert5 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true, :country => nz)
 
     article1 = Factory(:article, :author => expert1, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub1.id)
     article1.publish!
@@ -37,17 +38,20 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     TaskUtils.recompute_resident_experts
     
-    assert User.resident_experts.size >= User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, 
-      "Only #{User.resident_experts.size} resident experts were found: #{User.resident_experts.map(&:name).to_sentence}"
+    assert User.resident_experts(nz).size >= User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, 
+      "Only #{User.resident_experts(nz).size} resident experts were found: #{User.resident_experts(nz).map(&:name).to_sentence}"
 
-    TaskUtils.change_homepage_featured_resident_experts  
-    assert_equal User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, User.homepage_featured_resident_experts.size,
-        "Only #{User.homepage_featured_resident_experts.size} featured resident experts were found: #{User.homepage_featured_resident_experts.map(&:name).to_sentence}"
-    featured_before = User.homepage_featured_resident_experts
+    TaskUtils.change_homepage_featured_resident_experts
     
-    TaskUtils.change_homepage_featured_resident_experts  
+    expert1.reload
+    nz_experts = User.homepage_featured_resident_experts(nz)
+    assert_equal User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, nz_experts.size,
+        "Only #{nz_experts.size} featured resident experts were found: #{nz_experts.map(&:name).to_sentence}"
+    featured_before = User.homepage_featured_resident_experts(nz)
     
-    featured_after = User.homepage_featured_resident_experts
+    TaskUtils.change_homepage_featured_resident_experts
+    
+    featured_after = User.homepage_featured_resident_experts(nz)
     assert featured_after.include?(expert4)
   end
 
@@ -95,7 +99,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_recompute_resident_experts
-    expert = Factory(:user)
+    nz = countries(:nz)
+    expert = Factory(:user, :country => nz)
     yoga = subcategories(:yoga)
     expert_article = Factory(:article, :subcategory1_id => yoga.id, :author => expert, :state => "draft")
     expert_article.publish!
@@ -103,8 +108,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.recompute_resident_experts
     
     expert.reload
-    assert User.resident_experts.count > 0
-    User.resident_experts.each do |expert|
+    assert User.resident_experts(nz).size > 0
+    User.resident_experts(nz).each do |expert|
       assert expert.published_articles_count > 0, "Expert #{expert.full_name} has no published article..."
     end
   end
