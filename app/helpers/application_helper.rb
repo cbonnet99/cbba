@@ -440,7 +440,7 @@ module ApplicationHelper
   # as well as setting the page title.
   def title(str, container = :h2)
     page_title(str) if @page_title.blank?
-    content_tag(container, str ) if container
+    content_tag(container, str) if container
   end
 
   def page_title(str)

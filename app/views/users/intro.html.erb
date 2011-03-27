@@ -1,12 +1,15 @@
 <% javascript 'signup-intro' %>
-<%= title "Coaches, join us for FREE!" %>
+<div id="join_title"><%= title "Coaches, join us for FREE!" %></div>
+<div id="join_us_now" class="rounded"><%= link_to "Join us now", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" )%></div>
+<div class="cleaner"></div>
 <div id="signup-intro">
 <p>It's FREE for Coaches to add their profile to BeAmazing.co.nz, and a proven way to reach more people.</p>
 <ul>
 <li>Don't have a website? Be Amazing provides a FREE site with an immediate audience</li>
 <li>Already have a website? Drive 'traffic' to your site via your profile</li>
 </ul>
-<h3>Why join? (In a nutshell!) - <%= link_to "More reasons", :controller => "search", :action => "whyjoin"  %></h3>
+<h4>&quot;This is a great website and a pleasure to be a member of&quot;</h4>
+<h3>Why join? (In a nutshell!)</h3>
 <ul>
 <li>Online marketing without the headache</li>
 <li>Profile your expertise EASILY, add articles and tips</li>
@@ -14,6 +17,7 @@
 <li>Useful guides to help you create your profile in just a short space of time</li>
 <li><%= link_to "<strong>Add your free profile now</strong>", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" ) %></li>
 </ul>
+<h4>&quot;I continue to refer people to your website, it's worth its weight in gold!&quot;</h4>
 <h3>FREE Membership gives you</h3>
 <ul>
 <li>Phone, email &amp; web links</li>
@@ -26,13 +30,11 @@
 <li>Run trial sessions &amp; gift vouchers</li>
 <li>Feature in our Newsletter and on our blog</li>
 </ul>
-</div>
+<h4>&quot;I've really appreciated your enthusiastic, helpful and efficient approach.&quot;</h4></div>
 <h3>What next?</h3>
-<div id="signup-intro">
 <ul>
 <li><%= link_to "<strong>Sign-up and start creating your profile</strong>", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" ) %></li>
 <li><%= link_to "Learn more about how BeAmazing can help you", :controller => "search", :action => "whyjoin"  %></li>
 </ul>
+<h4>&quot;This is just a time saver! I get more views of my Be Amazing profile that I get to my own website!&quot;</h4>
 </div>
-<h4>&quot;I continue to refer people to your website, it's worth its weight in gold!&quot;</h4>
-<h4>&quot;I've really appreciated your enthusiastic, helpful and efficient approach.&quot;</h4></div>

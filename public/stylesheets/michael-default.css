@@ -1,3 +1,7 @@
+div#join_title{float: left;}
+div#join_us_now{font-size: 16px; background-color: #8c0000; color: white; padding: 10px;margin:10px;float:right;}
+div#join_us_now a{color: white; text-decoration: none;}
+div#join_us_now a:hover{text-decoration: underline;}
 div.quote{padding: 10px; text-align: center; color: #20ACCD; font-size: 12px; font-style:italic;}
 div.quote_body{font-weight: bold;}
 div#blog_categories_links{padding-bottom: 8px;font-size: 12px;}
