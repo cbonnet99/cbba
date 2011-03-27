@@ -507,6 +507,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def has_valid_tabs?
+    self.unedited_tabs.blank? && self.tabs.select{|t| t.content.blank?}.blank?
+  end
+
   def unedited_tabs
      unedited_tabs = []
      tabs.each do |tab|

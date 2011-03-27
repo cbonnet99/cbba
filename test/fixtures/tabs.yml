@@ -28,16 +28,19 @@ sgardiner_hypnotherapy:
     slug: hypnotherapy
     position: 1
     title: Hypnotherapy
+    content: My Hypnotherapy creds
 sgardiner_life_coaching:
     slug: life-coaching
     user: sgardiner
     position: 2
     title: Life coaching
+    content: My Life Coaching creds
 sgardiner_business_coaching:
     slug: business-coaching
     user: sgardiner
     position: 3
     title: Business coaching
+    content: My Biz Coaching creds
 rmoore_hypnotherapy:
     user: rmoore
     slug: hypnotherapy

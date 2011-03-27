@@ -63,6 +63,7 @@ class UserMailer < ActionMailer::Base
 
   def congrats_published(user)
     setup_email(user)
+    attachments = File.read(Rails.root.join("doc", "fly_strategies.pdf"))
     @content_type = 'text/html'
   end
 
