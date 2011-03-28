@@ -1,6 +1,6 @@
 <%= title "#{@subcategory.name} - articles" %>
 <%= render :partial => "articles/link_to_all_articles_with_subcat" %>
-<%if @all_articles.blank? -%>
+<%if @articles.blank? -%>
   No articles
 <% else -%>
   <% for article in @articles -%>

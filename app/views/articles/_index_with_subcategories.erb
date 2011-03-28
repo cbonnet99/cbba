@@ -1,9 +1,11 @@
+<% only_show_own = @country.default_only_show_own? -%>
+
 <%if @subcategories.blank? -%>
   No articles
 <% else -%>
 <ul class="simple category">
   <% @subcategories.each do |s| -%>
-    <li><%=link_to s.name, articles_for_subcategory_url(s.slug, :country_code => params[:country_code])%><span class="users-counter"> <%=h s.published_articles_count%></span></li>
+    <li><%=link_to s.name, articles_for_subcategory_url(s.slug, :only_show_own => only_show_own.to_s)%><span class="users-counter"> <%=h s.published_articles_count%></span></li>
   <% end -%>
   </ul>
 <% end -%>
