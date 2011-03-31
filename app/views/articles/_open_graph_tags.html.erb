@@ -1,7 +1,7 @@
 <meta property="og:title" content="<%= article.title%>"/>
 <meta property="og:type" content="article"/>
 <% if article.author.paid_photo? -%>
-<meta property="og:image" content="<%= thumbnail_image(@article.author)%>"/>
+<meta property="og:image" content="http://www.beamazing.co.nz<%= @article.author.photo.url(:thumbnail)%>"/>
 <% else -%>
 <meta property="og:image" content="http://www.beamazing.co.nz/images/BeAmazingLogo<%= article.author.country.country_code.upcase%>.png"/>
 <% end -%>
