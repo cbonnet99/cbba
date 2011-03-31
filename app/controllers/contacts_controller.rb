@@ -6,6 +6,7 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(params[:contact])
+    @contact.country = @country
     if verify_human
       user = params[:contact].nil? ? nil : User.active.find_by_email(params[:contact]["email"])
       if user.nil?

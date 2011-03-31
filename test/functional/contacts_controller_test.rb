@@ -14,6 +14,7 @@ class ContactsControllerTest < ActionController::TestCase
       assert_not_nil assigns(:contact)
   #    puts assigns(:contact).errors.inspect
       assert_equal 0, assigns(:contact).errors.size
+      assert_not_nil assigns(:contact).country
       
       old_size = Contact.all.size
       post :create, {:contact => {:email => "cyrille@blob.com" }}
