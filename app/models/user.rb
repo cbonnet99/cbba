@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
-  DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site beamazing.co.nz that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
+  DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site __COUNTRY__NAME that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   DAILY_USER_ROTATION = 3
   MAX_RECENT_ARTICLES = 3
   FEATURE_PHOTO = "photo"

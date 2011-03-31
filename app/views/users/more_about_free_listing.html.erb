@@ -1,6 +1,6 @@
 <%= title "Free listing" %>
 <%= link_to 'Back', signup_intro_url %> | <%= link_to "Signup for free listing", signup_url(:professional => "true", :mt => "free_listing" ) %> | <%= link_to "Signup for full membership", signup_url(:professional => "true", :mt => "full_member" ) %>
-<p>If you're a health, wellbeing or development professional in <%= @country.name%>, then make sure you have at least a FREE listing on beamazing.co.nz. A free listing will place you in up to three sections of your choice in our directory, meaning you can be found with many other providers in your area.</p>
+<p>If you're a health, wellbeing or development professional in <%= @country.name%>, then make sure you have at least a FREE listing on <%= APP_CONFIG[:site_host][@country.country_code].capitalize%>. A free listing will place you in up to three sections of your choice in our directory, meaning you can be found with many other providers in your area.</p>
 <p>A FREE LISTING includes:</p>
 <ul>
       <li>Your Name &amp; Business Name</li>

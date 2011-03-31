@@ -20,7 +20,7 @@
 <div class="cleaner"></div>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @article} %>
 <hr/>
-<span class="share-link"><%= render :partial => "search/share_link", :locals => {:url => article_url(@article, :protocol => APP_CONFIG[:site_protocol]) } %></span>
+<span class="share-link"><%= render :partial => "search/share_link", :locals => {:url => articles_show_url(@article.author.slug, @article.slug)} %></span>
 <p>
 <%= white_list @article.lead %>
 <br/>
@@ -55,3 +55,7 @@
 		</ul>
 	<% end -%>
 <% end -%>
+
+<% content_for :open_graph_tags do %>
+	<%= render :partial => "/articles/open_graph_tags", :locals => {:article => @article} %>
+<% end %>

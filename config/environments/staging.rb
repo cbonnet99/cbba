@@ -30,7 +30,6 @@ config.action_controller.perform_caching             = true
 # config.action_mailer.raise_delivery_errors = false
  config.action_mailer.raise_delivery_errors = true
  config.action_mailer.delivery_method = :smtp
-$hostname = "www.beamazing.co.nz"
 
 config.after_initialize do
   ActiveMerchant::Billing::Base.mode = :test

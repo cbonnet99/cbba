@@ -21,6 +21,6 @@
 </h3>
 <div class="profile-calling-action-area"><%= link_to "Enquire" , user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => special_offer.author.slug, :action => "message", :message => {:subject => "Trial session: #{special_offer.title}"} ), {:class => "enquire-button button"}%></div>
 <h4>Offered by <%= author_link(special_offer.author) %></h4>
-<p><% if special_offer.nation_wide? -%>Available New Zealand-wide<% else -%>Available in <%= special_offer.author.region.name%> only<% end -%></p>
+<p><% if special_offer.nation_wide? -%>Available <%= @country.name%>-wide<% else -%>Available in <%= special_offer.author.region.name%> only<% end -%></p>
 <p><%=white_list(special_offer.description)%></p>
 <p class="footnote">Terms and conditions may apply, ask me for details</p>

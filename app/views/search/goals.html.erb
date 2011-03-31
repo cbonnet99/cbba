@@ -1,19 +1,19 @@
 <%= render :partial => "search/about_nav", :locals => {:selected => "goals" }  %>
 <%= title "Our goals" %>
-<h3>Our Vision - BeAmazing.co.nz for Kiwis</h3>
+<h3>Our Vision - <%= APP_CONFIG[:site_host][@country.country_code].capitalize%> for <%= @country.inhabitants%></h3>
 <p>"People connected to knowledge, expertise and inspiration"</p>
-<h3>Our Vision - BeAmazing.co.nz for New Zealand Coaches</h3>
+<h3>Our Vision - <%= APP_CONFIG[:site_host][@country.country_code].capitalize%> for Coaches in <%= @country.name%></h3>
 <p>"An active online community of Coaches sharing their expertise, reaching more people and making a bigger difference"</p>
 <h3>Our Goals</h3>
 <ul>
-<li>Assist New Zealanders to find professionals Coaches, Course and Speakers</li>
+<li>Assist <%= @country.inhabitants%> to find professionals Coaches, Course and Speakers</li>
 <li>Deepen public knowledge of how to experience greater satisfaction in life and at work, and make a bigger difference to the world.</li>
 <li>Help Coaches, Trainers &amp; Speakers reach more people via the internet</li>
 </ul>
 <h3>How this site is different from other directories</h3>
 <ul>
-<li>beamazing.co.nz was founded and is managed by David &amp; Megan Savage, both Coaches based in Wellington</li>
-<li>We're dedicated to New Zealand only</li>
+<li><%= APP_CONFIG[:site_host][@country.country_code].capitalize%> was founded and is managed by David &amp; Megan Savage, both Coaches based in Wellington</li>
+<li>We're dedicated to <%= @country.name%> only</li>
 <li>This is a specialised Coaching directory</li>
 <li>Our business is community driven and focused on contribution</li>
 <li>We cover a wide range of Coaching fields</li>

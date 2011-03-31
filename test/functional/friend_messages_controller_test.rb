@@ -28,18 +28,6 @@ class FriendMessagesControllerTest < ActionController::TestCase
     assert_nil flash[:notice]
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
-  def test_create
-    ActionMailer::Base.deliveries = []
-    
-    post :create, {:friend_message => {:from_email  => "dfsfdsf@test.com", :to_email => "dsdgfg@test.com", :subject => "An article", :body => "Here it is"} }
-    assert_redirected_to root_url
-    assert_not_nil assigns(:message)
-    assert assigns(:message).errors.blank?
-    assert_nil flash[:error]
-    assert_not_nil flash[:notice]
-    assert_equal 1, ActionMailer::Base.deliveries.size
-    assert_not_nil assigns(:message).sent_at
-  end
   def test_create_logged_in
     ActionMailer::Base.deliveries = []
     post :create, {:friend_message => {:to_email => "dsdgfg@test.com", :subject => "An article", :body => "Here it is"} }, {:user_id => users(:cyrille).id }
@@ -54,7 +42,7 @@ class FriendMessagesControllerTest < ActionController::TestCase
   def test_create_with_return_url
     ActionMailer::Base.deliveries = []
     article = Factory(:article)
-    post :create, {:return_to => article_url(article), :friend_message => {:from_email  => "dfsfdsf@test.com", :to_email => "dsdgfg@test.com", :subject => "An article", :body => "Here it is"} }
+    post :create, {:return_to => article_url(article), :friend_message => {:to_email => "dsdgfg@test.com", :subject => "An article", :body => "Here it is"} }, {:user_id => users(:cyrille).id }
     assert_redirected_to article_url(article)
     assert_not_nil assigns(:message)
     assert assigns(:message).errors.blank?

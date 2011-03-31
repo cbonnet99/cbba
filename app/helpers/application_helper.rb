@@ -286,7 +286,7 @@ module ApplicationHelper
     "$#{s[0..-3]}.#{s.slice(-2, 2)}"
   end
 
-  def paypal_unencrypted_url(payment, payment_type="full_member", return_address="http://#{$hostname}/payments/thank_you?type=full_member")
+  def paypal_unencrypted_url(payment, payment_type="full_member", return_address="")
     decrypted = {
       "cert_id" => "#{CryptoPaypal::Config.paypal_cert_id}",
       "cmd" => "_xclick",
@@ -312,7 +312,7 @@ module ApplicationHelper
     return CryptoPaypal::Config.paypal_server+"?"+decrypted.to_query
   end
 
-  def paypal_encrypted(payment, payment_type="full_member", return_address="http://#{$hostname}/payments/thank_you?type=full_member")
+  def paypal_encrypted(payment, payment_type="full_member", return_address="")
 
     # cert_id is the certificate if we see in paypal when we upload our own
     # certificates cmd _xclick need for buttons item name is what the user will

@@ -19,7 +19,7 @@
 	<li><%= link_to "What to think about when choosing a photo for your page", user_guide_photo_url%></li>
 </ul>
 <h4><strong>Help Be Amazing GROW!</strong></h4>
-<p>We want to create an outstanding well-being resource for Kiwis and you can help...</p>
+<p>We want to create an outstanding well-being resource for <%= @country.inhabitants%> and you can help...</p>
 <ul>
 	<li><%= link_to "Add articles to profile your expertise", new_article_url(:selected_tab_id => "articles", :context => "profile")%></li>
 	<li>Add a special Be Amazing membership graphic to your own website <em>- Coming soon!</em></li> 

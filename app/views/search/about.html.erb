@@ -1,9 +1,9 @@
 <%= render :partial => "search/about_nav", :locals => {:selected => "about" }  %>
-<%= title "About beamazing.co.nz" %>
+<%= title "About #{APP_CONFIG[:site_host][@country.country_code]}" %>
 
 <p><span class="video-embed"><object type="application/x-shockwave-flash" style="width:218px; height:160px;" data="http://www.youtube.com/v/X69keOjs2Dg">
 <param name="movie" value="http://www.youtube.com/v/X69keOjs2Dg" /></object></span></p>
-<p>Think of beamazing.co.nz as an online network of Coaches, Speakers and Courses all in one place making it easy to choose the right services and providers to suit your needs. PLUS, you'll find an extensive range of articles and tips to help you shape your life and achieve your goals.</p>
+<p>Think of <%= APP_CONFIG[:site_host][@country.country_code]%> as an online network of Coaches, Speakers and Courses all in one place making it easy to choose the right services and providers to suit your needs. PLUS, you'll find an extensive range of articles and tips to help you shape your life and achieve your goals.</p>
 <h4><strong>Our values....</strong></h4>
 <h3>be well!</h3>
 <p>Wellness is the platform of our potential. No matter how talented we are, when our wellness is poor we're unable to function and aspire to the things we know we're capable of. However, the more vibrant our wellbeing, the more fully we can live life, achieve our goals and make a difference to others.</p>

@@ -1,13 +1,13 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "refer" }  %>
 <%= title "Spread the word"%>
 <% form_tag user_send_referrals_url do -%>
-<h4>Help us to help you to help New Zealanders!</h4> <p>We want to create an awesome resource for New Zealanders looking for a range of Well-being services online.</p> <p><strong>OUR VISION?</strong> Simple! This site loaded with practitioners, coaches and courses from all over NZ, offering a HUGE range of services, PLUS quality articles and media that add real value.</p> <h4>SO, tell your colleagues and peers that they to can get a FREE profile on Be Amazing!</h4> <p>We've even made it easy for you, just complete the boxes below to tell them now.</p>
+<h4>Help us to help you to help <%= @country.inhabitants%>!</h4> <p>We want to create an awesome resource for <%= @country.inhabitants%> looking for a range of Well-being services online.</p> <p><strong>OUR VISION?</strong> Simple! This site loaded with practitioners, coaches and courses from all over NZ, offering a HUGE range of services, PLUS quality articles and media that add real value.</p> <h4>SO, tell your colleagues and peers that they to can get a FREE profile on Be Amazing!</h4> <p>We've even made it easy for you, just complete the boxes below to tell them now.</p>
 <br/>
 	<p>Enter email addresses below, separated by spaces (for instance: joe@gmail.com jane@yahoo.com):</p>
 	<%= text_field_tag "emails", {}, {:size => 80}%>
 	<div class="cleaner"></div>
 	<p>If you wish, modify the comment that will be sent along:</p>
-	<%= text_area_tag "comment", User::DEFAULT_REFERRAL_COMMENT, {:rows => 8, :cols => 60  }%>
+	<%= text_area_tag "comment", User::DEFAULT_REFERRAL_COMMENT.gsub(/__COUNTRY__NAME__/, APP_CONFIG[:site_host][@country.country_code]), {:rows => 8, :cols => 60  }%>
 	<div class="cleaner"></div>
 	<br/><br/>
 	<%= submit_tag "Send emails"%>

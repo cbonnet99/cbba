@@ -43,7 +43,7 @@ class UserMailer < ActionMailer::Base
     @recipients = "#{email}"
     @reply_to = "#{sender.email}"
     @from = APP_CONFIG[:admin_email]
-    @subject = "See #{sender.name} on beamazing.co.nz"
+    @subject = "See #{sender.name} on #{APP_CONFIG[:site_host][sender.country.country_code]}"
     @sent_on = Time.now
     @body[:comment] = comment
     @body[:sender] = sender
@@ -142,7 +142,7 @@ class UserMailer < ActionMailer::Base
 
   def message(message)
     setup_email(message.user)
-		@subject << "[via beamazing.co.nz] #{message.subject}"
+		@subject << "[via #{APP_CONFIG[:site_host][message.user.country.country_code]}] #{message.subject}"
 		@reply_to = "#{message.email}"
 		body = message.body
 		body << "<hr>TIP from the Be Amazing Team: &quot;Want more enquiries from <a href='#{APP_CONFIG[:site_host][message.user.country.country_code]}'>#{APP_CONFIG[:site_host][message.user.country.country_code]}</a>? Then add articles, run trial sessions and offer a gift voucher - just log-in, follow the links and increase your profile!&quot;"
@@ -156,7 +156,7 @@ class UserMailer < ActionMailer::Base
     @recipients = "#{message.to_email}"
     @from = "#{message.from}"
     @sent_on = Time.now
-		@subject = "[via beamazing.co.nz] #{message.subject}"
+		@subject = "[via #{APP_CONFIG[:site_host][message.from_user.country.country_code]}] #{message.subject}"
 		@reply_to = "#{message.from}"
 		body = message.body
 		@body[:body] = body

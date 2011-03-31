@@ -9,6 +9,7 @@
 <meta name="description" content="<%= @page_description || "Looking for well-being professionals in #{@country.name}? Thousands of #{@country.name} well-being companies listed. - Be Amazing - be well. be bold. be you."%>"/>
 <meta name="author" content="<%=@page_author || "Be Amazing"%>"/>
 <meta name="copyright" content="Be Amazing"/>
+<%= yield :open_graph_tags%>
 <link rel="accessibility" href="/accessibility" title="Accessibility details"/>
 <link rel="help" href="help/" title="Help"/>
 <link rel="home" href="/" title="Home page"/>
