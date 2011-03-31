@@ -501,9 +501,9 @@ class User < ActiveRecord::Base
 
   def unedited_tabs_error_msg
     if self.unedited_tabs.size == 1
-      "Your tab #{unedited_tabs.first.title} contains 'delete this text': please update the text or delete the tab entirely"
+      "Your tab #{unedited_tabs.first.title} has not completed: please enter information or delete the tab"
     else
-      "Your tabs #{unedited_tabs.map(&:title).to_sentence} contain 'delete this text': please update their text or delete these tabs entirely"
+      "Your tabs #{unedited_tabs.map(&:title).to_sentence} have not completed: please enter information or delete these tabs"
     end
   end
 
