@@ -149,7 +149,7 @@
     <div class="columnTop">&nbsp;</div>
 	<div id="welcome_message">&quot;<span class="welcome_message">Live your life your way, achieve more and Be Amazing!</span> A blog for you by Coaches in <%= @country.name%>&quot;</div>
 	<% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
-	    <%= link_to "<span>FREE Subscribe</span>", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
+	    <%= link_to "", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
 			<br/>
 	       <p id="past_newsletters"><%= link_to "View past newsletters", newsletters_url%></p>
 	<% end -%>

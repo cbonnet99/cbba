@@ -9,7 +9,7 @@ class Contact < ActiveRecord::Base
   belongs_to :district
   belongs_to :country
 
-  validates_presence_of :email
+  validates_presence_of :email, :country
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
   validates_uniqueness_of :email, :case_sensitive => false
@@ -19,6 +19,11 @@ class Contact < ActiveRecord::Base
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
 
   before_validation :generate_pwd_if_blank
+  after_create :send_free_tool
+  
+  def send_free_tool
+    UserMailer.deliver_free_tool(self)
+  end
   
   def self.authenticate(email, password)
     u = User.find_in_state(:first, :active, :conditions => {:email => email})

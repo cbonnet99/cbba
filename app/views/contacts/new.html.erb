@@ -1,17 +1,17 @@
 <% javascript "new-contact"%>
-<%= title "Sign up for our newsletter"  %>
-<p>Keep connected to <%= @country.name%> Health, Well-being and Development professionals via our monthly newsletter and receive news on...</p>
+<%= title "FREE Goal Setting Tool"  %>
+<p>Get this FREE Goal Setting Tool by Leadership Coach David Savage when you sign-up for our FREE monthly newsletter, and learn how set compelling and life changing goals!</p>
+<p>In our newsletter, you'll also hear about:
 <ul>
 <li>Trial Sessions</li>
 <li>Gift Vouchers</li>
-<li>Latest articles</li>
+<li>New Articles written by top Coaches</li>
 <li>Events and courses</li>
 <li>Competitions</li>
-<li>Our Editor's monthly round-up</li>
 </ul>
+</p>
 <p>Plus, rest assured you can unsubscribe at anytime and your email address will be kept totally confidential!</p>
 <% form_for @contact do |f| -%>
-  <%= render :partial => "users/verify_human" %>
   <%= f.error_messages :header_message => "Please try again", :message => "Your registration could not be completed" %>
   <fieldset>
     <legend>Your Details</legend>
@@ -43,6 +43,7 @@
       </li>
     </ol>
   </fieldset>
+  <%= render :partial => "users/verify_human" %>
   <div class="buttons">
     <label for=""></label>
     <%= submit_tag 'Sign up' %>

@@ -163,6 +163,14 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
   
+  def free_tool(contact)
+    setup_email(contact)
+    @subject = "Here is your goal setting tool from #{APP_CONFIG[:site_name]}]"
+    @body[:contact] = contact
+    attachments = File.read(Rails.root.join("doc", "be_amazing_goal_setting_tool.pdf"))
+    @content_type = 'text/html'    
+  end
+  
   def mass_email(user, subject, body)
     setup_email(user)
 		@subject << subject
