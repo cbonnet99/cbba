@@ -265,7 +265,7 @@ class User < ActiveRecord::Base
   end
   
   def points_to_become_RE_in_subcat(subcat)
-    experts = subcat.resident_experts
+    experts = subcat.resident_experts(self.country)
     if experts.blank? || experts.size < Subcategory::MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY
       Article::POINTS_FOR_RECENT_ARTICLE
     else
@@ -359,24 +359,6 @@ class User < ActiveRecord::Base
       user.last_homepage_featured_at = Time.now
       user.save!
     end
-  end
-  
-  def self.experts_for_subcategories
-    subcats_with_experts, experts = User.find_and_cache_resident_experts(subcats)
-    return subcats, experts
-  end
-
-  def self.find_and_cache_resident_experts(subcats)
-    experts = {}
-    subcats.each do |s|
-      experts_subcat = s.resident_experts
-      if experts_subcat.blank?
-        subcats.delete(s)
-      else
-        experts[s.id] = experts_subcat
-      end
-    end
-    return experts
   end
   
   def compute_points(subcategory)
