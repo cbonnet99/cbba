@@ -3,6 +3,19 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
+
+  def test_resident_expert_in_subcat
+    subcat = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => subcat.id)
+    assert !user.resident_expert_in_subcat?(subcat)
+    
+    article = Factory(:article, :author => user, :subcategory1_id => subcat.id, :state => "draft")
+    article.publish!
+    
+    user.reload
+    
+    assert user.resident_expert_in_subcat?(subcat)
+  end
   
   def test_had_whole_package_order_1_year_ago
     user = Factory(:user, :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.days.ago.to_date,

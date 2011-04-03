@@ -282,7 +282,7 @@ class User < ActiveRecord::Base
   end
   
   def resident_expert_in_subcat?(subcat)
-    !subcat.resident_experts.blank? && subcat.resident_experts.include?(self)
+    !subcat.resident_experts(self.country).blank? && subcat.resident_experts(self.country).include?(self)
   end
   
   def points_in_subcategory(subcat_id)
