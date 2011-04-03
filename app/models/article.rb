@@ -38,7 +38,7 @@ class Article < ActiveRecord::Base
   NUMBER_ON_HOMEPAGE = 10
   
   def update_counters    
-    @self.update_attributes(:view_counts  => @article.view_counts+1, :monthly_view_counts  => @article.monthly_view_counts+1)    
+    self.update_attributes(:view_counts  => self.view_counts+1, :monthly_view_counts  => self.monthly_view_counts+1)    
   end
   
   def self.homepage_featured(country)
