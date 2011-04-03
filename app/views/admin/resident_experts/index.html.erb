@@ -3,6 +3,6 @@
 <p>Modalities that have one or more resident experts are in <span class="resident_expert">bold</span></p>
 <ul class="simple category">
 <% @subcategories.each do |s| -%>
-	<li<%if !s.resident_experts.blank?%> class="resident_expert"<%end%>><%= link_to s.name, :controller => "admin/resident_experts", :action => "index_for_subcategory", :id => s.id %></li>
+	<li<%if !s.resident_experts(@country).blank?%> class="resident_expert"<%end%>><%= link_to s.name, :controller => "admin/resident_experts", :action => "index_for_subcategory", :id => s.id %></li>
 <% end -%>
 </ul>
