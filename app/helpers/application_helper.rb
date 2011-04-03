@@ -193,14 +193,16 @@ module ApplicationHelper
   def preload_tinymce
     @content_for_tinymce = ""
     content_for :tinymce do
-      tinymce_url
+      tinymce_url("tiny_mce/jquery.tinymce")
+      tinymce_url("tiny_mce/tiny_mce")
     end
   end
 
   def use_tinymce(heading=true)
     @content_for_tinymce = ""
     content_for :tinymce do
-      tinymce_url
+      tinymce_url("tiny_mce/jquery.tinymce")
+      tinymce_url("tiny_mce/tiny_mce_src.js?1234")
     end
     @content_for_tinymce_init = ""
     if logged_in? && current_user.admin?
@@ -210,7 +212,7 @@ module ApplicationHelper
     else
       if heading
         content_for :tinymce_init do
-          tinymce_url("mce_editor2")
+          tinymce_url("mce_editor3")
         end
       else
         content_for :tinymce_init do

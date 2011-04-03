@@ -15,8 +15,6 @@
 <link rel="home" href="/" title="Home page"/>
 <link rel="Shortcut Icon" type="image/png" href="/images/favicon.png"/>
 <%= stylesheet_link_merged :base_michael  %>
-<%= yield :tinymce %>
-<%= yield :tinymce_init %>
 <%= yield :head %>
 <link rel="stylesheet" href="/stylesheets/print.css" media="print" type="text/css" />
 
@@ -193,6 +191,8 @@
 <% end -%>
 <%= javascript_include_merged :base %>
 <%= yield :js %>
+<%= yield :tinymce %>
+<%= yield :tinymce_init %>
 <%= javascript_include_tag 'http://platform.twitter.com/widgets.js' %>
 </body>
 </html>
