@@ -46,6 +46,7 @@ ActionController::Routing::Routes.draw do |map|
   map.special_offers_show_format '/special-offers/:selected_user/:id.:format', :controller => "special_offers", :action => "show"
   map.resources :special_offers, :member => {:publish => [:get, :post], :unpublish => [:get, :post] }
   
+  map.free_tool '/free_tool', :controller => "search", :action => "free_tool"
   map.contact '/contact', :controller => "search", :action => "contact"
   map.customerror '/customerror', :controller => "search", :action => "customerror"
   map.notfound '/notfound', :controller => "search", :action => "notfound"
