@@ -207,7 +207,7 @@ module ApplicationHelper
     @content_for_tinymce_init = ""
     if logged_in? && current_user.admin?
       content_for :tinymce_init do
-        tinymce_url("mce_editor_admin1")
+        tinymce_url("mce_editor_admin2")
       end
     else
       if heading
@@ -216,7 +216,7 @@ module ApplicationHelper
         end
       else
         content_for :tinymce_init do
-          tinymce_url("mce_editor_noheading")
+          tinymce_url("mce_editor_noheading1")
         end
       end        
     end

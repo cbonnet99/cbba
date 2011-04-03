@@ -3,7 +3,7 @@ mode : "textareas",
 theme : "advanced",
 plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,iespell,print,contextmenu,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 theme_advanced_buttons1 : ",bold,italic,underline,strikethrough,|,link,unlink,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect",
-theme_advanced_buttons2 : "cut,copy,paste,code,|,search,replace,|,bullist,numlist,|,undo,redo",
+theme_advanced_buttons2 : "cut,copy,pastetext,pasteword,code,|,search,replace,|,bullist,numlist,|,undo,redo",
 theme_advanced_buttons3 : "",
 theme_advanced_toolbar_location : "top",
 theme_advanced_toolbar_align : "left",
@@ -14,5 +14,7 @@ extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|borde
 template_external_list_url : "example_template_list.js",
 use_native_selects : true,
 theme_advanced_blockformats : "p,h2,h3,h4",
-paste_auto_cleanup_on_paste : true
+paste_auto_cleanup_on_paste : true,
+paste_remove_styles : true,
+paste_text_use_dialog: true
 });
