@@ -65,7 +65,9 @@ class UserMailer < ActionMailer::Base
 
   def congrats_published(user)
     setup_email(user)
-    attachments = File.read(Rails.root.join("doc", "fly_strategies.pdf"))
+    attachment :content_type => "application/pdf",
+     :body => File.read(Rails.root.join("doc", "fly_strategies.pdf")),
+     :filename => "fly_strategies.pdf"
     @content_type = 'text/html'
   end
 
@@ -169,7 +171,9 @@ class UserMailer < ActionMailer::Base
     setup_email(contact)
     @subject = "Here is your goal setting tool from #{APP_CONFIG[:site_name]}]"
     @body[:contact] = contact
-    attachments = File.read(Rails.root.join("doc", "be_amazing_goal_setting_tool.pdf"))
+    attachment :content_type => "application/pdf",
+     :body => File.read(Rails.root.join("doc", "be_amazing_goal_setting_tool.pdf")),
+     :filename => "be_amazing_goal_setting_tool.pdf"
     @content_type = 'text/html'    
   end
   
