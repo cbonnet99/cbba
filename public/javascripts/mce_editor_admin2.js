@@ -15,6 +15,7 @@ template_external_list_url : "example_template_list.js",
 use_native_selects : true,
 theme_advanced_blockformats : "p,h2,h3,h4",
 paste_auto_cleanup_on_paste : true,
+paste_remove_spans : true,
 paste_remove_styles : true,
 paste_text_use_dialog: true
 });
