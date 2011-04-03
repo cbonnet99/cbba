@@ -37,6 +37,10 @@ class Article < ActiveRecord::Base
   MAX_ARTICLES_ON_INDEX = 6
   NUMBER_ON_HOMEPAGE = 10
   
+  def update_counters    
+    @self.update_attributes(:view_counts  => @article.view_counts+1, :monthly_view_counts  => @article.monthly_view_counts+1)    
+  end
+  
   def self.homepage_featured(country)
     Article.find(:all, :conditions => ["homepage_featured is true and country_id=?", country.id])
   end

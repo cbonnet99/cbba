@@ -72,7 +72,9 @@ class ArticlesController < ApplicationController
         flash[:error]="Sorry, this article could not be found"
         redirect_with_context(articles_url, @selected_user) 
       else
-        @article.update_attributes(:view_counts  => @article.view_counts+1, :monthly_view_counts  => @article.monthly_view_counts+1)
+        unless bot_agent?
+          @article.update_counters
+        end
         @articles = @article.last_articles_for_main_subcategory
       end      
     end

@@ -1,5 +1,9 @@
 module ApplicationHelper
-
+  
+  def bot_agent?
+      request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][bot/i]
+  end
+  
   def in_staging
     ENV["RAILS_ENV"] == "staging"
   end
