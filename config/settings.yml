@@ -27,7 +27,7 @@ test:
 production:
   site_host: 
       nz: beamazing.co.nz
-      au: beamazing.com.au
+      au: zingabeam.net
   site_protocol: http
   logged_site_protocol: https
   site_name: Be Amazing
