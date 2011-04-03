@@ -47,7 +47,7 @@ class SessionsController < ApplicationController
   def destroy
     logout_killing_session!
     flash[:notice] = "You have been logged out."
-    redirect_to root_url(:protocol => APP_CONFIG[:site_protocol])
+    redirect_to root_url(:protocol => APP_CONFIG[:logged_site_protocol])
   end
 
   protected
