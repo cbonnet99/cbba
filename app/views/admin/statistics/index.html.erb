@@ -1,39 +1,5 @@
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "stats" }  %>
 <%= title "Statistics #{@start_date.to_date} - #{@end_date.to_date}"%>
 <%= render :partial => "links", :locals => { :date => @date} %>
-<ul>
-	<li><%= pluralize(@signups.size, "signup")%><% unless @signups.size == 0%>:
-			<% @signups.each_with_index do |signup, i| -%>
-			<%= link_to signup.name, expanded_user_url(signup)%><%unless i == @signups.size%>, <%end%>
-			<% end -%>
-	<%end%></li>
-	<li><%= pluralize(@published_profiles.size, "published profile")%><%unless @published_profiles.size == 0%>
-		<% @published_profiles.each_with_index do |profile, i| -%>
-		<%= link_to profile.user.name, expanded_user_url(profile.user)%><%unless i == @published_profiles.size%>, <%end%>
-		<%end -%>
-	<%end%></li>
-	<li><%= pluralize(@draft_profiles.size, "profile")%> that are still unpublished<%unless @draft_profiles.size == 0%>
-		<% @draft_profiles.each_with_index do |profile, i| -%>
-		<%= link_to profile.user.name, expanded_user_url(profile.user)%><%unless i == @draft_profiles.size%>, <%end%>
-		<%end -%>
-	<%end%></li>
-	<li><%= pluralize(@pending_payments, "payment")%>that were not completed<% unless @payments.size == 0%>:
-			<ul>
-				<% @pending_payments.each do |payment| -%>
-				<li><%= payment.user.name%> started a payment for <%= amount_view(payment.amount)%> on <%= payment.created_at%></li>
-				<% end -%>
-			</ul>
-		<%end%></li>
-	<li><%= pluralize(@payments.size, "payment")%> for a total of <%= amount_view(@total_payments)%><% unless @payments.size == 0%>:
-		<ul>
-			<% @payments.each do |payment| -%>
-			<li><%= payment.user.name%> paid <%= amount_view(payment.amount)%> on <%= payment.created_at%></li>
-			<% end -%>
-		</ul>
-	<%end%></li>
-	<li><%= pluralize(@published_articles, "published article")%></li>
-	<li><%= pluralize(@published_SOs, "published trial session")%></li>
-	<li><%= pluralize(@published_GVs, "published gift voucher")%></li>
-	<li><%= pluralize(@public_newsletter_signups, "public newsletter signup")%></li>
-</ul>
+<%= render :partial => "/shared/statistics" %>
 <%= render :partial => "links", :locals => { :date => @date} %>

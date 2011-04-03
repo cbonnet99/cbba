@@ -5,6 +5,11 @@ class UserMailerTest < ActionMailer::TestCase
 
   fixtures :all
 
+  def test_weekly_admin_statistics
+    cyrille = users(:cyrille)
+    UserMailer.deliver_weekly_admin_statistics(cyrille)
+  end
+
   def test_stuff_to_review
     cyrille = users(:cyrille)
 

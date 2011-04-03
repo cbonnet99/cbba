@@ -21,6 +21,10 @@ class Contact < ActiveRecord::Base
   before_validation :generate_pwd_if_blank
   after_create :send_free_tool
   
+  def full_name
+    "#{name} [#{email}]"
+  end
+  
   def send_free_tool
     UserMailer.deliver_free_tool(self)
   end
