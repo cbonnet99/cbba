@@ -11,10 +11,8 @@
 </ul>
 </p>
 <p>Plus, rest assured you can unsubscribe at anytime and your email address will be kept totally confidential!</p>
-<% form_for @contact do |f| -%>
+<% form_for @contact, :html => {:class => "fieldset"} do |f| -%>
   <%= f.error_messages :header_message => "Please try again", :message => "Your registration could not be completed" %>
-  <fieldset>
-    <legend>Your Details</legend>
     <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
@@ -42,7 +40,6 @@
         <%= f.check_box :receive_newsletter %>
       </li>
     </ol>
-  </fieldset>
   <%= render :partial => "users/verify_human" %>
   <div class="buttons">
     <label for=""></label>

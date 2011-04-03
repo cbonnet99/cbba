@@ -185,7 +185,7 @@ div.user-description h4.title-user-paying {
     padding: 0;
 	border: 1px;
 }
-#contentMain #profile-tab-content form fieldset label, #contentMain #profile-tab-content form fieldset div.left-input {
+#contentMain #profile-tab-content form.fieldset label, #contentMain #profile-tab-content form.fieldset div.left-input {
     display: block;
     float: left;
     text-align: right;
@@ -193,7 +193,7 @@ div.user-description h4.title-user-paying {
     margin-bottom: 5px;
     width: 120px;
 }
-#contentMain form fieldset label, #contentMain form fieldset div.left-input {
+#contentMain form.fieldset label, #contentMain form.fieldset div.left-input {
     display: block;
     float: left;
     text-align: right;
@@ -201,18 +201,18 @@ div.user-description h4.title-user-paying {
     margin-bottom: 5px;
     width: 200px;
 }
-#contentMain form fieldset div.left-input input {
+#contentMain form.fieldset div.left-input input {
     text-align: right;
     display: inline;
     float: none;
 }
-#contentMain form fieldset input, #contentMain form fieldset select, #contentMain form fieldset textarea, #contentMain form fieldset div.right-label {
+#contentMain form.fieldset input, #contentMain form.fieldset select, #contentMain form.fieldset textarea, #contentMain form.fieldset div.right-label {
     display: block;
     float: left;
     margin-bottom: 5px;
     text-align: left;
 }
-#contentMain form fieldset div.right-label label {
+#contentMain form.fieldset div.right-label label {
     text-align: left;
 }
 table.admin{

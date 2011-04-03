@@ -789,7 +789,7 @@ class UsersControllerTest < ActionController::TestCase
       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
       :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "free_listing",
       :accept_terms => "1", :subcategory1_id => hypnotherapy.id }
-    assert_redirected_to user_membership_url
+    assert_redirected_to new_user_optional_url
 		assert_not_nil assigns(:user)
     # # 	puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size

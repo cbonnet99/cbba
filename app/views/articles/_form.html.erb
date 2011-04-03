@@ -11,6 +11,7 @@
 
 <h3><label>Step 2: Choose a blog-category</label></h3>
 <p>Leave blank if you don't want this article to appear on our blog, although we highly recommend it does :)</p>
+blog_subcategory1_id: <%= @article.blog_subcategory1_id%>
 <p><%= f.select :blog_subcategory1_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true } %></p>
 
 <h3><%= f.label :lead, "Step 3: Write a lead paragraph<span class='mandatoryStar'>*</span>"%></h3>
@@ -25,6 +26,7 @@
 <p>Maximum 600 characters (<span id='article_about_count'>600</span> left)</p>
 <p><%= f.text_area :about, :cols => 70, :rows => 9,  :class => "noHTMLEditor" %></p>
 <h3>Step 6: Choose up to three relevant directory categories</h3>
+subcategory1_id: <%= @article.subcategory1_id%>
 <p><%= f.label :subcategory1, 'Category1:' %> <%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true } %></p>
 <p><%= f.label :subcategory2, 'Category2:' %> <%= f.select :subcategory2_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %></p>
 <p><%= f.label :subcategory3, 'Category3:' %> <%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %></p>

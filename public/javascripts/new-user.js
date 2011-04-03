@@ -9,17 +9,7 @@ $(document).ready(function(){
         }
         $("select#user_district_id").html(options);
     });
-    
-    if ($("#user_professional").is(":checked")) {
-        $("#fieldset-professional-details").show();
-    }
-    else {
-        $("#fieldset-professional-details").hide();
-    };
-    $("#user_professional").click(function() {
-        $("#fieldset-professional-details").toggle();
-    });
-    
+        
     $("#user_country_id").change(function() {
        $.getJSON("/countries/districts/"+$(this).val()+".json",{
        }, function(j){

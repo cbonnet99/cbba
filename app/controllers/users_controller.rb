@@ -224,10 +224,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-    #    current_user.disassemble_phone_numbers
 		get_districts_and_subcategories(current_user.country_id || @country.id)
-    current_user.set_membership_type
-    @mt = current_user.membership_type
 	end
 
 	def update_password
@@ -262,43 +259,37 @@ class UsersController < ApplicationController
 	end
 
   def new
-    @mt = params[:mt] || "free_listing"
-    professional_str = params[:professional] || "false"
-    professional = professional_str == "true"
-    subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i
-    @user = User.new(:membership_type => @mt, :professional => professional, :subcategory1_id => subcategory1_id, :country_id => @country.id)
+    # subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i
+    @user = User.new(:country_id => @country.id)
 		get_districts_and_subcategories(@user.country_id || @country.id)
+  end
+
+  def edit_optional
+		get_districts_and_subcategories(current_user.country_id || @country.id)
+  end
+
+  def update_optional
+    if verify_human
+    else
+      flash[:error] = "There was a problem with the words you entered with the security check."
+      render :action => 'new_optional'
+    end
   end
  
   def create
     @user = User.new(params[:user])
-    if verify_human
       logout_keeping_session!
       @user.register! if @user && @user.valid?
       success = @user && @user.valid?
       if success && @user.errors.empty?
-        case @user.membership_type
-        when "full_member":
           @user.activate!
           session[:user_id] = @user.id
-          redirect_to :controller => "users", :action => "welcome"  
-        else
-          @user.activate!
-          session[:user_id] = @user.id
-          flash[:notice] = "Welcome to BeAmazing!"
-          redirect_to user_membership_url
-        end
+          redirect_to :controller => "users", :action => "new_optional"
       else
         get_districts_and_subcategories(@user.country_id || @country.id)
         flash.now[:error]  = "There were some errors in your signup information."
-        @mt = @user.membership_type
-        render :action => 'new', :subcategory1_id => params[:user]["subcatgory1_id"] 
+        render :action => 'new'
       end
-    else
-      flash[:error] = "There was a problem with the words you entered with the security check. Did you see an image with words to type? If not, "
-      get_districts_and_subcategories(@user.country_id || @country.id)
-      render :action => 'new'
-    end
   end
 
   def activate

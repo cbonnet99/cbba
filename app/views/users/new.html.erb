@@ -1,6 +1,6 @@
 <% javascript 'new-user' %>
-<%= title membership_description(@mt)  %>
-<% form_for @user do |f| %>
-    <%= render :partial => "users/verify_human" %>
-    <%= render :partial => "form", :locals => {:f => f, :sign_up => true, :mt => @mt  }   %>
+<%= title "Step 1: Your essential information"  %>
+<%= link_to "Why should I join?", signup_intro_url %>
+<% form_for @user, :html => {:class => "fieldset"} do |f| %>
+    <%= render :partial => "form_essential", :locals => {:f => f, :sign_up => true }   %>
 <% end %>

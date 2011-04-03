@@ -1,18 +1,14 @@
 <%= title "Forgot Your Password?" %>
 <% form_for @password do |f| %>
 <%= f.error_messages :header_message => "Please try again", :message => "Your password could not be sent" %>
-	<fieldset>
-		<legend>Enter Your Email Address</legend>
 		<ol>
 			<li>			
-		    <%= f.label :email %>
+		    <%= f.label "Your email address" %>
 		    <%= f.text_field :email %>
 			</li>
 		</ol>
-	</fieldset>
-          <label for=""></label>
 	<div class="buttons">
-  	<%= f.submit "Submit" %>
+  	<%= f.submit "Submit", :style => "float: right"  %>
 	</div>
 <% end %>
 <br/>

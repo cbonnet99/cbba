@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
-  DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site __COUNTRY__NAME that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
+  DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site __COUNTRY__NAME__ that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   DAILY_USER_ROTATION = 3
   MAX_RECENT_ARTICLES = 3
   FEATURE_PHOTO = "photo"
@@ -885,40 +885,40 @@ class User < ActiveRecord::Base
     str << email
   end
 
-  def after_find
-    @old_positions = {}
-    if self.subcategories_users[0].nil?
-      self.subcategory1_id = nil
-      old_subcategory1_id = nil
-      subcategory1_position = nil
-    else
-      self.subcategory1_id = self.subcategories_users[0].subcategory_id
-      old_subcategory1_id = self.subcategories_users[0].subcategory_id
-      subcategory1_position = self.subcategories_users[0].position
-      @old_positions[old_subcategory1_id] = subcategory1_position
-    end
-    if self.subcategories_users[1].nil?
-      self.subcategory2_id = nil
-      old_subcategory2_id = nil
-      subcategory2_position = nil
-    else
-      self.subcategory2_id = self.subcategories_users[1].subcategory_id
-      old_subcategory2_id = self.subcategories_users[1].subcategory_id
-      subcategory2_position = self.subcategories_users[1].position
-      @old_positions[old_subcategory2_id] = subcategory2_position
-    end
-    if self.subcategories_users[2].nil?
-      self.subcategory3_id = nil
-      old_subcategory3_id = nil
-      subcategory3_position = nil
-    else
-      self.subcategory3_id = self.subcategories_users[2].subcategory_id
-      old_subcategory3_id = self.subcategories_users[2].subcategory_id
-      subcategory3_position = self.subcategories_users[2].position
-      @old_positions[old_subcategory3_id] = subcategory3_position
-    end
-
-  end
+  # def after_find
+  #   @old_positions = {}
+  #   if self.subcategories_users[0].nil?
+  #     self.subcategory1_id = nil
+  #     old_subcategory1_id = nil
+  #     subcategory1_position = nil
+  #   else
+  #     self.subcategory1_id = self.subcategories_users[0].subcategory_id
+  #     old_subcategory1_id = self.subcategories_users[0].subcategory_id
+  #     subcategory1_position = self.subcategories_users[0].position
+  #     @old_positions[old_subcategory1_id] = subcategory1_position
+  #   end
+  #   if self.subcategories_users[1].nil?
+  #     self.subcategory2_id = nil
+  #     old_subcategory2_id = nil
+  #     subcategory2_position = nil
+  #   else
+  #     self.subcategory2_id = self.subcategories_users[1].subcategory_id
+  #     old_subcategory2_id = self.subcategories_users[1].subcategory_id
+  #     subcategory2_position = self.subcategories_users[1].position
+  #     @old_positions[old_subcategory2_id] = subcategory2_position
+  #   end
+  #   if self.subcategories_users[2].nil?
+  #     self.subcategory3_id = nil
+  #     old_subcategory3_id = nil
+  #     subcategory3_position = nil
+  #   else
+  #     self.subcategory3_id = self.subcategories_users[2].subcategory_id
+  #     old_subcategory3_id = self.subcategories_users[2].subcategory_id
+  #     subcategory3_position = self.subcategories_users[2].position
+  #     @old_positions[old_subcategory3_id] = subcategory3_position
+  #   end
+  # 
+  # end
 
   def save_subcategories
     self.subcategories = []
@@ -1360,10 +1360,8 @@ class User < ActiveRecord::Base
 	  if !business_name.nil? && business_name.match(/[\.\/#]/)
 	    errors.add(:last_name, "cannot contain characters: . # /")
     end
-    if professional?
-          if subcategory1_id.blank? && !self.admin?
-            errors.add(:subcategory1_id, "^You must select your main expertise")
-          end
+    if subcategory1_id.blank? && !self.admin?
+      errors.add(:subcategory1_id, "^You must select your main expertise")
     end
 	end
   

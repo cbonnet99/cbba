@@ -15,7 +15,7 @@
 <li>Profile your expertise EASILY, add articles and tips</li>
 <li>Create enquiries and drive traffic to your own website</li>
 <li>Useful guides to help you create your profile in just a short space of time</li>
-<li><%= link_to "<strong>Add your free profile now</strong>", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" ) %></li>
+<li><%= link_to "<strong>Add your free profile now</strong>", signup_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
 </ul>
 <h4>&quot;I continue to refer people to your website, it's worth its weight in gold!&quot;</h4>
 <h3>FREE Membership gives you</h3>
@@ -33,7 +33,7 @@
 <h4>&quot;I've really appreciated your enthusiastic, helpful and efficient approach.&quot;</h4></div>
 <h3>What next?</h3>
 <ul>
-<li><%= link_to "<strong>Sign-up and start creating your profile</strong>", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" ) %></li>
+<li><%= link_to "<strong>Sign-up and start creating your profile</strong>", signup_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
 <li><%= link_to "Learn more about how BeAmazing can help you", :controller => "search", :action => "whyjoin"  %></li>
 </ul>
 <h4>&quot;This is just a time saver! I get more views of my Be Amazing profile that I get to my own website!&quot;</h4>
