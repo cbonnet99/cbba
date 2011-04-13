@@ -144,7 +144,7 @@ class ArticlesControllerTest < ActionController::TestCase
 
   def test_should_create_article
 		cyrille = users(:cyrille)
-		old_expertise_size = cyrille.subcategories.size
+		old_expertise = cyrille.subcategories
 		yoga = subcategories(:yoga)
     old_count = cyrille.articles_count
     about = "And you can contact me"
@@ -155,10 +155,38 @@ class ArticlesControllerTest < ActionController::TestCase
 		assert_equal countries(:nz), assigns(:article).country
     assert_not_nil assigns(:subcategories)
     cyrille.reload
-		assert_equal old_expertise_size, cyrille.subcategories.size, "The author's expertise should not have changed"
+		assert_equal old_expertise, cyrille.subcategories, "The author's expertise should not have changed"
     assert_equal about, cyrille.about, "About section should be saved for user (so that next time, the new about section is used)"
     assert_equal old_count+1, cyrille.articles_count
   end
+
+  def test_should_create_article_with_3_subcats
+    subcat1 = Factory(:subcategory)
+    subcat2 = Factory(:subcategory)
+    subcat3 = Factory(:subcategory)
+		user = Factory(:user, :subcategory1_id => subcat1.id, :subcategory2_id => subcat2.id, :subcategory3_id => subcat3.id)
+		old_expertise = user.subcategories
+
+    new_subcat1 = Factory(:subcategory)
+
+    old_count = user.articles_count
+    about = "And you can contact me"
+    
+    #SUT
+    post :create, {:context => "profile", :selected_tab_id => "articles",  :article => {:about => about,  :title => "Test9992323", :lead => "Test9992323", :body => "",
+        :subcategory1_id => new_subcat1.id, :subcategory2_id => subcat1.id, :subcategory3_id => subcat2.id,  }}, {:user_id => user.id }
+    assert_redirected_to articles_show_url(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
+		assert_equal new_subcat1.id, assigns(:article).subcategory1_id
+		assert_equal subcat1.id, assigns(:article).subcategory2_id
+		assert_equal subcat2.id, assigns(:article).subcategory3_id
+		assert_equal about, assigns(:article).about
+		assert_equal countries(:nz), assigns(:article).country
+    assert_not_nil assigns(:subcategories)
+    user.reload
+		assert_equal old_expertise, user.subcategories, "The author's expertise should not have changed"
+    assert_equal old_count+1, user.articles_count
+  end
+
 
   def test_should_create_article_and_send_congrats_email
 		ActionMailer::Base.delivery_method = :test
