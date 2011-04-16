@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../lib/helpers'
+require 'recaptcha'
 
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable

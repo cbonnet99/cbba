@@ -424,7 +424,8 @@ class TaskUtils
 
   def self.process_paid_xero_invoices
     run = Time.now
-    response = $xero_gateway.get_invoices(Task.last_run(Task::XERO_INVOICES))
+    my_g = $xero_gateway
+    response = my_g.get_invoices(Task.last_run(Task::XERO_INVOICES))
     response.invoices.each do |invoice|
       if invoice.invoice_status == "PAID"
         user_id, invoice_number = extract_numbers_from_reference(invoice.reference)

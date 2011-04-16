@@ -1,36 +1,44 @@
-module ActiveRecord
-  class Errors
+module CustomErrorMessage
+  def self.included(receiver)
+    receiver.send :include, InstanceMethods
+    receiver.class_eval do
+      alias_method_chain :full_messages, :tilde
+      alias_method_chain :add, :procs
+    end
+  end
 
-    # Redefine the ActiveRecord::Errors::full_messages method:
+  module InstanceMethods
+    # Redefine the full_messages method:
     #  Returns all the full error messages in an array. 'Base' messages are handled as usual.
-    #  Non-base messages are prefixed with the attribute name as usual UNLESS 
-    # (1) they begin with '^' in which case the attribute name is omitted.
-    #     E.g. validates_acceptance_of :accepted_terms, :message => '^Please accept the terms of service'
-    # (2) the message is a proc, in which case the proc is invoked on the model object.
-    #     E.g. validates_presence_of :assessment_answer_option_id, 
-    #     :message => Proc.new { |aa| "#{aa.label} (#{aa.group_label}) is required" }
-    #     which gives an error message like:
-    #     Rate (Accuracy) is required
-    def full_messages
-      full_messages = []
+    #  Non-base messages are prefixed with the attribute name as usual UNLESS they begin with '^'
+    #  in which case the attribute name is omitted.
+    #  E.g. validates_acceptance_of :accepted_terms, :message => '^Please accept the terms of service'
 
-      @errors.each_key do |attr|
-        @errors[attr].each do |msg|
-          next if msg.nil?
-
-          if attr == "base"
-            full_messages << msg
-          elsif msg =~ /^\^/
-            full_messages << msg[1..-1]
-          elsif msg.is_a? Proc
-            full_messages << msg.call(@base)
-          else
-            full_messages << @base.class.human_attribute_name(attr) + " " + msg
-          end
+    private
+    def full_messages_with_tilde
+      full_messages = full_messages_without_tilde
+      full_messages.map do |message|
+        if starts_with_humanized_column_followed_by_circumflex? message
+          message.gsub(/^.+\^/, '')
+        else
+          message
         end
       end
+    end
 
-      return full_messages
+    def add_with_procs(attribute, message = nil, options = {})
+      if options[:default].respond_to? :to_proc
+        options[:default] = "^#{options[:default].to_proc.call(@base)}"
+      end
+      
+      add_without_procs(attribute, message, options)
+    end
+
+    def starts_with_humanized_column_followed_by_circumflex?(message)
+      @errors.keys.any? do |column| 
+        humanized = @base.class.human_attribute_name column.split('.').last.to_s
+        message.match(/^#{humanized} \^/)
+      end
     end
   end
 end

@@ -1,4 +1,3 @@
-
 module XeroGateway
   class Gateway      
   
@@ -6,6 +5,7 @@ module XeroGateway
     end
     
     def get_invoices(modified_since = nil)
+      puts $LOAD_PATH
       response = XeroGateway::Response.new
          invoice = XeroGateway::Invoice.new({
            :invoice_type => "ACCREC",

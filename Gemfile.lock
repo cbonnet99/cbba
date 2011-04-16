@@ -1,0 +1,83 @@
+GIT
+  remote: git@github.com:cbonnet99/active_merchant.git
+  revision: 29a21ad693ff2434833a6dfaf4259b9db48953a7
+  specs:
+    activemerchant (1.12.1)
+      activesupport (>= 2.3.8)
+      braintree (>= 2.0.0)
+      builder (>= 2.0.0)
+
+GIT
+  remote: git@github.com:cbonnet99/xero_gateway.git
+  revision: 8da15c0dbc8967005b843d99748a54222fcfec80
+  specs:
+    xero_gateway (1.0.3)
+      builder (>= 2.1.2)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    aaronh-chronic (0.3.9)
+    actionmailer (2.3.8)
+      actionpack (= 2.3.8)
+    actionpack (2.3.8)
+      activesupport (= 2.3.8)
+      rack (~> 1.1.0)
+    activerecord (2.3.8)
+      activesupport (= 2.3.8)
+    activeresource (2.3.8)
+      activesupport (= 2.3.8)
+    activesupport (2.3.8)
+    archive-tar-minitar (0.5.2)
+    braintree (2.9.1)
+      builder
+    builder (3.0.0)
+    color (1.4.0)
+      archive-tar-minitar (~> 0.5.1)
+      hoe (>= 1.3.0)
+    factory_girl (1.3.3)
+    graticule (0.2.8)
+      activesupport
+    hoe (2.9.4)
+      rake (>= 0.8.7)
+    libxml-ruby (1.1.4)
+    newrelic_rpm (2.14.1)
+    pdf-writer (1.1.8)
+      color (>= 1.4.0)
+      transaction-simple (~> 1.3)
+    pg (0.10.1)
+    rack (1.1.2)
+    rails (2.3.8)
+      actionmailer (= 2.3.8)
+      actionpack (= 2.3.8)
+      activerecord (= 2.3.8)
+      activeresource (= 2.3.8)
+      activesupport (= 2.3.8)
+      rake (>= 0.8.3)
+    rake (0.8.7)
+    recaptcha (0.3.1)
+    transaction-simple (1.4.0)
+      hoe (>= 1.1.7)
+    whenever (0.6.7)
+      aaronh-chronic (>= 0.3.9)
+      activesupport (>= 2.3.4)
+    will_paginate (2.3.15)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activemerchant!
+  color (= 1.4.0)
+  factory_girl
+  graticule (= 0.2.8)
+  libxml-ruby
+  newrelic_rpm
+  pdf-writer (= 1.1.8)
+  pg
+  rails (= 2.3.8)
+  recaptcha
+  transaction-simple
+  whenever
+  will_paginate (~> 2.3.11)
+  xero_gateway!

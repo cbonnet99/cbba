@@ -1,5 +1,5 @@
 # Be sure to restart your server when you modify this file
-
+require 'thread'
 # Uncomment below to force Rails into production mode when you don't control
 # web/app server and can't set it the proper way ENV['RAILS_ENV'] ||=
 # 'production'
@@ -19,6 +19,8 @@ $full_members_per_page = 50
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+require 'active_merchant'
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers -- all
@@ -33,18 +35,18 @@ Rails::Initializer.run do |config|
   # with "rake gems:install" on new installations. config.gem "bj" config.gem
   # "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', :source => 'http://gems.github.com'
-  config.gem 'javan-whenever', :lib => false, :source => 'http://gems.github.com'
-  config.gem "transaction-simple", :lib => "transaction/simple", :version => "1.4.0"
-  config.gem "color", :version => "1.4.0"
-  config.gem "graticule", :version => "0.2.8"
-  config.gem "activemerchant", :lib => "active_merchant", :version => "1.4.1"
-  config.gem "pdf-writer", :lib => "pdf/writer", :version => "1.1.8"
-  config.gem "libxml-ruby", :lib => "libxml"
-  config.gem "tlconnor-xero_gateway", :lib => "xero_gateway",  :source => "http://gems.github.com"
-  config.gem "newrelic_rpm"
-  config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com"
-  config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
+  # config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', :source => 'http://gems.github.com'
+  # config.gem 'javan-whenever', :lib => false, :source => 'http://gems.github.com'
+  # config.gem "transaction-simple", :lib => "transaction/simple", :version => "1.4.0"
+  # config.gem "color", :version => "1.4.0"
+  # config.gem "graticule", :version => "0.2.8"
+  # config.gem "activemerchant", :lib => "active_merchant", :version => "1.4.1"
+  # config.gem "pdf-writer", :lib => "pdf/writer", :version => "1.1.8"
+  # config.gem "libxml-ruby", :lib => "libxml"
+  # config.gem "tlconnor-xero_gateway", :lib => "xero_gateway",  :source => "http://gems.github.com"
+  # config.gem "newrelic_rpm"
+  # config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com"
+  # config.gem "ambethia-recaptcha", :lib => "recaptcha/rails", :source => "http://gems.github.com"
   # config.gem 'subdomain-fu'
   
   # Only load the plugins named here, in the order given. By default, all
@@ -71,7 +73,7 @@ Rails::Initializer.run do |config|
   # least 30 characters and all random, no regular words or you'll be exposed to
   # dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_be_amazing_session',
+    :key => '_be_amazing_session',
     :secret      => 'c9ba017060e99fd4e23621a963dfe5d05e7975c732e622924b4a9b86a6b6d60ca6c067429f937c06675480f3181fc39f0d5328a73b559c3879cc2d9bee662c9d'
   }
 

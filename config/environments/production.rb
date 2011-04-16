@@ -1,4 +1,5 @@
 # Settings specified here will take precedence over those in config/environment.rb
+require 'xero_gateway'
 
 #Specify an asset host
 ActionController::Base.asset_host = "assets%d.beamazing.co.nz"

@@ -36,7 +36,7 @@ set :scm, :git
 set :repository, "git@github.com:cbonnet99/cbba.git"
 set :branch, "master"
 ssh_options[:forward_agent] = true
-
+default_run_options[:pty] = true
 
 # =============================================================================
 # DEPREC OPTIONS
@@ -68,6 +68,34 @@ after 'deploy:update_code', 'deploy:symlink_shared'
 #after "deploy:symlink", "deploy:elastic_server_symlink"
 
 after "deploy:symlink", "deploy:update_crontab"
+
+namespace :bundler do
+  task :create_symlink, :roles => :app do
+    shared_dir = File.join(shared_path, 'bundle')
+    release_dir = File.join(release_path, '.bundle')
+    run("mkdir -p #{shared_dir} && ln -s #{shared_dir} #{release_dir}")
+  end
+
+  task :install, :roles => :app do
+    run "cd #{release_path} && bundle install"
+
+    on_rollback do
+      if previous_release
+        run "cd #{previous_release} && bundle install"
+      else
+        logger.important "no previous release to rollback to, rollback of bundler:install skipped"
+      end
+    end
+  end
+
+  task :bundle_new_release, :roles => :db do
+    bundler.create_symlink
+    bundler.install
+  end
+end
+
+after "deploy:rollback:revision", "bundler:install"
+after "deploy:update_code", "bundler:bundle_new_release"
 
 namespace(:bam) do
   desc "Import existing users"
