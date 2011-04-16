@@ -1,21 +1,25 @@
 development:
+  encoding: utf8
   adapter: postgresql
   database: be_amazing_development
   username: postgres
   password: test0user
   
 test:
+  encoding: utf8
   adapter: postgresql
   database: be_amazing_test
   username: postgres
   password: test0user
 
 production:
+    encoding: utf8
     adapter: postgresql
     database: be_amazing_production
     username: postgres
     password: test0user
 staging:
+    encoding: utf8
     adapter: postgresql
     database: be_amazing_staging
     username: postgres
