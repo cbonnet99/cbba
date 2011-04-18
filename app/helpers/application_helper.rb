@@ -55,7 +55,7 @@ module ApplicationHelper
   end
 
   def log_bam_user_event(name, destination_url = nil, extra_data = nil, options = {})
-    unless request.env["HTTP_USER_AGENT"] =~ /bot/
+    unless bot_agent?
       browser = "Browser could not be found"
       unless request.nil? || request.env.nil? || request.env["HTTP_USER_AGENT"].nil?
         browser = request.env["HTTP_USER_AGENT"][0..254]
