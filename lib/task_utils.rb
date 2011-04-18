@@ -1,7 +1,11 @@
 require 'xero_gateway'
 
 class TaskUtils
-
+  
+  def self.delete_old_user_events(from=6.months.ago)
+    UserEvent.find(:all, :conditions => ["logged_at <= ?", from]).map(&:destroy)
+  end
+  
   def self.change_homepage_featured_resident_experts 
     Country.all.each do |country|   
       User.rotate_featured_resident_experts(country)

@@ -68,6 +68,7 @@ every 1.day, :at => "4am"  do
   runner "TaskUtils.recompute_resident_experts"
   runner "TaskUtils.recompute_points"
   runner "TaskUtils.change_homepage_featured_resident_experts"
+  runner "TaskUtils.delete_old_user_events(6.months.ago)"
 end
 
 every 1.hour do

@@ -2,7 +2,19 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
-
+  
+  def test_delete_old_user_events
+    ue_old = Factory(:user_event, :logged_at => 7.months.ago)
+    ue_new = Factory(:user_event, :logged_at => 5.months.ago)
+    old_id = ue_old.id
+    new_id = ue_new.id
+    
+    TaskUtils.delete_old_user_events
+    
+    assert_raise(ActiveRecord::RecordNotFound) {UserEvent.find(old_id)}
+    assert_not_nil UserEvent.find(new_id)
+  end
+  
   def test_change_homepage_featured_quote
     q = Factory(:quote)
     TaskUtils.change_homepage_featured_quote
