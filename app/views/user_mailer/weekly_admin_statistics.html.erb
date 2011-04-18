@@ -2,12 +2,5 @@
 Dear <%@user.first_name%>,
 
 here are the BAM statistics for <%= @start_date.to_date%> - <%= @end_date.to_date%>
-<ul>
-	<li><%= pluralize(@signups, "signup")%></li>
-	<li><%= pluralize(@published_profiles, "published profile")%></li>
-	<li><%= pluralize(@payments, "payment")%> for a total of <%= help.amount_view(@total_payments)%></li>
-	<li><%= pluralize(@published_articles, "published article")%></li>
-	<li><%= pluralize(@published_SOs, "published trial session")%></li>
-	<li><%= pluralize(@published_GVs, "published gift voucher")%></li>
-</ul>
+<%= render :partial => "shared/mailer_statistics" %>
 <% end -%>
