@@ -1,3 +1,4 @@
+div#filter_activity{margin: 10px; padding: 5px 15px 5px 15px; background-color: #c00;display:inline; color: white;font-weight: bold;cursor:pointer;}
 div#sidebar_coach_signup{margin: 0 0 0 7px;}
 div#sidebar_coach_signup img{margin: 0;}
 div#join_title{float: left;}
