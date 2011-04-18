@@ -1,4 +1,4 @@
-set :target_host, "ec2-175-41-159-245.ap-southeast-1.compute.amazonaws.com"
+set :target_host, "ec2-122-248-216-114.ap-southeast-1.compute.amazonaws.com"
 role :app, target_host
 role :web, target_host
 role :db, target_host, :primary => true

@@ -1,6 +1,7 @@
 source :gemcutter
 gem "rails", "2.3.8"
 gem "pg"
+gem "aws-s3"
 gem 'will_paginate', '~> 2.3.11'
 gem "transaction-simple"
 gem "color", "1.4.0"

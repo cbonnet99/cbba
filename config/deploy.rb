@@ -63,6 +63,7 @@ set :gems_for_project, %w(SyslogLogger postgres libxml-ruby) # list of gems to b
 
 
 before "deploy:init", "deploy:setup"
+before "deploy:update_code", "deploy:select_branch"
 after 'deploy:update_code', 'deploy:symlink_shared'
 
 #after "deploy:symlink", "deploy:elastic_server_symlink"
@@ -137,6 +138,16 @@ namespace(:rails_server) do
 end
 
 namespace(:deploy) do
+  
+  desc "Select a branch to deploy (master by default)"
+  task :select_branch do
+    set(:branch) do
+    br = Capistrano::CLI.ui.ask "What branch do you want to deploy?: ".strip.downcase
+    br = "master" if br.nil? or br == ""
+    br
+    end    
+  end
+  
   desc "Update the crontab file"
   task :update_crontab, :roles => :db do
     if rails_env == :production
