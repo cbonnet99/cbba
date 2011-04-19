@@ -1,4 +1,16 @@
 module ApplicationHelper
+
+  def site_url(user)
+    APP_CONFIG[:site_host][user.country.country_code]
+  end
+  
+  def site_name(user)
+    site_name = site_url(user)
+    if site_name.start_with?("www.")
+      site_name = site_name[4..-1]
+    end
+    return site_name
+  end
   
   def bot_agent?
       request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/bot/i]

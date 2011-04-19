@@ -26,7 +26,6 @@ every 1.month, :at => "beginning of the month at 3am" do
 end
 
 every 2.weeks do
-  runner "TaskUtils.notify_unpublished_users"
   runner "TaskUtils.generate_autocomplete_subcategories"
 end
 
@@ -36,6 +35,7 @@ every :sunday, :at => '12pm'  do
 end
 
 every 1.day, :at => "3am"  do
+  runner "TaskUtils.notify_unpublished_users"
   runner "TaskUtils.send_offers_reminder"
   runner "TaskUtils.check_pending_payments"
   runner "TaskUtils.rotate_users"

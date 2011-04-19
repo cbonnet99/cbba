@@ -261,28 +261,15 @@ class TaskUtilsTest < ActiveSupport::TestCase
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
-    sub = Factory(:subcategory)
-    user = Factory(:user, :subcategory1_id => sub.id, :notify_unpublished => true)
-    user_event = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event2 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event3 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event4 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event5 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event6 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event7 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    unpublished_user = Factory(:user)
+    unpublished_profile = Factory(:user_profile, :user => unpublished_user, :state => "draft")
     
     TaskUtils.notify_unpublished_users
 
-    assert_equal 0, ActionMailer::Base.deliveries.size
-    
-    user_event8 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    
-    TaskUtils.notify_unpublished_users
-    
     assert_equal 1, ActionMailer::Base.deliveries.size
+        
     new_email = ActionMailer::Base.deliveries.first
-    assert_equal [user.email], new_email.to
-    assert_match %r{8 people have visited our #{sub.name} page}, new_email.body
+    assert_equal [unpublished_user.email], new_email.to
   end
 
   def test_check_pending_payments

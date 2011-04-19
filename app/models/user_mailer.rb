@@ -40,7 +40,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def referral(sender, email, comment)
-    default_url_options[:host] = APP_CONFIG[:site_host][sender.country.country_code]
+    default_url_options[:host] = help.site_url(sender)
     default_url_options[:protocol] = APP_CONFIG[:logged_site_protocol]
     @recipients = "#{email}"
     @reply_to = "#{sender.email}"
@@ -52,15 +52,13 @@ class UserMailer < ActionMailer::Base
     @content_type = 'text/html'
   end
 
-  def notify_unpublished(user, start_date)
+  def notify_unpublished(user)
     setup_email(user)
     @content_type = 'text/html'
-    @subject << "People finding you on BeAmazing"
+    @subject << "Your FREE guide is waiting for your"
     @body[:user] = user
-    @body[:visits] = user.visits_since(start_date)
     @body[:login_link] = new_session_url(:protocol => APP_CONFIG[:logged_site_protocol], :email => user.email)
-    @body[:reset_password_link] = forgot_password_url(:protocol => APP_CONFIG[:logged_site_protocol], :email => user.email)
-    @body[:no_reminder_link] = no_reminder_url(:protocol => APP_CONFIG[:logged_site_protocol], :email => user.email, :unsubscribe_token => user.unsubscribe_token)
+    @body[:site_name] = help.site_name(user)
   end
 
   def congrats_published(user)
