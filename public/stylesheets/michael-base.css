@@ -214,6 +214,7 @@ ul#profile-tabs li {float:left; padding:0; }
 ul#profile-tabs li.tab a {background-color:#d9d9d9; border:1px solid #edecec; color:#020202; cursor:pointer; font-size:11px; font-weight:normal;height:24px; line-height:20px; margin:0 2px 0 0; padding:8px 10px 7px; position:relative; top:-1px; text-decoration:none;}
 	ul#profile-tabs li.tab a:hover {background-color:grey;border-bottom:1px solid #edecec;}
 ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { background-color:#FFFFFF; border-bottom:2px solid #fff;  }
+ul#profile-tabs li.needs_edit a, ul#profile-tabs li.needs_edit a:hover{background-color: #c00; color: white;}
 #profile-photo {float:left; margin:0 10px 0 0;}
 .profile-calling-action-area{float:right;}
 #profile-ask-question-content  {background:url(../images/btnRed.gif) no-repeat; height:30px; line-height:29px; text-align:center; width:124px;}
@@ -224,7 +225,7 @@ ul#profile-tabs li.selected-tab a, ul#profile-tabs li.selected-tab a:hover { bac
 .location {color:#000;}
 	.user-description {overflow:auto;width:100%;border-bottom:2px solid grey;padding: 0 0 0 9px;}
 		.even {/*background:#f5f5f5;*/}
-		#contentMain .publication-actions {background:#d5d2ca url(../images/inputBg.png) repeat-x; height:30px;margin:0 0 10px 0;overflow:hidden;padding:4px 0 4px;clear: both;}
+		#contentMain .publication-actions {background:#d5d2ca url(../images/inputBg.png) repeat-x; height:40px;margin:0 0 10px 0;overflow:hidden;padding:4px 0 4px;clear: both;}
 		#contentMain .publication-actions input.button {background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:30px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;color:#333333;cursor:pointer;font-size:11px;margin-right:2px;overflow:visible;width:auto;}
 		#contentMain .publication-actions a.anchor-button {text-decoration: none; background: url(../images/inputBg.png) repeat-x; float:right;font-weight:bold;height:26px;padding:0 10px;border-color:#CCCCCC #999999 #999999 #CCCCCC;border-style:double;border-width:2px; color:#333333;cursor:pointer;display:block; font-size:11px; line-height:30px;margin-right:2px;overflow:visible;width:auto;}
 		#contentMain .publication-actions a.anchor-button:hover ,#contentMain #reviewer-actions input.approve:hover {background:#090; }

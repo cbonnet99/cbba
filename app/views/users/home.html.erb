@@ -1,5 +1,7 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "home" }  %>
-
+<% if !current_user.published? -%>
+<div id="warning_unpublished" class="rounded"><p id="main_warning">Your profile is not published!</p><p>Complete <%= link_to "your profile", expanded_user_url(current_user, :selected_tab_id => @selected_tab_id) %> and publish to receive your copy of our FREE guide</p></div>
+<% end -%>
 <%= title "Welcome back!"%>
 <p>Nice to have you back on the site, scroll down for essential links and news from the Be Amazing Team.</p> <h4><strong>Quick links:</strong></h4>
 <ul>
