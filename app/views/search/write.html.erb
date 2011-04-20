@@ -1,0 +1,9 @@
+<%= title "Write to us" %>
+<p>BeAmazing Ltd<br/>
+	40, Woodward St<br/>
+	Featherston<br/>
+	Wairarapa<br/>
+	New Zealand
+</p>
+<%= link_to "Contact us by email", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @sav.slug, :action => "message", :hide_name => true )%>
+

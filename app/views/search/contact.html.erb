@@ -22,3 +22,4 @@
     <li>Meet out <%= link_to "Full Members", :controller => "full_members", :action => "index"%>   &amp; <%= link_to "Resident Experts", :controller => "resident_experts", :action => "index"%></li>
     <li><%= link_to "Sign-up for our public newsletter", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol])%></li>
 </ul>
+<%= link_to "Write to us", :controller => "search", :view => "write" %>
