@@ -1,8 +1,8 @@
 <%= render :partial => "search/about_nav", :locals => {:selected => "goals" }  %>
 <%= title "Our goals" %>
-<h3>Our Vision - <%= APP_CONFIG[:site_host][@country.country_code].capitalize%> for <%= @country.inhabitants%></h3>
+<h3>Our Vision - <%= site_name_for_country_code(@country.country_code).capitalize%> for <%= @country.inhabitants%></h3>
 <p>"People connected to knowledge, expertise and inspiration"</p>
-<h3>Our Vision - <%= APP_CONFIG[:site_host][@country.country_code].capitalize%> for Coaches in <%= @country.name%></h3>
+<h3>Our Vision - <%= site_name_for_country_code(@country.country_code).capitalize%> for Coaches in <%= @country.name%></h3>
 <p>"An active online community of Coaches sharing their expertise, reaching more people and making a bigger difference"</p>
 <h3>Our Goals</h3>
 <ul>
@@ -12,7 +12,7 @@
 </ul>
 <h3>How this site is different from other directories</h3>
 <ul>
-<li><%= APP_CONFIG[:site_host][@country.country_code].capitalize%> was founded and is managed by David &amp; Megan Savage, both Coaches based in Wellington</li>
+<li><%= site_name_for_country_code(@country.country_code).capitalize%> was founded and is managed by David &amp; Megan Savage, both Coaches based in Wellington</li>
 <li>We're dedicated to <%= @country.name%> only</li>
 <li>This is a specialised Coaching directory</li>
 <li>Our business is community driven and focused on contribution</li>

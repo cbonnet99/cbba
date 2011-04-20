@@ -30,6 +30,7 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
     @subject = "Your first article on BeAmazing!"
     @content_type = 'text/html'
+    @body[:site_name] = help.site_name(user)
   end
 
   def offers_reminder(user)
@@ -45,7 +46,7 @@ class UserMailer < ActionMailer::Base
     @recipients = "#{email}"
     @reply_to = "#{sender.email}"
     @from = APP_CONFIG[:admin_email]
-    @subject = "See #{sender.name} on #{APP_CONFIG[:site_host][sender.country.country_code]}"
+    @subject = "See #{sender.name} on #{help.site_name(sender)}"
     @sent_on = Time.now
     @body[:comment] = comment
     @body[:sender] = sender
@@ -103,6 +104,8 @@ class UserMailer < ActionMailer::Base
 	  @subject << "Renew anytime"
 		@body[:feature_names] = feature_names
 		@body[:url] = user_promote_url
+		@body[:site_url] = help.site_url(user)
+		@body[:site_name] = help.site_name(user)
 		@content_type = 'text/html'
   end
 
@@ -112,6 +115,8 @@ class UserMailer < ActionMailer::Base
 	  @subject << "Time to renew your payment"
 		@body[:feature_names] = feature_names
 		@body[:url] = user_promote_url
+		@body[:site_url] = help.site_url(user)
+		@body[:site_name] = help.site_name(user)
 		@content_type = 'text/html'
   end
 
@@ -122,6 +127,8 @@ class UserMailer < ActionMailer::Base
 		@body[:feature_names] = feature_names
 		@body[:url] = user_promote_url
 		@body[:contact_url] = contact_url
+		@body[:site_url] = help.site_url(user)
+		@body[:site_name] = help.site_name(user)
 		@content_type = 'text/html'
   end
 
@@ -144,10 +151,10 @@ class UserMailer < ActionMailer::Base
 
   def message(message)
     setup_email(message.user)
-		@subject << "[via #{APP_CONFIG[:site_host][message.user.country.country_code]}] #{message.subject}"
+		@subject << "[via #{help.site_name(message.user)}] #{message.subject}"
 		@reply_to = "#{message.email}"
 		body = message.body
-		body << "<hr>TIP from the Be Amazing Team: &quot;Want more enquiries from <a href='#{APP_CONFIG[:site_host][message.user.country.country_code]}'>#{APP_CONFIG[:site_host][message.user.country.country_code]}</a>? Then add articles, run trial sessions and offer a gift voucher - just log-in, follow the links and increase your profile!&quot;"
+		body << "<hr>TIP from the Be Amazing Team: &quot;Want more enquiries from <a href='#{help.site_name(message.user)}'>#{help.site_name(message.user)}</a>? Then add articles, run trial sessions and offer a gift voucher - just log-in, follow the links and increase your profile!&quot;"
 		@body[:body] = body
 		@body[:email] = message.email
 		@body[:phone] = message.phone
@@ -158,7 +165,7 @@ class UserMailer < ActionMailer::Base
     @recipients = "#{message.to_email}"
     @from = "#{message.from}"
     @sent_on = Time.now
-		@subject = "[via #{APP_CONFIG[:site_host][message.from_user.country.country_code]}] #{message.subject}"
+		@subject = "[via #{help.site_name(message.from_user)}] #{message.subject}"
 		@reply_to = "#{message.from}"
 		body = message.body
 		@body[:body] = body
@@ -243,6 +250,7 @@ class UserMailer < ActionMailer::Base
     setup_email(article.author)
     @subject << "You're on our homepage!"
     @body[:feature_date] = Time.now.to_date
+		@body[:site_name] = help.site_name(article.author)
   end
   
 	def item_rejected(item, author)
@@ -261,6 +269,11 @@ class UserMailer < ActionMailer::Base
     setup_email(reviewer)
 		@subject << "Review needed"
 		@body[:stuff] = stuff
+		if stuff.class.to_s == "UserProfile"
+		  @body[:stuff_host] = site_url(stuff.user)
+	  else
+		  @body[:stuff_host] = site_url(stuff.author)
+    end
     path_method = self.method(stuff.path_method.to_sym)
     if path_method.nil?
       logger.error("No method called #{stuff.path_method} could be found in object: #{self.inspect}")
@@ -283,7 +296,7 @@ class UserMailer < ActionMailer::Base
   protected
   
   def setup_email(user)
-    default_url_options[:host] = APP_CONFIG[:site_host][user.country.country_code]
+    default_url_options[:host] = help.site_name(user)
     default_url_options[:protocol] = APP_CONFIG[:logged_site_protocol]
     @recipients = "#{user.email}"
     @from = APP_CONFIG[:admin_email]

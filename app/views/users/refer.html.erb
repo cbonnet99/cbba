@@ -7,7 +7,7 @@
 	<%= text_field_tag "emails", {}, {:size => 80}%>
 	<div class="cleaner"></div>
 	<p>If you wish, modify the comment that will be sent along:</p>
-	<%= text_area_tag "comment", User::DEFAULT_REFERRAL_COMMENT.gsub(/__COUNTRY__NAME__/, APP_CONFIG[:site_host][@country.country_code]), {:rows => 8, :cols => 60  }%>
+	<%= text_area_tag "comment", User::DEFAULT_REFERRAL_COMMENT.gsub(/__SITE__NAME__/, site_name_for_country_code(@country.country_code)), {:rows => 8, :cols => 60  }%>
 	<div class="cleaner"></div>
 	<br/><br/>
 	<%= submit_tag "Send emails"%>

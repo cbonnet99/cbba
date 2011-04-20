@@ -1,6 +1,6 @@
 <%= title "More information about resident experts" %>
 <%= link_to 'Back', signup_intro_url %> | <%= link_to "Apply to become a resident expert", signup_url(:professional => "true", :mt => "resident_expert" ) %>
-<p>As a <%= APP_CONFIG[:site_host][@country.country_code]%> Resident Expert member you gain premium positioning on the site. You will be the exclusive expert in your field on the site and be the person people look to for expert advice.</p>
+<p>As a <%= site_name_for_country_code(@country.country_code)%> Resident Expert member you gain premium positioning on the site. You will be the exclusive expert in your field on the site and be the person people look to for expert advice.</p>
 <p>Resident Expert Membership is ideal for professionals wanting to:</p>
 <ul>
       <li>Create more visibility and increase their profile</li>
@@ -29,7 +29,7 @@
       <li>Run three trial sessions at one anytime</li>
       <li>Add up to three Gift Voucher listings at any one time, NO COMMISSION</li>
       <li>Add up to three entries into the calendar at any one time - Coming Soon!</li>
-      <li>Moderate a <%= APP_CONFIG[:site_host][@country.country_code]%> forum for your field of expertise - Coming Soon!</li>
+      <li>Moderate a <%= site_name_for_country_code(@country.country_code)%> forum for your field of expertise - Coming Soon!</li>
       <li>Control and update your details and content when you like</li>
       <li>FREE subscription to our public newsletter</li>
       <li>FREE subscription to our member Biz-Dev newsletter</li>
