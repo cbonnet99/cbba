@@ -92,6 +92,10 @@ module ApplicationHelper
     article.subcategories.map{|s| link_to s.name, articles_for_subcategory_url(s.slug)}.to_sentence
   end
 
+  def link_articles_blog_subcategories(article)
+    article.blog_subcategories.map{|s| link_to s.name, articles_for_blog_subcategory_url(s.slug)}.to_sentence
+  end
+
   def first_sentence(text)
     unless text.nil?
       if text.index("<p")

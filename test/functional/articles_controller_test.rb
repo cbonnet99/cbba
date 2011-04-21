@@ -5,6 +5,34 @@ class ArticlesControllerTest < ActionController::TestCase
   
 	fixtures :all
 
+  def test_index_for_blog_subcategory
+    blog_subcat = Factory(:blog_subcategory)
+    article = Factory(:article, :blog_subcategory1_id => blog_subcat.id)
+    
+    get :index_for_blog_subcategory, :subcategory_slug => blog_subcat.slug
+    
+    assert_response :success
+    
+    assert assigns(:articles).include?(article)
+  end
+
+  def test_index_for_blog_subcategory_own
+    blog_subcat = Factory(:blog_subcategory)
+    au = countries(:au)
+    nz = countries(:nz)
+    au_article = Factory(:article, :blog_subcategory1_id => blog_subcat.id, :country => au)
+    au_article.reload
+    assert_equal au, au_article.country
+    nz_article = Factory(:article, :blog_subcategory1_id => blog_subcat.id, :country => nz)
+    
+    get :index_for_blog_subcategory, :subcategory_slug => blog_subcat.slug, :only_show_own => "true"
+    
+    assert_response :success
+        
+    assert assigns(:articles).include?(nz_article)
+    assert !assigns(:articles).include?(au_article)
+  end
+
   def test_index_for_subcategory
     yoga = subcategories(:yoga)
     article_yoga = articles(:yoga)
@@ -116,7 +144,9 @@ class ArticlesControllerTest < ActionController::TestCase
   end
 
   def test_should_get_index_nz
-    au_article = Factory(:article, :country => countries(:au))
+    au = countries(:au)
+    au_author = Factory(:user, :country => au)
+    au_article = Factory(:article, :author => au_author)
     
     get :index, :country_code => "nz" 
     assert_response :success
