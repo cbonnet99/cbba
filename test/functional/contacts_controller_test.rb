@@ -14,6 +14,8 @@ class ContactsControllerTest < ActionController::TestCase
     
     contact_email = "cyrille@blob.com"
     post :create, {:contact => {:email => contact_email }}
+    
+    assert_redirected_to thank_you_signup_newsletter_url
     assert_not_nil assigns(:contact)
   #    puts assigns(:contact).errors.inspect
     assert_equal 0, assigns(:contact).errors.size

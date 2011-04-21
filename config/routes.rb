@@ -86,6 +86,7 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.signup_intro '/signup_intro', :controller => 'users', :action => 'intro'
   map.signup_newsletter '/signup_newsletter', :controller => 'contacts', :action => 'new'
+  map.thank_you_signup_newsletter '/thank_you_signup_newsletter', :controller => 'contacts', :action => 'thank_you'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'

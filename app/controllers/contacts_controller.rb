@@ -12,7 +12,7 @@ class ContactsController < ApplicationController
       if user.nil?
         if @contact.save
           flash[:notice] = "Thank you for signing up, you will receive your FREE tool by email shortly"
-          redirect_back_or_default root_url
+          redirect_back_or_default thank_you_signup_newsletter_url
         else
           get_districts_and_subcategories(@contact.country_id || @country.id)
           flash.now[:error] = "Your registration could not be completed"
@@ -21,7 +21,7 @@ class ContactsController < ApplicationController
       else
         user.update_attribute(:receive_newsletter, true)
         flash[:notice] = "Thank you for signing up, you will receive your FREE tool by email shortly"
-        redirect_back_or_default root_url
+        redirect_back_or_default thank_you_signup_newsletter_url
       end
     else
       get_districts_and_subcategories(@contact.country_id || @country.id)
