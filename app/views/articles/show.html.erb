@@ -1,6 +1,6 @@
 <% javascript "link"%>
 <%= render :partial => "back_links" %>
-<% page_title("#{@article.title} by #{@article.author.name}")%>
+<% page_title("#{@article.subcategories.first.name} - #{@article.author.region.name} - #{@article.title} by #{@article.author.name}")%>
 <% page_description(@article.lead)%>
 <% page_author(@article.author.try(:name))%>
 <div class='cleaner'></div>

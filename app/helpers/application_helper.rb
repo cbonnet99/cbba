@@ -473,7 +473,7 @@ module ApplicationHelper
   end
 
   def page_title(str)
-    @page_title = "#{APP_CONFIG[:site_name]} - #{str}"
+    @page_title = str
   end
   
   def page_description(str)
