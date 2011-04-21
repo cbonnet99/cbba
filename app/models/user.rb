@@ -90,7 +90,7 @@ class User < ActiveRecord::Base
   named_scope :notify_unpublished, :conditions => "notify_unpublished IS true"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
   named_scope :unpublished, :include => "user_profile",  :conditions => "user_profiles.state='draft'" 
-  named_scope :recently_created, lambda{{:conditions => ["users.created_at > ?", 1.month.ago] }} 
+  named_scope :recently_created, lambda{{:conditions => ["users.created_at > ?", 2.days.ago] }} 
   
   named_scope :with_expired_photo, :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until < now()"
   named_scope :with_has_expired_photo, :conditions => "paid_photo IS FALSE AND paid_photo_until IS NOT NULL AND now() > paid_photo_until + interval '3 days' AND feature_warning_sent < paid_photo_until + interval '3 days'"
@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
   attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
-  DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site __COUNTRY__NAME that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
+  DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site __SITE__NAME__ that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
   DAILY_USER_ROTATION = 3
   MAX_RECENT_ARTICLES = 3
   FEATURE_PHOTO = "photo"
@@ -483,20 +483,20 @@ class User < ActiveRecord::Base
 
   def unedited_tabs_error_msg
     if self.unedited_tabs.size == 1
-      "Your tab #{unedited_tabs.first.title} has not completed: please enter information or delete the tab"
+      "Your tab #{unedited_tabs.first.title} is incomplete: please enter information or delete the tab"
     else
-      "Your tabs #{unedited_tabs.map(&:title).to_sentence} have not completed: please enter information or delete these tabs"
+      "Your tabs #{unedited_tabs.map(&:title).to_sentence} are incomplete: please enter information or delete these tabs"
     end
   end
 
-  def has_valid_tabs?
+  def all_tabs_valid?
     self.unedited_tabs.blank? && self.tabs.select{|t| t.content.blank?}.blank?
   end
 
   def unedited_tabs
      unedited_tabs = []
      tabs.each do |tab|
-       unedited_tabs << tab if tab.content =~ /delete this text/ || tab.content1_with =~ /delete this text/ || tab.content2_benefits =~ /delete this text/ || tab.content3_training =~ /delete this text/ || tab.content4_about =~ /delete this text/
+       unedited_tabs << tab if tab.needs_edit?
      end
      unedited_tabs
   end

@@ -1,3 +1,8 @@
+div#warning_unpublished {background-color: #c00;color: white;padding: 10px;margin:10px;}
+div#warning_unpublished p{font-size:14px;}
+div#warning_unpublished p#main_warning{font-weight: bold;}
+div#warning_unpublished a{color: white;}
+div#filter_activity{margin: 10px; padding: 5px 15px 5px 15px; background-color: #c00;display:inline; color: white;font-weight: bold;cursor:pointer;}
 div#sidebar_coach_signup{margin: 0 0 0 7px;}
 div#sidebar_coach_signup img{margin: 0;}
 div#join_title{float: left;}
@@ -139,6 +144,7 @@ div.bam-user-details-icons {
 	color: red;
 	font-size: 13px;
 	vertical-align: middle;
+	width: 450px;
 }
 div.user-description h4.title-user-paying {
 	font-weight: bold;

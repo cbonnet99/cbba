@@ -5,6 +5,9 @@ class VirtualTab < Struct.new( :slug, :title, :partial, :nav)
   def content
     title
   end
+  def needs_edit?
+    false
+  end
 end
 class Tab < ActiveRecord::Base
 
@@ -31,7 +34,11 @@ class Tab < ActiveRecord::Base
   validates_length_of :title, :maximum => 31
   
   attr_accessor :old_title, :content1_with, :content2_benefits, :content3_training, :content4_about
-
+  
+  def needs_edit?
+    self.content =~ /delete this text/ || self.content1_with =~ /delete this text/ || self.content2_benefits =~ /delete this text/ || self.content3_training =~ /delete this text/ || self.content4_about =~ /delete this text/
+  end
+  
   def self.content_for_title(title, c)
     strings = c.split("<h3>#{title}</h3>")
     if strings.length > 1

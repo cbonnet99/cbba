@@ -1,5 +1,12 @@
+<% javascript "admin-activities" %>
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "user_activities" }  %>
+<% if params[:username].blank? -%>
 <%= title "Last activity"%>
+Only show activity for user: <input type="text" name="username" id="username"><div id="filter_activity">Go</div>
+<% else -%>
+<%= title "Last activity for user: #{params[:username]}"%>
+<%= link_to "Show activity for all users", user_activities_admin_url%>
+<% end -%>
 <table class="admin">
   <tr>
     <th>User</th>

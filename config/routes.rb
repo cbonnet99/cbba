@@ -17,6 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/users", :member => {:login => [:get, :post], :deactivate => [:get, :post], :warning_deactivate => [:get, :post], :reactivate => [:get, :post] }, :collection => {:search => [:get, :post]}
   
   map.articles_for_subcategory '/articles/subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_subcategory" 
+  map.articles_for_blog_subcategory '/articles/blog_subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_blog_subcategory" 
   map.gift_vouchers_for_subcategory '/gift_vouchers/subcategory/:subcategory_slug', :controller => "gift_vouchers", :action => "index_for_subcategory"
   map.special_offers_for_subcategory '/special_offers/subcategory/:subcategory_slug', :controller => "special_offers", :action => "index_for_subcategory"
   map.resources :search_results, :path_prefix => "/admin", :controller => "admin/search_results"
@@ -57,6 +58,7 @@ ActionController::Routing::Routes.draw do |map|
   map.origins '/origins', :controller => "search", :action => "origins"  
   map.disclaimer '/disclaimer', :controller => "search", :action => "disclaimer"  
   map.terms '/terms', :controller => "search", :action => "terms"  
+  map.write '/write', :controller => "search", :action => "writearticles_for_subcategory_url"  
   map.search '/search/what/:what/where/:where', :controller => "search", :action => "search"
   map.search_what '/search/what/:what', :controller => "search", :action => "search"
   map.search_where '/search/where/:where', :controller => "search", :action => "search"
@@ -84,6 +86,7 @@ ActionController::Routing::Routes.draw do |map|
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.signup_intro '/signup_intro', :controller => 'users', :action => 'intro'
   map.signup_newsletter '/signup_newsletter', :controller => 'contacts', :action => 'new'
+  map.thank_you_signup_newsletter '/thank_you_signup_newsletter', :controller => 'contacts', :action => 'thank_you'
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'

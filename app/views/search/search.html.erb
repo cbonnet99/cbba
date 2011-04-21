@@ -1,6 +1,6 @@
 <% unless logged_in? || @subcategory.nil? -%>
 <div id="bam-invite-join">
-  <p>Are you an expert on <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to "join #{APP_CONFIG[:site_host][@country.country_code]}", signup_intro_url %>!</p>
+  <p>Are you an expert on <%=@subcategory.name%>? Add your profile to Be Amazing: <%= link_to "join #{site_name_for_country_code(@country.country_code)}", signup_intro_url %>!</p>
 </div>
 <%end -%>
 <h1></h1>

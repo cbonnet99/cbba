@@ -23,7 +23,11 @@ class SessionsController < ApplicationController
           if current_user.admin?
             redirect_back_or_default reviewer_url(:action => "index")
           else
-            redirect_back_or_default user_home_url
+            if self.current_user.published?
+              redirect_back_or_default user_home_url
+            else
+              redirect_to expanded_user_url(current_user)
+            end
           end
         else
           @payment = current_user.find_current_payment

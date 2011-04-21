@@ -1,6 +1,6 @@
 Dear <%= @user.first_name %>,<br/>
 <br/>
-The paid features you have on <a href="http://<%= APP_CONFIG[:site_host][@user.country.country_code]%>"><%= APP_CONFIG[:site_host][@user.country.country_code].capitalize%></a> have expired today:<br/>
+The paid features you have on <a href="http://<%= @site_url%>"><%= @site_name.capitalize%></a> have expired today:<br/>
 <ul>
 	<%@feature_names.each do |name| -%>
 	<li><%= name%></li>
@@ -37,6 +37,6 @@ We've made it really easy to renew, just follow these steps:<br/>
 	<li>Finally just enter your credit card details and within no time at all, you're all done!</li>
 </ol>
 <br/>
-If you have any problems making the payment, just let us know by clicking here: https://<%= APP_CONFIG[:site_host][@user.country.country_code]%>/contact<br/>
+If you have any problems making the payment, just let us know by clicking here: https://<%= @site_url%>/contact<br/>
 <br/>
 <%= render :partial => "signature"  %>

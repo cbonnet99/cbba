@@ -1,6 +1,6 @@
   <ul class="simple" id="profile-tabs">
     <% @user.tabs.each do |t| -%>
-      <li class="tab<%if !@selected_tab.nil? && @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= expanded_user_tabs_url(@user, t.slug) %>"><%=t.title%></a></li>
+      <li class="tab<% if t.needs_edit?%> needs_edit<%end%><%if !@selected_tab.nil? && @selected_tab.slug == t.slug%> selected-tab<%end%>"><a alt="<%=t.title%>" href="<%= expanded_user_tabs_url(@user, t.slug) %>"><%=t.title%></a></li>
     <% end -%>
 	<% if params[:action]=="new" -%>
 	<li class="tab selected-tab">New tab...</li>

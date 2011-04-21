@@ -153,7 +153,7 @@ class UsersController < ApplicationController
 
 	def publish
     if current_user.user_profile.draft?
-      if current_user.has_valid_tabs?
+      if current_user.all_tabs_valid?
         current_user.user_profile.publish!
         UserMailer.deliver_congrats_published(current_user)
         flash[:notice] = "Your profile was successfully published"

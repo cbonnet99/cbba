@@ -199,6 +199,18 @@ class Article < ActiveRecord::Base
 	  end
 	end
 
+	def self.find_all_by_blog_subcategories(*subcategories)
+		Article.find_by_sql(["select a.* from articles a, articles_blog_subcategories asub where a.state = 'published' and a.id = asub.article_id and asub.blog_subcategory_id in (?)", subcategories])
+	end
+
+	def self.find_all_by_blog_subcategories_and_country_code(country_code, *subcategories)
+	  if country_code.blank?
+	    return self.find_all_by_blog_subcategories(*subcategories)
+    else
+		  Article.find_by_sql(["select a.* from articles a, articles_blog_subcategories asub, countries c where c.country_code = ? and c.id = a.country_id and a.state = 'published' and a.id = asub.article_id and asub.blog_subcategory_id in (?)", country_code, subcategories])
+	  end
+	end
+
   def self.all_newest_articles
     newest_straight_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => Article::NUMBER_ON_HOMEPAGE)
     newest_howto_articles = HowTo.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => Article::NUMBER_ON_HOMEPAGE)

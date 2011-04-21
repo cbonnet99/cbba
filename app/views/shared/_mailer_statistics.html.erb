@@ -1,30 +1,30 @@
 <ul>
 	<li><%= pluralize(@signups.size, "signup")%><% unless @signups.size == 0%>:
 			<% @signups.each_with_index do |signup, i| -%>
-			<%= link_to signup.name, expanded_user_url(signup)%><%unless i == @signups.size-1%>, <%end%>
+			<%= signup.name %><%unless i == @signups.size-1%>, <%end%>
 			<% end -%>
 	<%end%></li>
 	<li><%= pluralize(@published_profiles.size, "published profile")%><%unless @published_profiles.size == 0%>
 		<% @published_profiles.each_with_index do |profile, i| -%>
-		<%= link_to profile.user.name, expanded_user_url(profile.user)%><%unless i == @published_profiles.size-1%>, <%end%>
+		<%= profile.user.name %><%unless i == @published_profiles.size-1%>, <%end%>
 		<%end -%>
 	<%end%></li>
 	<li><%= pluralize(@draft_profiles.size, "profile")%> that are still unpublished<%unless @draft_profiles.size == 0%>
 		<% @draft_profiles.each_with_index do |profile, i| -%>
-		<%= link_to profile.user.name, expanded_user_url(profile.user)%><%unless i == @draft_profiles.size-1%>, <%end%>
+		<%= profile.user.name %><%unless i == @draft_profiles.size-1%>, <%end%>
 		<%end -%>
 	<%end%></li>
 	<li><%= pluralize(@pending_payments.size, "payment")%> that were not completed<% unless @pending_payments	.size == 0%>:
 			<ul>
 				<% @pending_payments.each do |payment| -%>
-				<li><%= payment.user.name%> started a payment for <%= amount_view(payment.amount)%> on <%= payment.created_at%></li>
+				<li><%= payment.user.name%> started a payment for <%= help.amount_view(payment.amount)%> on <%= payment.created_at%></li>
 				<% end -%>
 			</ul>
 		<%end%></li>
-	<li><%= pluralize(@payments.size, "payment")%> for a total of <%= amount_view(@total_payments)%><% unless @payments.size == 0%>:
+	<li><%= pluralize(@payments.size, "payment")%> for a total of <%= help.amount_view(@total_payments)%><% unless @payments.size == 0%>:
 		<ul>
 			<% @payments.each do |payment| -%>
-			<li><%= payment.user.name%> paid <%= amount_view(payment.amount)%> on <%= payment.created_at%></li>
+			<li><%= payment.user.name%> paid <%= help.amount_view(payment.amount)%> on <%= payment.created_at%></li>
 			<% end -%>
 		</ul>
 	<%end%></li>

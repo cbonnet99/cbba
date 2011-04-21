@@ -1,6 +1,11 @@
 class Admin::UserActivitiesController < AdminApplicationController
   def index
-    @activities = UserEvent.paginate(:include => :user, :page => params[:page], :order => "logged_at desc")
+    if params[:username].blank?
+      @activities = UserEvent.paginate(:include => :user, :page => params[:page], :order => "logged_at desc")
+    else  
+      param = "%#{params[:username].upcase}%"
+      @activities = UserEvent.paginate(:include => :user, :conditions => ["upper(email) like ? or upper(users.first_name) like ? or upper(users.last_name) like ?", param, param, param], :page => params[:page], :order => "logged_at desc")
+    end
   end
   
   def show
