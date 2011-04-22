@@ -23,7 +23,11 @@ class SessionsController < ApplicationController
           if current_user.admin?
             redirect_back_or_default reviewer_url(:action => "index")
           else
-            redirect_back_or_default user_home_url
+            if self.current_user.published?
+              redirect_back_or_default user_home_url
+            else
+              redirect_to expanded_user_url(current_user)
+            end
           end
         else
           @payment = current_user.find_current_payment
@@ -47,7 +51,7 @@ class SessionsController < ApplicationController
   def destroy
     logout_killing_session!
     flash[:notice] = "You have been logged out."
-    redirect_to root_url(:protocol => APP_CONFIG[:site_protocol])
+    redirect_to root_url(:protocol => APP_CONFIG[:logged_site_protocol])
   end
 
   protected

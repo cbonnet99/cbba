@@ -9,16 +9,18 @@
 <%= hidden_field_tag :context, @context%>
 <%= hidden_field_tag :selected_tab_id, @selected_tab_id%>
 
-<h3><label>Step 2: Choose a blog-category</label></h3>
+<h3><label>Step 2: Choose up to three blog categories</label></h3>
 <p>Leave blank if you don't want this article to appear on our blog, although we highly recommend it does :)</p>
-blog_subcategory1_id: <%= @article.blog_subcategory1_id%>
-<p><%= f.select :blog_subcategory1_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true } %></p>
+<p><%= f.label :subcategory1, 'Blog category1:' %> <%= f.select :blog_subcategory1_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true } %></p>
+<p><%= f.label :subcategory2, 'Blog category2:' %> <%= f.select :blog_subcategory2_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true } %></p>
+<p><%= f.label :subcategory3, 'Blog category3:' %> <%= f.select :blog_subcategory3_id, @blog_subcategories, {:prompt => "- Please select -", :include_blank => true } %></p>
 
 <h3><%= f.label :lead, "Step 3: Write a lead paragraph<span class='mandatoryStar'>*</span>"%></h3>
 <p>Maximum 500 characters (<span id='article_lead_count'>500</span> left)</p>
 <p><%= f.text_area :lead, :cols => "70", :rows => 9,  :class => "noHTMLEditor"  %></p>
 
 <h3>Step 4: Add the main content of your article</h3>
+<p><strong>TIP</strong>: Pasting from WORD? Look for the Paste button with the letter 'W' on it, that will give you a clean paste when pasting from a word document </p>
 <p><%= f.text_area :body, :cols => "70", :rows => 30  %></p>
 
 <h3>Step 5: About the author</h3>

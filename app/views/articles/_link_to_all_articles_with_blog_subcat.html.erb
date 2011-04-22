@@ -1,0 +1,11 @@
+<% if params[:only_show_own].blank? -%>
+<% only_show_own = @country.default_only_show_own? -%>
+<% else -%>
+<% only_show_own = (params[:only_show_own] == "true") -%>
+<% end -%>
+
+<% if only_show_own -%>
+<div><%=@blog_subcategory.name%> articles from <%=@country.name%> | <%= link_to "All #{@blog_subcategory.name} articles", articles_for_blog_subcategory_url(@blog_subcategory.slug, :only_show_own => "false") %></div>
+<% else -%>
+<div><%= link_to "#{@blog_subcategory.name} articles from #{@country.name}", articles_for_blog_subcategory_url(@blog_subcategory.slug, :only_show_own => "true")%> | All <%= @blog_subcategory.name%> articles</div>
+<% end -%>

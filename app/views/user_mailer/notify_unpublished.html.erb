@@ -1,14 +1,20 @@
 Dear <%= @user.first_name%>,
+<br/>
+<p>Thanks for signing-up for a FREE profile on <%= @site_name.capitalize%>.</p>
 
-<p><strong>Your listing on <%= link_to APP_CONFIG[:site_host][@user.country.country_code], APP_CONFIG[:site_host][@user.country.country_code]%> has been found several times</strong>, however because <strong>your profile page is still incomplete</strong>, people viewing your listing have not been able to learn more about what you offer or contact you via your email address.</p>
-<br/>
-<p>Searches featuring your listing: <%=@visits.map{|sub, count| "#{help.pluralize(count, 'person')} have visited our #{sub} page"}.to_sentence%> over the last week.</p>
-<br/>
-<p>To help them learn more about your services and see your email and website links, simply take 10 minutes to complete your profile: <%= link_to "Click here to log-in", @login_link %> and off you go!</p>
-<br/>
-<p>Once logged-in you'll also find helpful tips from us on how to write and great profile and make the most of <%= APP_CONFIG[:site_host][@user.country.country_code].capitalize%> - Remember, it's FREE to have a profile!</p>
-<br/>
+<p>The process is nearly complete, you now just need to create your profile and publish for everyone to find you. Once you're published we'll ...</p>
+<ul>
+<li>Promote you via out social media network of 1000's</li>
+<li>Feature your profile in our next newsletter</li>
+<li>Send you a free copy of 'Seven strategies to help your coaching business FLY!'</li>
+</ul>
+
+<p>The site has already created new business for many other coaches, speakers and trainers, and we're certain it can do the same for you. Here are our top tips ....</p>
+<ul>
+<li>Create a great profile with lots of information - FREE</li>
+<li>Add articles, as many as you like - FREE</li>
+<li>Add a photo and get three times as many visits to your profile - Optional, just $30+gst p.a.</li>
+</ul>
+<p><%= link_to "Click here to log-in", @login_link %> and get started</p>
 <br/>
 <%= render :partial => "signature"  %>
-<br/>
-<p><%= link_to "Thanks, but please don't remind me of this again", @no_reminder_link%> | <%= link_to "I've lost my password", @reset_password_link%></p>

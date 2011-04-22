@@ -270,7 +270,7 @@ class UsersControllerTest < ActionController::TestCase
 
 		post :publish, {}, {:user_id => user.id}
     assert_redirected_to expanded_user_url(user)
-		assert_equal "Your tab #{user.tabs.first.title} has not completed: please enter information or delete the tab", flash[:error]
+		assert_equal "Your tab #{user.tabs.first.title} is incomplete: please enter information or delete the tab", flash[:error]
 
 		user.user_profile.reload
 		assert_nil user.user_profile.published_at

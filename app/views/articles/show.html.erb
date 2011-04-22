@@ -1,6 +1,6 @@
 <% javascript "link"%>
 <%= render :partial => "back_links" %>
-<% page_title("#{@article.title} by #{@article.author.name}")%>
+<% page_title("#{@article.subcategories.first.name} - #{@article.author.region.name} - #{@article.title} by #{@article.author.name}")%>
 <% page_description(@article.lead)%>
 <% page_author(@article.author.try(:name))%>
 <div class='cleaner'></div>
@@ -30,7 +30,7 @@
 <h4>About the author</h4>
 <p><%= white_list @article.about %></p>
 <% end -%>
-<div class="article-contact-calling-area"><%= link_to "Contact #{@article.author.try(:name)}", user_slug_action_url(:host => APP_CONFIG[:site_host][@article.author.country.country_code], :protocol => APP_CONFIG[:logged_site_protocol], :slug => @article.author.slug, :action => "message"), {:id => "article-contact-author-content", :class => "button"}%></div>
+<div class="article-contact-calling-area"><%= link_to "Contact #{@article.author.try(:name)}", user_slug_action_url(:host => site_url(@article.author), :protocol => APP_CONFIG[:logged_site_protocol], :slug => @article.author.slug, :action => "message"), {:id => "article-contact-author-content", :class => "button"}%></div>
 <div class="cleaner"></div>
 <br/>
 <%= render :partial => "articles/share_link" %>

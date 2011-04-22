@@ -12,6 +12,6 @@
 <div>Directory categories: <span class="article-subcategories"><%= link_articles_subcategories(item)%></span></div>
 <% end -%>
 <% if item.respond_to?(:blog_subcategories) && item.blog_subcategories.size > 0-%>
-<div>Blog category: <span class="article-subcategories"><%= item.blog_subcategories[0].try(:full_name)%></span></div>
+<div>Blog categories: <span class="article-subcategories"><%= link_articles_blog_subcategories(item)%></span></div>
 <% end -%>
 </div>

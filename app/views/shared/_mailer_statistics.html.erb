@@ -1,0 +1,51 @@
+<ul>
+	<li><%= pluralize(@signups.size, "signup")%><% unless @signups.size == 0%>:
+			<% @signups.each_with_index do |signup, i| -%>
+			<%= signup.name %><%unless i == @signups.size-1%>, <%end%>
+			<% end -%>
+	<%end%></li>
+	<li><%= pluralize(@published_profiles.size, "published profile")%><%unless @published_profiles.size == 0%>
+		<% @published_profiles.each_with_index do |profile, i| -%>
+		<%= profile.user.name %><%unless i == @published_profiles.size-1%>, <%end%>
+		<%end -%>
+	<%end%></li>
+	<li><%= pluralize(@draft_profiles.size, "profile")%> that are still unpublished<%unless @draft_profiles.size == 0%>
+		<% @draft_profiles.each_with_index do |profile, i| -%>
+		<%= profile.user.name %><%unless i == @draft_profiles.size-1%>, <%end%>
+		<%end -%>
+	<%end%></li>
+	<li><%= pluralize(@pending_payments.size, "payment")%> that were not completed<% unless @pending_payments	.size == 0%>:
+			<ul>
+				<% @pending_payments.each do |payment| -%>
+				<li><%= payment.user.name%> started a payment for <%= help.amount_view(payment.amount)%> on <%= payment.created_at%></li>
+				<% end -%>
+			</ul>
+		<%end%></li>
+	<li><%= pluralize(@payments.size, "payment")%> for a total of <%= help.amount_view(@total_payments)%><% unless @payments.size == 0%>:
+		<ul>
+			<% @payments.each do |payment| -%>
+			<li><%= payment.user.name%> paid <%= help.amount_view(payment.amount)%> on <%= payment.created_at%></li>
+			<% end -%>
+		</ul>
+	<%end%></li>
+	<li><%= pluralize(@published_articles.size, "published article")%><% unless @published_articles.size == 0%>:
+			<% @published_articles.each_with_index do |article, i| -%>
+			<%= link_to article.title, articles_show_url(article.author.slug, article.slug)%><%unless i == @published_articles.size-1%>, <%end%>
+			<% end -%>
+	<%end%></li>
+	<li><%= pluralize(@published_SOs.size, "published trial session")%><% unless @published_SOs.size == 0%>:
+			<% @published_SOs.each_with_index do |offer, i| -%>
+			<%= link_to offer.title, special_offer_url(offer.slug)%><%unless i == @published_SOs.size-1%>, <%end%>
+			<% end -%>
+	<%end%></li>
+	<li><%= pluralize(@published_GVs.size, "published gift voucher")%><% unless @published_GVs.size == 0%>:
+			<% @published_GVs.each_with_index do |voucher, i| -%>
+			<%= link_to voucher.title, gift_voucher_url(voucher.slug)%><%unless i == @published_GVs.size-1%>, <%end%>
+			<% end -%>
+	<%end%></li>
+	<li><%= pluralize(@public_newsletter_signups.size, "public newsletter signup")%><% unless @public_newsletter_signups.size == 0%>:
+			<% @public_newsletter_signups.each_with_index do |contact, i| -%>
+			<%= contact.full_name%><%unless i == @public_newsletter_signups.size-1%>, <%end%>
+			<% end -%>
+	<%end%></li>
+</ul>

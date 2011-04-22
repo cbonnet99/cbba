@@ -21,6 +21,18 @@ class SessionsControllerTest < ActionController::TestCase
     cyrille.reload
     assert !cyrille.free_listing?
   end
+  
+  def test_create_for_unpublished_user
+    unpublished_user = Factory(:user, :password => "foobar")
+    unpublished_profile = Factory(:user_profile, :user => unpublished_user, :state => "draft")
+
+    post :create, :email => unpublished_user.email, :password => "foobar"
+
+    assert_equal "Logged in successfully", flash[:notice]
+    assert_redirected_to expanded_user_url(unpublished_user)
+
+  end
+  
   def test_create
     norma = users(:norma)
     start_call = Time.now

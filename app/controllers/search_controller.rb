@@ -11,11 +11,13 @@ class SearchController < ApplicationController
     @all = @profiles.concat(@articles).concat(@gv).concat(@so)
     @all = @all.sort_by(&:published_at).reverse
   end
+
+  def write
+    get_admins
+  end
   
   def contact
-    @sav = User.find_by_email(APP_CONFIG[:sav]) || $admins.first[:email]
-    @cyrille = User.find_by_email(APP_CONFIG[:cyrille]) || $admins.first[:email]
-    @megan = User.find_by_email(APP_CONFIG[:megan]) || $admins.first[:email]
+    get_admins
   end
 
   def count_show_more_details
@@ -118,6 +120,13 @@ class SearchController < ApplicationController
 
   def tag
     @articles = Article.for_tag(params[:id])
+  end
+
+protected
+  def get_admins
+    @sav = User.find_by_email(APP_CONFIG[:sav]) || $admins.first[:email]
+    @cyrille = User.find_by_email(APP_CONFIG[:cyrille]) || $admins.first[:email]
+    @megan = User.find_by_email(APP_CONFIG[:megan]) || $admins.first[:email]    
   end
 
 end

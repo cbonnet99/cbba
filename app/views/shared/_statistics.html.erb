@@ -35,12 +35,12 @@
 	<%end%></li>
 	<li><%= pluralize(@published_SOs.size, "published trial session")%><% unless @published_SOs.size == 0%>:
 			<% @published_SOs.each_with_index do |offer, i| -%>
-			<%= link_to offer.title, special_offer_url(offer)%><%unless i == @published_SOs.size-1%>, <%end%>
+			<%= link_to offer.title, special_offer_url(offer.slug)%><%unless i == @published_SOs.size-1%>, <%end%>
 			<% end -%>
 	<%end%></li>
 	<li><%= pluralize(@published_GVs.size, "published gift voucher")%><% unless @published_GVs.size == 0%>:
 			<% @published_GVs.each_with_index do |voucher, i| -%>
-			<%= link_to voucher.title, gift_voucher_url(voucher)%><%unless i == @published_GVs.size-1%>, <%end%>
+			<%= link_to voucher.title, gift_voucher_url(voucher.slug)%><%unless i == @published_GVs.size-1%>, <%end%>
 			<% end -%>
 	<%end%></li>
 	<li><%= pluralize(@public_newsletter_signups.size, "public newsletter signup")%><% unless @public_newsletter_signups.size == 0%>:

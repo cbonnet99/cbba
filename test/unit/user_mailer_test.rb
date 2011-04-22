@@ -43,8 +43,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_notify_unpublished
-    actual_mail = UserMailer.create_notify_unpublished(users(:norma), 7.days.ago)
-    assert_match %r{unsubscribe_token}, actual_mail.body
+    actual_mail = UserMailer.create_notify_unpublished(users(:norma))
   end
   
 end

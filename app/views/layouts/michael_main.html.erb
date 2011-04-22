@@ -4,8 +4,8 @@
 <head>
 <meta name="google-site-verification" content="8qbSMvHQkJw2-GlyH8bvxWGcj_m95s1U-bHzgjFumfg" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title><%= @page_title || "#{APP_CONFIG[:site_name]} - #{@country.name} premier site for health, wellbeing and development"%></title>
-<meta name="keywords" content="<%=@page_title || "#{APP_CONFIG[:site_name]} - #{@country.name} premier site for health, wellbeing and development"%>"/>
+<title><%= @page_title || "#{APP_CONFIG[:site_name]} - #{@country.name}'s Premier Coaching Directory and Blog"%></title>
+<meta name="keywords" content="<%= @page_title || "#{APP_CONFIG[:site_name]} - #{@country.name}'s Premier Coaching Directory and Blog"%>"/>
 <meta name="description" content="<%= @page_description || "Looking for well-being professionals in #{@country.name}? Thousands of #{@country.name} well-being companies listed. - Be Amazing - be well. be bold. be you."%>"/>
 <meta name="author" content="<%=@page_author || "Be Amazing"%>"/>
 <meta name="copyright" content="Be Amazing"/>
@@ -15,8 +15,6 @@
 <link rel="home" href="/" title="Home page"/>
 <link rel="Shortcut Icon" type="image/png" href="/images/favicon.png"/>
 <%= stylesheet_link_merged :base_michael  %>
-<%= yield :tinymce %>
-<%= yield :tinymce_init %>
 <%= yield :head %>
 <link rel="stylesheet" href="/stylesheets/print.css" media="print" type="text/css" />
 
@@ -47,7 +45,6 @@
     <li><%= link_to "Home", root_url%></li>
     <li><%= link_to 'About Us', about_url  %></li>
     <li><%= link_to 'Contact Us', contact_url  %></li>
-    <li><%= link_to 'Blog', "http://www.zingabeam.com", :target => "_blank"  %></li>
   </ul>
   <!--Public Navigation Ends -->
   <!--Member Navigation Starts -->
@@ -62,7 +59,7 @@
 		<%else%>
 		 <li><%= link_to "Your profile", current_user.full_member? ? expanded_user_url(current_user) : user_edit_url %></li>
 		<%end%>
-		<li><%= link_to 'Logout', logout_url %></li>
+		<li><%= link_to 'Logout', logout_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
     <%else -%>
 	  <li><%= link_to 'FREE Newsletter', signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
       <li><%= link_to 'Login', new_session_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
@@ -168,7 +165,7 @@
   <hr class="hide noprint"/>
   <!--Footer Starts -->
   <div id="footer">
-    <p class="floatLeft">&copy; Be Amazing Ltd</p>
+    <p class="floatLeft">&copy; Be Amazing Ltd, New Zealand</p>
 	<p class="floatRight">
     <%= link_to "Terms &amp; Conditions", terms_url %> | <%= link_to "Disclaimer", disclaimer_url %> |
 	design :: <a href="http://www.catchgraphics.com/">catch graphics</a></p>
@@ -194,6 +191,8 @@
 <% end -%>
 <%= javascript_include_merged :base %>
 <%= yield :js %>
+<%= yield :tinymce %>
+<%= yield :tinymce_init %>
 <%= javascript_include_tag 'http://platform.twitter.com/widgets.js' %>
 </body>
 </html>

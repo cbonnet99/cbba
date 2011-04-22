@@ -1,7 +1,11 @@
 require 'xero_gateway'
 
 class TaskUtils
-
+  
+  def self.delete_old_user_events(from=6.months.ago)
+    UserEvent.find(:all, :conditions => ["logged_at <= ?", from]).map(&:destroy)
+  end
+  
   def self.change_homepage_featured_resident_experts 
     Country.all.each do |country|   
       User.rotate_featured_resident_experts(country)
@@ -140,10 +144,8 @@ class TaskUtils
   end
 
   def self.notify_unpublished_users
-    User.unpublished.recently_created.notify_unpublished.each do |user|
-      if user.count_visits_since(14.days.ago) >= 8        
-        UserMailer.deliver_notify_unpublished(user, 14.days.ago)
-      end
+    User.unpublished.recently_created.each do |user|
+      UserMailer.deliver_notify_unpublished(user)
     end
     
   end

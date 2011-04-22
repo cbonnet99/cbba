@@ -2,7 +2,19 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
-
+  
+  def test_delete_old_user_events
+    ue_old = Factory(:user_event, :logged_at => 7.months.ago)
+    ue_new = Factory(:user_event, :logged_at => 5.months.ago)
+    old_id = ue_old.id
+    new_id = ue_new.id
+    
+    TaskUtils.delete_old_user_events
+    
+    assert_raise(ActiveRecord::RecordNotFound) {UserEvent.find(old_id)}
+    assert_not_nil UserEvent.find(new_id)
+  end
+  
   def test_change_homepage_featured_quote
     q = Factory(:quote)
     TaskUtils.change_homepage_featured_quote
@@ -249,28 +261,15 @@ class TaskUtilsTest < ActiveSupport::TestCase
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
-    sub = Factory(:subcategory)
-    user = Factory(:user, :subcategory1_id => sub.id, :notify_unpublished => true)
-    user_event = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event2 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event3 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event4 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event5 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event6 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    user_event7 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
+    unpublished_user = Factory(:user)
+    unpublished_profile = Factory(:user_profile, :user => unpublished_user, :state => "draft")
     
     TaskUtils.notify_unpublished_users
 
-    assert_equal 0, ActionMailer::Base.deliveries.size
-    
-    user_event8 = Factory(:user_event, :event_type => UserEvent::VISIT_SUBCATEGORY, :subcategory_id => sub.id, :logged_at => 3.days.ago)
-    
-    TaskUtils.notify_unpublished_users
-    
     assert_equal 1, ActionMailer::Base.deliveries.size
+        
     new_email = ActionMailer::Base.deliveries.first
-    assert_equal [user.email], new_email.to
-    assert_match %r{8 people have visited our #{sub.name} page}, new_email.body
+    assert_equal [unpublished_user.email], new_email.to
   end
 
   def test_check_pending_payments

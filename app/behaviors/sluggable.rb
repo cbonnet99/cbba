@@ -17,7 +17,7 @@ module Sluggable
     end
     
     def set_country
-      if respond_to?(:author) && respond_to?(:country_id)
+      if respond_to?(:author) && respond_to?(:country_id) && self.country_id.blank?
         self.country_id = self.author.country_id
       end
     end

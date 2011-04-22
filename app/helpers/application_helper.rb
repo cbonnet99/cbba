@@ -1,5 +1,33 @@
 module ApplicationHelper
 
+  def site_url_for_country_code(country_code)
+    APP_CONFIG[:site_host][country_code]
+  end
+  
+  def site_name_for_country_code(country_code)
+    site_name = site_url_for_country_code(country_code)
+    if site_name.start_with?("www.")
+      site_name = site_name[4..-1]
+    end
+    return site_name
+  end
+  
+  def site_url(user)
+    APP_CONFIG[:site_host][user.country.country_code]
+  end
+  
+  def site_name(user)
+    site_name = site_url(user)
+    if site_name.start_with?("www.")
+      site_name = site_name[4..-1]
+    end
+    return site_name
+  end
+  
+  def bot_agent?
+      request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/bot/i]
+  end
+  
   def in_staging
     ENV["RAILS_ENV"] == "staging"
   end
@@ -51,7 +79,7 @@ module ApplicationHelper
   end
 
   def log_bam_user_event(name, destination_url = nil, extra_data = nil, options = {})
-    unless request.env["HTTP_USER_AGENT"] =~ /bot/
+    unless bot_agent?
       browser = "Browser could not be found"
       unless request.nil? || request.env.nil? || request.env["HTTP_USER_AGENT"].nil?
         browser = request.env["HTTP_USER_AGENT"][0..254]
@@ -62,6 +90,10 @@ module ApplicationHelper
 
   def link_articles_subcategories(article)
     article.subcategories.map{|s| link_to s.name, articles_for_subcategory_url(s.slug)}.to_sentence
+  end
+
+  def link_articles_blog_subcategories(article)
+    article.blog_subcategories.map{|s| link_to s.name, articles_for_blog_subcategory_url(s.slug)}.to_sentence
   end
 
   def first_sentence(text)
@@ -182,36 +214,37 @@ module ApplicationHelper
   end
 
   def tinymce_url(filename="tiny_mce/tiny_mce")
-    javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{APP_CONFIG[:site_host][@country.country_code]}/javascripts/#{filename}"
+    #had to specify a non-asset path to prevent caching bug: see http://blog.p.latyp.us/2008/04/tinymce-and-using-rails-asset-hosts.html
+    javascript_include_tag "#{APP_CONFIG[:logged_site_protocol]}://#{site_url_for_country_code(@country.country_code)}/javascripts/#{filename}"
   end
   
   def preload_tinymce
     @content_for_tinymce = ""
     content_for :tinymce do
-      #had to specify a non-asset path to prevent caching bug: see http://blog.p.latyp.us/2008/04/tinymce-and-using-rails-asset-hosts.html
-      tinymce_url
+      tinymce_url("tiny_mce/jquery.tinymce")
+      tinymce_url("tiny_mce/tiny_mce")
     end
   end
 
   def use_tinymce(heading=true)
     @content_for_tinymce = ""
     content_for :tinymce do
-      #had to specify a non-asset path to prevent caching bug: see http://blog.p.latyp.us/2008/04/tinymce-and-using-rails-asset-hosts.html
-      tinymce_url
+      tinymce_url("tiny_mce/jquery.tinymce")
+      tinymce_url("tiny_mce/tiny_mce_src.js?1234")
     end
     @content_for_tinymce_init = ""
     if logged_in? && current_user.admin?
       content_for :tinymce_init do
-        tinymce_url("mce_editor_admin1")
+        tinymce_url("mce_editor_admin2")
       end
     else
       if heading
         content_for :tinymce_init do
-          tinymce_url("mce_editor2")
+          tinymce_url("mce_editor3")
         end
       else
         content_for :tinymce_init do
-          tinymce_url("mce_editor_noheading")
+          tinymce_url("mce_editor_noheading1")
         end
       end        
     end
@@ -242,7 +275,7 @@ module ApplicationHelper
   end
 
   def expanded_user_url(user, options={})
-    options.merge!(:host => APP_CONFIG[:site_host][user.country.country_code], :main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
+    options.merge!(:host => site_name(user), :main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
     if options.include?(:selected_tab_id) && !options[:selected_tab_id].blank?
       user_tabs_url(options)
     else
@@ -444,7 +477,7 @@ module ApplicationHelper
   end
 
   def page_title(str)
-    @page_title = "#{APP_CONFIG[:site_name]} - #{str}"
+    @page_title = str
   end
   
   def page_description(str)

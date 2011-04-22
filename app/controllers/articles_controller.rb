@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
   
-  before_filter :login_required, :except => [:index, :show, :index_for_subcategory]
+  before_filter :login_required, :except => [:index, :show, :index_for_subcategory, :index_for_blog_subcategory ]
   before_filter :get_context, :except => :index 
 	after_filter :store_location, :only => [:show]
 
@@ -11,6 +11,16 @@ class ArticlesController < ApplicationController
       @articles = Article.find_all_by_subcategories_and_country_code(@country.country_code, @subcategory)
     else
       @articles = Article.find_all_by_subcategories(@subcategory)
+    end    
+  end
+
+  def index_for_blog_subcategory
+    @blog_subcategory = BlogSubcategory.find_by_slug(params[:subcategory_slug])
+    @blog_subcategory = BlogSubcategory.first if @blog_subcategory.nil?
+    if params[:only_show_own] == "true"
+      @articles = Article.find_all_by_blog_subcategories_and_country_code(@country.country_code, @blog_subcategory)
+    else
+      @articles = Article.find_all_by_blog_subcategories(@blog_subcategory)
     end    
   end
 
@@ -72,7 +82,9 @@ class ArticlesController < ApplicationController
         flash[:error]="Sorry, this article could not be found"
         redirect_with_context(articles_url, @selected_user) 
       else
-        @article.update_attributes(:view_counts  => @article.view_counts+1, :monthly_view_counts  => @article.monthly_view_counts+1)
+        unless bot_agent?
+          @article.update_counters
+        end
         @articles = @article.last_articles_for_main_subcategory
       end      
     end
