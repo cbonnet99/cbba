@@ -29,6 +29,10 @@ GEM
       activesupport (= 2.3.8)
     activesupport (2.3.8)
     archive-tar-minitar (0.5.2)
+    aws-s3 (0.6.2)
+      builder
+      mime-types
+      xml-simple
     braintree (2.9.1)
       builder
     builder (3.0.0)
@@ -41,6 +45,7 @@ GEM
     hoe (2.9.4)
       rake (>= 0.8.7)
     libxml-ruby (1.1.4)
+    mime-types (1.16)
     newrelic_rpm (2.14.1)
     pdf-writer (1.1.8)
       color (>= 1.4.0)
@@ -62,12 +67,14 @@ GEM
       aaronh-chronic (>= 0.3.9)
       activesupport (>= 2.3.4)
     will_paginate (2.3.15)
+    xml-simple (1.0.12)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activemerchant!
+  aws-s3
   color (= 1.4.0)
   factory_girl
   graticule (= 0.2.8)
