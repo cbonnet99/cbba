@@ -275,7 +275,7 @@ module ApplicationHelper
   end
 
   def expanded_user_url(user, options={})
-    options.merge!(:host => site_name(user), :main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
+    options.merge!(:host => site_url(user), :main_expertise_slug => user.main_expertise_slug, :region => user.region.slug, :name => user.slug)
     if options.include?(:selected_tab_id) && !options[:selected_tab_id].blank?
       user_tabs_url(options)
     else
