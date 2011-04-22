@@ -205,8 +205,7 @@ class ImportUtils
 						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing",
             :latitude => latitude, :longitude => longitude, :website => website
             )
-					user.register!
-					user.activate!
+					user.save!
           # #publish profile
           user.user_profile.publish!
           user.member_until = member_until

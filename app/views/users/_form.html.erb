@@ -1,6 +1,6 @@
   <%= f.error_messages :header_message => "Please try again", :message => "Your registration could not be completed" %>
-  <%= render :partial => "/users/form_essential" %>
-  <%= render :partial => "/users/form_optional" %>
+  <%= render :partial => "/users/form_essential", :locals => {:f => f, :sign_up => sign_up }  %>
+  <%= render :partial => "/users/form_optional", :locals => {:f => f, :sign_up => sign_up} %>
   <p class="register-actions register-actions-active">
     <%= submit_tag "Next >", :class => "button submit" %>
 	<%= link_to "Cancel", root_url, :class => "anchor-button cancel" %>

@@ -279,7 +279,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
       logout_keeping_session!
-      @user.register! if @user && @user.valid?
+      @user.save! if @user && @user.valid?
       success = @user && @user.valid?
       if success && @user.errors.empty?
           @user.activate!

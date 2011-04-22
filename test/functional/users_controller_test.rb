@@ -162,13 +162,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to root_url
   end
 
-  def test_more_about_free_listing
-    get :more_about_free_listing
-    assert_response :success
-    #just to check that the HTML is valid
-    assert_select "div"
-  end
-
   def test_stats
     get :stats, {}, {:user_id => users(:cyrille).id }
     assert_response :success
@@ -213,7 +206,7 @@ class UsersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     get :edit, {}, {:user_id => cyrille.id }
     assert_response :success
-    assert_select "select#user_subcategory1_id", :count => 0 
+    assert_select "select#user_subcategory1_id", :count => 0
   end
 
   def test_new

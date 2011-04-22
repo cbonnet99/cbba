@@ -643,8 +643,7 @@ class TaskUtils
           :password => "monkey", :password_confirmation => "monkey",
           :receive_newsletter => false, :district_id => default_district.nil? ? nil : default_district.id  )
         if user && user.valid?
-          user.register!
-          user.activate!
+          user.save!
           user.add_role("admin")
         else
           puts "Could not create user #{admin[:email]}, because of errors:"

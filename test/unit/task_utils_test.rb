@@ -870,9 +870,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
         :region_id => canterbury.id, :email => "joe@test.com",
         :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
         :password => "blablabla", :password_confirmation => "blablabla" )
-      user.register!
+      user.save!
 
-      user.activate!
       user.subcategories_users.reload
       assert_equal 1, user.subcategories_users.size
       assert_equal old_user_size+1, User.all.size
@@ -926,9 +925,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
         :region_id => canterbury.id, :email => "joe@test.com",
         :membership_type => "full_member", :professional => true, :subcategory1_id => subcategories(:hypnotherapy).id,
         :password => "blablabla", :password_confirmation => "blablabla" )
-      user.register!
+      user.save!
 
-      user.activate!
       user.categories_users.reload
       assert_equal 1, user.categories_users.size
       assert_equal old_user_size+1, User.all.size

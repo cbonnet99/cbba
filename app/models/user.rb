@@ -3,16 +3,26 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   extend ActiveSupport::Memoizable
+  include AASM
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
-  include Authorization::AasmRoles
   include ContactSystem
-	include SubcategoriesSystem
+  include SubcategoriesSystem
   include MultiAfterFindSystem
   include Sluggable
   
+  aasm_column :state
+  
+  aasm_initial_state :initial => :unconfirmed
+
+  aasm_state :unconfirmed
+  aasm_state :active
   aasm_state :inactive
+  
+  aasm_event :confirm do
+    transitions :from => :unconfirmed, :to => :active
+  end
   
   aasm_event :deactivate do
     transitions :from => :active, :to => :inactive, :on_transition => :"unpublish!"
@@ -110,7 +120,7 @@ class User < ActiveRecord::Base
 	before_validation :assemble_phone_numbers, :trim_stuff
   before_create :create_geocodes, :get_region_from_district, :get_membership_type, :set_country
   before_update :update_geocodes, :get_region_from_district, :get_membership_type
-  after_create :create_profile, :add_tabs
+  after_create :create_profile, :add_tabs, :generate_confirmation_token
   before_validation :downcase_subdomain  
 
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status, :homepage_featured, :homepage_featured_resident
@@ -127,6 +137,10 @@ class User < ActiveRecord::Base
   FEATURE_GV = "gift voucher"
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
+  
+  def generate_confirmation_token
+    self.update_attribute(:confirmation_token, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))
+  end
   
   def self.resident_experts(country)
     User.find(:all, :conditions => ["is_resident_expert is true and country_id = ?", country.id])
@@ -732,38 +746,38 @@ class User < ActiveRecord::Base
     end
   end
 
-  def method_missing(method_id, *arguments)
-    if method_id.to_s =~ /find_([_a-zA-Z]*)/
-      plural_objs_sym = $1.pluralize.to_sym
-      if self.respond_to?(plural_objs_sym)
-        id = arguments[0]
-        if self.admin?
-          Object.const_get($1.classify).find(id)
-        else
-          self.send(plural_objs_sym).find(id)
-        end
-      else    
-        if method_id.to_s =~ /find_([_a-zA-Z]*)_for_user/
-          plural_objs_sym = $1.pluralize.to_sym
-          if self.respond_to?(plural_objs_sym)
-            slug = arguments[0]
-            current_user = arguments[1]
-            if current_user == self
-              self.send(plural_objs_sym).find_by_slug(slug)
-            else
-              if !current_user.nil? && current_user.admin?
-                Object.const_get($1.classify).find_by_author_id_and_slug(self.id, slug)
-              else
-                self.send(plural_objs_sym).find_by_state_and_slug("published", slug)
-              end
-            end
-          end
-        end
-      end
-    else
-      super
-    end
-  end
+  # def method_missing(method_id, *arguments)
+  #   if method_id.to_s =~ /find_([_a-zA-Z]*)/
+  #     plural_objs_sym = $1.pluralize.to_sym
+  #     if self.respond_to?(plural_objs_sym)
+  #       id = arguments[0]
+  #       if self.admin?
+  #         Object.const_get($1.classify).find(id)
+  #       else
+  #         self.send(plural_objs_sym).find(id)
+  #       end
+  #     else    
+  #       if method_id.to_s =~ /find_([_a-zA-Z]*)_for_user/
+  #         plural_objs_sym = $1.pluralize.to_sym
+  #         if self.respond_to?(plural_objs_sym)
+  #           slug = arguments[0]
+  #           current_user = arguments[1]
+  #           if current_user == self
+  #             self.send(plural_objs_sym).find_by_slug(slug)
+  #           else
+  #             if !current_user.nil? && current_user.admin?
+  #               Object.const_get($1.classify).find_by_author_id_and_slug(self.id, slug)
+  #             else
+  #               self.send(plural_objs_sym).find_by_state_and_slug("published", slug)
+  #             end
+  #           end
+  #         end
+  #       end
+  #     end
+  #   else
+  #     super
+  #   end
+  # end
 
   def geocoded?
     !latitude.blank? && !longitude.blank?
