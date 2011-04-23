@@ -21,7 +21,7 @@
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @article} %>
 <hr/>
 <span class="share-link"><%= render :partial => "search/share_link", :locals => {:url => stuff_url(@article)} %></span>
-<%= render :partial => "articles/facebook_comment", :locals => {:article => @article}  %><p>
+<p>
 <%= white_list @article.lead %>
 <br/>
 <%= white_list @article.body %>
