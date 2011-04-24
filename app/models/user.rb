@@ -118,9 +118,9 @@ class User < ActiveRecord::Base
   
   # #around filters
 	before_validation :assemble_phone_numbers, :trim_stuff
-  before_create :create_geocodes, :get_region_from_district, :get_membership_type, :set_country
-  before_update :update_geocodes, :get_region_from_district, :get_membership_type
-  after_create :create_profile, :add_tabs, :generate_confirmation_token
+  before_create :get_region_from_district, :get_membership_type, :set_country
+  before_update :get_region_from_district, :get_membership_type
+  after_create :create_profile, :add_tabs, :generate_activation_code
   before_validation :downcase_subdomain  
 
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status, :homepage_featured, :homepage_featured_resident
@@ -138,8 +138,8 @@ class User < ActiveRecord::Base
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
   
-  def generate_confirmation_token
-    self.update_attribute(:confirmation_token, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))
+  def generate_activation_code
+    self.update_attribute(:activation_code, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))
   end
   
   def self.resident_experts(country)
@@ -931,9 +931,8 @@ class User < ActiveRecord::Base
   #     subcategory3_position = self.subcategories_users[2].position
   #     @old_positions[old_subcategory3_id] = subcategory3_position
   #   end
-  # 
   # end
-
+  # 
   def save_subcategories
     self.subcategories = []
     self.categories = []

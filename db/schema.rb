@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110422070936) do
+ActiveRecord::Schema.define(:version => 20110331140834) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -696,7 +696,6 @@ ActiveRecord::Schema.define(:version => 20110422070936) do
     t.string   "resident_expertise_description"
     t.boolean  "homepage_featured_resident"
     t.datetime "last_homepage_featured_resident_at"
-    t.string   "confirmation_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

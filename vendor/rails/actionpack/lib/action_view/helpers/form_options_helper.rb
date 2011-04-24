@@ -236,6 +236,7 @@ module ActionView
         options_for_select = container.inject([]) do |options, element|
           text, value = option_text_and_value(element)
           selected_attribute = ' selected="selected"' if option_value_selected?(value, selected)
+          puts "++++++ FOUND!" if option_value_selected?(value, selected)
           disabled_attribute = ' disabled="disabled"' if disabled && option_value_selected?(value, disabled)
           options << %(<option value="#{html_escape(value.to_s)}"#{selected_attribute}#{disabled_attribute}>#{html_escape(text.to_s)}</option>)
         end
@@ -440,8 +441,12 @@ module ActionView
 
         def option_value_selected?(value, selected)
           if selected.respond_to?(:include?) && !selected.is_a?(String)
+            debugger
             selected.include? value
           else
+            puts "====== value: #{value} [#{value.class}]"
+            puts "=== selected: #{selected} [#{selected.class}]"
+            puts "===    EQUAL: #{value == selected}"
             value == selected
           end
         end
@@ -480,7 +485,7 @@ module ActionView
       def to_collection_select_tag(collection, value_method, text_method, options, html_options)
         html_options = html_options.stringify_keys
         add_default_name_and_id(html_options)
-        value = value(object)
+        value = value(object)        
         disabled_value = options.has_key?(:disabled) ? options[:disabled] : nil
         selected_value = options.has_key?(:selected) ? options[:selected] : value
         content_tag(

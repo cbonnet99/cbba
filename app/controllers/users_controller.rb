@@ -244,13 +244,11 @@ class UsersController < ApplicationController
 
 	def update
     @user = current_user
-    params[:user].delete("password")
-    params[:user].delete("password_confirmation")
 		if @user.update_attributes(params[:user])
-      redirect_to expanded_user_url(@user)
       @user.region_name(:reload)
       @user.main_expertise_name(:reload)
       flash[:notice] = "Your details have been updated"
+      redirect_to expanded_user_url(@user)
     else
 			get_districts_and_subcategories(current_user.country_id || @country.id)
       flash.now[:error]  = "There were some errors in your details."
@@ -269,22 +267,23 @@ class UsersController < ApplicationController
   end
 
   def update_optional
-    if verify_human
+    @user = current_user
+		if @user.update_attributes(params[:user])
+      @user.main_expertise_name(:reload)
+      flash[:notice] = "Your details have been updated"
+      redirect_to expanded_user_url(@user)
     else
       flash[:error] = "There was a problem with the words you entered with the security check."
-      render :action => 'new_optional'
+      render :action => 'edit_optional'
     end
   end
  
   def create
     @user = User.new(params[:user])
       logout_keeping_session!
-      @user.save! if @user && @user.valid?
-      success = @user && @user.valid?
-      if success && @user.errors.empty?
-          @user.activate!
+      if @user.save
           session[:user_id] = @user.id
-          redirect_to :controller => "users", :action => "new_optional"
+          redirect_to :controller => "users", :action => "edit_optional"
       else
         get_districts_and_subcategories(@user.country_id || @country.id)
         flash.now[:error]  = "There were some errors in your signup information."
@@ -292,20 +291,21 @@ class UsersController < ApplicationController
       end
   end
 
-  def activate
+  def confirm
     logout_keeping_session!
     user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
     case
-    when !params[:activation_code].blank? && user && !user.active?
-      user.activate!
-      flash[:notice] = "Signup complete! Please sign in to continue."
-      redirect_to  login_url
+    when !params[:activation_code].blank? && user && user.unconfirmed?
+      user.confirm!
+      session[:user_id] = user.id
+      flash[:notice] = "Welcome to #{site_name}"
+      redirect_to user_home_url
     when params[:activation_code].blank?
-      flash[:error] = "The activation code was missing.  Please follow the URL from your email."
-      redirect_to expanded_user_url(@user)
+      flash[:error] = "Your confirmation code was missing.  Please follow the URL from your email."
+      redirect_to root_url
     else 
-      flash[:error]  = "We couldn't find a user with that activation code -- check your email? Or maybe you've already activated -- try signing in."
-      redirect_to expanded_user_url(@user)
+      flash[:error]  = "We couldn't find a user with that confirmation code -- check your email? Or maybe you've already activated -- try signing in."
+      redirect_to login_url
     end
   end
 end

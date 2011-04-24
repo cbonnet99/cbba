@@ -24,7 +24,7 @@
     </li>
     <%end -%>
     <li>
-      <%= f.label :subcategory1_id, 'Your main expertise<span class="mandatoryStar">*</span>:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true}  %><br/>
+      <%= f.label :subcategory1_id, 'Your main expertise<span class="mandatoryStar">*</span>:' %><%= f.select :subcategory1_id, @subcategories, {:prompt => "- Please select -", :include_blank => true, :selected => @user.subcategory1_id.try(:to_i) }  %><br/>
     </li>
     <li>
       <%= f.label :country_id, "Your country:<span class='mandatoryStar'>*</span>" %>
