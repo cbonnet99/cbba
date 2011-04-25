@@ -1,6 +1,7 @@
 <%= f.error_messages :header_message => "Please try again", :message => "Your registration could not be completed" %>
   <%= f.hidden_field :membership_type%>
   <ol>
+    <% if sign_up -%>
     <li>
       <label>If you wish, select 2 other categories you would like to be listed in:</label>
     </li>
@@ -10,6 +11,7 @@
     <li>
       <%= f.label :subcategory3_id, 'Category3:' %><%= f.select :subcategory3_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %><br/>
     </li>
+	<% end -%>
     <li>
       <%= f.label :business_name, "Business name" %>
       <%= f.text_field :business_name  %>

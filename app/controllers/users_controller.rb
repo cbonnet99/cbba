@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include ApplicationHelper
   
   before_filter :full_member_required, :only => [:articles]
-  before_filter :login_required, :except => [:unsubscribe_unpublished_reminder, :unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
+  before_filter :login_required, :except => [:confirm, :unsubscribe_unpublished_reminder, :unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
   
   def reactivate
@@ -263,6 +263,7 @@ class UsersController < ApplicationController
   end
 
   def edit_optional
+    @user = current_user
 		get_districts_and_subcategories(current_user.country_id || @country.id)
   end
 
@@ -279,7 +280,7 @@ class UsersController < ApplicationController
   end
  
   def create
-    @user = User.new(params[:user])
+    @user = User.new(params[:user].merge(:membership_type => "full_member"))
       logout_keeping_session!
       if @user.save
           session[:user_id] = @user.id
@@ -298,7 +299,7 @@ class UsersController < ApplicationController
     when !params[:activation_code].blank? && user && user.unconfirmed?
       user.confirm!
       session[:user_id] = user.id
-      flash[:notice] = "Welcome to #{site_name}"
+      flash[:notice] = "Your profile has been confirmed"
       redirect_to user_home_url
     when params[:activation_code].blank?
       flash[:error] = "Your confirmation code was missing.  Please follow the URL from your email."

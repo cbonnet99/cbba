@@ -120,7 +120,7 @@ class User < ActiveRecord::Base
 	before_validation :assemble_phone_numbers, :trim_stuff
   before_create :get_region_from_district, :get_membership_type, :set_country
   before_update :get_region_from_district, :get_membership_type
-  after_create :create_profile, :add_tabs, :generate_activation_code
+  after_create :create_profile, :add_tabs, :generate_activation_code, :send_confirmation_email
   before_validation :downcase_subdomain  
 
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status, :homepage_featured, :homepage_featured_resident
@@ -137,6 +137,10 @@ class User < ActiveRecord::Base
   FEATURE_GV = "gift voucher"
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
+  
+  def send_confirmation_email
+    UserMailer.deliver_new_user_confirmation_email(self)
+  end
   
   def generate_activation_code
     self.update_attribute(:activation_code, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))
@@ -746,38 +750,38 @@ class User < ActiveRecord::Base
     end
   end
 
-  # def method_missing(method_id, *arguments)
-  #   if method_id.to_s =~ /find_([_a-zA-Z]*)/
-  #     plural_objs_sym = $1.pluralize.to_sym
-  #     if self.respond_to?(plural_objs_sym)
-  #       id = arguments[0]
-  #       if self.admin?
-  #         Object.const_get($1.classify).find(id)
-  #       else
-  #         self.send(plural_objs_sym).find(id)
-  #       end
-  #     else    
-  #       if method_id.to_s =~ /find_([_a-zA-Z]*)_for_user/
-  #         plural_objs_sym = $1.pluralize.to_sym
-  #         if self.respond_to?(plural_objs_sym)
-  #           slug = arguments[0]
-  #           current_user = arguments[1]
-  #           if current_user == self
-  #             self.send(plural_objs_sym).find_by_slug(slug)
-  #           else
-  #             if !current_user.nil? && current_user.admin?
-  #               Object.const_get($1.classify).find_by_author_id_and_slug(self.id, slug)
-  #             else
-  #               self.send(plural_objs_sym).find_by_state_and_slug("published", slug)
-  #             end
-  #           end
-  #         end
-  #       end
-  #     end
-  #   else
-  #     super
-  #   end
-  # end
+  def method_missing(method_id, *arguments)
+    if method_id.to_s =~ /find_([_a-zA-Z]*)/
+      plural_objs_sym = $1.pluralize.to_sym
+      if self.respond_to?(plural_objs_sym)
+        id = arguments[0]
+        if self.admin?
+          Object.const_get($1.classify).find(id)
+        else
+          self.send(plural_objs_sym).find(id)
+        end
+      else    
+        if method_id.to_s =~ /find_([_a-zA-Z]*)_for_user/
+          plural_objs_sym = $1.pluralize.to_sym
+          if self.respond_to?(plural_objs_sym)
+            slug = arguments[0]
+            current_user = arguments[1]
+            if current_user == self
+              self.send(plural_objs_sym).find_by_slug(slug)
+            else
+              if !current_user.nil? && current_user.admin?
+                Object.const_get($1.classify).find_by_author_id_and_slug(self.id, slug)
+              else
+                self.send(plural_objs_sym).find_by_state_and_slug("published", slug)
+              end
+            end
+          end
+        end
+      end
+    else
+      super
+    end
+  end
 
   def geocoded?
     !latitude.blank? && !longitude.blank?
@@ -899,40 +903,40 @@ class User < ActiveRecord::Base
     str << email
   end
 
-  # def after_find
-  #   @old_positions = {}
-  #   if self.subcategories_users[0].nil?
-  #     self.subcategory1_id = nil
-  #     old_subcategory1_id = nil
-  #     subcategory1_position = nil
-  #   else
-  #     self.subcategory1_id = self.subcategories_users[0].subcategory_id
-  #     old_subcategory1_id = self.subcategories_users[0].subcategory_id
-  #     subcategory1_position = self.subcategories_users[0].position
-  #     @old_positions[old_subcategory1_id] = subcategory1_position
-  #   end
-  #   if self.subcategories_users[1].nil?
-  #     self.subcategory2_id = nil
-  #     old_subcategory2_id = nil
-  #     subcategory2_position = nil
-  #   else
-  #     self.subcategory2_id = self.subcategories_users[1].subcategory_id
-  #     old_subcategory2_id = self.subcategories_users[1].subcategory_id
-  #     subcategory2_position = self.subcategories_users[1].position
-  #     @old_positions[old_subcategory2_id] = subcategory2_position
-  #   end
-  #   if self.subcategories_users[2].nil?
-  #     self.subcategory3_id = nil
-  #     old_subcategory3_id = nil
-  #     subcategory3_position = nil
-  #   else
-  #     self.subcategory3_id = self.subcategories_users[2].subcategory_id
-  #     old_subcategory3_id = self.subcategories_users[2].subcategory_id
-  #     subcategory3_position = self.subcategories_users[2].position
-  #     @old_positions[old_subcategory3_id] = subcategory3_position
-  #   end
-  # end
-  # 
+  def after_find
+    @old_positions = {}
+    if self.subcategories_users[0].nil?
+      self.subcategory1_id = nil
+      old_subcategory1_id = nil
+      subcategory1_position = nil
+    else
+      self.subcategory1_id = self.subcategories_users[0].subcategory_id
+      old_subcategory1_id = self.subcategories_users[0].subcategory_id
+      subcategory1_position = self.subcategories_users[0].position
+      @old_positions[old_subcategory1_id] = subcategory1_position
+    end
+    if self.subcategories_users[1].nil?
+      self.subcategory2_id = nil
+      old_subcategory2_id = nil
+      subcategory2_position = nil
+    else
+      self.subcategory2_id = self.subcategories_users[1].subcategory_id
+      old_subcategory2_id = self.subcategories_users[1].subcategory_id
+      subcategory2_position = self.subcategories_users[1].position
+      @old_positions[old_subcategory2_id] = subcategory2_position
+    end
+    if self.subcategories_users[2].nil?
+      self.subcategory3_id = nil
+      old_subcategory3_id = nil
+      subcategory3_position = nil
+    else
+      self.subcategory3_id = self.subcategories_users[2].subcategory_id
+      old_subcategory3_id = self.subcategories_users[2].subcategory_id
+      subcategory3_position = self.subcategories_users[2].position
+      @old_positions[old_subcategory3_id] = subcategory3_position
+    end
+  end
+  
   def save_subcategories
     self.subcategories = []
     self.categories = []

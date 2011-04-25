@@ -225,7 +225,7 @@ class Payment < ActiveRecord::Base
       
     end
     user.save!
-    user.activate! unless user.active?
+    user.confirm! unless user.active?
   end
 
   def total

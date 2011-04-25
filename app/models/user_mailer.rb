@@ -26,6 +26,14 @@ class UserMailer < ActionMailer::Base
     @body[:published_GVs] = GiftVoucher.find(:all, :conditions => {:published_at => @start_date..@end_date } )
     @body[:public_newsletter_signups] = Contact.find(:all, :conditions => {:created_at => @start_date..@end_date })
   end
+  
+  def new_user_confirmation_email(user)
+    setup_email(user)
+    @subject = "Welcome to #{help.site_name(user)}"
+    @content_type = 'text/html'
+    @body[:site_name] = help.site_name(user)
+  end
+  
   def congrats_first_article(user)
     setup_email(user)
     @subject = "Your first article on BeAmazing!"
