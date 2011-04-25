@@ -58,7 +58,7 @@ ActionController::Routing::Routes.draw do |map|
   map.origins '/origins', :controller => "search", :action => "origins"  
   map.disclaimer '/disclaimer', :controller => "search", :action => "disclaimer"  
   map.terms '/terms', :controller => "search", :action => "terms"  
-  map.write '/write', :controller => "search", :action => "writearticles_for_subcategory_url"  
+  map.write '/write', :controller => "search", :action => "write"  
   map.search '/search/what/:what/where/:where', :controller => "search", :action => "search"
   map.search_what '/search/what/:what', :controller => "search", :action => "search"
   map.search_where '/search/where/:where', :controller => "search", :action => "search"

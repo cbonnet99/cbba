@@ -21,5 +21,5 @@
     <li><%= link_to "Become a member", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" ) %></li>
     <li>Meet out <%= link_to "Full Members", :controller => "full_members", :action => "index"%>   &amp; <%= link_to "Resident Experts", :controller => "resident_experts", :action => "index"%></li>
     <li><%= link_to "Sign-up for our public newsletter", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol])%></li>
+	<li><%= link_to "Write to us", write_url %></li>
 </ul>
-<%= link_to "Write to us", write_url %>
