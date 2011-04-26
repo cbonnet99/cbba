@@ -70,14 +70,6 @@ class SearchController < ApplicationController
 		end
   end
 
-  def map
-    @map = GMap.new("map_div_id")
-    @map.control_init(:large_map => true, :map_type => true)
-    @map.center_zoom_init([Region::DEFAULT_NZ_LATITUDE,Region::DEFAULT_NZ_LONGITUDE], 5)
-    User.map_geocoded(@map)
-
-  end
-
 	def index
 	  @context = "homepage"
     @newest_articles = Article.all_newest_articles

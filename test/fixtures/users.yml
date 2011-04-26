@@ -160,64 +160,6 @@ rmoore:
   country:                   nz
   published_articles_count:  1
   
-pending_user:
-  first_name:                Pending
-  last_name:                 User
-  business_name:             Pending Inc
-  email:                     pending@gmail.com
-  salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
-  crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
-  created_at:                <%= 5.days.ago.to_s :db  %>
-  remember_token_expires_at: <%= 1.days.from_now.to_s %>
-  remember_token:            77de68daecd823babbb58edb1c8e14d7106e83bb
-  activation_code:
-  activated_at:              <%= 5.days.ago.to_s :db %>
-  state:                     pending
-  district:                  wellington_wellington_city
-  region:                    wellington
-  professional:              true
-  free_listing:              false
-  phone:                     (06)3086130
-  slug:                      pending-user
-  country:                   nz
-suspended_user1:
-  first_name:                Suspended
-  last_name:                 User1
-  business_name:             Suspended
-  email:                     suspended1@gmail.com
-  salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
-  crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
-  created_at:                <%= 5.days.ago.to_s :db  %>
-  activated_at:              <%= 5.days.ago.to_s :db %>
-  state:                     pending
-  district:                  wellington_wellington_city
-  region:                    wellington
-  professional:              true
-  free_listing:              false
-  phone:                     (06)3086130
-  member_since:              <%= 1.year.ago.to_s :db %>
-  member_until:              <%= 1.week.ago.to_s :db %>
-  slug:                      suspended1
-  country:                   nz
-suspended_user2:
-  first_name:                Suspended
-  last_name:                 User2
-  business_name:             Suspended
-  email:                     suspended2@gmail.com
-  salt:                      356a192b7913b04c54574d18c28d46e6395428ab # SHA1('0')
-  crypted_password:          261fd559c11e3931bd9f87fe8babb4ee8b196c56 # 'monkey'
-  created_at:                <%= 5.days.ago.to_s :db  %>
-  activated_at:              <%= 5.days.ago.to_s :db %>
-  state:                     pending
-  district:                  wellington_wellington_city
-  region:                    wellington
-  professional:              true
-  free_listing:              false
-  phone:                     (06)3086130
-  member_since:              <%= 1.year.ago.to_s :db %>
-  member_until:              <%= 2.weeks.ago.to_s :db %>
-  slug:                      suspended2
-  country:                   nz
 resident_expert_user:
   first_name:                Resident
   last_name:                 User

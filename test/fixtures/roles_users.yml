@@ -30,15 +30,6 @@ norma_reviewer:
 norma_full_member:
   user: norma
   role: full_member_role
-pending_user_full_member:
-  user: pending_user
-  role: full_member_role
-suspended_user1_full_member:
-  user: suspended_user1
-  role: full_member_role
-suspended_user2_full_member:
-  user: suspended_user2
-  role: full_member_role
 resident_expert_user_resident_expert:
   user: resident_expert_user
   role: resident_expert_role

@@ -696,7 +696,6 @@ ActiveRecord::Schema.define(:version => 20110424194907) do
     t.string   "resident_expertise_description"
     t.boolean  "homepage_featured_resident"
     t.datetime "last_homepage_featured_resident_at"
-    t.string   "confirmation_token"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

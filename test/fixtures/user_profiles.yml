@@ -24,13 +24,6 @@ rmoore_profile:
   user: rmoore
   state: draft
 
-suspended_user1_profile:
-    user: suspended_user1
-    state: published
-    published_at: <%= 2.days.ago.to_s :db %>
-pending_user_profile:
-    user: pending_user
-    state: draft
 jones_au_profile:
     user: jones_au
     state: published

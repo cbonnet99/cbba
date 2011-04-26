@@ -96,7 +96,6 @@ class User < ActiveRecord::Base
   named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
   named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"
   named_scope :new_users, :conditions => "new_user is true"
-  named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   named_scope :notify_unpublished, :conditions => "notify_unpublished IS true"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
   named_scope :unpublished, :include => "user_profile",  :conditions => "user_profiles.state='draft'" 
@@ -783,10 +782,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def geocoded?
-    !latitude.blank? && !longitude.blank?
-  end
-
   def invoices
     Invoice.find_by_sql(["select invoices.* from payments, invoices where payments.user_id = ? and payments.id = invoices.payment_id", self.id])
   end
@@ -820,33 +815,6 @@ class User < ActiveRecord::Base
   def contact_details
     [address1, suburb, city, phone, mobile].reject{|o| o.blank?||o=="()"}.join("<br/>")
 
-  end
-
-  def create_geocodes
-    unless district.blank? || (!latitude.blank? && !longitude.blank?)
-      locate_address
-    end
-  end
-
-  def update_geocodes
-    #has any of the location fields changed?
-    if self.address1_changed? || self.suburb_changed? || self.district_id_changed?
-        locate_address
-    end
-
-  end
-
-  def self.map_geocoded(map, users=nil)
-    if users.nil?
-      users = User.paying.geocoded
-    end
-    users.each do |u|
-      if u.geocoded? && !u.free_listing?
-        marker = GMarker.new([u.latitude, u.longitude],
-         :title => u.full_name, :info_window => u.full_info)
-        map.overlay_init(marker)
-      end
-    end
   end
 
   def full_info
@@ -1388,27 +1356,4 @@ class User < ActiveRecord::Base
     list.include?(role.to_s)
   end
   
-  protected
-
-  def make_activation_code
-#    self.deleted_at = nil
-#    self.activation_code = self.class.make_token
-  end
-
-  def locate_address
-    if district.nil?
-      self.latitude = nil
-      self.longitude = nil
-    else
-      address = [address1, suburb, district.name, self.country.name].reject{|o| o.blank?}.join(", ")
-      begin
-        location = ImportUtils.geocode(address)
-        logger.debug("====== Geocoding: #{address}: #{location.inspect}")
-        self.latitude = location.latitude
-        self.longitude = location.longitude
-      rescue Graticule::AddressError
-        logger.warn("Couldn't geocode address: #{address}")
-      end
-    end
-  end
 end

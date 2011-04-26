@@ -40,9 +40,12 @@ class FriendMessagesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:message).sent_at
   end
   def test_create_with_return_url
-    ActionMailer::Base.deliveries = []
     article = Factory(:article)
-    post :create, {:return_to => article_url(article), :friend_message => {:to_email => "dsdgfg@test.com", :subject => "An article", :body => "Here it is"} }, {:user_id => users(:cyrille).id }
+    user = Factory(:user)
+    ActionMailer::Base.deliveries = []
+
+    post :create, {:return_to => article_url(article), :friend_message => {:to_email => "dsdgfg@test.com", :subject => "An article", :body => "Here it is"} }, {:user_id => user.id }
+    
     assert_redirected_to article_url(article)
     assert_not_nil assigns(:message)
     assert assigns(:message).errors.blank?

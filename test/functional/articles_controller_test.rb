@@ -218,14 +218,13 @@ class ArticlesControllerTest < ActionController::TestCase
   end
 
 
-  def test_should_create_article_and_send_congrats_email
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-    
+  def test_should_create_article_and_send_congrats_email    
     user = Factory(:user)
 		yoga = subcategories(:yoga)
+		ActionMailer::Base.deliveries = []
+    
     post :create, {:context => "profile", :selected_tab_id => "articles",  :article => { :title => "Test9992323", :lead => "Test9992323", :body => "",  :subcategory1_id => yoga.id }}, {:user_id => user.id }
+    
     assert_redirected_to articles_show_url(assigns(:article).author.slug, assigns(:article).slug, :context => "profile", :selected_tab_id => "articles")
 		assert_equal yoga.id, assigns(:article).subcategory1_id
     assert_not_nil assigns(:subcategories)

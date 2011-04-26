@@ -14,18 +14,6 @@ cyrille_hypnotherapy:
     subcategory: hypnotherapy
     user: cyrille
     expertise_position: 1
-pending_user_hypnotherapy:
-    subcategory: hypnotherapy
-    user: pending_user
-    expertise_position: 1
-suspended_user1_hypnotherapy:
-    subcategory: hypnotherapy
-    user: suspended_user1
-    expertise_position: 1
-suspended_user2_hypnotherapy:
-    subcategory: hypnotherapy
-    user: suspended_user2
-    expertise_position: 1
 sgardiner_hypnotherapy:
     user: sgardiner
     subcategory: hypnotherapy

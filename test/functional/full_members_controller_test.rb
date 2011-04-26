@@ -4,12 +4,17 @@ class FullMembersControllerTest < ActionController::TestCase
   fixtures :all
   
   test "valid response" do
-    cyrille = users(:cyrille)
-    suspended_user1 = users(:suspended_user1)
+    active_user = Factory(:user)
+    active_user.user_profile.publish!
+    inactive_user = Factory(:user, :state => "inactive")
+    unconfirmed_user = Factory(:user, :state => "unconfirmed")
+    
     get :index
-    assert assigns(:members).include?(cyrille)
-    assert !assigns(:members).include?(suspended_user1)
+    
+    assert assigns(:members).include?(active_user)
+    assert !assigns(:members).include?(inactive_user)
+    assert !assigns(:members).include?(unconfirmed_user)
 #    puts @response.body
-    assert_match %r{Cyrille Bonnet}, @response.body
+    assert_match Regexp.new(active_user.name), @response.body
   end
 end

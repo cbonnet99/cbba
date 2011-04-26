@@ -2,13 +2,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ImportUtilsTest < ActiveSupport::TestCase
 
-  def test_geocode
-    fake_address = ImportUtils.geocode("Bla")
-    assert_equal fake_address.latitude, -75
-    assert_equal fake_address.longitude, 30
-  end
-
-
   def test_import_categories
     ImportUtils.import_categories
   end

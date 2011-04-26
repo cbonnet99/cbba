@@ -127,10 +127,6 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
   
   def test_send_offers_reminder_so
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-
     hasnt_created_offer = Factory(:user, :email => "hasnt_created_offer@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
     
     has_received_reminder_recently = Factory(:user, :email => "has_received_reminder_recently@test.com", :offers_reminder_sent_at => 2.weeks.ago, :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
@@ -142,18 +138,16 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     hasnt_changed_offer_recently = Factory(:user, :email => "hasnt_changed_offer_recently@test.com", :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.months.from_now)
     old_so = Factory(:special_offer, :published_at => 6.weeks.ago, :author => hasnt_changed_offer_recently )
+    ActionMailer::Base.deliveries = []
     
     TaskUtils.send_offers_reminder
+    
     assert_equal 2, ActionMailer::Base.deliveries.size
     assert ActionMailer::Base.deliveries.map(&:to).flatten.include?(hasnt_created_offer.email)
     assert ActionMailer::Base.deliveries.map(&:to).flatten.include?(hasnt_changed_offer_recently.email)    
   end
   
   def test_send_offers_reminder_gv
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-
     hasnt_created_offer = Factory(:user, :email => "hasnt_created_offer@test.com", :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.months.from_now)
     
     expired_offers = Factory(:user, :email => "expired_offers@test.com", :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 2.weeks.ago)
@@ -163,8 +157,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     hasnt_changed_offer_recently = Factory(:user, :email => "hasnt_changed_offer_recently@test.com", :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.months.from_now)
     old_gv = Factory(:gift_voucher, :published_at => 6.weeks.ago, :author => hasnt_changed_offer_recently )
+    ActionMailer::Base.deliveries = []
     
     TaskUtils.send_offers_reminder
+    
     assert_equal 2, ActionMailer::Base.deliveries.size
     assert ActionMailer::Base.deliveries.map(&:to).flatten.include?(hasnt_created_offer.email)
     assert ActionMailer::Base.deliveries.map(&:to).flatten.include?(hasnt_changed_offer_recently.email)    
@@ -257,12 +253,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_notify_unpublished_users
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-
     unpublished_user = Factory(:user)
     unpublished_profile = Factory(:user_profile, :user => unpublished_user, :state => "draft")
+    ActionMailer::Base.deliveries = []
+    
     
     TaskUtils.notify_unpublished_users
 
@@ -273,8 +267,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_check_pending_payments
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
+    pending_payment = Factory(:payment, :status => "pending")
     ActionMailer::Base.deliveries = []
     
     TaskUtils.check_pending_payments
@@ -745,47 +738,18 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_send_reminder_on_expiring_memberships
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
     
     TaskUtils.send_reminder_on_expiring_memberships
-    assert_equal 4, ActionMailer::Base.deliveries.size
+
+    assert_equal 2, ActionMailer::Base.deliveries.size
     
     #on 2nd run there should be no emails sent
     ActionMailer::Base.deliveries = []
+
     TaskUtils.send_reminder_on_expiring_memberships
+
     assert_equal 0, ActionMailer::Base.deliveries.size
-  end
-
-  def test_suspend_full_members_when_membership_expired
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-
-    old_user_emails_size = UserEmail.all.size
-
-    sgardiner = users(:sgardiner)
-    old_size = User.active.size
-    TaskUtils.suspend_full_members_when_membership_expired
-    #no full member to suspend
-    assert_equal old_size, User.active.size
-    sgardiner.member_until = 1.day.ago
-    sgardiner.save!
-    sgardiner.reload
-    TaskUtils.suspend_full_members_when_membership_expired
-
-    sgardiner.reload
-    #sgardiner should have been suspended
-    assert_equal old_size-1, User.active.size
-    #an email should have been sent to sgardiner
-    assert_equal 1, ActionMailer::Base.deliveries.size
-
-    assert_equal old_user_emails_size+1, UserEmail.all.size
-    last_email = UserEmail.last
-    assert_equal "membership_expired_today", last_email.email_type
-    assert_equal sgardiner, last_email.user
-
   end
 
   def test_mark_down_old_full_members
@@ -869,8 +833,9 @@ class TaskUtilsTest < ActiveSupport::TestCase
       user = User.new(:country => countries(:nz), :first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
         :region_id => canterbury.id, :email => "joe@test.com",
         :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
-        :password => "blablabla", :password_confirmation => "blablabla" )
+        :password => "blablabla", :password_confirmation => "blablabla", :accept_terms => true )
       user.save!
+      user.confirm!
 
       user.subcategories_users.reload
       assert_equal 1, user.subcategories_users.size
@@ -924,8 +889,9 @@ class TaskUtilsTest < ActiveSupport::TestCase
       user = User.new(:country => countries(:nz), :first_name => "Joe", :last_name => "Test", :district_id => canterbury_christchurch_city.id,
         :region_id => canterbury.id, :email => "joe@test.com",
         :membership_type => "full_member", :professional => true, :subcategory1_id => subcategories(:hypnotherapy).id,
-        :password => "blablabla", :password_confirmation => "blablabla" )
+        :password => "blablabla", :password_confirmation => "blablabla", :accept_terms => true )
       user.save!
+      user.confirm!
 
       user.categories_users.reload
       assert_equal 1, user.categories_users.size

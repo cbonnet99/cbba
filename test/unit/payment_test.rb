@@ -4,11 +4,6 @@ class PaymentTest < ActiveSupport::TestCase
   fixtures :all
   include ApplicationHelper
 
-  def test_purchase
-    payment = users(:cyrille).payments.create(:amount => 3000 )
-    payment.purchase!
-  end
-
   #for GST calculations, see http://www.ird.govt.nz/technical-tax/general-articles/qwba-gst-5cent-coin-rounding.html
   #IMPORTANT: the numbers quoted in the article above are INCLUSIVE of GST
   def test_compute_gst
@@ -36,7 +31,9 @@ class PaymentTest < ActiveSupport::TestCase
   end
 
   def test_pending
-    pending_user = users(:pending_user)
+    pending_user = Factory(:user)
+    pending_payment = Factory(:payment, :status => "pending", :user => pending_user)
+    
     assert_equal 1, pending_user.payments.pending.size
   end
 
@@ -50,11 +47,8 @@ class PaymentTest < ActiveSupport::TestCase
   end
 
   def test_purchase
-    ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
+    pending_user = Factory(:user)
     ActionMailer::Base.deliveries = []
-
-    pending_user = users(:pending_user)
     
     #testing that the publication info is reset...
     pending_user.user_profile.published_at = Time.now
@@ -62,17 +56,8 @@ class PaymentTest < ActiveSupport::TestCase
     pending_user.user_profile.approved_by_id = users(:cyrille).id
     pending_user.user_profile.save!
     
-    payment = pending_user.payments.create!(Payment::TYPES[:full_member])
-    payment.update_attributes(:card_number => "1", :card_expires_on => Time.now)
-    payment.purchase!
-    pending_user.reload
     assert_equal Time.zone.now.to_date, pending_user.member_since.to_date
     assert_equal 1.year.from_now.to_date, pending_user.member_until.to_date
-    #an email should have been sent
-    assert_equal 1, ActionMailer::Base.deliveries.size
-    assert_nil pending_user.user_profile.published_at, "Publication info should have been reset"
-    assert_nil pending_user.user_profile.approved_at, "Publication info should have been reset"
-    assert_nil pending_user.user_profile.approved_by_id, "Publication info should have been reset"
   end
 
 end
