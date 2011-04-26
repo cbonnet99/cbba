@@ -4,6 +4,10 @@ class UsersController < ApplicationController
   before_filter :full_member_required, :only => [:articles]
   before_filter :login_required, :except => [:confirm, :unsubscribe_unpublished_reminder, :unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
+
+  def select_features
+    get_order
+  end
   
   def reactivate
     current_user.reactivate!
@@ -60,8 +64,7 @@ class UsersController < ApplicationController
   end
 
   def promote
-    @order = current_user.orders.pending.first
-    @order = Order.new if @order.nil?
+    get_order
     if !@order.photo? && !current_user.paid_photo_until.nil? &&  Time.parse(current_user.paid_photo_until.to_s) > 3.months.ago
       #the user paid for a photo that expired recently: let's guess it is a renewal
       @order.photo = true
@@ -271,10 +274,10 @@ class UsersController < ApplicationController
     @user = current_user
 		if @user.update_attributes(params[:user])
       @user.main_expertise_name(:reload)
-      flash[:notice] = "Your details have been updated"
-      redirect_to expanded_user_url(@user)
+      flash[:notice] = "Your optional information has been saved"
+      redirect_to select_features_url
     else
-      flash[:error] = "There was a problem with the words you entered with the security check."
+      flash[:error] = "There were some errors in your optional information."
       render :action => 'edit_optional'
     end
   end
@@ -287,7 +290,7 @@ class UsersController < ApplicationController
           redirect_to :controller => "users", :action => "edit_optional"
       else
         get_districts_and_subcategories(@user.country_id || @country.id)
-        flash.now[:error]  = "There were some errors in your signup information."
+        flash.now[:error]  = "There were some errors in your essential information."
         render :action => 'new'
       end
   end
@@ -308,5 +311,11 @@ class UsersController < ApplicationController
       flash[:error]  = "We couldn't find a user with that confirmation code -- check your email? Or maybe you've already activated -- try signing in."
       redirect_to login_url
     end
+  end
+  
+protected
+  def get_order
+    @order = current_user.orders.pending.first
+    @order = Order.new if @order.nil?
   end
 end

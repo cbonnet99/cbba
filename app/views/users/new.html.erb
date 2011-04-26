@@ -1,4 +1,5 @@
 <% javascript 'new-user' %>
+<%= render :partial => "users/signup_nav", :locals => {:selected => "essential" }  %>
 <%= title "Step 1: Your essential information"  %>
 <%= link_to "Why should I join?", signup_intro_url %>
 <% form_for @user, :html => {:class => "fieldset"} do |f| %>
