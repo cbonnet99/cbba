@@ -9,9 +9,9 @@ module SubcategoriesSystem
 
 	module SubcategoriesSystemInstanceMethods
 		def after_find_subcat
-				self.subcategory1_id = self.subcategories[0].nil? ? nil : self.subcategories[0].id
-				self.subcategory2_id = self.subcategories[1].nil? ? nil : self.subcategories[1].id
-				self.subcategory3_id = self.subcategories[2].nil? ? nil : self.subcategories[2].id
+				self.subcategory1_id = self.subcategories[0].nil? ? nil : self.subcategories[0].id.try(:to_i)
+				self.subcategory2_id = self.subcategories[1].nil? ? nil : self.subcategories[1].id.try(:to_i)
+				self.subcategory3_id = self.subcategories[2].nil? ? nil : self.subcategories[2].id.try(:to_i)
 		end
 
     def describe_subcategories
