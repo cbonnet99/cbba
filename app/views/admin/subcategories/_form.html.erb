@@ -1,6 +1,4 @@
 <%= f.error_messages :header_message => "Please try again", :message => "Your subcategory could not be added" %>
-<fieldset>
-  <legend>New subcategory</legend>
   <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
 	<li>
@@ -16,7 +14,6 @@
 		<%= f.text_area :description, :cols => "35"%>
 	</li>
 	</ol>
-</fieldset>
 <p class="register-actions register-actions-active">
   <%= submit_tag "Add", :class => "button submit" %>
 	<%= link_to "Cancel", reviewer_url(:action => "index"), :class => "anchor-button cancel" %>

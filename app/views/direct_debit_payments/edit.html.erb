@@ -8,10 +8,8 @@ You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
 +GST <em class="money"><%=amount_view(@payment.gst)%></em><br/>
 Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
 <div class="cleaner"></div>
-<fieldset>
-  <legend>Your payment details</legend>
   <ol>
-    <% form_for @payment do |f| %>
+    <% form_for @payment, :html => {:class => "fieldset"} do |f| %>
       <%= f.error_messages :header_message => "Please try again", :message => "Your payment could not be processed"%>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
@@ -56,7 +54,6 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
       </div>
     <% end %>
   </ol>
-</fieldset>
 <div id="payment-processor">Payments processed by <a href="http://www.paymentexpress.com/about/about_paymentexpress/privacy_policy.html">
 <img src="/images/paymentexpress.png" alt="Payment Processor" width="118" height="21" />
 </a></div>

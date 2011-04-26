@@ -53,46 +53,6 @@ class ImportUtils
     end
   end
 
-  #returns a location object for the address passed as a parameter
-  def self.geocode(address)
-    #TODO: remove hardocded Google Maps API key for BAM
-    geocoder = Graticule.service(:google).new "ABQIAAAAEUGw4om-AL6FPqaNLiT02xTtdy7lWpREaOTRxKljyUIPkk9sUhRgjCWR1VVeuR_sNL62bGyg47HMUw"
-    #If your connection is slow and you get a "too many queries" error,
-    #uncomment the following line (it will slow down the requests)
-    sleep 0.5 if RAILS_ENV=="production"
-    return geocoder.locate(address)
-  end
-
-  def self.geocode_users(csv_file="users.csv")
-    success = 0
-    errors = 0
-    CSV.open(File.dirname(__FILE__) + "/../csv/geocoded_#{csv_file}", 'w') do |writer|
-      CSV.open(File.dirname(__FILE__) + "/../csv/#{csv_file}", 'r')  do |row|
-        address1 = ImportUtils.strip_and_nil(row[5])
-        suburb = ImportUtils.strip_and_nil(row[6])
-        district_str = ImportUtils.strip_and_nil(row[7])
-        unless address1.blank? && suburb.blank?
-          req_str = [address1, suburb, district_str, "New Zealand"].reject{|s| s.blank?}.join(", ")
-          puts "Locating: #{req_str}"
-          begin
-            location = ImportUtils.geocode(req_str)
-            puts "Found: #{location.inspect}"
-            success += 1
-            latitude = location.latitude
-            longitude = location.longitude
-            row << latitude
-            row << longitude
-          rescue Graticule::AddressError
-            errors += 1
-            puts "Address error"
-          end
-        end
-        writer << row
-      end
-      puts "===== Successfully geocoded #{success} users. Address error on #{errors} users"
-    end
-  end
-
 	def self.import_users(csv_file="users.csv")
 	  nz = Country.find_by_country_code("nz")
 		parsed_file = CSV::Reader.parse(File.open(File.dirname(__FILE__) + "/../csv/#{csv_file}"))
@@ -203,10 +163,11 @@ class ImportUtils
             :subcategory2_id => subcategory2_id,
             :subcategory3_id => subcategory3_id,
 						:receive_newsletter => receive_newsletter, :membership_type => role == full_member ? "full_member" : "free_listing",
-            :latitude => latitude, :longitude => longitude, :website => website
+            :latitude => latitude, :longitude => longitude, :website => website, :accept_terms => true
             )
-					user.register!
-					user.activate!
+					user.save!
+					user.confirm!
+					
           # #publish profile
           user.user_profile.publish!
           user.member_until = member_until

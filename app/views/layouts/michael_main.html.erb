@@ -63,7 +63,7 @@
     <%else -%>
 	  <li><%= link_to 'FREE Newsletter', signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
       <li><%= link_to 'Login', new_session_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
-	  <li><%= link_to 'Add your profile FREE', signup_intro_url %></li>
+	  <li><%= link_to 'Add your profile FREE', signup_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
     <% end -%>
   </ul>
   <!--Member Navigation Ends -->
@@ -149,7 +149,7 @@
 	    <%= link_to "", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
 	<% end -%>
 	<% if !logged_in? -%>
-		<div id="sidebar_coach_signup"><%= link_to image_tag("areyouacoach.gif"), signup_intro_url %></div>
+		<div id="sidebar_coach_signup"><%= link_to image_tag("areyouacoach.gif"), signup_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></div>
 	<% end -%>
 	<div id="sidebar-related-content"><%= yield :sidebar_content%></div>
 	<div id="networks">

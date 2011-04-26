@@ -15,6 +15,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :resident_experts, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/resident_experts", :member => {:index_for_subcategory => :get}
 
   map.resources :users, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/users", :member => {:login => [:get, :post], :deactivate => [:get, :post], :warning_deactivate => [:get, :post], :reactivate => [:get, :post] }, :collection => {:search => [:get, :post]}
+  map.step1 "/users/step1", :controller => "users", :action => "new"   
+  map.step2 "/users/step2", :controller => "users", :action => "edit_optional"   
+  
   
   map.articles_for_subcategory '/articles/subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_subcategory" 
   map.articles_for_blog_subcategory '/articles/blog_subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_blog_subcategory" 
@@ -68,6 +71,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.subcategory_region '/category/:category_slug/:subcategory_slug/:region_slug', :controller => "subcategories", :action => "region"
 	map.subcategory '/category/:category_slug/:subcategory_slug', :controller => "subcategories", :action => "show"
   map.user_slug_action '/user/:slug/:action', :controller => "users"
+  map.confirm_user '/confirm', :controller => "users", :action => "confirm"
   map.full_user '/:main_expertise_slug/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_|-]+/, :main_expertise_slug => /[a-z|A-Z|0-9|_|-]+/}
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
   map.payment_action_with_id '/payments/:id/:action', :controller => "payments", :requirements => {:action => /edit|edit_debit|thank_you|thank_you_direct_debit|thank_you_renewal|thank_you_resident_expert/}
@@ -103,7 +107,9 @@ ActionController::Routing::Routes.draw do |map|
   map.user_edit_pwd '/users/edit_password', :controller => 'users', :action => "edit_password"
   map.user_update_pwd '/users/update_password', :controller => 'users', :action => "update_password"
   map.user_edit '/users/edit', :controller => 'users', :action => "edit"
+  map.user_update_optional '/users/update_optional', :controller => 'users', :action => "update_optional"
   map.compare_memberships '/users/compare_memberships', :controller => 'users', :action => "compare_memberships"
+  map.select_features '/users/select_features', :controller => 'users', :action => "select_features"
   map.more_about_free_listing '/users/more_about_free_listing', :controller => 'users', :action => "more_about_free_listing"
   map.more_about_full_membership '/users/more_about_full_membership', :controller => 'users', :action => "more_about_full_membership"
   map.more_about_resident_expert '/users/more_about_resident_expert', :controller => 'users', :action => "more_about_resident_expert"

@@ -505,29 +505,6 @@ class TaskUtils
     end
   end
  end
-  def self.suspend_full_members_when_membership_expired
-    User.paying.each do |u|
-      if u.resident_expert?
-        time_until = u.resident_until
-      else
-        if u.full_member?
-          time_until = u.member_until
-        else
-          next
-        end
-      end
-      if !time_until.nil? && time_until < Time.now && u.active?
-        puts "Suspending #{u.email}"
-        u.suspend!
-        #send an email
-        if u.resident_expert?
-          UserMailer.deliver_residence_expired_today(u)
-        else
-          UserMailer.deliver_membership_expired_today(u)
-        end
-      end
-    end
-  end
 
   def self.mark_down_old_full_members
     User.full_members.new_users.each do |m|
@@ -644,8 +621,7 @@ class TaskUtils
           :password => "monkey", :password_confirmation => "monkey",
           :receive_newsletter => false, :district_id => default_district.nil? ? nil : default_district.id  )
         if user && user.valid?
-          user.register!
-          user.activate!
+          user.save!
           user.add_role("admin")
         else
           puts "Could not create user #{admin[:email]}, because of errors:"

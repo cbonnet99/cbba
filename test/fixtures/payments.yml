@@ -7,14 +7,6 @@ completed:
   gst: 1250
   discount: 10000
   charity: guide_dogs
-pending_user_payment:
-  title: Full membership
-  user: pending_user
-  amount: 9999
-  invoice_number: 32423
-  status: pending
-  gst: 1250
-  discount: 10000
 completed_expert:
   title: Resident expert
   user: cyrille

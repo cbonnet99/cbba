@@ -1,6 +1,4 @@
   <%= f.error_messages :header_message => "Please try again", :message => "Your message could not be sent" %>
-  <fieldset>
-    <legend>Your message</legend>
     <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
@@ -21,7 +19,6 @@
         <%= f.text_area :body, :cols => "35" %>
       </li>
     </ol>
-  </fieldset>
 <div class="buttons">
     <label for=""></label>
     <%= submit_tag 'Send' %>

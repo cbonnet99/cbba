@@ -1,6 +1,4 @@
 <%= f.error_messages :header_message => "Please try again", :message => "Your credit card could not be registered properly"%>
-  <fieldset>
-    <legend>Your Credit Card Details</legend>
     <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
@@ -20,7 +18,6 @@
         <%= f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true %>
       </li>
 	</ol>
-  </fieldset>
   <p class="register-actions register-actions-active">
     <%= submit_tag "Save", :class => "button submit" %>
 	<%= link_to "Cancel", payments_url, :class => "anchor-button cancel" %>

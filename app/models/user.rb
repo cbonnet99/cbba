@@ -3,16 +3,26 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   extend ActiveSupport::Memoizable
+  include AASM
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
-  include Authorization::AasmRoles
   include ContactSystem
-	include SubcategoriesSystem
+  include SubcategoriesSystem
   include MultiAfterFindSystem
   include Sluggable
   
+  aasm_column :state
+  
+  aasm_initial_state :initial => :unconfirmed
+
+  aasm_state :unconfirmed
+  aasm_state :active
   aasm_state :inactive
+  
+  aasm_event :confirm do
+    transitions :from => :unconfirmed, :to => :active
+  end
   
   aasm_event :deactivate do
     transitions :from => :active, :to => :inactive, :on_transition => :"unpublish!"
@@ -86,7 +96,6 @@ class User < ActiveRecord::Base
   named_scope :reviewers, :include => "roles", :conditions => "roles.name='reviewer'"
   named_scope :admins, :include => "roles", :conditions => "roles.name='admin'"
   named_scope :new_users, :conditions => "new_user is true"
-  named_scope :geocoded, :conditions => "latitude <> '' and longitude <>''"
   named_scope :notify_unpublished, :conditions => "notify_unpublished IS true"
   named_scope :published, :include => "user_profile",  :conditions => "user_profiles.state='published'" 
   named_scope :unpublished, :include => "user_profile",  :conditions => "user_profiles.state='draft'" 
@@ -108,9 +117,9 @@ class User < ActiveRecord::Base
   
   # #around filters
 	before_validation :assemble_phone_numbers, :trim_stuff
-  before_create :create_geocodes, :get_region_from_district, :get_membership_type, :set_country
-  before_update :update_geocodes, :get_region_from_district, :get_membership_type
-  after_create :create_profile, :add_tabs
+  before_create :get_region_from_district, :get_membership_type, :set_country
+  before_update :get_region_from_district, :get_membership_type
+  after_create :create_profile, :add_tabs, :generate_activation_code, :send_confirmation_email
   before_validation :downcase_subdomain  
 
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status, :homepage_featured, :homepage_featured_resident
@@ -127,6 +136,14 @@ class User < ActiveRecord::Base
   FEATURE_GV = "gift voucher"
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
+  
+  def send_confirmation_email
+    UserMailer.deliver_new_user_confirmation_email(self)
+  end
+  
+  def generate_activation_code
+    self.update_attribute(:activation_code, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))
+  end
   
   def self.resident_experts(country)
     User.find(:all, :conditions => ["is_resident_expert is true and country_id = ?", country.id])
@@ -765,10 +782,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def geocoded?
-    !latitude.blank? && !longitude.blank?
-  end
-
   def invoices
     Invoice.find_by_sql(["select invoices.* from payments, invoices where payments.user_id = ? and payments.id = invoices.payment_id", self.id])
   end
@@ -802,33 +815,6 @@ class User < ActiveRecord::Base
   def contact_details
     [address1, suburb, city, phone, mobile].reject{|o| o.blank?||o=="()"}.join("<br/>")
 
-  end
-
-  def create_geocodes
-    unless district.blank? || (!latitude.blank? && !longitude.blank?)
-      locate_address
-    end
-  end
-
-  def update_geocodes
-    #has any of the location fields changed?
-    if self.address1_changed? || self.suburb_changed? || self.district_id_changed?
-        locate_address
-    end
-
-  end
-
-  def self.map_geocoded(map, users=nil)
-    if users.nil?
-      users = User.paying.geocoded
-    end
-    users.each do |u|
-      if u.geocoded? && !u.free_listing?
-        marker = GMarker.new([u.latitude, u.longitude],
-         :title => u.full_name, :info_window => u.full_info)
-        map.overlay_init(marker)
-      end
-    end
   end
 
   def full_info
@@ -917,9 +903,8 @@ class User < ActiveRecord::Base
       subcategory3_position = self.subcategories_users[2].position
       @old_positions[old_subcategory3_id] = subcategory3_position
     end
-
   end
-
+  
   def save_subcategories
     self.subcategories = []
     self.categories = []
@@ -1360,10 +1345,8 @@ class User < ActiveRecord::Base
 	  if !business_name.nil? && business_name.match(/[\.\/#]/)
 	    errors.add(:last_name, "cannot contain characters: . # /")
     end
-    if professional?
-          if subcategory1_id.blank? && !self.admin?
-            errors.add(:subcategory1_id, "^You must select your main expertise")
-          end
+    if subcategory1_id.blank? && !self.admin?
+      errors.add(:subcategory1_id, "^You must select your main expertise")
     end
 	end
   
@@ -1373,27 +1356,4 @@ class User < ActiveRecord::Base
     list.include?(role.to_s)
   end
   
-  protected
-
-  def make_activation_code
-#    self.deleted_at = nil
-#    self.activation_code = self.class.make_token
-  end
-
-  def locate_address
-    if district.nil?
-      self.latitude = nil
-      self.longitude = nil
-    else
-      address = [address1, suburb, district.name, self.country.name].reject{|o| o.blank?}.join(", ")
-      begin
-        location = ImportUtils.geocode(address)
-        logger.debug("====== Geocoding: #{address}: #{location.inspect}")
-        self.latitude = location.latitude
-        self.longitude = location.longitude
-      rescue Graticule::AddressError
-        logger.warn("Couldn't geocode address: #{address}")
-      end
-    end
-  end
 end

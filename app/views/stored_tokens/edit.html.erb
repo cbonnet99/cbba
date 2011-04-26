@@ -1,5 +1,5 @@
 <%= render :partial => "users/user_nav", :locals => {:selected => "payments" }  %>
 <%= title "Edit credit card"  %>
-<% form_for @token do |f| %>
+<% form_for @token, :html => {:class => "fieldset"} do |f| %>
       <%= render :partial => "form", :locals => {:f => f}   %>
 <% end %>

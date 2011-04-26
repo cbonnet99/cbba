@@ -466,18 +466,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal full_members.size, User.full_members.size
   end
 
-  def test_location_change_on_update
-    norma = users(:norma)
-    old_latitude = norma.latitude
-    old_longitude = norma.longitude
-    norma.district_id = districts(:wellington_wellington_city).id
-    norma.save
-    norma.reload
-    #latitude and longitude should have changed
-    assert old_latitude != norma.latitude
-    assert old_longitude != norma.longitude
-  end
-
   def test_slug_on_update
     cyrille = users(:cyrille)
     cyrille.update_attributes(:last_name => "Jones")
@@ -525,7 +513,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_sentence_to_review
     cyrille = users(:cyrille)
-    assert_equal "7 items to review", cyrille.sentence_to_review
+    assert_equal "6 items to review", cyrille.sentence_to_review
   end
 
   def test_roles
@@ -537,8 +525,8 @@ class UserTest < ActiveSupport::TestCase
       :region_id => canterbury.id, :email => "joe@test.com",
       :membership_type => "full_member", :professional => true, :subcategory1_id => hypnotherapy.id,
       :password => "blablabla", :password_confirmation => "blablabla", :accept_terms => true  )
-      user.register!
-      user.activate
+      user.save!
+
       assert_equal 1, user.roles.find_all_by_name("full_member").size
       assert_equal old_roles_user_size+1, RolesUser.all.size
   end
@@ -562,9 +550,10 @@ class UserTest < ActiveSupport::TestCase
       :district_id => canterbury_christchurch_city.id, :business_name => "uytut",
       :region_id => canterbury.id, :email => "joe.bill@nunu.com",
       :free_listing => true, :professional => true,
-      :password => "blablabla", :password_confirmation => "blablabla", :subcategory1_id => hypnotherapy.id )
-    user.register!
-    user.activate!
+      :password => "blablabla", :password_confirmation => "blablabla", :subcategory1_id => hypnotherapy.id, :accept_terms => true )
+
+    user.save!
+
     assert_equal 1, user.tabs.size
     user.membership_type = "full_member"
     user.save!
@@ -698,16 +687,18 @@ class UserTest < ActiveSupport::TestCase
 		new_user = User.new(:country => countries(:nz), :first_name => "Joe", :last_name => "Test", :business_name => "   Test",
 			:address1 => "1, Main St", :suburb => "Newtown", :district_id => wellington_wellington_city.id,
 			:region_id => wellington.id, :phone => "04-28392173", :mobile => "", :email => "joe@test.com",
-			:subcategory1_id => hypnotherapy.id, :subcategory2_id => yoga.id, :subcategory3_id => nil,
+			:subcategory1_id => hypnotherapy.id, :subcategory2_id => yoga.id, :subcategory3_id => nil, :accept_terms => true, 
 			:password => "blablabla", :password_confirmation => "blablabla"  )
-		new_user.register!
-		new_user.activate!
+		
+		new_user.save!
+		
+		assert !new_user.activation_code.blank?
+		assert !new_user.active?
+		
 		assert_equal old_count+1, User.count
 		assert_equal [hypnotherapy, yoga], new_user.subcategories
 		new_user2 = User.find_by_email("joe@test.com")
 		assert_equal [hypnotherapy, yoga], new_user2.subcategories
     assert_not_nil new_user.user_profile
-    assert_not_nil new_user.latitude
-    assert_not_nil new_user.longitude
 	end
 end

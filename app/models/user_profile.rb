@@ -1,6 +1,14 @@
 class UserProfile < ActiveRecord::Base
   include Workflowable
   
+  aasm_state :unconfirmed
+  aasm_initial_state :unconfirmed
+
+  aasm_event :confirm do
+    transitions :from => :unconfirmed, :to => :draft
+  end
+  
+  
   belongs_to :user
 
   def self.last_published_at(country)

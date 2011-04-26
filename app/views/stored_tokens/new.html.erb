@@ -1,5 +1,5 @@
 <% javascript "new-stored-token"%>
 <%= title "Add a new credit card"%>
-<% form_for @token do |f| %>
+<% form_for @token, :html => {:class => "fieldset"} do |f| %>
     <%= render :partial => "form", :locals => {:f => f}   %>
 <% end %>

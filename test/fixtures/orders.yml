@@ -1,7 +1,3 @@
-pending_order:
-  order_number: MyString
-  user_id: 1
-
 two:
   order_number: MyString
   user_id: 1

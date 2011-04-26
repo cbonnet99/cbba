@@ -2,8 +2,12 @@ class UsersController < ApplicationController
   include ApplicationHelper
   
   before_filter :full_member_required, :only => [:articles]
-  before_filter :login_required, :except => [:unsubscribe_unpublished_reminder, :unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
+  before_filter :login_required, :except => [:confirm, :unsubscribe_unpublished_reminder, :unsubscribe, :intro, :index, :show, :redirect_website, :new, :create, :activate, :more_about_free_listing, :more_about_full_membership, :more_about_resident_expert, :message]
 #	after_filter :store_location, :only => [:articles, :show]
+
+  def select_features
+    get_order
+  end
   
   def reactivate
     current_user.reactivate!
@@ -60,8 +64,7 @@ class UsersController < ApplicationController
   end
 
   def promote
-    @order = current_user.orders.pending.first
-    @order = Order.new if @order.nil?
+    get_order
     if !@order.photo? && !current_user.paid_photo_until.nil? &&  Time.parse(current_user.paid_photo_until.to_s) > 3.months.ago
       #the user paid for a photo that expired recently: let's guess it is a renewal
       @order.photo = true
@@ -224,10 +227,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-    #    current_user.disassemble_phone_numbers
 		get_districts_and_subcategories(current_user.country_id || @country.id)
-    current_user.set_membership_type
-    @mt = current_user.membership_type
 	end
 
 	def update_password
@@ -247,13 +247,11 @@ class UsersController < ApplicationController
 
 	def update
     @user = current_user
-    params[:user].delete("password")
-    params[:user].delete("password_confirmation")
 		if @user.update_attributes(params[:user])
-      redirect_to expanded_user_url(@user)
       @user.region_name(:reload)
       @user.main_expertise_name(:reload)
       flash[:notice] = "Your details have been updated"
+      redirect_to expanded_user_url(@user)
     else
 			get_districts_and_subcategories(current_user.country_id || @country.id)
       flash.now[:error]  = "There were some errors in your details."
@@ -262,59 +260,62 @@ class UsersController < ApplicationController
 	end
 
   def new
-    @mt = params[:mt] || "free_listing"
-    professional_str = params[:professional] || "false"
-    professional = professional_str == "true"
-    subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i
-    @user = User.new(:membership_type => @mt, :professional => professional, :subcategory1_id => subcategory1_id, :country_id => @country.id)
+    # subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i
+    @user = User.new(:country_id => @country.id)
 		get_districts_and_subcategories(@user.country_id || @country.id)
+  end
+
+  def edit_optional
+    @user = current_user
+		get_districts_and_subcategories(current_user.country_id || @country.id)
+  end
+
+  def update_optional
+    @user = current_user
+		if @user.update_attributes(params[:user])
+      @user.main_expertise_name(:reload)
+      flash[:notice] = "Your optional information has been saved"
+      redirect_to select_features_url
+    else
+      flash[:error] = "There were some errors in your optional information."
+      render :action => 'edit_optional'
+    end
   end
  
   def create
-    @user = User.new(params[:user])
-    if verify_human
+    @user = User.new(params[:user].merge(:membership_type => "full_member"))
       logout_keeping_session!
-      @user.register! if @user && @user.valid?
-      success = @user && @user.valid?
-      if success && @user.errors.empty?
-        case @user.membership_type
-        when "full_member":
-          @user.activate!
+      if @user.save
           session[:user_id] = @user.id
-          redirect_to :controller => "users", :action => "welcome"  
-        else
-          @user.activate!
-          session[:user_id] = @user.id
-          flash[:notice] = "Welcome to BeAmazing!"
-          redirect_to user_membership_url
-        end
+          redirect_to :controller => "users", :action => "edit_optional"
       else
         get_districts_and_subcategories(@user.country_id || @country.id)
-        flash.now[:error]  = "There were some errors in your signup information."
-        @mt = @user.membership_type
-        render :action => 'new', :subcategory1_id => params[:user]["subcatgory1_id"] 
+        flash.now[:error]  = "There were some errors in your essential information."
+        render :action => 'new'
       end
-    else
-      flash[:error] = "There was a problem with the words you entered with the security check. Did you see an image with words to type? If not, "
-      get_districts_and_subcategories(@user.country_id || @country.id)
-      render :action => 'new'
-    end
   end
 
-  def activate
+  def confirm
     logout_keeping_session!
     user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
     case
-    when !params[:activation_code].blank? && user && !user.active?
-      user.activate!
-      flash[:notice] = "Signup complete! Please sign in to continue."
-      redirect_to  login_url
+    when !params[:activation_code].blank? && user && user.unconfirmed?
+      user.confirm!
+      session[:user_id] = user.id
+      flash[:notice] = "Your profile has been confirmed"
+      redirect_to user_home_url
     when params[:activation_code].blank?
-      flash[:error] = "The activation code was missing.  Please follow the URL from your email."
-      redirect_to expanded_user_url(@user)
+      flash[:error] = "Your confirmation code was missing.  Please follow the URL from your email."
+      redirect_to root_url
     else 
-      flash[:error]  = "We couldn't find a user with that activation code -- check your email? Or maybe you've already activated -- try signing in."
-      redirect_to expanded_user_url(@user)
+      flash[:error]  = "We couldn't find a user with that confirmation code -- check your email? Or maybe you've already activated -- try signing in."
+      redirect_to login_url
     end
+  end
+  
+protected
+  def get_order
+    @order = current_user.orders.pending.first
+    @order = Order.new if @order.nil?
   end
 end

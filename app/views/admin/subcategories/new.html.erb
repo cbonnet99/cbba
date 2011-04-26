@@ -2,7 +2,7 @@
 
 <%= title "Add subcategories"%>
 <p>Please talk to Megan before adding new categories as some modalities have more than one name and Megan will know if we have something similar already. Thanks!</p>
-<% form_for @subcategory, :url => admin_subcategories_url, :method => :post  do |f|-%>
+<% form_for @subcategory, :url => admin_subcategories_url, :method => :post, :html => {:class => "fieldset"}  do |f|-%>
 
 <%= render :partial => "form", :locals => {:f => f}   %>
 

@@ -1,10 +1,17 @@
 <% if (is_author?(item) && current_user.active?)%><div id="profile-publish-information"><%end%>
-	  <% if item.is_a?(UserProfile) && item.user == current_user && item.draft? && item.user.active? %><div id="bam-warning-profile-draft">Your profile is not public yet.
+	  <% if item.is_a?(UserProfile) && item.user == current_user && item.draft? %>
+		<div id="bam-warning-profile-draft">
+		<% if item.user.active? -%>
+		Your profile is not public yet.
 		  <% if !current_user.all_tabs_valid? -%>
 		    Edit your <%= current_user.unedited_tabs.size > 1 ? "tabs" : "tab"%> below (<%= current_user.unedited_tabs.map(&:title).to_sentence%>) and click on Publish ->
 		  <% else -%>
 			 To make it public, click on Publish ->
+		  <% end -%>
 		<% end -%>
+		<% if item.user.unconfirmed? -%>
+		Your profile is not confirmed yet. An email has been sent to: <%= item.user.email %> with a confirmation link. Simply click on the link and you will be good to go.
+		<% end %>
 	 </div>
 	 <%end%>
 <%if item.draft? && is_author?(item) && current_user.active? -%>

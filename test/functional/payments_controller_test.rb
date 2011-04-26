@@ -4,11 +4,12 @@ class PaymentsControllerTest < ActionController::TestCase
   include ApplicationHelper
   
   def test_thank_you_direct_debit
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
     
-    get :thank_you_direct_debit, {:id => payments(:pending_user_payment).id}, {:user_id => users(:pending_user).id }
+    pending_user = Factory(:user)
+    payment = Factory(:payment, :user => pending_user)
+    ActionMailer::Base.deliveries = []
+
+    get :thank_you_direct_debit, {:id => payment.id}, {:user_id => pending_user.id }
     assert_response :success
     
     assert_equal 1, ActionMailer::Base.deliveries.size
@@ -29,14 +30,15 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_edit
-    pending_user = users(:pending_user)
-    get :edit, {:id => payments(:pending_user_payment).id}, {:user_id => pending_user.id }
+    pending_user = Factory(:user)
+    payment = Factory(:payment, :user => pending_user)
+    get :edit, {:id => payment.id}, {:user_id => pending_user.id }
     assert_response :success
     assert_not_nil assigns(:payment)
   end
 
   def test_pay_new_order
-    pending_user = users(:pending_user)
+    pending_user = Factory(:user)
     new_order = Factory(:order, :user_id => pending_user.id, :package => "premium" )
     new_payment = new_order.payment
     expires = Time.now.advance(:year => 1 )
@@ -68,7 +70,7 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_pay_new_order_with_renewal
-    pending_user = users(:pending_user)
+    pending_user = Factory(:user)
     old_token_count = pending_user.stored_tokens.size
     new_order = Factory(:order, :user_id => pending_user.id, :photo => true, :highlighted => true, :special_offers => 2,
         :gift_vouchers => 1 )
@@ -107,7 +109,7 @@ class PaymentsControllerTest < ActionController::TestCase
 
 
   def test_pay_new_order_with_renewal_failure
-    pending_user = users(:pending_user)
+    pending_user = Factory(:user)
     old_token_count = pending_user.stored_tokens.size
     new_order = Factory(:order, :user_id => pending_user.id, :photo => true, :highlighted => true, :special_offers => 2,
         :gift_vouchers => 1 )
@@ -131,7 +133,7 @@ class PaymentsControllerTest < ActionController::TestCase
 
 
   def test_pay_new_order_with_existing_card
-    pending_user = users(:pending_user)
+    pending_user = Factory(:user)
     token = Factory(:stored_token, :user => pending_user)
     new_order = Factory(:order, :user_id => pending_user.id, :photo => true, :highlighted => true, :special_offers => 2,
         :gift_vouchers => 1 )
@@ -159,7 +161,7 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_pay_new_order_failure
-    pending_user = users(:pending_user)
+    pending_user = Factory(:user)
     new_order = Factory(:order, :user_id => pending_user.id, :photo => true, :highlighted => true, :special_offers => 2,
         :gift_vouchers => 1 )
     new_payment = new_order.payment
@@ -178,7 +180,7 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   def test_pay_extended_order
-    pending_user = users(:pending_user)
+    pending_user = Factory(:user)
     expires = Time.now.advance(:year => 1 )
     old_order = Factory(:order, :user_id => pending_user.id, :photo => true, :highlighted => true, :special_offers => 2,
         :gift_vouchers => 1 )

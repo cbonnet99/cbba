@@ -8,21 +8,6 @@ cyrille_hypnotherapy:
     user: cyrille
     position: 1
     title: Hypnotherapy
-pending_user_hypnotherapy:
-    slug: hypnotherapy
-    user: pending_user
-    position: 1
-    title: Hypnotherapy
-suspended_user1_hypnotherapy:
-    slug: hypnotherapy
-    user: suspended_user1
-    position: 1
-    title: Hypnotherapy
-suspended_user2_hypnotherapy:
-    slug: hypnotherapy
-    user: suspended_user2
-    position: 1
-    title: Hypnotherapy
 sgardiner_hypnotherapy:
     user: sgardiner
     slug: hypnotherapy

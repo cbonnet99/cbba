@@ -3,16 +3,38 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
+  
+  def test_update_optional
+    user = Factory(:user)
+    
+    post :update_optional, {}, {:user_id => user.id}
+    
+    assert_redirected_to select_features_url
+  end
 
-  # def test_destroy_unpublished
-  #   user = Factory(:user, :unsubscribe_token => "bla")
-  #   user_email = user.email
-  #   assert user.user_profile.draft?
-  #   post :destroy, {:email => user.email, :token => user.unsubscribe_token}
-  #   assert_response :success
-  #   assert_nil flash[:error], "Flash: #{flash.inspect}"
-  #   assert_nil User.find_by_email(user_email)
-  # end
+  def test_confirm
+    user = Factory(:user, :state => "unconfirmed")
+    assert user.unconfirmed?
+    assert_not_nil user.activation_code
+    
+    post :confirm, :activation_code => user.activation_code 
+    
+    assert_redirected_to user_home_url
+    user.reload
+    assert user.active?
+  end
+
+  def test_confirm_wrong_activation_code
+    user = Factory(:user, :state => "unconfirmed")
+    assert user.unconfirmed?
+    assert_not_nil user.activation_code
+    
+    post :confirm, :activation_code => "BLA"
+    
+    assert_redirected_to login_url
+    user.reload
+    assert user.unconfirmed?
+  end
 
   def test_warning_deactivate
     user = Factory(:user, :paid_special_offers => 1, :paid_gift_vouchers => 1)
@@ -162,13 +184,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to root_url
   end
 
-  def test_more_about_free_listing
-    get :more_about_free_listing
-    assert_response :success
-    #just to check that the HTML is valid
-    assert_select "div"
-  end
-
   def test_stats
     get :stats, {}, {:user_id => users(:cyrille).id }
     assert_response :success
@@ -209,11 +224,17 @@ class UsersControllerTest < ActionController::TestCase
     assert !assigns(:full_members).blank?
   end
 
+  def test_edit_optional
+    cyrille = users(:cyrille)
+    get :edit_optional, {}, {:user_id => cyrille.id }
+    assert_response :success
+  end
+
   def test_edit
     cyrille = users(:cyrille)
     get :edit, {}, {:user_id => cyrille.id }
     assert_response :success
-    assert_select "select#user_subcategory1_id", :count => 0 
+    assert_select "select#user_subcategory1_id", :count => 0
   end
 
   def test_new
@@ -593,14 +614,19 @@ class UsersControllerTest < ActionController::TestCase
 	end
 
   def test_create
+    ActionMailer::Base.deliveries = []
 		old_size = User.all.size
 		district = districts(:auckland_auckland_city)
 		nz = countries(:nz)
     hypnotherapy = subcategories(:hypnotherapy)
+    
+    #SUT
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
       :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
       :accept_terms => "1", :subcategory1_id => hypnotherapy.id
       }
+    
+    #Assertions  
 		assert_not_nil assigns(:user)
 #    puts assigns(:user).errors.inspect
 		assert_equal 0, assigns(:user).errors.size
@@ -608,6 +634,8 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal 1, assigns(:user).tabs.size
 		assert_not_nil assigns(:user).country
 		assert_equal nz, assigns(:user).country
+		assert assigns(:user).unconfirmed?
+		assert_equal 1, ActionMailer::Base.deliveries.size, "One confirmation email should have been sent"
 		tab = assigns(:user).tabs.first
 		assert_match /delete this text/, tab.content1_with
 		assert_match /delete this text/, tab.content2_benefits
@@ -780,28 +808,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal 1, assigns(:user).errors.size
 	end
 	
-  def test_create_free_listing
-		old_size = User.all.size
-		district = districts(:wellington_wellington_city)
-		wellington = regions(:wellington)
-    hypnotherapy = subcategories(:hypnotherapy)
-		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
-      :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-      :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "free_listing",
-      :accept_terms => "1", :subcategory1_id => hypnotherapy.id }
-    assert_redirected_to user_membership_url
-		assert_not_nil assigns(:user)
-    # # 	puts assigns(:user).errors.inspect
-		assert_equal 0, assigns(:user).errors.size
-		assert_equal old_size+1, User.all.size
-		new_user = User.find_by_email("cyrille@stuff.com")
-		assert_not_nil(new_user)
-		assert_equal "(027)8987987", new_user.mobile
-		assert_equal wellington, new_user.region
-    assert new_user.active?
-	end
-	
-    def test_create_full_membership
+  def test_create_full_membership
     old_size = User.all.size
     district = districts(:wellington_wellington_city)
     wellington = regions(:wellington)
@@ -810,7 +817,7 @@ class UsersControllerTest < ActionController::TestCase
         :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
         :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_nil assigns(:payment)
-    assert_redirected_to user_welcome_url
+    assert_redirected_to step2_url
     assert_not_nil assigns(:user)
     assert assigns(:user).full_member?
     assert_equal 0, assigns(:user).errors.size, "There were errors: #{assigns(:user).errors.inspect}"
@@ -821,31 +828,9 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal wellington, new_user.region
     assert_equal 1, new_user.tabs.size
     assert new_user.full_member?
-    assert new_user.active?, "User should now be active automatically"
+    assert new_user.unconfirmed?, "User should be unconfirmed, but is instead in state: #{new_user.state}"
+    assert_not_nil new_user.activation_code
   end
-	
-  #   def test_create_full_membership_direct_debit
-  #   old_size = User.all.size
-  #   district = districts(:wellington_wellington_city)
-  #   wellington = regions(:wellington)
-  #     hypnotherapy = subcategories(:hypnotherapy)
-  #   post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
-  #       :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-  #       :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   },
-  #       :commit => "Pay by direct debit" 
-  #     assert_not_nil assigns(:payment)
-  #     assert_redirected_to :controller => "payments", :action => "edit_debit",  :id => assigns(:payment).id
-  #   assert_not_nil assigns(:user)
-  #     # #   puts assigns(:user).errors.inspect
-  #   assert_equal 0, assigns(:user).errors.size
-  #   assert_equal old_size+1, User.all.size
-  #   new_user = User.find_by_email("cyrille@stuff.com")
-  #   assert_not_nil(new_user)
-  #   assert_equal "(027)8987987", new_user.mobile
-  #   assert_equal wellington, new_user.region
-  #     # #1 tab for hypnotherapy
-  #     assert_equal 1, new_user.tabs.size
-  # end
 	
   def test_create_full_membership_with_error
     hypnotherapy = subcategories(:hypnotherapy)
@@ -854,11 +839,10 @@ class UsersControllerTest < ActionController::TestCase
       :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff",
       :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_template "new"
-   # puts @response.body
-    assert_select "h2", :text => "Sign up for your FREE profile" 
-    assert_select "option[value=#{hypnotherapy.id}][selected=selected]"
+    assert_select "h2", :text => "Step 1: Your essential information" 
+    assert_select "select#user_subcategory1_id"
+    assert_select "select#user_subcategory1_id > option[value=#{hypnotherapy.id}][selected=selected]"
 		assert_not_nil assigns(:user)
-    # # 	puts assigns(:user).errors.inspect
 		assert_equal 1, assigns(:user).errors.size
 	end
 end
