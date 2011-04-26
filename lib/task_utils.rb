@@ -3,7 +3,7 @@ require 'xero_gateway'
 class TaskUtils
   
   def self.delete_old_user_events(from=6.months.ago)
-    UserEvent.find(:all, :conditions => ["logged_at <= ?", from]).map(&:destroy)
+    UserEvent.find(:all, :conditions => ["event_type <> 'Visit full member profile' and event_type <> 'Redirected to website' and event_type<>'Message sent' and event_type<>'Redirected to website' and event_type<>'Payment successful' and logged_at <= ?", from]).map(&:destroy)
   end
   
   def self.change_homepage_featured_resident_experts 

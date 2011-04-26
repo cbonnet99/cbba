@@ -20,7 +20,7 @@
 <div class="cleaner"></div>
 <%= render :partial => "reviewer/publication_info", :locals => {:item => @article} %>
 <hr/>
-<span class="share-link"><%= render :partial => "search/share_link", :locals => {:url => articles_show_url(@article.author.slug, @article.slug)} %></span>
+<span class="share-link"><%= render :partial => "search/share_link", :locals => {:url => stuff_url(@article)} %></span>
 <p>
 <%= white_list @article.lead %>
 <br/>
@@ -50,7 +50,7 @@
 		<h4>Related articles</h4>
 		<ul>
 		<% @articles.each do |a| -%>
-			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%><br/>Viewed <%= pluralize(a.monthly_view_counts, "time")%></li>
+			<li><%= link_to a.title, stuff_url(a)%><br/> by <%= a.author.try(:name)%><br/>Viewed <%= pluralize(a.monthly_view_counts, "time")%></li>
 		<% end -%>
 		</ul>
 	<% end -%>
