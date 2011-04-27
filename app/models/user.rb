@@ -1159,7 +1159,16 @@ class User < ActiveRecord::Base
   def expertise
     subcategories.map(&:name).to_sentence
   end
-
+  
+  def create_additional_tab(subcat_id)
+    if !subcat_id.nil?
+      subcat = Subcategory.find(subcat_id)
+      if !subcat.nil?
+        self.add_tab(subcat)
+      end
+    end
+  end
+  
   def add_tab(subcat)
     if self.has_max_number_tabs?
       return nil

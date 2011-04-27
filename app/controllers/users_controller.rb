@@ -273,6 +273,8 @@ class UsersController < ApplicationController
   def update_optional
     @user = current_user
 		if @user.update_attributes(params[:user])
+		  @user.create_additional_tab(@user.subcategory2_id)
+		  @user.create_additional_tab(@user.subcategory3_id)
       @user.main_expertise_name(:reload)
       flash[:notice] = "Your optional information has been saved"
       redirect_to select_features_url
