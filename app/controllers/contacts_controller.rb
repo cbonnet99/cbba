@@ -30,7 +30,8 @@ class ContactsController < ApplicationController
     case
     when !params[:activation_code].blank? && contact && contact.unconfirmed?
       contact.confirm!
-      flash[:notice] = "Your account has been confirmed"
+      contact.send_free_tool
+      flash[:notice] = "Your account has been confirmed and you will receive your FREE tool shortly"
       redirect_to root_url
     when params[:activation_code].blank?
       flash[:error] = "Your confirmation code was missing.  Please follow the URL from your email."
