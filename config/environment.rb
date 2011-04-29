@@ -92,7 +92,7 @@ Rails::Initializer.run do |config|
     :address              => "smtp.gmail.com",
     :port                 => 587,
     :domain               => 'beamazing.co.nz',
-    :user_name            => 'mailer',
+    :user_name            => 'mailer@beamazing.co.nz',
     :password             => 'mavslr55',
     :authentication       => :plain,
     :tls => true  }
