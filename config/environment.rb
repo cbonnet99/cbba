@@ -7,8 +7,8 @@
 # Specifies gem version of Rails to use when vendor/rails is not present
 # RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 
-ENV['RECAPTCHA_PUBLIC_KEY'] = '6Le_rwUAAAAAAIyiSLrIVnRr3gXvWgUxw6PQz3w2'
-ENV['RECAPTCHA_PRIVATE_KEY'] = '6Le_rwUAAAAAAP-J7EBmIILaqLqhslt6K0h3m6Ns'
+ENV['RECAPTCHA_PUBLIC_KEY'] = '6Lev6cMSAAAAALaXpKAJBb8WpH4Omjs5DLa4BqqJ'
+ENV['RECAPTCHA_PRIVATE_KEY'] = '6Lev6cMSAAAAADZXnAkfGCgQ8WIBqFJ35HS_Vu8t'
 
 # #number of search results displayed per page
 $search_results_per_page = 50
