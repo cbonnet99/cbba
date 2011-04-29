@@ -34,6 +34,7 @@
 <div class="cleaner"></div>
 <br/>
 <%= render :partial => "articles/share_link" %>
+<%= render :partial => "articles/facebook_comment", :locals => {:article => @article} %>
 <% content_for :sidebar_content do -%>
 	<% unless @article.main_subcategory.published_special_offers_count == 0 && @article.main_subcategory.published_gift_vouchers_count == 0 -%>
 		<h4>Related offers</h4>
