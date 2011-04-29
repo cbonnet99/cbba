@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   
   aasm_column :state
   
-  aasm_initial_state :initial => :unconfirmed
+  aasm_initial_state :unconfirmed
 
   aasm_state :unconfirmed
   aasm_state :active

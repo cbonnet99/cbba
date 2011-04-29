@@ -20,7 +20,7 @@ class MassEmailTest < ActiveSupport::TestCase
     email_public_newsletter = mass_emails(:email_public_newsletter)
     email_public_newsletter.recipients = "All subscribers"
     email_public_newsletter.deliver(users(:cyrille))
-    assert_equal User.active.wants_newsletter.size+Contact.wants_newsletter.size, UserEmail.not_sent.size
+    assert_equal User.active.wants_newsletter.size+Contact.active.wants_newsletter.size, UserEmail.not_sent.size
   end
 
   def test_unknown_attributes

@@ -25,7 +25,7 @@ class Payment < ActiveRecord::Base
   
   
   aasm_column :status
-  aasm_initial_state :initial => :pending
+  aasm_initial_state :pending
   aasm_state :pending
   aasm_state :completed, :enter => :finalize_complete
 

@@ -4,6 +4,7 @@ class TaskUtils
 
   def self.delete_old_unconfirmed_users
     User.find(:all, :conditions => ["state = 'unconfirmed' and created_at <= ?", 14.days.ago]).map(&:destroy)
+    Contact.find(:all, :conditions => ["state = 'unconfirmed' and created_at <= ?", 14.days.ago]).map(&:destroy)
   end
   
   def self.delete_old_user_events(from=6.months.ago)

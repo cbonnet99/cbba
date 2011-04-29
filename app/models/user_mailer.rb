@@ -32,6 +32,11 @@ class UserMailer < ActionMailer::Base
     @subject = "Welcome to #{help.site_name(user)}"
     @content_type = 'text/html'
     @body[:site_name] = help.site_name(user)
+    if user.is_a?(User)
+      @body[:url] = confirm_user_url(:activation_code => user.activation_code)
+    else
+      @body[:url] = confirm_contact_url(:activation_code => user.activation_code)
+    end
   end
   
   def congrats_first_article(user)

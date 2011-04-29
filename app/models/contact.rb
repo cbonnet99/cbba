@@ -1,9 +1,29 @@
 class Contact < ActiveRecord::Base
+  include AASM
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
-  include Authorization::AasmRoles
   include ContactSystem
+
+  aasm_column :state
+  
+  aasm_initial_state :unconfirmed
+
+  aasm_state :unconfirmed
+  aasm_state :active
+  aasm_state :inactive
+  
+  aasm_event :confirm do
+    transitions :from => :unconfirmed, :to => :active
+  end
+
+  aasm_event :deactivate do
+    transitions :from => :active, :to => :inactive
+  end
+  
+  aasm_event :reactivate do
+    transitions :from => :inactive, :to => :active
+  end
 
   belongs_to :region
   belongs_to :district
@@ -19,7 +39,16 @@ class Contact < ActiveRecord::Base
   named_scope :wants_newsletter, :conditions => "receive_newsletter is true"
 
   before_validation :generate_pwd_if_blank
-  after_create :send_free_tool
+  after_create :generate_activation_code, :send_confirmation_email
+
+
+  def send_confirmation_email
+    UserMailer.deliver_new_user_confirmation_email(self)
+  end
+  
+  def generate_activation_code
+    self.update_attribute(:activation_code, Digest::SHA1.hexdigest("#{email}#{Time.now}#{id}"))
+  end
   
   def full_name
     "#{name} [#{email}]"

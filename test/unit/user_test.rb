@@ -678,6 +678,8 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "^You must select your main expertise", new_user.errors[:subcategory1_id]
   end
 	def test_create
+	  ActionMailer::Base.deliveries = []
+    
 		wellington = regions(:wellington)
 		wellington_wellington_city = districts(:wellington_wellington_city)
 		hypnotherapy = subcategories(:hypnotherapy)
@@ -694,6 +696,11 @@ class UserTest < ActiveSupport::TestCase
 		
 		assert !new_user.activation_code.blank?
 		assert !new_user.active?
+    assert new_user.unconfirmed?
+    assert_equal "unconfirmed", new_user.state
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_match /activation_code/, ActionMailer::Base.deliveries.first.body
 		
 		assert_equal old_count+1, User.count
 		assert_equal [hypnotherapy, yoga], new_user.subcategories

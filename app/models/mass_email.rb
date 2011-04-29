@@ -57,13 +57,13 @@ class MassEmail < ActiveRecord::Base
       case email_type
       when "Public newsletter":
         users_obj = User.active.wants_newsletter
-        contact_obj = Contact.wants_newsletter
+        contact_obj = Contact.active.wants_newsletter
       when "Business newsletter":
           users_obj = User.active.wants_professional_newsletter
-          contact_obj = Contact.wants_professional_newsletter
+          contact_obj = Contact.active.wants_professional_newsletter
       else        
         users_obj = User.active
-        contact_obj = Contact
+        contact_obj = Contact.active
       end
       all_users = []
       if recipients == "All subscribers"

@@ -1,7 +1,7 @@
 class Recommendation < ActiveRecord::Base
 	include AASM
   aasm_column :status
-  aasm_initial_state :initial => :pending
+  aasm_initial_state :pending
   aasm_state :pending, :enter => :email_recommended_user
   aasm_state :accepted
   aasm_state :rejected

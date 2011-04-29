@@ -76,6 +76,18 @@ Factory.define :gift_voucher do |gv|
   gv.association :subcategory
 end
 
+
+Factory.define :contact do |f|
+  f.sequence(:first_name) {|n| "User#{n}"}
+  f.last_name "Name"
+  f.association :district
+  f.password "foobar"
+  f.state "active"
+  f.password_confirmation { |u| u.password }
+  f.sequence(:email) { |n| "foo#{n}@example.com" }
+  f.country {|c| Country.find_by_country_code("nz")}
+end
+
 Factory.define :user do |f|
   f.sequence(:first_name) {|n| "User#{n}"}
   f.last_name "Name"

@@ -3,6 +3,31 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ContactsControllerTest < ActionController::TestCase
   fixtures :all
 
+  def test_confirm
+    contact = Factory(:contact, :state => "unconfirmed")
+    assert contact.unconfirmed?
+    assert_not_nil contact.activation_code
+    
+    post :confirm, :activation_code => contact.activation_code 
+    
+    assert_redirected_to root_url
+    contact.reload
+    assert contact.active?
+  end
+
+  def test_confirm_wrong_activation_code
+    contact = Factory(:contact, :state => "unconfirmed")
+    assert contact.unconfirmed?
+    assert_not_nil contact.activation_code
+    
+    post :confirm, :activation_code => "BLA"
+    
+    assert_redirected_to root_url
+    contact.reload
+    assert contact.unconfirmed?
+  end
+
+
   test "creation errors" do
     post :create, {}
     assert_not_nil assigns(:contact)
