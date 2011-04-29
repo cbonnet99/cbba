@@ -79,9 +79,9 @@ class UserMailer < ActionMailer::Base
   end
 
   def alert_expired_features(user, feature_names)
-    megan = User.find_by_email(APP_CONFIG[:megan])
-    unless megan.nil?
-      setup_email(megan)
+    sav = User.find_by_email(APP_CONFIG[:sav])
+    unless sav.nil?
+      setup_email(sav)
       @subject << "Expired features for user #{user.name}"
   		@body[:feature_names] = feature_names
   		@body[:user] = user
@@ -89,9 +89,9 @@ class UserMailer < ActionMailer::Base
   end
 
   def alert_expiring_features(user, feature_names)
-    megan = User.find_by_email(APP_CONFIG[:megan])
-    unless megan.nil?
-      setup_email(megan)
+    sav = User.find_by_email(APP_CONFIG[:sav])
+    unless sav.nil?
+      setup_email(sav)
       @subject << "Expiring features for user #{user.name}"
   		@body[:feature_names] = feature_names
   		@body[:user] = user
@@ -99,9 +99,9 @@ class UserMailer < ActionMailer::Base
   end
 
   def alert_pending_payments(payments)
-    megan = User.find_by_email(APP_CONFIG[:megan])
-    unless megan.nil?
-      setup_email(megan)
+    sav = User.find_by_email(APP_CONFIG[:sav])
+    unless sav.nil?
+      setup_email(sav)
       @subject << "There are #{help.pluralize(payments.size, 'payment')}"
   		@body[:payments] = payments
     end
