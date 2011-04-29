@@ -3,6 +3,21 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
   
+  def test_delete_old_unconfirmed_users
+    old_unconfirmed = Factory(:user, :state => "unconfirmed", :created_at => 17.days.ago)
+    recent_unconfirmed = Factory(:user, :state => "unconfirmed", :created_at => 2.days.ago)
+    
+    old_id = old_unconfirmed.id
+    recent_id = recent_unconfirmed.id
+    
+    TaskUtils.delete_old_unconfirmed_users
+    
+    assert_raise ActiveRecord::RecordNotFound do
+       User.find(old_id)
+     end
+    assert_not_nil User.find(recent_id)
+  end
+  
   def test_delete_old_user_events
     ue_old = Factory(:user_event, :logged_at => 7.months.ago)
     ue_new = Factory(:user_event, :logged_at => 5.months.ago)
