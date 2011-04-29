@@ -88,24 +88,23 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   config.active_record.observers = :user_observer
 
-  # config.action_mailer.smtp_settings = {
-  #     :tls => true,
-  #     :address => "smtp.gmail.com",
-  #     :port => "587",
-  #     :domain => "beamazing.co.nz",
-  #     :authentication => :plain,
-  #     :user_name => "beamazing2009@gmail.com",
-  #     :password => "urban74" 
-  #   }
-
-    config.action_mailer.smtp_settings = {
-    :address  => "mail.beamazing.co.nz",
-    :port  => 25,
-    :domain  => "beamazing.co.nz",
-    :authentication  => :login,
-    :user_name  => "sav+beamazing.co.nz",
-    :password  => "urban74"
-  }
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'beamazing.co.nz',
+    :user_name            => 'mailer',
+    :password             => 'mavslr55',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
+    
+  #   config.action_mailer.smtp_settings = {
+  #   :address  => "mail.beamazing.co.nz",
+  #   :port  => 25,
+  #   :domain  => "beamazing.co.nz",
+  #   :authentication  => :login,
+  #   :user_name  => "sav+beamazing.co.nz",
+  #   :password  => "urban74"
+  # }
 
 end
 
