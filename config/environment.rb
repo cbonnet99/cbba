@@ -94,8 +94,8 @@ Rails::Initializer.run do |config|
     :domain               => 'beamazing.co.nz',
     :user_name            => 'mailer',
     :password             => 'mavslr55',
-    :authentication       => 'plain',
-    :enable_starttls_auto => true  }
+    :authentication       => :plain,
+    :tls => true  }
     
   #   config.action_mailer.smtp_settings = {
   #   :address  => "mail.beamazing.co.nz",
