@@ -11,9 +11,9 @@ module Recaptcha
   end
 
   
-  RECAPTCHA_API_SERVER        = 'http://api.recaptcha.net';
-  RECAPTCHA_API_SECURE_SERVER = 'https://www.google.com/recaptcha/api';
-  RECAPTCHA_VERIFY_SERVER     = 'api-verify.recaptcha.net';
+  RECAPTCHA_API_SERVER_URL        = 'http://www.google.com/recaptcha/api'
+  RECAPTCHA_API_SECURE_SERVER_URL = 'https://www.google.com/recaptcha/api'
+  RECAPTCHA_VERIFY_URL            = 'http://www.google.com/recaptcha/api/verify'
 
   SKIP_VERIFY_ENV = ['test', 'cucumber']
 
