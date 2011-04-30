@@ -57,6 +57,20 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 3, assigns(:results).size
   end
+
+  def test_search_subcat_by_country
+    subcat = Factory(:subcategory)
+    nz = countries(:nz)
+    au = countries(:au)
+    nz_user = Factory(:user, :country => nz, :subcategory1_id => subcat.id)
+    au_user = Factory(:user, :country => au, :subcategory1_id => subcat.id)
+    
+    get :search, :where => "", :what => subcat.name
+    
+    assert_redirected_to subcategory_url(subcat.category.slug, subcat.slug)
+    assert assigns(:results).include?(nz_user) 
+    assert !assigns(:results).include?(au_user) 
+  end
   
   def test_search2
 		hypnotherapy = subcategories(:hypnotherapy)

@@ -28,7 +28,7 @@ class SearchController < ApplicationController
     end
   end
 
-  def search    
+  def search
 		begin
       if @what.blank? && @where.blank?
           logger.debug("======== EMPTY params in search")
@@ -47,7 +47,7 @@ class SearchController < ApplicationController
           @category = @subcategory.category
           redirect_to subcategory_url(@category.slug, @subcategory.slug)
         end
-        @results = User.search_results(@category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
+        @results = User.search_results(@country.id, @category ? @category.id : nil, @subcategory ? @subcategory.id : nil, @region ? @region.id : nil, @district ? @district.id : nil, params[:page])
         if @results.blank?
           @selected_user = User.find_paying_member_by_name(@what)
           results_size = 1 unless @selected_user.nil?
@@ -97,11 +97,11 @@ class SearchController < ApplicationController
 			end
 			if params[:what].blank?
 				@category = Category.find(params[:category_id])
-				@results = User.search_results(@category.id, nil, @region_id, @district_id, params[:page])
+				@results = User.search_results(@country.id, @category.id, nil, @region_id, @district_id, params[:page])
         log_bam_user_event "Search with no subcategory", "category: #{@category.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:category_id => @category.id, :region_id => @region_id, :district_id => @district_id, :results_found => @results.size }
 			else
 				@subcategory = Subcategory.find(params[:what])
-				@results = User.search_results(nil, @subcategory.id, @region_id, @district_id, params[:page])
+				@results = User.search_results(@country.id, nil, @subcategory.id, @region_id, @district_id, params[:page])
         log_bam_user_event "Search with subcategory", "subcategory: #{@subcategory.name}, region #{@region_id}, district: :#{@district_id}, found #{@results.size} results", {:subcategory_id => @subcategory.id, :region_id => @region_id, :district_id => @district_id, :results_found => @results.size}
 			end
 		rescue ActiveRecord::RecordNotFound

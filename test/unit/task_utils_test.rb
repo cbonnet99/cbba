@@ -834,9 +834,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
 
     def test_rotate_user_positions_in_subcategories
       canterbury = regions(:canterbury)
+      nz = countries(:nz)
       canterbury_christchurch_city = districts(:canterbury_christchurch_city)
       hypnotherapy = subcategories(:hypnotherapy)
-      results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
+      results = User.search_results(nz.id, nil, hypnotherapy.id, canterbury.id, nil, 1)
   #     puts "============= results:"
   #     results.each do |r|
   #       puts "#{r.name}  - #{r.free_listing}- #{r.id}"
@@ -846,7 +847,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
   #     end
 
       TaskUtils.rotate_user_positions_in_subcategories
-      new_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
+      new_results = User.search_results(nz.id, nil, hypnotherapy.id, canterbury.id, nil, 1)
       new_results_size = new_results.size
       # #first full member should have changed
       assert new_results.first != results.first
@@ -870,7 +871,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
       user.subcategories_users.reload
       assert_equal 1, user.subcategories_users.size
       assert_equal old_user_size+1, User.all.size
-      after_insert_results = User.search_results(nil, hypnotherapy.id, canterbury.id, nil, 1)
+      after_insert_results = User.search_results(nz.id, nil, hypnotherapy.id, canterbury.id, nil, 1)
       #the new user should be the last of the full members
   #    puts "============= after_insert_results:"
   #    after_insert_results.each do |r|
@@ -890,9 +891,10 @@ class TaskUtilsTest < ActiveSupport::TestCase
     end
     def test_rotate_user_positions_in_categories
       canterbury = regions(:canterbury)
+      nz = countries(:nz)
       canterbury_christchurch_city = districts(:canterbury_christchurch_city)
       practitioners = categories(:practitioners)
-      results = User.search_results(practitioners.id, nil, canterbury.id, nil, 1)
+      results = User.search_results(nz.id, practitioners.id, nil, canterbury.id, nil, 1)
   #     puts "============= results:"
   #     results.each do |r|
   #       puts "#{r.name}  - #{r.free_listing}- #{r.id}"
@@ -902,7 +904,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
   #     end
 
       TaskUtils.rotate_user_positions_in_categories
-      new_results = User.search_results(practitioners.id, nil, canterbury.id, nil, 1)
+      new_results = User.search_results(nz.id, practitioners.id, nil, canterbury.id, nil, 1)
       new_results_size = new_results.size
       # #first full member should have changed
       assert new_results.first != results.first
@@ -926,7 +928,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
       user.categories_users.reload
       assert_equal 1, user.categories_users.size
       assert_equal old_user_size+1, User.all.size
-      after_insert_results = User.search_results(practitioners.id, nil, canterbury.id, nil, 1)
+      after_insert_results = User.search_results(nz.id, practitioners.id, nil, canterbury.id, nil, 1)
       #the new user should be the last of the full members
   #    puts "============= after_insert_results:"
   #    after_insert_results.each do |r|
