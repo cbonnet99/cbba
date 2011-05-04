@@ -33,12 +33,17 @@ class SubcategoryTest < ActiveSupport::TestCase
 
   def test_users_hash_by_region
     subcat = Factory(:subcategory)
-    user = Factory(:user, :subcategory1_id => subcat.id )
-    hash = subcat.users_hash_by_region
+    nz = countries(:nz)
+    au = countries(:au)
+    new_south_wales_sydney = districts(:new_south_wales_sydney)
+    nz_user = Factory(:user, :subcategory1_id => subcat.id, :country => nz)
+    au_user = Factory(:user, :subcategory1_id => subcat.id, :country => au, :district => new_south_wales_sydney)
+    hash = subcat.users_hash_by_region(nz)
     assert !hash.blank?
-    assert hash.keys.include?(user.region.name)
-    assert hash[user.region.name].is_a?(Array)
-    assert_equal 1, hash[user.region.name].size
+    assert hash.keys.include?(nz_user.region.name)
+    assert !hash.keys.include?(au_user.region.name)
+    assert hash[nz_user.region.name].is_a?(Array)
+    assert_equal 1, hash[nz_user.region.name].size
   end
 
   def test_full_name

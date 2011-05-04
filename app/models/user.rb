@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   
   aasm_column :state
   
-  aasm_initial_state :initial => :unconfirmed
+  aasm_initial_state :unconfirmed
 
   aasm_state :unconfirmed
   aasm_state :active
@@ -641,17 +641,16 @@ class User < ActiveRecord::Base
   end
 
   def location
+    res = ""
     if city.blank?
-      if district.nil?
-        res = ""
-      else
+      if !district.nil?
         res = district.name
       end
     else
-      res = city
+      res << city
     end
     res << ", #{region.name}" unless region.nil?
-    res
+    return res
   end
 
   def find_current_payment
@@ -1159,7 +1158,16 @@ class User < ActiveRecord::Base
   def expertise
     subcategories.map(&:name).to_sentence
   end
-
+  
+  def create_additional_tab(subcat_id)
+    if !subcat_id.nil?
+      subcat = Subcategory.find(subcat_id)
+      if !subcat.nil?
+        self.add_tab(subcat)
+      end
+    end
+  end
+  
   def add_tab(subcat)
     if self.has_max_number_tabs?
       return nil
@@ -1262,32 +1270,32 @@ class User < ActiveRecord::Base
 		User.count_by_sql(["select count(u.*) as count from users u, subcategories_users su where u.state='active' and u.id = su.user_id and su.subcategory_id in (?)", subcategories])
 	end
 
-	def self.search_results(category_id, subcategory_id, region_id, district_id, page)
+	def self.search_results(country_id, category_id, subcategory_id, region_id, district_id, page)
 		if subcategory_id.nil?
 			if district_id.nil?
         if category_id.nil?
           #regional search
-          User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r where u.state='active' and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc", region_id], :page => page, :per_page => $search_results_per_page )
+          User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r where u.country_id = ? and u.state='active' and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc", country_id, region_id], :page => page, :per_page => $search_results_per_page )
         else
           #category search
-          User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r, categories_users cu where u.state='active' and cu.user_id = u.id and cu.category_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, cu.position", category_id], :page => page, :per_page => $search_results_per_page )
+          User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r, categories_users cu where u.country_id = ? and u.state='active' and cu.user_id = u.id and cu.category_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, cu.position", country_id, category_id], :page => page, :per_page => $search_results_per_page )
         end
 			else
         if category_id.nil?
-          User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r where u.state='active' and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc", district_id], :page => page, :per_page => $search_results_per_page )
+          User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r where u.country_id = ? and u.state='active' and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc", country_id, district_id], :page => page, :per_page => $search_results_per_page )
         else
-          User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r, categories_users cu where u.state='active' and cu.user_id = u.id and cu.category_id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, cu.position", category_id, district_id], :page => page, :per_page => $search_results_per_page )
+          User.paginate_by_sql(["select u.* from users u, roles_users ru, roles r, categories_users cu where u.country_id = ? and u.state='active' and cu.user_id = u.id and cu.category_id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, cu.position", country_id, category_id, district_id], :page => page, :per_page => $search_results_per_page )
         end
 			end
 		else
 			if district_id.nil?
         if region_id.nil?
-          User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, su.position", subcategory_id],  :page => page, :per_page => $search_results_per_page )
+          User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.country_id = ? and u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, su.position", country_id, subcategory_id],  :page => page, :per_page => $search_results_per_page )
         else
-          User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, su.position", subcategory_id, region_id],  :page => page, :per_page => $search_results_per_page )
+          User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.country_id = ? and u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.region_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, su.position", country_id, subcategory_id, region_id],  :page => page, :per_page => $search_results_per_page )
         end
 			else
-				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, su.position", subcategory_id, district_id], :page => page, :per_page => $search_results_per_page )
+				User.paginate_by_sql(["select u.* from subcategories_users su, users u, roles_users ru, subcategories s, roles r where u.country_id = ? and u.state='active' and su.subcategory_id = s.id and su.user_id = u.id and s.id = ? and u.district_id = ? and (u.free_listing is true or (r.name='full_member')) and r.id = ru.role_id and ru.user_id=u.id order by paid_photo desc, paid_highlighted desc, su.position", country_id, subcategory_id, district_id], :page => page, :per_page => $search_results_per_page )
 			end
 		end
 	end

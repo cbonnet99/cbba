@@ -613,18 +613,34 @@ class UserTest < ActiveSupport::TestCase
 		assert sgardiner.has_role?('full_member')
 	end
 
+  def test_search_results_multiple_countries
+    subcat = Factory(:subcategory)
+    nz = countries(:nz)
+    au = countries(:au)
+    new_south_wales_sydney = districts(:new_south_wales_sydney)
+    nz_user = Factory(:user, :subcategory1_id => subcat.id, :country => nz)
+    au_user = Factory(:user, :subcategory1_id => subcat.id, :country => au, :district => new_south_wales_sydney)
+
+    results = User.search_results(nz.id, nil, subcat.id, nil, nil, 1)
+    
+    assert results.include?(nz_user)
+    assert !results.include?(au_user)
+  end
+
 	def test_search_results
+	  nz = countries(:nz)
 		practitioners = categories(:practitioners)
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-    results = User.search_results(practitioners.id, hypnotherapy.id, nil, canterbury_christchurch_city.id, 1)
+    results = User.search_results(nz.id, practitioners.id, hypnotherapy.id, nil, canterbury_christchurch_city.id, 1)
 		assert_equal 3, results.size
 	end
 
 	def test_search_results_category_with_district
+	  nz = countries(:nz)
 		practitioners = categories(:practitioners)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-    results = User.search_results(practitioners.id, nil, nil, canterbury_christchurch_city.id, 1)
+    results = User.search_results(nz.id, practitioners.id, nil, nil, canterbury_christchurch_city.id, 1)
    # puts "========= results:"
    # results.each do |r|
    #   puts r.name
@@ -633,25 +649,28 @@ class UserTest < ActiveSupport::TestCase
 	end
 	
 	def test_search_results_subcategory
+	  nz = countries(:nz)
 		hypnotherapy = subcategories(:hypnotherapy)
-    results = User.search_results(nil, hypnotherapy.id, nil, nil, 1)
+    results = User.search_results(nz.id, nil, hypnotherapy.id, nil, nil, 1)
 		assert_equal 5, results.size
 	end
 
-    	def test_search_results_category_coaching
-        coaches = categories(:coaches)
-        results = User.search_results(coaches.id, nil, nil, nil, 1)
-       # puts "========= results:"
-       # results.each do |r|
-       #   puts r.name
-       # end
-    		assert_equal 1, results.size
-    	end
+  def test_search_results_category_coaching
+	  nz = countries(:nz)
+    coaches = categories(:coaches)
+    results = User.search_results(nz.id, coaches.id, nil, nil, nil, 1)
+   # puts "========= results:"
+   # results.each do |r|
+   #   puts r.name
+   # end
+		assert_equal 1, results.size
+	end
 
 	def test_search_results_category_region
+	  nz = countries(:nz)
 		practitioners = categories(:practitioners)
 		canterbury = regions(:canterbury)
-		assert_equal 4, User.search_results(practitioners.id, nil, canterbury.id, nil, 1).size
+		assert_equal 4, User.search_results(nz.id, practitioners.id, nil, canterbury.id, nil, 1).size
 	end
 
 	def test_subs
@@ -678,6 +697,8 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "^You must select your main expertise", new_user.errors[:subcategory1_id]
   end
 	def test_create
+	  ActionMailer::Base.deliveries = []
+    
 		wellington = regions(:wellington)
 		wellington_wellington_city = districts(:wellington_wellington_city)
 		hypnotherapy = subcategories(:hypnotherapy)
@@ -694,6 +715,11 @@ class UserTest < ActiveSupport::TestCase
 		
 		assert !new_user.activation_code.blank?
 		assert !new_user.active?
+    assert new_user.unconfirmed?
+    assert_equal "unconfirmed", new_user.state
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    assert_match /activation_code/, ActionMailer::Base.deliveries.first.body
 		
 		assert_equal old_count+1, User.count
 		assert_equal [hypnotherapy, yoga], new_user.subcategories

@@ -8,7 +8,7 @@ module Workflowable
     base.send :belongs_to, :approved_by, :class_name => "User"
     base.send :belongs_to, :rejected_by, :class_name => "User"
     base.send :aasm_column, :state
-    base.send :aasm_initial_state, :initial => :draft
+    base.send :aasm_initial_state, :draft
     base.send :aasm_state, :draft
     base.send :aasm_state, :published, :enter => :on_publish_enter
     

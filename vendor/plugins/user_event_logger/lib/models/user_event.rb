@@ -33,6 +33,8 @@ class UserEvent < ActiveRecord::Base
   PAYMENT_FAILURE = "Payment failed"
   VISIT_SUBCATEGORY = "Visit subcategory"
   
+  NEVER_DELETED_EVENTS = [VISIT_PROFILE, REDIRECT_WEBSITE, MSG_SENT, PAYMENT_SUCCESS, PAYMENT_FAILURE]
+  
 	named_scope :free_users_show_details, :conditions => ["event_type=?", UserEvent::FREE_USER_DETAILS]
 	named_scope :redirect_website, :conditions => ["event_type=?", UserEvent::REDIRECT_WEBSITE]
 	named_scope :visited_profile, :conditions => ["event_type=?", UserEvent::VISIT_PROFILE]

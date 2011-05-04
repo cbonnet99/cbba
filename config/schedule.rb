@@ -35,6 +35,7 @@ every :sunday, :at => '12pm'  do
 end
 
 every 1.day, :at => "3am"  do
+  runner "TaskUtils.delete_old_unconfirmed_users"
   runner "TaskUtils.notify_unpublished_users"
   runner "TaskUtils.send_offers_reminder"
   runner "TaskUtils.check_pending_payments"

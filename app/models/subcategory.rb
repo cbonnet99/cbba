@@ -54,9 +54,9 @@ class Subcategory < ActiveRecord::Base
     self.articles.published.find(:all, :order => "published_at desc", :limit => number_articles)
   end
 
-  def users_hash_by_region
+  def users_hash_by_region(country)
     res = {}
-    self.users.active.find(:all, :include => [:region, :user_profile],  :order => "regions.name, paid_photo desc, paid_highlighted desc, user_profiles.published_at").each do |u|
+    self.users.active.find(:all, :conditions => ["users.country_id = ?", country.id], :include => [:region, :user_profile],  :order => "regions.name, paid_photo desc, paid_highlighted desc, user_profiles.published_at").each do |u|
       if res[u.region.name].blank?
         res[u.region.name] = [u]
       else

@@ -14,6 +14,8 @@ class ContactTest < ActiveSupport::TestCase
     new_contact = Contact.create(:email => "test@test.com", :country => nz)
     assert new_contact.errors.blank?, "Contacts should be able to create an account very quickly with minimal information: just their email address and a country"
     assert !new_contact.crypted_password.blank?, "Contacts should be assigned a password automatically if they didn't provide one"
+    assert new_contact.unconfirmed?
+    assert_equal "unconfirmed", new_contact.state
   end
   
   def test_authenticate

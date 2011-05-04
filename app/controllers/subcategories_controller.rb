@@ -28,7 +28,7 @@ class SubcategoriesController < ApplicationController
     		  flash[:error]="Could not find subcategory #{params[:subcategory_slug]}"
     		  redirect_to root_url
   		  else
-          @users = User.search_results(@category.id, @subcategory.id, @region.id, nil, params[:page])  		    
+          @users = User.search_results(@country.id, @category.id, @subcategory.id, @region.id, nil, params[:page])  		    
   		  end
       end
     end
@@ -47,7 +47,7 @@ class SubcategoriesController < ApplicationController
 				else
 				  log_user_event UserEvent::VISIT_SUBCATEGORY, "", "", {:subcategory_id => @subcategory.id, }
 				  @page_description = @subcategory.description
-      		@users_hash = @subcategory.users_hash_by_region
+      		@users_hash = @subcategory.users_hash_by_region(@country)
       		@articles = @subcategory.last_articles(6)
       		@featured_experts = @subcategory.resident_experts(@country)
 			  end

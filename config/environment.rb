@@ -7,8 +7,8 @@ require 'thread'
 # Specifies gem version of Rails to use when vendor/rails is not present
 # RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 
-ENV['RECAPTCHA_PUBLIC_KEY'] = '6Le_rwUAAAAAAIyiSLrIVnRr3gXvWgUxw6PQz3w2'
-ENV['RECAPTCHA_PRIVATE_KEY'] = '6Le_rwUAAAAAAP-J7EBmIILaqLqhslt6K0h3m6Ns'
+ENV['RECAPTCHA_PUBLIC_KEY'] = '6Lev6cMSAAAAALaXpKAJBb8WpH4Omjs5DLa4BqqJ'
+ENV['RECAPTCHA_PRIVATE_KEY'] = '6Lev6cMSAAAAADZXnAkfGCgQ8WIBqFJ35HS_Vu8t'
 
 # #number of search results displayed per page
 $search_results_per_page = 50
@@ -90,24 +90,23 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   config.active_record.observers = :user_observer
 
-  # config.action_mailer.smtp_settings = {
-  #     :tls => true,
-  #     :address => "smtp.gmail.com",
-  #     :port => "587",
-  #     :domain => "beamazing.co.nz",
-  #     :authentication => :plain,
-  #     :user_name => "beamazing2009@gmail.com",
-  #     :password => "urban74" 
-  #   }
-
-    config.action_mailer.smtp_settings = {
-    :address  => "mail.beamazing.co.nz",
-    :port  => 25,
-    :domain  => "beamazing.co.nz",
-    :authentication  => :login,
-    :user_name  => "sav+beamazing.co.nz",
-    :password  => "urban74"
-  }
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'beamazing.co.nz',
+    :user_name            => 'mailer@beamazing.co.nz',
+    :password             => 'mavslr55',
+    :authentication       => :plain,
+    :tls => true  }
+    
+  #   config.action_mailer.smtp_settings = {
+  #   :address  => "mail.beamazing.co.nz",
+  #   :port  => 25,
+  #   :domain  => "beamazing.co.nz",
+  #   :authentication  => :login,
+  #   :user_name  => "sav+beamazing.co.nz",
+  #   :password  => "urban74"
+  # }
 
 end
 

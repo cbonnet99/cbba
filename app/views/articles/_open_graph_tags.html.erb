@@ -1,4 +1,5 @@
 <meta property="og:title" content="<%= article.title%>"/>
+<meta property="og:author" content="<%= article.author.try(:name)%>"/>
 <meta property="og:type" content="article"/>
 <% if article.author.paid_photo? -%>
 <meta property="og:image" content="http://www.beamazing.co.nz<%= @article.author.photo.url(:thumbnail)%>"/>
@@ -7,5 +8,3 @@
 <% end -%>
 <meta property="og:url" content="<%= articles_show_url(article.author.slug, article.slug)%>"/>
 <meta property="og:site_name" content="BeAmazing"/>
-<meta property="fb:app_id" content="361000885623"/>
-<meta property="og:title" content="<%= @article.title%>"/>

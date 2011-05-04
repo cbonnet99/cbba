@@ -6,10 +6,15 @@ class UsersControllerTest < ActionController::TestCase
   
   def test_update_optional
     user = Factory(:user)
+    subcat = Factory(:subcategory)
     
-    post :update_optional, {}, {:user_id => user.id}
+    post :update_optional, {:user => {:subcategory2_id => subcat.id} }, {:user_id => user.id}
     
     assert_redirected_to select_features_url
+    user.reload
+    assert_equal 2, user.subcategories.size
+    assert_equal 2, user.tabs.size
+    assert_equal subcat, user.subcategories[1]
   end
 
   def test_confirm
