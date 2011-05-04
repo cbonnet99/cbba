@@ -641,17 +641,16 @@ class User < ActiveRecord::Base
   end
 
   def location
+    res = ""
     if city.blank?
-      if district.nil?
-        res = ""
-      else
+      if !district.nil?
         res = district.name
       end
     else
-      res = city
+      res << city
     end
     res << ", #{region.name}" unless region.nil?
-    res
+    return res
   end
 
   def find_current_payment
