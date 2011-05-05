@@ -86,7 +86,7 @@ Rails::Initializer.run do |config|
   # types config.active_record.schema_format = :sql
 
   # Activate observers that should always be running
-  config.active_record.observers = :user_observer
+  # config.active_record.observers = :user_observer
 
   config.action_mailer.smtp_settings = {
     :address              => "smtp.gmail.com",
