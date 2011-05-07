@@ -41,24 +41,24 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.check_pending_payments"
   runner "TaskUtils.rotate_users"
   runner "TaskUtils.mark_down_old_full_members"
-  command "find /home/cyrille/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
-  command "find /home/cyrille/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
+  command "find ~/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
+  command "find ~/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
   runner "TaskUtils.rotate_user_positions_in_subcategories"
   runner "TaskUtils.rotate_user_positions_in_categories"
   runner "TaskUtils.check_feature_expiration"
   runner "TaskUtils.check_expired_offers"
   runner "TaskUtils.charge_expired_features"
-  command "cp --preserve=timestamps /etc/apache2/sites-available/be_amazing_staging /home/cyrille/backups/apache-be_amazing_staging"
-  command "cp --preserve=timestamps /etc/apache2/sites-available/be_amazing /home/cyrille/backups/apache-be_amazing"
-  command "cp --preserve=timestamps /etc/apache2/sites-available/redmine /home/cyrille/backups/apache-redmine"
-  command "cp --preserve=timestamps /etc/nginx/sites-available/beamazing_staging /home/cyrille/backups/nginx-beamazing_staging"
-  command "cp --preserve=timestamps /etc/nginx/sites-available/beamazing /home/cyrille/backups/nginx-beamazing"
-  command "cp --preserve=timestamps /etc/nginx/www-server.key /home/cyrille/backups/"
-  command "cp --preserve=timestamps /etc/nginx/beamazing.co.nz.pem /home/cyrille/backups/"
-  command "cp --preserve=timestamps /etc/varnish/default.vcl /home/cyrille/backups/varnish-default.vcl"
-  command "pg_dump -U postgres -d be_amazing_production | gzip > /home/cyrille/backups/bam-backup-`date +\\%Y-\\%m-\\%d`.sql", :output => {:error => '/var/log/cron_bam.log'}
+  command "cp --preserve=timestamps /etc/apache2/sites-available/be_amazing_staging ~/backups/apache-be_amazing_staging"
+  command "cp --preserve=timestamps /etc/apache2/sites-available/be_amazing ~/backups/apache-be_amazing"
+  command "cp --preserve=timestamps /etc/apache2/sites-available/redmine ~/backups/apache-redmine"
+  command "cp --preserve=timestamps /etc/nginx/sites-available/beamazing_staging ~/backups/nginx-beamazing_staging"
+  command "cp --preserve=timestamps /etc/nginx/sites-available/beamazing ~/backups/nginx-beamazing"
+  command "cp --preserve=timestamps /etc/nginx/www-server.key ~/backups/"
+  command "cp --preserve=timestamps /etc/nginx/beamazing.co.nz.pem ~/backups/"
+  command "cp --preserve=timestamps /etc/varnish/default.vcl /~/backups/varnish-default.vcl"
+  command "pg_dump -U postgres -d be_amazing_production | gzip > ~/backups/bam-backup-`date +\\%Y-\\%m-\\%d`.sql", :output => {:error => '/var/log/cron_bam.log'}
   command "psql -U postgres be_amazing_production < script/delete_old_user_events.sql"
-  command "tar cvfz /home/cyrille/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > /home/cyrille/tar.log", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
+  command "tar cvfz ~/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > ~/tar.log", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
   runner "TaskUtils.check_inconsistent_tabs"
   runner "TaskUtils.change_homepage_featured_article"
   runner "TaskUtils.change_homepage_featured_quote"
@@ -73,7 +73,7 @@ every 1.day, :at => "4am"  do
 end
 
 every 1.hour do
-  # command "pg_dump -U postgres -d be_amazing_production > /home/cyrille/backups/postgres-backup-`date +\\%H-00.sql`"
+  # command "pg_dump -U postgres -d be_amazing_production > ~/backups/postgres-backup-`date +\\%H-00.sql`"
   # command "/var/rails/be_amazing/current/script/s3sync"
   runner "TaskUtils.count_users"
   runner "TaskUtils.process_paid_xero_invoices"
