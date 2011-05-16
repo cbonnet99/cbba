@@ -32,6 +32,16 @@ class SessionsControllerTest < ActionController::TestCase
     assert_redirected_to expanded_user_url(unpublished_user)
 
   end
+
+  def test_create_for_unconfirmed_user
+    unconfirmed = Factory(:user, :password => "blabla", :state => "unconfirmed")
+
+    post :create, :email => unconfirmed.email, :password => "blabla"
+
+    assert_redirected_to expanded_user_url(unconfirmed)
+    assert_equal "Logged in successfully", flash[:notice]
+  end
+
   
   def test_create
     norma = users(:norma)

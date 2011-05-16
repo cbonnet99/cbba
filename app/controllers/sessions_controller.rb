@@ -16,23 +16,17 @@ class SessionsController < ApplicationController
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
       if current_user.full_member?
-        if current_user.active?
-          log_bam_user_event(UserEvent::LOGIN, "", "Success")
-          current_user.update_attribute(:last_logged_at, Time.now)
-          flash[:notice] = "Logged in successfully"
-          if current_user.admin?
-            redirect_back_or_default reviewer_url(:action => "index")
-          else
-            if self.current_user.published?
-              redirect_back_or_default user_home_url
-            else
-              redirect_to expanded_user_url(current_user)
-            end
-          end
+        log_bam_user_event(UserEvent::LOGIN, "", "Success")
+        current_user.update_attribute(:last_logged_at, Time.now)
+        flash[:notice] = "Logged in successfully"
+        if current_user.admin?
+          redirect_back_or_default reviewer_url(:action => "index")
         else
-          @payment = current_user.find_current_payment
-          flash[:warning] = "You need to complete your payment"
-          redirect_back_or_default edit_payment_url(@payment)
+          if self.current_user.published?
+            redirect_back_or_default user_home_url
+          else
+            redirect_to expanded_user_url(current_user)
+          end
         end
       else
         log_bam_user_event(UserEvent::LOGIN, "", "Success")
