@@ -10,6 +10,7 @@
 <% end -%> | 
 <%if current_user.active? -%>
 <%if selected=="deactivate"%><span class="user-tab-selected">Delete my profile</span><%else%><%= link_to "Delete my profile", user_deactivate_url%><%end%>
-<% else -%>
+<% end -%>
+<%if current_user.inactive? -%>
 <%if selected=="reactivate"%><span class="user-tab-selected">Restore my profile</span><%else%><%= link_to "Restore my profile", user_reactivate_url%><%end%>
 <% end -%>
