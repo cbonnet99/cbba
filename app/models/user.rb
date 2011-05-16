@@ -1161,7 +1161,10 @@ class User < ActiveRecord::Base
   
   def create_additional_tab(subcat_id)
     if !subcat_id.nil?
-      subcat = Subcategory.find(subcat_id)
+      begin
+        subcat = Subcategory.find(subcat_id)
+      rescue ActiveRecord::RecordNotFound
+      end
       if !subcat.nil?
         self.add_tab(subcat)
       end

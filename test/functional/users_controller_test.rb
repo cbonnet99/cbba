@@ -17,6 +17,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal subcat, user.subcategories[1]
   end
 
+  def test_update_optional_empty_subcategories
+    user = Factory(:user)
+    
+    post :update_optional, {:user => {:subcategory2_id => "", :subcategory3_id => "" } }, {:user_id => user.id}
+    
+    assert_redirected_to select_features_url
+    user.reload
+    assert_equal 1, user.subcategories.size
+    assert_equal 1, user.tabs.size
+  end
+
   def test_confirm
     user = Factory(:user, :state => "unconfirmed")
     assert user.unconfirmed?
