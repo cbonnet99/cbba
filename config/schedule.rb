@@ -48,11 +48,11 @@ every 1.day, :at => "3am"  do
   runner "TaskUtils.check_feature_expiration"
   runner "TaskUtils.check_expired_offers"
   runner "TaskUtils.charge_expired_features"
-  command "cp --preserve=timestamps /etc/httpd/conf/httpd.conf ~/backups/"
-  command "cp --preserve=timestamps /usr/local/nginx/conf/nginx.conf ~/backups/"
-  command "cp --preserve=timestamps /usr/local/nginx/conf/beamazing.co.nz.pem ~/backups/"
-  command "cp --preserve=timestamps /usr/local/nginx/conf/www-server.key ~/backups/"
-  command "cp --preserve=timestamps /etc/varnish/default.vcl /~/backups/"
+  command "cp --preserve=timestamps /etc/httpd/conf/httpd.conf ~/backups"
+  command "cp --preserve=timestamps /usr/local/nginx/conf/nginx.conf ~/backups"
+  command "cp --preserve=timestamps /usr/local/nginx/conf/beamazing.co.nz.pem ~/backups"
+  command "cp --preserve=timestamps /usr/local/nginx/conf/www-server.key ~/backups"
+  command "cp --preserve=timestamps /etc/varnish/default.vcl /~/backups"
   command "pg_dump -U postgres be_amazing_production | gzip > ~/backups/bam-backup-`date +\\%Y-\\%m-\\%d`.sql.gz", :output => {:error => '/var/log/cron_bam.log'}
   command "psql -U postgres be_amazing_production < script/delete_old_user_events.sql"
   command "tar cvfz ~/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > ~/tar.log", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
@@ -62,7 +62,7 @@ every 1.day, :at => "3am"  do
 end
 every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/runs3sync"
-  command "ruby script/delete_old_S3_files.rb"
+  command "cd /var/rails/be_amazing/current/ && ruby script/delete_old_S3_files.rb"
   runner "TaskUtils.recompute_resident_experts"
   runner "TaskUtils.recompute_points"
   runner "TaskUtils.change_homepage_featured_resident_experts"
