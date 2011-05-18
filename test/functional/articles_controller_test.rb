@@ -95,6 +95,10 @@ class ArticlesControllerTest < ActionController::TestCase
   
 	def test_publish
 	  TaskUtils.update_subcategories_counters
+	  nz = countries(:nz)
+    TaskUtils.update_counters
+	  article_counter = Counter.find_by_class_name_and_country_id("Article", nz.id)
+	  old_articles_count = article_counter.count
 		yoga = articles(:yoga)
     subcat = yoga.subcategories.first
     old_count = subcat.published_articles_count
@@ -112,6 +116,10 @@ class ArticlesControllerTest < ActionController::TestCase
 
 		#an email should be sent to reviewers
 		assert ActionMailer::Base.deliveries.size > 0
+    
+    TaskUtils.update_counters
+    article_counter.reload
+    assert_equal old_articles_count+1, article_counter.count
     
     cyrille.reload
     assert_equal old_published_count+1, cyrille.published_articles_count
