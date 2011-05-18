@@ -24,8 +24,8 @@ class Order < ActiveRecord::Base
   
   PRICE_SO = 750
   PRICE_GV = 750
-  PRICE_PHOTO = 3000
-  PRICE_HIGHLIGHT = 3000
+  PRICE_PHOTO = 2900
+  PRICE_HIGHLIGHT = 1000
   
   def convert_package_to_features
     unless package.blank?
@@ -34,11 +34,6 @@ class Order < ActiveRecord::Base
       self.special_offers = 0
       self.gift_vouchers = 0    
       case package
-        when "triple_vis" then
-          self.photo = true
-        when "stand_out" then
-          self.photo = true
-          self.highlighted = true
         when "premium" then
           self.photo = true
           self.highlighted = true

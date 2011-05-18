@@ -1,16 +1,10 @@
 <% javascript 'add-features'%>
-<h3>Add features and make more of Be Amazing!</h3>
+<h3>Go premium and make more of Be Amazing!</h3>
 <p>Make more of your membership on Be Amazing and add features to stand out and reach more people. These features will enhance your membership and give you a wider range of options to market yourself online headache free!</p>
 <% form_for @order do |o| -%>
 	<ol id="add-features-list">
 		<li>
-			<%= o.radio_button :package, "triple_vis", :checked => true %><%= o.label :package_triple_vis, "Triple-Vis"%><p class="intro-offer">Get x3 more visits</p><p class="main-offer">Add a photo<br/>$30+gst p.a.</p><p class="conclusion-offer">plus, be seen in featured sections &amp; get higher rankings</p>
-		</li>
-		<li>
-			<%= o.radio_button :package, "stand_out"%><%= o.label :package_stand_out, "Stand-Out" %><p class="intro-offer">be found easily</p><p class="main-offer">Photo + Bold<br/>$60+gst p.a.</p><p class="conclusion-offer">bold your listing &amp; stand-out in directory searches</p>
-		</li>
-		<li>
-			<%= o.radio_button :package, "premium"%><%= o.label :package_premium, "Premium"%><p class="intro-offer">photo + bold &amp;</p><p class="main-offer">Incentives<br/>$90+gst p.a.</p><p class="conclusion-offer">promote gift vouchers &amp; trial sessions</p>
+			<%= o.radio_button :package, "premium", :checked => true%><%= o.label :package_premium, "Premium"%><p class="intro-offer">photo + bold &amp;</p><p class="main-offer">Incentives<br/>$69+gst p.a.</p><p class="conclusion-offer">promote gift vouchers &amp; trial sessions</p>
 		</li>
 	</ol>
 <div class="clear"></div>
@@ -19,33 +13,15 @@
 	<%= link_to 'No thanks, continue', expanded_user_url(current_user), :class => "anchor-button cancel"  %>
 </p>
 <% end -%>
-<h3>Triple Vis</h3>
-
-<p>We've found that on average, profiles with a photo get three times as many visits than profiles without, for less than 60 cents a week - it's worth it!</p>
-<ul>
-<li>Your photo on your profile</li>
-<li>Your photo with any articles you add</li>
-<li>Be seen in the 'Featured' box across the site</li>
-<li>Be placed above profiles without a photo in search results</li>
-<li>$30+gst per year</li>
-</ul>
-<p><div id="buy_now_triple_vis" class="buy_now">BUY Triple Vis NOW &gt;</div></p>
-<h3>Stand-Out</h3>
-
-<p>Your listings in search results will appear in bold and with a yellow background across the site</p>
-<ul>
-<li>All the benefits of 'Tripple Vis'</li>
-<li>Higher visibility in search results</li>
-<li>Be placed above profiles with and without a photo in search results</li>
-<li>$60+gst per year</li>
-</ul>
-<p><div id="buy_now_stand_out" class="buy_now">BUY Stand Out NOW &gt;</div></p>
 <h3>Premium</h3>
 <p>Give people more incentives to get in touch with a complete a online marketing service without the headache!</p>
 <ul>
-<li>All the benefits of 'Stand-Out'</li>
-<li>Sell Gift Vouchers</li>
-<li>Promote Trial Sessions</li>
-<li>$90+gst per year</li>
+	<li>Your photo on your profile</li>
+	<li>Your photo with any articles you add</li>
+	<li>Be seen in the 'Featured' box across the site</li>
+	<li>Higher visibility in search results</li>
+	<li>Be placed above profiles without a photo in search results</li>
+	<li>Sell Gift Vouchers</li>
+	<li>Promote Trial Sessions</li>
+	<li>$69+gst per year</li>
 </ul>
-<div id="buy_now_premium" class="buy_now">BUY Premium NOW &gt;</div>

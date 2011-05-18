@@ -3,9 +3,11 @@ nz:
   currency: NZD
   country_code: nz
   top_domain: co.nz
+  gst: true
 
 au:
   name: Australia
   currency: AUD
   country_code: au
   top_domain: com.au
+  gst: false

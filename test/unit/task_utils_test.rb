@@ -553,7 +553,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert user.paid_photo_until > old_paid_until, "The photo feature should have been extended, but is: #{user.paid_photo_until}"
     assert_equal old_orders_size+1, user.orders.size
     order = user.orders.last
-    assert_equal 3000, order.payment.amount
+    assert_equal 2900, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
     assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
@@ -582,7 +582,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert user.paid_highlighted_until > old_paid_until, "The highlighted feature should have been extended, but is: #{user.paid_highlighted_until}"
     assert_equal old_orders_size+1, user.orders.size
     order = user.orders.last
-    assert_equal 3000, order.payment.amount
+    assert_equal 1000, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
     assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
@@ -643,7 +643,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert user.paid_special_offers_next_date_check > old_paid_so_check, "The SO feature should have been extended, but is: #{user.paid_special_offers_next_date_check}"
     assert_equal old_orders_size+1, user.orders.size
     order = user.orders.last
-    assert_equal 7500, order.payment.amount
+    assert_equal 5400, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
     assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
@@ -688,7 +688,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     email = ActionMailer::Base.deliveries.first
     assert_not_nil email
     assert_equal "[Be Amazing(test)] Your features will be automatically renewed", email.subject
-    assert_match /\$30\.00/, email.body
+    assert_match /\$10\.00/, email.body
     
     ActionMailer::Base.deliveries = []
     TaskUtils.check_feature_expiration

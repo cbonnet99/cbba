@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110424194907) do
+ActiveRecord::Schema.define(:version => 20110517084822) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(:version => 20110424194907) do
     t.string   "example_locations"
     t.boolean  "default_only_show_own"
     t.string   "inhabitants"
+    t.boolean  "gst",                   :default => false
   end
 
   create_table "countries_subcategories", :force => true do |t|

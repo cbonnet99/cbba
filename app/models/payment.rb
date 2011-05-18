@@ -13,14 +13,6 @@ class Payment < ActiveRecord::Base
 	include Authorization::AasmRoles::StatefulRolesInstanceMethods
 	include AASM
   
-  DEFAULT_TYPE = "full_member"
-  TYPES = {:full_member => {:payment_type => "new", :title => "12 month membership", :amount => 9900, :discount => 10000  },
-    :renew_full_member => {:payment_type => "renewal", :title => "12 month membership renewal", :amount => 19900, :discount => 0 },
-    :resident_expert => {:payment_type => "resident_expert", :title => "12 month resident expert membership", :amount => 49900, :discount => 49900 },
-    :renew_resident_expert => {:payment_type => "resident_expert_renewal", :title => "12 month resident expert membership renewal", :amount => 99800, :discount => 0 }
-  }
-  REDIRECT_PAGES = {:new => "thank_you", :renewal => "thank_you_renewal", :resident_expert => "thank_you_resident_expert", :resident_expert_renewal => "thank_you_resident_expert"}
-
   GST = 1500  
   
   
@@ -155,13 +147,13 @@ class Payment < ActiveRecord::Base
   def purchase_options
     {
       :ip => ip_address,
-      :input_currency => self.currency, 
+      :input_currency => self.user.try(:country).try(:currency).try(:upcase),
       :description => "#{user.email} - #{payment_type}",
       :billing_address => {
         :name     => "#{first_name} #{last_name}",
         :address1 => address1,
         :city     => city,
-        :country  => "NZ"
+        :country  => self.user.try(:country).try(:country_code).try(:upcase)
       }
     }
   end
@@ -232,11 +224,15 @@ class Payment < ActiveRecord::Base
   end
 
   def compute_gst
-    my_divmod = (Payment::GST*self.amount).divmod(10000)
-    diviseur = my_divmod[0]
-    reste = my_divmod[1]
-    diviseur += 1 if reste > 5000
-    self.gst = diviseur
+    if self.user.country.gst?
+      my_divmod = (Payment::GST*self.amount).divmod(10000)
+      diviseur = my_divmod[0]
+      reste = my_divmod[1]
+      diviseur += 1 if reste > 5000
+      self.gst = diviseur
+    else
+      self.gst = 0
+    end
   end
 
   def completed?

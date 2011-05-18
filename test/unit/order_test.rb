@@ -3,10 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class OrderTest < ActiveSupport::TestCase
   fixtures :all
   def test_compute_amount
-    order = Factory(:order, :photo => true, :highlighted => false,  :special_offers => "", :gift_vouchers => 2)
-    assert_equal 4500, order.compute_amount
-    order = Factory(:order, :photo => true, :highlighted => true,  :special_offers => 1, :gift_vouchers => 2)
-    assert_equal 8250, order.compute_amount
+    order = Factory(:order, :photo => true, :highlighted => true,  :special_offers => 2, :gift_vouchers => 2)
+    assert_equal 6900, order.compute_amount
   end
   
   def test_validate

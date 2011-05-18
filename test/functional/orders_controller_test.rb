@@ -23,20 +23,4 @@ class OrdersControllerTest < ActionController::TestCase
     assert_redirected_to payment_action_with_id_url(assigns(:order).payment.id, :action => "edit" )
   end
   
-  def test_update_stand_out
-    cyrille = users(:cyrille)
-    
-    order = cyrille.orders.create(:state => "pending", :package => "premium")
-    first_order_amount = order.compute_amount
-    first_payment_amount = order.payment.amount
-    
-    post :update, {:id => order.id, :order => {:package => "stand_out"} }, {:user_id => cyrille.id }
-    assert assigns(:order).photo?
-    assert assigns(:order).highlighted?
-    assert_equal 0, assigns(:order).special_offers
-    assert_equal 0, assigns(:order).gift_vouchers
-    assert_equal 6000, assigns(:order).compute_amount, "Order amount should have been updated and should be bigger than #{first_order_amount} (but it was #{assigns(:order).compute_amount})"
-    assert_equal 6000, assigns(:order).payment.amount, "Payment amount should have been updated and should be bigger than #{first_payment_amount} (but it was #{assigns(:order).payment.amount})"
-    
-  end
 end

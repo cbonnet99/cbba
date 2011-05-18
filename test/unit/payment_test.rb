@@ -6,6 +6,17 @@ class PaymentTest < ActiveSupport::TestCase
 
   #for GST calculations, see http://www.ird.govt.nz/technical-tax/general-articles/qwba-gst-5cent-coin-rounding.html
   #IMPORTANT: the numbers quoted in the article above are INCLUSIVE of GST
+
+  def test_no_gst
+    au = countries(:au)
+    au_user = Factory(:user, :country => au)
+    payment = Factory(:payment, :user => au_user)
+    
+    assert_equal 0, payment.gst
+    assert_equal "AUD", payment.purchase_options[:input_currency]
+    assert_equal "AU", payment.purchase_options[:billing_address][:country], "Purchase options are: #{payment.purchase_options.inspect}"
+  end
+
   def test_compute_gst
     payment = users(:cyrille).payments.create(:amount => 2580 )
     assert_equal 387, payment.gst
@@ -35,15 +46,6 @@ class PaymentTest < ActiveSupport::TestCase
     pending_payment = Factory(:payment, :status => "pending", :user => pending_user)
     
     assert_equal 1, pending_user.payments.pending.size
-  end
-
-  def test_renewals
-    cyrille = users(:cyrille)
-    old_size = cyrille.payments.renewals.size
-    payment = cyrille.payments.create!(Payment::TYPES[:renew_full_member])
-    assert_equal 0, payment.errors.size
-    cyrille.reload
-    assert_equal old_size+1, cyrille.payments.renewals.size
   end
 
   def test_purchase
