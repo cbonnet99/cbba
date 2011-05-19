@@ -313,10 +313,10 @@ module ApplicationHelper
     end
   end
 
-  def amount_view(amount_integer)
+  def amount_view(amount_integer, currency)
     s = amount_integer.to_s
 
-    "$#{s[0..-3]}.#{s.slice(-2, 2)}"
+    "#{currency}$#{s[0..-3]}.#{s.slice(-2, 2)}"
   end
 
   def paypal_unencrypted_url(payment, payment_type="full_member", return_address="")

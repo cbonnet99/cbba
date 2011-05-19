@@ -1,12 +1,12 @@
 <%= title "Direct debit payment for your #{@payment.title.downcase}" %>
-<div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount)%></em><br/>
+<div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount, @payment.currency)%></em><br/>
 <% unless @payment.discount == 0 -%>
-- Year one discount <em class="money"><%=amount_view(@payment.discount) %></em><br/>
-You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
+- Year one discount <em class="money"><%=amount_view(@payment.discount, @payment.currency) %></em><br/>
+You pay <em class="money"><%=amount_view(@payment.amount, @payment.currency) %></em><br/>
 <br/>
 <% end -%>
-+GST <em class="money"><%=amount_view(@payment.gst)%></em><br/>
-Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
++GST <em class="money"><%=amount_view(@payment.gst, @payment.currency)%></em><br/>
+Total: <em class="money"><%=amount_view(@payment.total, @payment.currency)%></em></div>
 <div class="cleaner"></div>
   <ol>
     <% form_for @payment, :html => {:class => "fieldset"} do |f| %>
@@ -14,7 +14,7 @@ Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
         <div class="left-input">Amount:</div>
-        <div class="right-label"><em class="money"><%=amount_view(@payment.total)%></em></div>
+        <div class="right-label"><em class="money"><%=amount_view(@payment.total, @payment.currency)%></em></div>
       </li>
       <li>
         <%= f.label :first_name, "First name<span class='mandatoryStar'>*</span>" %>

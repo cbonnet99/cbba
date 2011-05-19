@@ -1,13 +1,15 @@
 <% javascript "edit-payment"%>
 <%= title "Payment" %>
-<div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount)%></em><br/>
+<div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount, @payment.currency)%></em><br/>
 <% unless @payment.discount == 0 -%>
-- Year one discount <em class="money"><%=amount_view(@payment.discount) %></em><br/>
-You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
+- Year one discount <em class="money"><%=amount_view(@payment.discount, @payment.currency) %></em><br/>
+You pay <em class="money"><%=amount_view(@payment.amount, @payment.currency) %></em><br/>
 <br/>
 <% end -%>
-+GST <em class="money"><%=amount_view(@payment.gst)%></em><br/>
-Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
+<% if @payment.user.country.gst? -%>
++GST <em class="money"><%=amount_view(@payment.gst, @payment.currency)%></em><br/>
+<%end-%>
+Total: <em class="money"><%=amount_view(@payment.total, @payment.currency)%></em></div>
 <div class="cleaner"></div>
 <hr/>
 <% if current_user.has_current_stored_tokens? -%>

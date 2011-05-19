@@ -38,7 +38,7 @@ class PaymentTest < ActiveSupport::TestCase
   end
 
   def test_amount_view
-    assert_equal "$101.45", amount_view(10145)
+    assert_equal "AUD$101.45", amount_view(10145, "AUD")
   end
 
   def test_pending

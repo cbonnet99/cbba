@@ -1,12 +1,12 @@
 <%= title "Pay by direct debit for your #{@payment.title.downcase}" %>
-<div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount)%></em><br/>
+<div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount, @payment.currency)%></em><br/>
 <% unless @payment.discount == 0 -%>
-- Year one discount <em class="money"><%=amount_view(@payment.discount) %></em><br/>
-You pay <em class="money"><%=amount_view(@payment.amount) %></em><br/>
+- Year one discount <em class="money"><%=amount_view(@payment.discount, @payment.currency) %></em><br/>
+You pay <em class="money"><%=amount_view(@payment.amount, @payment.currency) %></em><br/>
 <br/>
 <% end -%>
-+GST <em class="money"><%=amount_view(@payment.gst)%></em><br/>
-Total: <em class="money"><%=amount_view(@payment.total)%></em></div>
++GST <em class="money"><%=amount_view(@payment.gst, @payment.currency)%></em><br/>
+Total: <em class="money"><%=amount_view(@payment.total, @payment.currency)%></em></div>
 <div class="cleaner"></div>
 <hr/>
 <p>To pay by direct debit, please send your payment to our bank account:<br/>

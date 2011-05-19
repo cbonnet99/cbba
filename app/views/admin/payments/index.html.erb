@@ -18,7 +18,7 @@
     <td><span class="<%=payment.status%>"><%=h payment.status.capitalize %></span></td>
     <td><%= link_to payment.user.try(:name_with_email), search_admin_users_url(:search_term => payment.user.email) unless payment.user.nil? %></td>
     <td><%=h payment.title %></td>
-    <td><%=h amount_view(payment.amount.to_s) %></td>
+    <td><%=h amount_view(payment.amount.to_s, payment.currency) %></td>
     <td><%=h payment.created_at %></td>
     <td><% if payment.pending?%><%=link_to "Mark as paid", :controller => "admin/payments", :action => "mark_as_paid", :id => payment.id %> | <%=link_to "Delete", {:controller => "admin/payments", :action => "destroy", :id => payment.id}, :confirm => "Are you sure? This action cannot be undone" %> <%else%>None<%end%></td>
     <td><% unless payment.invoice.nil?%><%= link_to payment.invoice.filename, invoice_url(payment.invoice)%><%end%></td>

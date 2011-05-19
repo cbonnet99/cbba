@@ -4,7 +4,7 @@
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
         <div class="left-input">Amount:</div>
-        <div class="right-label"><em class="money"><%=amount_view(@payment.total)%></em></div>
+        <div class="right-label"><em class="money"><%=amount_view(@payment.total, @payment.currency)%></em></div>
       </li>
       <li>
         <%= f.label :first_name, "First name<span class='mandatoryStar'>*</span>" %>

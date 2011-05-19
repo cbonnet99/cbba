@@ -62,9 +62,9 @@ class Invoice < ActiveRecord::Base
         table.position      = :center
 
         data = [
-          { "description" => "#{payment.title}", "price" => amount_view(payment.amount)},
-          { "description" => "GST", "price" => amount_view(payment.gst)},
-          { "description" => "Total", "price" => amount_view(payment.total)}
+          { "description" => "#{payment.title}", "price" => amount_view(payment.amount, payment.currency)},
+          { "description" => "GST", "price" => amount_view(payment.gst, payment.currency)},
+          { "description" => "Total", "price" => amount_view(payment.total, payment.currency)}
         ]
 
         table.data.replace data

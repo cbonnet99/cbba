@@ -17,14 +17,14 @@
 	<li><%= pluralize(@pending_payments.size, "payment")%> that were not completed<% unless @pending_payments	.size == 0%>:
 			<ul>
 				<% @pending_payments.each do |payment| -%>
-				<li><%= payment.user.name%> started a payment for <%= amount_view(payment.amount)%> on <%= payment.created_at%></li>
+				<li><%= payment.user.name%> started a payment for <%= amount_view(payment.amount, payment.currency)%> on <%= payment.created_at%></li>
 				<% end -%>
 			</ul>
 		<%end%></li>
-	<li><%= pluralize(@payments.size, "payment")%> for a total of <%= amount_view(@total_payments)%><% unless @payments.size == 0%>:
+	<li><%= pluralize(@payments.size, "payment")%> for a total of <%= amount_view(@total_payments, "")%><% unless @payments.size == 0%>:
 		<ul>
 			<% @payments.each do |payment| -%>
-			<li><%= payment.user.name%> paid <%= amount_view(payment.amount)%> on <%= payment.created_at%></li>
+			<li><%= payment.user.name%> paid <%= amount_view(payment.amount, payment.currency)%> on <%= payment.created_at%></li>
 			<% end -%>
 		</ul>
 	<%end%></li>

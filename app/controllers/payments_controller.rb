@@ -75,7 +75,7 @@ class PaymentsController < ApplicationController
         else
           @gateway_response = @payment.purchase!
           if !@gateway_response.nil? && @gateway_response.success?
-            log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total)}")
+            log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total, @payment.currency)}")
             flash[:notice] = "Thank you for your payment. Features are now activated"
             redirect_to expanded_user_url(current_user)
           else
