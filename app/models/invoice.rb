@@ -42,6 +42,8 @@ class Invoice < ActiveRecord::Base
     pdf.text "To:", :font_size => 16
     pdf.text payment.user.full_name, :font_size => 12
     pdf.text payment.user.contact_details.gsub(/<br\/>/, "\n")
+    pdf.text "Date:", :font_size => 16
+    pdf.text created_at.to_date.to_s
     
     PDF::SimpleTable.new do |table|
         table.title_font_size = 16
