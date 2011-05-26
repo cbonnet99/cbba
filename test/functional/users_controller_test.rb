@@ -6,24 +6,40 @@ class UsersControllerTest < ActionController::TestCase
   
   def test_update_optional
     user = Factory(:user)
+    assert !user.free_listing?
     subcat = Factory(:subcategory)
     
     post :update_optional, {:user => {:subcategory2_id => subcat.id} }, {:user_id => user.id}
     
     assert_redirected_to select_features_url
     user.reload
+    assert !user.free_listing?
     assert_equal 2, user.subcategories.size
     assert_equal 2, user.tabs.size
     assert_equal subcat, user.subcategories[1]
   end
 
+  def test_update_optional_free_listing
+    user = Factory(:user, :membership_type => "")
+    assert !user.free_listing?
+    subcat = Factory(:subcategory)
+    
+    post :update_optional, {:user => {:receive_newsletter => "1", :receive_professional_newsletter => "1"} }, {:user_id => user.id}
+    
+    assert_redirected_to select_features_url
+    user.reload
+    assert !user.free_listing?
+  end
+
   def test_update_optional_empty_subcategories
     user = Factory(:user)
+    assert !user.free_listing?
     
     post :update_optional, {:user => {:subcategory2_id => "", :subcategory3_id => "" } }, {:user_id => user.id}
     
     assert_redirected_to select_features_url
     user.reload
+    assert !user.free_listing?
     assert_equal 1, user.subcategories.size
     assert_equal 1, user.tabs.size
   end
@@ -651,6 +667,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_not_nil assigns(:user).country
 		assert_equal nz, assigns(:user).country
 		assert assigns(:user).unconfirmed?
+		assert !assigns(:user).free_listing?
 		assert_equal 1, ActionMailer::Base.deliveries.size, "One confirmation email should have been sent"
 		tab = assigns(:user).tabs.first
 		assert_match /delete this text/, tab.content1_with
@@ -670,6 +687,7 @@ class UsersControllerTest < ActionController::TestCase
       :accept_terms => "1", :subcategory1_id => hypnotherapy.id
       }
 		assert_not_nil assigns(:user)
+		assert !assigns(:user).free_listing?
 		assert_equal 0, assigns(:user).errors.size, "Errors were: #{assigns(:user).errors.full_messages.to_sentence}"
 		assert_equal old_size+1, User.all.size
 		assert_equal 1, assigns(:user).tabs.size

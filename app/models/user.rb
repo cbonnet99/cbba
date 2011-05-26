@@ -1215,30 +1215,30 @@ class User < ActiveRecord::Base
     end
   end
   def get_membership_type
-    if self.membership_type.nil?
-      if full_member?
-        self.membership_type = "full_member"
-      else
+    if self.membership_type.blank?
+      if free_listing?
         self.membership_type = "free_listing"
+      else
+        self.membership_type = "full_member"
       end
       if resident_expert?
         self.membership_type = "resident_expert"
       end
     end
     case membership_type
-    when "full_member"
+    when "free_listing"
+      self.free_listing=true
+      unless has_role?("free_listing")
+        self.add_role("free_listing")
+      end
+    when "resident_expert"
+      self.free_listing=false
+    else
       self.free_listing=false
       unless full_member?
         self.member_since = Time.now.utc
         self.member_until = 1.year.from_now
         self.add_role("full_member")
-      end
-    when "resident_expert"
-      self.free_listing=false
-    else
-      self.free_listing=true
-      unless has_role?("free_listing")
-        self.add_role("free_listing")
       end
     end
     # #!IMPORTANT: always return true in an around filter: see http://www.dansketcher.com/2006/12/30/activerecordrecordnotsaved-before_save-problem/
