@@ -37,6 +37,17 @@ class PaymentTest < ActiveSupport::TestCase
     assert_equal 2985, payment.gst
   end
 
+  def test_compute_new_gst
+    payment = users(:cyrille).payments.create(:amount => 19900 )
+    assert_equal 2985, payment.gst
+    payment.update_attributes(:amount => 1000, :first_name => "Joe", :last_name => "Card",  :card_type => "Visa",
+     :card_number => "4111111111111111", :card_verification => "111", :card_expires_on => 1.year.from_now)
+    payment.reload
+    assert payment.valid?, "Errors on payment: #{payment.errors.full_messages.to_sentence}"
+    assert_equal 1000, payment.amount
+    assert_equal 150, payment.gst
+  end
+
   def test_amount_view
     assert_equal "AUD$101.45", amount_view(10145, "AUD")
   end

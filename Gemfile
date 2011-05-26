@@ -17,5 +17,6 @@ group :production do
 end
 
 group :test do
+	gem "ruby-debug"
 	gem "factory_girl"
 end

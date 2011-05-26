@@ -38,6 +38,7 @@ class Payment < ActiveRecord::Base
   validate_on_update :validate_card
 
   before_create :compute_gst, :set_defaults
+  before_update :compute_gst
 
   named_scope :pending, :conditions => "status ='pending'"
   named_scope :notified, :conditions => "notified_at IS NOT NULL"
