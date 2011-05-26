@@ -6,7 +6,6 @@ development: &non_production_settings
   logged_site_protocol: http
   site_name: Be Amazing(development)
   admin_email: cbonnet99@gmail.com
-  rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
   sav: cbonnet99@yahoo.fr
   cyrille: cbonnet99@yahoo.fr
   megan: norma2@eurekacoaching.co.nz
@@ -19,7 +18,6 @@ test:
     logged_site_protocol: http
     site_name: Be Amazing(test)
     admin_email: cbonnet99@gmail.com
-    rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
     sav: cbonnet99@yahoo.fr
     cyrille: cbonnet99@yahoo.fr
     megan: norma2@eurekacoaching.co.nz
@@ -27,12 +25,11 @@ test:
 production:
   site_host: 
       nz: www.beamazing.co.nz
-      au: www.zingabeam.net
+      au: www.zingabeam.com
   site_protocol: http
   logged_site_protocol: https
   site_name: Be Amazing
   admin_email: admin@beamazing.co.nz
-  rake: /opt/ruby-enterprise-1.8.6-20080810/bin/rake
   sav: sav@elevatecoaching.co.nz
   cyrille: cbonnet99@gmail.com
   megan: megan@beamazing.co.nz
@@ -44,7 +41,6 @@ staging:
     logged_site_protocol: http
     site_name: Be Amazing [STAGING]
     admin_email: admin@beamazing.co.nz
-    rake: /usr/local/bin/rake
     sav: sav@elevatecoaching.co.nz
     cyrille: cbonnet99@gmail.com
     megan: megan@beamazing.co.nz
