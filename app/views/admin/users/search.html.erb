@@ -15,10 +15,14 @@
 <p>Enter a name or email address:
 <% form_tag "/admin/users/search", :class => "admin"  do%>
 	<%= text_field_tag "search_term", params[:search_term]%>
+	Only show users with status: <%= check_box_tag "user_status_unconfirmed", "unconfirmed", params.keys.include?("search_term") ?  params.keys.include?("user_status_unconfirmed") : true%>unconfirmed
+	<%= check_box_tag "user_status_inactive", "inactive", params.keys.include?("search_term") ?  params.keys.include?("user_status_inactive") : true%>inactive
+	<%= check_box_tag "user_status_active", "active", params.keys.include?("search_term") ?  params.keys.include?("user_status_active") : true%>active
 	<%= submit_tag "Search"%>
 <%end%></p>
 <div class="cleaner"></div>
 <%unless @users.blank? -%>
+<%= will_paginate @users, :params => params %>
 <p><table class="admin">
 	<tbody>
 	  <tr>
@@ -34,4 +38,5 @@
 	<%end -%>
 	</tbody>
 </table></p>
+<%= will_paginate @users, :params => params %>
 <%end -%>

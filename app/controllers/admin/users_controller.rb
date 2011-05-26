@@ -19,7 +19,11 @@ class Admin::UsersController < AdminApplicationController
   def search
     unless params[:search_term].nil?
       search_term = "%#{params[:search_term]}%"
-      @users = User.find_by_sql(["SELECT u.* from users u where UPPER(first_name) LIKE ? or UPPER(last_name) LIKE ? or UPPER(email) LIKE ? ORDER BY first_name, last_name", search_term.upcase, search_term.upcase, search_term.upcase])
+      states = params.keys.select{|k| k.to_s.starts_with?("user_status")}.map{|k| "'#{params[k]}'"}.join(", ")
+      states = "''" if states.empty?
+      @users = User.paginate_by_sql(
+        ["SELECT u.* from users u where state in (#{states}) and (UPPER(first_name) LIKE ? or UPPER(last_name) LIKE ? or UPPER(email) LIKE ?) ORDER BY first_name, last_name", search_term.upcase, search_term.upcase, search_term.upcase],
+         :page => params[:page])
     end
   end
   

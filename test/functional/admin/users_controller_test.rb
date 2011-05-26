@@ -103,8 +103,38 @@ class Admin::UsersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     post :search, {:search_term => "cy"}, {:user_id => cyrille.id }
     assert_response :success
+    assert assigns(:users).blank?
+    assert !assigns(:users).include?(cyrille)
+  end
+
+  def test_search_with_status_active
+    cyrille = users(:cyrille)
+    inactive_user = Factory(:user, :state => "inactive")
+    post :search, {:search_term => "cy", :user_status_active => "active" }, {:user_id => cyrille.id }
+    assert_response :success
     assert !assigns(:users).blank?
     assert assigns(:users).include?(cyrille)
+  end
+  
+
+  def test_search_with_status_inactive
+    cyrille = users(:cyrille)
+    inactive_user = Factory(:user, :state => "inactive")
+    post :search, {:search_term => "", :user_status_inactive => "inactive" }, {:user_id => cyrille.id }
+    assert_response :success
+    assert !assigns(:users).blank?
+    assert !assigns(:users).include?(cyrille)
+    assert assigns(:users).include?(inactive_user)
+  end
+
+  def test_search_with_multiple_status
+    cyrille = users(:cyrille)
+    inactive_user = Factory(:user, :first_name => "Cylene", :state => "inactive")
+    post :search, {:search_term => "cy", :user_status_inactive => "inactive", :user_status_active => "active" }, {:user_id => cyrille.id }
+    assert_response :success
+    assert !assigns(:users).blank?
+    assert assigns(:users).include?(cyrille)
+    assert assigns(:users).include?(inactive_user)
   end
   
   def test_update
