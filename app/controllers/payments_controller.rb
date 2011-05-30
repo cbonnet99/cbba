@@ -21,7 +21,6 @@ class PaymentsController < ApplicationController
     @payment.update_attribute(:payment_card_type, "credit_card")
     @payment.first_name = current_user.first_name
     @payment.last_name = current_user.last_name
-    @payment.address1 = current_user.address1
     @payment.city = current_user.city
     @payment.store_card = true
     unless @payment.pending?

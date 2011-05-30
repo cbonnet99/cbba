@@ -71,7 +71,6 @@ class Payment < ActiveRecord::Base
     })
     invoice.contact = XeroGateway::Contact.new(:name => self.user.name)
     invoice.contact.phone.number = self.user.phone
-    invoice.contact.address.line_1 = self.user.address1    
     invoice.line_items << XeroGateway::LineItem.new(
       :description => self.title,
       :unit_amount => '%.2f' % (amount/100.0),
@@ -149,13 +148,7 @@ class Payment < ActiveRecord::Base
     {
       :ip => ip_address,
       :input_currency => self.user.try(:country).try(:currency).try(:upcase),
-      :description => "#{user.email} - #{payment_type}",
-      :billing_address => {
-        :name     => "#{first_name} #{last_name}",
-        :address1 => address1,
-        :city     => city,
-        :country  => self.user.try(:country).try(:country_code).try(:upcase)
-      }
+      :description => "#{user.email} - #{payment_type}"
     }
   end
 

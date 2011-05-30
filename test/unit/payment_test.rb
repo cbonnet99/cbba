@@ -14,7 +14,6 @@ class PaymentTest < ActiveSupport::TestCase
     
     assert_equal 0, payment.gst
     assert_equal "AUD", payment.purchase_options[:input_currency]
-    assert_equal "AU", payment.purchase_options[:billing_address][:country], "Purchase options are: #{payment.purchase_options.inspect}"
   end
 
   def test_compute_gst
