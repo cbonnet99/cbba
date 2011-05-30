@@ -1,7 +1,13 @@
 <% javascript 'new-user' %>
+<h2>Coaches, Speakers &amp; Trainers - Create a FREE profile</h2>
+<ul>
+<li>Greater online exposure for free</li>
+<li>Add unlimited articles for free</li>
+<li>Be found in our comprehensive directory for free</li>
+<li>Learn more reasons <%= link_to "why to join", signup_intro_url %></li>
+</ul>
 <%= render :partial => "users/signup_nav", :locals => {:selected => "essential" }  %>
 <%= title "Step 1: Your essential information"  %>
-<%= link_to "Why should I join?", signup_intro_url %>
 <% form_for @user, :html => {:class => "fieldset"} do |f| %>
     <%= render :partial => "form_essential", :locals => {:f => f, :sign_up => true }   %>
 	<p class="register-actions register-actions-active">
