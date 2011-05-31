@@ -1,4 +1,4 @@
-<% form_for @payment do |f| -%>
+<% form_for @payment, :url => {:action => "update", :id => params[:id], :pm => params[:pm]}, :html => {:class => "fieldset"} do |f| -%>
 <ul class="simple">
 	<% current_user.stored_tokens.not_expired.each_with_index do |t,i| -%>
 	<li><%=f.radio_button :stored_token_id, t.id %><%=t.name%> <%= t.obfuscated_card_number%> (expires on <%= t.card_expires_on%>)</li>

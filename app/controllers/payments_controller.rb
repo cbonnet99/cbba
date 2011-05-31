@@ -75,8 +75,8 @@ class PaymentsController < ApplicationController
           @gateway_response = @payment.purchase!
           if !@gateway_response.nil? && @gateway_response.success?
             log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total, @payment.currency)}")
-            flash[:notice] = "Thank you for your payment. Features are now activated"
-            redirect_to expanded_user_url(current_user)
+            flash[:notice] = "Thank you for your payment. Your membership is now activated"
+            redirect_to user_promote_url
           else
             log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@gateway_response.try(:message)}")
             logger.debug "======= #{@payment.errors.inspect}"
@@ -85,10 +85,12 @@ class PaymentsController < ApplicationController
           end
         end
       else
+        flash[:error] = "There was a problem processing your payment"
+        @pm = params[:pm].to_sym
         if @payment.payment_card_type == "direct_debit"
           render :action => 'edit_debit_charities'
         else
-          render :action => 'edit'
+          render :action => "edit"
         end
       end
     end

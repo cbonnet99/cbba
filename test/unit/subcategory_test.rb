@@ -19,7 +19,7 @@ class SubcategoryTest < ActiveSupport::TestCase
     assert_equal old_last, Subcategory.last_subcat_or_member_created_at(nz)
     new_user.user_profile.publish!
     assert Subcategory.last_subcat_or_member_created_at(nz) > old_last
-    assert_equal Subcategory.last_subcat_or_member_created_at(nz), new_user.user_profile.published_at
+    assert_equal Subcategory.last_subcat_or_member_created_at(nz).to_date, new_user.user_profile.published_at.to_date
   end
 
   def test_last_articles

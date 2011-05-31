@@ -1,17 +1,4 @@
 <% if current_user.has_paid_features? -%>
-<p>You have already paid for the following features:</p>
-<ul>
-	<% if current_user.paid_photo? -%>
-	<li>Display a photo or logo, until <%= current_user.paid_photo_until %></li>
-	<%end -%>
-	<% if current_user.paid_highlighted? -%>
-	<li>Highlighted profile, until <%= current_user.paid_highlighted_until %></li>
-	<%end -%>
-	<% if current_user.has_paid_special_offers? -%>
-	<li><%= pluralize(current_user.paid_special_offers, "Trial Session Listing")%>, until <%= current_user.paid_special_offers_next_date_check %></li>
-	<%end -%>
-	<% if current_user.has_paid_gift_vouchers? -%>
-	<li><%= pluralize(current_user.paid_gift_vouchers, "Gift Voucher Listing")%>, until <%= current_user.paid_gift_vouchers_next_date_check %></li>
-	<%end -%>
-</ul>
+<p>You have paid for <strong>premium membership</strong> until <%= current_user.paid_photo_until %></p>
+<h3>Extend for another year (until <%= @order.expires_on%>)</h3>
 <% end -%>

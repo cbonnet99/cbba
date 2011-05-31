@@ -1,4 +1,4 @@
-<% form_for @payment do |f| -%>
+<% form_for @payment, :url => {:action => "update", :id => params[:id], :pm => params[:pm]}, :html => {:class => "fieldset"} do |f| -%>
   <ol>
       <%= f.error_messages :header_message => "Please try again", :message => "Your payment could not be processed"%>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
@@ -24,18 +24,18 @@
       </li>
       <li>
         <%= f.label :card_verification, "Card Verification Value (CVV)<span class='mandatoryStar'>*</span><br/><span style='font-size: 10px;'>[These are the last three digits of the number on the back of your credit card]</span>" %>
-        <%= f.text_field :card_verification %>
+        <%= f.text_field :card_verification, :size => "5"  %>
       </li>
       <li>
         <%= f.label :card_expires_on %>
         <%= f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true %>
       </li>
       <li>
-        <%= f.label :store_card, "Setup automatic renewal#{link_to image_tag("help.gif", :id => "store_card_help_img"), "#", :id => "store_card_help_link"}<br/><span class='help'>(Please note that, for your convenience, it will apply to all your paid features)</span>" %>
+        <%= f.label :store_card, "Setup automatic renewal#{link_to image_tag("help.gif", :id => "store_card_help_img"), "#", :id => "store_card_help_link"}" %>
         <%= f.check_box :store_card  %>
       </li>
 	  <li>
-        <p id="store_card_help" class="help">Don't lose visibility! Tick the box to auto-renew your paid features before they expire. We'll email you a week before to give you the option to cancel. Just ignore the email and we'll automatically charge your credit card. And if your credit card expires in the meantime, we'll let you know that too.</p>
+        <p id="store_card_help" class="help">Don't lose visibility! Tick the box to auto-renew your membership before it expires. We'll email you a week before to give you the option to cancel. Just ignore the email and we'll automatically charge your credit card. And if your credit card expires in the meantime, we'll let you know that too.</p>
 	  </li>
   </ol>
 	<div class="clear"></div>

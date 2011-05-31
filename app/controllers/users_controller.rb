@@ -65,19 +65,6 @@ class UsersController < ApplicationController
 
   def promote
     get_order
-    if !@order.photo? && !current_user.paid_photo_until.nil? &&  Time.parse(current_user.paid_photo_until.to_s) > 3.months.ago
-      #the user paid for a photo that expired recently: let's guess it is a renewal
-      @order.photo = true
-    end
-    if !@order.highlighted? && !current_user.paid_highlighted_until.nil? && Time.parse(current_user.paid_highlighted_until.to_s) > 3.months.ago
-      @order.highlighted = true
-    end
-    if @order.special_offers == 0 && !current_user.paid_special_offers_next_date_check.nil? &&  Time.parse(current_user.paid_special_offers_next_date_check.to_s) > 3.months.ago
-      @order.special_offers = 1
-    end
-    if @order.gift_vouchers == 0 && !current_user.paid_gift_vouchers_next_date_check.nil? &&  Time.parse(current_user.paid_gift_vouchers_next_date_check.to_s) > 3.months.ago
-      @order.gift_vouchers = 1
-    end
   end
   
   def unsubscribe
@@ -318,6 +305,8 @@ class UsersController < ApplicationController
 protected
   def get_order
     @order = current_user.orders.pending.first
-    @order = Order.new if @order.nil?
+    if @order.nil?
+      @order = Order.create(:user_id => current_user.id, :package => "premium")
+    end
   end
 end

@@ -22,5 +22,5 @@ class OrdersControllerTest < ActionController::TestCase
     assert_not_nil cyrille.orders.pending.first.payment
     assert_redirected_to payment_action_with_id_url(assigns(:order).payment.id, :action => "edit" )
   end
-  
+
 end

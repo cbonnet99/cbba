@@ -27,6 +27,14 @@ class Order < ActiveRecord::Base
   PRICE_PHOTO = 2900
   PRICE_HIGHLIGHT = 1000
   
+  def expires_on
+    if user.paid_photo_until.nil?
+      1.year.from_now.to_date
+    else
+      user.paid_photo_until.advance(:months => 12).to_date
+    end
+  end
+  
   def convert_package_to_features
     unless package.blank?
       self.photo = false
