@@ -39,8 +39,8 @@ class User < ActiveRecord::Base
    
   #validation
   validates_length_of :name, :maximum => 100
-  validates_length_of :phone, :maximum => 14
-  validates_length_of :mobile, :maximum => 14
+  validates_length_of :phone, :maximum => 14, :allow_blank => true
+  validates_length_of :mobile, :maximum => 14, :allow_blank => true
   validates_presence_of :email, :first_name, :last_name
   validates_presence_of :district, :message => "^Your area can't be blank", :if => Proc.new { |user| !user.admin? }
   validates_length_of :email, :within => 6..100 #r@a.wk
@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
   named_scope :homepage_featured, :conditions => ["homepage_featured is true"] 
   
   # #around filters
-	before_validation :assemble_phone_numbers, :trim_stuff
+	before_validation :trim_stuff
   before_create :get_region_from_district, :get_membership_type, :set_country
   before_update :get_region_from_district, :get_membership_type
   after_create :create_profile, :add_tabs, :generate_activation_code, :send_confirmation_email
@@ -124,7 +124,6 @@ class User < ActiveRecord::Base
 
   attr_protected :admin, :main_role, :member_since, :member_until, :resident_since, :resident_until, :status, :homepage_featured, :homepage_featured_resident
 	attr_accessor :membership_type, :accept_terms, :admin, :main_role, :old_password
-  attr_writer :mobile_prefix, :mobile_suffix, :phone_prefix, :phone_suffix
 
   WEBSITE_PREFIX = "http://"
   DEFAULT_REFERRAL_COMMENT = "Just letting you know about this site __SITE__NAME__ that I've just added my profile to - I strongly recommend checking it out.\n\nHealth, Well-being and Development professionals in NZ can get a FREE profile - it's like a complete online marketing campaign... but without the headache!"
@@ -1114,46 +1113,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def phone_prefix
-    @phone_prefix ||
-     (unless phone.blank?
-        phone_bits = phone.split(")")
-        phone_bits.first.gsub(/\(/, '')
-      end)
-  end
-
-  def phone_suffix
-    @phone_suffix ||
-     (unless phone.blank?
-        phone_bits = phone.split(")")
-        if phone_bits.size > 1
-          phone_bits.last
-        else
-          ""
-        end
-      end)
-  end
-
-  def mobile_prefix
-    @mobile_prefix ||
-     (unless mobile.blank?
-        mobile_bits = mobile.split(")")
-        mobile_bits.first.gsub(/\(/, '')
-      end)
-  end
-
-  def mobile_suffix
-    @mobile_suffix ||
-     (unless mobile.blank?
-        mobile_bits = mobile.split(")")
-        if mobile_bits.size > 1
-          mobile_bits.last
-        else
-          ""
-        end
-      end)
-  end
-
   # #describes subcategories in a sentence
   def expertise
     subcategories.map(&:name).to_sentence
@@ -1302,24 +1261,6 @@ class User < ActiveRecord::Base
 			end
 		end
 	end
-
-	def assemble_phone_numbers
-    self.mobile = "(#{mobile_prefix})#{mobile_suffix}"
-    self.phone = "(#{self.phone_prefix})#{self.phone_suffix}"
-	end
-
-  def disassemble_phone_numbers
-    unless phone.blank? && !phone.include?(")")
-      phone_bits = phone.split(")")
-      self.phone_prefix = phone_bits.first.gsub(/\(/, '')
-      self.phone_suffix = phone_bits.last
-    end
-    unless mobile.blank? && !mobile.include?(")")
-      mobile_bits = mobile.split(")")
-      self.mobile_prefix = mobile_bits.first.gsub(/\(/, '')
-      self.mobile_suffix = mobile_bits.last
-    end
-  end
 
   def validate_on_create
     if accept_terms.nil? || accept_terms == "0"

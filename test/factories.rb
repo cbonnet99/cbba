@@ -92,6 +92,8 @@ Factory.define :user do |f|
   f.sequence(:first_name) {|n| "User#{n}"}
   f.last_name "Name"
   f.accept_terms true
+  f.phone "(04)2312123"
+  f.mobile "(021)185 6434"
   f.association :district
   f.password "foobar"
   f.state "active"

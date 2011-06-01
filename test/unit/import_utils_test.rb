@@ -11,14 +11,6 @@ class ImportUtilsTest < ActiveSupport::TestCase
     assert_equal 0, Subcategory.with_resident_expert.size
   end
 
-  def test_decompose_phone_number
-    assert_equal ['09', '1234567'], ImportUtils.decompose_phone_number(" 09-123 45-67")
-  end
-
-  def test_decompose_mobile_number
-    assert_equal ['021', '1234567'], ImportUtils.decompose_mobile_number(" 021-123 45-67")
-  end
-
 	def test_import_districts
 		old_count = District.count
 		ImportUtils.import_districts
@@ -49,8 +41,8 @@ class ImportUtilsTest < ActiveSupport::TestCase
     assert_equal "1 October 2007", annette.member_since.to_date.to_s.strip
     assert_equal "1 May 2009", annette.member_until.to_date.to_s.strip
 		angela = User.find_by_email("angela.baines@paradise.net")
-    assert_equal "(04)9051451", angela.phone
-    assert_equal "(021)1103239", angela.mobile
+    assert_equal "04 905 1451", angela.phone
+    assert_equal "021 110 3239", angela.mobile
 
 
     assert_equal 3, annette.tabs.size

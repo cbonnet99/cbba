@@ -566,20 +566,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, user.tabs.size
   end
 
-  def test_phone_suffix
-    cyrille = users(:cyrille)
-    norma = users(:norma)
-    assert_equal "3086130", cyrille.phone_suffix
-    assert_equal "", norma.phone_suffix
-  end
-
-  def test_phone_prefix
-    cyrille = users(:cyrille)
-    norma = users(:norma)
-    assert_equal "06", cyrille.phone_prefix
-    assert_equal "06", norma.phone_prefix
-  end
-
 	def test_all_find_by_region_and_subcategories
 		canterbury = regions(:canterbury)
 		yoga = subcategories(:yoga)

@@ -32,11 +32,11 @@
       <div class="left-input"></div>
     </li>
     <li>
-      <%= f.label :phone_prefix, 'Phone' %>
-      <%= f.select :phone_prefix, ["", "03", "04", "06", "07", "09"] %><%= f.text_field :phone_suffix, :size => 10, :maxlength => 10 %>
+      <%= f.label :phone, 'Phone' %>
+      <%= f.text_field :phone, :size => 14, :maxlength => 14 %>
     </li>
     <li>
-      <%= f.label :mobile_prefix, 'Mobile' %>
-      <%= f.select :mobile_prefix, ["", "021", "022", "027", "029"] %><%= f.text_field :mobile_suffix, :size => 10, :maxlength => 10 %>
+      <%= f.label :mobile, 'Mobile' %>
+      <%= f.text_field :mobile, :size => 14, :maxlength => 14 %>
     </li>
   </ol>

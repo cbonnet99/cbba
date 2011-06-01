@@ -568,7 +568,7 @@ class UsersControllerTest < ActionController::TestCase
 
 	def test_update_phone
 		cyrille = users(:cyrille)
-		post :update, {:id => "123", :user => {:phone_prefix => "06", :phone_suffix => "999999" }}, {:user_id => cyrille.id }
+		post :update, {:id => "123", :user => {:phone => "(06)999999" }}, {:user_id => cyrille.id }
 		assert_redirected_to expanded_user_url(cyrille)
 		assert_equal "Your details have been updated", flash[:notice]
     cyrille.reload
@@ -577,7 +577,7 @@ class UsersControllerTest < ActionController::TestCase
   
 	def test_update_phone2
     rmoore = users(:rmoore)
-		post :update, {:id => "123", :user => {:business_name => "My biz", :phone_prefix => "09", :phone_suffix => "111111" }}, {:user_id => rmoore.id }
+		post :update, {:id => "123", :user => {:business_name => "My biz", :phone => "(09)111111" }}, {:user_id => rmoore.id }
     #    puts assigns(:user).errors.inspect
 		assert_equal "Your details have been updated", flash[:notice]
     rmoore.reload
@@ -601,7 +601,7 @@ class UsersControllerTest < ActionController::TestCase
     #position should not be nil
     assert_not_nil cyrille.subcategories_users[0].position
     old_position = cyrille.subcategories_users[0].position
-		post :update, {:id => "123", :user => {:mobile_prefix => "027", :mobile_suffix => "999999" }}, {:user_id => cyrille.id }
+		post :update, {:id => "123", :user => {:mobile => "(027)999999" }}, {:user_id => cyrille.id }
 		assert_equal "Your details have been updated", flash[:notice]
     cyrille = User.find_by_email(cyrille.email)
 		assert_equal "(027)999999", cyrille.mobile
@@ -630,7 +630,7 @@ class UsersControllerTest < ActionController::TestCase
 	def test_update_mobile2
     rmoore = users(:rmoore)
 
-		post :update, {:id => "123", :user => {:business_name => "My biz", :mobile_prefix => "021", :mobile_suffix => "999999" }}, {:user_id => rmoore.id }
+		post :update, {:id => "123", :user => {:business_name => "My biz", :mobile => "(021)999999" }}, {:user_id => rmoore.id }
 		assert_equal "Your details have been updated", flash[:notice]
     rmoore.reload
 		assert_equal "(021)999999", rmoore.mobile
@@ -639,7 +639,7 @@ class UsersControllerTest < ActionController::TestCase
 	def test_update_mobile3
     norma = users(:norma)
 
-		post :update, {:id => "123", :user => {:mobile_prefix => "021", :mobile_suffix => "999999" }}, {:user_id => norma.id }
+		post :update, {:id => "123", :user => {:mobile => "(021)999999" }}, {:user_id => norma.id }
 		assert_equal "Your details have been updated", flash[:notice]
     norma.reload
 		assert_equal "(021)999999", norma.mobile
@@ -847,9 +847,8 @@ class UsersControllerTest < ActionController::TestCase
     district = districts(:wellington_wellington_city)
     wellington = regions(:wellington)
       hypnotherapy = subcategories(:hypnotherapy)
-    post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
-        :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile_prefix => "027",
-        :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
+    post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :accept_terms => true, 
+        :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile => "(027)8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_nil assigns(:payment)
     assert_redirected_to step2_url
     assert_not_nil assigns(:user)
@@ -869,8 +868,8 @@ class UsersControllerTest < ActionController::TestCase
   def test_create_full_membership_with_error
     hypnotherapy = subcategories(:hypnotherapy)
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23",
-      :password_confirmation => "testtest23", :professional => true, :district_id => "", :mobile_prefix => "027",
-      :accept_terms => "1", :mobile_suffix => "8987987", :first_name => "Cyrille", :last_name => "Stuff",
+      :password_confirmation => "testtest23", :professional => true, :district_id => "", :mobile => "(027)8987987",
+      :accept_terms => "1", :first_name => "Cyrille", :last_name => "Stuff",
       :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_template "new"
     assert_select "h2", :text => "Step 1: Your essential information" 
