@@ -4,6 +4,6 @@
 <p>You may now want to:</p>
 <ul>
 	<li>Stay informed of new articles: <%= link_to "subscribe to our articles' RSS feed", "http://feeds.feedburner.com/BeAmazing" %></li>
-	<li>Discover <%= link_to "our listing of coaches", full_members_url%></li>
+	<li>Discover <%= link_to "our listing of coaches", members_country_url(:country_code => @country.country_code)%></li>
 	<li>Go <%= link_to "back to the homepage", root_url%></li>
 </ul>

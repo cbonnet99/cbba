@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.step1 "/users/step1", :controller => "users", :action => "new"   
   map.step2 "/users/step2", :controller => "users", :action => "edit_optional"   
   
-  
+  map.members_country '/full_members/:country_code', :controller => "full_members", :action => "index"  
   map.articles_for_subcategory '/articles/subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_subcategory" 
   map.articles_for_blog_subcategory '/articles/blog_subcategory/:subcategory_slug', :controller => "articles", :action => "index_for_blog_subcategory" 
   map.gift_vouchers_for_subcategory '/gift_vouchers/subcategory/:subcategory_slug', :controller => "gift_vouchers", :action => "index_for_subcategory"

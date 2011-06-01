@@ -98,7 +98,7 @@
   <!--Sidebar1 Starts -->
   <div id="sidebar1" class="column">
     <div class="columnTop">&nbsp;</div>
-	<p id="number-users"><em><%= @number_users%></em> <%= link_to "Members", full_members_url %>,<br/><em><%= @number_services%></em> Listings</p>
+	<p id="number-users"><em><%= @number_users%></em> <%= link_to "Members", members_country_url(:country_code => @country.country_code) %>,<br/><em><%= @number_services%></em> Listings</p>
     <a name="categoryList" href="#categoryList" class="skip-dest"></a>
     <ul id="categories">
       <% @categories.each do |c| -%>
