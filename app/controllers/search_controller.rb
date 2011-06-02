@@ -72,12 +72,12 @@ class SearchController < ApplicationController
 
 	def index
 	  @context = "homepage"
-    @newest_articles = Article.all_newest_articles
+    @newest_articles = @country.articles.newest
     @total_articles = Article.count_published(@country)
     @featured_full_members = @country.featured_full_members
     @total_full_members = User.count_newest_full_members
     @featured_article = Article.first_homepage_featured(@country)
-    @popular_articles = Article.popular
+    @popular_articles = @country.articles.popular
     @all_blog_categories = BlogCategory.all
 	end
 

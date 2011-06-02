@@ -51,8 +51,8 @@ class ArticlesController < ApplicationController
   def index
     respond_to do |format|
       format.html{
-        @popular_articles = Article.popular
         @all_blog_categories = BlogCategory.all
+        @popular_articles = @country.articles.popular
         @context = "homepage"
         if params[:only_show_own] == "true"
           @selected_country = @country

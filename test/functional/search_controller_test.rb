@@ -39,7 +39,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_select "div.homepage-article", :maximum => Article::NUMBER_ON_HOMEPAGE+1
     assert_select "a", :text => "View more articles &raquo;"
     assert_equal 1, assigns(:featured_full_members).size
-    assert_equal Article::NUMBER_ON_HOMEPAGE, assigns(:newest_articles).size
+    assert Article::NUMBER_ON_HOMEPAGE >= assigns(:newest_articles).size
   end
 
   def test_search_full_member_full_name

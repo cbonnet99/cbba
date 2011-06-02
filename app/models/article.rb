@@ -26,10 +26,6 @@ class Article < ActiveRecord::Base
   validates_length_of :body, :maximum => 100000
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your articles" 
 
-	before_create :remove_html_from_lead
-	before_update :remove_html_from_lead
-	after_save :update_user_about
-
   MAX_LENGTH_SLUG = 20
   POINTS_FOR_RECENT_ARTICLE = 10
   POINTS_FOR_OLDER_ARTICLE = 5
@@ -37,6 +33,13 @@ class Article < ActiveRecord::Base
   MAX_ARTICLES_ON_INDEX = 6
   NUMBER_ON_HOMEPAGE = 10
   
+  named_scope :popular, :order => "monthly_view_counts desc", :limit => 10
+  named_scope :newest, :conditions => "state='published'", :order => "published_at desc", :limit => Article::NUMBER_ON_HOMEPAGE
+  
+	before_create :remove_html_from_lead
+	before_update :remove_html_from_lead
+	after_save :update_user_about
+
   def update_counters    
     self.update_attributes(:view_counts  => self.view_counts+1, :monthly_view_counts  => self.monthly_view_counts+1)    
   end
@@ -62,11 +65,7 @@ class Article < ActiveRecord::Base
   def to_s
     "#{self.id}: #{self.title}"
   end
-  
-  def self.popular
-    self.find(:all, :order => "monthly_view_counts desc", :limit => 10)
-  end
-  
+    
   def self.first_homepage_featured(country)
     Article.homepage_featured(country).first
   end
@@ -210,15 +209,6 @@ class Article < ActiveRecord::Base
 		  Article.find_by_sql(["select a.* from articles a, articles_blog_subcategories asub, countries c where c.country_code = ? and c.id = a.country_id and a.state = 'published' and a.id = asub.article_id and asub.blog_subcategory_id in (?)", country_code, subcategories])
 	  end
 	end
-
-  def self.all_newest_articles
-    newest_straight_articles = Article.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => Article::NUMBER_ON_HOMEPAGE)
-    newest_howto_articles = HowTo.find(:all, :conditions => "state='published'", :order => "published_at desc", :limit => Article::NUMBER_ON_HOMEPAGE)
-    newest_articles = newest_straight_articles + newest_howto_articles
-    newest_articles = newest_articles.sort_by(&:published_at)
-    newest_articles.reverse!
-    return newest_articles[0..Article::NUMBER_ON_HOMEPAGE-1]
-  end
 
 	def self.count_all_by_subcategories(*subcategories)
 		User.count_by_sql(["select count(a.*) as count from articles a, articles_subcategories asub where a.id = asub.article_id and asub.subcategory_id in (?)", subcategories])
