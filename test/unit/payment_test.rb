@@ -13,7 +13,7 @@ class PaymentTest < ActiveSupport::TestCase
     payment = Factory(:payment, :user => au_user)
     
     assert_equal 0, payment.gst
-    assert_equal "AUD", payment.purchase_options[:input_currency]
+    assert_equal "AUD", payment.purchase_options[:currency]
   end
 
   def test_compute_gst

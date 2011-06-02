@@ -136,7 +136,7 @@ class Payment < ActiveRecord::Base
         response = GATEWAY.purchase(total, token.billing_id , purchase_options)
       end
     end
-    logger.debug "============ response from DPS purchase: #{response.inspect}"
+    logger.info "============ response from DPS purchase: #{response.inspect}"
     transactions.create!(:action => "purchase", :amount => total, :response => response)
     if response.success?
       self.mark_as_paid!
@@ -147,7 +147,7 @@ class Payment < ActiveRecord::Base
   def purchase_options
     {
       :ip => ip_address,
-      :input_currency => self.user.try(:country).try(:currency).try(:upcase),
+      :currency => self.user.try(:country).try(:currency).try(:upcase),
       :description => "#{user.email} - #{payment_type}"
     }
   end
