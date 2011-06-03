@@ -107,7 +107,12 @@
     </ul>
     <ul>
 		<% @counters.each do |c| -%>
+		  <%if c.class_name == 'Article' -%>
+	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{Article.published.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
+		  <%else -%>
 	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
+	    <%  end -%>
+	
 	    <%  end -%>
     </ul>
     <div class="left_column_box">
