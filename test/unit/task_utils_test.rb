@@ -797,11 +797,17 @@ class TaskUtilsTest < ActiveSupport::TestCase
 	def test_count_users
 		practitioners = categories(:practitioners)
 		hypnotherapy = subcategories(:hypnotherapy)
+		nz = countries(:nz)
+		
 		TaskUtils.count_users
-		hypnotherapy.reload
-		assert_equal 5, hypnotherapy.users_counter
-		practitioners.reload
-		assert_equal 8, practitioners.users_counter
+		
+		pract_nz = CategoriesCountry.find_by_category_id_and_country_id(practitioners.id, nz.id)
+		assert_not_nil pract_nz
+		assert_equal 8, pract_nz.count
+
+		hypno_nz = SubcategoriesCountry.find_by_subcategory_id_and_country_id(hypnotherapy.id, nz.id)
+		assert_not_nil hypno_nz
+		assert_equal 5, hypno_nz.count
 	end
 
   def test_create_default_admins

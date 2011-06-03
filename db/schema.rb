@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110517084822) do
+ActiveRecord::Schema.define(:version => 20110602214050) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -107,6 +107,14 @@ ActiveRecord::Schema.define(:version => 20110517084822) do
   end
 
   add_index "categories", ["name", "position"], :name => "index_categories_on_position_and_name"
+
+  create_table "categories_countries", :force => true do |t|
+    t.integer  "category_id"
+    t.integer  "country_id"
+    t.integer  "count",       :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "categories_users", :force => true do |t|
     t.datetime "created_at"
@@ -531,6 +539,14 @@ ActiveRecord::Schema.define(:version => 20110517084822) do
     t.integer  "published_gift_vouchers_count",  :default => 0
     t.integer  "published_special_offers_count", :default => 0
     t.integer  "published_articles_count",       :default => 0
+  end
+
+  create_table "subcategories_countries", :force => true do |t|
+    t.integer  "subcategory_id"
+    t.integer  "country_id"
+    t.integer  "count",          :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "subcategories_users", :force => true do |t|

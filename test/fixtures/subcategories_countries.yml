@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  subcategory_id: 1
+  country_id: 1
+  count: 1
+
+two:
+  subcategory_id: 1
+  country_id: 1
+  count: 1

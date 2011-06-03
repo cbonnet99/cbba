@@ -21,6 +21,15 @@ class Subcategory < ActiveRecord::Base
   named_scope :with_gift_vouchers, :conditions => "published_gift_vouchers_count > 0", :order => "name"
   
   MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY = 3
+
+  def user_count_for_country(country)
+    sc = SubcategoriesCountry.find_by_subcategory_id_and_country_id(self.id, country.id)
+    if sc.nil?
+      return 0
+    else
+      return sc.count
+    end    
+  end
   
   def self.with_articles(country)
     if country.nil?

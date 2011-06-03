@@ -19,4 +19,13 @@ class Category < ActiveRecord::Base
 		Category.find(:all, :order => "position, name" )
 	end
 
+  def user_count_for_country(country)
+    cc = CategoriesCountry.find_by_category_id_and_country_id(self.id, country.id)
+    if cc.nil?
+      return 0
+    else
+      return cc.count
+    end
+  end
+
 end

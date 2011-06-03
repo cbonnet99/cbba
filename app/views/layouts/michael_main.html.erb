@@ -102,7 +102,7 @@
     <a name="categoryList" href="#categoryList" class="skip-dest"></a>
     <ul id="categories">
       <% @categories.each do |c| -%>
-        <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(c.slug)%>"><%=c.label%> <span class="users-counter"><%=c.users_counter%></span></a></li>
+        <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(c.slug)%>"><%=c.label%> <span class="users-counter"><%=c.user_count_for_country(@country)%></span></a></li>
       <%end -%>
     </ul>
     <ul>

@@ -1232,6 +1232,10 @@ class User < ActiveRecord::Base
 		User.count_by_sql(["select count(u.*) as count from users u, subcategories_users su where u.state='active' and u.id = su.user_id and su.subcategory_id in (?)", subcategories])
 	end
 
+	def self.count_all_by_country_id_and_subcategories(country_id, *subcategories)
+		User.count_by_sql(["select count(u.*) as count from users u, subcategories_users su where u.state='active' and u.country_id =? and u.id = su.user_id and su.subcategory_id in (?)", country_id, subcategories])
+	end
+
 	def self.search_results(country_id, category_id, subcategory_id, region_id, district_id, page)
 		if subcategory_id.nil?
 			if district_id.nil?

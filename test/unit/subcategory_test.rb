@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SubcategoryTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_user_count_for_country
+    hypnotherapy = subcategories(:hypnotherapy)
+    nz = countries(:nz)
+    TaskUtils.count_users
+    
+    assert hypnotherapy.user_count_for_country(nz) > 0
+  end
+
   def test_last_subcat_or_member_created_at
     nz = countries(:nz)
     old_last = Subcategory.last_subcat_or_member_created_at(nz)

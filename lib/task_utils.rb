@@ -568,11 +568,29 @@ class TaskUtils
       end
 
 	def self.count_users
-		Category.all.each do |c|
-			c.update_attribute(:users_counter, User.count_all_by_subcategories(*c.subcategories))
+		Category.all.each do |category|
+		  category.update_attribute(:users_counter, User.count_all_by_subcategories(*category.subcategories))
+		  Country.all.each do |country|
+		    cc = CategoriesCountry.find_by_category_id_and_country_id(category.id, country.id)
+		    count = User.count_all_by_country_id_and_subcategories(country.id, *category.subcategories)
+		    if cc.nil?
+		      cc = CategoriesCountry.create(:category_id => category.id, :country_id => country.id, :count => count)
+	      else
+  			  cc.update_attribute(:count, count)
+	      end
+		  end
 		end
 		Subcategory.all.each do |s|
-			s.update_attribute(:users_counter, User.count_all_by_subcategories(s))
+		  s.update_attribute(:users_counter, User.count_all_by_subcategories(s))
+		  Country.all.each do |country|
+		    sc = SubcategoriesCountry.find_by_subcategory_id_and_country_id(s.id, country.id)
+		    count = User.count_all_by_country_id_and_subcategories(country.id, s)
+		    if sc.nil?
+		      sc = SubcategoriesCountry.create(:subcategory_id => s.id, :country_id => country.id, :count => count)
+	      else
+  			  sc.update_attribute(:count, count)
+	      end
+		  end
 		end
 	end
 
