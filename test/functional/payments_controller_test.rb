@@ -51,7 +51,7 @@ class PaymentsControllerTest < ActionController::TestCase
       "first_name"=>"hjggh",
       "last_name"=>"gjhgjhgjhg",
       "card_verification"=>"123"}}, {:user_id => pending_user.id }
-    assert_redirected_to user_promote_url
+    assert_redirected_to expanded_user_url(pending_user)
     assert_equal "Thank you for your payment. Your membership is now activated", flash[:notice]
     pending_user.reload
     assert pending_user.active?
@@ -85,7 +85,7 @@ class PaymentsControllerTest < ActionController::TestCase
       "last_name"=>"gjhgjhgjhg",
       "card_verification"=>"123",
       "store_card" => "1"}}, {:user_id => pending_user.id }
-    assert_redirected_to user_promote_url
+    assert_redirected_to expanded_user_url(pending_user)
     assert_equal "Thank you for your payment. Your membership is now activated", flash[:notice]
     pending_user.reload
     assert_equal old_token_count+1, pending_user.stored_tokens.size
@@ -141,7 +141,7 @@ class PaymentsControllerTest < ActionController::TestCase
     expires = Time.now.advance(:year => 1 )
     put :update, {:id => new_payment.id, "payment"=>{
       "stored_token_id" => token.id}}, {:user_id => pending_user.id }
-    assert_redirected_to user_promote_url
+    assert_redirected_to expanded_user_url(pending_user)
     assert_equal "Thank you for your payment. Your membership is now activated", flash[:notice]
     pending_user.reload
     
@@ -194,7 +194,7 @@ class PaymentsControllerTest < ActionController::TestCase
       "first_name"=>"hjggh",
       "last_name"=>"gjhgjhgjhg",
       "card_verification"=>"123"}}, {:user_id => pending_user.id }
-      assert_redirected_to user_promote_url
+      assert_redirected_to expanded_user_url(pending_user)
 
     new_order = Factory(:order, :user_id => pending_user.id, :photo => true, :highlighted => true, :special_offers => 2,
         :gift_vouchers => 1 )
@@ -208,7 +208,7 @@ class PaymentsControllerTest < ActionController::TestCase
       "first_name"=>"hjggh",
       "last_name"=>"gjhgjhgjhg",
       "card_verification"=>"123"}}, {:user_id => pending_user.id }
-    assert_redirected_to user_promote_url
+    assert_redirected_to expanded_user_url(pending_user)
     assert_equal "Thank you for your payment. Your membership is now activated", flash[:notice]
     pending_user.reload
     assert pending_user.active?

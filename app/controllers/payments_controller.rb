@@ -76,7 +76,7 @@ class PaymentsController < ApplicationController
           if !@gateway_response.nil? && @gateway_response.success?
             log_bam_user_event(UserEvent::PAYMENT_SUCCESS, "", "#{@payment.order.description} for #{amount_view(@payment.total, @payment.currency)}")
             flash[:notice] = "Thank you for your payment. Your membership is now activated"
-            redirect_to user_promote_url
+            redirect_to expanded_user_url(current_user)
           else
             log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@gateway_response.try(:message)}")
             logger.debug "======= #{@payment.errors.inspect}"
