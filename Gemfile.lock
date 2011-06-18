@@ -70,7 +70,7 @@ GEM
       linecache (>= 0.3)
     transaction-simple (1.4.0)
       hoe (>= 1.1.7)
-    whenever (0.6.8)
+    whenever (0.6.7)
       aaronh-chronic (>= 0.3.9)
       activesupport (>= 2.3.4)
     will_paginate (2.3.15)
@@ -94,6 +94,6 @@ DEPENDENCIES
   recaptcha
   ruby-debug
   transaction-simple
-  whenever
+  whenever (= 0.6.7)
   will_paginate (~> 2.3.11)
   xero_gateway!
