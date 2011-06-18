@@ -14,7 +14,7 @@ gem "xero_gateway", :git => "git@github.com:cbonnet99/xero_gateway.git"
 gem "newrelic_rpm"
 gem "recaptcha", :require => 'recaptcha/rails'
 group :production do
-	gem 'whenever'
+	gem 'whenever', '0.6.7'
 end
 
 group :test do
