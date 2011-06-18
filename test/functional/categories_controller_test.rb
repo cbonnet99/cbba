@@ -31,6 +31,13 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_show_with_country_replace
+    au = countries(:au)
+    get :show, :category_slug => categories(:coaches).slug, :country_code => au.country_code 
+    assert_response :success
+    assert_select "p#description", :text => /Australia's finest coaches/
+  end
+
   def test_show_error
     get :show, :category_slug => "bla"
     assert_redirected_to root_url

@@ -1,6 +1,6 @@
 <% unless @category.nil? -%>
   <%= title @category.name %>
-  <p><%= @category.description %></p>
+  <p id="description"><%= @category.description.gsub(/__COUNTRY__/, @country.name) %></p>
   <% unless logged_in? -%>
   <p><%= link_to "Click here to place yourself in this directory", signup_intro_url %></p>
   <% end -%>

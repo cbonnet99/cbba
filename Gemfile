@@ -1,4 +1,5 @@
 source :gemcutter
+gem "linecache", "0.43"
 gem "rails", "2.3.8"
 gem "pg"
 gem "aws-s3"
