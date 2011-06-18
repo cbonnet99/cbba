@@ -22,6 +22,17 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 require 'active_merchant'
 
+if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.3.7')
+ module Rails
+   class GemDependency
+     def requirement
+       r = super
+       (r == Gem::Requirement.default) ? nil : r
+     end
+   end
+ end
+end
+
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers -- all
