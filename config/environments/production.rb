@@ -36,8 +36,7 @@ config.after_initialize do
   ActiveMerchant::Billing::Base.mode = :production
   ::GATEWAY = PatchedGateway.new(
     :login => "BeAmazing",
-    :password => "1081fc38",
-    :logger => Rails.logger
+    :password => "1081fc38"
   )
 end
 
