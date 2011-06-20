@@ -198,7 +198,7 @@ class TaskUtils
   def self.charge_expired_features    
     expired_feature_names = {}
     User.with_expired_photo.each do |u|
-      add_feature(expired_feature_names, u, "photo")
+      add_feature(expired_feature_names, u, User::FEATURE_PHOTO)
     end
     User.with_expired_highlighted.each do |u|
       add_feature(expired_feature_names, u, User::FEATURE_HIGHLIGHT)
@@ -223,24 +223,20 @@ class TaskUtils
   end
   
   def self.check_feature_expiration
-    has_expired_feature_names = {}
     expired_feature_names = {}
     expiring_feature_names = {}
     User.with_expired_photo.each do |u|
       u.update_attribute(:paid_photo, false) if u.paid_photo?
-      add_feature(expired_feature_names, u, "photo")
+      add_feature(expired_feature_names, u, User::FEATURE_PHOTO)
     end
-    User.with_has_expired_photo.each do |u|
-      add_feature(has_expired_feature_names, u, User::FEATURE_PHOTO)
-    end
-    User.with_expiring_photo(7.days.from_now).each do |u|
+    User.with_expiring_photo(7.days.from_now).with_no_or_old_warning.each do |u|
       add_feature(expiring_feature_names, u, User::FEATURE_PHOTO)
     end
     User.with_expired_highlighted.each do |u|
       u.update_attribute(:paid_highlighted, false) if u.paid_highlighted?
       add_feature(expired_feature_names, u, User::FEATURE_HIGHLIGHT)
     end
-    User.with_expiring_highlighted(7.days.from_now).each do |u|
+    User.with_expiring_highlighted(7.days.from_now).with_no_or_old_warning.each do |u|
       add_feature(expiring_feature_names, u, User::FEATURE_HIGHLIGHT)
     end
     User.with_expired_special_offers.each do |u|
@@ -258,7 +254,7 @@ class TaskUtils
       end
       u.update_attribute(:paid_special_offers, u.paid_special_offers-feature_count)
     end
-    User.with_expiring_special_offers(7.days.from_now).each do |u|
+    User.with_expiring_special_offers(7.days.from_now).with_no_or_old_warning.each do |u|
       feature_count = u.paid_special_offers - u.count_not_expiring_special_offers
       add_feature(expiring_feature_names, u, help.pluralize(feature_count, User::FEATURE_SO))
     end
@@ -277,17 +273,9 @@ class TaskUtils
       end
       u.update_attribute(:paid_gift_vouchers, u.paid_gift_vouchers-feature_count)
     end
-    User.with_expiring_gift_vouchers(7.days.from_now).each do |u|
+    User.with_expiring_gift_vouchers(7.days.from_now).with_no_or_old_warning.each do |u|
       feature_count = u.paid_gift_vouchers - u.count_not_expiring_gift_vouchers()
       add_feature(expiring_feature_names, u, help.pluralize(feature_count, User::FEATURE_GV))
-    end
-    new_has_expired_feature_names = {}
-    has_expired_feature_names.keys.reject{|u| has_expired_feature_names[u].blank?}.each do |u|
-      new_features = u.remove_auto_renewable_features(has_expired_feature_names[u])
-      new_has_expired_feature_names[u] = new_features unless new_features.blank?
-    end
-    new_has_expired_feature_names.keys.each do |u|
-      u.warn_has_expired_features(new_has_expired_feature_names[u])
     end
     new_expired_feature_names = {}
     expired_feature_names.keys.reject{|u| expired_feature_names[u].blank?}.each do |u|

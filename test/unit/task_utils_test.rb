@@ -429,33 +429,6 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size, "The expired photo email should only be sent once"    
   end
 
-  def test_check_feature_expiration_has_expired_photo
-    user_expired_photo = Factory(:user, :paid_photo => false, :paid_photo_until => 4.days.ago, :feature_warning_sent => 7.days.ago  )
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-    
-    TaskUtils.check_feature_expiration
-    
-    assert_equal 1, ActionMailer::Base.deliveries.size, "should be 1 email to user with expired photo"
-    ActionMailer::Base.deliveries = []
-    
-    TaskUtils.check_feature_expiration
-    
-    assert_equal 0, ActionMailer::Base.deliveries.size, "Email should not be sent again"
-  end
-
-  def test_check_feature_expiration_has_expired_photo_false
-    user_expired_photo = Factory(:user, :paid_photo => false, :paid_photo_until => 2.days.ago )
-		ActionMailer::Base.delivery_method = :test
-    ActionMailer::Base.perform_deliveries = true
-    ActionMailer::Base.deliveries = []
-    
-    TaskUtils.check_feature_expiration
-    
-    assert_equal 0, ActionMailer::Base.deliveries.size, "No email as we have not reached the 3 day threshold yet"
-  end
-
   def test_check_feature_expiration_expired_multiple_features
     user_expired_photo = Factory(:user, :paid_photo => true, :paid_photo_until => 1.month.ago, :paid_highlighted => true, :paid_highlighted_until => 1.month.ago )
     assert user_expired_photo.paid_highlighted?

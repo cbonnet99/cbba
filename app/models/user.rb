@@ -101,15 +101,16 @@ class User < ActiveRecord::Base
   named_scope :unpublished, :include => "user_profile",  :conditions => "user_profiles.state='draft'" 
   named_scope :recently_created, lambda{{:conditions => ["users.created_at > ?", 2.days.ago] }} 
   
+  named_scope :with_no_or_old_warning, :conditions => ["feature_warning_sent IS NULL or feature_warning_sent < ?", 1.year.ago]
+  
   named_scope :with_expired_photo, :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until < now()"
-  named_scope :with_has_expired_photo, :conditions => "paid_photo IS FALSE AND paid_photo_until IS NOT NULL AND now() > paid_photo_until + interval '3 days' AND feature_warning_sent < paid_photo_until + interval '3 days'"
-  named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until > now() AND feature_warning_sent IS NULL AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expiring_photo, lambda { |warning_period| { :conditions => "paid_photo IS TRUE AND paid_photo_until IS NOT NULL AND paid_photo_until > now() AND paid_photo_until < '#{warning_period.to_s(:db)}'"}}
   named_scope :with_expired_highlighted, :conditions => "paid_highlighted IS TRUE AND paid_highlighted_until IS NOT NULL AND paid_highlighted_until < now()"
-  named_scope :with_expiring_highlighted, lambda { |warning_period| { :conditions => "paid_highlighted IS TRUE AND paid_highlighted_until IS NOT NULL AND paid_highlighted_until > now() AND feature_warning_sent IS NULL AND paid_highlighted_until < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expiring_highlighted, lambda { |warning_period| { :conditions => "paid_highlighted IS TRUE AND paid_highlighted_until IS NOT NULL AND paid_highlighted_until > now() AND paid_highlighted_until < '#{warning_period.to_s(:db)}'"}}
   named_scope :with_expired_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check < now()"
-  named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND feature_warning_sent IS NULL AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expiring_special_offers, lambda { |warning_period| { :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now() AND paid_special_offers_next_date_check < '#{warning_period.to_s(:db)}'"}}
   named_scope :with_expired_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check < now()"
-  named_scope :with_expiring_gift_vouchers, lambda { |warning_period| { :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now() AND feature_warning_sent IS NULL AND paid_gift_vouchers_next_date_check < '#{warning_period.to_s(:db)}'"}}
+  named_scope :with_expiring_gift_vouchers, lambda { |warning_period| { :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now() AND paid_gift_vouchers_next_date_check < '#{warning_period.to_s(:db)}'"}}
   named_scope :has_paid_special_offers, :conditions => "paid_special_offers > 0 AND paid_special_offers_next_date_check IS NOT NULL AND paid_special_offers_next_date_check > now()"
   named_scope :has_paid_gift_vouchers, :conditions => "paid_gift_vouchers > 0 AND paid_gift_vouchers_next_date_check IS NOT NULL AND paid_gift_vouchers_next_date_check > now()"
   named_scope :hasnt_received_offers_reminder_recently, :conditions => ["offers_reminder_sent_at IS NULL OR offers_reminder_sent_at < ?", 1.month.ago]
@@ -196,6 +197,7 @@ class User < ActiveRecord::Base
       if order.save
         p = order.payment
         p.stored_token_id = self.stored_tokens.first.id
+        logger.info("Charged features: #{feature_names.to_sentence} to user: #{self.name_with_email}")
         p.purchase!
       else
         logger.error("There was an error while charge auto-renewal features; the order is not valid")
@@ -428,11 +430,6 @@ class User < ActiveRecord::Base
         selected_tab.content[0..300].gsub(/<\/?[^>]*>/,  "")
       end
     end
-  end
-  
-  def warn_has_expired_features(has_expired_feature_names)
-    UserMailer.deliver_has_expired_features(self, has_expired_feature_names) unless has_expired_feature_names.blank?
-    self.update_attribute(:feature_warning_sent, Time.now)
   end
   
   def warn_expired_features(expired_feature_names)

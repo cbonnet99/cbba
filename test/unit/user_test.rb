@@ -4,6 +4,20 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_expiring_photo_no_warning
+    user = Factory(:user, :paid_photo => true, :paid_photo_until => 2.days.from_now, :feature_warning_sent => nil)
+    
+    assert User.with_expiring_photo(7.days.from_now).with_no_or_old_warning.include?(user)
+    assert !User.with_expired_photo.include?(user)
+  end
+
+  def test_expiring_photo_old_warning
+    user = Factory(:user, :paid_photo => true, :paid_photo_until => 2.days.from_now, :feature_warning_sent => 367.days.ago)
+    
+    assert User.with_expiring_photo(7.days.from_now).with_no_or_old_warning.include?(user)
+    assert !User.with_expired_photo.include?(user)
+  end
+
   def test_resident_expert_in_subcat
     subcat = Factory(:subcategory)
     user = Factory(:user, :subcategory1_id => subcat.id)
@@ -34,7 +48,7 @@ class UserTest < ActiveSupport::TestCase
     user = Factory(:user, :paid_photo => true, :paid_photo_until => 6.days.ago )
     token = Factory(:stored_token, :user => user, :created_at => 8.days.ago )
     
-    res = user.remove_auto_renewable_features(["photo"])
+    res = user.remove_auto_renewable_features([User::FEATURE_PHOTO])
     assert res.blank?, "There should be no features left, as they will be auto-renewed"
   end
 
@@ -42,7 +56,7 @@ class UserTest < ActiveSupport::TestCase
     user = Factory(:user, :paid_photo => true, :paid_photo_until => 6.days.ago )
     token = Factory(:stored_token, :user => user, :created_at => 1.day.ago )
     
-    res = user.remove_auto_renewable_features(["photo"])
+    res = user.remove_auto_renewable_features([User::FEATURE_PHOTO])
     assert !res.blank?, "The stored token was created more recently than the expiration of the card"
   end
 

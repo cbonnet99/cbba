@@ -112,16 +112,6 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def has_expired_features(user, feature_names)
-    setup_email(user)
-	  @subject << "Renew anytime"
-		@body[:feature_names] = feature_names
-		@body[:url] = user_promote_url
-		@body[:site_url] = help.site_url(user)
-		@body[:site_name] = help.site_name(user)
-		@content_type = 'text/html'
-  end
-
   def expired_features(user, feature_names)
     setup_email(user)
     UserMailer.deliver_alert_expired_features(user, feature_names)
