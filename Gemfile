@@ -1,4 +1,5 @@
 source :gemcutter
+gem "rake", "0.8.7"
 gem "linecache", "0.43"
 gem "rails", "2.3.8"
 gem "pg"
@@ -13,6 +14,7 @@ gem "libxml-ruby"
 gem "xero_gateway", :git => "git@github.com:cbonnet99/xero_gateway.git"
 gem "newrelic_rpm"
 gem "recaptcha", :require => 'recaptcha/rails'
+
 group :production do
 	gem 'whenever', '0.6.7'
 end
