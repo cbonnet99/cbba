@@ -64,7 +64,6 @@ every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/runs3sync"
   command "cd /var/rails/be_amazing/current/ && ruby script/delete_old_S3_files.rb"
   runner "TaskUtils.recompute_resident_experts"
-  runner "TaskUtils.recompute_points"
   runner "TaskUtils.change_homepage_featured_resident_experts"
   runner "TaskUtils.delete_old_user_events(6.months.ago)"
 end
