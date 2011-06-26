@@ -177,6 +177,7 @@ class UserMailer < ActionMailer::Base
   
   def free_tool(contact)
     setup_email(contact)
+    @body[:site_name] = help.site_name(contact)
     @subject = "Here is your goal setting tool from #{APP_CONFIG[:site_name]}]"
     @body[:contact] = contact
     attachment :content_type => "application/pdf",
