@@ -1,4 +1,4 @@
-<% if (is_author?(item) && current_user.active?)%><div id="profile-publish-information"><%end%>
+<% if current_user.admin? || (is_author?(item) && current_user.active?)%><div id="profile-publish-information"><%end%>
 	  <% if item.is_a?(UserProfile) && item.user == current_user && item.draft? %>
 		<div id="bam-warning-profile-draft">
 		<% if item.user.active? -%>
@@ -46,4 +46,4 @@
   <%end -%>
   </div>
 <% end -%>
-<% if (is_author?(item) && current_user.active?)%></div><%end%>
+<% if current_user.admin? || (is_author?(item) && current_user.active?)%></div><%end%>
