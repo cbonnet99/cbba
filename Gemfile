@@ -16,7 +16,7 @@ gem "newrelic_rpm"
 gem "recaptcha", :require => 'recaptcha/rails'
 
 group :production do
-	gem 'whenever', '0.6.7'
+	gem 'whenever', '0.6.8'
 end
 
 group :test do
