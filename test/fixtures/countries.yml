@@ -4,6 +4,7 @@ nz:
   country_code: nz
   top_domain: co.nz
   gst: true
+  adjective: New Zealand
 
 au:
   name: Australia
@@ -11,3 +12,4 @@ au:
   country_code: au
   top_domain: com.au
   gst: false
+  adjective: Australian
