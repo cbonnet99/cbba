@@ -47,7 +47,11 @@
     <li><%= link_to 'Contact Us', contact_url  %></li>
 	<% Country.active.each do |c| -%>
 		<% unless c.country_code == @country.country_code -%>
-			<li><%= link_to "Looking for #{c.adjective} coaches?", site_url_for_country_code(c.country_code)%></li>
+			<% if logged_in? -%>
+				<li><%= link_to "Looking for #{c.adjective} coaches?", APP_CONFIG[:logged_site_protocol] + "://" + site_url_for_country_code(c.country_code)%></li>
+			<% else -%>
+				<li><%= link_to "Looking for #{c.adjective} coaches?", APP_CONFIG[:site_protocol] + "://" + site_url_for_country_code(c.country_code)%></li>
+			<% end -%>
 		<% end -%>
 	<% end -%>
   </ul>
