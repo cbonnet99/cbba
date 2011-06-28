@@ -5,6 +5,7 @@ nz:
   top_domain: co.nz
   gst: true
   adjective: New Zealand
+  analytics_tracker: UA-8125380-1
 
 au:
   name: Australia
@@ -13,3 +14,4 @@ au:
   top_domain: com.au
   gst: false
   adjective: Australian
+  analytics_tracker: UA-24228380-1
