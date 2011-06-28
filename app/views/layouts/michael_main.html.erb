@@ -149,7 +149,7 @@
   <!--Sidebar2 Starts -->
   <div id="sidebar2" class="column">
     <div class="columnTop">&nbsp;</div>
-	<div id="welcome_message">&quot;<span class="welcome_message">Be bold, Be Amazing!</span> A blog for you by Coaches in <%= @country.name%>&quot;</div>
+	<div id="welcome_message">&quot;<span class="welcome_message">Be bold, Be Amazing!</span> Where Coaches share their knowledge and experience with YOU&quot;</div>
 	<% if !logged_in? || (logged_in? && !current_user.receive_newsletter?)-%>
 	    <%= link_to "", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
 	<% end -%>
