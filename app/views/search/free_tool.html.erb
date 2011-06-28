@@ -1,7 +1,7 @@
 <%= title "Seven strategies to help your business FLY!"%>
 
 <h3>A special business development guide for Coaches</h3>
-<div id="join_us_now" class="rounded"><%= link_to "Join us now", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" )%></div>
+<div id="join_us_now" class="rounded"><%= link_to "Join us now", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%></div>
 <div class="cleaner"></div>
 
 <p>When you publish your FREE profile on this site, we'll email you this FREE guide to help you grow your coaching business.</p>
@@ -18,6 +18,6 @@
 </ul>
 <p>What next?</p>
 <ul>
-<li><%= link_to "Sign-up &amp; get your free copy", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" )%></li>
+<li><%= link_to "Sign-up &amp; get your free copy", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%></li>
 <li><%= link_to "Learn more about free membership for Coaches", :controller => "search", :action => "whyjoin"%></li>
 </ul>
