@@ -6,6 +6,7 @@ nz:
   gst: true
   adjective: New Zealand
   analytics_tracker: UA-8125380-1
+  active: true
 
 au:
   name: Australia
@@ -15,3 +16,4 @@ au:
   gst: false
   adjective: Australian
   analytics_tracker: UA-24228380-1
+  active: true

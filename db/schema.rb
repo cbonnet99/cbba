@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110628125351) do
+ActiveRecord::Schema.define(:version => 20110628143538) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(:version => 20110628125351) do
     t.boolean  "gst",                   :default => false
     t.string   "adjective"
     t.string   "analytics_tracker"
+    t.boolean  "active",                :default => false
   end
 
   create_table "countries_subcategories", :force => true do |t|

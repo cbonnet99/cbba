@@ -11,6 +11,8 @@ class Country < ActiveRecord::Base
   has_many :countries_subcategories
   has_many :js_counters
   has_many :subcategories_users, :through => :users 
+  
+  named_scope :active, :conditions => "active is true"
     
   def to_s
     "#{self.id}: #{self.name}"
