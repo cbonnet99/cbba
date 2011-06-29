@@ -61,7 +61,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
 	def test_count_reviewable
-		assert_equal 2, Article.count_reviewable
+		assert_equal 3, Article.count_reviewable
 	end
 
 	def test_find_all_by_subcategories

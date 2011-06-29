@@ -3,6 +3,78 @@ require File.dirname(__FILE__) + '/../test_helper'
 class SubcategoryTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_with_articles
+    au = countries(:au)
+    nz = countries(:nz)
+    subcat = Factory(:subcategory)
+    user_au = Factory(:user, :country => au)
+    article_au = Factory(:article, :subcategory1_id => subcat.id, :state => "draft", :author => user_au)
+    article_au.publish!
+    
+    assert Subcategory.with_articles(au).include?(subcat)
+    assert !Subcategory.with_articles(nz).include?(subcat)
+  end
+
+  def test_with_special_offers
+    au = countries(:au)
+    nz = countries(:nz)
+    subcat = Factory(:subcategory)
+    user_au = Factory(:user, :country => au, :paid_special_offers => 2)
+    so_au = Factory(:special_offer, :subcategory_id => subcat.id, :state => "draft", :author => user_au)
+    so_au.publish!
+    
+    assert Subcategory.with_special_offers(au).include?(subcat)
+    assert !Subcategory.with_special_offers(nz).include?(subcat)
+  end
+
+  def test_with_gift_vouchers
+    au = countries(:au)
+    nz = countries(:nz)
+    subcat = Factory(:subcategory)
+    user_au = Factory(:user, :country => au, :paid_gift_vouchers => 2)
+    gv_au = Factory(:gift_voucher, :subcategory_id => subcat.id, :state => "draft", :author => user_au)
+    published = gv_au.publish!
+    
+    assert published, "Gift voucher was not published successfully"
+    assert Subcategory.with_gift_vouchers(au).include?(subcat)
+    assert !Subcategory.with_gift_vouchers(nz).include?(subcat)
+  end
+
+
+  def test_published_articles_count
+    au = countries(:au)
+    nz = countries(:nz)
+    subcat = Factory(:subcategory)
+    user_au = Factory(:user, :country => au)
+    user_nz = Factory(:user, :country => nz)
+    so_au = Factory(:article, :subcategory1_id => subcat, :state => "draft", :author => user_au, :country => au)
+    so_nz = Factory(:article, :subcategory1_id => subcat, :state => "draft", :author => user_nz, :country => nz)
+    au_published = so_au.publish!
+    nz_published = so_nz.publish!
+    
+    assert au_published
+    assert nz_published    
+    assert_equal 1, subcat.published_articles_count(au)
+    assert_equal 1, subcat.published_articles_count(nz)
+  end
+
+  def test_published_special_offers_count
+    au = countries(:au)
+    nz = countries(:nz)
+    subcat = Factory(:subcategory)
+    user_au = Factory(:user, :country => au, :paid_special_offers => 2)
+    user_nz = Factory(:user, :country => nz, :paid_special_offers => 2)
+    so_au = Factory(:special_offer, :subcategory => subcat, :state => "draft", :author => user_au)
+    so_nz = Factory(:special_offer, :subcategory => subcat, :state => "draft", :author => user_nz)
+    au_published = so_au.publish!
+    nz_published = so_nz.publish!
+    
+    assert au_published
+    assert nz_published
+    assert_equal 1, subcat.published_special_offers_count(au)
+    assert_equal 1, subcat.published_special_offers_count(nz)
+  end
+
   def test_user_count_for_country
     hypnotherapy = subcategories(:hypnotherapy)
     nz = countries(:nz)

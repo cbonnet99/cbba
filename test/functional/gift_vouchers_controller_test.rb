@@ -24,10 +24,11 @@ class GiftVouchersControllerTest < ActionController::TestCase
   
   def test_limit_special_offers_for_full_members
     sgardiner = users(:sgardiner)
+    subcat = Factory(:subcategory)
 
-    GiftVoucher.create(:title => "Title", :description => "Description", :state => "published", :author => sgardiner   )
+    GiftVoucher.create(:title => "Title", :description => "Description", :state => "published", :author => sgardiner, :subcategory => subcat   )
 
-    new_gift2 = GiftVoucher.create(:title => "Title2", :description => "Description",
+    new_gift2 = GiftVoucher.create(:title => "Title2", :description => "Description", :subcategory => subcat,
       :author => sgardiner)
     post :publish, {:id => new_gift2.id }, {:user_id => sgardiner.id }
     assert_equal "You have paid for 1 published gift voucher", flash[:error]
@@ -36,14 +37,15 @@ class GiftVouchersControllerTest < ActionController::TestCase
 
   def test_limit_special_offers_for_resident_expert
     cyrille = users(:cyrille)
-
-    GiftVoucher.create(:title => "Title", :description => "Description",
+    subcat = Factory(:subcategory)
+    
+    GiftVoucher.create(:title => "Title", :description => "Description", :subcategory => subcat, 
       :state => "published", :author => cyrille   )
-    GiftVoucher.create(:title => "Title2", :description => "Description",
+    GiftVoucher.create(:title => "Title2", :description => "Description", :subcategory => subcat,
         :state => "published", :author => cyrille   )
-    GiftVoucher.create(:title => "Title3", :description => "Description",
+    GiftVoucher.create(:title => "Title3", :description => "Description", :subcategory => subcat,
         :state => "published", :author => cyrille   )
-    title4 = GiftVoucher.create(:title => "Title4", :description => "Description",
+    title4 = GiftVoucher.create(:title => "Title4", :description => "Description", :subcategory => subcat,
         :author => cyrille   )
 
     post :publish, {:id => title4.id }, {:user_id => cyrille.id }
@@ -53,7 +55,8 @@ class GiftVouchersControllerTest < ActionController::TestCase
 
   def test_publish
     cyrille = users(:cyrille)
-    one = GiftVoucher.create(:title => "Title4", :description => "Description",
+    subcat = Factory(:subcategory)
+    one = GiftVoucher.create(:title => "Title4", :description => "Description", :subcategory => subcat, 
         :author => cyrille   )
     old_published_count = cyrille.published_gift_vouchers_count
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
@@ -67,7 +70,8 @@ class GiftVouchersControllerTest < ActionController::TestCase
 
   def test_unpublish
     cyrille = users(:cyrille)
-    free_trial = GiftVoucher.create(:title => "Title", :description => "Description",
+    subcat = Factory(:subcategory)
+    free_trial = GiftVoucher.create(:title => "Title", :description => "Description", :subcategory => subcat, 
       :state => "published", :author => cyrille   )
     old_published_count = cyrille.published_gift_vouchers_count
     post :unpublish, {:id => free_trial.id }, {:user_id => cyrille.id }
@@ -80,7 +84,8 @@ class GiftVouchersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     old_count = cyrille.gift_vouchers_count
     old_size = cyrille.gift_vouchers.size
-    post :create, {:context => "profile", :selected_tab_id => "offers",  :gift_voucher => {:title => "Title", :description => "Description"} }, {:user_id => cyrille.id }
+    subcat = Factory(:subcategory)
+    post :create, {:context => "profile", :selected_tab_id => "offers",  :gift_voucher => {:subcategory => subcat, :title => "Title", :description => "Description"} }, {:user_id => cyrille.id }
     assert_redirected_to gift_vouchers_show_url(assigns(:gift_voucher).author.slug, assigns(:gift_voucher).slug, :context => "profile", :selected_tab_id => "offers")
     new_gift = assigns(:gift_voucher)
     assert_not_nil new_gift

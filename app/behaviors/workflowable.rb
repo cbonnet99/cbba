@@ -51,10 +51,10 @@ module Workflowable
     end
     
     def count_reviewable
-      self.count(:all, :conditions => "approved_by_id is null and state='published'")
+      self.count(:all, :conditions => "state<>'published'")
     end
     def reviewable
-      self.find(:all, :conditions => "approved_by_id is null and state='published'")
+      self.find(:all, :conditions => "state='published'")
     end
     def approved
       self.find(:all, :conditions => "status='approved' AND rejected_at is null")
@@ -104,12 +104,12 @@ module Workflowable
       end      
       if self.respond_to?(:subcategories)
         self.subcategories.each do |s|
-          if s.respond_to?(sym)
+          if s.respond_to?(sym) && s.method(sym).arity == 0
             s.update_attribute(sym, s.send(sym)-1)
           end
         end
       else
-        if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
+        if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym) && self.subcategory.method(sym).arity == 0
           self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
         end
       end
@@ -117,29 +117,52 @@ module Workflowable
 
     def remove_published_information_and_decrement_count
       self.update_attributes(:approved_at => nil, :approved_by => nil, :published_at => nil)
+      country = self.author.country
       sym = "published_#{self.class.to_s.tableize}_count".to_sym
       if self.respond_to?(:author) && self.author.respond_to?(sym)
         self.author.update_attribute(sym, self.author.send(sym)-1)
       end
       if self.respond_to?(:subcategories)
         self.subcategories.each do |subcat|
-          if subcat.respond_to?(sym)
+          if subcat.respond_to?(sym) && subcat.method(sym).arity == 0
             subcat.update_attribute(sym, subcat.send(sym)-1)
-          end
-          country = self.author.country
-          cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, subcat.id)            
-          if cs.respond_to?(sym)
+          else
+            cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, subcat.id)
             if cs.nil?
-              CountriesSubcategory.create(:country_id => country.id, :subcategory_id => subcat.id,
-                                      sym => 0)
+              test_cs = CountriesSubcategory.first
+              if test_cs.respond_to?(sym)
+                CountriesSubcategory.create(:country_id => country.id, :subcategory_id => subcat.id,
+                                        sym => 0)
+              end
             else
-              cs.update_attribute(sym, cs.send(sym)-1)
+              if cs.respond_to?(sym) && cs.method(sym).arity == 0
+                count = cs.send(sym)
+                count = 0 if count.nil?
+                cs.update_attribute(sym, count-1)
+              end
             end
           end
         end
       else
-        if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
-          self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
+        if self.respond_to?(:subcategory)
+          if self.subcategory.respond_to?(sym) && self.subcategory.method(sym).arity == 0
+            self.subcategory.update_attribute(sym, self.subcategory.send(sym)-1)
+          else
+            cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, self.subcategory.id)            
+            if cs.nil?
+              test_cs = CountriesSubcategory.first
+              if test_cs.respond_to?(sym)
+                CountriesSubcategory.create(:country_id => country.id, :subcategory_id => self.subcategory.id,
+                                        sym => 1)
+              end
+            else
+              if cs.respond_to?(sym) && cs.method(sym).arity == 0
+                count = cs.send(sym)
+                count = 0 if count.nil?
+                cs.update_attribute(sym, count-1)
+              end
+            end
+          end
         end
       end
     end
@@ -153,28 +176,51 @@ module Workflowable
       if self.respond_to?(:author) && self.author.respond_to?(sym)
         self.author.update_attribute(sym, self.author.send(sym)+1)
       end
+      country = self.author.country
+      if country.nil?
+        country = Country.default_country
+      end
       if self.respond_to?(:subcategories)
         self.subcategories.each do |subcat|
-          if subcat.respond_to?(sym)
+          if subcat.respond_to?(sym) && subcat.method(sym).arity == 0
             subcat.update_attribute(sym, subcat.send(sym)+1)
-          end
-          country = self.author.country
-          if country.nil?
-            country = Country.default_country
-          end
-          cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, subcat.id)            
-          if cs.respond_to?(sym)
+          else
+            cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, subcat.id)
             if cs.nil?
-              CountriesSubcategory.create(:country_id => country.id, :subcategory_id => subcat.id,
+              test_cs = CountriesSubcategory.first
+              if test_cs.respond_to?(sym)
+                CountriesSubcategory.create(:country_id => country.id, :subcategory_id => subcat.id,
                                       sym => 1)
+              end
             else
-              cs.update_attribute(sym, cs.send(sym)+1)
+              if cs.respond_to?(sym) && cs.method(sym).arity == 0
+                count = cs.send(sym)
+                count = 0 if count.nil?
+                cs.update_attribute(sym, count+1)
+              end
             end
           end
         end
       else
-        if self.respond_to?(:subcategory) && self.subcategory.respond_to?(sym)
-          self.subcategory.update_attribute(sym, self.subcategory.send(sym)+1)
+        if self.respond_to?(:subcategory)
+          if self.subcategory.respond_to?(sym) && self.subcategory.method(sym).arity == 0
+            self.subcategory.update_attribute(sym, self.subcategory.send(sym)+1)
+          else
+            cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, self.subcategory.id)            
+            if cs.nil?
+              test_cs = CountriesSubcategory.first
+              if test_cs.respond_to?(sym)
+                CountriesSubcategory.create(:country_id => country.id, :subcategory_id => self.subcategory.id,
+                                      sym => 1)
+              end
+            else
+              if cs.respond_to?(sym) && cs.method(sym).arity == 0
+                count = cs.send(sym)
+                count = 0 if count.nil?
+                cs.update_attribute(sym, count+1)
+              end
+            end
+          end
         end
       end
     end

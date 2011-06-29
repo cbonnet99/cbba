@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110628143538) do
+ActiveRecord::Schema.define(:version => 20110629093345) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -188,6 +188,8 @@ ActiveRecord::Schema.define(:version => 20110628143538) do
     t.integer  "published_articles_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "published_special_offers_count"
+    t.integer  "published_gift_vouchers_count"
   end
 
   create_table "districts", :force => true do |t|
@@ -535,13 +537,10 @@ ActiveRecord::Schema.define(:version => 20110628143538) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "users_counter",                  :default => 0
+    t.integer  "users_counter",      :default => 0
     t.string   "slug"
     t.integer  "resident_expert_id"
     t.text     "description"
-    t.integer  "published_gift_vouchers_count",  :default => 0
-    t.integer  "published_special_offers_count", :default => 0
-    t.integer  "published_articles_count",       :default => 0
   end
 
   create_table "subcategories_countries", :force => true do |t|

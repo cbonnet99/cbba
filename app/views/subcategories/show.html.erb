@@ -13,14 +13,14 @@
 </div>
 <% end -%>
 <% content_for :sidebar_content do -%>
-	<% unless @subcategory.published_special_offers_count == 0 && @subcategory.published_gift_vouchers_count == 0 -%>
+	<% unless @subcategory.published_special_offers_count(@country) == 0 && @subcategory.published_gift_vouchers_count(@country) == 0 -%>
 		<h4>Related offers</h4>
 		<ul>
-			<% unless @subcategory.published_special_offers_count == 0 -%>
-			<li><%= link_to "Trial sessions (#{@subcategory.published_special_offers_count})", special_offers_for_subcategory_url(@subcategory.slug)%></li>
+			<% unless @subcategory.published_special_offers_count(@country) == 0 -%>
+			<li><%= link_to "Trial sessions (#{@subcategory.published_special_offers_count(@country)})", special_offers_for_subcategory_url(@subcategory.slug)%></li>
 			<% end -%>
-			<% unless @subcategory.published_gift_vouchers_count == 0 -%>
-			<li><%= link_to "Gift Vouchers (#{@subcategory.published_gift_vouchers_count})", gift_vouchers_for_subcategory_url(@subcategory.slug)%></li>
+			<% unless @subcategory.published_gift_vouchers_count(@country) == 0 -%>
+			<li><%= link_to "Gift Vouchers (#{@subcategory.published_gift_vouchers_count(@country)})", gift_vouchers_for_subcategory_url(@subcategory.slug)%></li>
 			<% end -%>
 		</ul>
 	<% end -%>

@@ -3,7 +3,9 @@
 <%else -%>
 <ul class="simple category">
 <% for s in @subcategories -%>
-      <li><%=link_to s.name, special_offers_for_subcategory_url(s.slug)%><span class="users-counter"> <%=h s.published_special_offers_count%></span></li>
+	  <% unless s.published_special_offers_count(@country) == 0 -%>
+      <li><%=link_to s.name, special_offers_for_subcategory_url(s.slug)%><span class="users-counter"> <%=h s.published_special_offers_count(@country)%></span></li>
+	 <% end -%>
 <% end -%>
 </ul>
 <% end -%>

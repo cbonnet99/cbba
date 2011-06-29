@@ -47,7 +47,7 @@
 		  <%unless @user.city.blank?%>  <p>Location: <span class="location"><%=@user.location%></span></p>
 	      <%end%>
 	      <p><% unless @user.member_since.blank?%>Member since: <%= @user.member_since.to_s(:short) %><% end %>
-	      <% unless @user.visited_user_events.excludes_own.visited_profile.count == 0%> | Profile viewed <%= pluralize (@user.visited_user_events.excludes_own.visited_profile.count, "time") %><% end %></p>
+	      <% unless @user.visited_user_events.excludes_own.visited_profile.count == 0%> | Profile viewed <%= pluralize(@user.visited_user_events.excludes_own.visited_profile.count, "time") %><% end %></p>
           <ul>
           	<%unless @user.phone.nil? || @user.phone == "()"%><li class="phone"><span class="hide">phone:</span> <%=@user.phone%></li><%end%>
             <%unless @user.mobile.nil? || @user.mobile == "()"%><li class="fax"><span class="hide">mobile:</span> <%= @user.mobile%></li><%end%>

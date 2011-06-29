@@ -12,7 +12,7 @@ class GiftVouchersController < ApplicationController
   
   def index
     @context = "homepage"
-    @subcategories = Subcategory.with_gift_vouchers
+    @subcategories = Subcategory.with_gift_vouchers(@country)
     log_user_event UserEvent::SELECT_COUNTER, "", "Gift vouchers"
   end
 

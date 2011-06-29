@@ -8,7 +8,7 @@ class SpecialOffer < ActiveRecord::Base
   has_many :newsletters, :through => :newsletters_special_offers 
   belongs_to :country
   
-  validates_presence_of :title, :description
+  validates_presence_of :title, :description, :subcategory
   validates_length_of :description, :maximum => 600
   validates_uniqueness_of :title, :scope => "author_id", :message => "is already used for another of your trial sessions" 
 

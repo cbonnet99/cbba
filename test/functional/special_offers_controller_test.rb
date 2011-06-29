@@ -19,11 +19,12 @@ class SpecialOffersControllerTest < ActionController::TestCase
   
   def test_limit_special_offers_for_full_members
     sgardiner = users(:sgardiner)
-
-    SpecialOffer.create(:title => "Title", :description => "Description", :state => "published", :author => sgardiner   )
+    subcat = Factory(:subcategory)
+    
+    SpecialOffer.create(:title => "Title", :description => "Description", :state => "published", :author => sgardiner, :subcategory => subcat)
 
     new_offer2 = SpecialOffer.create(:title => "Title2", :description => "Description",
-      :author => sgardiner)
+      :author => sgardiner, :subcategory => subcat)
     post :publish, {:id => new_offer2.id }, {:user_id => sgardiner.id }
     assert_equal "You have paid for 1 published trial session", flash[:error]
     assert_redirected_to special_offers_url
@@ -32,10 +33,11 @@ class SpecialOffersControllerTest < ActionController::TestCase
   def test_limit_special_offers_for_resident_expert
     cyrille = users(:cyrille)
     one = special_offers(:one)
+    subcat = Factory(:subcategory)
 
-    SpecialOffer.create(:title => "Title", :description => "Description",
+    SpecialOffer.create(:title => "Title", :description => "Description", :subcategory => subcat,
        :state => "published", :author => cyrille   )
-    SpecialOffer.create(:title => "Title2", :description => "Description",
+    SpecialOffer.create(:title => "Title2", :description => "Description", :subcategory => subcat,
        :state => "published", :author => cyrille   )
 
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
@@ -82,8 +84,11 @@ class SpecialOffersControllerTest < ActionController::TestCase
     cyrille = users(:cyrille)
     old_count = cyrille.special_offers_count
     old_size = cyrille.special_offers.size
-    post :create, {:special_offer => {:title => "Title", :description => "Description",
+    subcat = Factory(:subcategory)
+    
+    post :create, {:special_offer => {:title => "Title", :description => "Description", :subcategory => subcat, 
       } }, {:user_id => cyrille.id }
+      
     new_offer = assigns(:special_offer)
     assert_not_nil new_offer
     assert new_offer.errors.blank?, "Errors found in new_offer: #{new_offer.errors.inspect}"

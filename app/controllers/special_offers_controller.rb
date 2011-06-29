@@ -14,7 +14,7 @@ class SpecialOffersController < ApplicationController
 
   def index
     @context = "homepage"
-    @subcategories = Subcategory.with_special_offers
+    @subcategories = Subcategory.with_special_offers(@country)
     log_bam_user_event UserEvent::SELECT_COUNTER, "", "Trial sessions"
   end
 

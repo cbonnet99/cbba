@@ -312,21 +312,22 @@ class TaskUtils
   
   def self.update_subcategories_counters
     Subcategory.all.each do |subcat|
-      subcat.update_attributes(:published_articles_count => subcat.articles.published.size,
-                               :published_special_offers_count => subcat.special_offers.published.size,
-                               :published_gift_vouchers_count => subcat.gift_vouchers.published.size)
       Country.all.each do |country|
-        published_articles_count = country.articles.published.count(:all, 
-          :include => "articles_subcategories", 
-          :conditions => ["articles_subcategories.article_id = articles.id 
-            and articles_subcategories.subcategory_id = ?",
-             subcat.id])
+        
+        published_articles_count = subcat.published_articles_count(country)
+        published_special_offers_count = subcat.published_special_offers_count(country)
+        published_gift_vouchers_count = subcat.published_gift_vouchers_count(country)
+
         cs = CountriesSubcategory.find_by_country_id_and_subcategory_id(country.id, subcat.id)
         if cs.nil?
           CountriesSubcategory.create(:country_id => country.id, :subcategory_id => subcat.id,
-                                  :published_articles_count => published_articles_count)
+                                  :published_articles_count => published_articles_count,
+                                  :published_special_offers_count => published_special_offers_count,
+                                  :published_gift_vouchers_count => published_gift_vouchers_count)
         else
-          cs.update_attribute(:published_articles_count, published_articles_count)
+          cs.update_attributes(:published_articles_count => published_articles_count,
+                                :published_special_offers_count => published_special_offers_count,
+                                :published_gift_vouchers_count => published_gift_vouchers_count)
         end
       end
     end

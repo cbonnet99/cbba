@@ -17,11 +17,37 @@ class Subcategory < ActiveRecord::Base
   validates_uniqueness_of :name, :message => "must be unique"
 
   named_scope :with_resident_expert, :conditions => "resident_expert_id is not null", :order => "name"
-  named_scope :with_special_offers, :conditions => "published_special_offers_count > 0", :order => "name"
-  named_scope :with_gift_vouchers, :conditions => "published_gift_vouchers_count > 0", :order => "name"
   
   MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY = 3
 
+  def published_special_offers_count(country)
+    country.special_offers.count(:all, :conditions => ["state = 'published' and subcategory_id = ?", self.id])
+  end
+
+  def published_gift_vouchers_count(country)
+    country.gift_vouchers.count(:all, :conditions => ["state = 'published' and subcategory_id = ?", self.id])
+  end
+
+  def published_articles_count(country)
+    country.articles.count(:all, :include => "articles_subcategories",  :conditions => ["state = 'published' and articles_subcategories.subcategory_id = ?", self.id])
+  end
+  
+  def self.with_articles(country)
+    if country.nil?
+      return Subcategory.find(:all, :include => "countries_subcategories", :conditions => ["countries_subcategories.published_articles_count > 0"])
+    else
+      return Subcategory.find(:all, :include => "countries_subcategories", :conditions => ["countries_subcategories.published_articles_count > 0 and country_id = ?", country.id])
+    end
+  end  
+  
+  def self.with_special_offers(country)
+    Subcategory.find(:all, :include => "countries_subcategories", :conditions => ["countries_subcategories.published_special_offers_count > 0 and countries_subcategories.country_id = ?", country.id])
+  end
+  
+  def self.with_gift_vouchers(country)
+    Subcategory.find(:all, :include => "countries_subcategories", :conditions => ["countries_subcategories.published_gift_vouchers_count > 0 and countries_subcategories.country_id = ?", country.id])
+  end
+  
   def user_count_for_country(country)
     sc = SubcategoriesCountry.find_by_subcategory_id_and_country_id(self.id, country.id)
     if sc.nil?
@@ -29,14 +55,6 @@ class Subcategory < ActiveRecord::Base
     else
       return sc.count
     end    
-  end
-  
-  def self.with_articles(country)
-    if country.nil?
-      return Subcategory.find(:all, :conditions => "published_articles_count > 0", :order => "name")
-    else
-      return Subcategory.find(:all, :include => "countries_subcategories", :conditions => ["countries_subcategories.published_articles_count > 0 and country_id = ?", country.id], :order => "name")
-    end
   end
   
   def self.last_created_at

@@ -5,18 +5,19 @@ class SpecialOfferTest < ActiveSupport::TestCase
   
   def test_count_after_publish
     cyrille = users(:cyrille)
+    nz = cyrille.country
     yoga = subcategories(:yoga)
     assert cyrille.special_offers.published.size < cyrille.paid_special_offers
-    old_size = yoga.published_special_offers_count
+    old_size = yoga.published_special_offers_count(nz)
     so = Factory(:special_offer, :subcategory => yoga, :author => cyrille)
     yoga.reload
-    assert_equal old_size, yoga.published_special_offers_count
+    assert_equal old_size, yoga.published_special_offers_count(nz)
     assert so.paid_items_left?
     res = so.publish!
     assert res
     assert so.published?
     yoga.reload
-    assert_equal old_size+1, yoga.published_special_offers_count
+    assert_equal old_size+1, yoga.published_special_offers_count(nz)
   end
   
   def test_count_published

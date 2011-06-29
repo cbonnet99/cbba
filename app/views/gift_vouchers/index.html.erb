@@ -5,7 +5,9 @@
 <%else -%>
   <ul class="simple category">
   <% for s in @subcategories -%>
-    <li><%=link_to s.name, gift_vouchers_for_subcategory_url(s.slug)%><span class="users-counter"> <%=h s.published_gift_vouchers_count%></span></li>
+	<% unless s.published_gift_vouchers_count(@country) == 0 -%>
+    <li><%=link_to s.name, gift_vouchers_for_subcategory_url(s.slug)%><span class="users-counter"> <%=h s.published_gift_vouchers_count(@country)%></span></li>
+    <% end -%>
   <% end -%>
   </ul>
 <% end -%>

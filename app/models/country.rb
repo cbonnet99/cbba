@@ -4,10 +4,10 @@ class Country < ActiveRecord::Base
   has_many :contacts
   has_many :counters
   has_many :districts 
-  has_many :gift_vouchers
+  has_many :gift_vouchers, :order => "name"
   has_many :how_tos
   has_many :regions
-  has_many :special_offers
+  has_many :special_offers, :order => "name" 
   has_many :countries_subcategories
   has_many :js_counters
   has_many :subcategories_users, :through => :users 
