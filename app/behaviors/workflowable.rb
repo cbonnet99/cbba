@@ -51,10 +51,10 @@ module Workflowable
     end
     
     def count_reviewable
-      self.count(:all, :conditions => "state<>'published'")
+      self.count(:all, :conditions => "approved_by_id is null and state = 'published'")
     end
     def reviewable
-      self.find(:all, :conditions => "state='published'")
+      self.find(:all, :conditions => "approved_by_id is null and state = 'published'")
     end
     def approved
       self.find(:all, :conditions => "status='approved' AND rejected_at is null")
@@ -226,7 +226,7 @@ module Workflowable
     end
 
     def reviewable?
-      state == "published" && approved_at.nil?
+      state == "published" && approved_by.nil?
     end
     
     def approved?

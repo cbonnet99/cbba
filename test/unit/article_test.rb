@@ -60,8 +60,21 @@ class ArticleTest < ActiveSupport::TestCase
     yoga.publish!
   end
 
+  def test_reviewable
+    article = Factory(:article, :state => "draft")
+    reviewer = Factory(:user)
+    article.publish!
+    
+    assert article.reviewable?
+    
+    article.approved_by = reviewer
+    article.save!
+    
+    assert !article.reviewable?
+  end
+
 	def test_count_reviewable
-		assert_equal 3, Article.count_reviewable
+		assert_equal 2, Article.count_reviewable
 	end
 
 	def test_find_all_by_subcategories
