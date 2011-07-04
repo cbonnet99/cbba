@@ -26,6 +26,7 @@ require 'capistrano/ext/multistage'
 #  set :deploy_via,  :copy
 #  set :copy_strategy, :export
 
+set :rake, 'bundle exec rake'
 set :application, "be_amazing"
 set :scm_username,  "cbonnet99@gmail.com"
 #set :scm_password,  lambda { CLI.password_prompt "SVN Password (user: #{scm_username}): "}
@@ -68,7 +69,7 @@ after 'deploy:update_code', 'deploy:symlink_shared'
 
 #after "deploy:symlink", "deploy:elastic_server_symlink"
 
-after "deploy:symlink", "deploy:update_crontab"
+# after "deploy:symlink", "deploy:update_crontab"
 
 namespace :bundler do
   task :create_symlink, :roles => :app do
@@ -152,7 +153,7 @@ namespace(:deploy) do
   task :update_crontab, :roles => :db do
     if rails_env == :production
       puts "*** Deploying cron jobs"
-      run "cd #{release_path} && whenever --update-crontab #{application}"
+      run "cd #{release_path} && bundle exec whenever --update-crontab #{application}"
     else
       puts "*** No cron jobs deployed as the enviroment is NOT production, but #{rails_env}"
     end
@@ -210,8 +211,8 @@ namespace(:deploy) do
   end
 
   task :generate_assets, :roles => [:app] do
-    run "cd #{release_path} && rake bam:generate_autocomplete_js RAILS_ENV=#{rails_env}"
-    run "cd #{release_path} && rake asset:packager:build_all RAILS_ENV=#{rails_env}"
+    run "cd #{release_path} && bundle exec rake bam:generate_autocomplete_js RAILS_ENV=#{rails_env}"
+    run "cd #{release_path} && bundle exec rake asset:packager:build_all RAILS_ENV=#{rails_env}"
   end
 
   desc "Installs gems necessary for BAM"

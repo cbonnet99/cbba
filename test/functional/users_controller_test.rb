@@ -429,6 +429,19 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "a", :text => "Upload your picture here"
   end
 
+  def test_show_no_city
+    welly = districts(:wellington_wellington_city)
+    user_without_city = Factory(:user, :city  => "", :district => welly)
+    user_without_city.user_profile.publish!
+    
+    get :show, {:name => user_without_city.slug, :region => welly.region.slug, :main_expertise_slug => user_without_city.main_expertise.slug}
+    assert_response :success
+    
+    assert_equal "Wellington City, Wellington Region", user_without_city.location
+    assert_select "span.location", "Wellington City, Wellington Region"
+    
+  end
+
   def test_show_not_own_profile
     cyrille = users(:cyrille)
     norma = users(:norma)

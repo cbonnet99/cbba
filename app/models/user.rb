@@ -637,16 +637,9 @@ class User < ActiveRecord::Base
   end
 
   def location
-    res = ""
-    if city.blank?
-      if !district.nil?
-        res = district.name
-      end
-    else
-      res << city
-    end
-    res << ", #{region.name}" unless region.nil?
-    return res
+    location_array = self.city.blank? ? [self.district.try(:name)] : [self.city]
+    location_array << self.region.try(:name)
+    return location_array.join(", ")
   end
 
   def find_current_payment
