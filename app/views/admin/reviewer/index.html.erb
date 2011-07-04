@@ -17,7 +17,7 @@
   </ul>
 <% end -%>
 <% unless @special_offers.blank? -%>
-<h3>Trial sessions</h3>
+<h3>Trial &amp; offers</h3>
   <ul class="simple" id="reviewable-special-offers">
   <% @special_offers.each do |a| -%>
     <li class="<%=cycle('odd', 'even')%>"><%= render :partial => "special_offers/special_offer", :locals => {:special_offer => a, :review => "true" } %></li>

@@ -8,7 +8,7 @@
 <% end -%>
 
 <% unless newsletter.special_offers.blank? -%>
-<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Trial sessions</h3>
+<h3 style="color:#20ACCD; font-size:18px; margin:0 0 5px 0; padding:10px 0 0;">Trial &amp; offers</h3>
 <ul>
 <% newsletter.special_offers.each do |offer| -%>
 	<li><%= offer.label(special_offers_show_url(offer.author, offer.slug, :context => "homepage"))%></li>
