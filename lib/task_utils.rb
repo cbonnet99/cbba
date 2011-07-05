@@ -2,6 +2,12 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.email_users_will_be_deleted
+    User.will_be_deleted_in_1_week.each do |user|
+      UserMailer.deliver_user_will_be_deleted_in_1_week(user)
+    end
+  end
+
   def self.delete_old_unconfirmed_users
     users_to_delete = User.find(:all, :conditions => ["state = 'unconfirmed' and created_at <= ?", 14.days.ago])
     users_to_delete.each do |u|

@@ -3,6 +3,21 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_email_users_will_be_deleted
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    user_will_be_deleted = Factory(:user, :created_at => 6.days.ago, :state => "unconfirmed")
+    user_wont_be_deleted = Factory(:user, :created_at => 8.days.ago, :state => "unconfirmed")
+    
+    TaskUtils.email_users_will_be_deleted
+    
+    profile_will_be_deleted_email = ActionMailer::Base.deliveries.select {|email| email.subject == "Please confirm your profile on test.host or it will be deleted in one week"}
+    assert_not_nil profile_will_be_deleted_email
+    
+  end
+
   def test_delete_old_unconfirmed_users_with_published_articles
     old_unconfirmed_with_article = Factory(:user, :state => "unconfirmed", :created_at => 17.days.ago)
     old_unconfirmed_without_article = Factory(:user, :state => "unconfirmed", :created_at => 17.days.ago)

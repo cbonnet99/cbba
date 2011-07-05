@@ -137,6 +137,10 @@ class User < ActiveRecord::Base
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
   
+  def self.will_be_deleted_in_1_week
+    User.find(:all, :conditions => ["state='unconfirmed' and created_at > ?", 7.days.ago])
+  end
+  
   def send_confirmation_email
     UserMailer.deliver_new_user_confirmation_email(self)
   end

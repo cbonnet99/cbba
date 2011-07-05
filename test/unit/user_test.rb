@@ -4,6 +4,13 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_will_be_deleted_in_1_week
+    user_will_be_deleted = Factory(:user, :created_at => 6.days.ago, :state => "unconfirmed")
+    user_wont_be_deleted = Factory(:user, :created_at => 8.days.ago, :state => "unconfirmed")
+    
+    users_to_delete = User.will_be_deleted_in_1_week
+  end
+
   def test_expiring_photo_no_warning
     user = Factory(:user, :paid_photo => true, :paid_photo_until => 2.days.from_now, :feature_warning_sent => nil)
     

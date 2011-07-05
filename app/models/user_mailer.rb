@@ -2,6 +2,14 @@ class UserMailer < ActionMailer::Base
 
   include ApplicationHelper
   include ActionController::UrlWriter
+
+  def user_will_be_deleted_in_1_week(user)
+    setup_email(user)
+    @subject = "Please confirm your profile on #{help.site_name(user)} or it will be deleted in one week"
+    @content_type = 'text/html'    
+    @body[:site_name] = help.site_name(user)
+    @body[:url] = confirm_user_url(:activation_code => user.activation_code)
+  end
   
   def inconsistent_tabs(user, res)
     setup_email(user)

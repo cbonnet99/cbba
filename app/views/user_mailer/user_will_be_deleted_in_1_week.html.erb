@@ -1,0 +1,7 @@
+Dear <%= @user.first_name%>,<br/>
+<br/>
+Your profile on <%= @site_name%> has not been confirmed. Please confirm it by clicking on the link below or it will be deleted in one week:<br/>
+<br/>
+<%= @url %><br/>
+<br/>
+<%= render :partial => "signature"  %>
