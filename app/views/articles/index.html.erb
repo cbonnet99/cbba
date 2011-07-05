@@ -12,6 +12,6 @@
 <%= render :partial => "blog_categories/links", :locals => {:selected => "" }  %>
 <%= title "Articles" %>
 <div><%= link_to image_tag('rss_icon.png'), articles_url(:format => :rss)%></div>
-<p>Coaches from all over the country have published numerous articles right here; sharing their expertise to help you achieve your goals and shape your life. We think you'll find lots of useful information, practical strategies and a whole heap of inspiration. To keep connected and receive new articles as they're published, either subscribe to our articles RSS feed, or join our newsletter mailing list.</p>
+<p>Coaches from all over the country have published numerous articles right here; sharing their expertise to help you achieve your goals and shape your life. We think you'll find lots of useful information, practical strategies and a whole heap of inspiration. To keep connected and receive new articles as they're published, either subscribe to our <%= link_to "articles RSS feed", articles_url(:format => :rss) %>, or join our <%= link_to "newsletter mailing list", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]) %>.</p>
 <%= render :partial => "articles/link_to_all" %> 
 <%= render :partial => "articles/index_with_subcategories"  %>
