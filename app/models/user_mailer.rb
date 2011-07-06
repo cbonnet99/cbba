@@ -301,6 +301,7 @@ class UserMailer < ActionMailer::Base
   
   def activation(user)
     setup_email(user)
+    @content_type = 'text/html'    
     @subject << 'Your BeAmazing account has been activated!'
     @body[:url] = root_url
   end

@@ -10,7 +10,7 @@ are about to expire in a week, but 'no worries' you selected 'auto-renew' so we'
 <br/>
 <p>If you do not want to renew, just follow these steps:<br/>
 <ol>
-	<li>Click on this link: <%= @url %> (you'll be asked to log in if you are not logged in)</li>
+	<li>Click on this link: <%= link_to @url, @url %> (you'll be asked to log in if you are not logged in)</li>
 	<li>Click on 'Payments'</li>
 	<li>Delete all the listed credit cards</li>
 </ol>

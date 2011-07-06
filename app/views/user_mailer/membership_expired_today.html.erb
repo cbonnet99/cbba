@@ -11,6 +11,6 @@ Dear <%= @user.first_name %>,
 </ul>
 <% end -%>
 <p>Together let's make a bigger difference to NZ's wellbeing! Renew your membership, $199+gst (that’s only 61c per day inc gst!), click on the link below:</p>
-<%= @url %>
+<%= lin_to @url, @url %>
 <br/>
 <%= render :partial => "signature"  %>

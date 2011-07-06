@@ -10,7 +10,7 @@ class ContactsController < ApplicationController
     user = params[:contact].nil? ? nil : User.active.find_by_email(params[:contact]["email"])
     if user.nil?
       if @contact.save
-        flash[:notice] = "Thank you for signing up, you will receive your FREE tool by email shortly"
+        flash[:notice] = "Thank you for signing up, you will receive a confirmation email shortly"
         redirect_back_or_default thank_you_signup_newsletter_url
       else
         get_districts_and_subcategories(@contact.country_id || @country.id)
@@ -19,7 +19,7 @@ class ContactsController < ApplicationController
       end
     else
       user.update_attribute(:receive_newsletter, true)
-      flash[:notice] = "Thank you for signing up, you will receive your FREE tool by email shortly"
+      flash[:notice] = "Thank you for signing up"
       redirect_back_or_default thank_you_signup_newsletter_url
     end
   end

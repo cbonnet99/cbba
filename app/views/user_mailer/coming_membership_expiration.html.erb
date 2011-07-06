@@ -11,7 +11,7 @@ Dear <%= @user.first_name %>,
 </ul>
 <% end -%>
 <p>We love having you on the site and together we're making a bigger difference to <%= @user.country.inhabitants%>' wellbeing. To renew your membership for only $199+gst (that's only 61c per day inc gst!) please click on the link below:</p>
-<%= @url %>
+<%= link_to @url, @url %>
 <br/>
 <p>PLUS, if you want to reach more people, here are a few ideas:</p>
 <ul>

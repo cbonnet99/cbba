@@ -30,7 +30,7 @@ Thanks for being on <a href="http://<%= @site_url%>"><%= @site_name.capitalize%>
 We've made it really easy to renew, just follow these steps:<br/>
 <br/>
 <ol>
-	<li>Click on this link: <%= @url %> (you'll be asked to log in if you are not logged in)</li>
+	<li>Click on this link: <%= link_to @url, @url %> (you'll be asked to log in if you are not logged in)</li>
 	<li>Click on 'Membership'</li>
 	<li>Select the features you'd like</li>
 	<li>Then click 'Proceed to pay'</li>

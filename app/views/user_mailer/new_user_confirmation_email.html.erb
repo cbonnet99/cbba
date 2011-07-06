@@ -1,11 +1,11 @@
-Dear <%= @user.first_name%>,
-
-Welcome to <%= @site_name%>!
-
-In order to proceed, you need to click on the following confirmation link:
-
-<%= @url %>
-
-If you did not register with <%= @site_name%>, no worries: don't click on the confirmation link above and we will not bother you again.
-
+Dear <%= @user.first_name%>,<br/>
+<br/>
+Welcome to <%= @site_name%>!<br/>
+<br/>
+In order to proceed, you need to click on the following confirmation link:<br/>
+<br/>
+<%= link_to @url, @url %><br/>
+<br/>
+If you did not register with <%= @site_name%>, no worries: don't click on the confirmation link above and we will not bother you again.<br/>
+<br/>
 <%= render :partial => "signature"  %>
