@@ -136,9 +136,10 @@ class User < ActiveRecord::Base
   FEATURE_GV = "gift voucher"
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
+  DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS = 30
   
   def self.will_be_deleted_in_1_week
-    User.find(:all, :conditions => ["state='unconfirmed' and created_at > ?", 7.days.ago])
+    User.find(:all, :conditions => ["state='unconfirmed' and created_at < ?", DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS.days.ago])
   end
   
   def send_confirmation_email

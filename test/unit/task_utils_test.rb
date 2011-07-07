@@ -8,8 +8,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
-    user_will_be_deleted = Factory(:user, :created_at => 6.days.ago, :state => "unconfirmed")
-    user_wont_be_deleted = Factory(:user, :created_at => 8.days.ago, :state => "unconfirmed")
+    user_will_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS+1).days.ago, :state => "unconfirmed")
+    user_wont_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-1).days.ago, :state => "unconfirmed")
     
     TaskUtils.email_users_will_be_deleted
     
