@@ -174,20 +174,53 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal User.admins.size, ActionMailer::Base.deliveries.size
   end
 
-  def test_recompute_resident_experts
+  def test_recompute_resident_experts_mixing_subcat
     nz = countries(:nz)
-    expert = Factory(:user, :country => nz)
-    yoga = subcategories(:yoga)
-    expert_article = Factory(:article, :subcategory1_id => yoga.id, :author => expert, :state => "draft")
+    subcat1 = Factory(:subcategory)
+    subcat2 = Factory(:subcategory)
+    subcat3 = Factory(:subcategory)
+    subcat4 = Factory(:subcategory)
+    nz_expert = Factory(:user, :subcategory1_id => subcat1.id, :subcategory2_id => subcat2.id, :subcategory3_id => subcat3.id, :country => nz)
+    
+    expert_article = Factory(:article, :subcategory1_id => subcat4.id, :author => nz_expert, :state => "draft")
     expert_article.publish!
     
     TaskUtils.recompute_resident_experts
     
-    expert.reload
-    assert User.resident_experts(nz).size > 0
-    User.resident_experts(nz).each do |expert|
+    nz_expert.reload
+    assert_equal [subcat1, subcat2, subcat3], nz_expert.subcategories
+  end
+
+  def test_recompute_resident_experts
+    nz = countries(:nz)
+    au = countries(:au)
+    yoga = subcategories(:yoga)
+    nz_expert = Factory(:user, :subcategory1_id => yoga.id, :country => nz)
+    expert_article = Factory(:article, :subcategory1_id => yoga.id, :author => nz_expert, :state => "draft")
+    expert_article.publish!
+
+    au_expert = Factory(:user, :subcategory1_id => yoga.id, :country => au)
+    au_expert_article1 = Factory(:article, :subcategory1_id => yoga.id, :author => au_expert, :state => "draft")
+    au_expert_article1.publish!
+    au_expert_article2 = Factory(:article, :subcategory1_id => yoga.id, :author => au_expert, :state => "draft")
+    au_expert_article2.publish!
+
+    
+    TaskUtils.recompute_resident_experts
+    
+    nz_expert.reload
+    assert nz_expert.active?
+    nz_experts = User.resident_experts(nz)
+    assert nz_experts.size > 0
+    nz_experts.each do |expert|
       assert expert.published_articles_count > 0, "Expert #{expert.full_name} has no published article..."
     end
+    
+    assert nz_experts.include?(nz_expert), "#{nz_expert.name} could not be found in #{nz_experts.map(&:name).to_sentence}"
+    nz_yoga_su = nz_expert.subcategories_users.select{|su| su.subcategory_id == yoga.id}.first
+    assert_equal 1, nz_yoga_su.expertise_position, "There is no better expert in NZ"
+    au_yoga_su = au_expert.subcategories_users.select{|su| su.subcategory_id == yoga.id}.first
+    assert_equal 1, au_yoga_su.expertise_position, "There is no better expert in Oz"
   end
   
   def test_send_offers_reminder_so
