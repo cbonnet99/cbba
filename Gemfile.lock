@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:cbonnet99/active_merchant.git
-  revision: 7e6f1f9dd600cdd7028abd298938562f813b994c
+  revision: c9798ee56016ada374bb36a6834107c65c4435a7
   specs:
     activemerchant (1.12.1)
       activesupport (>= 2.3.8)
@@ -39,13 +39,13 @@ GEM
     color (1.4.0)
       archive-tar-minitar (~> 0.5.1)
       hoe (>= 1.3.0)
-    columnize (0.3.3)
+    columnize (0.3.4)
     factory_girl (1.3.3)
     graticule (0.2.8)
       activesupport
-    hoe (2.9.4)
-      rake (>= 0.8.7)
-    libxml-ruby (2.0.6)
+    hoe (2.10.0)
+      rake (~> 0.8)
+    libxml-ruby (2.0.9)
     linecache (0.43)
     mime-types (1.16)
     newrelic_rpm (3.1.0)
@@ -74,7 +74,7 @@ GEM
       aaronh-chronic (>= 0.3.9)
       activesupport (>= 2.3.4)
     will_paginate (2.3.15)
-    xml-simple (1.0.16)
+    xml-simple (1.1.0)
 
 PLATFORMS
   ruby
