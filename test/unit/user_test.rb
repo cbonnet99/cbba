@@ -5,8 +5,8 @@ class UserTest < ActiveSupport::TestCase
 	fixtures :all
 
   def test_will_be_deleted_in_1_week
-    user_will_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS+1).days.ago, :state => "unconfirmed")
-    user_wont_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-1).days.ago, :state => "unconfirmed")
+    user_will_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_WILL_BE_DELETED_IN_DAYS+1).days.ago, :state => "unconfirmed")
+    user_wont_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_WILL_BE_DELETED_IN_DAYS-1).days.ago, :state => "unconfirmed")
     
     users_to_delete = User.will_be_deleted_in_1_week
     

@@ -137,9 +137,11 @@ class User < ActiveRecord::Base
   NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS = 3
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
   DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS = 30
+  WARNING_USERS_WILL_BE_DELETED_IN_DAYS = 7
+  WARNING_USERS_WABOUT_TO_BE_DELETED_IN_DAYS = 2
   
   def self.will_be_deleted_in_1_week
-    User.find(:all, :conditions => ["state='unconfirmed' and created_at < ?", DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS.days.ago])
+    User.find(:all, :conditions => ["state='unconfirmed' and created_at < ?", (DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-WARNING_USERS_WILL_BE_DELETED_IN_DAYS).days.ago])
   end
   
   def send_confirmation_email
