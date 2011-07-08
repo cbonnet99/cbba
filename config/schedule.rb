@@ -34,19 +34,45 @@ every :sunday, :at => '12pm'  do
   runner "TaskUtils.send_weekly_admin_stats"
 end
 
-every 1.day, :at => "3am"  do
+every 1.day, :at => "1am"  do
   runner "TaskUtils.delete_old_unconfirmed_users"
   runner "TaskUtils.notify_unpublished_users"
+end
+
+every 1.day, :at => "2am"  do
+  runner "TaskUtils.rotate_users"
+end
+
+every 1.day, :at => "3am"  do
+  runner "TaskUtils.check_feature_expiration"
+  runner "TaskUtils.check_expired_offers"
+  runner "TaskUtils.charge_expired_features"
+end
+
+every 1.day, :at => "4am"  do
+  runner "TaskUtils.change_homepage_featured_article"
+  runner "TaskUtils.change_homepage_featured_quote"
+end
+
+every 1.day, :at => "5am"  do
+  runner "TaskUtils.recompute_resident_experts"
+end
+
+every 1.day, :at => "6am"  do
   runner "TaskUtils.send_offers_reminder"
   runner "TaskUtils.check_pending_payments"
-  runner "TaskUtils.rotate_users"
+end
+
+every 1.day, :at => "7am"  do
+  runner "TaskUtils.change_homepage_featured_resident_experts"
+  runner "TaskUtils.delete_old_user_events(6.months.ago)"
+end
+
+every 1.day, :at => "3am"  do
   command "find ~/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
   command "find ~/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
   # runner "TaskUtils.rotate_user_positions_in_subcategories"
   # runner "TaskUtils.rotate_user_positions_in_categories"
-  runner "TaskUtils.check_feature_expiration"
-  runner "TaskUtils.check_expired_offers"
-  runner "TaskUtils.charge_expired_features"
   command "cp --preserve=timestamps /etc/httpd/conf/httpd.conf ~/backups"
   command "cp --preserve=timestamps /usr/local/nginx/conf/nginx.conf ~/backups"
   command "cp --preserve=timestamps /usr/local/nginx/conf/beamazing.co.nz.pem ~/backups"
@@ -55,16 +81,10 @@ every 1.day, :at => "3am"  do
   command "pg_dump -U postgres be_amazing_production | gzip > ~/backups/bam-backup-`date +\\%Y-\\%m-\\%d`.sql.gz", :output => {:error => '/var/log/cron_bam.log'}
   command "psql -U postgres be_amazing_production < script/delete_old_user_events.sql"
   command "tar cvfz ~/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > ~/tar.log", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
-  runner "TaskUtils.check_inconsistent_tabs"
-  runner "TaskUtils.change_homepage_featured_article"
-  runner "TaskUtils.change_homepage_featured_quote"
 end
 every 1.day, :at => "4am"  do
   command "/var/rails/be_amazing/current/script/runs3sync"
   command "cd /var/rails/be_amazing/current/ && ruby script/delete_old_S3_files.rb"
-  runner "TaskUtils.recompute_resident_experts"
-  runner "TaskUtils.change_homepage_featured_resident_experts"
-  runner "TaskUtils.delete_old_user_events(6.months.ago)"
 end
 
 every 1.hour do
@@ -73,6 +93,10 @@ every 1.hour do
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"
   runner "TaskUtils.process_paid_xero_invoices"
+end
+
+every 10.minutes do
+  runner "TaskUtils.check_inconsistent_tabs"  
 end
 
 every 5.minutes do
