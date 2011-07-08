@@ -16,7 +16,6 @@ namespace :bam do
 			ImportUtils.import_users
 			TaskUtils.count_users
 			TaskUtils.update_counters
-			TaskUtils.mark_down_old_full_members			
 	end
 	
   desc "Loads roles, districts, modalities, etc. in the current database"
@@ -39,8 +38,6 @@ namespace :bam do
 			TaskUtils.count_users
       puts "Updating counters"
 			TaskUtils.update_counters
-      puts "Marking down old full members"
-			TaskUtils.mark_down_old_full_members
   end
 
   desc "Loads all users and districts in the current database"
@@ -49,7 +46,6 @@ namespace :bam do
 			ImportUtils.import_users
       TaskUtils.create_default_admins
 			TaskUtils.count_users
-			TaskUtils.mark_down_old_full_members
   end
 
 	desc "Recreates the database and reloads all users and districts (can only be used in dev, as it sends email to new users)"

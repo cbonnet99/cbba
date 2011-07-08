@@ -822,18 +822,6 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
-  def test_mark_down_old_full_members
-    norma = users(:norma)
-    rmoore = users(:rmoore)
-    assert norma.new_user?
-    assert rmoore.new_user?
-    TaskUtils.mark_down_old_full_members
-    norma.reload
-    assert !norma.new_user?
-    assert rmoore.new_user?
-
-  end
-
 	def test_count_users
 		practitioners = categories(:practitioners)
 		hypnotherapy = subcategories(:hypnotherapy)
