@@ -7,19 +7,36 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.check_expired_offers
   end
 
+  def test_email_users_about_to_be_deleted
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    user_about_to_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS+1).days.ago, :state => "unconfirmed")
+    user_not_about_to_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS-1).days.ago, :state => "unconfirmed")
+    
+    TaskUtils.email_admins_about_to_be_deleted
+    
+    profile_about_to_be_deleted_emails = ActionMailer::Base.deliveries.select {|email| email.subject == "Users will be deleted in 2 days"}
+    assert !profile_about_to_be_deleted_emails.blank?
+    assert_equal 1, profile_about_to_be_deleted_emails.size    
+    assert_match %r(#{user_about_to_be_deleted.name}), profile_about_to_be_deleted_emails.first.body
+    assert_no_match %r(#{user_not_about_to_be_deleted.name}), profile_about_to_be_deleted_emails.first.body
+  end
+
   def test_email_users_will_be_deleted
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 
-    user_will_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS+1).days.ago, :state => "unconfirmed")
-    user_wont_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-1).days.ago, :state => "unconfirmed")
+    user_will_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_WILL_BE_DELETED_IN_DAYS+1).days.ago, :state => "unconfirmed")
+    user_wont_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_WILL_BE_DELETED_IN_DAYS-1).days.ago, :state => "unconfirmed")
     
     TaskUtils.email_users_will_be_deleted
     
-    profile_will_be_deleted_email = ActionMailer::Base.deliveries.select {|email| email.subject == "Please confirm your profile on test.host or it will be deleted in one week"}
-    assert_not_nil profile_will_be_deleted_email
-    
+    profile_will_be_deleted_emails = ActionMailer::Base.deliveries.select {|email| email.subject == "Please confirm your profile on test.host or it will be deleted in one week"}
+    assert !profile_will_be_deleted_emails.blank?
+    assert_equal 1, profile_will_be_deleted_emails.size
   end
 
   def test_delete_old_unconfirmed_users_with_published_articles

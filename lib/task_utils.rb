@@ -2,6 +2,15 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.email_admins_about_to_be_deleted
+    users_about_to_be_deleted = User.about_to_be_deleted
+    unless users_about_to_be_deleted.blank?
+      User.admins.each do |admin|
+        UserMailer.deliver_users_about_to_be_deleted(admin, users_about_to_be_deleted)
+      end
+    end    
+  end
+
   def self.email_users_will_be_deleted
     User.will_be_deleted_in_1_week.each do |user|
       UserMailer.deliver_user_will_be_deleted_in_1_week(user)

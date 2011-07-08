@@ -3,6 +3,13 @@ class UserMailer < ActionMailer::Base
   include ApplicationHelper
   include ActionController::UrlWriter
 
+  def users_about_to_be_deleted(admin, users_to_be_deleted)
+    setup_email(admin)
+    @subject = "Users will be deleted in 2 days"
+    @content_type = 'text/html'
+    @body[:users_to_be_deleted] = users_to_be_deleted
+  end
+
   def user_will_be_deleted_in_1_week(user)
     setup_email(user)
     @subject = "Please confirm your profile on #{help.site_name(user)} or it will be deleted in one week"

@@ -138,7 +138,7 @@ class User < ActiveRecord::Base
   NUMBER_HOMEPAGE_FEATURED_USERS = 3
   DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS = 30
   WARNING_USERS_WILL_BE_DELETED_IN_DAYS = 7
-  WARNING_USERS_WABOUT_TO_BE_DELETED_IN_DAYS = 2
+  WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS = 2
   
   def tabs_without_subcat
     user_tab_titles = self.tabs.map(&:title)
@@ -162,6 +162,10 @@ class User < ActiveRecord::Base
     unpaid = self.gift_vouchers.published.count - self.paid_gift_vouchers
     unpaid = 0 if unpaid < 0
     return unpaid
+  end
+  
+  def self.about_to_be_deleted
+    User.find(:all, :conditions => ["state='unconfirmed' and created_at < ?", (DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS).days.ago])
   end
   
   def self.will_be_deleted_in_1_week

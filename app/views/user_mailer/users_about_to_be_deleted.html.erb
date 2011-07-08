@@ -1,0 +1,6 @@
+Hello,<br/>
+<br/>
+the following users will be deleted in 2 days unless you confirm them manually:<br/>
+<%@users_to_be_deleted. each do |user| -%>
+	* <%= user.name_with_email %>
+<%end -%>

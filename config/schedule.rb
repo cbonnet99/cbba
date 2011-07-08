@@ -41,6 +41,8 @@ end
 
 every 1.day, :at => "2am"  do
   runner "TaskUtils.rotate_users"
+  runner "TaskUtils.email_admins_about_to_be_deleted"
+  runner "TaskUtils.email_users_will_be_deleted"
 end
 
 every 1.day, :at => "3am"  do
