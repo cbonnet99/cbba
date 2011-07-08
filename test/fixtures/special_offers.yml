@@ -28,6 +28,7 @@ norma:
     state: published
     published_at: <%= 7.days.ago.to_s :db %>
     country: nz
+    subcategory: hypnotherapy
 
 published_not_approved:
     title: Published not approved
@@ -37,6 +38,8 @@ published_not_approved:
     state: published
     published_at: <%= 7.days.ago.to_s :db %>
     country: nz
+    subcategory: hypnotherapy
+    
 published_and_approved:
     title: Published and approved
     slug: pub-and-app
@@ -47,6 +50,8 @@ published_and_approved:
     approved_at: <%= 7.days.ago.to_s :db %>
     approved_by: cyrille
     country: nz
+    subcategory: hypnotherapy
+    
 rejected:
     title: Published and rejected
     slug: pub-and-rej
@@ -59,4 +64,5 @@ rejected:
     rejected_at: <%= 6.days.ago.to_s :db %>
     rejected_by: cyrille
     country: nz
+    subcategory: hypnotherapy
     

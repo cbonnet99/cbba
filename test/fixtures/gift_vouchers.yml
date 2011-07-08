@@ -23,6 +23,8 @@ free_session:
     slug: free-session
     author: norma
     country: nz
+    subcategory: hypnotherapy
+
 free_massage_norma:
     title: Free massage
     state: published
@@ -30,6 +32,8 @@ free_massage_norma:
     author: norma
     published_at: <%= 2.days.ago.to_s :db %>
     country: nz
+    subcategory: hypnotherapy
+
 published_not_approved:
     title: Published not approved
     state: published
@@ -37,6 +41,8 @@ published_not_approved:
     author: rmoore
     published_at: <%= 2.days.ago.to_s :db %>
     country: nz
+    subcategory: hypnotherapy
+
 published_and_approved:
     title: Published and approved
     state: published
@@ -46,6 +52,8 @@ published_and_approved:
     approved_at: <%= 2.days.ago.to_s :db %>
     approved_by: cyrille
     country: nz
+    subcategory: hypnotherapy
+
 rejected:
     title: Published and rejected
     state: draft
@@ -57,3 +65,4 @@ rejected:
     rejected_at: <%= 1.day.ago.to_s :db %>
     rejected_by: cyrille
     country: nz
+    subcategory: hypnotherapy

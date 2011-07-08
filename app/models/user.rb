@@ -140,6 +140,18 @@ class User < ActiveRecord::Base
   WARNING_USERS_WILL_BE_DELETED_IN_DAYS = 7
   WARNING_USERS_WABOUT_TO_BE_DELETED_IN_DAYS = 2
   
+  def count_unpaid_published_special_offers
+    unpaid = self.special_offers.published.count - self.paid_special_offers
+    unpaid = 0 if unpaid < 0
+    return unpaid
+  end
+  
+  def count_unpaid_published_gift_vouchers
+    unpaid = self.gift_vouchers.published.count - self.paid_gift_vouchers
+    unpaid = 0 if unpaid < 0
+    return unpaid
+  end
+  
   def self.will_be_deleted_in_1_week
     User.find(:all, :conditions => ["state='unconfirmed' and created_at < ?", (DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-WARNING_USERS_WILL_BE_DELETED_IN_DAYS).days.ago])
   end

@@ -14,6 +14,22 @@ class UserTest < ActiveSupport::TestCase
     assert !users_to_delete.include?(user_wont_be_deleted)
   end
 
+  def test_count_unpaid_published_special_offers
+    user = Factory(:user, :paid_special_offers => 1)
+    so1 = Factory(:special_offer, :author => user, :state => "published")
+    so2 = Factory(:special_offer, :author => user, :state => "published")
+    
+    assert_equal 1, user.count_unpaid_published_special_offers
+  end
+
+  def test_count_unpaid_published_gift_vouchers
+    user = Factory(:user, :paid_gift_vouchers => 1)
+    so1 = Factory(:gift_voucher, :author => user, :state => "published")
+    so2 = Factory(:gift_voucher, :author => user, :state => "published")
+    
+    assert_equal 1, user.count_unpaid_published_gift_vouchers
+  end
+
   def test_expiring_photo_no_warning
     user = Factory(:user, :paid_photo => true, :paid_photo_until => 2.days.from_now, :feature_warning_sent => nil)
     

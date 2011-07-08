@@ -196,18 +196,16 @@ class TaskUtils
   end
   
   def self.check_expired_offers
-    User.all.each do |u|
-      published_offers_count = u.special_offers.published.size
-      if published_offers_count > u.paid_special_offers
-        number_of_SOs_to_unpublish = published_offers_count-u.paid_special_offers
+    User.active.each do |u|
+      number_of_SOs_to_unpublish = u.count_unpaid_published_special_offers
+      if number_of_SOs_to_unpublish > 0
         u.special_offers.published[0..number_of_SOs_to_unpublish].each do |so|
           puts "For user: #{u.full_name}, unpublish trial session: #{so.title}"
           so.remove!
         end
       end
-      published_gv_count = u.gift_vouchers.published.size
-      if published_gv_count > u.paid_gift_vouchers
-        number_of_GVs_to_unpublish = published_gv_count-u.paid_gift_vouchers
+      number_of_GVs_to_unpublish = u.count_unpaid_published_gift_vouchers
+      if number_of_GVs_to_unpublish > 0
         u.gift_vouchers.published[0..number_of_GVs_to_unpublish].each do |gv|
           puts "For user: #{u.full_name}, unpublish gift voucher: #{gv.title}"
           gv.remove!

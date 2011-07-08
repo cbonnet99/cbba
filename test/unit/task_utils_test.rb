@@ -3,6 +3,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_check_expired_offers
+    TaskUtils.check_expired_offers
+  end
+
   def test_email_users_will_be_deleted
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
