@@ -2,6 +2,19 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SpecialOffersControllerTest < ActionController::TestCase
 
+  def test_index_for_subcategory_per_country
+    subcat = Factory(:subcategory)
+    nz = countries(:nz)
+    au = countries(:au)
+    gv_nz = Factory(:special_offer, :country => nz, :state => "published", :subcategory => subcat)
+    gv_au = Factory(:special_offer, :country => au, :state => "published", :subcategory => subcat)
+    
+    get :index_for_subcategory, :subcategory_slug  => subcat.slug, :country_code => nz.country_code 
+    
+    assert !assigns(:special_offers).include?(gv_au), "Oz SO should not be displayed"
+    assert assigns(:special_offers).include?(gv_nz), "NZ SO should be displayed"
+  end
+
   def test_index_for_subcategory
     yoga = subcategories(:yoga)
     free_trial = special_offers(:free_trial)
