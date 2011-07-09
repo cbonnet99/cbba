@@ -111,11 +111,13 @@ class TaskUtilsTest < ActiveSupport::TestCase
     nz = countries(:nz)
     sub1 = Factory(:subcategory)
     sub2 = Factory(:subcategory)
-    expert1 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true, :country => nz)
-    expert2 = Factory(:user, :subcategory1_id  => sub1.id, :paid_photo => true, :country => nz)
-    expert3 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true, :country => nz)
-    expert4 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true, :country => nz)
-    expert5 = Factory(:user, :subcategory1_id  => sub2.id, :paid_photo => true, :country => nz)
+    sub3 = Factory(:subcategory)
+    sub4 = Factory(:subcategory)
+    expert1 = Factory(:user, :subcategory1_id  => sub1.id, :subcategory2_id  => sub2.id, :subcategory3_id  => sub3.id, :paid_photo => true, :country => nz)
+    expert2 = Factory(:user, :subcategory1_id  => sub1.id, :subcategory2_id  => sub2.id, :subcategory3_id  => sub3.id, :paid_photo => true, :country => nz)
+    expert3 = Factory(:user, :subcategory1_id  => sub2.id, :subcategory2_id  => sub1.id, :subcategory3_id  => sub3.id, :paid_photo => true, :country => nz)
+    expert4 = Factory(:user, :subcategory1_id  => sub2.id, :subcategory2_id  => sub1.id, :subcategory3_id  => sub3.id, :paid_photo => true, :country => nz)
+    expert5 = Factory(:user, :subcategory1_id  => sub2.id, :subcategory2_id  => sub1.id, :subcategory3_id  => sub3.id, :paid_photo => true, :country => nz)
 
     article1 = Factory(:article, :author => expert1, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub1.id)
     article1.publish!
@@ -150,6 +152,12 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     featured_after = User.homepage_featured_resident_experts(nz)
     assert featured_after.include?(expert4)
+    
+    assert_equal [sub1.id, sub2.id, sub3.id], expert1.subcategories.map(&:id), "Subcategories should not have been modified"
+    assert_equal [sub1.id, sub2.id, sub3.id], expert2.subcategories.map(&:id), "Subcategories should not have been modified"
+    assert_equal [sub2.id, sub1.id, sub3.id], expert3.subcategories.map(&:id), "Subcategories should not have been modified"
+    assert_equal [sub2.id, sub1.id, sub3.id], expert4.subcategories.map(&:id), "Subcategories should not have been modified"
+    assert_equal [sub2.id, sub1.id, sub3.id], expert5.subcategories.map(&:id), "Subcategories should not have been modified"
   end
 
   def test_change_homepage_featured_article
