@@ -3,6 +3,20 @@ require File.dirname(__FILE__) + '/../test_helper'
 class GiftVouchersControllerTest < ActionController::TestCase
   include ApplicationHelper
   fixtures :all
+
+  def test_index_for_subcategory_per_country
+    subcat = Factory(:subcategory)
+    nz = countries(:nz)
+    au = countries(:au)
+    gv_nz = Factory(:gift_voucher, :country => nz, :state => "published", :subcategory => subcat)
+    gv_au = Factory(:gift_voucher, :country => au, :state => "published", :subcategory => subcat)
+    
+    get :index_for_subcategory, :subcategory_slug  => subcat.slug, :country_code => nz.country_code 
+    
+    assert !assigns(:gift_vouchers).include?(gv_au), "Oz gift voucher should not be displayed"
+    assert assigns(:gift_vouchers).include?(gv_nz), "NZ gift voucher should be displayed"
+  end
+
     
   def test_index_for_subcategory
     therapeutic_massage = subcategories(:therapeutic_massage)
@@ -11,7 +25,9 @@ class GiftVouchersControllerTest < ActionController::TestCase
     new_gv = Factory(:gift_voucher, :subcategory => therapeutic_massage, :author => users(:cyrille)  )
     new_gv.publish!
     assert new_gv.published?
+    
     get :index_for_subcategory, :subcategory_slug  => therapeutic_massage.slug
+    
     assert !assigns(:gift_vouchers).include?(free_massage_draft), "Draft article should not be included in index_for_subcategory"
     assert assigns(:gift_vouchers).include?(free_massage), "Published article should be included in index_for_subcategory"
   end    

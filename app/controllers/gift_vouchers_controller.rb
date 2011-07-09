@@ -7,7 +7,7 @@ class GiftVouchersController < ApplicationController
   def index_for_subcategory
     @subcategory = Subcategory.find_by_slug(params[:subcategory_slug])
     @subcategory = Subcategory.first if @subcategory.nil?
-    @gift_vouchers = GiftVoucher.find(:all, :conditions => ["state = ? and subcategory_id = ?", 'published', @subcategory.id], :order => "published_at desc")
+    @gift_vouchers = GiftVoucher.find(:all, :conditions => ["state = ? and subcategory_id = ? and country_id = ?", 'published', @subcategory.id, @country.id], :order => "published_at desc")
   end
   
   def index
