@@ -14,10 +14,10 @@ class Tab < ActiveRecord::Base
   ARTICLES = "articles"
   OFFERS = "offers"
   MAX_PER_USER = 3
-  DEFAULT_CONTENT1_WITH = "Write about what people can expect from you and your service... (Just delete this text and the heading to remove it from your profile)"
+  DEFAULT_CONTENT1_WITH = "Write about what people can expect from you and your service... (Just delete this text to remove it from your profile)"
   DEFAULT_CONTENT2_BENEFITS = "<ul><li>List a benefit here (or delete this text)</li> <li>List a benefit here (or delete this text)</li> <li>List a benefit here (or delete this text)</li> </ul>"
   DEFAULT_CONTENT3_TRAINING = "<ul><li>List your training here (or delete this text)</li> <li>List your training here&nbsp;(or delete this text)</li> <li>List your training here&nbsp;(or delete this text)</li> </ul>"
-  DEFAULT_CONTENT4_ABOUT = "Give a summary here of your service&nbsp;(Just delete this text and the heading to remove it from your profile)"
+  DEFAULT_CONTENT4_ABOUT = "Give a summary here of your service&nbsp;(Just delete this text to remove it from your profile)"
   
   after_create :create_slug, :create_link_to_subcategories, :set_contents
   after_update :update_subcategories
@@ -87,7 +87,7 @@ class Tab < ActiveRecord::Base
   
   def update_content
     if self.content.nil? || (!content1_with.blank? || !content2_benefits.blank? || !content3_training.blank? || !content4_about.blank?)
-      self.content = "<h3>#{title1_with}</h3>#{help.remove_html_titles(content1_with)}<h3>#{title2_benefits}</h3>#{help.remove_html_titles(content2_benefits)}<h3>#{title3_training}</h3>#{content3_training}<h3>#{title4_about}</h3>#{content4_about}"
+      self.content = "<h3>#{title1_with}</h3>#{help.remove_html_titles(content1_with)}<h3>#{title2_benefits}</h3>#{help.remove_html_titles(content2_benefits)}<h3>#{title3_training}</h3>#{help.remove_html_titles(content3_training)}<h3>#{title4_about}</h3>#{help.remove_html_titles(content4_about)}"
     end
   end
   
