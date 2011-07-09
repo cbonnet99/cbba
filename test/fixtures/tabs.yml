@@ -14,6 +14,7 @@ sgardiner_hypnotherapy:
     position: 1
     title: Hypnotherapy
     content: My Hypnotherapy creds
+    subcategory: hypnotherapy
 sgardiner_life_coaching:
     slug: life-coaching
     user: sgardiner

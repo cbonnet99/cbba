@@ -77,10 +77,9 @@ class TabsController < ApplicationController
     redirect_to expanded_user_url(current_user)
   end
 
-  def edit
-    get_subcategory_names
-    
+  def edit    
     @selected_tab = current_user.tabs.find_by_slug(params[:id]) || current_user.tabs.first
+    get_subcategory_names(except_subcategories=current_user.subcategories.reject{|s| s == @selected_tab.subcategory})
     @selected_tab.set_contents
     @selected_tab.old_title = @selected_tab.title
     @user = current_user

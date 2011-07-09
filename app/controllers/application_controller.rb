@@ -245,8 +245,12 @@ class ApplicationController < ActionController::Base
 		@subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.id ]}
 	end
 
-	def get_subcategory_names
-		@subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.name ]}
+	def get_subcategory_names(except_subcategories=[])
+	  if except_subcategories.blank?
+		  @subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.name ]}
+	  else
+	    @subcategories = Subcategory.find(:all, :include => "category", :conditions => "subcategories.id NOT IN (#{except_subcategories.map(&:id).join(',')})", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.name ]}
+    end
 	end
 
 	def get_districts(country_id)

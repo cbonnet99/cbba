@@ -12,10 +12,18 @@ class TabsControllerTest < ActionController::TestCase
   
   def test_edit
     sgardiner = users(:sgardiner)
+    hypnotherapy = subcategories(:hypnotherapy)
     sgardiner_hypnotherapy = tabs(:sgardiner_hypnotherapy)
+    other_subcats_for_sgardiner = sgardiner.subcategories.reject{|s| s == hypnotherapy}
+    assert !other_subcats_for_sgardiner.blank?
+    
     get :edit, {:id => sgardiner_hypnotherapy.slug }, {:user_id => sgardiner.id }
     assert_response :success
-    assert_select "input[name='tab[old_title]']"
+   assert_select "input[name='tab[old_title]']"
+    assert assigns(:subcategories).include?([hypnotherapy.full_name, hypnotherapy.name])
+    other_subcats_for_sgardiner.each do |s|
+      assert !assigns(:subcategories).include?([s.full_name, s.name]), "Other subcategories for this user should not be selectable (otherwise, it will lead to errors on save)"
+    end
   end
   
   def test_edit_unknown_slug
