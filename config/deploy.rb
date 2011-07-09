@@ -1,3 +1,6 @@
+set :whenever_command, "bundle exec whenever"
+set :whenever_environment, defer { stage }
+require "whenever/capistrano"
 require "bundler/capistrano"
 require 'capistrano/ext/multistage'
 #require 'deprec'
@@ -70,7 +73,12 @@ after 'deploy:update_code', 'deploy:symlink_shared'
 
 #after "deploy:symlink", "deploy:elastic_server_symlink"
 
-# after "deploy:symlink", "deploy:update_crontab"
+# # Disable cron jobs at the begining of a deploy.
+# after "deploy:update_code", "whenever:clear_crontab"
+# # Write the new cron jobs near the end.
+# after "deploy:symlink", "whenever:update_crontab"
+# # If anything goes wrong, undo.
+# after "deploy:rollback", "whenever:update_crontab"
 
 namespace :bundler do
   task :create_symlink, :roles => :app do
@@ -148,16 +156,6 @@ namespace(:deploy) do
     br = "master" if br.nil? or br == ""
     br
     end    
-  end
-  
-  desc "Update the crontab file"
-  task :update_crontab, :roles => :db do
-    if rails_env == :production
-      puts "*** Deploying cron jobs"
-      run "cd #{release_path} && bundle exec whenever --update-crontab #{application}"
-    else
-      puts "*** No cron jobs deployed as the enviroment is NOT production, but #{rails_env}"
-    end
   end
   
   desc "Restart the Rails server."
