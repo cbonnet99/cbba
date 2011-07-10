@@ -210,14 +210,33 @@ class TaskUtilsTest < ActiveSupport::TestCase
     subcat3 = Factory(:subcategory)
     subcat4 = Factory(:subcategory)
     nz_expert = Factory(:user, :subcategory1_id => subcat1.id, :subcategory2_id => subcat2.id, :subcategory3_id => subcat3.id, :country => nz)
+    nz_expert2 = Factory(:user, :subcategory1_id => subcat1.id, :subcategory2_id => subcat2.id, :subcategory3_id => subcat3.id, :country => nz)
+    nz_expert3 = Factory(:user, :subcategory1_id => subcat1.id, :subcategory2_id => subcat2.id, :subcategory3_id => subcat3.id, :country => nz)
+    nz_expert4 = Factory(:user, :subcategory1_id => subcat1.id, :subcategory2_id => subcat2.id, :subcategory3_id => subcat3.id, :country => nz)
     
     expert_article = Factory(:article, :subcategory1_id => subcat4.id, :author => nz_expert, :state => "draft")
     expert_article.publish!
+
+    expert_article2 = Factory(:article, :subcategory1_id => subcat1.id, :subcategory2_id => subcat4.id,  :author => nz_expert2, :state => "draft")
+    expert_article2.publish!
+    
+    expert_article3 = Factory(:article, :subcategory1_id => subcat2.id, :subcategory2_id => subcat1.id,  :author => nz_expert3, :state => "draft")
+    expert_article3.publish!
+    
+    expert_article4 = Factory(:article, :subcategory1_id => subcat1.id, :subcategory2_id => subcat4.id,  :author => nz_expert4, :state => "draft")
+    expert_article4.publish!
     
     TaskUtils.recompute_resident_experts
     
     nz_expert.reload
     assert_equal [subcat1, subcat2, subcat3], nz_expert.subcategories
+    assert_equal [subcat1, subcat2, subcat3], nz_expert2.subcategories
+    assert_equal [subcat1, subcat2, subcat3], nz_expert3.subcategories
+    assert_equal [subcat1, subcat2, subcat3], nz_expert4.subcategories
+    nz_experts = User.resident_experts(nz)
+    assert nz_experts.include?(nz_expert2)
+    assert nz_experts.include?(nz_expert3)
+    assert nz_experts.include?(nz_expert4)
   end
 
   def test_recompute_resident_experts
