@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110629093345) do
+ActiveRecord::Schema.define(:version => 20110714070909) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -87,10 +87,24 @@ ActiveRecord::Schema.define(:version => 20110629093345) do
     t.datetime "updated_at"
   end
 
+  create_table "blog_categories_questions", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "blog_category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "blog_subcategories", :force => true do |t|
     t.integer  "blog_category_id"
     t.string   "name"
     t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "blog_subcategories_questions", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "blog_subcategory_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -446,6 +460,20 @@ ActiveRecord::Schema.define(:version => 20110629093345) do
     t.datetime "notified_at"
     t.integer  "stored_token_id"
     t.string   "currency"
+  end
+
+  create_table "questions", :force => true do |t|
+    t.string   "body",           :limit => 500
+    t.string   "state"
+    t.integer  "contact_id"
+    t.boolean  "new_question"
+    t.datetime "published_at"
+    t.string   "reason_reject",  :limit => 500
+    t.datetime "rejected_at"
+    t.integer  "rejected_by_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "country_id"
   end
 
   create_table "quotes", :force => true do |t|

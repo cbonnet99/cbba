@@ -1,0 +1,12 @@
+<%= title "Change your question"%>
+<% form_for @question do |f| -%>
+    <%= f.error_messages :header_message => "Please try again", :message => "Your question could not be saved"%>
+
+	<%= render :partial => 'form', :locals => {:f => f} %>
+
+	<div class="buttons">
+	  <label for=""></label>
+	  <%= submit_tag 'Save your changes', :name => "save_and_publish"  %>
+	  <%= submit_tag 'Cancel', :name => "cancel"  %>
+	</div>
+<% end -%>

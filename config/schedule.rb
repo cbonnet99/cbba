@@ -21,6 +21,8 @@
 
 set :output, "/var/log/cron_bam.log"
 
+env :PATH, '/opt/ruby-enterprise-1.8.7-2011.03/bin/:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/aws/bin:/usr/local/rvm/bin:/home/ec2-user/bin'
+
 every 1.month, :at => "beginning of the month at 3am" do
   command "psql -U postgres be_amazing_production < script/reset_monthly_view_counts.sql"  
 end

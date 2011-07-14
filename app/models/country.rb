@@ -11,6 +11,7 @@ class Country < ActiveRecord::Base
   has_many :countries_subcategories
   has_many :js_counters
   has_many :subcategories_users, :through => :users 
+  has_many :questions
   
   named_scope :active, :conditions => "active is true"
     

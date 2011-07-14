@@ -4,6 +4,10 @@ module ApplicationHelper
     APP_CONFIG[:site_host][country_code]
   end
   
+  def site_name_for_country(country)
+    site_name_for_country_code(country.country_code)
+  end
+  
   def site_name_for_country_code(country_code)
     site_name = site_url_for_country_code(country_code)
     if site_name.start_with?("www.")

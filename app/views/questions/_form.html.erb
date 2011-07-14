@@ -1,0 +1,19 @@
+<ol>
+	<li><span class='mandatoryStar'>*</span>=mandatory field</li>
+    <li>
+		<%= f.label :blog_subcategory1_id, "About:"%>
+		<%= f.select :blog_subcategory1_id, @blog_subcategories%>
+	</li>
+	<li>
+		<%= f.label :blog_subcategory, "Your email address:"%>
+		<%= f.text_field :email %>
+	</li>
+	<li>
+		<%= f.label :country_id, "Your country:"%>
+		<%= f.select_field :country_id, @countries %>
+	</li>
+	<li>
+		<%= f.label :body, "Your question:"%>
+		<%= f.text_area :body %>
+	</li>
+</ol>
