@@ -42,7 +42,9 @@ set :repository, "git@github.com:cbonnet99/cbba.git"
 set :branch, "master"
 ssh_options[:forward_agent] = true
 default_run_options[:pty] = true
-
+set :default_environment, {
+  'PATH' => "/opt/ruby-enterprise-1.8.7-2011.03/bin:$PATH"
+}
 # =============================================================================
 # DEPREC OPTIONS
 # =============================================================================
@@ -76,9 +78,19 @@ after 'deploy:update_code', 'deploy:symlink_shared'
 # # Disable cron jobs at the begining of a deploy.
 # after "deploy:update_code", "whenever:clear_crontab"
 # # Write the new cron jobs near the end.
-# after "deploy:symlink", "whenever:update_crontab"
+after "deploy:symlink", "whenever:update_crontab"
 # # If anything goes wrong, undo.
 # after "deploy:rollback", "whenever:update_crontab"
+
+namespace :whenever do
+  task :update_crontab do
+    run "cd #{release_path} && which ruby"
+    run "echo -e ${PATH}"
+    run "cd #{release_path} && gem -v"
+    run "cd #{release_path} && bundle exec gem -v"
+    run "cd #{release_path} && bundle exec whenever --update-crontab be_amazing"
+  end
+end
 
 namespace :bundler do
   task :create_symlink, :roles => :app do
