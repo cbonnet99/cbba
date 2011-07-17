@@ -111,8 +111,7 @@ class TaskUtils
       #recompute
       Subcategory.all.each do |s|
         s.resident_experts(country).each_with_index do |expert, index|
-          resident_expertise_description = expert.expert_subcategories.map(&:name).to_sentence
-          expert.update_attributes(:is_resident_expert => true, :resident_expertise_description => resident_expertise_description)
+          expert.update_attribute(:is_resident_expert, true)
           su = SubcategoriesUser.find_by_subcategory_id_and_user_id(s.id, expert.id)
           if su.nil?
             puts "No SubcategoriesUser found for user #{expert.name} and subcat #{s.name}. This indicates a serious problem!"
@@ -121,6 +120,11 @@ class TaskUtils
             su.update_attribute(:expertise_position, index)
           end
         end
+        #cached resident expertise recomputed for each resident expert
+        User.resident_experts(country).each do |expert|
+          resident_expertise_description = expert.expert_subcategories.map(&:name).to_sentence
+          expert.update_attribute(:resident_expertise_description, resident_expertise_description)
+        end        
       end
     end
   end
