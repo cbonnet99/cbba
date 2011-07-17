@@ -163,7 +163,7 @@
 	    <%= link_to "", signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]), :class => "newsletterBtn button" %>
 	<% end -%>
 	<% if !logged_in? -%>
-		<div id="sidebar_coach_signup"><%= link_to image_tag("areyouacoach.gif"), free_tool_url %></div>
+		<div id="sidebar_coach_signup"><%= link_to image_tag("areyouacoach.png"), free_tool_url %></div>
 	<% end -%>
 	<div id="sidebar-related-content"><%= yield :sidebar_content%></div>
 	<div id="networks">
