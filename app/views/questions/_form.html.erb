@@ -1,19 +1,23 @@
 <ol>
 	<li><span class='mandatoryStar'>*</span>=mandatory field</li>
     <li>
-		<%= f.label :blog_subcategory1_id, "About:"%>
-		<%= f.select :blog_subcategory1_id, @blog_subcategories%>
+		<%= f.label :blog_category_id, "About<span class='mandatoryStar'>*</span>:"%>
+		<%= f.select :blog_category_id, @blog_categories%>
 	</li>
 	<li>
-		<%= f.label :blog_subcategory, "Your email address:"%>
+		<%= f.label :blog_subcategory, "Your email address<span class='mandatoryStar'>*</span>:"%>
 		<%= f.text_field :email %>
 	</li>
 	<li>
-		<%= f.label :country_id, "Your country:"%>
+		<%= f.label :receive_newsletter, "Subscribe to our newsletter" %>
+		<%= f.check_box :receive_newsletter %>
+	</li>
+	<li>
+		<%= f.label :country_id, "Your country<span class='mandatoryStar'>*</span>:"%>
 		<%= f.select :country_id, @countries %>
 	</li>
 	<li>
-		<%= f.label :body, "Your question:"%>
+		<%= f.label :body, "Your question<span class='mandatoryStar'>*</span>:"%>
 		<%= f.text_area :body %>
 	</li>
 </ol>

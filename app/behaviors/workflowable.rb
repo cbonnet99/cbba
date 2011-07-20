@@ -86,7 +86,7 @@ module Workflowable
     end
 
     def paid_items_left?
-      !self.author.respond_to?("paid_#{self.class.to_s.tableize}") || (self.author.respond_to?("paid_#{self.class.to_s.tableize}") && self.class.to_s != "UserProfile" && self.author.send("#{self.class.to_s.tableize}".to_sym).published.size < self.author.send("paid_#{self.class.to_s.tableize}"))
+      !self.respond_to?(:author) || (self.respond_to?(:author) && !self.author.respond_to?("paid_#{self.class.to_s.tableize}")) || (self.respond_to?(:author) && self.author.respond_to?("paid_#{self.class.to_s.tableize}") && self.class.to_s != "UserProfile" && self.author.send("#{self.class.to_s.tableize}".to_sym).published.size < self.author.send("paid_#{self.class.to_s.tableize}"))
     end
 
     def path_method

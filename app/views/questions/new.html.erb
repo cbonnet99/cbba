@@ -1,13 +1,14 @@
 <%= title "Ask a question"%>
-<p><%= site_name_for_country(@country)%>: <%= @number_users%> coaches to answer your questions!</p>
-<% form_for @question do |f| -%>
+<% form_for @question, :html => {:class  => "fieldset"} do |f| -%>
+	<%= f.error_messages :header_message => "Please try again", :message => "Your question could not be saved" %>
+	<p><%= site_name_for_country(@country)%>: <%= @number_users%> coaches ready to answer your questions!</p>
 
-<%= render :partial => 'form', :locals => {:f => f} %>
+	<%= render :partial => 'form', :locals => {:f => f} %>
 
-<div class="buttons">
-  <label for=""></label>
-  <%= submit_tag 'Send', :name => "save_and_publish"  %>
-  <%= submit_tag 'Cancel', :name => "cancel"  %>
-</div>
+	<div class="buttons">
+	  <label for=""></label>
+	  <%= submit_tag 'Send', :name => "save_and_publish"  %>
+	  <%= submit_tag 'Cancel', :name => "cancel"  %>
+	</div>
 <% end -%>
 	

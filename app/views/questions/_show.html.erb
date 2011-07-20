@@ -1,0 +1,5 @@
+<h4>Q: <%= h question.body%></h4>
+<% question.answers.each do |answer| -%>
+<p>On <%= answer.created_at %>, <strong><%= answer.user.try(:name)%></strong> answered:</p>
+<p><%= answer.body%></p>
+<%end -%>

@@ -1,0 +1,5 @@
+<%= title "Questions & Answers"%>
+<% @questions.each do |question| -%>
+	<%= render :partial => "questions/question", :locals => {:question => question}  %>
+<% end -%>
+<%= link_to "Ask a new question", new_question_url%>

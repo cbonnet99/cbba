@@ -151,7 +151,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.change_homepage_featured_resident_experts
     
     featured_after = User.homepage_featured_resident_experts(nz)
-    assert featured_after.include?(expert4)
+    assert featured_after.include?(expert4), "Expert4 should be featured in NZ, but featured experts are actually: #{featured_after.map(&:name).to_sentence}"
     
     assert_equal [sub1.id, sub2.id, sub3.id], expert1.subcategories.map(&:id), "Subcategories should not have been modified"
     assert_equal [sub1.id, sub2.id, sub3.id], expert2.subcategories.map(&:id), "Subcategories should not have been modified"

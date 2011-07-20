@@ -172,3 +172,13 @@ Factory.define :newsletter do |f|
   f.upcoming_events "Coming soon"
   f.quotation_quiz "Quiz"
 end
+
+Factory.define :question do |f|
+  f.body "How can I improve my finances?"
+  f.author_id {|s| s.association(:contact) }
+end
+
+Factory.define :answer do |f|
+  f.body "Stop buying coffee every day"
+  f.association :user
+end

@@ -1,2 +1,13 @@
-<%= title "Question about #{@question.blog_subcategory1.try(:name)}"%>
-Q: <%= @question.body%>
+<% if @question.nil? -%>
+	<%= title "Question not found"%>
+	<p>Sorry, but this question could not be found</p>
+<% else -%>
+	<%= title "Question about #{@question.blog_category.try(:name)}"%>
+	<%= render :partial => "questions/show", :locals => {:question => @question }  %>
+<% if logged_in? -%>
+	<p><%= link_to "Answer this question", new_question_answer_url(@question)%></p>
+<% else -%>
+	<p>Are you a coach? You can <%= link_to "answer this question", new_question_answer_url(@question)%> (you will be asked to log in). If you are not yet registered with us, you will need to <%= link_to "create a profile", signup_url(:protocol => APP_CONFIG[:logged_site_protocol]) %> (it only takes 5 minutes and it is FREE)</p>
+<% end %>
+<% end -%>
+

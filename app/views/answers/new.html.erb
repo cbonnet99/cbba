@@ -1,0 +1,15 @@
+<% use_tinymce %>
+<%= title "Answer a question"%>
+<%= render :partial => "questions/show", :locals => {:question => @answer.question }%>
+<% form_for @answer, :url => question_answers_url(@answer.question_id, @answer.id) do |f| -%>
+	<%= f.label :body, "Your answer:" %>
+	<%= f.text_area :body%>
+	<%= f.hidden_field :question_id, :value => @answer.question_id%>
+
+	<div class="buttons">
+	  <label for=""></label>
+	  <%= submit_tag 'Save', :name => "save_and_publish"  %>
+	  <%= submit_tag 'Cancel', :name => "cancel"  %>
+	</div>
+
+<% end -%>
