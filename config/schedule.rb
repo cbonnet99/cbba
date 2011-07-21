@@ -73,7 +73,7 @@ every 1.day, :at => "7am"  do
 end
 
 every 1.day, :at => "3am"  do
-  command "find ~/backups/postgres* -type f -mtime +14 | xargs rm -Rf"
+  command "find ~/backups/bam* -type f -mtime +14 | xargs rm -Rf"
   command "find ~/backups/assets-* -type f -mtime +14 | xargs rm -Rf"
   # runner "TaskUtils.rotate_user_positions_in_subcategories"
   # runner "TaskUtils.rotate_user_positions_in_categories"
@@ -83,7 +83,7 @@ every 1.day, :at => "3am"  do
   command "cp --preserve=timestamps /usr/local/nginx/conf/www-server.key ~/backups"
   command "cp --preserve=timestamps /etc/varnish/default.vcl /~/backups"
   command "pg_dump -U postgres be_amazing_production | gzip > ~/backups/bam-backup-`date +\\%Y-\\%m-\\%d`.sql.gz", :output => {:error => '/var/log/cron_bam.log'}
-  command "psql -U postgres be_amazing_production < script/delete_old_user_events.sql"
+  command "psql -U postgres be_amazing_production < /var/rails/be_amazing/current/script/delete_old_user_events.sql"
   command "tar cvfz ~/backups/assets-`date +\\%Y-\\%m-\\%d`.tar.gz /var/rails/be_amazing/shared/assets > ~/tar.log", :output => {:error => '/var/log/cron_bam.log', :standard => nil}
 end
 every 1.day, :at => "4am"  do
