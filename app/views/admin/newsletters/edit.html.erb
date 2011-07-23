@@ -1,6 +1,6 @@
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "newsletters" }  %>
 <%= title "Edit newsletter"%>
-<% form_for([:admin, @newsletter]) do |f| -%>
+<% form_for([:admin, @newsletter], :html => {:class => "fieldset"}) do |f| -%>
   <%= f.error_messages :header_message => "Please try again", :message => "Your newsletter could not be saved" %>
   <%= render :partial => "form", :locals => {:f => f }   %>
   <div class="buttons">

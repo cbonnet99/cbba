@@ -22,7 +22,7 @@
       <%= f.text_area :custom2_body, :cols => "35" %>
     </li>
     <li>
-      <%= f.label :special_offers, "Trial & offers:" %>
+      <h3><%= f.label :special_offers, "Trial & offers:" %></h3>
   	</li>
 	 <% @special_offers.each_with_index do |offer, i| -%>		
     <li>
@@ -31,15 +31,15 @@
     </li>
 	<% end -%>
   	<li>
-      <%= f.label :competition, "Win Win Win!:" %>
+      <h3><%= f.label :competition, "Win Win Win!:" %></h3>
       <%= f.text_area :competition, :cols => "35" %>
     </li>
   	<li>
-      <%= f.label :bam_news, "BeAmazing News:" %>
+      <h3><%= f.label :bam_news, "BeAmazing News:" %></h3>
       <%= f.text_area :bam_news, :cols => "35" %>
     </li>
     <li>
-      <%= f.label :gift_vouchers, "Gift vouchers:" %>
+      <h3><%= f.label :gift_vouchers, "Gift vouchers:" %></h3>
   	</li>
 	 <% @gift_vouchers.each_with_index do |gv, i| -%>		
     <li>
@@ -48,7 +48,7 @@
     </li>
 	<% end -%>
     <li>
-      <%= f.label :users, "In the spotlight:" %>
+      <h3><%= f.label :users, "In the spotlight:" %></h3>
   	</li>
 	 <% @users.each_with_index do |u, i| -%>		
     <li>
@@ -56,19 +56,8 @@
       <div class="right-label"><label for="newsletter_users_attributes_id<%=i%>"><%= u.label%></label></div>
     </li>
 	<% end -%>
-    <li>
-      <%= f.label :articles, "Past month's articles:" %>
-  	</li>
-	 <% @articles.each_with_index do |a, i| -%>		
-    <li>
-      <div class="left-input"><%= check_box_tag( "newsletter[articles_attributes][id#{i}]",a.id, @newsletter.selected_article?(a, i)) %></div>
-      <div class="right-label"><label for="newsletter_articles_attributes_id<%=i%>"><%= a.label%></label></div>
-	  <div class="left-input"></div>
-      <div class="right-label"><label class="short-lead" for="newsletter_articles_attributes_id<%=i%>"><%= a.short_lead%></label></div>
-    </li>
-	<% end -%>
   	<li>
-      <%= f.label :upcoming_events, "Upcoming events:" %>
+      <h3><%= f.label :upcoming_events, "Upcoming events:" %></h3>
       <%= f.text_area :upcoming_events, :cols => "35" %>
     </li>
     <li>
