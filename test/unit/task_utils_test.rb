@@ -118,7 +118,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     expert3 = Factory(:user, :subcategory1_id  => sub2.id, :subcategory2_id  => sub1.id, :subcategory3_id  => sub3.id, :paid_photo => true, :country => nz)
     expert4 = Factory(:user, :subcategory1_id  => sub2.id, :subcategory2_id  => sub1.id, :subcategory3_id  => sub3.id, :paid_photo => true, :country => nz)
     expert5 = Factory(:user, :subcategory1_id  => sub2.id, :subcategory2_id  => sub1.id, :subcategory3_id  => sub3.id, :paid_photo => true, :country => nz)
-
+    
     article1 = Factory(:article, :author => expert1, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub1.id)
     article1.publish!
     
@@ -135,7 +135,12 @@ class TaskUtilsTest < ActiveSupport::TestCase
     article5 = Factory(:article, :author => expert5, :published_at => 2.days.ago, :state => "draft", :subcategory1_id => sub2.id)
     article5.publish!
     
+    assert_equal 3, expert4.subcategories_users.count
+    
     TaskUtils.recompute_resident_experts
+    
+    expert4.reload
+    assert_equal 3, expert4.subcategories_users.count
     
     assert User.resident_experts(nz).size >= User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, 
       "Only #{User.resident_experts(nz).size} resident experts were found: #{User.resident_experts(nz).map(&:name).to_sentence}"
@@ -150,6 +155,8 @@ class TaskUtilsTest < ActiveSupport::TestCase
     
     TaskUtils.change_homepage_featured_resident_experts
     
+    expert4.reload
+    assert_equal 3, expert4.subcategories_users.count
     featured_after = User.homepage_featured_resident_experts(nz)
     assert featured_after.include?(expert4), "Expert4 should be featured in NZ, but featured experts are actually: #{featured_after.map(&:name).to_sentence}"
     
@@ -229,6 +236,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.recompute_resident_experts
     
     nz_expert.reload
+    puts "NZ expert: #{nz_expert.subcategories_users}"
     assert_equal [subcat1, subcat2, subcat3], nz_expert.subcategories
     assert_equal [subcat1, subcat2, subcat3], nz_expert2.subcategories
     assert_equal [subcat1, subcat2, subcat3], nz_expert3.subcategories
@@ -263,12 +271,22 @@ class TaskUtilsTest < ActiveSupport::TestCase
     nz_experts.each do |expert|
       assert expert.published_articles_count > 0, "Expert #{expert.full_name} has no published article..."
     end
+
+    au_experts = User.resident_experts(au)
+    assert au_experts.size > 0
+    au_experts.each do |expert|
+      assert expert.published_articles_count > 0, "Expert #{expert.full_name} has no published article..."
+    end
     
-    assert nz_experts.include?(nz_expert), "#{nz_expert.name} could not be found in #{nz_experts.map(&:name).to_sentence}"
+    au_expert.reload
+
+    assert nz_experts.include?(nz_expert), "#{nz_expert.name} could not be found in NZ experts: #{nz_experts.map(&:name).to_sentence}"
     nz_yoga_su = nz_expert.subcategories_users.select{|su| su.subcategory_id == yoga.id}.first
-    assert_equal 1, nz_yoga_su.expertise_position, "There is no better expert in NZ"
+    assert_equal 0, nz_yoga_su.expertise_position, "There is no better expert in NZ"
+
+    assert au_experts.include?(au_expert), "#{au_expert.name} could not be found in Australian experts: #{au_experts.map(&:name).to_sentence}"
     au_yoga_su = au_expert.subcategories_users.select{|su| su.subcategory_id == yoga.id}.first
-    assert_equal 1, au_yoga_su.expertise_position, "There is no better expert in Oz"
+    assert_equal 0, au_yoga_su.expertise_position, "There is no better expert in Oz"
   end
   
   def test_send_offers_reminder_so

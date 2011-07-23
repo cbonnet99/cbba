@@ -1,6 +1,9 @@
 class SubcategoriesUser < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :subcategory
-  acts_as_list :scope => :user, :column => "expertise_position"
-
+  
+  
+  def to_s
+    "#{user.name} in #{subcategory.name}[#{expertise_position.nil? ? 'NIL' : expertise_position}]"
+  end
 end

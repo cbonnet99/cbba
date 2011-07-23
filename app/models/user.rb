@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
   has_many :articles, :foreign_key => :author_id
   has_many :how_tos, :foreign_key => :author_id
 	has_many :subcategories_users, :order => "expertise_position", :dependent => :delete_all
-	has_many :subcategories, :through => :subcategories_users, :include => :subcategories_users, :order => "subcategories_users.expertise_position"
+	has_many :subcategories, :through => :subcategories_users, :order => "subcategories_users.expertise_position, subcategories_users.subcategory_id"
 	has_many :expert_subcategories, :through => :subcategories_users, :include => :subcategories_users, :source => :subcategory, :conditions => "subcategories_users.expertise_position is not null"
 	has_many :categories_users, :dependent => :delete_all
 	has_many :categories, :through => :categories_users
@@ -370,7 +370,7 @@ class User < ActiveRecord::Base
   end
 
   def self.rotate_featured_resident_experts(country)
-    users_to_feature = User.find(:all, :conditions => ["country_id = ? and last_homepage_featured_resident_at is NULL and is_resident_expert is true and paid_photo is true", country.id], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS)
+    users_to_feature = User.find(:all, :conditions => ["country_id = ? and last_homepage_featured_resident_at is NULL and is_resident_expert is true and paid_photo is true", country.id], :limit => User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS, :order => "created_at")
     if users_to_feature.size < User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS
       if users_to_feature.blank?
         more_users_to_feature = User.find(:all, :conditions => ["paid_photo is true and is_resident_expert is true and country_id = ?", country.id], :order => "last_homepage_featured_resident_at")
@@ -379,7 +379,7 @@ class User < ActiveRecord::Base
       end
       users_to_feature = users_to_feature.concat(more_users_to_feature)[0..User::NUMBER_HOMEPAGE_FEATURED_RESIDENT_EXPERTS-1]
     end
-    User.homepage_featured_resident_experts(country).each {|a| a.update_attribute(:homepage_featured_resident, false)}
+    User.connection.execute("UPDATE users SET homepage_featured_resident = false where homepage_featured_resident IS true and country_id = #{country.id}")
     users_to_feature.each do |user|
       user.homepage_featured_resident = true
       user.last_homepage_featured_resident_at = Time.now
@@ -897,6 +897,7 @@ class User < ActiveRecord::Base
 
   def after_find
     @old_positions = {}
+    @old_expertise_positions = {}
     if self.subcategories_users[0].nil?
       self.subcategory1_id = nil
       old_subcategory1_id = nil
@@ -905,7 +906,9 @@ class User < ActiveRecord::Base
       self.subcategory1_id = self.subcategories_users[0].subcategory_id
       old_subcategory1_id = self.subcategories_users[0].subcategory_id
       subcategory1_position = self.subcategories_users[0].position
+      subcategory1_expertise_position = self.subcategories_users[0].expertise_position
       @old_positions[old_subcategory1_id] = subcategory1_position
+      @old_expertise_positions[old_subcategory1_id] = subcategory1_expertise_position
     end
     if self.subcategories_users[1].nil?
       self.subcategory2_id = nil
@@ -915,7 +918,8 @@ class User < ActiveRecord::Base
       self.subcategory2_id = self.subcategories_users[1].subcategory_id
       old_subcategory2_id = self.subcategories_users[1].subcategory_id
       subcategory2_position = self.subcategories_users[1].position
-      @old_positions[old_subcategory2_id] = subcategory2_position
+      subcategory2_expertise_position = self.subcategories_users[1].expertise_position
+      @old_expertise_positions[old_subcategory2_id] = subcategory2_expertise_position
     end
     if self.subcategories_users[2].nil?
       self.subcategory3_id = nil
@@ -925,7 +929,8 @@ class User < ActiveRecord::Base
       self.subcategory3_id = self.subcategories_users[2].subcategory_id
       old_subcategory3_id = self.subcategories_users[2].subcategory_id
       subcategory3_position = self.subcategories_users[2].position
-      @old_positions[old_subcategory3_id] = subcategory3_position
+      subcategory3_expertise_position = self.subcategories_users[2].expertise_position
+      @old_expertise_positions[old_subcategory3_id] = subcategory3_expertise_position
     end
   end
   
@@ -946,10 +951,10 @@ class User < ActiveRecord::Base
         end
         
         # #update expertise position
-        unless @old_positions.blank? || @old_positions[self.subcategory1_id].blank?
+        unless @old_expertise_positions.blank? || @old_expertise_positions[self.subcategory1_id].blank?
           su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub1.id, self.id)
           unless su.nil?
-            su.update_attribute(:position, @old_positions[self.subcategory1_id])
+            su.update_attributes(:position => @old_positions[self.subcategory1_id], :expertise_position  => @old_expertise_positions[self.subcategory1_id])
           end
         end
       end
@@ -968,10 +973,10 @@ class User < ActiveRecord::Base
         end
         
         # #update expertise position
-        unless @old_positions.blank? || @old_positions[self.subcategory2_id].blank?
+        unless @old_expertise_positions.blank? || @old_expertise_positions[self.subcategory2_id].blank?
           su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub2.id, self.id)
           unless su.nil?
-            su.update_attribute(:position, @old_positions[self.subcategory2_id])
+            su.update_attributes(:position => @old_positions[self.subcategory2_id], :expertise_position => @old_expertise_positions[self.subcategory2_id])
           end
         end
       end
@@ -990,10 +995,10 @@ class User < ActiveRecord::Base
         end
         
         # #update expertise position
-        unless @old_positions.blank? || @old_positions[self.subcategory3_id].blank?
+        unless @old_expertise_positions.blank? || @old_expertise_positions[self.subcategory3_id].blank?
           su = SubcategoriesUser.find_by_subcategory_id_and_user_id(sub3.id, self.id)
           unless su.nil?
-            su.update_attribute(:position, @old_positions[self.subcategory3_id])
+            su.update_attributes(:position => @old_positions[self.subcategory3_id], :expertise_position => @old_expertise_positions[self.subcategory3_id])
           end
         end
       end
