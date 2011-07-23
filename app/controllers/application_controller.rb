@@ -161,6 +161,11 @@ class ApplicationController < ActionController::Base
     @countries = Country.all.collect {|d| [ d.name, d.id ]}
   end
   
+  def get_countries_with_nil
+    @countries = Country.all.collect {|d| [ d.name, d.id ]}
+    @countries << ["Other country", nil]
+  end
+  
   def admin_required
     unless logged_in? && current_user.admin?
       access_denied

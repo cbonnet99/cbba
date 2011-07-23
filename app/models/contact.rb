@@ -29,7 +29,7 @@ class Contact < ActiveRecord::Base
   belongs_to :district
   belongs_to :country
 
-  validates_presence_of :email, :country
+  validates_presence_of :email
   validates_format_of :name, :with => RE_NAME_OK, :message => MSG_NAME_BAD, :allow_nil => true
   validates_length_of :name, :maximum => 100
   validates_uniqueness_of :email, :case_sensitive => false

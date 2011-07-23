@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   
   def new
     @blog_categories = get_blog_categories
-    @countries = get_countries
+    @countries = get_countries_with_nil
     @question = Question.new(:receive_newsletter => true)
   end
   

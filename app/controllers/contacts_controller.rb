@@ -2,6 +2,7 @@ class ContactsController < ApplicationController
   def new
     @contact = Contact.new(:receive_newsletter => true, :country_id => @country.id )
 		get_districts_and_subcategories(@contact.country_id || @country.id)
+		get_countries_with_nil
   end
 
   def create
