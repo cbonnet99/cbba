@@ -29,6 +29,7 @@ end
 
 every 2.weeks do
   runner "TaskUtils.generate_autocomplete_subcategories"
+  runner "TaskUtils.create_and_send_new_digest"
 end
 
 every :sunday, :at => '12pm'  do

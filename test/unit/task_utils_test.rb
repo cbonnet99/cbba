@@ -3,6 +3,28 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_create_and_send_new_digest
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    digest_count = NewsDigest.all.count
+    email_count = UserEmail.all.count
+    
+    TaskUtils.create_and_send_new_digest
+    
+    assert_equal digest_count+1, NewsDigest.all.count
+    assert UserEmail.all.count > email_count, "Some UserEmails should have been created"
+    
+    UserEmail.check_and_send_mass_emails
+    
+    assert ActionMailer::Base.deliveries.size > 0
+    
+    first_email = ActionMailer::Base.deliveries.first
+    assert_match /Digest/, first_email.subject
+    assert_match /articles/, first_email.body
+  end
+
   def test_check_expired_offers
     TaskUtils.check_expired_offers
   end

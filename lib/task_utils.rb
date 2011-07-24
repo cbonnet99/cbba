@@ -2,6 +2,14 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.create_and_send_new_digest
+    new_digest = NewsDigest.create_new
+    User.admins.each do |admin|
+      UserEmail.create(:user => admin, :email_type => "mass_email", 
+      :subject => new_digest.title, :body => new_digest.body)                
+    end
+  end
+
   def self.email_admins_about_to_be_deleted
     users_about_to_be_deleted = User.about_to_be_deleted
     unless users_about_to_be_deleted.blank?

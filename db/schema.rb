@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110718062238) do
+ActiveRecord::Schema.define(:version => 20110724114406) do
 
   create_table "answers", :force => true do |t|
     t.string   "body"
@@ -37,11 +37,11 @@ ActiveRecord::Schema.define(:version => 20110718062238) do
     t.integer  "approved_by_id"
     t.string   "lead",                      :limit => 500
     t.string   "about",                     :limit => 600
+    t.boolean  "homepage_featured",                        :default => false
     t.datetime "last_homepage_featured_at"
     t.integer  "country_id"
     t.integer  "view_counts",                              :default => 0
     t.integer  "monthly_view_counts",                      :default => 0
-    t.boolean  "homepage_featured"
   end
 
   add_index "articles", ["state"], :name => "index_articles_on_state"
@@ -70,6 +70,13 @@ ActiveRecord::Schema.define(:version => 20110718062238) do
 
   add_index "articles_categories", ["article_id"], :name => "index_articles_categories_on_article_id"
   add_index "articles_categories", ["category_id"], :name => "index_articles_categories_on_category_id"
+
+  create_table "articles_digests", :force => true do |t|
+    t.integer  "article_id"
+    t.integer  "digest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "articles_newsletters", :force => true do |t|
     t.integer  "article_id"
@@ -121,7 +128,7 @@ ActiveRecord::Schema.define(:version => 20110718062238) do
     t.string   "label"
   end
 
-  add_index "categories", ["name", "position"], :name => "index_categories_on_position_and_name"
+  add_index "categories", ["position", "name"], :name => "index_categories_on_position_and_name"
 
   create_table "categories_countries", :force => true do |t|
     t.integer  "category_id"
@@ -361,6 +368,12 @@ ActiveRecord::Schema.define(:version => 20110718062238) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "phone"
+  end
+
+  create_table "news_digests", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "newsletters", :force => true do |t|

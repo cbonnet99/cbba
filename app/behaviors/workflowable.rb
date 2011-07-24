@@ -27,6 +27,7 @@ module Workflowable
     base.send :after_destroy, :decrement_published_count
 
     base.send :named_scope, :latest, :conditions => ["published_at > ?", 1.month.ago]
+    base.send :named_scope, :approved, :conditions => ["state = 'published' and approved_at IS NOT NULL and (rejected_at IS NULL or approved_at > rejected_at)"]
 
   end
   module WorkflowClassMethods
@@ -55,15 +56,6 @@ module Workflowable
     end
     def reviewable
       self.find(:all, :conditions => "approved_by_id is null and state = 'published'")
-    end
-    def approved
-      self.find(:all, :conditions => "status='approved' AND rejected_at is null")
-    end
-    def rejected
-      self.find(:all, :conditions => "status='rejected'")
-    end
-    def pending
-      self.find(:all, :conditions => "status='pending'")
     end
   end
   module WorkflowInstanceMethods
