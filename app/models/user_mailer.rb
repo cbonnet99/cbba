@@ -7,6 +7,7 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
     @subject = news_digest.title
     @body[:articles] = news_digest.articles
+    @content_type = 'text/html'
   end
 
   def users_about_to_be_deleted(admin, users_to_be_deleted)
