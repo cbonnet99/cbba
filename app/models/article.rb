@@ -18,6 +18,8 @@ class Article < ActiveRecord::Base
 	has_many :blog_categories, :through => :articles_blog_categories
   has_many :articles_newsletters
   has_many :newsletters, :through => :articles_newsletters 
+  has_many :articles_digests
+  has_many :news_digests, :through => :articles_digests
   belongs_to :country
 
   validates_presence_of :title, :lead, :author

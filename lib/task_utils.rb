@@ -3,10 +3,12 @@ require 'xero_gateway'
 class TaskUtils
 
   def self.create_and_send_new_digest
-    new_digest = NewsDigest.create_new
-    User.admins.each do |admin|
-      UserEmail.create(:user => admin, :email_type => "mass_email", 
-      :subject => new_digest.title, :body => new_digest.body)                
+    news_digest = NewsDigest.create_new
+    unless news_digest.articles.blank?
+      User.admins.each do |admin|
+        UserEmail.create(:user => admin, :email_type => "mass_email", 
+        :news_digest => news_digest)                
+      end
     end
   end
 

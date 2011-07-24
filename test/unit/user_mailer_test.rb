@@ -5,6 +5,22 @@ class UserMailerTest < ActionMailer::TestCase
 
   fixtures :all
 
+  def test_news_digest
+    contact = Factory(:contact)
+
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    news_digest = NewsDigest.create_new
+    UserMailer.deliver_news_digest(contact, news_digest)
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    digest_email = ActionMailer::Base.deliveries.first
+    assert_match /Digest/, digest_email.subject
+    assert_match /Articles/, digest_email.body
+  end
+
   def test_weekly_admin_statistics
     cyrille = users(:cyrille)
     UserMailer.deliver_weekly_admin_statistics(cyrille)

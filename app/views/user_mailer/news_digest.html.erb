@@ -1,0 +1,13 @@
+Thanks for subscribing via <%= link_to "http://www.beamazing.co.nz", "http://www.beamazing.co.nz"%> or <%= link_to "http://www.zingabeam.com", "http://www.zingabeam.com"%><br/>
+<strong>As promised</strong>, landing in your inbox are the latest articles published by Coaches, Trainers and Speakers over last couple of weeks - <strong>their passion, knowledge and expertise shared for free with you!</strong><br/>
+<br/>
+From the team at BeAmazing, <strong>Enjoy!</strong><br/>
+---<br/>
+<h3 style='color:#000; font-size:16px;font-weight:bold;'>Latest Articles<h3>
+<% @articles.each do |article| -%>
+  <h4 style='color:#20ACCD; font-size:18px;font-weight:bold;'><%= link_to article.title, articles_show_url(article.author.slug, article.slug)%></h4>
+  <h5 style='color:#000; font-size:14px;font-weight:bold;'>by <%= article.author.name %> [<%= article.author.location%>]</h5>
+  <br/>
+  <p>Blog Categories: <%= article.blog_categories.map(&:name).to_sentence %></p>
+  <p><%= article.lead %></p>
+<% end -%>

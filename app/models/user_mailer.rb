@@ -3,6 +3,12 @@ class UserMailer < ActionMailer::Base
   include ApplicationHelper
   include ActionController::UrlWriter
 
+  def news_digest(user, news_digest)
+    setup_email(user)
+    @subject = news_digest.title
+    @body[:articles] = news_digest.articles
+  end
+
   def users_about_to_be_deleted(admin, users_to_be_deleted)
     setup_email(admin)
     @subject = "Users will be deleted in 2 days"

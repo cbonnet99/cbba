@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110724114406) do
+ActiveRecord::Schema.define(:version => 20110724201746) do
 
   create_table "answers", :force => true do |t|
     t.string   "body"
@@ -650,6 +650,7 @@ ActiveRecord::Schema.define(:version => 20110724114406) do
     t.integer  "mass_email_id"
     t.integer  "contact_id"
     t.integer  "newsletter_id"
+    t.integer  "news_digest_id"
   end
 
   create_table "user_events", :force => true do |t|
