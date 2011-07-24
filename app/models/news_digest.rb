@@ -11,7 +11,7 @@ class NewsDigest < ActiveRecord::Base
   validates_presence_of :title
   
   def self.create_new
-    articles = Article.approved.all(:limit => MAX_ARTICLES)
+    articles = Article.approved.all(:conditions => ["published_at > ?", 2.weeks.ago], :limit => MAX_ARTICLES)
     news_digest = NewsDigest.create(:title => "BeAmazing News Digest #{Time.now.to_date}")
     articles.each do |article|
       ArticlesDigest.create(:digest_id => news_digest.id, :article => article)
