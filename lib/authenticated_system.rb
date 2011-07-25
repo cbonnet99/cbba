@@ -139,8 +139,6 @@ module AuthenticatedSystem
       @current_user = false     # not logged in, and don't do it for me
       kill_remember_cookie!     # Kill client-side auth cookie
       session[:user_id] = nil   # keeps the session but kill our variable
-      session[:return_to] = nil #Cyrille (3 June 2009): don't want to keep that on logout
-      session[:protocol_return_to] = nil
       # explicitly kill any other session variables you set
     end
 

@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
 
   def create
     logout_keeping_session!
+    debugger
     user = User.authenticate(params[:email].downcase, params[:password])
     if user
       self.current_user = user
@@ -25,7 +26,7 @@ class SessionsController < ApplicationController
           if self.current_user.published?
             redirect_back_or_default user_home_url
           else
-            redirect_to expanded_user_url(current_user)
+            redirect_back_or_default expanded_user_url(current_user)
           end
         end
       else
