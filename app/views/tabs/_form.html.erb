@@ -2,9 +2,9 @@
     <ol>
 	  <li><span class='mandatoryStar'>*</span>=mandatory field</li>
       <li>
-        <%= f.label :title, 'Modality<span class="mandatoryStar">*</span>:' %>
-        <%= f.select :title, @subcategories, {:prompt => "- Please select -", :include_blank => true} %>
-		<%= f.hidden_field :old_title%>
+        <%= f.label :subcategory_id, 'Modality<span class="mandatoryStar">*</span>:' %>
+        <%= f.select :subcategory_id, @subcategories, {:prompt => "- Please select -", :include_blank => true} %>
+		<%= f.hidden_field :old_subcategory_id%>
       </li>
       <li id="tab-content-item">
 		<% if hide_content == true -%>

@@ -28,7 +28,7 @@ class TabsController < ApplicationController
   end
   
   def new
-    get_subcategory_names
+    get_subcategories
     @subcategories = current_user.remove_subcats(@subcategories)
     @selected_tab = Tab.new(:user_id => current_user.id)
     @user = current_user
@@ -47,15 +47,14 @@ class TabsController < ApplicationController
         flash[:error] = "Sorry, you can only have #{Tab::MAX_PER_USER} tabs"
         redirect_to expanded_user_url(current_user)
       else
-        @tab = Tab.new(params[:tab])
-        @subcategory = Subcategory.find_by_name(params[:tab]["title"])
-        @tab.subcategory = @subcategory
-        @tab.user_id = current_user.id
-        if @tab.save
+        @selected_tab = Tab.new(params[:tab])
+        @selected_tab.user_id = current_user.id
+        if @selected_tab.save
           flash[:notice] = "Your tab was saved"
-          redirect_to expanded_user_tabs_url(current_user, @tab.slug)
+          redirect_to expanded_user_tabs_url(current_user, @selected_tab.slug)
         else
-          get_subcategory_names
+          flash[:error] = "Your tab could not be saved"
+          get_subcategories
           @subcategories = current_user.remove_subcats(@subcategories)
           render :action  => "new"
         end
@@ -79,13 +78,13 @@ class TabsController < ApplicationController
 
   def edit    
     @selected_tab = current_user.tabs.find_by_slug(params[:id]) || current_user.tabs.first
-    get_subcategory_names(except_subcategories=current_user.subcategories.reject{|s| s == @selected_tab.subcategory})
+    get_subcategories(except_subcategories=current_user.subcategories.reject{|s| s == @selected_tab.subcategory})
     @selected_tab.set_contents
-    @selected_tab.old_title = @selected_tab.title
+    @selected_tab.old_subcategory_id = @selected_tab.subcategory_id
     @user = current_user
     render :template => "users/show"
   end
-
+  
   def update
     if params["cancel"]
       flash[:notice]="Tab update cancelled"
@@ -97,6 +96,7 @@ class TabsController < ApplicationController
         redirect_to expanded_user_tabs_url(current_user, @selected_tab.slug)
         flash[:notice] = "Your details have been updated"
       else
+        get_subcategories(except_subcategories=current_user.subcategories.reject{|s| s == @selected_tab.subcategory})
         flash.now[:error]  = "There were some errors in your details."
         render :template => "users/show"
       end

@@ -4,6 +4,17 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_add_tab
+    user = Factory(:user)
+    subcat = Factory(:subcategory)
+    
+    user.add_tab(subcat)
+    
+    assert_equal 2, user.tabs.size
+    assert_equal subcat.name, user.tabs[1].title
+    assert_equal subcat.id, user.tabs[1].subcategory_id
+  end
+
   def test_about_to_be_deleted
     user_about_to_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS+1).days.ago, :state => "unconfirmed")
     user_not_about_to_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS-1).days.ago, :state => "unconfirmed")

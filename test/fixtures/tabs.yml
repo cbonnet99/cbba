@@ -3,11 +3,13 @@ amcloughlin_hypnotherapy:
     user: amcloughlin
     position: 1
     title: Hypnotherapy
+    subcategory: hypnotherapy
 cyrille_hypnotherapy:
     slug: hypnotherapy
     user: cyrille
     position: 1
     title: Hypnotherapy
+    subcategory: hypnotherapy
 sgardiner_hypnotherapy:
     user: sgardiner
     slug: hypnotherapy
@@ -21,34 +23,41 @@ sgardiner_life_coaching:
     position: 2
     title: Life coaching
     content: My Life Coaching creds
+    subcategory: life_coaching
 sgardiner_business_coaching:
     slug: business-coaching
     user: sgardiner
     position: 3
     title: Business coaching
     content: My Biz Coaching creds
+    subcategory: business_coaching
 rmoore_hypnotherapy:
     user: rmoore
     slug: hypnotherapy
     position: 1
     title: Hypnotherapy
+    subcategory: hypnotherapy
 rmoore_yoga:
     user: rmoore
     slug: yoga
     position: 2
     title: Yoga
+    subcategory: yoga
 norma_hypnotherapy:
     user: norma
     slug: hypnotherapy
     position: 2
     title: Hypnotherapy
+    subcategory: hypnotherapy
 norma_aromatherapy:
     user: norma
     slug: aromatherapy
     position: 1
     title: Aromatherapy
+    subcategory: aromatherapy
 applying_resident_expert_aromatherapy:
     user: applying_resident_expert
     slug: aromatherapy
     title: Aromatherapy
     position: 1
+    subcategory: aromatherapy

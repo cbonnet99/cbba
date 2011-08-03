@@ -1166,6 +1166,7 @@ class User < ActiveRecord::Base
       return nil
     else
       self.tabs.create(:title => subcat.name,
+        :subcategory_id => subcat.id, 
         :content1_with => Tab::DEFAULT_CONTENT1_WITH,
         :content2_benefits => Tab::DEFAULT_CONTENT2_BENEFITS,  
         :content3_training => Tab::DEFAULT_CONTENT3_TRAINING, 

@@ -19,10 +19,12 @@ class TabsControllerTest < ActionController::TestCase
     
     get :edit, {:id => sgardiner_hypnotherapy.slug }, {:user_id => sgardiner.id }
     assert_response :success
-   assert_select "input[name='tab[old_title]']"
-    assert assigns(:subcategories).include?([hypnotherapy.full_name, hypnotherapy.name])
+    assert_select "input[name='tab[old_subcategory_id]']"
+    assert_select "select#tab_subcategory_id option[value=#{hypnotherapy.id}][selected=selected]"
+    
+    assert assigns(:subcategories).include?([hypnotherapy.full_name, hypnotherapy.id]), "Subcategories are: #{assigns(:subcategories).to_sentence}"
     other_subcats_for_sgardiner.each do |s|
-      assert !assigns(:subcategories).include?([s.full_name, s.name]), "Other subcategories for this user should not be selectable (otherwise, it will lead to errors on save)"
+      assert !assigns(:subcategories).include?([s.full_name, s.id]), "Other subcategories for this user should not be selectable (otherwise, it will lead to errors on save)"
     end
   end
   
@@ -31,7 +33,7 @@ class TabsControllerTest < ActionController::TestCase
     sgardiner_hypnotherapy = tabs(:sgardiner_hypnotherapy)
     get :edit, {:id => "blabla" }, {:user_id => sgardiner.id }
     assert_response :success
-    assert_select "input[name='tab[old_title]']"
+    assert_select "input[name='tab[old_subcategory_id]']"
   end
   
   def test_create_too_many
@@ -39,12 +41,12 @@ class TabsControllerTest < ActionController::TestCase
     aromatherapy = subcategories(:aromatherapy)
     astrology = subcategories(:astrology)
     old_size = rmoore.subcategories.size
-    rmoore.tabs.create(:title => aromatherapy.name, :content => "My content" )
+    rmoore.tabs.create(:subcategory_id => aromatherapy.id, :content => "My content" )
     rmoore.reload
     assert_equal old_size+1, rmoore.subcategories.size
     rmoore.tabs.reload
-    post :create, { :title => astrology.name, :content => "My content"}, {:user_id => rmoore.id }
-    assert_nil assigns(:tab)
+    post :create, { :subcategory_id => astrology.id, :content => "My content"}, {:user_id => rmoore.id }
+    assert_nil assigns(:selected_tab)
     assert "Sorry, you can only have 3 tabs", flash[:error]
   end
 
@@ -52,12 +54,16 @@ class TabsControllerTest < ActionController::TestCase
    rmoore = users(:rmoore)
    astrology = subcategories(:astrology)
    old_size = rmoore.subcategories.size
-   post :create, { :tab => {:title => astrology.name, :content3_training=>Tab::DEFAULT_CONTENT3_TRAINING,
-       :old_title=>"",:content2_benefits=>Tab::DEFAULT_CONTENT2_BENEFITS,
+   post :create, { :tab => {:subcategory_id => astrology.id, :content3_training=>Tab::DEFAULT_CONTENT3_TRAINING,
+       :old_subcategory_id=>nil,:content2_benefits=>Tab::DEFAULT_CONTENT2_BENEFITS,
        :content1_with=>Tab::DEFAULT_CONTENT1_WITH,
        :content4_about=>Tab::DEFAULT_CONTENT4_ABOUT}}, {:user_id => rmoore.id }
-    assert_not_nil assigns(:tab)
-    assert_match %r{#{astrology.name} with #{rmoore.name}}, assigns(:tab).content
+   
+   assert_nil flash[:error]
+   assert_not_nil assigns(:selected_tab)
+   assert_match %r{#{astrology.name} with #{rmoore.name}}, assigns(:selected_tab).content
+   assert_equal astrology.name, assigns(:selected_tab).title
+    
   end
 
   def test_move
@@ -74,11 +80,12 @@ class TabsControllerTest < ActionController::TestCase
   def test_tabs
     cyrille = users(:cyrille)
     old_size = Tab.all.size
-    post :create, {:tab => {:title => "bla", :content => "this is a new tab"} }, {:user_id => cyrille.id }
-    assert_not_nil assigns(:tab)
-    assert_equal 0, assigns(:tab).errors.size
+    subcat = Factory(:subcategory)
+    post :create, {:tab => {:subcategory_id => subcat.id, :content => "this is a new tab"} }, {:user_id => cyrille.id }
+    assert_not_nil assigns(:selected_tab)
+    assert_equal 0, assigns(:selected_tab).errors.size, "There are errors: #{assigns(:selected_tab).errors.full_messages.to_sentence}"
     assert_equal old_size+1, Tab.all.size
-    post :destroy, {:id => assigns(:tab).slug }, {:user_id => cyrille.id }
+    post :destroy, {:id => assigns(:selected_tab).slug }, {:user_id => cyrille.id }
     assert_equal old_size, Tab.all.size
   end
 
@@ -88,19 +95,31 @@ class TabsControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
     yoga = subcategories(:yoga)
     assert !norma.subcategories.include?(yoga)
-    old_title = norma_hypnotherapy.title
-    post :update, {:id => norma_hypnotherapy.slug, :tab => {:old_title => old_title, :title => yoga.name, :content1_with => "With me, it's better",
+    old_subcategory_id = norma_hypnotherapy.subcategory_id
+    post :update, {:id => norma_hypnotherapy.slug, :tab => {:old_subcategory_id => old_subcategory_id, :subcategory_id => yoga.id, :content1_with => "With me, it's better",
       :content2_benefits => "You'll be relaxed", :content3_training => "MBA with Harvard", :content4_about => "I love kitesurfing"  } }, {:user_id => norma.id }
     norma.reload
     norma.tabs.reload
     norma_hypnotherapy.reload
     assert_equal yoga.name, norma_hypnotherapy.title
     assert_match /MBA with Harvard/, norma_hypnotherapy.content
-    assert !norma.tabs.map(&:title).include?(old_title), "Tabs should not contain #{old_title} anymore. Tabs are: #{norma.tabs.inspect}"
+    assert !norma.tabs.map(&:subcategory_id).include?(old_subcategory_id), "Tabs should not contain #{old_subcategory_id} anymore. Tabs are: #{norma.tabs.inspect}"
     assert norma.tabs.map(&:title).include?(yoga.name)
     norma.subcategories.reload
     assert norma.subcategories.include?(yoga), "Yoga should have been added to Norma's profile, as it was selected for a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"
     assert !norma.subcategories.include?(hypnotherapy), "Hypnotherapy should have been removed from Norma's profile, as it was removed as a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"
+  end
+
+  def test_update_with_errors
+    subcat = Factory(:subcategory)
+    user = Factory(:user, :subcategory1_id => subcat.id)
+    first_tab = user.tabs.first
+    
+    post :update, {:id => first_tab.slug, :tab => {:old_subcategory_id => first_tab.subcategory_id, :subcategory_id => nil, :content1_with => "With me, it's better",
+      :content2_benefits => "You'll be relaxed", :content3_training => "MBA with Harvard", :content4_about => "I love kitesurfing"  } }, {:user_id => user.id }
+    
+    assert_response :success
+    assert !assigns(:subcategories).blank?
   end
 
   def test_update_legacy
@@ -109,8 +128,8 @@ class TabsControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
     yoga = subcategories(:yoga)
     assert !norma.subcategories.include?(yoga)
-    old_title = norma_hypnotherapy.title
-    post :update, {:id => norma_hypnotherapy.slug, :tab => {:old_title => old_title, :title => yoga.name, :content => "SOMETHING that existed before",  :content1_with => "With me, it's better",
+    old_subcategory_id = norma_hypnotherapy.subcategory_id
+    post :update, {:id => norma_hypnotherapy.slug, :tab => {:old_subcategory_id => old_subcategory_id, :subcategory_id => yoga.id, :content => "SOMETHING that existed before",  :content1_with => "With me, it's better",
       :content2_benefits => "You'll be relaxed", :content3_training => "MBA with Harvard", :content4_about => "I love kitesurfing"  } }, {:user_id => norma.id }
     norma.reload
     norma.tabs.reload
@@ -118,7 +137,7 @@ class TabsControllerTest < ActionController::TestCase
     assert_equal yoga.name, norma_hypnotherapy.title
     assert_no_match /SOMETHING that existed before/, norma_hypnotherapy.content
     assert_match /MBA with Harvard/, norma_hypnotherapy.content
-    assert !norma.tabs.map(&:title).include?(old_title), "Tabs should not contain #{old_title} anymore. Tabs are: #{norma.tabs.inspect}"
+    assert !norma.tabs.map(&:subcategory_id).include?(old_subcategory_id), "Tabs should not contain #{old_subcategory_id} anymore. Tabs are: #{norma.tabs.inspect}"
     assert norma.tabs.map(&:title).include?(yoga.name)
     norma.subcategories.reload
     assert norma.subcategories.include?(yoga), "Yoga should have been added to Norma's profile, as it was selected for a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"
@@ -131,8 +150,8 @@ class TabsControllerTest < ActionController::TestCase
     hypnotherapy = subcategories(:hypnotherapy)
     yoga = subcategories(:yoga)
     assert !norma.subcategories.include?(yoga)
-    old_title = norma_hypnotherapy.title
-    post :update, {:id => norma_hypnotherapy.slug, :tab => {:old_title => old_title, :title => yoga.name, :content1_with => "With me, it's better",
+    old_subcategory_id = norma_hypnotherapy.subcategory_id
+    post :update, {:id => norma_hypnotherapy.slug, :tab => {:old_subcategory_id => old_subcategory_id, :subcategory_id => yoga.id, :content1_with => "With me, it's better",
       :content2_benefits => "You'll be <h2>relaxed</h2>", :content3_training => "MBA with Harvard", :content4_about => "I love kitesurfing"  } }, {:user_id => norma.id }
     norma.reload
     norma.tabs.reload
@@ -141,7 +160,7 @@ class TabsControllerTest < ActionController::TestCase
     assert_match %r{You'll be relaxed}, norma_hypnotherapy.content
     assert_match %r{With me, it's better}, norma_hypnotherapy.content
     # assert_equal "With me, it's better", norma_hypnotherapy.content1_with
-    assert !norma.tabs.map(&:title).include?(old_title), "Tabs should not contain #{old_title} anymore. Tabs are: #{norma.tabs.inspect}"
+    assert !norma.tabs.map(&:subcategory_id).include?(old_subcategory_id), "Tabs should not contain #{old_subcategory_id} anymore. Tabs are: #{norma.tabs.inspect}"
     assert norma.tabs.map(&:title).include?(yoga.name)
     norma.subcategories.reload
     assert norma.subcategories.include?(yoga), "Yoga should have been added to Norma's profile, as it was selected for a tab, subcategories were: #{norma.subcategories.map(&:name).to_sentence}"

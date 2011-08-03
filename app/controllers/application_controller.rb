@@ -250,15 +250,11 @@ class ApplicationController < ActionController::Base
 		@blog_subcategories = BlogSubcategory.find(:all, :include => "blog_category", :order => "blog_categories.name, blog_subcategories.name").collect {|d| [ d.full_name, d.id ]}
 	end
 
-	def get_subcategories
-		@subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.id ]}
-	end
-
-	def get_subcategory_names(except_subcategories=[])
+	def get_subcategories(except_subcategories=[])
 	  if except_subcategories.blank?
-		  @subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.name ]}
+		  @subcategories = Subcategory.find(:all, :include => "category", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.id ]}
 	  else
-	    @subcategories = Subcategory.find(:all, :include => "category", :conditions => "subcategories.id NOT IN (#{except_subcategories.map(&:id).join(',')})", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.name ]}
+      @subcategories = Subcategory.find(:all, :include => "category", :conditions => "subcategories.id NOT IN (#{except_subcategories.map(&:id).join(',')})", :order => "categories.name, subcategories.name").collect {|d| [ d.full_name, d.id ]}
     end
 	end
 
