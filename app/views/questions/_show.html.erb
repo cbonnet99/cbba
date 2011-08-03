@@ -1,5 +1,14 @@
 <h4>Q: <%= h question.body%></h4>
 <% question.answers.each do |answer| -%>
-<p>On <%= answer.created_at %>, <strong><%= answer.user.try(:name)%></strong> answered:</p>
-<p><%= answer.body%></p>
-<%end -%>
+<div class="article_photo">
+	<%= medium_image(answer.user)%><br/>
+	<%= answer.user.try(:name)%><br/>
+	<%= answer.created_at %>
+</div>
+<div class="speechbubble"><%= image_tag 'speechbubble.png'%></div>
+<div class="answer_body rounded">
+	<%= answer.body%>
+</div>
+<div class="cleaner"></div>
+<br/>
+<% end -%>
