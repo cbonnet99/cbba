@@ -1,5 +1,6 @@
 development: &non_production_settings
   site_host:
+      default: localhost:3000
       nz: localhost:3000
       au: localhost.com.au:3000
   site_protocol: http
@@ -12,6 +13,7 @@ development: &non_production_settings
   
 test:
     site_host:
+        default: test.host
         nz: test.host
         au: test.host.com.au
     site_protocol: http
@@ -24,6 +26,7 @@ test:
   
 production:
   site_host: 
+      default: www.zingabeam.com
       nz: www.beamazing.co.nz
       au: www.zingabeam.com
   site_protocol: http
@@ -35,6 +38,7 @@ production:
   megan: megan@beamazing.co.nz
 staging:
     site_host:
+        default: staging.beamazing.co.nz
         nz: staging.beamazing.co.nz
         au: staging.beamazing.com.au
     site_protocol: http

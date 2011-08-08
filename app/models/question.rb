@@ -5,6 +5,8 @@ class Question < ActiveRecord::Base
 	belongs_to :blog_category
   belongs_to :author, :class_name => "Contact"
 	belongs_to :country
+
+  validates_length_of :body, :maximum => 500
   
   attr_accessor :email, :receive_newsletter
   

@@ -1,13 +1,16 @@
-<h4>Q: <%= h question.body%></h4>
+<h4 class="question rounded"><%= h question.body%></h4>
 <% question.answers.each do |answer| -%>
 <div class="article_photo">
-	<%= medium_image(answer.user)%><br/>
-	<%= answer.user.try(:name)%><br/>
+	<%= link_to medium_image(answer.user), user_url_with_context(answer.user)%><br/>
+	<%= link_to answer.user.try(:name), user_url_with_context(answer.user)%><br/>
 	<%= answer.created_at %>
 </div>
 <div class="speechbubble"><%= image_tag 'speechbubble.png'%></div>
 <div class="answer_body rounded">
 	<%= answer.body%>
+</div>
+<div class="like_answer">
+	Do you like this answer? Check out <%= link_to "#{answer.user.try(:first_name)}'s profile", user_url_with_context(answer.user)%>
 </div>
 <div class="cleaner"></div>
 <br/>

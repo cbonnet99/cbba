@@ -1,3 +1,5 @@
+div.like_answer{float: left; clear: right; margin: 20px;}
+h4.question{font-weight: bold; background-color: grey; font-size 14px; padding: 10px; margin: 10px;}
 div.answer_body{font-size: 12px;float: left; width: 420px; background-color: lightgrey; padding: 10px;}
 div#welcome_video{float: right;}
 p.emphasize{font-weight: bold;}

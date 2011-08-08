@@ -1,7 +1,11 @@
 module ApplicationHelper
 
   def site_url_for_country_code(country_code)
-    APP_CONFIG[:site_host][country_code]
+    if country_code.nil?
+      APP_CONFIG[:site_host]["default"]
+    else
+      APP_CONFIG[:site_host][country_code]
+    end
   end
   
   def site_name_for_country(country)
@@ -17,7 +21,11 @@ module ApplicationHelper
   end
   
   def site_url(user)
-    APP_CONFIG[:site_host][user.country.country_code]
+    if user.country.nil?
+      APP_CONFIG[:site_host]["default"]
+    else
+      APP_CONFIG[:site_host][user.country.country_code]
+    end
   end
   
   def site_name(user)
