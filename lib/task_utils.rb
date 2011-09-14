@@ -5,6 +5,10 @@ class TaskUtils
   def self.create_and_send_new_digest
     news_digest = NewsDigest.create_new
     unless news_digest.articles.blank?
+      User.active.wants_newsletter.each do |user|
+        UserEmail.create(:user => user, :email_type => "mass_email", 
+        :news_digest => news_digest)        
+      end
       User.admins.each do |admin|
         UserEmail.create(:user => admin, :email_type => "mass_email", 
         :news_digest => news_digest)                
