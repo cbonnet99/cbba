@@ -5,6 +5,12 @@ class UserMailer < ActionMailer::Base
 
   def news_digest(user, news_digest)
     setup_email(user)
+    @token = user.renew_token
+    if user.is_a?(User)
+      @body[:url] = user_slug_action_url(:action => "unsubscribe", :slug => user.slug,  :token => @token )
+    else
+      @body[:url] = url_for(:controller => "contacts", :action => "unsubscribe", :id => user.id,  :token => @token )
+    end
     @subject = news_digest.title
     @body[:articles] = news_digest.articles
     @content_type = 'text/html'

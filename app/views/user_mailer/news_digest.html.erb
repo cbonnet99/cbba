@@ -15,3 +15,10 @@ From the team at BeAmazing,<br/>
   <p><%= article.lead %></p>
   <p><%= link_to "Read more...", articles_show_url(article.author.slug, article.slug, :protocol => APP_CONFIG[:site_protocol])%></p>
 <% end -%>
+<ul>
+<li><%= link_to "Meet Australian Coaches", full_members_url(:country_code => "au") %></li>
+<li><%= link_to "Meet New Zealand Coaches", full_members_url(:country_code => "nz")%></li>
+<li><%= link_to "Follow us on Twitter", "https://twitter.com/Beamazingltd"%></li>
+<li><%= link_to "Join us on Facebook", "http://www.facebook.com/pages/Be-Amazing-NZs-home-of-health-well-being-and-development/361000885623"%></li>
+<li><%= link_to "Unsubscribe", @url%></li>
+</ul>
