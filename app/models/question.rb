@@ -1,7 +1,7 @@
 class Question < ActiveRecord::Base
   include Workflowable
   
-  has_many :answers
+  has_many :answers, :dependent => :delete_all
 	belongs_to :blog_category
   belongs_to :author, :class_name => "Contact"
 	belongs_to :country
