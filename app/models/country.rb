@@ -14,6 +14,16 @@ class Country < ActiveRecord::Base
   has_many :questions
   
   named_scope :active, :conditions => "active is true"
+  
+  def self.extract_country_code_from_host(host)
+    host_bits = host.split(".")
+    subdomain = host_bits[0]
+    @country = Country.find_by_country_code(subdomain)
+    if @country.nil?
+      @country = Country.default_country
+    end
+    return @country    
+  end
     
   def to_s
     "#{self.id}: #{self.name}"
@@ -25,6 +35,6 @@ class Country < ActiveRecord::Base
 
   
   def self.default_country
-    Country.find_by_country_code("nz")
+    Country.find_by_default_country(true)
   end
 end

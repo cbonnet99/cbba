@@ -2,10 +2,10 @@
 require 'xero_gateway'
 
 #Specify an asset host
-ActionController::Base.asset_host = "staging-assets%d.beamazing.co.nz"
+ActionController::Base.asset_host = "staging-assets%d.zingabeam.com"
 config.action_controller.asset_host = AssetHostingWithMinimumSsl.new(
-  "http://staging-assets%d.beamazing.co.nz", # will serve non-SSL assets on http://assets
-  "http://staging.beamazing.co.nz"  # will serve SSL assets on https://www
+  "http://staging-assets%d.zingabeam.com", # will serve non-SSL assets on http://assets
+  "http://staging.zingabeam.com"  # will serve SSL assets on https://www
 )
 
 # The production environment is meant for finished, "live" apps.
