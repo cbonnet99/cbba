@@ -141,6 +141,12 @@ class User < ActiveRecord::Base
   WARNING_USERS_WILL_BE_DELETED_IN_DAYS = 7
   WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS = 2
   
+  def start_new_expiry_date(attribute)
+    date_value = self.send(attribute)
+    date_value = Time.now.to_date if date_value.nil? || date_value < Time.now.to_date
+    return date_value
+  end
+  
   def tabs_without_subcat
     user_tab_titles = self.tabs.map(&:title)
     user_subcategory_names = self.subcategories.map(&:name)

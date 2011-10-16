@@ -97,11 +97,11 @@ class Payment < ActiveRecord::Base
     if !self.order.nil?
       if self.order.photo?
         self.user.paid_photo = true
-        self.user.paid_photo_until = (self.user.paid_photo_until || Time.now)+1.year
+        self.user.paid_photo_until = self.user.start_new_expiry_date(:paid_photo_until)+1.year
       end
       if self.order.highlighted?
         self.user.paid_highlighted = true
-        self.user.paid_highlighted_until = (self.user.paid_highlighted_until || Time.now)+1.year
+        self.user.paid_highlighted_until = self.user.start_new_expiry_date(:paid_highlighted_until)+1.year
       end
       if !self.order.special_offers.nil? && self.order.special_offers > 0
         self.user.paid_special_offers = (self.user.paid_special_offers || 0) + self.order.special_offers

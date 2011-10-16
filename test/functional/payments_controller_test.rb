@@ -42,6 +42,7 @@ class PaymentsControllerTest < ActionController::TestCase
     new_order = Factory(:order, :user_id => pending_user.id, :package => "premium" )
     new_payment = new_order.payment
     expires = Time.now.advance(:year => 1 )
+    
     put :update, {:id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
       "city"=>"hjgjhgjhghg",
       "card_number"=>"1",
@@ -51,6 +52,7 @@ class PaymentsControllerTest < ActionController::TestCase
       "first_name"=>"hjggh",
       "last_name"=>"gjhgjhgjhg",
       "card_verification"=>"123"}}, {:user_id => pending_user.id }
+
     assert_redirected_to expanded_user_url(pending_user)
     assert_equal "Thank you for your payment. Your membership is now activated", flash[:notice]
     pending_user.reload
@@ -67,6 +69,30 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_equal 2, pending_user.paid_gift_vouchers
     assert_not_nil pending_user.paid_gift_vouchers_next_date_check
     assert_equal (Time.now+1.year).to_date, pending_user.paid_gift_vouchers_next_date_check
+  end
+
+
+  def test_pay_new_order_expired_in_the_past
+    pending_user = Factory(:user, :paid_photo_until => 2.months.ago )
+    new_order = Factory(:order, :user_id => pending_user.id, :package => "premium" )
+    new_payment = new_order.payment
+    expires = Time.now.advance(:year => 1 )
+    
+    put :update, {:id => new_payment.id, "payment"=>{"address1"=>"hjgjhghgjhg",
+      "city"=>"hjgjhgjhghg",
+      "card_number"=>"1",
+      "card_expires_on(1i)"=>expires.year.to_s,
+      "card_expires_on(2i)"=>expires.month.to_s,
+      "card_expires_on(3i)"=>expires.day.to_s,
+      "first_name"=>"hjggh",
+      "last_name"=>"gjhgjhgjhg",
+      "card_verification"=>"123"}}, {:user_id => pending_user.id }
+
+    assert_redirected_to expanded_user_url(pending_user)
+    assert_equal "Thank you for your payment. Your membership is now activated", flash[:notice]
+    pending_user.reload
+    assert_not_nil pending_user.paid_photo_until
+    assert_equal (Time.now+1.year).to_date, pending_user.paid_photo_until, "The photo should be renewed for one year from today, NOT from the previous expiry date"
   end
 
   def test_pay_new_order_with_renewal

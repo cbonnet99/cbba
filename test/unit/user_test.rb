@@ -4,6 +4,19 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_start_new_expiry_date
+    in_the_future = 2.months.from_now.to_date
+    user = Factory(:user, :paid_photo_until => in_the_future)
+    assert_equal in_the_future, user.start_new_expiry_date(:paid_photo_until), 
+      "The photo is paid until 2 months from now: the expiry date should be computed from that date"
+  end
+  
+  def test_start_new_expiry_date_in_the_past
+    user = Factory(:user, :paid_photo_until => 2.months.ago.to_date)
+    assert_equal Time.now.to_date, user.start_new_expiry_date(:paid_photo_until),
+      "The photo has already expired: the new expiry date should be computed from today"
+  end
+
   def test_add_tab
     user = Factory(:user)
     subcat = Factory(:subcategory)
