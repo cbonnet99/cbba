@@ -42,16 +42,7 @@ class ApplicationController < ActionController::Base
       @country = Country.find_by_country_code(params[:country_code])
     end
     if @country.nil?
-      #default value
-      top_domain = request.host
-      host_bits = request.host.split(".")
-      if host_bits.size >= 2
-        top_domain = host_bits[-2..-1].join(".")
-      end
-      @country = Country.find_by_top_domain(top_domain)
-      if @country.nil?
-        @country = Country.default_country
-      end
+      @country = Country.extract_country_code_from_host(request.host)
     end
   end
 

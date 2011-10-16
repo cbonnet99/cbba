@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110724201746) do
+ActiveRecord::Schema.define(:version => 20111015064943) do
 
   create_table "answers", :force => true do |t|
     t.string   "body"
@@ -198,10 +198,12 @@ ActiveRecord::Schema.define(:version => 20110724201746) do
     t.string   "example_locations"
     t.boolean  "default_only_show_own"
     t.string   "inhabitants"
-    t.boolean  "gst",                   :default => false
+    t.boolean  "gst",                                 :default => false
     t.string   "adjective"
     t.string   "analytics_tracker"
-    t.boolean  "active",                :default => false
+    t.boolean  "active",                              :default => false
+    t.string   "subdomain",             :limit => 10
+    t.boolean  "default_country"
   end
 
   create_table "countries_subcategories", :force => true do |t|

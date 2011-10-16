@@ -7,6 +7,7 @@ nz:
   adjective: New Zealand
   analytics_tracker: UA-8125380-1
   active: true
+  default_country: false
 
 au:
   name: Australia
@@ -17,3 +18,4 @@ au:
   adjective: Australian
   analytics_tracker: UA-24228380-1
   active: true
+  default_country: true
