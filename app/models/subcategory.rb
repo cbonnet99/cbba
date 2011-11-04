@@ -16,10 +16,21 @@ class Subcategory < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :message => "must be unique"
 
+  after_create :create_countries_subcategories
+
   named_scope :with_resident_expert, :conditions => "resident_expert_id is not null", :order => "name"
   
   MAX_RESIDENT_EXPERTS_PER_SUBCATEGORY = 3
-
+  
+  def create_countries_subcategories
+    if self.countries_subcategories.blank?
+      Country.all.each do |country|
+        CountriesSubcategory.create(:country_id => country.id, :subcategory_id  => self.id, :published_articles_count => 0,
+                                    :published_special_offers_count  => 0, :published_gift_vouchers_count  => 0)
+      end
+    end
+  end
+  
   def published_special_offers_count(country)
     country.special_offers.count(:all, :conditions => ["state = 'published' and subcategory_id = ?", self.id])
   end

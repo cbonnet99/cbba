@@ -74,14 +74,18 @@ class GiftVouchersControllerTest < ActionController::TestCase
     subcat = Factory(:subcategory)
     one = GiftVoucher.create(:title => "Title4", :description => "Description", :subcategory => subcat, 
         :author => cyrille   )
-    old_published_count = cyrille.published_gift_vouchers_count
+    old_published_user_count = cyrille.published_gift_vouchers_count
+    old_published_subcat_count = CountriesSubcategory.find_by_country_id_and_subcategory_id(one.country_id, subcat.id).published_gift_vouchers_count
+
     post :publish, {:id => one.id }, {:user_id => cyrille.id }
+
     assert_equal "\"#{one.title}\" successfully published", flash[:notice]
     assert_redirected_to gift_vouchers_url
     cyrille.reload
     one.reload
     assert_not_nil one.published_at
-    assert_equal old_published_count+1, cyrille.published_gift_vouchers_count
+    assert_equal old_published_user_count+1, cyrille.published_gift_vouchers_count
+    assert_equal old_published_subcat_count+1, CountriesSubcategory.find_by_country_id_and_subcategory_id(one.country_id, subcat.id).published_gift_vouchers_count
   end
 
   def test_unpublish
