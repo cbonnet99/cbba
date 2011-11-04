@@ -198,11 +198,10 @@ ActiveRecord::Schema.define(:version => 20111015064943) do
     t.string   "example_locations"
     t.boolean  "default_only_show_own"
     t.string   "inhabitants"
-    t.boolean  "gst",                                 :default => false
+    t.boolean  "gst",                   :default => false
     t.string   "adjective"
     t.string   "analytics_tracker"
-    t.boolean  "active",                              :default => false
-    t.string   "subdomain",             :limit => 10
+    t.boolean  "active",                :default => false
     t.boolean  "default_country"
   end
 

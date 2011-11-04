@@ -4,6 +4,18 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_fix_subcats
+    subcat1 = Factory(:subcategory)
+    subcat2 = Factory(:subcategory)
+    subcat3 = Factory(:subcategory)
+    inconsistent_user = Factory(:user, :subcategory1_id => subcat1.id, :subcategory2_id => subcat2.id)
+    inconsistent_user.create_additional_tab(subcat3.id)
+    
+    inconsistent_user.fix_subcats
+    
+    assert_equal subcat3.id, inconsistent_user.subcategory3_id
+  end
+
   def test_start_new_expiry_date
     in_the_future = 2.months.from_now.to_date
     user = Factory(:user, :paid_photo_until => in_the_future)

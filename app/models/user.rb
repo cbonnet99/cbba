@@ -901,6 +901,18 @@ class User < ActiveRecord::Base
     str << email
   end
 
+  def fix_subcats
+    self.tabs_without_subcat.each do |title|
+      subcat = Subcategory.find_by_name(title)
+      unless subcat.nil?
+        if self.subcategory3_id.nil?
+          self.subcategory3_id = subcat.id
+          self.save!
+        end
+      end
+    end    
+  end
+
   def after_find
     @old_positions = {}
     @old_expertise_positions = {}

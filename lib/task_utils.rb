@@ -161,6 +161,7 @@ class TaskUtils
       tabs_without_subcat = user.tabs_without_subcat
       unless tabs_without_subcat.blank?
         res << "User #{user.email} has inconsistent tabs. Tab titles: #{tabs_without_subcat.to_sentence} #{tabs_without_subcat.size > 1 ? "have" : "has"} no corresponding subcategories in user's expertise: #{user.subcategories.map(&:name).to_sentence}\n"
+        user.fix_subcats
       end
     end
     unless res.blank?
