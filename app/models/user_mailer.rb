@@ -105,9 +105,6 @@ class UserMailer < ActionMailer::Base
 
   def congrats_published(user)
     setup_email(user)
-    attachment :content_type => "application/pdf",
-     :body => File.read(Rails.root.join("doc", "fly_strategies.pdf")),
-     :filename => "fly_strategies.pdf"
     @content_type = 'text/html'
   end
 
@@ -245,9 +242,13 @@ class UserMailer < ActionMailer::Base
     setup_email(user)
     if payment.stored_token_id.nil?
 		  @subject << "Invoice for your payment"
+      attachment :content_type => "application/pdf",
+       :body => File.read(Rails.root.join("doc", "fly_strategies.pdf")),
+       :filename => "fly_strategies.pdf"
 	  else
 	    @subject << "Invoice for your auto-renewed features"
     end
+    @content_type = 'text/html'    
     @body[:payment] = payment
 		@body[:url] = payments_url
     attachment :content_type => "application/pdf",

@@ -23,7 +23,7 @@ class SpecialOffersControllerTest < ActionController::TestCase
     new_so = Factory(:special_offer, :subcategory => yoga, :author => cyrille )
     new_so.publish!
     assert new_so.published?
-    get :index_for_subcategory, :subcategory_slug  => yoga.slug
+    get :index_for_subcategory, :subcategory_slug  => yoga.slug, :country_code => "nz"
     # puts @response.body
     assert !assigns(:special_offers).include?(one), "Draft trial session should not be included in index_for_subcategory"
     assert assigns(:special_offers).include?(free_trial), "Published trial session should be included in index_for_subcategory"

@@ -270,7 +270,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_new
-    get :new
+    get :new, :country_code => "nz"
     assert_response :success
     assert_select "select#user_subcategory1_id"
     assert_select "select#user_district_id > option", :text => "Auckland Region - Auckland City"

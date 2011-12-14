@@ -9,7 +9,7 @@ class FullMembersControllerTest < ActionController::TestCase
     inactive_user = Factory(:user, :state => "inactive")
     unconfirmed_user = Factory(:user, :state => "unconfirmed")
     
-    get :index
+    get :index, :country_code => "nz"
     
     assert assigns(:members).include?(active_user)
     assert !assigns(:members).include?(inactive_user)

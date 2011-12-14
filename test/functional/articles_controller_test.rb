@@ -28,9 +28,9 @@ class ArticlesControllerTest < ActionController::TestCase
     get :index_for_blog_subcategory, :subcategory_slug => blog_subcat.slug, :only_show_own => "true"
     
     assert_response :success
-        
-    assert assigns(:articles).include?(nz_article)
-    assert !assigns(:articles).include?(au_article)
+    
+    assert !assigns(:articles).include?(nz_article)
+    assert assigns(:articles).include?(au_article)
   end
 
   def test_index_for_subcategory
@@ -48,7 +48,7 @@ class ArticlesControllerTest < ActionController::TestCase
     au_article = Factory(:article, :country => countries(:au), :subcategory1_id => yoga.id, :author => users(:jones_au))
     article_yoga = articles(:yoga)
     long = articles(:long)
-    get :index_for_subcategory, :subcategory_slug  => yoga.slug, :only_show_own => "true"
+    get :index_for_subcategory, :subcategory_slug  => yoga.slug, :country_code => "nz", :only_show_own => "true"
     assert assigns(:articles).include?(long), "Published article should be included in index_for_subcategory"
     assert !assigns(:articles).include?(article_yoga), "Draft article should not be included in index_for_subcategory"
     assigns(:articles).each do |a|

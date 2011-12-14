@@ -4,11 +4,28 @@ class UserMailerTest < ActionMailer::TestCase
   tests UserMailer
 
   fixtures :all
+  
+  def test_payment_invoice
+    user = Factory(:user)
+    payment = Factory(:payment, :user => user)
+    invoice = Factory(:invoice, :payment => payment)
 
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    UserMailer.deliver_payment_invoice(user, payment, invoice)
+
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    invoice_email = ActionMailer::Base.deliveries.first
+    
+  end
+  
   def test_news_digest
-    contact = Factory(:contact)
 
-		ActionMailer::Base.delivery_method = :test
+    contact = Factory(:contact)
+    
+    ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
 

@@ -1,12 +1,12 @@
-Dear <%= @user.first_name %>,
-
+Dear <%= @user.first_name %>,<br/>
+<br/>
 <% if payment.stored_token_id.nil? -%>
-Thank you for your payment. Please find enclosed your invoice.
+Thank you for your payment. Please find enclosed your invoice, as well as your free guide: 'Seven Strategies to help your Coaching Business FLY'.<br/>
 <% else -%>
-We've renewed your paid features on <%= site_name(@user)).capitalize%> as requested and attached is your invoice.
-<% end -%>
-If you need to review the details of this payment, please click on the following link:
-
+We've renewed your paid features on <%= site_name(@user)).capitalize%> as requested and attached is your invoice.<br/>
+<% end -%><br/>
+If you need to review the details of this payment, please click on the following link:<br/>
+<br/>
 <%= @url %>
-
+<br/>
 <%= render :partial => "signature"  %>

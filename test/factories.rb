@@ -157,6 +157,12 @@ Factory.define :payment do |f|
   f.amount 1500
 end
 
+Factory.define :invoice do |f|
+  f.association :payment
+  f.filename "invoice.pdf"
+end
+
+
 Factory.define :mass_email do |me|
   me.subject "Mass email"
 end

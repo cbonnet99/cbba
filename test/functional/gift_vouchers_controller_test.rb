@@ -26,7 +26,7 @@ class GiftVouchersControllerTest < ActionController::TestCase
     new_gv.publish!
     assert new_gv.published?
     
-    get :index_for_subcategory, :subcategory_slug  => therapeutic_massage.slug
+    get :index_for_subcategory, :subcategory_slug  => therapeutic_massage.slug, :country_code => "nz" 
     
     assert !assigns(:gift_vouchers).include?(free_massage_draft), "Draft article should not be included in index_for_subcategory"
     assert assigns(:gift_vouchers).include?(free_massage), "Published article should be included in index_for_subcategory"

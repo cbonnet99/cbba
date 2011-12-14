@@ -1,40 +1,51 @@
-<% javascript 'signup-intro' %>
-<div id="join_title"><%= title "Coaches, join us for FREE!" %></div>
-<div id="join_us_now" class="rounded"><%= link_to "Join us now", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :professional => "true", :mt => "full_member" )%></div>
-<div class="cleaner"></div>
-<div id="signup-intro">
-<p>Publish a FREE profile and get this FREE guide too <%= link_to 'Seven strategies to help your coaching business FLY!', free_tool_url%></p>
+<div id="join_title"><%= title "Online Marketing for Coaches Minus the HEADACHE"%></div>
+<div class="clear"></div>
+<p>Our Premium Membership has outstanding value at only $69 a year. However, if you prefer to wait, you can still create a simple free profile</p>
+<p><strong>Sign-up</strong>: <%= link_to "Simple Free Profile", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%> | <strong><%= link_to "Premium Membership", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%>, $69 p.a. (HIGHLY RECOMMENDED)</strong></p>
+<h3>Six reasons why Premium Membership makes online marketing so much easier for Coaches, Trainers and Speakers</h3>
+<p>Too many coaches are having their time wasted navigating the do's and don'ts of online. <%= link_to "www.zingabeam.com", "www.zingabeam.com" %> is a solution for Coaches by Coaches.</p>
+<h3>Reason #1: One new client to get a return?</h3>
+<p>The last time I took out a small advert in a newspaper, it cost me over $300 and lasted just a week - it did nothing for my business!</p>
+<p>And so, at $69 for an entire years automated-online-marketing we want to give you a new dilemma: <strong>How will you spend the rest of your marketing budget?</strong></p>
+<p>Plus, the chances are that your first client you gain through this site will put your instantly in profit.</p>
+<h3>Reason #2: Three times as much visibility</h3>
+<p>We know from our own statistics that on average <strong>Premium Members</strong> get at least three times as many profile viewings than basic members.</p>
+<p>That because you get these advantages:</p>
 <ul>
-<li>Don't have a website? Be Amazing provides a FREE site with an immediate audience</li>
-<li>Already have a website? Drive 'traffic' to your site via your profile</li>
+<li>You can add a photo to your profile</li>
+<li>With articles, you'll feature on the home page as a featured author</li>
+<li>With enough articles, we'll promote you as a Resident Expert in your field</li>
+<li>We'll also list you in search results HIGHER than basic members</li>
 </ul>
-<h4>&quot;This is a great website and a pleasure to be a member of&quot;</h4>
-<h3>Why join? (In a nutshell!)</h3>
+<h3>Reason #3: Become a Resident Expert</h3>
+<p>You've already noticed, this is no ordinary directory! We SERIOUSLY want to help you showcase your expertise and grow your business, and so the site operates as blog where you can publish as many articles as you like.</p>
+<p>The more articles you contribute, the more the site works to promote you as a Resident Expert.</p>
 <ul>
-<li>Online marketing without the headache</li>
-<li>Profile your expertise EASILY, add articles and tips</li>
-<li>Create enquiries and drive traffic to your own website</li>
-<li>Useful guides to help you create your profile in just a short space of time</li>
-<li><%= link_to "<strong>Add your free profile now</strong>", signup_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
+<li>Top three article contributors under each sections gets listed as a Resident Expert in corresponding sections</li>
+<li>Resident Experts get feature on rotation in the left column on EVERY PAGE</li>
+<li>Resident Experts get listed above other member in search results</li>
 </ul>
-<h4>&quot;I continue to refer people to your website, it's worth its weight in gold!&quot;</h4>
-<h3>FREE Membership gives you</h3>
+<h3>Reason #4: Tap into an instant audience of thousands</h3>
+<p><strong>Building your own website is one thing, getting people to it is another thing!</strong></p>
+<p>It can be a lonely place the internet, but as soon as you have a profile with us, you're immediately exposed to thousands and thousands of visitors every month and they can find you EASILY!</p>
+<p>PHEW, no more dilemmas on how to be seen on the net!</p>
+<h3>Reason #5: Side-step the marketing headache</h3>
+<p>Stop thinking about all of these things .... we do the thinking for you</p>
 <ul>
-<li>Phone, email &amp; web links</li>
-<li>Your very own section with multiple pages</li>
-<li>Ability to publish unlimited articles</li>
+<li>How to get visibility with search engines - we've cracked that one!</li>
+<li>How to drive traffic to your own site - we do this from your profile</li>
+<li>What to write about yourself - our profile template gives you headers to work with</li>
+<li>How to get your articles seen - your articles on our site work harder for you</li>
 </ul>
-<h3>Enhance your profile on Be Amazing</h3>
+<h3>Reason #6: Social Media .... we do this for you too!</h3>
+<p>We will...</p>
 <ul>
-<li>Add a photo to your profile &amp; stand-out in search results</li>
-<li>Run trial sessions &amp; gift vouchers</li>
-<li>Feature in our Newsletter and on our blog</li>
+<li>Tweet every article you publish on the site AND repeat tweet it periodically</li>
+<li>Promote you via Twitter to a 4000+ strong network of followers</li>
+<li>Beam you over Facebook to out followers and their friends</li>
+<li>Create Facebook conversations from every comment left on your articles</li>
+<li>Promote the best of your articles across a large variety of Linked-in groups</li>
 </ul>
-<h4>&quot;I've really appreciated your enthusiastic, helpful and efficient approach.&quot;</h4></div>
-<h3>What next?</h3>
-<ul>
-<li><%= link_to "<strong>Sign-up and start creating your profile</strong>", signup_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
-<li><%= link_to "Learn more about how BeAmazing can help you", :controller => "search", :action => "whyjoin"  %></li>
-</ul>
-<h4>&quot;This is just a time saver! I get more views of my Be Amazing profile that I get to my own website!&quot;</h4>
-</div>
+<p>And so the bottom-line is pretty simple ...
+For just $1.33 per week, we give you a platform that <strong>AUTOMATES</strong> your online marketing, <strong>LIBERATES</strong> your time and <strong>REMOVES</strong> the headache of building your business using the internet.</p>
+<div id="join_us_now" class="rounded"><%= link_to "Sign up now", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%></div>

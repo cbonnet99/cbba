@@ -22,7 +22,8 @@ class SearchControllerTest < ActionController::TestCase
     TaskUtils.rotate_users
     cyrille.reload
     yoga = subcategories(:yoga)
-    get :index
+    get :index, :country_code => "nz"
+    assert_equal "nz", assigns(:country).country_code
     assert_response :success
     #Create 4 more published articles
     test1 = Article.create(:title => "Test1", :lead => "Test1", :body => "",  :state => "published",
@@ -33,7 +34,8 @@ class SearchControllerTest < ActionController::TestCase
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id  )
     test4 = Article.create(:title => "Test4", :lead => "Test2", :body => "", :state => "published",
       :published_at => 3.days.ago, :author => cyrille, :subcategory1_id => yoga.id )
-    get :index
+    get :index, :country_code => "nz"
+    assert_equal "nz", assigns(:country).country_code
     assert_response :success
     #+1 for twitter widget
     assert_select "div.homepage-article", :maximum => Article::NUMBER_ON_HOMEPAGE+1
@@ -52,7 +54,7 @@ class SearchControllerTest < ActionController::TestCase
   def test_search_lowercase
 		hypnotherapy = subcategories(:hypnotherapy)
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		get :search, :where => canterbury_christchurch_city.name, :what => hypnotherapy.name.upcase
+		get :search, :where => canterbury_christchurch_city.name, :what => hypnotherapy.name.upcase, :country_code => "nz"
     assert_not_nil assigns(:subcategory)
     assert_response :success
     assert_equal 3, assigns(:results).size
@@ -65,7 +67,7 @@ class SearchControllerTest < ActionController::TestCase
     nz_user = Factory(:user, :country => nz, :subcategory1_id => subcat.id)
     au_user = Factory(:user, :country => au, :subcategory1_id => subcat.id)
     
-    get :search, :where => "", :what => subcat.name
+    get :search, :where => "", :what => subcat.name, :country_code => "nz"
     
     assert_redirected_to subcategory_url(subcat.category.slug, subcat.slug)
     assert assigns(:results).include?(nz_user) 
@@ -80,7 +82,7 @@ class SearchControllerTest < ActionController::TestCase
 		norma.paid_photo = true
 		norma.save!
 		norma.reload
-		get :search, :where => canterbury_christchurch_city.name, :what => hypnotherapy.name
+		get :search, :where => canterbury_christchurch_city.name, :what => hypnotherapy.name, :country_code => "nz"
 		assert_response :success
 		assert_equal 3, assigns(:results).size, "Results were: #{assigns(:results).map(&:name).to_sentence}"
 		assert_equal norma, assigns(:results).first, "User with paid photo should be listed first"
@@ -94,14 +96,14 @@ class SearchControllerTest < ActionController::TestCase
   
   def test_search_district_no_subcat
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
-		get :search, :where => canterbury_christchurch_city.name, :what => ''
+		get :search, :where => canterbury_christchurch_city.name, :what => '', :country_code => "nz"
 		assert_response :success
     assert !assigns(:results).empty?
   end
 
   def test_search_region_no_subcat
 		canterbury = regions(:canterbury)
-		get :search, :where => canterbury.name, :what => ''
+		get :search, :where => canterbury.name, :what => '', :country_code => "nz"
 		assert_response :success
     assert !assigns(:results).empty?
   end
@@ -113,7 +115,7 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_no_location_category
-		get :search, :where => '', :what => categories(:practitioners).name
+		get :search, :where => '', :what => categories(:practitioners).name, :country_code => "nz"
 		assert_response :success
     assert !assigns(:results).empty?
   end
@@ -124,7 +126,7 @@ class SearchControllerTest < ActionController::TestCase
 		sgardiner = users(:sgardiner)
 #    norma = users(:norma)
 #    norma.user_profile.publish!
-		get :simple_search, :where => canterbury_christchurch_city.id, :what => hypnotherapy.id
+		get :simple_search, :where => canterbury_christchurch_city.id, :what => hypnotherapy.id, :country_code => "nz" 
 		assert_response :success
     assert @response.body =~ /Profile coming soon/
 #		puts "========== #{assigns(:results).inspect}"
@@ -136,7 +138,7 @@ class SearchControllerTest < ActionController::TestCase
 	def test_search_no_subcategory
 		canterbury_christchurch_city = districts(:canterbury_christchurch_city)
 		practitioners = categories(:practitioners)
-		get :simple_search, :where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id
+		get :simple_search, :where => canterbury_christchurch_city.id, :what => nil, :category_id => practitioners.id, :country_code => "nz"
 		assert_response :success
 		assert_equal 3, assigns(:results).size
 	end

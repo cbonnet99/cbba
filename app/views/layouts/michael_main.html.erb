@@ -72,7 +72,7 @@
     <%else -%>
 	  <li><%= link_to 'FREE Newsletter', signup_newsletter_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
       <li><%= link_to 'Login', new_session_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
-	  <li><%= link_to 'Add your profile FREE', signup_url(:protocol => APP_CONFIG[:logged_site_protocol]) %></li>
+	  <li><%= link_to 'Coaches, add your profile here!', signup_intro_url %></li>
     <% end -%>
   </ul>
   <!--Member Navigation Ends -->
