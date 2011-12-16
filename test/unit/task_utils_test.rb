@@ -684,7 +684,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 2900, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
-    assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
+    assert_equal "[Be Amazing(test)] Invoice for your automatic renewal from Zingabeam.com", email.subject
     
     ActionMailer::Base.deliveries = []
     TaskUtils.charge_expired_features
@@ -713,7 +713,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 1000, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
-    assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
+    assert_equal "[Be Amazing(test)] Invoice for your automatic renewal from Zingabeam.com", email.subject
     
     ActionMailer::Base.deliveries = []
     TaskUtils.charge_expired_features
@@ -742,7 +742,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 2250, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
-    assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
+    assert_equal "[Be Amazing(test)] Invoice for your automatic renewal from Zingabeam.com", email.subject
     
     ActionMailer::Base.deliveries = []
     TaskUtils.charge_expired_features
@@ -774,7 +774,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert_equal 5400, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
-    assert_equal "[Be Amazing(test)] Invoice for your auto-renewed features", email.subject
+    assert_equal "[Be Amazing(test)] Invoice for your automatic renewal from Zingabeam.com", email.subject
     
     ActionMailer::Base.deliveries = []
     TaskUtils.charge_expired_features

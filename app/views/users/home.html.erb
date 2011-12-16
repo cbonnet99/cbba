@@ -3,23 +3,12 @@
 <div id="warning_unpublished" class="rounded"><p id="main_warning">Your profile is not confirmed yet. An email has been sent to: <%= current_user.email%> with a confirmation link. Simply click on the link and you will be good to go.</p></div>
 <% else -%>
 	<% if !current_user.published? -%>
-	<div id="warning_unpublished" class="rounded"><p id="main_warning">Your profile is not published!</p><p>Complete <%= link_to "your profile", expanded_user_url(current_user, :selected_tab_id => @selected_tab_id) %> and publish to receive your copy of our FREE guide</p></div>
+	<div id="warning_unpublished" class="rounded"><p id="main_warning">Next Step: <%= link_to "publish your profile", expanded_user_url(current_user, :selected_tab_id => @selected_tab_id) %>!</p><p>Also, if you're a PREMIUM MEMBER, we've sent you your FREE copy of the FLY Guide to help you build your business, check your inbox.</p></div>
 	<% end -%>
 <% end -%>
 <%= title "Welcome back!"%>
 <p>Nice to have you back on the site, scroll down for essential links and news from the Be Amazing Team.</p>
-<h4><strong>NEWS - International Event for Coaches</strong></h4>
-<p>Over 3000 business & executive coaches now signed up to 2011's World Business & Executive Coach Summit from over 84 countries worldwide, there are <strong>free taster sessions for any Coaches interested to learn more</strong>.</p>
 <br/>
-<p>Sign-up/Learn more: <%= link_to "http://bit.ly/wbecs73", "http://bit.ly/wbecs73" %></p>
-<br/>
-<p>A Taste of what's happening:</p>
-<ul>
-	<li>'3 Biggest Mistakes Coaches Make That Keep Them Struggling for Cash & Clients' from Milana Leshinsky</li>
-	<li>'Double Your One-to-One Coaching Sales Conversion Rate in 30 Days' from Eric Dombach </li>
-	<li>Michael Gerber, Brian Tracy, Marshall Goldsmith & Michael Port & many other coaching experts together for the 1st time ONLINE</li>
-</ul>
-<p>Sign-up/Learn more: <%= link_to "http://bit.ly/wbecs73", "http://bit.ly/wbecs73"%></p>
 <h4><strong>Quick links:</strong></h4>
 <ul>
 	<li><%= link_to "Edit your profile", expanded_user_url(current_user, :selected_tab_id => @selected_tab_id)%></li>

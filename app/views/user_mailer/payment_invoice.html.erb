@@ -1,12 +1,42 @@
 Dear <%= @user.first_name %>,<br/>
 <br/>
-<% if payment.stored_token_id.nil? -%>
+<% if @payment.stored_token_id.nil? -%>
+Thank your for signing up for a Premium Membership in <%= @site_name.capitalize%>. This is your invoice and receipt for your payment. We've also attached the latest version of our Business Builder FLY Guide.<br/>
+<br/>
+On your credit card statement, look out for BeAmazing Ltd and/or <%= @site_name.capitalize%> as a reference. If you have any concerns, please <%= link_to "go to our online contact form", user_slug_action_url(:protocol => APP_CONFIG[:logged_site_protocol], :slug => @sav.slug, :action => "message", :hide_name => true )%>.<br/>
+<br/>
 Thank you for your payment. Please find enclosed your invoice, as well as your free guide: 'Seven Strategies to help your Coaching Business FLY'.<br/>
 <% else -%>
-We've renewed your paid features on <%= site_name(@user)).capitalize%> as requested and attached is your invoice.<br/>
+We've renewed your Premium membership on <%= @site_name.capitalize%> as requested.<br/>
 <% end -%><br/>
 If you need to review the details of this payment, please click on the following link:<br/>
 <br/>
 <%= @url %>
 <br/>
+<br/>
+INVOICE NUMBER <%= @payment.invoice_number%><br/>
+<br/>
+From:<br/>
+Be Amazing Ltd<br/>
+40 Woodward Street<br/>
+Featherston, 5710<br/>
+New Zealand<br/>
+<br/>
+To:<br/>
+<%= @payment.user.name%><br/>
+<%= @payment.user.business_name %><br/>
+<br/>
+Date: <%= @payment.created_at.to_date %><br/>
+<br/>
+Our GST number: 101-412-473<br/>
+<br/>
+Purchase: One Year Premium Membership<br/>
+Start date: <%= @payment.created_at.to_date %><br/>
+End date: <%= @payment.created_at.advance(:months => 12).to_date %><br/>
+<br/>
+Fee: amount_view(payment.amount, payment.currency)<br/>
+GST: amount_view(payment.gst, payment.currency)<br/>
+TOTAL deducted from your credit card: amount_view(payment.total, payment.currency)<br/>
+<br/>
+Very best,<br/>
 <%= render :partial => "signature"  %>

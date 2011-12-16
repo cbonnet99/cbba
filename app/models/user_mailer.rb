@@ -241,19 +241,17 @@ class UserMailer < ActionMailer::Base
   def payment_invoice(user, payment, invoice)
     setup_email(user)
     if payment.stored_token_id.nil?
-		  @subject << "Invoice for your payment"
+		  @subject << "Your Premium membership invoice from Zingabeam.com"
       attachment :content_type => "application/pdf",
        :body => File.read(Rails.root.join("doc", "fly_strategies.pdf")),
        :filename => "fly_strategies.pdf"
 	  else
-	    @subject << "Invoice for your auto-renewed features"
+	    @subject << "Invoice for your automatic renewal from Zingabeam.com"
     end
     @content_type = 'text/html'    
     @body[:payment] = payment
 		@body[:url] = payments_url
-    attachment :content_type => "application/pdf",
-     :body => invoice.pdf,
-     :filename => invoice.filename
+		@body[:site_name] = help.site_name(payment.user)
   end
 
   def membership_expired_today(user)
