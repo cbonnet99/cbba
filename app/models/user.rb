@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   include MultiAfterFindSystem
   include Sluggable
   
+  PACKAGES_TO_MEMBERSHIP_TYPES = {"free" => "free_listing", "premium" => "full_member"}
+  
   aasm_column :state
   
   aasm_initial_state :unconfirmed

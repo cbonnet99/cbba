@@ -78,6 +78,7 @@ ActionController::Routing::Routes.draw do |map|
   map.confirm_user '/confirm', :controller => "users", :action => "confirm"
   map.confirm_contact '/confirm_newsletter', :controller => "contacts", :action => "confirm"
   map.full_user '/:main_expertise_slug/:region/:name', :controller => "users", :action => "show", :requirements => {:region => /[a-z|A-Z|_|-]+/, :main_expertise_slug => /[a-z|A-Z|0-9|_|-]+/}
+  map.admin_payments 'admin/payments', :controller => "admin/payments", :action => "index" 
   map.payment_action '/payments/:action', :controller => "payments", :requirements => {:action => /[a-z|A-Z|_]+/}
   map.payment_action_with_id '/payments/:id/:action', :controller => "payments", :requirements => {:action => /edit|edit_debit|thank_you|thank_you_direct_debit|thank_you_renewal|thank_you_resident_expert/}
   map.resources :payments

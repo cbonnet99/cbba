@@ -1,7 +1,7 @@
 <div id="join_title"><%= title "Online Marketing for Coaches Minus the HEADACHE"%></div>
 <div class="clear"></div>
 <p>Our Premium Membership has outstanding value at only $69 a year. However, if you prefer to wait, you can still create a simple free profile</p>
-<p><strong>Sign-up</strong>: <%= link_to "Simple Free Profile", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%> | <strong><%= link_to "Premium Membership", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%>, $69 p.a. (HIGHLY RECOMMENDED)</strong></p>
+<p><strong>Sign-up</strong>: <%= link_to "Simple Free Profile", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :package => "free")%> | <strong><%= link_to "Premium Membership", signup_url(:protocol => APP_CONFIG[:logged_site_protocol], :package => "premium")%>, $69 p.a. (HIGHLY RECOMMENDED)</strong></p>
 <h3>Six reasons why Premium Membership makes online marketing so much easier for Coaches, Trainers and Speakers</h3>
 <p>Too many coaches are having their time wasted navigating the do's and don'ts of online. <%= link_to "www.zingabeam.com", "www.zingabeam.com" %> is a solution for Coaches by Coaches.</p>
 <h3>Reason #1: One new client to get a return?</h3>

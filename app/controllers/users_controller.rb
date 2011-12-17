@@ -248,7 +248,9 @@ class UsersController < ApplicationController
 
   def new
     # subcategory1_id = params[:subcategory_id].blank? ? nil : params[:subcategory_id].to_i
-    @user = User.new(:country_id => @country.id)
+    get_package
+    @user = User.new(:country_id => @country.id, :free_listing => @package == "free",
+        :membership_type => User::PACKAGES_TO_MEMBERSHIP_TYPES[@package])
 		get_districts_and_subcategories(@user.country_id || @country.id)
   end
 
@@ -264,7 +266,12 @@ class UsersController < ApplicationController
 		  @user.create_additional_tab(@user.subcategory3_id)
       @user.main_expertise_name(:reload)
       flash[:notice] = "Your optional information has been saved"
-      redirect_to select_features_url
+      if @user.free_listing?
+        redirect_to expanded_user_url(@user)
+      else
+        get_order(force_premium=true)
+        redirect_to payment_action_with_id_url(@order.payment.id, :action => "edit")
+      end
     else
       flash[:error] = "There were some errors in your optional information."
       render :action => 'edit_optional'
@@ -272,11 +279,16 @@ class UsersController < ApplicationController
   end
  
   def create
-    @user = User.new(params[:user].merge(:membership_type => "full_member"))
+    @user = User.new(params[:user])
       logout_keeping_session!
       if @user.save
           session[:user_id] = @user.id
-          redirect_to :controller => "users", :action => "edit_optional"
+          if @user.free_listing?
+            @package = "free"
+          else
+            @package = "premium"
+          end
+          redirect_to :controller => "users", :action => "edit_optional", :package => @package
       else
         get_districts_and_subcategories(@user.country_id || @country.id)
         flash.now[:error]  = "There were some errors in your essential information."
@@ -303,10 +315,23 @@ class UsersController < ApplicationController
   end
   
 protected
-  def get_order
+  def get_order(force_premium=false)
     @order = current_user.orders.pending.first
     if @order.nil?
-      @order = Order.create(:user_id => current_user.id, :package => "premium")
+      if force_premium
+        @order = Order.create(:user_id => current_user.id, :package => "premium")
+      else
+        @order = Order.create(:user_id => current_user.id)
+      end
+    else
+      @order.update_attribute(:package, "premium")
+    end
+  end
+  
+  def get_package
+    @package = params[:package]
+    if @package.nil?
+      @package = "premium"
     end
   end
 end

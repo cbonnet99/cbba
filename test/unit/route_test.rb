@@ -37,6 +37,7 @@ class RoutingTest < ActionController::TestCase
     assert_recognizes({:controller => 'search', :action => "goals"  }, :path => "/goals" )
     assert_recognizes({:controller => 'search', :action => "about"  }, :path => "/about" )
     assert_recognizes({:controller => 'admin/payments', :action => "mark_as_paid", :id => "123"  }, :path => "/admin/payments/123/mark_as_paid" )
+    assert_recognizes({:controller => 'admin/payments', :action => "index"}, :path => "/admin/payments" )
     assert_recognizes({:controller => 'payments', :action => "update", :id => "123"  }, :path => "/payments/123", :method => "put")
     assert_recognizes({:controller => 'payments', :action => "edit_debit", :id => "123"  }, :path => "/payments/123/edit_debit" )
     assert_recognizes({:controller => 'search', :action => "search", :where => "wellington" }, :path => "/search/where/wellington" )

@@ -13,7 +13,7 @@ class Admin::PaymentsControllerTest < ActionController::TestCase
     assert_equal "pending", order.payment.status
     old_size = Payment.all.size
     post :destroy, {:id => order.payment.id }, {:user_id => users(:cyrille).id }
-    assert_redirected_to :controller => "admin/payments", :action => "index"
+    assert_redirected_to admin_payments_url
     assert_not_nil flash[:notice]
     assert_equal old_size-1, Payment.all.size
   end
@@ -25,7 +25,7 @@ class Admin::PaymentsControllerTest < ActionController::TestCase
     assert_equal "completed", order.payment.status
     old_size = Payment.all.size
     post :destroy, {:id => order.payment.id }, {:user_id => users(:cyrille).id }
-    assert_redirected_to :controller => "admin/payments", :action => "index"
+    assert_redirected_to admin_payments_url
     assert_not_nil flash[:error]
     assert_equal old_size, Payment.all.size
   end
@@ -35,7 +35,7 @@ class Admin::PaymentsControllerTest < ActionController::TestCase
     assert_not_nil order.payment
     assert_equal "pending", order.payment.status
     post :mark_as_paid, {:id => order.payment.id }, {:user_id => users(:cyrille).id }
-    assert_redirected_to :controller => "admin/payments", :action => "index"
+    assert_redirected_to admin_payments_url
     order.payment.reload
     assert_equal "completed", order.payment.status
     order.reload

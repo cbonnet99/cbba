@@ -3,6 +3,18 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UsersControllerTest < ActionController::TestCase
 	fixtures :all
 	include ApplicationHelper
+
+  def test_select_features
+    user = Factory(:user)
+    get :select_features, {}, {:user_id => user.id}
+    assert_response :success
+  end
+  
+  def test_promote
+    user = Factory(:user)
+    get :promote, {}, {:user_id => user.id}
+    assert_response :success
+  end
   
   def test_update_optional
     user = Factory(:user)
@@ -11,7 +23,8 @@ class UsersControllerTest < ActionController::TestCase
     
     post :update_optional, {:user => {:subcategory2_id => subcat.id} }, {:user_id => user.id}
     
-    assert_redirected_to select_features_url
+    assert_not_nil assigns(:order)
+    assert_redirected_to payment_action_with_id_url(assigns(:order).payment.id, :action => "edit")
     user.reload
     assert !user.free_listing?
     assert_equal 2, user.subcategories.size
@@ -20,13 +33,28 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_update_optional_free_listing
+    user = Factory(:user, :free_listing => true, :membership_type => "free_listing")
+    assert user.free_listing?
+    subcat = Factory(:subcategory)
+    
+    post :update_optional, {:user => {:receive_newsletter => "1", :receive_professional_newsletter => "1"} }, {:user_id => user.id}
+    
+    assert_not_nil assigns(:user)
+    assert_redirected_to expanded_user_url(assigns(:user))
+    user.reload
+    assert user.free_listing?
+
+  end
+
+  def test_update_optional_newsletters
     user = Factory(:user, :membership_type => "")
     assert !user.free_listing?
     subcat = Factory(:subcategory)
     
     post :update_optional, {:user => {:receive_newsletter => "1", :receive_professional_newsletter => "1"} }, {:user_id => user.id}
     
-    assert_redirected_to select_features_url
+    assert_not_nil assigns(:order)
+    assert_redirected_to payment_action_with_id_url(assigns(:order).payment.id, :action => "edit")
     user.reload
     assert !user.free_listing?
   end
@@ -37,7 +65,8 @@ class UsersControllerTest < ActionController::TestCase
     
     post :update_optional, {:user => {:subcategory2_id => "", :subcategory3_id => "" } }, {:user_id => user.id}
     
-    assert_redirected_to select_features_url
+    assert_not_nil assigns(:order)
+    assert_redirected_to payment_action_with_id_url(assigns(:order).payment.id, :action => "edit")
     user.reload
     assert !user.free_listing?
     assert_equal 1, user.subcategories.size
@@ -269,19 +298,25 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "select#user_subcategory1_id", :count => 0
   end
 
-  def test_new
-    get :new, :country_code => "nz"
+  def test_new_free
+    get :new, :country_code => "nz", :package => "free" 
     assert_response :success
+    assert_not_nil assigns(:user)
+    assert assigns(:user).free_listing?
     assert_select "select#user_subcategory1_id"
     assert_select "select#user_district_id > option", :text => "Auckland Region - Auckland City"
     assert_select "select#user_district_id > option", :text => "New South Wales - Sydney", :count => 0
+    assert_select "div.signup_nav", :text => "Step 3: Payment", :count => 0
   end
 
-  def test_new_au
-    get :new, :country_code => "au" 
+  def test_new_au_premium
+    get :new, :country_code => "au", :package => "premium" 
     assert_response :success
+    assert_not_nil assigns(:user)
+    assert !assigns(:user).free_listing?
     assert_select "select#user_district_id > option", :text => "Auckland Region - Auckland City", :count => 0  
     assert_select "select#user_district_id > option", :text => "New South Wales - Sydney"    
+    assert_select "div.signup_nav", :text => "Step 3: Payment"
   end
 
   def test_new_photo
@@ -643,7 +678,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal "(021)999999", norma.mobile
 	end
 
-  def test_create
+  def test_create_free
     ActionMailer::Base.deliveries = []
 		old_size = User.all.size
 		district = districts(:auckland_auckland_city)
@@ -652,9 +687,11 @@ class UsersControllerTest < ActionController::TestCase
     
     #SUT
 		post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :first_name => "Cyrille", :last_name => "Stuff",
-      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing",
-      :accept_terms => "1", :subcategory1_id => hypnotherapy.id
+      :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "free_listing", :free_listing => true, 
+      :accept_terms => "1", :subcategory1_id => hypnotherapy.id 
       }
+    
+    assert_redirected_to :controller => "users", :action => "edit_optional", :package => "free" 
     
     #Assertions  
 		assert_not_nil assigns(:user)
@@ -665,7 +702,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_not_nil assigns(:user).country
 		assert_equal nz, assigns(:user).country
 		assert assigns(:user).unconfirmed?
-		assert !assigns(:user).free_listing?
+		assert assigns(:user).free_listing?
 		assert_equal 1, ActionMailer::Base.deliveries.size, "One confirmation email should have been sent"
 		tab = assigns(:user).tabs.first
 		assert_match /delete this text/, tab.content1_with
@@ -675,7 +712,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_match /delete this text/, tab.content
 	end
 
-  def test_create_au
+  def test_create_au_premium
 		old_size = User.all.size
 		district = districts(:new_south_wales_sydney)
 		au = countries(:au)
@@ -684,6 +721,9 @@ class UsersControllerTest < ActionController::TestCase
       :password_confirmation => "testtest23", :district_id => district.id, :membership_type => "full_membership",
       :accept_terms => "1", :subcategory1_id => hypnotherapy.id
       }
+    
+    assert_redirected_to :controller => "users", :action => "edit_optional", :package => "premium" 
+
 		assert_not_nil assigns(:user)
 		assert !assigns(:user).free_listing?
 		assert_equal 0, assigns(:user).errors.size, "Errors were: #{assigns(:user).errors.full_messages.to_sentence}"
@@ -848,7 +888,7 @@ class UsersControllerTest < ActionController::TestCase
     post :create, :user => {:email => "cyrille@stuff.com", :password => "testtest23", :accept_terms => true, 
         :password_confirmation => "testtest23", :professional => true, :district_id => district.id, :mobile => "(027)8987987", :first_name => "Cyrille", :last_name => "Stuff", :membership_type => "full_member", :subcategory1_id => hypnotherapy.id   }
     assert_nil assigns(:payment)
-    assert_redirected_to step2_url
+    assert_redirected_to step2_url(:package => "premium")
     assert_not_nil assigns(:user)
     assert assigns(:user).full_member?
     assert_equal 0, assigns(:user).errors.size, "There were errors: #{assigns(:user).errors.inspect}"

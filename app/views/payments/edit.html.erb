@@ -1,4 +1,5 @@
 <% javascript "edit-payment"%>
+<%= render :partial => "users/signup_nav", :locals => {:selected => "payment" }  %>
 <%= title "Payment" %>
 <div class="payment-right"><%= @payment.title %> <em class="money"><%=amount_view(@payment.amount+@payment.discount, @payment.currency)%></em><br/>
 <% unless @payment.discount == 0 -%>
