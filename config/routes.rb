@@ -19,7 +19,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :resident_experts, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/resident_experts", :member => {:index_for_subcategory => :get}
 
   map.resources :users, :name_prefix => "admin_", :path_prefix => "/admin", :controller => "admin/users", :member => {:login => [:get, :post], :deactivate => [:get, :post], :warning_deactivate => [:get, :post], :reactivate => [:get, :post] }, :collection => {:search => [:get, :post]}
-  map.step1 "/users/step1", :controller => "users", :action => "new"   
+  map.step1 "/users/step1", :controller => "users", :action => "new", :conditions => {:method => :get}
+  map.step1 "/users/step1", :controller => "users", :action => "create", :conditions => {:method => :post}
   map.step2 "/users/step2", :controller => "users", :action => "edit_optional"   
   
   map.members_country '/full_members/:country_code', :controller => "full_members", :action => "index"  
