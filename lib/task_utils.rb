@@ -9,10 +9,6 @@ class TaskUtils
         UserEmail.create(:user => user, :email_type => "mass_email", 
         :news_digest => news_digest)        
       end
-      User.admins.each do |admin|
-        UserEmail.create(:user => admin, :email_type => "mass_email", 
-        :news_digest => news_digest)                
-      end
     end
   end
 
