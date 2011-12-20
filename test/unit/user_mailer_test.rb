@@ -5,8 +5,23 @@ class UserMailerTest < ActionMailer::TestCase
 
   fixtures :all
   
-  def test_payment_invoice
-    user = Factory(:user)
+  def test_free_tool
+    contact = Factory(:contact)
+    
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    UserMailer.deliver_free_tool(contact)
+    
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    invoice_email = ActionMailer::Base.deliveries.first
+    assert_match /thanks for joining/, invoice_email.body
+  end
+  
+  def test_payment_invoice_nz
+    nz = countries(:nz)
+    user = Factory(:user, :country => nz)
     payment = Factory(:payment, :user => user)
     invoice = Factory(:invoice, :payment => payment)
 
@@ -18,7 +33,24 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal 1, ActionMailer::Base.deliveries.size
     invoice_email = ActionMailer::Base.deliveries.first
+    assert_match /GST/, invoice_email.body
+  end
+  
+  def test_payment_invoice_au
+    au = countries(:au)
+    user = Factory(:user, :country => au)
+    payment = Factory(:payment, :user => user)
+    invoice = Factory(:invoice, :payment => payment)
+
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
     
+    UserMailer.deliver_payment_invoice(user, payment, invoice)
+
+    assert_equal 1, ActionMailer::Base.deliveries.size
+    invoice_email = ActionMailer::Base.deliveries.first
+    assert_no_match /GST/, invoice_email.body
   end
   
   def test_news_digest

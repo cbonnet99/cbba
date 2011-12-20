@@ -4,6 +4,16 @@ class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
 
+  def test_kiwi
+    nz = countries(:nz)
+    au = countries(:au)
+    nz_user = Factory(:user, :country => nz)
+    au_user = Factory(:user, :country => au)
+    
+    assert nz_user.kiwi?
+    assert !au_user.kiwi?
+  end
+
   def test_fix_subcats
     subcat1 = Factory(:subcategory)
     subcat2 = Factory(:subcategory)

@@ -240,6 +240,14 @@ class UserMailer < ActionMailer::Base
   
   def payment_invoice(user, payment, invoice)
     setup_email(user)
+    @content_type = 'text/html'    
+    @body[:payment] = payment
+		@body[:url] = payments_url
+    @body[:sav] = User.find_by_email(APP_CONFIG[:sav]) || $admins.first[:email]
+		@body[:site_name] = help.site_name(payment.user)
+		@body[:amount] = help.amount_view(payment.amount, payment.currency)
+		@body[:gst] = help.amount_view(payment.gst, payment.currency)
+		@body[:total] = help.amount_view(payment.total, payment.currency)
     if payment.stored_token_id.nil?
 		  @subject << "Your Premium membership invoice from Zingabeam.com"
       attachment :content_type => "application/pdf",
@@ -248,10 +256,6 @@ class UserMailer < ActionMailer::Base
 	  else
 	    @subject << "Invoice for your automatic renewal from Zingabeam.com"
     end
-    @content_type = 'text/html'    
-    @body[:payment] = payment
-		@body[:url] = payments_url
-		@body[:site_name] = help.site_name(payment.user)
   end
 
   def membership_expired_today(user)

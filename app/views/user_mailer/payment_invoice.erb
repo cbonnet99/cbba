@@ -27,16 +27,19 @@ To:<br/>
 <%= @payment.user.business_name %><br/>
 <br/>
 Date: <%= @payment.created_at.to_date %><br/>
-<br/>
+<% if @payment.user.kiwi? -%><br/>
 Our GST number: 101-412-473<br/>
+<% end -%>
 <br/>
 Purchase: One Year Premium Membership<br/>
 Start date: <%= @payment.created_at.to_date %><br/>
 End date: <%= @payment.created_at.advance(:months => 12).to_date %><br/>
 <br/>
-Fee: amount_view(payment.amount, payment.currency)<br/>
-GST: amount_view(payment.gst, payment.currency)<br/>
-TOTAL deducted from your credit card: amount_view(payment.total, payment.currency)<br/>
+<% if @payment.user.kiwi? -%>
+Fee: <%= @amount %><br/>
+GST: <%= @gst %><br/>
+<% end -%>
+TOTAL deducted from your credit card: <%= @total %><br/>
 <br/>
 Very best,<br/>
 <%= render :partial => "signature"  %>
