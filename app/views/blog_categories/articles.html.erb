@@ -10,9 +10,13 @@
 <% end -%>
 
 <%= render :partial => "blog_categories/links", :locals => {:selected => @blog_category.slug} %>
-<%= will_paginate @articles%>
 <%= title "#{@blog_category.name} - articles"%>
+<% if @articles.empty? -%>
+No articles yet.
+<% else -%>
+<%= will_paginate @articles%>
 <% @articles.each do |a| -%>
 	<%= render :partial => "articles/article", :locals => {:article => a } %>
 <% end -%>
 <%= will_paginate @articles%>
+<% end -%>

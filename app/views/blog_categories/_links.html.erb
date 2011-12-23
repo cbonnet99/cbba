@@ -1,9 +1,10 @@
 <div id="blog_categories_links">
-Search blog categories:
 <% @all_blog_categories.each_with_index do |c, index|-%>
 	<% if c.slug == selected -%>
-	<%= c.name %>
+	<div class="blog-cat" id="selected-blog-cat-<%= c.slug %>"></div>
 	<% else -%>
-	<%= link_to c.name, articles_blog_category_url(c.slug, :country_code => params[:country_code])%><% end -%><% unless index == @all_blog_categories.size-1%> | <%end%>
+	<div class="blog-cat" id="blog-cat-<%= c.slug %>"><%= link_to image_tag("/images/spacer.gif"), articles_blog_category_url(c.slug, :country_code => params[:country_code])%></div>
+   <% end -%>
 <% end -%>
+<div class="cleaner"></div>
 </div>

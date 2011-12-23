@@ -1,3 +1,30 @@
+div.blog-cat {float: left}
+div.blog-cat a {display: block;}
+
+div#selected-blog-cat-your-health {width:100px; height:41px; background:url('/images/blogSubcatNav.jpg') 0 -41px;}
+div#blog-cat-your-health a {width:100px; height:41px; background:url('/images/blogSubcatNav.jpg') 0 0;}
+div#blog-cat-your-health a:hover {width:100px; height:41px; background:url('/images/blogSubcatNav.jpg') 0 -41px;}
+
+div#selected-blog-cat-your-self {width:80px; height:41px; background:url('/images/blogSubcatNav.jpg') -100px -41px;}
+div#blog-cat-your-self a {width:80px; height:41px; background:url('/images/blogSubcatNav.jpg') -100px 0;}
+div#blog-cat-your-self a:hover {width:80px; height:41px; background:url('/images/blogSubcatNav.jpg') -100px -41px;}
+
+div#selected-blog-cat-your-people {width:97px; height:41px; background:url('/images/blogSubcatNav.jpg') -180px -41px;}
+div#blog-cat-your-people a {width:97px; height:41px; background:url('/images/blogSubcatNav.jpg') -180px 0;}
+div#blog-cat-your-people a:hover {width:97px; height:41px; background:url('/images/blogSubcatNav.jpg') -180px -41px;}
+
+div#selected-blog-cat-your-work {width:83px; height:41px; background:url('/images/blogSubcatNav.jpg') -280px -41px;}
+div#blog-cat-your-work a {width:83px; height:41px; background:url('/images/blogSubcatNav.jpg') -280px 0;}
+div#blog-cat-your-work a:hover {width:83px; height:41px; background:url('/images/blogSubcatNav.jpg') -280px -41px;}
+
+div#selected-blog-cat-your-balance {width:104px; height:41px; background:url('/images/blogSubcatNav.jpg') -364px -41px;}
+div#blog-cat-your-balance a {width:104px; height:41px; background:url('/images/blogSubcatNav.jpg') -364px 0;}
+div#blog-cat-your-balance a:hover {width:104px; height:41px; background:url('/images/blogSubcatNav.jpg') -364px -41px;}
+
+div#selected-blog-cat-your-money {width:94px; height:41px; background:url('/images/blogSubcatNav.jpg') -470px -41px;}
+div#blog-cat-your-money a {width:94px; height:41px; background:url('/images/blogSubcatNav.jpg') -470px 0;}
+div#blog-cat-your-money a:hover {width:94px; height:41px; background:url('/images/blogSubcatNav.jpg') -470px -41px;}
+
 div.like_answer{float: left; clear: right; margin: 20px;}
 h4.question{font-weight: bold; background-color: grey; font-size 14px; padding: 10px; margin: 10px;}
 div.answer_body{font-size: 12px;float: left; width: 420px; background-color: lightgrey; padding: 10px;}
