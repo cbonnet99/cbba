@@ -2,6 +2,11 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class CountryTest < ActiveSupport::TestCase
 
+  def test_random_blog_articles
+    random_blog_category = BlogCategory.random
+    random_blog_articles = countries(:nz).random_blog_articles(random_blog_category)
+  end
+  
   def test_extract_country_code_from_host
     assert_equal countries(:nz), Country.extract_country_code_from_host("nz.zingabeam.com")
     assert_equal countries(:au), Country.extract_country_code_from_host("au.zingabeam.com")

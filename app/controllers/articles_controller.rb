@@ -52,7 +52,8 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       format.html{
         @all_blog_categories = BlogCategory.all
-        @popular_articles = @country.articles.popular
+        @blog_cat = BlogCategory.random
+        @blog_articles = @country.random_blog_articles(@blog_cat)
         @context = "homepage"
         if params[:only_show_own] == "true" || (@country.default_only_show_own? && params[:only_show_own].nil?)
           @selected_country = @country

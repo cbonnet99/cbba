@@ -1,9 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 yourself:
+  id: 1
   name: Your Self
   slug: yourself
 
 yourhealth:
+  id: 2
   name: Your Health
   slug: yourhealth

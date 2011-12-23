@@ -77,7 +77,8 @@ class SearchController < ApplicationController
     @featured_full_members = @country.featured_full_members
     @total_full_members = User.count_newest_full_members
     @featured_article = Article.first_homepage_featured(@country)
-    @popular_articles = @country.articles.popular
+    @blog_cat = BlogCategory.random
+    @blog_articles = @country.random_blog_articles(@blog_cat)
     @all_blog_categories = BlogCategory.all
 	end
 

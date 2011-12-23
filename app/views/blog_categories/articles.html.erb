@@ -1,8 +1,8 @@
 <% content_for :sidebar_content do -%>
-	<% unless @popular_articles.blank? -%>
-		<h4>Popular articles</h4>
+	<% unless @blog_articles.blank? -%>
+		<h4>Articles: <%= @blog_cat.name%></h4>
 		<ul>
-		<% @popular_articles.each do |a| -%>
+		<% @blog_articles.each do |a| -%>
 			<li><%= link_to a.title, articles_show_url(a.author.slug, a.slug)%><br/> by <%= a.author.try(:name)%><br/><span class="monthly_view_counts">Viewed <%= pluralize(a.view_counts, "time")%></span></li>
 		<% end -%>
 	<% end -%>
