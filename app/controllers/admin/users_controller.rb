@@ -3,7 +3,7 @@ class Admin::UsersController < AdminApplicationController
 
   def renewals
     @count_expired_users_in_last_year = User.count(:all, :conditions => ["paid_photo_until between ? and ?", 365.days.ago, Time.now])
-    @count_renewed_payments_in_last_year = Payment.count(:all, :conditions => ["created_at between ? and ? ", 365.days.ago, Time.now])
+    @count_renewed_payments_in_last_year = Payment.count(:all, :conditions => ["status = ? and created_at between ? and ? ", "completed", 365.days.ago, Time.now])
     @total_last_year = @count_expired_users_in_last_year + @count_renewed_payments_in_last_year
     
     if @total_last_year == 0
@@ -13,7 +13,7 @@ class Admin::UsersController < AdminApplicationController
     end
 
     @expired_users_in_past_month = User.find(:all, :conditions => ["paid_photo_until between ? and ?", 30.days.ago, Time.now])
-    @renewed_payments_in_past_month = Payment.find(:all, :include => "user", :conditions => ["created_at between ? and ? ", 30.days.ago, Time.now])
+    @renewed_payments_in_past_month = Payment.find(:all, :include => "user", :conditions => ["status = ? and created_at between ? and ? ", "completed", 30.days.ago, Time.now])
     @total_last_month = @expired_users_in_past_month.try(:size) + @renewed_payments_in_past_month.try(:size)
     if @renewed_payments_in_past_month.empty?
       if @expired_users_in_past_month.empty?
