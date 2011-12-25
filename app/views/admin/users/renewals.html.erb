@@ -1,14 +1,12 @@
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "renewals" }  %>
 <%= title "Renewals"%>
-<h3>Past month</h3>
-<% if @expired_users_in_past_month.empty? -%>
-<p>No user expired in the past month</p>
-<% else -%>
-<ul>
-<% @expired_users_in_past_month.each do |expired_user| -%>
-	<li><%= expired_user.name%> expired on <%= expired_user.paid_photo_until%></li>
+<h3>Past year</h3>
+<% unless @renewal_rate_last_year.nil? -%>
+<p>Renewal rate for past year: <%= @renewal_rate_last_year%>% (<%=  @count_renewed_payments_in_last_year %>/<%= @total_last_year%>)</p>
 <% end -%>
-</ul>
+<h3>Past month</h3>
+<% unless @renewal_rate_last_month.nil? -%>
+<p>Renewal rate for past month: <%= @renewal_rate_last_month%>% (<%=  @renewed_payments_in_past_month.try(:size) %>/<%= @total_last_month%>)</p>
 <% end -%>
 <% if @renewed_payments_in_past_month.empty? -%>
 <p>No user renewed in the past month</p>
@@ -16,6 +14,15 @@
 <ul>
 <% @renewed_payments_in_past_month.each do |renewed_payment| -%>
 	<li><%= renewed_payment.user.name%> renewed on <%= renewed_payment.created_at%></li>
+<% end -%>
+</ul>
+<% end -%>
+<% if @expired_users_in_past_month.empty? -%>
+<p>No user expired in the past month</p>
+<% else -%>
+<ul>
+<% @expired_users_in_past_month.each do |expired_user| -%>
+	<li><%= expired_user.name%> expired on <%= expired_user.paid_photo_until%></li>
 <% end -%>
 </ul>
 <% end -%>

@@ -2,8 +2,29 @@ class Admin::UsersController < AdminApplicationController
   before_filter :get_selected_user, :only => [:edit, :update, :login, :reactivate, :deactivate, :warning_deactivate]
 
   def renewals
+    @count_expired_users_in_last_year = User.count(:all, :conditions => ["paid_photo_until between ? and ?", 365.days.ago, Time.now])
+    @count_renewed_payments_in_last_year = Payment.count(:all, :conditions => ["created_at between ? and ? ", 365.days.ago, Time.now])
+    @total_last_year = @count_expired_users_in_last_year + @count_renewed_payments_in_last_year
+    
+    if @total_last_year == 0
+      @renewal_rate_last_year = nil
+    else
+      @renewal_rate_last_year = ((@count_renewed_payments_in_last_year.to_f/@total_last_year.to_f)*100).to_i
+    end
+
     @expired_users_in_past_month = User.find(:all, :conditions => ["paid_photo_until between ? and ?", 30.days.ago, Time.now])
     @renewed_payments_in_past_month = Payment.find(:all, :include => "user", :conditions => ["created_at between ? and ? ", 30.days.ago, Time.now])
+    @total_last_month = @expired_users_in_past_month.try(:size) + @renewed_payments_in_past_month.try(:size)
+    if @renewed_payments_in_past_month.empty?
+      if @expired_users_in_past_month.empty?
+        @renewal_rate_last_month = nil
+      else
+        @renewal_rate_last_month = 0
+      end
+    else
+      @renewal_rate_last_month = ((@renewed_payments_in_past_month.size.to_f/@total_last_month.to_f)*100).to_i
+    end
+
     @expiring_users_in_coming_month = User.find(:all, :conditions => ["paid_photo_until between ? and ?", 30.days.from_now, Time.now])
   end
   
