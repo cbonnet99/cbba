@@ -1,6 +1,6 @@
 class Admin::PaymentsController < AdminApplicationController
   def index
-    @payments = Payment.find(:all, :order => "created_at desc" )
+    @payments = Payment.paginate(:all, :page => params[:page], :order => "created_at desc" )
   end
   
   def mark_as_paid

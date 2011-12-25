@@ -1,6 +1,6 @@
 <%= render :partial => "admin/admin_nav", :locals => {:selected => "payments" }  %>
 <%= title "Payments"%>
-
+<%= will_paginate @payments %>
 <table class="admin">
   <tr>
     <th>Type</th>
@@ -25,3 +25,4 @@
   </tr>
 <% end %>
 </table>
+<%= will_paginate @payments %>
