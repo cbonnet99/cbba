@@ -2,6 +2,14 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 class Admin::UsersControllerTest < ActionController::TestCase
   fixtures :all
+
+  def test_renewals
+    cyrille = users(:cyrille)
+
+    get :renewals, { }, {:user_id => cyrille.id}
+
+    assert_response :success
+  end
   
   def test_login
     cyrille = users(:cyrille)

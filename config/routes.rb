@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.districts_for_country '/countries/districts/:id.:format', :controller => "countries", :action => "districts" 
   
   map.main '/main.rss', :controller => "search", :action => "main", :format => :rss   
+  map.admin_renewals '/admin/users/renewals', :controller => "admin/users", :action => "renewals"
   map.user_activities_admin '/admin/user_activities', :controller => "admin/user_activities", :action => "index"  
   map.user_activity_admin '/admin/user_activity/:id', :controller => "admin/user_activities", :action => "show"  
   map.resources :newsletters

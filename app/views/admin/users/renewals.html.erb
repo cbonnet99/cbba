@@ -1,0 +1,31 @@
+<%= render :partial => "admin/admin_nav", :locals => {:selected => "renewals" }  %>
+<%= title "Renewals"%>
+<h3>Past month</h3>
+<% if @expired_users_in_past_month.empty? -%>
+<p>No user expired in the past month</p>
+<% else -%>
+<ul>
+<% @expired_users_in_past_month.each do |expired_user| -%>
+	<li><%= expired_user.name%> expired on <%= expired_user.paid_photo_until%></li>
+<% end -%>
+</ul>
+<% end -%>
+<% if @renewed_payments_in_past_month.empty? -%>
+<p>No user renewed in the past month</p>
+<% else -%>
+<ul>
+<% @renewed_payments_in_past_month.each do |renewed_payment| -%>
+	<li><%= renewed_payment.user.name%> renewed on <%= renewed_payment.created_at%></li>
+<% end -%>
+</ul>
+<% end -%>
+<h3>Coming month</h3>
+<% if @expiring_users_in_coming_month.empty? -%>
+<p>No user will expire in the coming month</p>
+<% else -%>
+<ul>
+<% @expiring_users_in_coming_month.each do |expiring_user| -%>
+	<li><%= expiring_user.name%> will expire on <%= expiring_user.paid_photo_until%></li>
+<% end -%>
+</ul>
+<% end -%>

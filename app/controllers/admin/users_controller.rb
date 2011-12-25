@@ -1,5 +1,11 @@
 class Admin::UsersController < AdminApplicationController
   before_filter :get_selected_user, :only => [:edit, :update, :login, :reactivate, :deactivate, :warning_deactivate]
+
+  def renewals
+    @expired_users_in_past_month = User.find(:all, :conditions => ["paid_photo_until between ? and ?", 30.days.ago, Time.now])
+    @renewed_payments_in_past_month = Payment.find(:all, :include => "user", :conditions => ["created_at between ? and ? ", 30.days.ago, Time.now])
+    @expiring_users_in_coming_month = User.find(:all, :conditions => ["paid_photo_until between ? and ?", 30.days.from_now, Time.now])
+  end
   
   def edit
     get_subcategories
