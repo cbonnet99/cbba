@@ -66,6 +66,7 @@ end
 every 1.day, :at => "6am"  do
   runner "TaskUtils.send_offers_reminder"
   runner "TaskUtils.check_pending_payments"
+  runner "TaskUtils.check_first_time_payments"  
 end
 
 every 1.day, :at => "7am"  do

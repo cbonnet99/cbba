@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111015064943) do
+ActiveRecord::Schema.define(:version => 20111228085128) do
 
   create_table "answers", :force => true do |t|
     t.string   "body"
@@ -475,6 +475,7 @@ ActiveRecord::Schema.define(:version => 20111015064943) do
     t.datetime "notified_at"
     t.integer  "stored_token_id"
     t.string   "currency"
+    t.boolean  "first_time"
   end
 
   create_table "questions", :force => true do |t|

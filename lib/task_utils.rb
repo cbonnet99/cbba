@@ -2,6 +2,17 @@ require 'xero_gateway'
 
 class TaskUtils
 
+  def self.check_first_time_payments
+    Payment.find(:all, :conditions => ["first_time IS NULL"]).each do |unmarked_payment|
+      count_other_payments = unmarked_payment.user.payments.count(:all, :conditions => ["user_id <> ?", unmarked_payment.user_id])
+      if count_other_payments == 0
+        unmarked_payment.update_attribute(:first_time, true)
+      else
+        unmarked_payment.update_attribute(:first_time, false)
+      end
+    end
+  end
+
   def self.create_and_send_new_digest
     news_digest = NewsDigest.create_new
     unless news_digest.articles.blank?

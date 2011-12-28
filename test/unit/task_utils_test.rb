@@ -3,6 +3,21 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TaskUtilsTest < ActiveSupport::TestCase
 	fixtures :all
 
+  def test_check_first_time_payments
+    user1 = Factory(:user)
+    user2 = Factory(:user)
+    completed_first_time_not_marked = Factory(:payment, :status => "completed", :user => user1)
+    completed_first_time_marked = Factory(:payment, :status => "completed", :user => user2, :first_time => true)
+    completed_unmarked = Factory(:payment, :status => "completed", :user => user2)
+
+    TaskUtils.check_first_time_payments
+    
+    completed_first_time_not_marked.reload
+    completed_unmarked
+    assert completed_first_time_not_marked.first_time?, "User1 has only one payment: it should be marked as a first time payment"
+    assert !completed_unmarked.first_time?, "User2 already has a first time payment: it should NOT be marked as a first time payment"
+  end
+
   def test_create_and_send_new_digest
 		ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
