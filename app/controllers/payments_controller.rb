@@ -27,15 +27,7 @@ class PaymentsController < ApplicationController
       flash[:error] = "This payment is not pending"
       redirect_back_or_default root_url
     end
-    if params[:pm] != "existing" && params[:pm] != "different"
-      if current_user.has_current_stored_tokens?
-        @pm = :existing
-      else
-        @pm = :different
-      end
-    else
-      @pm = params[:pm].to_sym
-    end
+    set_pm
   end
 
   def edit_debit
@@ -86,7 +78,7 @@ class PaymentsController < ApplicationController
         end
       else
         flash[:error] = "There was a problem processing your payment"
-        @pm = params[:pm].to_sym
+        set_pm
         if @payment.payment_card_type == "direct_debit"
           render :action => 'edit_debit_charities'
         else
@@ -97,6 +89,18 @@ class PaymentsController < ApplicationController
   end
   
   private
+  
+  def set_pm
+    if params[:pm] != "existing" && params[:pm] != "different"
+      if current_user.has_current_stored_tokens?
+        @pm = :existing
+      else
+        @pm = :different
+      end
+    else
+      @pm = params[:pm].to_sym
+    end    
+  end
   
   def get_payment
     @payment = current_user.payments.find(params[:id])

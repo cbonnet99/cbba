@@ -252,40 +252,4 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_equal (Time.now+1.year).to_date, pending_user.paid_gift_vouchers_next_date_check
   end
 
-  # def test_edit_payment_on_full_membership_upgrade
-  #   rmoore = users(:rmoore)
-  #   new_payment = rmoore.payments.create!(Payment::TYPES[:renew_full_member])
-  #   get :edit, {:id => new_payment.id}, {:user_id => rmoore.id }
-  #   assert_response :success
-  #   assert_not_nil assigns(:payment)
-  #   assert_equal 19900, assigns(:payment).amount
-  # end
-  # 
-  # def test_update_payment_on_full_membership_upgrade
-  #   rmoore = users(:rmoore)
-  #   heart_children = charities(:heart_children)
-  #   new_payment = rmoore.payments.create!(Payment::TYPES[:full_member])
-  #   
-  #   expires = Time.now.advance(:year => 1 )
-  #   put :update, {:id => new_payment.id, "payment"=>{:charity_id => heart_children.id, "address1"=>"hjgjhghgjhg",
-  #     "city"=>"hjgjhgjhghg",
-  #     "card_number"=>"1",
-  #     "card_expires_on(1i)"=>expires.year.to_s,
-  #     "card_expires_on(2i)"=>expires.month.to_s,
-  #     "card_expires_on(3i)"=>expires.day.to_s,
-  #     "first_name"=>"hjggh",
-  #     "last_name"=>"gjhgjhgjhg",
-  #     "card_verification"=>"123"}}, {:user_id => rmoore.id }
-  #   assert_response :success
-  #   assert_template "thank_you"
-  #   rmoore.reload
-  #   assert rmoore.active?
-  #   assert_not_nil rmoore.member_since
-  #   assert !rmoore.free_listing?
-  #   assert rmoore.full_member?
-  #   new_payment.reload
-  #   assert new_payment.completed?
-  #   assert_equal heart_children.id, new_payment.charity_id
-  # end
-
 end
