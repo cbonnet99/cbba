@@ -16,7 +16,7 @@ class Country < ActiveRecord::Base
   named_scope :active, :conditions => "active is true"
   
   def random_blog_articles(blog_cat)
-    blog_cat.articles.find(:all, :conditions => ["country_id = ?", self.id], :limit => 10)
+    blog_cat.articles.published.find(:all, :conditions => ["country_id = ?", self.id], :order => "published_at desc",  :limit => 10)
   end
   
   def self.extract_country_code_from_host(host)
