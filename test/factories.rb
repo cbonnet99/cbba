@@ -136,6 +136,7 @@ Factory.define :article do |f|
   f.country {|c| Country.find_by_country_code("nz")}
   f.subcategory1_id {|s| s.association(:subcategory) }
   f.blog_subcategory1_id {|s| s.association(:blog_subcategory) }
+  f.blog_subcategory2_id {|s| s.association(:blog_subcategory) }
 end
 
 Factory.define :articles_subcategory do |asu|

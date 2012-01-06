@@ -3,8 +3,17 @@ require File.dirname(__FILE__) + '/../test_helper'
 class CountryTest < ActiveSupport::TestCase
 
   def test_random_blog_articles
-    random_blog_category = BlogCategory.random
-    random_blog_articles = countries(:nz).random_blog_articles(random_blog_category)
+    blog_category = blog_categories(:yourhealth)
+    blog_subcat1 = Factory(:blog_subcategory, :blog_category => blog_category) 
+    blog_subcat2 = Factory(:blog_subcategory, :blog_category => blog_category) 
+    
+    article = Factory(:article, :blog_subcategory1_id => blog_subcat1.id, :blog_subcategory2_id => blog_subcat2.id )
+    
+    random_blog_articles = countries(:nz).random_blog_articles(blog_category)
+    
+    assert random_blog_articles.include?(article)
+    count_article = random_blog_articles.select{|a| a.id == article.id}.size
+    assert_equal 1, count_article, "The article should only appear once"
   end
   
   def test_extract_country_code_from_host
