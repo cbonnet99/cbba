@@ -4,7 +4,7 @@ class TaskUtils
 
   def self.check_first_time_payments
     Payment.find(:all, :conditions => ["first_time IS NULL"]).each do |unmarked_payment|
-      count_other_payments = unmarked_payment.user.payments.count(:all, :conditions => ["id <> ?", unmarked_payment.id])
+      count_other_payments = unmarked_payment.user.payments.count(:all, :conditions => ["id <> ? AND updated_at < ?", unmarked_payment.id, unmarked_payment.updated_at])
       if count_other_payments == 0
         unmarked_payment.update_attribute(:first_time, true)
       else
