@@ -13,7 +13,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     TaskUtils.check_first_time_payments
     
     completed_first_time_not_marked.reload
-    completed_unmarked
+    completed_unmarked.reload
     assert completed_first_time_not_marked.first_time?, "User1 has only one payment: it should be marked as a first time payment"
     assert !completed_unmarked.first_time?, "User2 already has a first time payment: it should NOT be marked as a first time payment"
   end
