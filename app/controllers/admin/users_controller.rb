@@ -25,7 +25,7 @@ class Admin::UsersController < AdminApplicationController
       @renewal_rate_last_month = ((@renewed_payments_in_past_month.size.to_f/@total_last_month.to_f)*100).to_i
     end
 
-    @expiring_users_in_coming_month = User.find(:all, :conditions => ["paid_photo_until between ? and ?", 30.days.from_now, Time.now])
+    @expiring_users_in_coming_month = User.find(:all, :conditions => ["paid_photo_until between ? and ?", Time.now, 30.days.from_now])
   end
   
   def edit
