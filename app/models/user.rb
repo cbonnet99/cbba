@@ -143,6 +143,15 @@ class User < ActiveRecord::Base
   WARNING_USERS_WILL_BE_DELETED_IN_DAYS = 7
   WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS = 2
   
+  def self.find_active_paying_user(id_str)
+    begin
+      id = Integer(id_str)
+    rescue ArgumentError
+      return nil
+    end      
+    return User.active.find_by_free_listing_and_id(false, id)
+  end
+  
   def kiwi?
     country.try(:country_code) == "nz"
   end
