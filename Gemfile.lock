@@ -92,7 +92,7 @@ DEPENDENCIES
   pg
   rails (= 2.3.8)
   rake (= 0.8.7)
-  recaptcha
+  recaptcha (= 0.3.4)
   ruby-debug
   transaction-simple
   whenever (= 0.6.8)
