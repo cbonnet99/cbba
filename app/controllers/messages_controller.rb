@@ -1,12 +1,12 @@
 class MessagesController < ApplicationController
   
   def create
-    @user = User.find_active_paying_user(params[:message]["user_id"])
-    if @user.nil?
-      flash[:error] = "Could not send message"
-      render :action => "new"
-    else
-      if logged_in? || verify_human
+    if logged_in? || verify_human
+      @user = User.find_active_paying_user(params[:message]["user_id"])
+      if @user.nil?
+        flash[:error] = "Could not send message"
+        render :action => "new"
+      else
         my_params = params[:message].dup
         my_params[:body].gsub!(/\r/, "<br/>")
         @message = Message.new(params[:message])
@@ -19,10 +19,10 @@ class MessagesController < ApplicationController
           flash[:error] = "There were some errors in your message"
           render :action => "new"
         end
-      else
-        flash[:error] = "There was a problem with the words you entered, please try again"
-        render :action => "new"
       end
+    else
+      flash[:error] = "There was a problem with the words you entered, please try again"
+      render :action => "new"
     end
   end
 end
