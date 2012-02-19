@@ -13,7 +13,7 @@ gem "pdf-writer", "1.1.8"
 gem "libxml-ruby"
 gem "xero_gateway", :git => "git@github.com:cbonnet99/xero_gateway.git"
 gem "newrelic_rpm"
-gem "recaptcha", :require => 'recaptcha/rails'
+gem "recaptcha", "0.3.4", :require => 'recaptcha/rails'
 
 group :production do
 	gem 'whenever', '0.6.8'
