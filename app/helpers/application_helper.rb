@@ -235,8 +235,6 @@ module ApplicationHelper
     content_for :tinymce do
       tinymce_url("tiny_mce/jquery.tinymce")
       tinymce_url("tiny_mce/tiny_mce")
-      tinymce_url("mce_editor_noheading1")
-      tinymce_url("mce_editor3")      
     end
   end
 
