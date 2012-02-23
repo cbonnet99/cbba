@@ -1,8 +1,8 @@
 development: &non_production_settings
   site_host:
-      default: localhost:3000
-      nz: nz.localhost:3000
-      au: au.localhost:3000
+      default: localhost.com:3000
+      nz: nz.localhost.com:3000
+      au: au.localhost.com:3000
   site_protocol: http
   logged_site_protocol: http
   site_name: Be Amazing(development)

@@ -14,6 +14,8 @@ config.action_controller.consider_all_requests_local = true
 config.action_view.debug_rjs                         = true
 config.action_controller.perform_caching             = false
 
+config.action_controller.session[:domain] = '.localhost.com'
+
 #do not send email in dev environment
 config.action_mailer.delivery_method = :test
 

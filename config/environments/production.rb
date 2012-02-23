@@ -8,6 +8,8 @@ config.action_controller.asset_host = AssetHostingWithMinimumSsl.new(
   "https://www.zingabeam.com"  # will serve SSL assets on https://www
 )
 
+config.action_controller.session[:domain] = '.zingabeam.com'
+
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
 config.cache_classes = true
