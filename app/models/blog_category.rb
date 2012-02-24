@@ -8,6 +8,6 @@ class BlogCategory < ActiveRecord::Base
   has_many :questions, :through => :blog_categories_questions
   
   def self.random
-    BlogCategory.find(rand(BlogCategory.count)+1)
+    BlogCategory.all.random_element
   end
 end
