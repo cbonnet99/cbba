@@ -1,8 +1,8 @@
 class MessagesController < ApplicationController
   
   def create
+    @user = User.find_active_paying_user(params[:message]["user_id"])
     if logged_in? || verify_human
-      @user = User.find_active_paying_user(params[:message]["user_id"])
       if @user.nil?
         flash[:error] = "Could not send message"
         render :action => "new"
