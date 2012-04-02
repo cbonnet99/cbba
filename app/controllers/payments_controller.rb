@@ -70,8 +70,8 @@ class PaymentsController < ApplicationController
             flash[:notice] = "Thank you for your payment. Your membership is now activated"
             redirect_to expanded_user_url(current_user)
           else
-            log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "#{@gateway_response.try(:message)}")
-            logger.debug "======= #{@payment.errors.inspect}"
+            log_bam_user_event(UserEvent::PAYMENT_FAILURE, "", "Gateway: #{@gateway_response.try(:message)}, payment errors: #{@payment.errors.inspect}")
+            logger.error "Payment error: #{@payment.errors.inspect}"
             flash[:error] = "There was a problem processing your payment. #{@gateway_response.try(:message)}"
             render :action => 'edit'
           end
