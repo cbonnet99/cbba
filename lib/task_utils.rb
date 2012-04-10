@@ -151,10 +151,10 @@ class TaskUtils
 
   def self.send_offers_reminder
     users = Set.new
-    User.has_paid_special_offers.hasnt_received_offers_reminder_recently.each do |u|
+    User.active.has_paid_special_offers.hasnt_received_offers_reminder_recently.each do |u|
        users << u if u.hasnt_changed_special_offers_recently?
     end
-    User.has_paid_gift_vouchers.hasnt_received_offers_reminder_recently.each do |u|
+    User.active.has_paid_gift_vouchers.hasnt_received_offers_reminder_recently.each do |u|
        users << u if u.hasnt_changed_gift_vouchers_recently?
     end
     users.each do |u|
