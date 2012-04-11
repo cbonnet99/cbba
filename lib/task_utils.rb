@@ -247,11 +247,15 @@ class TaskUtils
       add_feature(expired_feature_names, u, User::FEATURE_HIGHLIGHT)
     end
     User.with_expired_special_offers.each do |u|
-      feature_count = u.paid_special_offers - u.count_not_expired_special_offers
+      # feature_count = u.paid_special_offers - u.count_not_expired_special_offers
+      #for now, let's force to 2
+      feature_count = 2
       add_feature(expired_feature_names, u, help.pluralize(feature_count, User::FEATURE_SO))
     end
     User.with_expired_gift_vouchers.each do |u|
-      feature_count = u.paid_gift_vouchers - u.count_not_expired_gift_vouchers
+      # feature_count = u.paid_gift_vouchers - u.count_not_expired_gift_vouchers
+      #for now, let's force to 2
+      feature_count = 2
       add_feature(expired_feature_names, u, help.pluralize(feature_count, User::FEATURE_GV))
     end
     new_expired_feature_names = {}

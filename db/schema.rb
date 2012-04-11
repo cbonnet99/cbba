@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111228085128) do
+ActiveRecord::Schema.define(:version => 20120411113657) do
 
   create_table "answers", :force => true do |t|
     t.string   "body"
@@ -426,6 +426,7 @@ ActiveRecord::Schema.define(:version => 20111228085128) do
     t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "paid_at"
   end
 
   create_table "passwords", :force => true do |t|
@@ -476,6 +477,7 @@ ActiveRecord::Schema.define(:version => 20111228085128) do
     t.integer  "stored_token_id"
     t.string   "currency"
     t.boolean  "first_time"
+    t.datetime "paid_at"
   end
 
   create_table "questions", :force => true do |t|

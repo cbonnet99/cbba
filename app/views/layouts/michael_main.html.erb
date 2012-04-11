@@ -159,9 +159,11 @@
 		google_ad_height = 60;
 		//-->
 		</script>
+		<% if !logged_in? and !(controller.controller_name == "sessions" and controller.action_name == "new")-%>
 		<script type="text/javascript"
 		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-		</script></div>
+		</script>
+		<% end -%></div>
     </div>
   </div>
   <!--MainContent Ends -->
@@ -184,9 +186,11 @@
 	google_ad_height = 240;
 	//-->
 	</script>
+	<% if !logged_in? and !(controller.controller_name == "sessions" and controller.action_name == "new")-%>
 	<script type="text/javascript"
 	src="http://pagead2.googlesyndication.com/pagead/show_ads.js ">
-	</script></div>
+	</script>
+	<%end -%></div>
 	<div id="sidebar-related-content"><%= yield :sidebar_content%></div>
 	<div id="networks">
 		<h4>Join us on:</h4>

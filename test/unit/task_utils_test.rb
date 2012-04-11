@@ -738,9 +738,9 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_charge_expired_features_so
-    user = Factory(:user, :paid_special_offers => 3, :paid_special_offers_next_date_check => 6.days.ago.to_date )
+    user = Factory(:user, :paid_special_offers => 2, :paid_special_offers_next_date_check => 6.days.ago.to_date )
     old_paid_check = user.paid_special_offers_next_date_check
-    order = Factory(:order, :special_offers => 3, :user => user, :created_at => 1.year.ago-6.days )
+    order = Factory(:order, :special_offers => 2, :user => user, :created_at => 1.year.ago-6.days )
     token = Factory(:stored_token, :user => user, :created_at => 6.months.ago )
     old_orders_size = user.orders.size
     assert user.has_paid_special_offers?
@@ -754,7 +754,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert user.paid_special_offers_next_date_check > old_paid_check, "The SO feature should have been extended, but is: #{user.paid_special_offers_next_date_check}"
     assert_equal old_orders_size+1, user.orders.size
     order = user.orders.last
-    assert_equal 2250, order.payment.amount
+    assert_equal 1500, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
     assert_equal "[Be Amazing(test)] Invoice for your automatic renewal from Zingabeam.com", email.subject
@@ -767,11 +767,11 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_charge_expired_features_whole_package
-    user = Factory(:user, :paid_special_offers => 1, :paid_special_offers_next_date_check => 6.days.ago.to_date,
-    :paid_gift_vouchers => 1, :paid_gift_vouchers_next_date_check => 6.days.ago.to_date, :paid_photo => true,
+    user = Factory(:user, :paid_special_offers => 2, :paid_special_offers_next_date_check => 6.days.ago.to_date,
+    :paid_gift_vouchers => 2, :paid_gift_vouchers_next_date_check => 6.days.ago.to_date, :paid_photo => true,
     :paid_photo_until => 6.days.ago.to_date, :paid_highlighted => true, :paid_highlighted_until => 6.days.ago.to_date )
     old_paid_so_check = user.paid_special_offers_next_date_check
-    order = Factory(:order, :special_offers => 1, :gift_vouchers => 1, :photo => true, :highlighted => true,
+    order = Factory(:order, :special_offers => 2, :gift_vouchers => 2, :photo => true, :highlighted => true,
     :whole_package => true, :user => user, :created_at => 1.year.ago-6.days, :state => "paid" )
     token = Factory(:stored_token, :user => user, :created_at => 6.months.ago )
     old_orders_size = user.orders.size
@@ -786,7 +786,7 @@ class TaskUtilsTest < ActiveSupport::TestCase
     assert user.paid_special_offers_next_date_check > old_paid_so_check, "The SO feature should have been extended, but is: #{user.paid_special_offers_next_date_check}"
     assert_equal old_orders_size+1, user.orders.size
     order = user.orders.last
-    assert_equal 5400, order.payment.amount
+    assert_equal 6900, order.payment.amount
     assert_equal 1, ActionMailer::Base.deliveries.size, "Should be 1 email stating the charge"
     email = ActionMailer::Base.deliveries.first
     assert_equal "[Be Amazing(test)] Invoice for your automatic renewal from Zingabeam.com", email.subject

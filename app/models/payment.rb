@@ -173,6 +173,8 @@ class Payment < ActiveRecord::Base
   end
   def finalize_complete
     create_invoice
+    self.update_attribute(:paid_at, Time.now)
+    self.order.update_attribute(:paid_at, Time.now)
     if payment_type == "new" || payment_type == "renewal"
       user.member_since = Time.now if user.member_since.nil?
       if user.member_until.nil?

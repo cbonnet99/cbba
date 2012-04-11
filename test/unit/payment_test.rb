@@ -57,7 +57,24 @@ class PaymentTest < ActiveSupport::TestCase
     
     assert_equal 1, pending_user.payments.pending.size
   end
+  
+  def test_mark_as_paid
+    
+    pending_user = Factory(:user)
+    order = pending_user.orders.create(:photo => true, :highlighted  => true, :special_offers => 2,
+      :gift_vouchers => 2)
+    payment = order.create_payment
+    
+    payment.mark_as_paid!
+    
+    payment.reload
+    assert_not_nil payment.paid_at
 
+    order.reload
+    assert_not_nil order.paid_at
+  
+  end
+  
   def test_purchase
     pending_user = Factory(:user)
     ActionMailer::Base.deliveries = []
