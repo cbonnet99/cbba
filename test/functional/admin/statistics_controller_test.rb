@@ -5,4 +5,10 @@ class Admin::StatisticsControllerTest < ActionController::TestCase
     get :index, {}, {:user_id => users(:cyrille).id }
     assert_response :success
   end
+
+  def test_index_not_admin
+    get :index, {}, {}
+    assert_response :redirect
+  end
+
 end
