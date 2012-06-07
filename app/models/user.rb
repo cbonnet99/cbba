@@ -150,6 +150,7 @@ class User < ActiveRecord::Base
     self.paid_highlighted = true
     self.paid_special_offers = 5
     self.paid_gift_vouchers = 5
+    self.paid_photo_until = in_a_long_time
     self.paid_highlighted_until = in_a_long_time
     self.paid_gift_vouchers_next_date_check = in_a_long_time
     self.paid_special_offers_next_date_check = in_a_long_time
