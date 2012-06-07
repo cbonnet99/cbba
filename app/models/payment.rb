@@ -85,12 +85,6 @@ class Payment < ActiveRecord::Base
 
   def mark_as_paid!
     self.complete!
-    #send an email with invoice
-    if invoice.nil?
-      create_invoice
-      self.reload
-      logger.error("Invoice was nil for payment: #{self.id} (user: payment: #{self.user.name}), recreated invoice (no action required, but please investigate: double invoices might have been created.)")
-    end
     unless self.order.nil?
       self.order.mark_as_paid!
     end

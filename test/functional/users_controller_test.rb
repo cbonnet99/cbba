@@ -24,7 +24,7 @@ class UsersControllerTest < ActionController::TestCase
     post :update_optional, {:user => {:subcategory2_id => subcat.id} }, {:user_id => user.id}
     
     assert_not_nil assigns(:order)
-    assert_redirected_to payment_action_with_id_url(assigns(:order).payment.id, :action => "edit")
+    assert_redirected_to expanded_user_url(user)
     user.reload
     assert !user.free_listing?
     assert_equal 2, user.subcategories.size
@@ -32,19 +32,20 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal subcat, user.subcategories[1]
   end
 
-  def test_update_optional_free_listing
-    user = Factory(:user, :free_listing => true, :membership_type => "free_listing")
-    assert user.free_listing?
-    subcat = Factory(:subcategory)
-    
-    post :update_optional, {:user => {:receive_newsletter => "1", :receive_professional_newsletter => "1"} }, {:user_id => user.id}
-    
-    assert_not_nil assigns(:user)
-    assert_redirected_to expanded_user_url(assigns(:user))
-    user.reload
-    assert user.free_listing?
-
-  end
+  #No more free listings
+  # def test_update_optional_free_listing
+  #   user = Factory(:user, :free_listing => true, :membership_type => "free_listing")
+  #   assert user.free_listing?
+  #   subcat = Factory(:subcategory)
+  #   
+  #   post :update_optional, {:user => {:receive_newsletter => "1", :receive_professional_newsletter => "1"} }, {:user_id => user.id}
+  #   
+  #   assert_not_nil assigns(:user)
+  #   assert_redirected_to expanded_user_url(assigns(:user))
+  #   user.reload
+  #   assert user.free_listing?
+  # 
+  # end
 
   def test_update_optional_newsletters
     user = Factory(:user, :membership_type => "")
@@ -54,7 +55,7 @@ class UsersControllerTest < ActionController::TestCase
     post :update_optional, {:user => {:receive_newsletter => "1", :receive_professional_newsletter => "1"} }, {:user_id => user.id}
     
     assert_not_nil assigns(:order)
-    assert_redirected_to payment_action_with_id_url(assigns(:order).payment.id, :action => "edit")
+    assert_redirected_to expanded_user_url(user)
     user.reload
     assert !user.free_listing?
   end
@@ -66,7 +67,7 @@ class UsersControllerTest < ActionController::TestCase
     post :update_optional, {:user => {:subcategory2_id => "", :subcategory3_id => "" } }, {:user_id => user.id}
     
     assert_not_nil assigns(:order)
-    assert_redirected_to payment_action_with_id_url(assigns(:order).payment.id, :action => "edit")
+    assert_redirected_to expanded_user_url(user)
     user.reload
     assert !user.free_listing?
     assert_equal 1, user.subcategories.size
@@ -316,7 +317,6 @@ class UsersControllerTest < ActionController::TestCase
     assert !assigns(:user).free_listing?
     assert_select "select#user_district_id > option", :text => "Auckland Region - Auckland City", :count => 0  
     assert_select "select#user_district_id > option", :text => "New South Wales - Sydney"    
-    assert_select "div.signup_nav", :text => "Step 3: Payment"
   end
 
   def test_new_photo

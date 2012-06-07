@@ -107,5 +107,10 @@ class Order < ActiveRecord::Base
     :first_name => user.first_name, :last_name => user.last_name,
     :city => user.city, :order_id => self.id, :currency => user.country.currency)
   end
+  
+  def free_order!
+    self.mark_as_paid!
+    self.user.premium_profile_for_free!
+  end
     
 end

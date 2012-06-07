@@ -266,12 +266,9 @@ class UsersController < ApplicationController
 		  @user.create_additional_tab(@user.subcategory3_id)
       @user.main_expertise_name(:reload)
       flash[:notice] = "Your optional information has been saved"
-      if @user.free_listing?
-        redirect_to expanded_user_url(@user)
-      else
-        get_order(force_premium=true)
-        redirect_to payment_action_with_id_url(@order.payment.id, :action => "edit")
-      end
+      get_order(force_premium=true)
+      @order.free_order!
+      redirect_to expanded_user_url(@user)
     else
       flash[:error] = "There were some errors in your optional information."
       render :action => 'edit_optional'

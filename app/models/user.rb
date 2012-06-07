@@ -143,6 +143,19 @@ class User < ActiveRecord::Base
   WARNING_USERS_WILL_BE_DELETED_IN_DAYS = 7
   WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS = 2
   
+  def premium_profile_for_free!
+    self.free_listing = false
+    in_a_long_time = 100.years.from_now
+    self.paid_photo = true
+    self.paid_highlighted = true
+    self.paid_special_offers = 5
+    self.paid_gift_vouchers = 5
+    self.paid_highlighted_until = in_a_long_time
+    self.paid_gift_vouchers_next_date_check = in_a_long_time
+    self.paid_special_offers_next_date_check = in_a_long_time
+    self.save!
+  end
+  
   def self.find_active_paying_user(id_str)
     begin
       id = Integer(id_str)
