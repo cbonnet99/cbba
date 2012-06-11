@@ -48,11 +48,11 @@ every 1.day, :at => "2am"  do
   runner "TaskUtils.email_users_will_be_deleted"
 end
 
-every 1.day, :at => "3am"  do
-  runner "TaskUtils.check_feature_expiration"
-  runner "TaskUtils.check_expired_offers"
-  runner "TaskUtils.charge_expired_features"
-end
+# every 1.day, :at => "3am"  do
+#   runner "TaskUtils.check_feature_expiration"
+  # runner "TaskUtils.check_expired_offers"
+  # runner "TaskUtils.charge_expired_features"
+# end
 
 every 1.day, :at => "4am"  do
   runner "TaskUtils.change_homepage_featured_article"
@@ -97,7 +97,7 @@ every 1.hour do
   # command "/var/rails/be_amazing/current/script/s3sync"
   runner "TaskUtils.count_users"
   runner "TaskUtils.update_counters"
-  runner "TaskUtils.process_paid_xero_invoices"
+  # runner "TaskUtils.process_paid_xero_invoices"
 end
 
 every 10.minutes do
