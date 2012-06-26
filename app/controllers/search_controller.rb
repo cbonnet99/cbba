@@ -2,7 +2,13 @@ require File.dirname(__FILE__) + '/../../lib/helpers'
 
 class SearchController < ApplicationController
   protect_from_forgery :except => :search
-
+  
+  def about
+    @number_users = @country.users.active.count
+		@number_articles = @country.articles.published.count
+		
+  end
+  
   def main
     @profiles = UserProfile.find(:all, :conditions => "state = 'published'", :order => "published_at desc", :limit => 10)
     @articles = Article.find(:all, :conditions => "state = 'published'", :order => "published_at desc", :limit => 10)

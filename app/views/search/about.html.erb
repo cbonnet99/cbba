@@ -1,14 +1,17 @@
-<%= render :partial => "search/about_nav", :locals => {:selected => "about" }  %>
-<%= title "About #{site_name_for_country_code(@country.country_code)}" %>
+<%= title "Welcome to Zingabeam!" %>
 
-<p><span class="video-embed"><object type="application/x-shockwave-flash" style="width:218px; height:160px;" data="http://www.youtube.com/v/X69keOjs2Dg">
-<param name="movie" value="http://www.youtube.com/v/X69keOjs2Dg" /></object></span></p>
-<p>Coaches, <%= link_to "why join", whyjoin_url %>?</p>
-<p>Think of <%= site_name_for_country_code(@country.country_code)%> as an online network of Coaches, Speakers and Courses all in one place making it easy to choose the right services and providers to suit your needs. PLUS, you'll find an extensive range of articles and tips to help you shape your life and achieve your goals.</p>
-<h4><strong>Our values....</strong></h4>
-<h3>be well!</h3>
-<p>Wellness is the platform of our potential. No matter how talented we are, when our wellness is poor we're unable to function and aspire to the things we know we're capable of. However, the more vibrant our wellbeing, the more fully we can live life, achieve our goals and make a difference to others.</p>
-<h3>be bold!</h3>
-<p>With wellness we can achieve greatness - conceive, believe, achieve - think possibilities, dare to succeed and live your dreams.</p>
-<h3>be you!</h3>
-<p>Place your energy and focus on the things that are important, back yourself with real action, make the most of your talents and inspire others as you live your values and passions.</p>
+<h4>Just look at that ... a quick <em>jiggle</em> of letters and <strong>'Zingabeam'</strong> spells out <strong>'Be Amazing'</strong> ... and that's exactly what you can expect from the <%= @number_users %> coaches who've joined together to write <%= @number_articles %> articles sharing their expertise, ideas and passion to help you be well, be bold and <strong>be amazing!</strong></h4>
+<h4>Think of us in two ways...</h4>
+<p>One: A huge gathering of articles under a range of topics to help you develop your ZING and shape your life, and...</p>
+<p>Two: The easiest possible way to find a coach to help you get focused, add rocket fuel and achieve your BIG HAIRY AUDACIOUS goals!</p>
+<h4>So what now?</h4>
+<ul>
+<li>Hang out and browse (use the navigation bar at the top)</li>
+<li>Come back with your friends,</li>
+<li><a href="http://feeds.feedburner.com/BeAmazing">Subscribe by RSS to our blog</a></li>
+<li><%= link_to "Get a FREE Goal Setting Tool - Subscribe to our newsletter", signup_newsletter_url%></li>
+<li><a href="https://www.facebook.com/pages/BeAmazing-Zingabeam/361000885623" target="_blank">Join our facebook page</a></li>
+<li><a href="https://twitter.com/#!/Beamazingltd" target="_blank">Join us on twitter</a></li>
+<li>ARE YOU A COACH TOO? <a href="../../signup_intro">Add your profile for free!</a></li>
+</ul>
+<p><strong>Have fun!</strong><br /><strong>The Zingabeam Team</strong></p>
