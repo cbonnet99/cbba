@@ -59,9 +59,9 @@ every 1.day, :at => "4am"  do
   runner "TaskUtils.change_homepage_featured_quote"
 end
 
-every 1.day, :at => "5am"  do
-  runner "TaskUtils.recompute_resident_experts"
-end
+# every 1.day, :at => "5am"  do
+#   runner "TaskUtils.recompute_resident_experts"
+# end
 
 every 1.day, :at => "6am"  do
   # runner "TaskUtils.send_offers_reminder"
