@@ -45,6 +45,7 @@ div#join_us_now a{color: white; text-decoration: none;}
 div#join_us_now a:hover{text-decoration: underline;}
 div.quote{padding: 10px; text-align: center; color: #20ACCD; font-size: 12px; font-style:italic;}
 div.quote_body{font-weight: bold;}
+div#intro_blog_categories_links{font-size:12px; font-weight: bold;}
 div#blog_categories_links{padding-bottom: 8px;font-size: 12px;}
 div.homepage-article{padding-top: 5px;}
 .read_full_story{font-size: 10px;}

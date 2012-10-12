@@ -227,6 +227,8 @@ class ApplicationController < ActionController::Base
 		@counters = @country.counters.published
 		@number_users = @country.users.active.count
 		@number_services = @country.subcategories_users.count
+		@total_users = User.active.count
+		@total_articles = Article.published.count
 	end
 
   def tags
