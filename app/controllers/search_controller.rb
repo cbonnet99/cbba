@@ -79,7 +79,7 @@ class SearchController < ApplicationController
 	def index
 	  @context = "homepage"
     @newest_articles = @country.articles.newest
-    @total_articles = Article.count_published(@country)
+    @total_country_articles = Article.count_published(@country)
     @featured_full_members = @country.featured_full_members
     @total_full_members = User.count_newest_full_members
     @featured_article = Article.first_homepage_featured(@country)
