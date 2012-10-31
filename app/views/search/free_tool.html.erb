@@ -4,7 +4,7 @@
 <div id="join_us_now" class="rounded"><%= link_to "Join us now", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%></div>
 <div class="cleaner"></div>
 
-<p>When sign up for a PREMIUM Membership, get this FREE guide to help you grow your coaching business.</p>
+<p>When you sign up for a FREE Membership, get this FREE guide to help you grow your coaching business.</p>
 
 <p>What's in the guide...</p>
 <ul>
@@ -18,8 +18,6 @@
 </ul>
 <p>What next?</p>
 <ul>
-Sign-up for a Premium Membership and get your FREE copy
-TODO: auto select premium membership<li><%= link_to "Sign-up for a Premium Membership and get your FREE copy", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%></li>
-<li><%= link_to "No thanks, I just want to sign-up for a free profile", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%></li>
+<li><%= link_to "Sign up now for a FREE profile", signup_url(:protocol => APP_CONFIG[:logged_site_protocol])%></li>
 <li><%= link_to "Learn more about free membership for Coaches", :controller => "search", :action => "whyjoin"%></li>
 </ul>
