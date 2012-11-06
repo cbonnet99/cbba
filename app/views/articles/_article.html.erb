@@ -1,9 +1,6 @@
 <h3 class="article-title">
 	<%=link_to article.title, articles_show_url(article.author.slug, article.slug, :context => @context, :selected_tab_id => "articles") %>
-	<% unless @context == "profile"-%>
-		by 
-		<span class="by-author"><%= author_link(article.author) %></span>
-	<%end-%></h3>
+	</h3>
 	<div class="overall_small_article">
 	<div class="left_article_stuff"<% if article.author.paid_photo? && @context != "profile" && !is_author?(article)%> style="width: 80%"<%end%>><% if (@context == "profile" && is_author?(article)) || (is_admin? && @context == "review") -%>
 	 <span class="stuff-actions">[<span class="<%=article.workflow_css_class%>"><%=article.state%></span>
@@ -20,8 +17,15 @@
 		<%end-%>
 		]</span>
 	<%end-%>
-	<div class="article-view-counts">Viewed <%= pluralize(article.view_counts, "time")%></div>
-	<div class="article-subcategories">[<%= link_articles_subcategories(article)%>]</div>
+	<% unless @context == "profile"-%> 
+		<span class="by-author">by <%= author_link(article.author) %></span> |
+	<%end-%>
+	<% if article.published? and not article.published_at.nil? -%> 
+		<span class="published-date">Published <%= article.published_at.to_date%> | </span>
+	<%end-%>		
+	<span class="article-view-counts">Viewed <%= pluralize(article.view_counts, "time")%></span>
+	<div class="article-subcategories">[Blog Categories: <%= link_articles_blog_subcategories(article)%>]</div>
+	<div class="article-subcategories">[Directory Categories: <%= link_articles_subcategories(article)%>]</div>
 	<p><%= white_list article.lead %></p>
 	</div>
 	<% if article.author.paid_photo? && @context != "profile" && !is_author?(article)%><div class="right_article_stuff"><%= author_photo_link(article.author)%></div><% end %>

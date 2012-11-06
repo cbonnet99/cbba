@@ -61,7 +61,8 @@ div.article_author_link{margin-left: 5px;}
 span.monthly_view_counts{font-size: 11px;}
 div#welcome_message{padding: 0px 5px 5px 8px; font-size: 12px; color:#C00; font-style: italic;}
 span.welcome_message{font-weight: bold;}
-div.article-view-counts {font-weight: bold;}
+span.article-view-counts {font-weight: bold;}
+span.published-date {font-weight: bold;}
 .article_photo {float: left;}
 .speechbubble {float:left;margin-top:10px;margin-right:-1px;}
 .article_lead {float: left; font-size: 14px; width: 420px; background-color: lightgrey; padding: 10px;}
