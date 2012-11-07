@@ -39,20 +39,17 @@ class TaskUtils
   end
 
   def self.delete_old_unconfirmed_users
-    users_to_delete = User.find(:all, :conditions => ["state = 'unconfirmed' and created_at <= ?", 14.days.ago])
+    users_to_delete = User.can_be_deleted
     users_to_delete.each do |u|
-      if u.paid_photo?
-        puts "Unconfirmed user #{u.name_with_email} should be deleted but s/he has paid the premium package...Please confirm this user."
+      if u.articles.published.count > 0
+        puts "Unconfirmed user #{u.name_with_email} should be deleted but s/he has published at least one article. We will change this user's status to inactive"
+        u.update_attribute(:state, "inactive")
       else
-        if u.articles.published.count > 0
-          puts "Unconfirmed user #{u.name_with_email} should be deleted but s/he has published at least one article... Please confirm this user."
-        else
-          puts "Deleting user: #{u.name_with_email}"
-          u.destroy
-        end
+        puts "Deleting user: #{u.name_with_email}"
+        u.destroy
       end
     end
-    contacts_to_delete = Contact.find(:all, :conditions => ["state = 'unconfirmed' and created_at <= ?", 14.days.ago])
+    contacts_to_delete = Contact.can_be_deleted
     contacts_to_delete.each do |c|
       puts "Deleting contact: #{c.full_name}"
       c.destroy

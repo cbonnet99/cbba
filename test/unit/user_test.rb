@@ -61,6 +61,16 @@ class UserTest < ActiveSupport::TestCase
   end
 
 
+  def test_can_be_deleted
+    user_can_be_deleted = Factory(:user, :created_at => 45.days.ago, :state => "unconfirmed")
+    user_cannot_be_deleted = Factory(:user, :created_at => 3.days.ago, :state => "unconfirmed")
+    
+    users_that_can_be_deleted = User.can_be_deleted
+    
+    assert users_that_can_be_deleted.include?(user_can_be_deleted)
+    assert !users_that_can_be_deleted.include?(user_cannot_be_deleted)
+  end
+
   def test_will_be_deleted_in_1_week
     user_will_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_WILL_BE_DELETED_IN_DAYS+1).days.ago, :state => "unconfirmed")
     user_wont_be_deleted = Factory(:user, :created_at => (User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-User::WARNING_USERS_WILL_BE_DELETED_IN_DAYS-1).days.ago, :state => "unconfirmed")

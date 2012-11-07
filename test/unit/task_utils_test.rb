@@ -77,43 +77,50 @@ class TaskUtilsTest < ActiveSupport::TestCase
   end
 
   def test_delete_old_unconfirmed_users_with_published_articles
-    old_unconfirmed_with_article = Factory(:user, :state => "unconfirmed", :created_at => 17.days.ago)
-    old_unconfirmed_without_article = Factory(:user, :state => "unconfirmed", :created_at => 17.days.ago)
+    old_unconfirmed_with_article = Factory(:user, :state => "unconfirmed", :created_at => 40.days.ago)
+    old_unconfirmed_without_article = Factory(:user, :state => "unconfirmed", :created_at => 40.days.ago)
     
+    old_id = old_unconfirmed_without_article.id
+
     article = Factory(:article, :author => old_unconfirmed_with_article)
-    
-    remove_id = old_unconfirmed_without_article.id
-    keep_id = old_unconfirmed_with_article.id
     
     TaskUtils.delete_old_unconfirmed_users
     
     assert_raise ActiveRecord::RecordNotFound do
-       User.find(remove_id)
-     end
-    assert_not_nil User.find(keep_id)
+       User.find(old_id)
+    end
+    old_unconfirmed_with_article.reload
+    assert_equal "inactive", old_unconfirmed_with_article.state, \
+      "Old unconfirmed user with articles should be kept and their status set to inactive, \
+       but status is: #{old_unconfirmed_with_article.state}"
   end
 
 
   
   def test_delete_old_unconfirmed_users
-    old_unconfirmed = Factory(:user, :state => "unconfirmed", :created_at => 17.days.ago)
+    old_unconfirmed_can_be_deleted = Factory(:user, :state => "unconfirmed", :created_at => 40.days.ago)
+    old_unconfirmed_paid_photo_can_be_deleted = Factory(:user, :paid_photo => true, :state => "unconfirmed", :created_at => 40.days.ago)    
     recent_unconfirmed = Factory(:user, :state => "unconfirmed", :created_at => 2.days.ago)
     
-    old_id = old_unconfirmed.id
+    old_id = old_unconfirmed_can_be_deleted.id
+    old_id2 = old_unconfirmed_paid_photo_can_be_deleted.id
     recent_id = recent_unconfirmed.id
     
     TaskUtils.delete_old_unconfirmed_users
     
     assert_raise ActiveRecord::RecordNotFound do
        User.find(old_id)
-     end
+    end
+    assert_raise ActiveRecord::RecordNotFound do
+       User.find(old_id2)
+    end
     assert_not_nil User.find(recent_id)
   end
 
   def test_delete_old_unconfirmed_contacts
-    old_unconfirmed = Factory(:contact, :state => "unconfirmed", :created_at => 17.days.ago)
+    old_unconfirmed = Factory(:contact, :state => "unconfirmed", :created_at => 40.days.ago)
     recent_unconfirmed = Factory(:contact, :state => "unconfirmed", :created_at => 2.days.ago)
-    
+
     old_id = old_unconfirmed.id
     recent_id = recent_unconfirmed.id
     

@@ -41,6 +41,9 @@ class Contact < ActiveRecord::Base
   before_validation :generate_pwd_if_blank
   after_create :generate_activation_code, :send_confirmation_email
 
+  def self.can_be_deleted
+    Contact.find(:all, :conditions => ["state='unconfirmed' and created_at <= ?", User::DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS.days.ago])
+  end
 
   def send_confirmation_email
     UserMailer.deliver_new_user_confirmation_email(self)

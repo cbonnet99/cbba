@@ -204,6 +204,10 @@ class User < ActiveRecord::Base
     User.find(:all, :conditions => ["state='unconfirmed' and created_at < ?", (DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-WARNING_USERS_ABOUT_TO_BE_DELETED_IN_DAYS).days.ago])
   end
   
+  def self.can_be_deleted
+    User.find(:all, :conditions => ["state='unconfirmed' and created_at <= ?", DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS.days.ago])
+  end
+  
   def self.will_be_deleted_in_1_week
     User.find(:all, :conditions => ["state='unconfirmed' and created_at < ?", (DELETE_UNCONFIRMED_USERS_AFTER_IN_DAYS-WARNING_USERS_WILL_BE_DELETED_IN_DAYS).days.ago])
   end
