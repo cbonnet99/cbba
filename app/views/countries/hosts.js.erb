@@ -1,0 +1,4 @@
+var country_panels = {};
+<%@countries.each_with_index do |country, i| -%>
+	country_panels['<%= APP_CONFIG[:site_host][country.country_code]%>'] = <%= i %>;
+<% end -%>

@@ -107,23 +107,31 @@
   <!--Sidebar1 Starts -->
   <div id="sidebar1" class="column">
     <div class="columnTop">&nbsp;</div>
-	<p id="number-users"><em><%= @number_users%></em> <%= link_to "Members", members_country_url(:country_code => @country.country_code) %>,<br/><em><%= @number_services%></em> Listings</p>
-    <a name="categoryList" href="#categoryList" class="skip-dest"></a>
-    <ul id="categories">
-      <% @categories.each do |c| -%>
-        <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(c.slug)%>"><%=c.label%> <span class="users-counter"><%=c.user_count_for_country(@country)%></span></a></li>
-      <%end -%>
-    </ul>
-    <ul>
-		<% @counters.each do |c| -%>
-		  <%if c.class_name == 'Article' -%>
-	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{Article.published.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
-		  <%else -%>
-	      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
-	    <%  end -%>
-	
-	    <%  end -%>
-    </ul>
+	<p><div id="countries-accordion">
+		<%@countries.each do |country| -%>
+		<h3><%= country.name%></h3>
+		<div>
+			<p>
+			    <a name="categoryList" href="#categoryList" class="skip-dest"></a>
+			    <ul id="categories">
+			      <% @categories.each do |c| -%>
+				        <li<%if c.id == @category_id%> class="selected"<%end%>><a href="<%= category_url(c.slug, :host =>site_url_for_country_code(country.country_code))%>"><%=c.label%> <span class="users-counter"><%=c.user_count_for_country(country)%></span></a></li>
+			      <%end -%>
+			    </ul>
+			    <ul>
+					<% @counters[country].each do |c| -%>
+					  <%if c.class_name == 'Article' -%>
+				      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{Article.published.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
+					  <%else -%>
+				      <li<%if c.id == @counter_id%> class="selected"<%end%>><%= link_to "#{c.title} <span class=\"users-counter\">#{c.count}</span>", {:controller => "/#{c.controller_name}", :action => "index", :context => "homepage" } %></li>
+				    <%  end -%>
+
+				    <%  end -%>
+			    </ul>
+			</p>
+		</div>
+		<% end -%>
+	</div></p>
     <div class="left_column_box">
 	    <h3>Daily Quote</h3>
 		<% @featured_quotes.each do |q| -%>
@@ -213,6 +221,7 @@
 	<script type="text/javascript" src="/javascripts/regions.js?country_code=<%=@country.country_code%>"></script>
 	<script type="text/javascript" src="/javascripts/subcategories.js?country_code=<%=@country.country_code%>"></script>
 <% end -%>
+<script type="text/javascript" src="/countries/hosts.js"></script>
 <%= javascript_include_merged :base %>
 <%= yield :js %>
 <%= yield :tinymce %>

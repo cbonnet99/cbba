@@ -149,11 +149,15 @@ class ApplicationController < ActionController::Base
 	end
 
   def get_countries
-    @countries = Country.all.collect {|d| [ d.name, d.id ]}
+    @countries = Country.active.collect {|d| [ d.name, d.id ]}
+  end
+
+  def get_full_countries
+    @countries = Country.active
   end
   
   def get_countries_with_nil
-    @countries = Country.all.collect {|d| [ d.name, d.id ]}
+    @countries = Country.active.collect {|d| [ d.name, d.id ]}
     @countries << ["Other country", nil]
   end
   
@@ -224,9 +228,11 @@ class ApplicationController < ActionController::Base
 	end
 
 	def counters
-		@counters = @country.counters.published
-		@number_users = @country.users.active.count
-		@number_services = @country.subcategories_users.count
+	  get_full_countries
+	  @counters = {}
+	  @countries.each do |country|
+  		@counters[country] = country.counters.published
+	  end
 		@total_users = User.active.count
 		@total_articles = Article.published.count
 	end

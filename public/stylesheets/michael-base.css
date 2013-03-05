@@ -178,8 +178,7 @@ li li { font-size: 12px; }
    ----------------------------------------------------*/
 	#header { float:left; width:259px; }
 #header h1 { padding:0 0 0 40px; }
-#header h1 a.au { background: url(../images/BeAmazingLogoAU.png) no-repeat;}
-#header h1 a { background: url(../images/BeAmazingLogoNZ.png) no-repeat; display:block; float:left; height:148px; margin:0px 0 0 0; text-indent:-9999px; width:262px; }
+#header h1 a { background: url(../images/ZINGAlogo2013.png) no-repeat; display:block; float:left; height:148px; margin:0px 0 0 0; text-indent:-9999px; width:262px; }
 .branding { background:url(../images/BeAmazingByline.gif) top right no-repeat; float:left; height:19px; padding:0 0 6px 40px; text-indent:-9999px; width:259px; }
 /* =ContentMain
    ----------------------------------------------------*/

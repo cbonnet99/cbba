@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :friend_messages
   
   map.districts_for_country '/countries/districts/:id.:format', :controller => "countries", :action => "districts" 
+  map.countries_hosts '/countries/hosts.:format', :controller => "countries", :action => "hosts" 
   
   map.main '/main.rss', :controller => "search", :action => "main", :format => :rss   
   map.admin_renewals '/admin/users/renewals', :controller => "admin/users", :action => "renewals"

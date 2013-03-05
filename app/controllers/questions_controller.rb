@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   
   def new
     @blog_categories = get_blog_categories
+    @number_users = @country.users.active.count
     @countries = get_countries_with_nil
     @question = Question.new(:receive_newsletter => true, :country_id => @country.id)
   end

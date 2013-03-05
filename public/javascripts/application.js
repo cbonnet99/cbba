@@ -12,7 +12,16 @@ $(document).ready(function(){
     $("#what").autocomplete(sbg).setOptions({matchContains: true});
     $("#where").autocomplete(lts).setOptions({matchContains: true});
 	$("input#what").focus();
-
+	var host_name = window.location.host;
+	var panel = 0;
+	for (host in country_panels) {
+	  if (host == host_name){
+	    panel = country_panels[host];
+	    break;
+	  };
+	};
+	$( "#countries-accordion" ).accordion({active: panel});
+    
     $("form#bam-search-form").submit(function() {
         var action = "/search";
         if ($("input#what").val() != "") {
