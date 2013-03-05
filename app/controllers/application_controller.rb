@@ -149,7 +149,7 @@ class ApplicationController < ActionController::Base
 	end
 
   def get_countries
-    @countries = Country.active.collect {|d| [ d.name, d.id ]}
+    @countries_array = Country.active.collect {|d| [ d.name, d.id ]}
   end
 
   def get_full_countries
@@ -157,8 +157,8 @@ class ApplicationController < ActionController::Base
   end
   
   def get_countries_with_nil
-    @countries = Country.active.collect {|d| [ d.name, d.id ]}
-    @countries << ["Other country", nil]
+    @countries_array = Country.active.collect {|d| [ d.name, d.id ]}
+    @countries_array << ["Other country", nil]
   end
   
   def admin_required
