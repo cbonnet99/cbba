@@ -1,3 +1,8 @@
+h3.ui-accordion-header{font-size: 14px;}
+span.ui-icon{width:16px;height:16px;}
+span.ui-icon-opened { background: url('/images/arrow_open.png');}
+span.ui-icon-closed { background: url('/images/arrow_closed.png');}
+
 div.blog-cat {float: left}
 div.blog-cat a {display: block;}
 

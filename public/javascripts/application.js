@@ -20,7 +20,12 @@ $(document).ready(function(){
 	    break;
 	  };
 	};
-	$( "#countries-accordion" ).accordion({active: panel});
+	var icons = {
+          header: "ui-icon-closed",
+          activeHeader: "ui-icon-opened"
+        };
+        
+	$( "#countries-accordion" ).accordion({active: panel, icons: icons});
     
     $("form#bam-search-form").submit(function() {
         var action = "/search";
