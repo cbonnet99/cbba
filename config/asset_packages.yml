@@ -16,5 +16,6 @@ stylesheets:
   - base
   - michael-default
   - michael-base
+  - jquery-ui
   - jquery.autocomplete
   - users
