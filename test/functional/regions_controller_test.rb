@@ -8,6 +8,16 @@ class RegionsControllerTest < ActionController::TestCase
 		assert_match /\{optionValue:(\d)+, optionDisplay: \"Wellington City\"\}/, @response.body
 		assert_valid_json(@response.body)
   end
+
+  def test_districts_json
+    nsw = regions(:new_south_wales)
+    get :districts, :id => nsw.id, :format => "json"
+    
+    assert_response :success
+    assert_valid_json @response.body
+    assert_match /"name":/, @response.body
+    assert_equal 1, assigns(:districts).size 
+  end
   
   def test_index_js
     au = countries(:au)

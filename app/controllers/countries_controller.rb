@@ -1,6 +1,6 @@
 class CountriesController < ApplicationController
-  def districts
+  def regions
     country = Country.find(params[:id])
-    @districts = country.districts.find(:all, :include => "region", :order => "regions.name, districts.name")
+    @regions = country.regions.find(:all, :order => "name")
   end
 end

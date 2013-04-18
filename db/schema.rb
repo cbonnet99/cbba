@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120411113657) do
+ActiveRecord::Schema.define(:version => 20130329111449) do
 
   create_table "answers", :force => true do |t|
     t.string   "body"
@@ -198,11 +198,14 @@ ActiveRecord::Schema.define(:version => 20120411113657) do
     t.string   "example_locations"
     t.boolean  "default_only_show_own"
     t.string   "inhabitants"
-    t.boolean  "gst",                   :default => false
+    t.boolean  "gst",                                 :default => false
     t.string   "adjective"
     t.string   "analytics_tracker"
-    t.boolean  "active",                :default => false
+    t.boolean  "active",                              :default => false
+    t.string   "subdomain",             :limit => 10
     t.boolean  "default_country"
+    t.string   "region_name"
+    t.string   "district_name"
   end
 
   create_table "countries_subcategories", :force => true do |t|
@@ -524,6 +527,28 @@ ActiveRecord::Schema.define(:version => 20120411113657) do
   end
 
   add_index "regions", ["id"], :name => "index_regions_on_id"
+
+  create_table "restricted_user_events", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.string   "source_url"
+    t.string   "destination_url"
+    t.string   "remote_ip"
+    t.datetime "logged_at"
+    t.text     "extra_data"
+    t.string   "event_type"
+    t.integer  "user_id"
+    t.integer  "article_id"
+    t.integer  "category_id"
+    t.integer  "subcategory_id"
+    t.integer  "region_id"
+    t.integer  "district_id"
+    t.integer  "visited_user_id"
+    t.integer  "results_found"
+    t.string   "what"
+    t.string   "where"
+    t.string   "browser"
+    t.string   "session"
+  end
 
   create_table "roles", :force => true do |t|
     t.string "name"

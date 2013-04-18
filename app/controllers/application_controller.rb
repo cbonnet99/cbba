@@ -143,13 +143,18 @@ class ApplicationController < ActionController::Base
   end
 
 	def get_districts_and_subcategories(country_id)
+	  get_regions(country_id)
     get_districts(country_id)
 	  get_subcategories
-	  get_countries
+	  get_all_countries
 	end
 
   def get_countries
     @countries_array = Country.active.collect {|d| [ d.name, d.id ]}
+  end
+
+  def get_all_countries
+      @countries_array = Country.all.collect {|d| [ d.name, d.id ]}
   end
 
   def get_full_countries
@@ -160,7 +165,7 @@ class ApplicationController < ActionController::Base
     @countries_array = Country.active.collect {|d| [ d.name, d.id ]}
     @countries_array << ["Other country", nil]
   end
-  
+
   def admin_required
     unless logged_in? && current_user.admin?
       access_denied
@@ -261,8 +266,8 @@ class ApplicationController < ActionController::Base
 		@districts = District.find(:all, :conditions => ["districts.country_id = ?", country_id], :include => "region", :order => "regions.name, districts.name").collect {|d| [ d.full_name, d.id ]}
 	end
 
-	def get_regions
-		@regions = Region.find(:all, :order => "name" )
+	def get_regions(country_id)
+		@regions = Region.find(:all, :conditions => ["country_id = ?", country_id], :order => "name" ).collect {|r| [ r.name, r.id ]}
 	end
 	
   private

@@ -1,13 +1,14 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class CountriesControllerTest < ActionController::TestCase
-  def test_districts_json
+
+  def test_regions_json
     au = countries(:au)
-    get :districts, :id => au.id, :format => "json"
+    get :regions, :id => au.id, :format => "json"
     
     assert_response :success
     assert_valid_json @response.body
-    assert_equal 1, assigns(:districts).size 
+    assert_equal 2, assigns(:regions).size 
   end
 
   def test_hosts_json

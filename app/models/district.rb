@@ -6,7 +6,7 @@ class District < ActiveRecord::Base
   before_create :set_country
 
   def to_json(options={})
-    super(:only => [:id], :methods => :full_name)
+    super(:only => [:id, :name])
   end
   
   def set_country
