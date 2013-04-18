@@ -1,3 +1,4 @@
+div#countries-accordion .ui-accordion-content {padding: 0;}
 h3.ui-accordion-header{font-size: 14px;}
 span.ui-icon{width:16px;height:16px;}
 span.ui-icon-opened { background: url('/images/arrow_open.png');}
