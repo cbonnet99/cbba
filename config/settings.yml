@@ -15,7 +15,9 @@ test:
     site_host:
         default: test.host
         nz: test.host
-        au: test.host.com.au
+        au: test.host.au
+        uk: test.host.uk
+        us: test.host.us
     site_protocol: http
     logged_site_protocol: http
     site_name: Be Amazing(test)
@@ -29,6 +31,8 @@ production:
       default: www.zingabeam.com
       nz: nz.zingabeam.com
       au: au.zingabeam.com
+      uk: uk.zingabeam.com
+      us: us.zingabeam.com
   site_protocol: http
   logged_site_protocol: https
   site_name: Be Amazing
@@ -41,6 +45,8 @@ staging:
         default: staging.beamazing.co.nz
         nz: nz.staging.zingabeam.com
         au: au.staging.zingabeam.com
+        uk: uk.staging.zingabeam.com
+        us: us.staging.zingabeam.com
     site_protocol: http
     logged_site_protocol: http
     site_name: Be Amazing [STAGING]
