@@ -8,7 +8,7 @@ class AddOzCounters < ActiveRecord::Migration
 
   def self.down
     au = Country.find_by_country_code("au")
-    oz_counters = find_all_by_country_id(au.id)
+    oz_counters = Counter.find_all_by_country_id(au.id)
     oz_counters.map(&:delete)
   end
 end
