@@ -5,8 +5,7 @@ class DistrictTest < ActiveSupport::TestCase
     district = Factory(:district)
     json = district.to_json
     assert_no_match /district/, json
-    assert_no_match %r{"name"}, json
     assert_match /id/, json
-    assert_match /full_name/, json    
+    assert_match /name/, json    
   end
 end
