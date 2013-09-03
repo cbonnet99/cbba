@@ -32,7 +32,7 @@ div#blog-cat-your-money a {width:94px; height:41px; background:url('/images/blog
 div#blog-cat-your-money a:hover {width:94px; height:41px; background:url('/images/blogSubcatNav.jpg') -470px -41px;}
 
 div.like_answer{float: left; clear: right; margin: 20px;}
-h4.question{font-weight: bold; background-color: grey; font-size 14px; padding: 10px; margin: 10px;}
+h4.question{font-weight: bold; background-color: grey; font-size: 14px; padding: 10px; margin: 10px;}
 div.answer_body{font-size: 12px;float: left; width: 420px; background-color: lightgrey; padding: 10px;}
 div#welcome_video{float: right;}
 p.emphasize{font-weight: bold;}
@@ -137,7 +137,7 @@ blockquote.quote{font-weight: bold; font-size: 12px; background-color: lightgrey
 .column #networks h4, #networks #network-images{margin: 8px;}
 #share{margin: 8px;}
 #contentMain ul.simple{margin: 0 0 0 0;}
-h4.article-title{padding:8px 0 0 0; color: #5555;}
+h4.article-title{padding:8px 0 0 0; color: red;}
 .article-subcategories{font-size:10px;}
 #meet-author{font-size:12px;}
 .heading-title, .heading-photo{float:left;}
