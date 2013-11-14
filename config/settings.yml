@@ -36,7 +36,7 @@ production:
       uk: uk.zingabeam.com
       us: us.zingabeam.com
   site_protocol: http
-  logged_site_protocol: https
+  logged_site_protocol: http
   site_name: Be Amazing
   admin_email: admin@beamazing.co.nz
   sav: sav@elevatecoaching.co.nz
