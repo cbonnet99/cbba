@@ -1,7 +1,9 @@
 class SessionsController < ApplicationController
 
   include ApplicationHelper
-
+  
+  protect_from_forgery :except => :create
+  
   def new
     unless params[:return_to].blank?
       session[:return_to] = params[:return_to]
