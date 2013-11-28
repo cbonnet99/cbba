@@ -388,16 +388,12 @@ class User < ActiveRecord::Base
   end
   
   def has_article_with_same_slug?(id, slug)
-    begin
-  		if id.nil? 
-  		  res = self.articles.find_by_slug(slug)
-  		else
-  		  res = self.articles.find(:conditions => ["slug = ? and id <> ?", slug, id])
-  		end
-  		return !res.blank?
-		rescue ActiveRecord::RecordNotFound
-		  return false
-	  end
+		if id.nil? 
+		  res = self.articles.find_all_by_slug(slug).size
+		else
+		  res = self.articles.find(:all, :conditions => ["slug = ? and id <> ?", slug, id]).size
+		end
+	  return res > 0
   end
   
   def hasnt_changed_special_offers_recently?

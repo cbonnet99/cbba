@@ -3,7 +3,19 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserTest < ActiveSupport::TestCase
 
 	fixtures :all
-
+  
+  def test_has_article_with_same_slug
+    cyrille = users(:cyrille)
+    yoga_article = articles(:yoga)
+    long_article = articles(:long)
+    
+    assert cyrille.has_article_with_same_slug?(long_article.id, "yoga-is-good-for-you")
+    assert !cyrille.has_article_with_same_slug?(yoga_article.id, "yoga-is-good-for-you")
+    
+    assert cyrille.has_article_with_same_slug?(nil, "yoga-is-good-for-you")
+    assert !cyrille.has_article_with_same_slug?(nil, "yoga-is-good-for-you2")
+  end
+  
   def test_kiwi
     nz = countries(:nz)
     au = countries(:au)
