@@ -1,7 +1,7 @@
 source :gemcutter
 gem "rake", "0.8.7"
 gem "linecache", "0.43"
-gem "rails", "2.3.8"
+gem "rails", "3.2.17"
 gem "pg"
 gem "aws-s3"
 gem 'will_paginate', '~> 2.3.11'
